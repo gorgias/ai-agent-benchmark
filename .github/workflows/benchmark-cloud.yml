@@ -32,7 +32,7 @@ jobs:
       max-parallel: 11
       matrix:
         include:
-          - { vendor: "Gorgias",       key: gorgias, headed: "false" }   # Gorgias drives headless (fast, reliable)
+          - { vendor: "Gorgias",       key: gorgias, headed: "true"  }   # headed: headless Gorgias returns no answers (—ms)
           - { vendor: "Sierra",        key: sierra,  headed: "true"  }
           - { vendor: "Siena",         key: siena,   headed: "true"  }
           - { vendor: "Envive",        key: envive,  headed: "true"  }
@@ -62,7 +62,7 @@ jobs:
         timeout-minutes: 85       # per-STEP: on timeout the job still runs the upload step below
         continue-on-error: true
         env:
-          TURN_TIMEOUT_MS: "70000"
+          TURN_TIMEOUT_MS: "45000"
           RUN_DATE: ${{ github.event.inputs.run_date }}
           MODE: ${{ github.event.inputs.mode }}
         run: |
