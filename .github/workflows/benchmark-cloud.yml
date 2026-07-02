@@ -1,0 +1,80 @@
+name: Benchmark (cloud, headed via xvfb)
+
+# Runs the FULL benchmark — INCLUDING the headed-only competitor widgets — in the cloud on a
+# GitHub runner with a virtual display (xvfb). This is the scalable path: it runs off any
+# laptop, with dedicated CPU, so headed browsers don't fight your Chrome/Claude.
+#
+#   • On-demand:  Actions ▸ "Benchmark (cloud, headed via xvfb)" ▸ Run workflow
+#   • Scheduled:  every Monday 06:00 UTC
+#
+# Optional inputs let you scope a run (one vendor / one lane) or set the run date.
+on:
+  workflow_dispatch:
+    inputs:
+      vendor:
+        description: "Vendor filter (e.g. 'sierra envive'), blank = all"
+        required: false
+        default: ""
+      mode:
+        description: "Lane: shopping | support | (blank = both)"
+        required: false
+        default: ""
+      run_date:
+        description: "Run date YYYY-MM-DD (blank = today)"
+        required: false
+        default: ""
+  schedule:
+    - cron: "0 6 * * 1"   # every Monday 06:00 UTC
+
+permissions:
+  contents: write
+
+concurrency:
+  group: benchmark-cloud
+  cancel-in-progress: false
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install deps + Chromium + xvfb
+        working-directory: runner
+        run: |
+          npm install
+          npx playwright install --with-deps chromium
+          sudo apt-get update && sudo apt-get install -y xvfb
+
+      - name: Capture (HEADED under xvfb, both lanes) + build report
+        working-directory: runner
+        env:
+          TURN_TIMEOUT_MS: "70000"
+          RUN_DATE: ${{ github.event.inputs.run_date }}
+          VENDOR: ${{ github.event.inputs.vendor }}
+          MODE: ${{ github.event.inputs.mode }}
+        run: |
+          export RUN_DATE="${RUN_DATE:-$(date +%F)}"
+          ARGS="--headed --concurrency 3"
+          [ -n "$VENDOR" ] && ARGS="$ARGS --vendor $VENDOR"
+          [ -n "$MODE" ]   && ARGS="$ARGS --mode $MODE"
+          echo "Run date: $RUN_DATE | args: $ARGS"
+          # A few resumable passes (dedicated runner = no contention; RESUME skips done convs)
+          for pass in 1 2 3; do
+            echo "── pass $pass ──"
+            xvfb-run -a node run.js $ARGS || true
+          done
+          node gen.js   # bake ALL dated runs into report.html
+
+      - name: Commit results + report
+        run: |
+          git config user.name "benchmark-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add runner/results report.html
+          git commit -m "Cloud benchmark $(date +%F)" || echo "no changes"
+          git push
