@@ -5,7 +5,7 @@
 #   • After each pass we regenerate the report from whatever's on disk (gen.js),
 #     so the report GROWS live as conversations land.
 # Loops until run.js reports "ALL DONE".
-cd /Users/maxpruvost/siena-benchmark/runner
+cd /Users/maxpruvost/ai-chat-latency-benchmark/runner
 LOG=capture-2026-07-01.log
 : > "$LOG"
 for i in $(seq 1 60); do

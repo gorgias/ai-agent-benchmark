@@ -3,7 +3,7 @@
 # visible browser). Same durable/resumable model: one file per conversation, theme-level
 # resume. Writes into the SAME conv/ dir as the headless driver (different keys, no clash).
 # Does NOT run gen.js (the headless driver owns report regeneration, to avoid write races).
-cd /Users/maxpruvost/siena-benchmark/runner
+cd /Users/maxpruvost/ai-chat-latency-benchmark/runner
 LOG=capture-headed-2026-07-01.log
 : > "$LOG"
 for i in $(seq 1 60); do
