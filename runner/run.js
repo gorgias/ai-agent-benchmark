@@ -146,6 +146,17 @@ async function timeTurnNet(page, net, sendFn) {
   return { ttft_ms: ttft, complete_ms: complete, grew: count - base, replyText: net.replies.slice(base).map(r => r.text).join("  ") };
 }
 
+// Hard wall-clock cap around any awaited op. timeTurn's own deadline only bounds its POLL
+// loop — it can't bound `await sendFn()` (a handler's selector/frame wait) or readTranscript,
+// which run outside the loop. A handler that hangs there froze a whole shard for 82 min in CI
+// (Gorgias, 2026-07-02). This races the op against a timer so a hang becomes a —ms turn the
+// caller's try/catch already handles, and the loop advances to the next store.
+function withTimeout(promise, ms, label) {
+  let to;
+  const timeout = new Promise((_, rej) => { to = setTimeout(() => rej(new Error(`hard-timeout:${label} after ${ms}ms`)), ms); });
+  return Promise.race([promise, timeout]).finally(() => clearTimeout(to));
+}
+
 async function runStoreMode(browser, store, mode, theme) {
   const w = WIDGETS[store.widget];
   const pool = theme.turns;
@@ -217,7 +228,7 @@ async function runStoreMode(browser, store, mode, theme) {
     // "commit" returns as soon as navigation starts (not full DOM) so widget-open begins ASAP.
     await page.goto(store.url, { waitUntil: "commit", timeout: 45000 });
     console.log(`  [${store.key}/${mode}/${theme.key}] page @${_el()} → opening widget…`);
-    await w.open(page);
+    await withTimeout(w.open(page), 90000, "open");
     console.log(`  [${store.key}/${mode}/${theme.key}] widget open @${_el()} → first message`);
     let handedOver = false;
     const useNet = w.transport === "net" && w.net;
@@ -237,11 +248,11 @@ async function runStoreMode(browser, store, mode, theme) {
       }
       let r, tail;
       if (useNet) {
-        try { r = await timeTurnNet(page, net, () => w.send(page, q)); }
+        try { r = await withTimeout(timeTurnNet(page, net, () => w.send(page, q)), TURN_TIMEOUT_MS + 15000, "turn-net"); }
         catch (e) { r = { ttft_ms: null, complete_ms: null, error: String(e).slice(0, 120) }; }
         tail = net.replies.slice(-3).map(x => x.text).join("  ").slice(-700);
       } else {
-        try { r = await timeTurn(page, w.scope, () => w.send(page, q), q); }
+        try { r = await withTimeout(timeTurn(page, w.scope, () => w.send(page, q), q), TURN_TIMEOUT_MS + 15000, "turn"); }
         catch (e) { r = { ttft_ms: null, complete_ms: null, error: String(e).slice(0, 120) }; }
         tail = (await readTranscript(page, w.scope)).text.slice(-700);
       }
