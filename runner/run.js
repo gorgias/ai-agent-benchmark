@@ -160,12 +160,11 @@ async function runStoreMode(browser, store, mode, theme) {
   // to "disabled"; this sanctioned flag forces it ON before the session-bucket check.
   if (store.widget === "spiffy") await context.addInitScript(() => { try { localStorage.setItem("spiffy_on", "true"); } catch (e) {} });
   await context.clearCookies().catch(() => {});
-  // Lighten every page so capture stays reliable under machine load: block heavy media
-  // (images / video / audio / fonts). Chat widgets run on JS/XHR/WebSocket, not images,
-  // so this cuts most CPU + bandwidth without affecting reply timing or text capture.
+  // Block only VIDEO/AUDIO (pure overhead, never part of a chat widget). We deliberately do
+  // NOT block images/fonts — many chat launchers are icon-fonts or <img>, and blocking them
+  // made open() fail to find the launcher and burn its fallback waits (slow to first message).
   await context.route("**/*", (route) => {
-    const t = route.request().resourceType();
-    return (t === "image" || t === "media" || t === "font") ? route.abort() : route.continue();
+    return route.request().resourceType() === "media" ? route.abort() : route.continue();
   }).catch(() => {});
   const page = await context.newPage();
 
@@ -214,8 +213,12 @@ async function runStoreMode(browser, store, mode, theme) {
   }
 
   try {
-    await page.goto(store.url, { waitUntil: "domcontentloaded", timeout: 45000 });
+    const _t = Date.now(), _el = () => ((Date.now() - _t) / 1000).toFixed(0) + "s";
+    // "commit" returns as soon as navigation starts (not full DOM) so widget-open begins ASAP.
+    await page.goto(store.url, { waitUntil: "commit", timeout: 45000 });
+    console.log(`  [${store.key}/${mode}/${theme.key}] page @${_el()} → opening widget…`);
     await w.open(page);
+    console.log(`  [${store.key}/${mode}/${theme.key}] widget open @${_el()} → first message`);
     let handedOver = false;
     const useNet = w.transport === "net" && w.net;
     for (let i = 0; i < pool.length; i++) {
