@@ -1,20 +1,12 @@
 name: Benchmark (cloud, headed via xvfb)
 
-# Runs the FULL benchmark — INCLUDING the headed-only competitor widgets — in the cloud on a
-# GitHub runner with a virtual display (xvfb). This is the scalable path: it runs off any
-# laptop, with dedicated CPU, so headed browsers don't fight your Chrome/Claude.
-#
-#   • On-demand:  Actions ▸ "Benchmark (cloud, headed via xvfb)" ▸ Run workflow
-#   • Scheduled:  every Monday 06:00 UTC
-#
-# Optional inputs let you scope a run (one vendor / one lane) or set the run date.
+# SCALABLE design: one parallel job PER VENDOR (matrix), each captures its vendor headed
+# under a virtual display (xvfb) on its own runner, uploads its results as an artifact.
+# A final "aggregate" job merges all artifacts, rebuilds the report, and commits once.
+# Per-STEP timeout (not job) so a slow shard still uploads whatever it captured.
 on:
   workflow_dispatch:
     inputs:
-      vendor:
-        description: "Vendor filter (e.g. 'sierra envive'), blank = all"
-        required: false
-        default: ""
       mode:
         description: "Lane: shopping | support | (blank = both)"
         required: false
@@ -34,16 +26,30 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  benchmark:
+  capture:
+    strategy:
+      fail-fast: false
+      max-parallel: 11
+      matrix:
+        include:
+          - { vendor: "Gorgias",       key: gorgias, headed: "false" }   # Gorgias drives headless (fast, reliable)
+          - { vendor: "Sierra",        key: sierra,  headed: "true"  }
+          - { vendor: "Siena",         key: siena,   headed: "true"  }
+          - { vendor: "Envive",        key: envive,  headed: "true"  }
+          - { vendor: "Ada",           key: ada,     headed: "true"  }
+          - { vendor: "Kodif",         key: kodif,   headed: "true"  }
+          - { vendor: "Rep AI",        key: repai,   headed: "true"  }
+          - { vendor: "DigitalGenius", key: dg,      headed: "true"  }
+          - { vendor: "Humind",        key: humind,  headed: "true"  }
+          - { vendor: "Meta AI",       key: meta,    headed: "true"  }
+          - { vendor: "Yuma",          key: yuma,    headed: "true"  }
     runs-on: ubuntu-latest
-    timeout-minutes: 120
+    timeout-minutes: 110
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
-
       - name: Install deps + Chromium + xvfb
         working-directory: runner
         run: |
@@ -51,32 +57,57 @@ jobs:
           npx playwright install --with-deps chromium
           sudo apt-get update && sudo apt-get install -y xvfb
 
-      - name: Capture (HEADED under xvfb, both lanes) + build report
+      - name: Capture ${{ matrix.vendor }} (both lanes)
         working-directory: runner
+        timeout-minutes: 85       # per-STEP: on timeout the job still runs the upload step below
+        continue-on-error: true
         env:
           TURN_TIMEOUT_MS: "70000"
           RUN_DATE: ${{ github.event.inputs.run_date }}
-          VENDOR: ${{ github.event.inputs.vendor }}
           MODE: ${{ github.event.inputs.mode }}
         run: |
           export RUN_DATE="${RUN_DATE:-$(date +%F)}"
-          ARGS="--headed --concurrency 3"
-          [ -n "$VENDOR" ] && ARGS="$ARGS --vendor $VENDOR"
-          [ -n "$MODE" ]   && ARGS="$ARGS --mode $MODE"
-          echo "Run date: $RUN_DATE | args: $ARGS"
-          # A few resumable passes (dedicated runner = no contention; RESUME skips done convs)
-          for pass in 1 2 3; do
-            echo "── pass $pass ──"
-            xvfb-run -a node run.js $ARGS || true
+          HEAD=""; [ "${{ matrix.headed }}" = "true" ] && HEAD="--headed"
+          MODEARG=""; [ -n "$MODE" ] && MODEARG="--mode $MODE"
+          echo "vendor='${{ matrix.vendor }}' headed=${{ matrix.headed }} date=$RUN_DATE $MODEARG"
+          for pass in 1 2; do
+            echo "── ${{ matrix.key }} pass $pass ──"
+            xvfb-run -a node run.js $HEAD --vendor "${{ matrix.vendor }}" $MODEARG --concurrency 2 || true
           done
-          node gen.js   # bake ALL dated runs into report.html
 
-      - name: Commit results + report
+      - name: Upload results artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: results-${{ matrix.key }}
+          path: runner/results
+          retention-days: 5
+          if-no-files-found: ignore
+
+  aggregate:
+    needs: capture
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Download all vendor result artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: runner/results
+          pattern: results-*
+          merge-multiple: true
+      - name: Rebuild report + commit
+        working-directory: runner
         run: |
+          node gen.js
+          cd ..
           git config user.name "benchmark-bot"
           git config user.email "actions@users.noreply.github.com"
           git add runner/results report.html
-          git commit -m "Cloud benchmark $(date +%F)" || echo "no changes"
-          git push
-
-# (registered on personal repo)
+          git commit -m "Cloud benchmark (sharded) $(date +%F)" || { echo "no changes"; exit 0; }
+          for i in 1 2 3; do
+            git pull --rebase origin master && git push && break || sleep 5
+          done
