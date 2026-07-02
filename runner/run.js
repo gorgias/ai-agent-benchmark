@@ -160,6 +160,13 @@ async function runStoreMode(browser, store, mode, theme) {
   // to "disabled"; this sanctioned flag forces it ON before the session-bucket check.
   if (store.widget === "spiffy") await context.addInitScript(() => { try { localStorage.setItem("spiffy_on", "true"); } catch (e) {} });
   await context.clearCookies().catch(() => {});
+  // Lighten every page so capture stays reliable under machine load: block heavy media
+  // (images / video / audio / fonts). Chat widgets run on JS/XHR/WebSocket, not images,
+  // so this cuts most CPU + bandwidth without affecting reply timing or text capture.
+  await context.route("**/*", (route) => {
+    const t = route.request().resourceType();
+    return (t === "image" || t === "media" || t === "font") ? route.abort() : route.continue();
+  }).catch(() => {});
   const page = await context.newPage();
 
   // Capture the Gorgias ticket id + account subdomain so we can build a direct
@@ -292,7 +299,10 @@ async function runStoreMode(browser, store, mode, theme) {
 
 (async () => {
   let browser;
-  const launchOpts = { headless: !HEADED, args: ["--disable-blink-features=AutomationControlled"] };
+  const launchOpts = { headless: !HEADED, args: ["--disable-blink-features=AutomationControlled",
+    "--disable-gpu", "--disable-dev-shm-usage", "--disable-extensions", "--mute-audio", "--no-first-run",
+    "--disable-background-networking", "--disable-background-timer-throttling", "--disable-renderer-backgrounding",
+    "--disable-features=Translate,BackForwardCache,MediaRouter"] };
   try { browser = await chromium.launch({ ...launchOpts, channel: HEADED ? "chrome" : undefined }); }
   catch (e) { browser = await chromium.launch(launchOpts); }
   console.log(HEADED ? "Running HEADED (visible Chrome) — bot-blocked widgets load here." : "Running headless.");
