@@ -152,20 +152,31 @@
   .rv-stagger.in>*:nth-child(5){transition-delay:.37s}.rv-stagger.in>*:nth-child(6){transition-delay:.45s}
   .rv-stagger.in>*:nth-child(7){transition-delay:.53s}.rv-stagger.in>*:nth-child(8){transition-delay:.61s}
   .rv-stagger.in>*:nth-child(9){transition-delay:.69s}
+  /* ambient moving background across the whole page (matches report.html) */
+  .page-aurora{position:fixed;inset:0;z-index:-2;overflow:hidden;pointer-events:none;filter:blur(90px);opacity:.22}
+  .page-aurora i{position:absolute;border-radius:50%}
+  .page-aurora i:nth-child(1){width:52vw;height:52vw;left:-16vw;top:-10vh;background:radial-gradient(circle,var(--coral) 0%,transparent 62%);animation:pa1 26s ease-in-out infinite alternate}
+  .page-aurora i:nth-child(2){width:44vw;height:44vw;right:-14vw;top:26vh;background:radial-gradient(circle,var(--violet) 0%,transparent 62%);opacity:.7;animation:pa2 32s ease-in-out infinite alternate}
+  .page-aurora i:nth-child(3){width:38vw;height:38vw;left:24vw;bottom:-22vh;background:radial-gradient(circle,var(--coral-2) 0%,transparent 62%);animation:pa3 29s ease-in-out infinite alternate}
+  @keyframes pa1{to{transform:translate(9vw,7vh) scale(1.15)}}
+  @keyframes pa2{to{transform:translate(-8vw,-9vh) scale(.9)}}
+  @keyframes pa3{to{transform:translate(7vw,-6vh) scale(1.1)}}
   @media (prefers-reduced-motion: reduce){
     .rv,.rv-stagger>*{opacity:1!important;transform:none!important;transition:none!important}
-    .aurora i,.ticker-track,.eyebrow-chip i{animation:none!important}
+    .aurora i,.ticker-track,.eyebrow-chip i,.page-aurora i{animation:none!important}
     html{scroll-behavior:auto}
   }
 </style>
 </head>
 <body>
 
+<div class="page-aurora" aria-hidden="true"><i></i><i></i><i></i></div>
 <nav class="nav">
-  <a class="brand" href="#"><i></i>GORGIAS · AI AGENT BENCHMARK</a>
+  <a class="brand" href="report.html"><i></i>GORGIAS · AI AGENT BENCHMARK</a>
   <div class="links">
     <a href="#verdict">Verdict</a><a href="#winlose">Wins &amp; gaps</a><a href="#scoreboard">Scoreboard</a>
     <a href="#providers">Providers</a><a href="#learnings">Learnings</a><a href="#next">What's next</a>
+    <a href="report.html#trend-sec">Trends</a>
   </div>
   <a class="cta" href="report.html">Full report →</a>
 </nav>
@@ -332,7 +343,11 @@
   </div>
 </section>
 
-<div class="footer">Generated from the ai-chat-latency-benchmark pipeline · data runs 2026-07-01 → 2026-07-03 · <a href="report.html">interactive report</a></div>
+<div class="footer">
+  <div style="font-family:'Inter Tight';font-weight:800;font-size:14px;color:var(--on);margin-bottom:8px">GORGIAS · AI AGENT BENCHMARK</div>
+  <a href="report.html">Interactive report</a> · <a href="report.html#trend-sec">Trends</a> · <a href="#scoreboard">Scoreboard</a> · <a href="#verdict">Verdict</a>
+  <div style="margin-top:10px">Generated from the ai-chat-latency-benchmark pipeline · data runs 2026-07-01 → 2026-07-03 · refreshed weekly</div>
+</div>
 
 <script>
 // ---------- scoreboard (same consolidated numbers as the copy above) ----------
