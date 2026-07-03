@@ -1,7 +1,7 @@
 // Unit tests for the crawler's decision logic.  Run:  node --test
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { isGen, isAck, isNoAnswer, detectHandover, convoValidity } from "./classify.js";
+import { isGen, isAck, isNoAnswer, detectHandover, convoValidity, detectDeflection, convoOutcome } from "./classify.js";
 
 // ---- typing / stall indicators ----------------------------------------------
 // GEN_RE / ACK_RE are END-anchored by design: they flag a *bare* typing/stall bubble
@@ -99,4 +99,73 @@ test("convoValidity: 'unsent' post-handover placeholders don't count as attempts
   const v = convoValidity(turns);
   assert.equal(v.valid, true);
   assert.equal(v.aiAttempted, 3);
+});
+
+// ---- deflection (out-of-channel punt) ---------------------------------------
+test("detectDeflection: directive 'email/contact/call us' phrasing IS a deflection", () => {
+  assert.ok(detectDeflection("For that, please email our support team and they'll sort it out."));
+  assert.ok(detectDeflection("You can contact our customer service at help@brand.com for a refund."));
+  assert.ok(detectDeflection("Please call us at 1-800-555-0100 to change your address."));
+  assert.ok(detectDeflection("Contactez-nous à support@marque.fr pour toute réclamation."));
+});
+
+test("detectDeflection: an answer that merely CONTAINS contact info is NOT a deflection", () => {
+  assert.equal(detectDeflection("Our return window is 30 days. Full policy: brand.com/returns."), null);
+  assert.equal(detectDeflection("Your order shipped! Tracking: 1Z999. Anything else?"), null);
+  // policy text quoting an email without telling the user to go there
+  assert.equal(detectDeflection("Receipts are sent from orders@brand.com after purchase."), null);
+});
+
+// ---- journey outcome / automation rate ---------------------------------------
+const aiReply = (ms, tail) => ({ by: "ai", complete_ms: ms, handover: false, replyTail: tail });
+
+test("convoOutcome: full AI journey, in-channel, real answers = AUTOMATED", () => {
+  const turns = [
+    aiReply(9000, "Our return window is 30 days."),
+    aiReply(8000, "Yes, exchanges are free."),
+    aiReply(7000, "Here are three options for sensitive skin."),
+  ];
+  const o = convoOutcome(turns);
+  assert.equal(o.outcome, "automated");
+  assert.equal(o.automated, true);
+  assert.equal(o.answeredShare, 1);
+});
+
+test("convoOutcome: a handover anywhere = HANDOVER (even with good answers before)", () => {
+  const turns = [
+    aiReply(9000, "Sure, I can help."), aiReply(8000, "Checking that."),
+    { by: "human", complete_ms: null, handover: true, replyTail: "connecting you with our team" },
+  ];
+  assert.equal(convoOutcome(turns).outcome, "handover");
+});
+
+test("convoOutcome: AI keeps the chat but punts to email = DEFLECTED", () => {
+  const turns = [
+    aiReply(9000, "Our return window is 30 days."),
+    aiReply(8000, "For a damaged item, please email our support team with a photo."),
+    aiReply(7000, "You're welcome!"),
+  ];
+  const o = convoOutcome(turns);
+  assert.equal(o.outcome, "deflected");
+  assert.ok(o.deflect_hit);
+});
+
+test("convoOutcome: handover takes precedence over deflection", () => {
+  const turns = [
+    aiReply(9000, "Please email our support team for that."),
+    { by: "human", complete_ms: null, handover: true, replyTail: "an agent joined the chat" },
+  ];
+  assert.equal(convoOutcome(turns).outcome, "handover");
+});
+
+test("convoOutcome: zero timed answers = NO_ANSWER (dead/chip-gated widget)", () => {
+  const turns = [aiReply(null, ""), aiReply(null, ""), aiReply(null, "")];
+  assert.equal(convoOutcome(turns).outcome, "no_answer");
+});
+
+test("convoOutcome: answeredShare reflects partial answering", () => {
+  const turns = [aiReply(9000, "answer"), aiReply(null, ""), aiReply(7000, "answer"), aiReply(null, "")];
+  const o = convoOutcome(turns);
+  assert.equal(o.outcome, "automated");
+  assert.equal(o.answeredShare, 0.5);
 });

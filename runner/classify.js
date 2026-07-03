@@ -61,6 +61,58 @@ export function detectHandover(text, extra = [], selfNames = []) {
   return namedHumanSays(text, selfNames);
 }
 
+// DEFLECTION — the AI keeps the chat (no human joins) but pushes resolution OUT of the
+// channel: "email us at…", "call us", "contact our support team". For the automation-rate
+// metric this is NOT automation — the shopper leaves the chat unresolved. Deliberately
+// directive-only phrasing: a reply that merely CONTAINS an email address (e.g. a policy
+// quote) must not match; the bot has to be telling the user to go elsewhere.
+export const DEFLECT_PATTERNS = [
+  /\b(please |kindly |you (can|could|may|should) |veuillez |merci de )?(e-?mail|write to|reach (out to )?)\s*(us|our (support|customer (service|care)|team))\b/i,
+  /\b(contact|get in touch with) (us|our (support|customer (service|care)|team))\s*(at|via|by|directly|par)\b/i,
+  /\b(send|drop) (us|our team) an? e-?mail\b/i,
+  /\b(call|phone|ring) us\b/i, /\bappelez[- ]nous\b/i,
+  /\b(envoyez|écrivez)[- ]nous (un )?(e-?mail|message à)\b/i,
+  /\bcontactez[- ]nous (à|au|par|via)(?=[\s.,;:!]|$)/i,   // no \b after accented à (JS \b is ASCII-only)
+  /\breach out (to us )?at\s+\S+@/i,
+  /\be-?mail (us )?at\s+\S+@/i,
+];
+
+export function detectDeflection(text) {
+  if (!text) return null;
+  for (const re of DEFLECT_PATTERNS) { const m = text.match(re); if (m) return m[0].trim().slice(0, 80); }
+  return null;
+}
+
+// JOURNEY OUTCOME — who handled the conversation and where it ended. This is the basis of
+// the AUTOMATION RATE (the board headline): share of valid conversations the AI carried
+// end-to-end, in-channel, with real answers.
+//   automated — no human, no out-of-channel punt, AI produced timed answers
+//   handover  — a human took (or was promised on) the thread: the AI bailed
+//   deflected — AI kept the chat but told the user to email/call/contact support
+//   no_answer — the widget produced zero timed answers (dead/chip-gated/offline)
+// Precedence handover > deflected: promising a human is the stronger bail-out.
+// answeredShare (timed / attempted AI turns) is carried for finer-grained reporting.
+export function convoOutcome(turns) {
+  turns = turns || [];
+  const attempted = turns.filter((t) => !t.unsent && t.by === "ai");
+  const timed = attempted.filter((t) => t.complete_ms != null);
+  const hadHandover = turns.some((t) => t.handover);
+  const deflectHit = attempted.map((t) => detectDeflection(t.replyTail)).find(Boolean) || null;
+  let outcome;
+  if (timed.length === 0) outcome = "no_answer";
+  else if (hadHandover) outcome = "handover";
+  else if (deflectHit) outcome = "deflected";
+  else outcome = "automated";
+  return {
+    outcome,
+    automated: outcome === "automated",
+    deflect_hit: deflectHit,
+    answeredShare: attempted.length ? timed.length / attempted.length : 0,
+    timed: timed.length,
+    attempted: attempted.length,
+  };
+}
+
 // A conversation is a VALID data point iff it produced enough cleanly-timed AI answers.
 // This is a LATENCY benchmark: a conversation with no measured latency is not a data
 // point — even if the AI handed over. A handover with zero timed answers is still
