@@ -193,13 +193,44 @@
   .foot{text-align:center;font-size:12px;color:var(--on-faint);padding:30px}
   .foot a{color:var(--primary);text-decoration:none}
   @media(max-width:720px){.hide-sm{display:none}.hero h1{font-size:26px}}
+
+  /* ---------- v3 visual layer (Editions-style polish; additive only) ---------- */
+  .hero{position:relative;overflow:visible}
+  .hero h1{font-size:clamp(34px,5.4vw,64px);font-weight:900;max-width:980px}
+  .hero .aurora{position:absolute;inset:-60% -20% -30% -20%;z-index:-1;filter:blur(72px);opacity:.5;pointer-events:none}
+  .hero .aurora i{position:absolute;border-radius:50%}
+  .hero .aurora i:nth-child(1){width:40vw;height:40vw;left:-6vw;top:-4vw;background:radial-gradient(circle,var(--primary) 0%,transparent 65%);animation:hdrift1 18s ease-in-out infinite alternate}
+  .hero .aurora i:nth-child(2){width:32vw;height:32vw;right:-4vw;top:0;background:radial-gradient(circle,var(--accent) 0%,transparent 65%);opacity:.55;animation:hdrift2 22s ease-in-out infinite alternate}
+  @keyframes hdrift1{to{transform:translate(5vw,3vw) scale(1.1)}}
+  @keyframes hdrift2{to{transform:translate(-4vw,5vw) scale(.92)}}
+  .hero-stats{display:flex;justify-content:center;gap:clamp(18px,4vw,48px);flex-wrap:wrap;margin:26px auto 4px}
+  .hero-stats .hs .n{font-family:'Inter Tight';font-size:clamp(24px,3vw,38px);font-weight:800;letter-spacing:-.025em;line-height:1;font-variant-numeric:tabular-nums}
+  .hero-stats .hs .l{font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--on-muted);margin-top:4px}
+  .card{transition:transform .22s cubic-bezier(.2,.7,.3,1.15),box-shadow .22s}
+  .card:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(27,23,18,.09)}
+  tbody tr{transition:background .12s}
+  tbody tr:hover{background:rgba(240,96,63,.045)}
+  h2.sec{font-family:'Inter Tight','Inter',sans-serif;font-weight:800;letter-spacing:-.02em}
+  h2.sec::before{content:"";display:inline-block;width:26px;height:3px;border-radius:2px;background:linear-gradient(90deg,var(--primary),var(--primary-2));margin-right:12px;vertical-align:6px}
+  .rv{opacity:0;transform:translateY(20px);transition:opacity .65s ease,transform .65s cubic-bezier(.2,.7,.2,1)}
+  .rv.in{opacity:1;transform:none}
+  .modebar .modebtn{transition:transform .15s,box-shadow .15s}
+  .modebar .modebtn:hover{transform:translateY(-1px)}
+  ::selection{background:var(--primary);color:#fff}
+  @media (prefers-reduced-motion: reduce){
+    .rv{opacity:1!important;transform:none!important;transition:none!important}
+    .hero .aurora i{animation:none!important}
+    .card,.card:hover{transform:none}
+  }
 </style>
 </head>
 <body>
 <header class="hero">
+  <div class="aurora" aria-hidden="true"><i></i><i></i></div>
   <div class="wrap">
     <div class="eyebrow">Gorgias R&amp;D · Competitive Intelligence</div>
     <h1>How the <span class="grad">Gorgias AI Agent</span> stacks up against every rival</h1>
+    <div class="hero-stats" id="hero-stats" aria-label="dataset size"></div>
     <button class="howbtn" onclick="openModal()"><span class="ic">ⓘ</span> How it works</button>
     <a class="howbtn" href="takeaways.html" style="text-decoration:none;margin-left:8px"><span class="ic">🎯</span> Industry takeaways</a>
   </div>
@@ -28442,6 +28473,40 @@ renderAll();
   const all=[...STORES,...SUPPORT].flatMap(s=>(s.themes&&s.themes.length?s.themes.map(t=>convDate(s,t)):[convDate(s,null)])).filter(Boolean).sort();
   const b=document.getElementById('live-badge');
   if(b && all.length) b.textContent='snapshot · data through '+all[all.length-1];
+})();
+</script>
+<script>
+// ---------- v3 visual layer: hero stats + scroll reveals (additive; no data-logic changes) ----------
+(function(){
+  try{
+    const convs = (arr)=>arr.reduce((a,s)=> a + (s.themes&&s.themes.length ? s.themes.length : ((s.turns&&s.turns.length)?1:0)), 0);
+    const vendors = new Set([...STORES,...SUPPORT].map(s=>s.vendor)).size;
+    const stores  = new Set([...STORES,...SUPPORT].filter(s=>s.method==='new').map(s=>s.site)).size;
+    const total   = convs(STORES)+convs(SUPPORT);
+    const dates   = new Set([...STORES,...SUPPORT].map(s=>s.date).filter(Boolean)).size;
+    document.getElementById('hero-stats').innerHTML =
+      [[total,'conversations'],[vendors,'vendors'],[stores,'live stores'],[dates,'runs']].map(([n,l])=>
+        '<div class="hs"><div class="n" data-count="'+n+'">0</div><div class="l">'+l+'</div></div>').join('');
+  }catch(e){}
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // reveal each top-level section as it enters the viewport
+  const sections = document.querySelectorAll('section');
+  if(!reduced){
+    sections.forEach(s=>s.classList.add('rv'));
+    const io=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} }),{threshold:.06});
+    sections.forEach(s=>io.observe(s));
+    // count-up hero stats
+    const cio=new IntersectionObserver(es=>es.forEach(e=>{
+      if(!e.isIntersecting) return; cio.unobserve(e.target);
+      const el=e.target, target=+el.dataset.count, t0=performance.now(), dur=1000;
+      const step=(t)=>{ const p=Math.min(1,(t-t0)/dur), ease=1-Math.pow(1-p,3);
+        el.textContent=Math.round(target*ease); if(p<1) requestAnimationFrame(step); };
+      requestAnimationFrame(step);
+    }),{threshold:.5});
+    document.querySelectorAll('#hero-stats [data-count]').forEach(el=>cio.observe(el));
+  }else{
+    document.querySelectorAll('#hero-stats [data-count]').forEach(el=>{ el.textContent=el.dataset.count; });
+  }
 })();
 </script>
 </body>
