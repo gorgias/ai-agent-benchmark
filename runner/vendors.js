@@ -446,6 +446,45 @@ export const WIDGETS = {
     async open(page) { await genericOpenChat(page); },
     async send(page, text) { await genericSendChat(page, text); },
   },
+  yuma: {
+    // Yuma's OWN "Chat AI" widget (cracked 2026-07-03) — a standalone iframe
+    // https://app.yuma.ai/w/<uuid> injected by js.yuma.ai/widget.js. NOT the Gorgias/
+    // Zendesk widget those merchants also run: on dual-widget stores (Tediber) we target
+    // iframe[src*="app.yuma.ai"] specifically, no network-blocking needed. The embed
+    // SKIPS loading when navigator.webdriver===true (our STEALTH sets it undefined ⇒
+    // passes) and lazy-loads on first user interaction (scroll/pointerdown/keydown) —
+    // hence the synthetic mouse/scroll nudges below. Everything (launcher included)
+    // renders INSIDE the iframe. Transport: HTTP polling (fetch api.yuma.ai) — DOM-timed.
+    scope: { kind: "frame", match: "app.yuma.ai" },
+    handover: [/un (de nos )?conseillers? (vous|va|reviendra)/i, /nous revenons vers vous/i,
+               /transmis (à|a) (notre|l.)?\s*(équipe|support)/i],
+    async open(page) {
+      await dismiss(page);
+      // fire the lazy-load gate (widget.js waits for scroll/pointerdown/keydown)
+      await page.mouse.move(280, 320).catch(() => {});
+      await page.mouse.wheel(0, 220).catch(() => {});
+      await page.keyboard.press("Tab").catch(() => {});
+      // wait for the app.yuma.ai iframe to mount
+      for (let i = 0; i < 20 && !(await findFrame(page, "app.yuma.ai")); i++) await page.waitForTimeout(900);
+      const f = await findFrame(page, "app.yuma.ai");
+      if (!f) return;
+      // launcher lives INSIDE the iframe
+      const launcher = f.locator('[aria-label="Open chat widget"], .widgetTrigger').first();
+      await launcher.click({ timeout: 8000 }).catch(() => {});
+      await page.waitForTimeout(2500);
+      await fillEmailGate(page, f);
+    },
+    async send(page, text) {
+      const f = await findFrame(page, "app.yuma.ai");
+      if (!f) return;
+      const inp = f.locator('[aria-label="Message"], .chatPage__textarea, textarea').first();
+      await inp.click({ timeout: 5000 }).catch(() => {});
+      await inp.fill(text).catch(async () => { await inp.type(text).catch(() => {}); });
+      await inp.press("Enter").catch(async () => {
+        await f.locator('[aria-label="Send message"], .chatPage__submitBtn').first().click({ timeout: 3000 }).catch(() => {});
+      });
+    },
+  },
 };
 
 // Generic launcher-open: dismiss consent, then click the most chat-like control.
@@ -515,8 +554,7 @@ export const STORES = [
   { key: "siena-jonesroad",    vendor: "Siena", store: "Jones Road",    url: "https://www.jonesroadbeauty.com/", widget: "siena", candidate: true },
 
   // Yuma (runs behind a helpdesk; 2nd drivable store TBD)
-  { key: "yuma-evryjewels", vendor: "Yuma", store: "EvryJewels",       url: "https://evryjewels.com/",          widget: "gorgias" },
-  { key: "yuma-2",          vendor: "Yuma", store: "(2nd store)",      url: "",                                 widget: "gorgias", candidate: true, todo: "find a 2nd Yuma storefront with a drivable widget" },
+  { key: "yuma-evryjewels", vendor: "Yuma", store: "EvryJewels",       url: "https://evryjewels.com/",          widget: "yuma" }, // PURE Yuma store (no Gorgias) — widget uuid 1c068af4; bot-guard defeated by STEALTH webdriver=undefined
 
   // DigitalGenius
   { key: "dg-bloomwild", vendor: "DigitalGenius", store: "Bloom & Wild", url: "https://www.bloomandwild.com/",  widget: "dg", candidate: true },
@@ -533,9 +571,7 @@ export const STORES = [
 
   // ---- Added on request (refresh). Detected chat tech in comments. ----
   { key: "sierra-scotts",  vendor: "Sierra",  store: "Scotts Miracle-Gro", url: "https://scottsmiraclegro.com/", widget: "sierra" },
-  { key: "yuma-tediber",   vendor: "Yuma",    store: "Tediber",            url: "https://www.tediber.com/",      widget: "gorgias", locale: "fr-FR" }, // Yuma runs behind Gorgias Chat
-  { key: "yuma-glossier",  vendor: "Yuma",    store: "Glossier",           url: "https://www.glossier.com/",     widget: "gorgias" }, // Yuma customer; front-end is Gorgias Chat (config.gorgias verified)
-  { key: "yuma-mfimedical", vendor: "Yuma",   store: "MFI Medical",        url: "https://www.mfimedical.com/",   widget: "gorgias" }, // Yuma customer w/ Gorgias Chat (config.gorgias verified) — last free-text candidate
+  { key: "yuma-tediber",   vendor: "Yuma",    store: "Tediber",            url: "https://www.tediber.com/",      widget: "yuma", locale: "fr-FR" }, // DUAL-widget store: Gorgias + Yuma-native (app.yuma.ai/w/8ea15f6c) — we target the Yuma iframe (Roman measured ~18.9s here)
   { key: "envive-kut",     vendor: "Envive",  store: "Kut from the Kloth", url: "https://www.kutfromthekloth.com/", widget: "gorgias" }, // chat shell is Gorgias
   { key: "repai-fresh",    vendor: "Rep AI",  store: "Fresh Roasted Coffee", url: "https://www.freshroastedcoffee.com/", widget: "repai", candidate: true },
   { key: "kodif-dsc",      vendor: "Kodif",   store: "Dollar Shave Club",  url: "https://us.dollarshaveclub.com/", widget: "kodif", candidate: true },
@@ -571,8 +607,6 @@ export const STORES = [
   { key: "siena-mudwtr",      vendor: "Siena",  store: "MUD\\WTR",    url: "https://mudwtr.com/",         widget: "siena" },
   { key: "siena-spanx",       vendor: "Siena",  store: "Spanx",       url: "https://spanx.com/",          widget: "siena" },
   // Yuma (runs behind Gorgias helpdesk → drive the Gorgias widget)
-  { key: "yuma-goclove",      vendor: "Yuma",   store: "Clove",       url: "https://www.goclove.com/",    widget: "gorgias" },
-  { key: "yuma-javvy",        vendor: "Yuma",   store: "Javvy Coffee",url: "https://www.javvycoffee.com/",widget: "gorgias" },
   // Zendesk AI ("Meta AI")
   { key: "meta-cottonon",     vendor: "Meta AI",store: "Cotton On",   url: "https://cottonon.com/US/",    widget: "zendesk" },
   { key: "meta-quip",         vendor: "Meta AI",store: "quip",        url: "https://www.getquip.com/",    widget: "zendesk" },
@@ -585,7 +619,7 @@ export const STORES = [
   // top-ups to reach ≥5 sourced sites/vendor (most DG widgets lazy-load → may need headed)
   // Snipes / Beauty Pie — no DigitalGenius on-site widget (verified); DG on-site footprint = Bloom & Wild + G-Star only.
   { key: "meta-motelrocks",   vendor: "Meta AI", store: "Motel Rocks", url: "https://www.motelrocks.com/", widget: "zendesk" },
-  { key: "yuma-cabaia",       vendor: "Yuma",   store: "CABAIA",      url: "https://cabaia.com/",         widget: "zendesk" },
+  { key: "yuma-cabaia",       vendor: "Yuma",   store: "CABAIA",      url: "https://cabaia.com/",         widget: "yuma" }, // Yuma-native (app.yuma.ai/w/26d426e8); Zendesk = email tickets only
 
   // Headed-only vendors (widget loads only in real Chrome). candidate=excluded from headless runs.
   { key: "humind-900care",    vendor: "Humind", store: "900.care",    url: "https://www.900.care/",       widget: "humind", candidate: true, locale: "fr-FR" },
