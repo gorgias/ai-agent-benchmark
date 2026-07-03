@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Takeaways — Gorgias AI Agent Competitive Benchmark</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Inter+Tight:wght@600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f1ede9; --surface:rgba(255,255,255,.66); --surface-solid:#fff;
+    --on:#1b1712; --on-muted:#6b6259; --on-faint:#a89d92;
+    --primary:#f0603f; --accent:#6e56cf; --success:#1e9e6a; --warning:#d98a00; --danger:#d64545;
+    --glass-border:rgba(27,23,18,.09);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg);color:var(--on);-webkit-font-smoothing:antialiased;line-height:1.55}
+  .mono{font-family:'JetBrains Mono',ui-monospace,monospace;font-variant-numeric:tabular-nums}
+  .wrap{max-width:1060px;margin:0 auto;padding:28px 22px 80px}
+  header{padding:44px 22px 10px;text-align:center}
+  h1{font-family:'Inter Tight',Inter,sans-serif;font-size:clamp(26px,4vw,40px);font-weight:800;letter-spacing:-.02em}
+  h1 .grad{background:linear-gradient(90deg,var(--primary),var(--accent));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{color:var(--on-muted);font-size:14.5px;margin-top:8px}
+  .sub a{color:var(--primary);font-weight:600;text-decoration:none}
+  h2{font-family:'Inter Tight',Inter,sans-serif;font-size:21px;font-weight:800;letter-spacing:-.01em;margin:44px 0 6px}
+  h2 .no{color:var(--primary);margin-right:6px}
+  .lead{color:var(--on-muted);font-size:13.5px;margin-bottom:14px;max-width:72ch}
+  .card{background:var(--surface);border:1px solid var(--glass-border);border-radius:14px;padding:18px 20px;backdrop-filter:blur(10px)}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th{font-size:10.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--on-faint);text-align:left;padding:6px 10px;border-bottom:1px solid var(--glass-border)}
+  td{padding:7px 10px;border-bottom:1px solid rgba(27,23,18,.05);vertical-align:top}
+  td.n,th.n{text-align:right}
+  .table-scroll{overflow-x:auto}
+  .pill{display:inline-block;font-size:11.5px;font-weight:700;padding:2px 9px;border-radius:999px}
+  .p-ok{background:#e2f4ea;color:var(--success)} .p-mid{background:#fdf1dd;color:var(--warning)} .p-bad{background:#fdeaea;color:var(--danger)} .p-na{background:#eee9e4;color:var(--on-faint)}
+  .vdot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:7px;vertical-align:baseline}
+  .us-tag{font-size:9.5px;font-weight:800;background:var(--primary);color:#fff;border-radius:5px;padding:1px 5px;margin-left:7px;vertical-align:middle}
+  .verdict{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin:18px 0 6px}
+  .v-card{background:var(--surface);border:1px solid var(--glass-border);border-radius:14px;padding:16px 18px}
+  .v-kpi{font-family:'Inter Tight';font-size:30px;font-weight:800;letter-spacing:-.02em}
+  .v-lbl{font-size:12px;color:var(--on-muted);margin-top:2px}
+  .v-good .v-kpi{color:var(--success)} .v-bad .v-kpi{color:var(--danger)} .v-mid .v-kpi{color:var(--warning)}
+  .prof{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:14px}
+  .prof .card{padding:16px 18px}
+  .pv{font-weight:800;font-size:14.5px;margin-bottom:2px}
+  .pm{font-size:11.5px;color:var(--on-faint);margin-bottom:9px}
+  .pp{font-size:12.5px;margin:5px 0}
+  .pp b{font-weight:700}
+  .pp.plus b{color:var(--success)} .pp.minus b{color:var(--danger)}
+  .quote{font-size:11.5px;color:var(--on-muted);border-left:3px solid var(--glass-border);padding:2px 0 2px 10px;margin:7px 0;font-style:italic}
+  ol.recs{margin:10px 0 0 20px}
+  ol.recs>li{margin:12px 0;font-size:13.5px}
+  ol.recs b{font-weight:700}
+  .why{display:block;font-size:12px;color:var(--on-muted);margin-top:2px}
+  .note{font-size:12px;color:var(--on-muted)}
+  .footer{margin-top:56px;font-size:12px;color:var(--on-faint);text-align:center}
+</style>
+</head>
+<body>
+<header>
+  <h1>What we learned benchmarking <span class="grad">every on-site AI agent</span></h1>
+  <div class="sub">Board takeaways · 302 LLM-judged conversations · 11 vendors · 60+ live stores · July 2026 · <a href="report.html">Full interactive report →</a></div>
+</header>
+<div class="wrap">
+
+<h2>The verdict in four numbers</h2>
+<div class="verdict">
+  <div class="v-card v-good"><div class="v-kpi">98–100%</div><div class="v-lbl"><b>Gorgias automation rate</b> — best in market, both lanes. The AI carries the conversation end-to-end; it almost never bails to a human or punts to email.</div></div>
+  <div class="v-card v-mid"><div class="v-kpi">62/100</div><div class="v-lbl"><b>Gorgias shopping quality</b> — top-4. Strong comparisons &amp; purchase nudges; weaker than Envive (65) on rich product presentation.</div></div>
+  <div class="v-card v-bad"><div class="v-kpi">~18s</div><div class="v-lbl"><b>Gorgias shopping latency</b> — 8th of 9. Sierra answers in ~9.5s, Envive ~12.6s. Latency is our clearest engineering gap.</div></div>
+  <div class="v-card v-bad"><div class="v-kpi">49/100</div><div class="v-lbl"><b>Gorgias support quality</b> — mid-pack, dragged down by ONE misconfigured store (Baby Bee) answering everything with business-hours boilerplate. Configuration, not model.</div></div>
+</div>
+<p class="lead" style="margin-top:12px">Composite ranking (50% automation · 25% quality · 25% speed): <b>Envive wins both lanes</b> (75 shopping / 76 support). <b>Gorgias ranks #4 in Shopping (69) and #2 in Support (72)</b> — carried by automation, held back by speed and one bad store config.</p>
+
+<h2>Scoreboard</h2>
+<p class="lead">Automation = share of engaged conversations the AI handled end-to-end in-channel (handovers and email/phone deflections count against; early bails included). Quality = LLM-judge rubric /100. All free-text, cold sessions, no quick-reply chips.</p>
+<div class="card table-scroll">
+<table id="score-table">
+  <thead><tr><th>Vendor</th><th class="n">Composite 🛍️</th><th class="n">Composite 🎧</th><th>Automation 🛍️/🎧</th><th>Quality 🛍️/🎧</th><th class="n">Latency 🛍️/🎧</th><th>Read</th></tr></thead>
+  <tbody></tbody>
+</table>
+</div>
+<p class="note" style="margin-top:8px">Not rankable: <b>Yuma</b> (ticket/email automation behind Gorgias/Zendesk — no free-text on-site concierge to measure: its chat surfaces are chip-gated menus) and <b>Humind</b> (widget only initializes for real human sessions; blocked our capture in every environment).</p>
+
+<h2>What each provider does differently</h2>
+<div class="prof" style="margin-top:14px">
+  <div class="card"><div class="pv"><span class="vdot" style="background:#f0603f"></span>Gorgias <span class="us-tag">US</span></div><div class="pm">98–100% auto · q62/49 · 18.3s/14.4s</div>
+    <div class="pp plus"><b>+ Never lets go.</b> Best-in-market automation: no handovers in support across 26 engaged conversations, one in 40 shopping. Sales instinct is real — head-to-head comparisons, promo terms, purchase nudges.</div>
+    <div class="quote">"Cited specific clinical stats (94% firmer) and the exact return policy (30-day, €8 fee vs free store credit) to reassure a skeptical shopper" — judge, 84/100</div>
+    <div class="pp minus"><b>− Slow, and config-fragile.</b> Slowest top-tier vendor (18.3s shopping). And one unconfigured store (Baby Bee) answered every support question with business-hours boilerplate — scoring 14-15/100 and sinking the support average.</div>
+    <div class="quote">"All seven turns return support-hours boilerplate with no policy details" — judge, 15/100</div></div>
+  <div class="card"><div class="pv"><span class="vdot" style="background:#22c55e"></span>Envive (ex-Spiffy)</div><div class="pm">93/90% auto · q65/64 · 12.6s/10.8s — <b>composite winner, both lanes</b></div>
+    <div class="pp plus"><b>+ The commerce bar.</b> Named head-to-heads with computed discounted prices, bundles, a "final personal pick", exact refund timelines. The only vendor strong on BOTH lanes.</div>
+    <div class="quote">"Kut gave a named head-to-head (Meg vs Catherine at $119), reasoned verdict, confirmed 15% first-order discount, and computed discounted prices" — judge, 81/100</div>
+    <div class="pp minus"><b>− No order-system access.</b> On live order actions it admits it has no data and redirects — automation without resolution depth.</div></div>
+  <div class="card"><div class="pv"><span class="vdot" style="background:#0ea5e9"></span>Sierra</div><div class="pm">83/55% auto · q41/64 · ~9.5s — fastest credible vendor</div>
+    <div class="pp plus"><b>+ Support machine.</b> Photo uploads in chat, product-differentiated return windows, direct policy links. Casper support scored 85-86.</div>
+    <div class="pp minus"><b>− Can't sell, and bails.</b> Shopping collapses into category-clarification loops (Scotts: 7 identical "what category?" turns, 10/100), and 1 in 2 support conversations ends in human handover (55% automation).</div></div>
+  <div class="card"><div class="pv"><span class="vdot" style="background:#a855f7"></span>Siena</div><div class="pm">90/71% auto · q55/62 · ~12s</div>
+    <div class="pp plus"><b>+ Excellent when configured.</b> Simple Modern: named products with prices, tiered options, complete returns picture (83-84/100).</div>
+    <div class="pp minus"><b>− Merchant variance.</b> FIGS deflected 100% of questions to email and even demanded a 6-digit verification code mid-conversation (0/100).</div></div>
+  <div class="card"><div class="pv"><span class="vdot" style="background:#eab308"></span>Kodif</div><div class="pm">88/67% auto · q47/49 · ~13s</div>
+    <div class="pp plus"><b>+ Deep policy plumbing.</b> Distinguished standard 30-day vs Checkout+ 60-day return windows, named portals, per-product delivery timelines (82-86/100).</div>
+    <div class="pp minus"><b>− Loops and walls.</b> Babyletto tracking repeated the same order-number demand 7 times (13-19/100); demands order lookup even for generic FAQ.</div></div>
+  <div class="card"><div class="pv"><span class="vdot" style="background:#64748b"></span>Ada</div><div class="pm">100/88% auto · q39/38 · ~11.7s</div>
+    <div class="pp plus"><b>+ Sharpest single answers.</b> "0 days — we don't accept returns" with the 45-day replacement window: the crispest policy answer in the dataset (82/100).</div>
+    <div class="pp minus"><b>− The authentication wall.</b> Entire conversations blocked on "first and last name please" — including for generic policy questions (three conversations at 6/100).</div></div>
+  <div class="card"><div class="pv"><span class="vdot" style="background:#3b82f6"></span>Meta AI (Zendesk)</div><div class="pm">71/80% auto · q7/27 · fastest: 4.4–7s</div>
+    <div class="pp plus"><b>+ Instant.</b> Fastest replies measured, decent procedural answers when configured (quip 66/100).</div>
+    <div class="pp minus"><b>− Speed without substance.</b> Grove: identical human-transfer prompt for every single question — 0/100 across three conversations. The definitive proof latency alone is a vanity metric.</div></div>
+  <div class="card"><div class="pv"><span class="vdot" style="background:#ef4444"></span>Rep AI</div><div class="pm">100% auto · q11/3 · 40-43s — the automation-quality trap</div>
+    <div class="pp minus"><b>− A subscription upsell in a trench coat.</b> 100% automation because it never escalates — it answers every question, including "where is my order", with the same "30% off Auto Deliver" pitch (0/100 on all support). Automation without quality is worse than escalation.</div></div>
+  <div class="card"><div class="pv"><span class="vdot" style="background:#8b5cf6"></span>DigitalGenius</div><div class="pm">38/55% auto · q35/43 · ~15-18s</div>
+    <div class="pp minus"><b>− Refuses to sell, quick to escalate.</b> Explicitly declined product recommendations every shopping turn (12/100); repeats "share order number and postcode" verbatim. Built for ticket deflection, not conversation.</div></div>
+</div>
+
+<h2>Five market learnings</h2>
+<ol class="recs">
+  <li><b>Nobody wins automation × quality × speed — the frontier is open.</b> Envive is closest (win on composite, but no order-system depth). Gorgias owns automation, Sierra owns speed+support quality, nobody owns all three. <span class="why">The vendor that closes its gap first owns the category. Ours is speed; theirs is much harder product work.</span></li>
+  <li><b>The #1 failure mode is not wrong answers — it's walls and loops.</b> Auth walls (Ada), order-number demands (Kodif, DG), clarification loops (Sierra), upsell loops (Rep AI), handover-everything (Meta/Grove). Judges rarely caught hallucinations; they constantly caught refusal-to-engage. <span class="why">These are engineering guardrail failures, not model failures — cheap to fix, huge quality upside.</span></li>
+  <li><b>Merchant configuration variance dwarfs vendor model quality.</b> Same vendor, same model: Meta AI scores 66 on quip and 0 on Grove; Siena 84 on Simple Modern and 0 on FIGS; Gorgias 83 on Madura and 15 on Baby Bee. <span class="why">The battle is won in onboarding and config QA, not in the model. This is a product opportunity (see below).</span></li>
+  <li><b>Speed without substance is a vanity metric — but 18s is still too slow.</b> Meta AI is 4x faster than us and 9x worse on quality. Still, the quality leaders (Envive, Sierra support) all answer in 9-13s. <span class="why">~10-12s to a full final answer appears to be the credible bar; we're at 14-18s.</span></li>
+  <li><b>"AI chat" claims ≠ measurable free-text concierge.</b> Yuma automates tickets behind the scenes (its chat is chip-gated menus); Humind won't load for non-human sessions; 30-40% of widget-detected stores yielded no engageable conversation. <span class="why">Market noise is high — buyers can't tell. An honest, repeated public benchmark is a sales weapon.</span></li>
+</ol>
+
+<h2>What this means for Gorgias — product ideas</h2>
+<ol class="recs">
+  <li><b>Config Health Score + boilerplate detector (ship first).</b> Baby Bee cost us ~13 points of support quality with business-hours boilerplate. Auto-detect "same reply to different questions" and "no policy specifics in answers" in production; alert the merchant and CSM with a fix checklist. <span class="why">Learning #3: config variance is the biggest quality lever in the whole dataset — for us AND against competitors when we're well-configured.</span></li>
+  <li><b>Automation-rate telemetry in-product.</b> Give every merchant the exact metric this benchmark defines: automated / handover / deflected per conversation, trended weekly. Nobody in the market reports "deflected" honestly. <span class="why">It reframes the buying conversation around the metric we win (98-100%).</span></li>
+  <li><b>Rich product cards + in-chat cart actions in Shopping Assistant.</b> Envive's entire quality lead (65 vs 62) is presentation: cards, prices, bundles, computed discounts, a "final pick". Our capability matrix shows no product cards on 5 of 6 Gorgias stores. <span class="why">Closes the only quality gap between us and the composite winner.</span></li>
+  <li><b>Answer-before-authenticate policy.</b> Never require order lookup/auth for generic questions ("what's your return window?"). Ada and Kodif burn entire conversations on this. <span class="why">Learning #2: walls are the top failure mode; guardrail-level fix.</span></li>
+  <li><b>Anti-loop self-check.</b> Agent-side guard: if the last two replies are near-identical and the user's question changed, force a strategy switch or a graceful skip. Rep AI, Kodif and Sierra all shipped this bug to production. <span class="why">One rule eliminates the most embarrassing public failure class.</span></li>
+</ol>
+
+<h2>Engineering ideas</h2>
+<ol class="recs">
+  <li><b>Latency program to ~10s full-answer (and ~3s first token).</b> Sierra proves 9.5s full answers on live stores. Streaming-first UX, parallel retrieval, model tiering on easy turns. <span class="why">We are 8th of 9 on shopping speed; it's 25% of any credible composite.</span></li>
+  <li><b>Continuous competitive benchmark (this system) as infrastructure.</b> Weekly automated runs, per-provider trend lines (already live in the report), regression alerts when a competitor jumps. <span class="why">Nobody else has ground-truth competitor telemetry; it compounds.</span></li>
+  <li><b>LLM-judge evals as a release gate for the AI Agent.</b> Reuse the exact rubrics from this benchmark (relevance/recommendation/rich/close · resolution/accuracy/actionability/close) on golden conversations per release. <span class="why">The judges reliably separated 15-point quality differences invisible in success-rate metrics.</span></li>
+</ol>
+
+<h2>Method & honesty notes</h2>
+<div class="card">
+  <p class="note">• Cold incognito sessions per conversation; free-typed questions only (quick-reply chips can serve cached replies that fake latency and automation). Latency runs to the true final answer, past "let me check…" stalls. No PII beyond dummy emails. Nothing is fabricated: unanswered turns, dead widgets and handovers are recorded as such.<br>
+  • Automation rate uses the engaged-conversation denominator (≥1 timed answer or a handover) so early bails count against a vendor; dead/chip-gated widgets are reported separately, not counted for or against.<br>
+  • Quality = one LLM judge (Claude Sonnet) per conversation on truncated transcripts (last 450 chars/turn); scores are comparative, not absolute. 302 conversations judged; sample sizes per vendor+lane range 6-40 — small cells (Meta AI shopping n=6) are directional.<br>
+  • Gorgias stores were captured with the same harness, same themes, same rules as competitors. Weakest results (Baby Bee) are shown, not excluded.</p>
+</div>
+
+<div class="footer">Generated from the ai-chat-latency-benchmark pipeline · data runs 2026-07-01 → 2026-07-03 · <a href="report.html" style="color:var(--primary)">interactive report</a></div>
+</div>
+
+<script>
+// Scoreboard is computed from the same consolidated numbers quoted above.
+const D = {
+ "Gorgias":      {us:1, col:"#f0603f", s:{a:98, q:62, l:18.3}, p:{a:100, q:49, l:14.4}, read:"Automation king; fix speed + config QA"},
+ "Envive":       {col:"#22c55e", s:{a:93, q:65, l:12.6}, p:{a:90, q:64, l:10.8}, read:"Composite winner both lanes — the one to beat"},
+ "Ada":          {col:"#64748b", s:{a:100, q:39, l:11.5}, p:{a:88, q:38, l:12.0}, read:"Great answers behind a terrible auth wall"},
+ "Siena":        {col:"#a855f7", s:{a:90, q:55, l:12.1}, p:{a:71, q:62, l:12.1}, read:"Strong when configured; huge merchant variance"},
+ "Sierra":       {col:"#0ea5e9", s:{a:83, q:41, l:9.5},  p:{a:55, q:64, l:9.4},  read:"Fastest + best support quality; can't sell, bails often"},
+ "Kodif":        {col:"#eab308", s:{a:88, q:47, l:15.5}, p:{a:67, q:49, l:11.2}, read:"Deep policy data; loops and order-number walls"},
+ "Meta AI":      {col:"#3b82f6", s:{a:71, q:7,  l:4.4},  p:{a:80, q:27, l:7.0},  read:"Fastest, emptiest — speed without substance"},
+ "Rep AI":       {col:"#ef4444", s:{a:100,q:11, l:40.3}, p:{a:100,q:3,  l:43.0}, read:"The automation-quality trap personified"},
+ "DigitalGenius":{col:"#8b5cf6", s:{a:38, q:35, l:18.0}, p:{a:55, q:43, l:14.2}, read:"Ticket deflector, not a conversationalist"},
+};
+const speed=l=>Math.max(0,Math.min(100,(22-l)/19*100));
+const comp=m=>Math.round(.5*m.a+.25*m.q+.25*speed(m.l));
+const rows=Object.entries(D).map(([v,d])=>({v,...d,cs:comp(d.s),cp:comp(d.p)})).sort((a,b)=>(b.cs+b.cp)-(a.cs+a.cp));
+const pill=(x,hi,mid)=>'<span class="pill '+(x>=hi?'p-ok':x>=mid?'p-mid':'p-bad')+'">'+x+'</span>';
+document.querySelector('#score-table tbody').innerHTML=rows.map(r=>
+ '<tr><td><span class="vdot" style="background:'+r.col+'"></span><b>'+r.v+'</b>'+(r.us?'<span class="us-tag">US</span>':'')+'</td>'+
+ '<td class="n mono"><b>'+r.cs+'</b></td><td class="n mono"><b>'+r.cp+'</b></td>'+
+ '<td>'+pill(r.s.a,90,70)+' / '+pill(r.p.a,90,70)+'</td>'+
+ '<td>'+pill(r.s.q,60,40)+' / '+pill(r.p.q,60,40)+'</td>'+
+ '<td class="n mono">'+r.s.l+'s / '+r.p.l+'s</td>'+
+ '<td class="note">'+r.read+'</td></tr>').join('');
+</script>
+</body>
+</html>
