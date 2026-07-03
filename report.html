@@ -28326,12 +28326,45 @@ function trendChart(title, dates, series, {max=100, unit='%', invert=false}={}){
     const c=COL[s.v]||'#888';
     const seg=s.pts.map((v,i)=> v==null? null : [X(i),Y(v)]).filter(Boolean);
     if(seg.length>1) g+='<polyline fill="none" stroke="'+c+'" stroke-width="2" stroke-linecap="round" points="'+seg.map(p=>p.join(',')).join(' ')+'"/>';
-    s.pts.forEach((v,i)=>{ if(v!=null) g+='<circle cx="'+X(i)+'" cy="'+Y(v)+'" r="3" fill="'+c+'"><title>'+s.v+' · '+dates[i]+' · '+v+unit+'</title></circle>'; });
+    // visible dot + a LARGER invisible hit circle carrying the tooltip payload
+    // (3px dots are too small a hover target; the hit layer goes on top).
+    s.pts.forEach((v,i)=>{ if(v!=null) g+='<circle class="tdot" cx="'+X(i)+'" cy="'+Y(v)+'" r="3" fill="'+c+'"/>'; });
+    s.pts.forEach((v,i)=>{ if(v!=null) g+='<circle class="thit" cx="'+X(i)+'" cy="'+Y(v)+'" r="9" fill="transparent" data-v="'+s.v.replace(/"/g,'&quot;')+'" data-d="'+dates[i]+'" data-val="'+v+unit+'" data-c="'+c+'"/>'; });
   });
   const legend=series.map(s=>'<span style="display:inline-flex;align-items:center;gap:4px;font-size:10.5px;color:var(--on-muted)"><span class="vdot" style="background:'+(COL[s.v]||'#888')+'"></span>'+s.v+'</span>').join(' ');
   return '<div class="card" style="padding:12px"><div style="font-size:12.5px;font-weight:700;margin-bottom:4px">'+title+'</div>'+
     '<svg viewBox="0 0 '+W+' '+H+'" style="width:100%;height:auto">'+g+'</svg>'+
     '<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:6px">'+legend+'</div></div>';
+}
+// Floating tooltip for trend-chart points (delegated once; charts re-render freely).
+function initTrendTips(){
+  if(document.getElementById('trend-tip')) return;
+  const tip=document.createElement('div');
+  tip.id='trend-tip';
+  tip.style.cssText='position:fixed;z-index:999;pointer-events:none;display:none;background:var(--on);color:#fff;font-size:11.5px;font-weight:600;padding:5px 9px;border-radius:7px;box-shadow:0 4px 14px rgba(0,0,0,.25);white-space:nowrap';
+  document.body.appendChild(tip);
+  const grid=document.getElementById('trend-grid'); if(!grid) return;
+  grid.addEventListener('mouseover',e=>{
+    const c=e.target.closest('.thit'); if(!c) return;
+    tip.innerHTML='<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:'+c.dataset.c+';margin-right:6px;vertical-align:baseline"></span>'
+      +c.dataset.v+' · '+c.dataset.d+' · <span class="mono">'+c.dataset.val+'</span>';
+    tip.style.display='block';
+    const dot=c.previousElementSibling && c.previousElementSibling.classList && c.parentNode.querySelector('.tdot[cx="'+c.getAttribute('cx')+'"][cy="'+c.getAttribute('cy')+'"]');
+    if(dot){ dot.setAttribute('r','4.5'); dot.setAttribute('stroke','#fff'); dot.setAttribute('stroke-width','1.5'); c._dot=dot; }
+  });
+  grid.addEventListener('mousemove',e=>{
+    if(tip.style.display==='none') return;
+    const pad=14, w=tip.offsetWidth, h=tip.offsetHeight;
+    let x=e.clientX+pad, y=e.clientY-h-10;
+    if(x+w>window.innerWidth-8) x=e.clientX-w-pad;
+    if(y<8) y=e.clientY+pad;
+    tip.style.left=x+'px'; tip.style.top=y+'px';
+  });
+  grid.addEventListener('mouseout',e=>{
+    const c=e.target.closest('.thit'); if(!c) return;
+    tip.style.display='none';
+    if(c._dot){ c._dot.setAttribute('r','3'); c._dot.removeAttribute('stroke'); c._dot.removeAttribute('stroke-width'); c._dot=null; }
+  });
 }
 // Guardrails: pool held/total per vendor across the current mode's stores.
 function renderGuardrails(){
@@ -28360,6 +28393,7 @@ function renderTrends(){
     trendChart('Automation rate (%)', t.dates, t.auto, {max:100, unit:'%'}) +
     trendChart('Quality — LLM-judge score (/100)', t.dates, t.qual, {max:100, unit:''}) +
     trendChart('Avg latency (s) — lower is better', t.dates, t.lat, {max:30, unit:'s', invert:true});
+  initTrendTips();
 }
 let VIEW='shopping';                       // top-level tab: shopping | support | best
 function applyView(){
