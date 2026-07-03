@@ -71,6 +71,10 @@ const storeFilter = pick("--store");
 const vendorFilter = pick("--vendor");
 const modeFilter = pick("--mode");
 const skipCandidates = args.includes("--skip-candidates");
+// --video: record a .webm of the FIRST theme per (store,mode) — board-demo evidence
+// (Roman's videos were the most persuasive artifact in his Notion doc). Off by default:
+// videos are heavy and slow the pipeline; use for flagship/monthly runs.
+const VIDEO = args.includes("--video");
 const RESUME = !args.includes("--no-resume");   // skip (store,mode) already written this run-date → survives kills
 const SERIAL = args.includes("--serial");        // per-store serialize (cleaner latency, slower); default OFF = max throughput
 // Parallelism: each (store,mode) runs in its own incognito context, so they're
@@ -101,12 +105,12 @@ async function timeTurn(page, scope, sendFn, q) {
   const REPLY_MIN = echoApprox + 40;              // growth beyond this = a real reply, not the echo
   const t0 = Date.now();
   await sendFn();
-  let lastLen = before, lastChange = t0, ttft = null, sawGen = false, grownReply = false, complete = null;
+  let lastLen = before, lastChange = t0, ttft = null, sawGen = false, grownReply = false, complete = null, growthEvents = 0;
   const deadline = t0 + TURN_TIMEOUT_MS;
   while (Date.now() < deadline) {
     await sleep(POLL_MS);
     const { len, text } = await readTranscript(page, scope);
-    if (len !== lastLen) { lastChange = Date.now(); lastLen = len; }
+    if (len !== lastLen) { lastChange = Date.now(); if (len > lastLen) growthEvents++; lastLen = len; }
     if (isGen(text)) sawGen = true;
     if (len > before + REPLY_MIN) { grownReply = true; if (ttft == null) ttft = Date.now() - t0; }
     // "still working" = a typing indicator, OR a short stall/ack message that will be
@@ -121,7 +125,10 @@ async function timeTurn(page, scope, sendFn, q) {
     const realAnswer = (grownReply || (sawGen && len > before + 40)) && !isNoAnswer(text);
     if (settled && !working && realAnswer) { complete = lastChange - t0; break; }
   }
-  return { ttft_ms: ttft, complete_ms: complete, grew: lastLen - before };
+  // growth_events distinguishes DELIVERY: many increments = token/segment streaming,
+  // 1-2 jumps = atomic bubble. Aggregated per vendor by gen.js (Roman's wire analysis
+  // showed the split matters: streaming bots show substance long before full answer).
+  return { ttft_ms: ttft, complete_ms: complete, grew: lastLen - before, growth_events: growthEvents };
 }
 
 // NETWORK-timed turn — for closed widgets (Rep AI, Humind) whose DOM is awkward but
@@ -165,7 +172,11 @@ async function runStoreMode(browser, store, mode, theme) {
   // IndexedDB/cache for ANY origin (the widget's cross-origin storage included),
   // so there is never a pre-existing conversation. storageState is left undefined
   // (no profile) and we clear cookies as belt-and-suspenders.
-  const context = await browser.newContext({ viewport: { width: 1366, height: 900 }, locale: store.locale || "en-US", timezoneId: "America/New_York", userAgent: REAL_UA, extraHTTPHeaders: { "Accept-Language": "en-US,en;q=0.9" }, storageState: undefined });
+  const ctxOpts = { viewport: { width: 1366, height: 900 }, locale: store.locale || "en-US", timezoneId: "America/New_York", userAgent: REAL_UA, extraHTTPHeaders: { "Accept-Language": "en-US,en;q=0.9" }, storageState: undefined };
+  // --video: only the first theme per (store,mode) gets recorded — one demo clip each.
+  const isFirstTheme = theme.key === (mode === "support" ? SUPPORT_THEMES : SHOPPING_THEMES)[0].key;
+  if (VIDEO && isFirstTheme) ctxOpts.recordVideo = { dir: `results/${STAMP}/video`, size: { width: 1366, height: 900 } };
+  const context = await browser.newContext(ctxOpts);
   await context.addInitScript(STEALTH);
   // Spiffy/Envive gates its widget behind an A/B rollout bucket that a cold context re-rolls
   // to "disabled"; this sanctioned flag forces it ON before the session-bucket check.
@@ -283,7 +294,15 @@ async function runStoreMode(browser, store, mode, theme) {
       };
       console.log(`  [${store.key}] ticket: shop=${sub} acct=${cap.accountId} tid=${tid} conv=${out.ticket.conversation_id}`);
     }
+    // Rename the Playwright-random video file to a meaningful name (path is only
+    // final after context.close()).
+    let vid = null;
+    if (VIDEO && isFirstTheme) { try { vid = await page.video()?.path(); } catch {} }
     await context.close();
+    if (vid) {
+      const dest = `results/${STAMP}/video/${store.key}-${mode}.webm`;
+      try { const { rename } = await import("node:fs/promises"); await rename(vid, dest); out.video = dest; console.log(`  [${store.key}/${mode}] 🎬 video → ${dest}`); } catch {}
+    }
   }
 
   // Latency is computed ONLY over AI turns — human replies are never timed.

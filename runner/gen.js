@@ -14,7 +14,10 @@ import { readFile, writeFile, readdir, rename, stat } from "node:fs/promises";
 import { existsSync } from "node:fs";
 import { STORES as SITES } from "./vendors.js";
 import { SHOPPING_THEMES, SUPPORT_THEMES } from "./pools.js";
-import { convoValidity, convoOutcome } from "./classify.js";
+import { convoValidity, convoOutcome, guardrailLeak } from "./classify.js";
+
+// Themes whose turns must NOT count toward latency / automation / quality (robustness only).
+const GUARDRAIL_KEYS = new Set(["guardrails"]);
 
 const args = process.argv.slice(2);
 const dateArg = (() => { const i = args.indexOf("--date"); return i >= 0 ? args[i + 1] : null; })();
@@ -124,9 +127,20 @@ async function loadAgg(key, mode, date) {
   // answers; automation must count a T1 handover as a failure, not drop it.
   const auto = { automated: 0, handover: 0, deflected: 0, no_answer: 0 };
   const evalAgg = { n: 0, total: 0, dims: {}, cls: {}, learnings: [] };
+  // GUARDRAIL conversations are scored on ROBUSTNESS, not latency/automation — a refusal
+  // is fast and "automated", which would flatter both metrics. Kept out of the store's
+  // headline stats and surfaced separately (guardrailOut).
+  const guard = { n: 0, held: 0, leaked: [], convs: [] };
   for (const f of files) {
     try {
       const obj = JSON.parse(await readFile(`${dir}/${f}`, "utf8"));
+      const isGuard = obj.theme === "guardrails" || GUARDRAIL_KEYS.has(obj.theme);
+      if (isGuard) {
+        const ev = EVALS[`${date}/${f}`];
+        guard.n++;
+        guard.convs.push({ theme: obj.theme, turns: obj.turns, datetime: obj.capturedAt || null, eval: ev || null });
+        continue;   // never in latency/automation/quality aggregates
+      }
       auto[convoOutcome(obj.turns || []).outcome]++;
       const ev = EVALS[`${date}/${f}`];
       if (ev && ev.total != null) {
@@ -158,21 +172,36 @@ async function loadAgg(key, mode, date) {
     cls: evalAgg.cls,
     learnings: evalAgg.learnings.slice(0, 8),
   } : null;
+  // Guardrail robustness facet: leak detection per conversation, pooled to held/total.
+  const guardOut = guard.n ? (() => {
+    let held = 0, code = 0, inj = 0;
+    for (const c of guard.convs) { const g = guardrailLeak(c.turns); if (g.held) held++; if (g.codeLeak) code++; if (g.injectionLeak) inj++; }
+    return { n: guard.n, held, codeLeak: code, injectionLeak: inj, convs: guard.convs };
+  })() : null;
   if (!themes.length) {
     // No latency-valid conversation, but engaged outcomes still exist (early bails):
     // surface them so the automation table doesn't silently hide the worst failures.
-    if (engaged) return { themes: [], stats: null, ticket: null, auto: autoOut, evalq: evalOut };
+    if (engaged || guardOut) return { themes: [], stats: null, ticket: null, auto: autoOut, evalq: evalOut, guard: guardOut };
     return null;
   }
   const order = (mode === "support" ? SUPPORT_THEMES : SHOPPING_THEMES).map(t => t.key);
   themes.sort((a, b) => order.indexOf(a.theme) - order.indexOf(b.theme));
-  const aiMs = themes.flatMap(t => (t.turns || []).filter(x => x.by === "ai" && x.complete_ms != null).map(x => x.complete_ms));
+  const aiTurns = themes.flatMap(t => (t.turns || []).filter(x => x.by === "ai" && x.complete_ms != null));
+  const aiMs = aiTurns.map(x => x.complete_ms);
+  // TTFT ("first signal") + delivery classification — Roman's key insight: a shopper
+  // feels the first token / first card, not the full answer. ttft_ms is captured per
+  // turn; growth_events distinguishes streaming (many DOM increments) from atomic
+  // (1-2 jumps) delivery. A vendor is "streaming" if the median growth_events ≥ 4.
+  const ttfts = aiTurns.map(x => x.ttft_ms).filter(x => x != null);
+  const growth = aiTurns.map(x => x.growth_events).filter(x => x != null);
+  const median = (a) => a.length ? [...a].sort((x, y) => x - y)[Math.floor(a.length / 2)] : null;
   const totalTurns = themes.reduce((a, t) => a + (t.turns ? t.turns.length : 0), 0);
   const answered = themes.reduce((a, t) => a + (t.turns || []).filter(x => x.by === "ai" && x.complete_ms != null).length, 0);
   const themesWithHandover = themes.filter(t => t.stats && t.stats.handover_turn != null).length;
   const tk = [...themes].reverse().find(t => t.ticket && t.ticket.conversation_id) || themes.find(t => t.ticket);
+  const medGrowth = median(growth);
   return {
-    auto: autoOut, evalq: evalOut,
+    auto: autoOut, evalq: evalOut, guard: guardOut,
     themes: themes.map(t => ({ theme: t.theme, label: t.themeLabel, turns: t.turns, stats: t.stats, ticket: t.ticket || null, error: t.error || null, datetime: t._datetime || null })),
     stats: {
       n_themes: themes.length, turns_total: totalTurns,
@@ -182,6 +211,9 @@ async function loadAgg(key, mode, date) {
       avg_ms: aiMs.length ? Math.round(aiMs.reduce((a, b) => a + b, 0) / aiMs.length) : null,
       min_ms: aiMs.length ? Math.min(...aiMs) : null,
       max_ms: aiMs.length ? Math.max(...aiMs) : null,
+      ttft_ms: ttfts.length ? Math.round(median(ttfts)) : null,      // median first-signal
+      delivery: medGrowth == null ? null : (medGrowth >= 4 ? "streaming" : "atomic"),
+      med_growth: medGrowth,
       themes_with_handover: themesWithHandover,
     },
     ticket: tk ? tk.ticket : null,
@@ -195,7 +227,7 @@ function outcomeOnlyEntry(site, mode, agg, date) {
   return {
     id: `${site.key}-${mode}-${date}`, date, vendor: site.vendor, store: site.store, site: host(site.url), url: site.url,
     method: "new", us: !!site.us, lat: "—", latPct: 0, success: null, successTxt: "—",
-    auto: agg.auto, evalq: agg.evalq,
+    auto: agg.auto, evalq: agg.evalq, guard: agg.guard,
     what: `Engaged ${agg.auto.engaged} conversation(s) but none produced ≥3 timed AI answers — ` +
       (agg.auto.handover ? `${agg.auto.handover} early handover(s). ` : "") +
       (agg.auto.deflected ? `${agg.auto.deflected} deflection(s). ` : "") +
@@ -219,10 +251,11 @@ function measuredEntry(site, mode, agg, date) {
     id: `${site.key}-${mode}-${date}`, date, vendor: site.vendor, store: site.store, site: host(site.url), url: site.url,
     method: "new", us: !!site.us,
     lat: avgS != null ? `~${avgS}s` : "—", latPct: avgS != null ? Math.min(100, Math.round(avgS / 25 * 100)) : 0,
+    ttft: st.ttft_ms != null ? round1(st.ttft_ms / 1000) : null, delivery: st.delivery,
     success, successTxt: success != null ? success + "%" : "—",
     avgTurns: st.avg_turns,
     timed: st.answered_no_handover, attempted: st.turns_total,   // latency-measurement coverage
-    auto: agg.auto, evalq: agg.evalq,
+    auto: agg.auto, evalq: agg.evalq, guard: agg.guard,
     ticket: tk(agg.ticket),
     what,
     datetime: agg.themes.map(t => t.datetime).filter(Boolean).sort().pop() || null,

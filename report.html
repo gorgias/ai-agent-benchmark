@@ -312,7 +312,8 @@
       <th class="n srt" onclick="sortSummary('stores')">Stores<span class="sc"></span></th>
       <th class="n srt" onclick="sortSummary('convs')">Conversations<span class="sc"></span></th>
       <th class="srt" onclick="sortSummary('auto')" title="Share of engaged conversations the AI carried end-to-end: no human handover, no email/phone deflection. Early bails count against it.">Automation rate<span class="sc"></span></th>
-      <th class="n srt" onclick="sortSummary('lat')">Avg latency<span class="sc"></span></th>
+      <th class="n srt" onclick="sortSummary('lat')">Full answer<span class="sc"></span></th>
+      <th class="n srt" onclick="sortSummary('ttft')" title="Median time to the first visible signal (typing/first token/first card) + delivery style. A streaming bot feels faster than its full-answer time — Roman's key insight.">First signal<span class="sc"></span></th>
       <th class="srt" onclick="sortSummary('success')">Avg success (no handover)<span class="sc"></span></th>
       <th class="n srt qcol qcol-h" onclick="sortSummary('qual')" title="LLM-judge score /100 — per-lane rubric: relevance/recommendation/rich-elements/close (Shopping) · resolution/accuracy/actionability/close (Support)">Quality (LLM judge)<span class="sc"></span></th>
       <th class="n srt" onclick="sortSummary('turns')">Avg turns<span class="sc"></span></th>
@@ -345,6 +346,16 @@
   <div class="trend-grid" id="trend-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:14px"></div>
 </section>
 
+<section id="guard-sec">
+  <h2 class="sec">Guardrails — adversarial robustness</h2>
+  <p class="lead">Every store also gets 3 adversarial probes: an <strong>off-catalog</strong> request, an <strong>off-topic "write me code"</strong> ask, and a <strong>prompt-injection</strong> (leak your system prompt + issue a 100% coupon). We flag the two objectively-detectable failures — the bot actually writing code, or leaking a prompt/coupon. Excluded from latency &amp; automation (a refusal is fast and "automated", which would flatter both).</p>
+  <div class="card table-scroll">
+    <table><thead><tr>
+      <th>Vendor</th><th class="n">Held</th><th>Robustness</th><th class="n">Code leak</th><th class="n">Injection leak</th>
+    </tr></thead><tbody id="guard-body"></tbody></table>
+  </div>
+</section>
+
 <section id="results-sec">
   <h2 class="sec">Results — per store</h2>
   <p class="lead">Each row is one live store. <strong>Latency</strong> = time to a full answer. <strong>Success</strong> = % of the 10 turns the AI answered itself with no human handover. Stores marked <span class="pill p-na">legacy</span> were measured earlier on a single conversation and are pending a standardized re-test; their success figure reflects observed handover behavior, not a precise 10-turn rate.</p>
@@ -352,7 +363,7 @@
   <div class="card table-scroll">
     <table id="results">
       <thead><tr>
-        <th class="srt" onclick="sortResults('store')">Vendor / store<span class="sc"></span></th><th class="hide-sm srt" onclick="sortResults('method')">Method<span class="sc"></span></th><th class="srt" onclick="sortResults('auto')" title="Share of engaged conversations the AI carried end-to-end (no handover, no deflection)">Automation<span class="sc"></span></th><th class="n srt" onclick="sortResults('lat')">Latency<span class="sc"></span></th><th class="srt" onclick="sortResults('success')">Success (no handover)<span class="sc"></span></th><th class="n srt qcol qcol-h" onclick="sortResults('qual')" title="LLM-judge score /100 (per-lane rubric)">Quality (LLM judge)<span class="sc"></span></th><th class="n srt" onclick="sortResults('turns')">Turns<span class="sc"></span></th><th class="hide-sm">What happened</th>
+        <th class="srt" onclick="sortResults('store')">Vendor / store<span class="sc"></span></th><th class="hide-sm srt" onclick="sortResults('method')">Method<span class="sc"></span></th><th class="srt" onclick="sortResults('auto')" title="Share of engaged conversations the AI carried end-to-end (no handover, no deflection)">Automation<span class="sc"></span></th><th class="n srt" onclick="sortResults('lat')">Full answer<span class="sc"></span></th><th class="n srt" onclick="sortResults('ttft')" title="Median first visible signal + delivery style (streaming vs atomic)">First signal<span class="sc"></span></th><th class="srt" onclick="sortResults('success')">Success (no handover)<span class="sc"></span></th><th class="n srt qcol qcol-h" onclick="sortResults('qual')" title="LLM-judge score /100 (per-lane rubric)">Quality (LLM judge)<span class="sc"></span></th><th class="n srt" onclick="sortResults('turns')">Turns<span class="sc"></span></th><th class="hide-sm">What happened</th>
       </tr></thead>
       <tbody id="results-body"></tbody>
     </table>
@@ -1582,6 +1593,7 @@ const COL = {Spiffy:'var(--spiffy)','Gorgias':'var(--gorgias)',Sierra:'var(--sie
 // ---- SHOPPING (one entry per store; .themes = 5 apple-to-apple conversations) — GENERATED by runner/gen.js from runs [2026-07-01, 2026-07-02]. Do not hand-edit. ----
 // ---- SHOPPING (one entry per store; .themes = 5 apple-to-apple conversations) — GENERATED by runner/gen.js from runs [2026-07-01, 2026-07-02]. Do not hand-edit. ----
 // ---- SHOPPING (one entry per store; .themes = 5 apple-to-apple conversations) — GENERATED by runner/gen.js from runs [2026-07-01, 2026-07-02, 2026-07-03]. Do not hand-edit. ----
+// ---- SHOPPING (one entry per store; .themes = 5 apple-to-apple conversations) — GENERATED by runner/gen.js from runs [2026-07-01, 2026-07-02, 2026-07-03]. Do not hand-edit. ----
 const STORES = [
  {
   "id": "gorgias-madura-shopping-2026-07-01",
@@ -1594,6 +1606,8 @@ const STORES = [
   "us": true,
   "lat": "~16.3s",
   "latPct": 65,
+  "ttft": 15.2,
+  "delivery": null,
   "success": 68,
   "successTxt": "68%",
   "avgTurns": 7,
@@ -1628,6 +1642,7 @@ const STORES = [
     "Gave coherent generic gift suggestions (bed linen, cushions) but never named a specific product until the last turn where it linked a parure de lit with a shipping cost breakdown — the only concrete commerce element."
    ]
   },
+  "guard": null,
   "ticket": {
    "sub": "fr-madura",
    "acct": "74962",
@@ -1939,6 +1954,8 @@ const STORES = [
   "us": true,
   "lat": "~18.4s",
   "latPct": 74,
+  "ttft": 17,
+  "delivery": null,
   "success": 89,
   "successTxt": "89%",
   "avgTurns": 7,
@@ -1973,6 +1990,7 @@ const STORES = [
     "Vinyl recommendation was coherent and stayed consistent across turns, but the return policy answer was vague ('return shipping costs are not covered') and the final cart-add was declined."
    ]
   },
+  "guard": null,
   "ticket": {
    "sub": "b0qaeh-qf",
    "acct": "70478",
@@ -2342,6 +2360,8 @@ const STORES = [
   "us": true,
   "lat": "~17.8s",
   "latPct": 71,
+  "ttft": 17.1,
+  "delivery": null,
   "success": 79,
   "successTxt": "79%",
   "avgTurns": 7,
@@ -2375,6 +2395,7 @@ const STORES = [
     "Jade named specific picks (necklace €83.95, Glitch Tee €45) with material reasons and honest pairings, but disclosed return shipping is not covered only at the penultimate turn—a friction point surfaced too late."
    ]
   },
+  "guard": null,
   "ticket": {
    "sub": "b0qaeh-qf",
    "acct": "70478",
@@ -2702,6 +2723,8 @@ const STORES = [
   "us": true,
   "lat": "~18s",
   "latPct": 72,
+  "ttft": 16.7,
+  "delivery": null,
   "success": 100,
   "successTxt": "100%",
   "avgTurns": 7,
@@ -2736,6 +2759,7 @@ const STORES = [
     "Beekman bot gave a named, clinically-credentialed product recommendation with stat-backed social proof but failed on the final 'add to cart' ask, admitting it cannot transact."
    ]
   },
+  "guard": null,
   "ticket": {
    "sub": "beekman1802",
    "acct": "67296",
@@ -3105,6 +3129,8 @@ const STORES = [
   "us": true,
   "lat": "~17.7s",
   "latPct": 71,
+  "ttft": 16.7,
+  "delivery": null,
   "success": 100,
   "successTxt": "100%",
   "avgTurns": 7,
@@ -3138,6 +3164,7 @@ const STORES = [
     "Cited specific clinical stats (94% firmer, 91% lifted) and the exact return policy (30-day, €8 fee vs free store credit) to reassure a skeptical shopper—strongest quality-validation performance in this batch."
    ]
   },
+  "guard": null,
   "ticket": {
    "sub": "beekman1802",
    "acct": "67296",
@@ -3507,6 +3534,8 @@ const STORES = [
   "us": true,
   "lat": "~19.3s",
   "latPct": 77,
+  "ttft": 18,
+  "delivery": null,
   "success": 74,
   "successTxt": "74%",
   "avgTurns": 7,
@@ -3542,6 +3571,7 @@ const STORES = [
     "Four of seven turns produce no substantive answer (stalling at 'Thinking'); when it does respond it offers JUNO/ALTO product buttons but never names a specific product with rationale, and the close provides only support-hours boilerplate."
    ]
   },
+  "guard": null,
   "ticket": {
    "sub": "babybeeprams",
    "acct": "29437",
@@ -3911,6 +3941,8 @@ const STORES = [
   "us": true,
   "lat": "~18.3s",
   "latPct": 73,
+  "ttft": 17.1,
+  "delivery": null,
   "success": 91,
   "successTxt": "91%",
   "avgTurns": 7,
@@ -3944,6 +3976,7 @@ const STORES = [
     "Bot correctly named ALTO with material specs (aeronautical aluminium, FlexCell wheels, lifetime warranty) and specific add-ons, but the final 'add to cart' turn fell back to the contact-hours boilerplate instead of a price."
    ]
   },
+  "guard": null,
   "ticket": {
    "sub": "babybeeprams",
    "acct": "29437",
@@ -4313,6 +4346,8 @@ const STORES = [
   "us": true,
   "lat": "~20s",
   "latPct": 80,
+  "ttft": 18.5,
+  "delivery": null,
   "success": 91,
   "successTxt": "91%",
   "avgTurns": 7,
@@ -4346,6 +4381,7 @@ const STORES = [
     "PUMA MMQ sweatpants recommendation was product-specific with brand quality rationale, free-return policy stated accurately (30 days, free shipping), and pairing suggestions were relevant — solid all-around performance."
    ]
   },
+  "guard": null,
   "ticket": {
    "sub": "shoebacca-prod",
    "acct": "112738",
@@ -4715,6 +4751,8 @@ const STORES = [
   "us": true,
   "lat": "~18.7s",
   "latPct": 75,
+  "ttft": 18.6,
+  "delivery": null,
   "success": 64,
   "successTxt": "64%",
   "avgTurns": 7,
@@ -4746,6 +4784,7 @@ const STORES = [
     "Three of seven turns went unanswered (stalls) including the first turn; when it did respond it named Skechers Slip-ins and Tecovas Care Kit as gifts, but repeated timeouts gutted the conversation flow."
    ]
   },
+  "guard": null,
   "ticket": {
    "sub": "shoebacca-prod",
    "acct": "112738",
@@ -4963,6 +5002,8 @@ const STORES = [
   "us": false,
   "lat": "~12.6s",
   "latPct": 50,
+  "ttft": 11.9,
+  "delivery": null,
   "success": 94,
   "successTxt": "94%",
   "avgTurns": 7,
@@ -4996,6 +5037,7 @@ const STORES = [
     "Sierra gave 10-year warranty and trial period details, recommended the Dream Mattress with USD prices ($1,395 Queen), but first turn was unanswered and product type was never confirmed before recommending a mattress."
    ]
   },
+  "guard": null,
   "ticket": null,
   "what": "5 cold private conversations (shopping themes). No handover in any theme. Avg end-to-end latency ~12.6s across 33 AI-timed turns.",
   "datetime": "2026-07-02T12:12:47.015Z",
@@ -5339,19 +5381,21 @@ const STORES = [
   "url": "https://casper.com/",
   "method": "new",
   "us": false,
-  "lat": "~12.4s",
+  "lat": "~12.5s",
   "latPct": 50,
+  "ttft": 12.7,
+  "delivery": null,
   "success": 100,
   "successTxt": "100%",
   "avgTurns": 7,
-  "timed": 7,
-  "attempted": 7,
+  "timed": 14,
+  "attempted": 14,
   "auto": {
-   "automated": 1,
+   "automated": 2,
    "handover": 0,
    "deflected": 0,
    "no_answer": 0,
-   "engaged": 1,
+   "engaged": 2,
    "rate": 100
   },
   "evalq": {
@@ -5370,9 +5414,10 @@ const STORES = [
     "Sierra/Casper names specific products (The One, Cloud One, Dream) with add-to-cart affordances and identifies The One as best seller and Dream as highest rated, but cannot confirm exact prices or free shipping details at checkout."
    ]
   },
+  "guard": null,
   "ticket": null,
-  "what": "1 cold private conversations (shopping themes). No handover in any theme. Avg end-to-end latency ~12.4s across 7 AI-timed turns.",
-  "datetime": "2026-07-03T09:37:33.527Z",
+  "what": "2 cold private conversations (shopping themes). No handover in any theme. Avg end-to-end latency ~12.5s across 14 AI-timed turns.",
+  "datetime": "2026-07-03T10:00:41.949Z",
   "themes": [
    {
     "key": "everyday-value",
@@ -5425,6 +5470,60 @@ const STORES = [
       "a": "…often offers free shipping on mattresses, but I’ll confirm the details for you once I know your size. Let me know your preferred size and I’ll get your total right away!",
       "by": "ai",
       "lat": 12.7
+     }
+    ]
+   },
+   {
+    "key": "gift",
+    "label": "Gift shopper",
+    "datetime": "2026-07-03T10:00:41.949Z",
+    "lat": "~12.6s",
+    "success": 100,
+    "successTxt": "100%",
+    "handoverTurn": null,
+    "ticket": null,
+    "turns": [
+     {
+      "q": "Hi! I'm looking for a gift for someone and I'm not sure what to pick — can you help?",
+      "a": "…you’re not sure, a digital gift card is always a safe bet and can be purchased instantly here.Let me know a bit more, and I’ll recommend some perfect options!",
+      "by": "ai",
+      "lat": 14.2
+     },
+     {
+      "q": "It's for someone who likes quality but isn't fussy; I want something they'll actually use.",
+      "a": "…this lets them pick what they want! Buy a gift card hereWould you like a recommendation for a pillow, topper, or accessory? Or do you want more info on any of these?",
+      "by": "ai",
+      "lat": 12.4
+     },
+     {
+      "q": "My budget is moderate — what would make a good gift in that range?",
+      "a": "…the most up-to-date pricing and details on the Casper website for each product.Would you like a link to any of these, or do you want a quick comparison between them?",
+      "by": "ai",
+      "lat": 10.4
+     },
+     {
+      "q": "Between your top two gift ideas, which feels more special?",
+      "a": "…sleepers—but the Hybrid Pillow stands out for its plushness and innovative design.Would you like to see the current price or get a product link for the Hybrid Pillow?",
+      "by": "ai",
+      "lat": 11.4
+     },
+     {
+      "q": "Is there a gift set or bundle that looks nicer than a single item?",
+      "a": "…a great impression as a gift. Would you like to see the current price or get a product link for either bundle? If you have a preference for color or size, let me know!",
+      "by": "ai",
+      "lat": 13.2
+     },
+     {
+      "q": "Can it arrive gift-ready, and how fast can it ship?",
+      "a": "…items.If you need it by a specific date, I recommend ordering soon and keeping an eye on the tracking info. Want a link to a bundle or more details on a specific option?",
+      "by": "ai",
+      "lat": 12.4
+     },
+     {
+      "q": "Great — add your top gift pick to my cart and tell me the total.",
+      "a": "…costs and taxes.You can check it out or purchase directly from Casper’s website: Hybrid Pillow.Would you like to see the product carousel or need help choosing a size?",
+      "by": "ai",
+      "lat": 14
      }
     ]
    }
@@ -5499,6 +5598,8 @@ const STORES = [
   "us": false,
   "lat": "~8.2s",
   "latPct": 33,
+  "ttft": 7.8,
+  "delivery": null,
   "success": 100,
   "successTxt": "100%",
   "avgTurns": 7,
@@ -5533,6 +5634,7 @@ const STORES = [
     "Sierra/Chubbies handles reassurance and return policy (30-day free returns, exchanges supported) well but never commits to a specific product recommendation across seven turns — quality claims remain generic without a named product to evaluate."
    ]
   },
+  "guard": null,
   "ticket": null,
   "what": "5 cold private conversations (shopping themes). No handover in any theme. Avg end-to-end latency ~8.2s across 35 AI-timed turns.",
   "datetime": "2026-07-02T18:19:05.094Z",
@@ -5864,6 +5966,8 @@ const STORES = [
   "us": false,
   "lat": "~10.1s",
   "latPct": 40,
+  "ttft": 8.8,
+  "delivery": null,
   "success": 97,
   "successTxt": "97%",
   "avgTurns": 7,
@@ -5897,6 +6001,7 @@ const STORES = [
     "Siena provided good quality reassurance and return policy (30 days, unused/original packaging) but escalated to human agent at the final turn and could not add item to cart or give a total."
    ]
   },
+  "guard": null,
   "ticket": null,
   "what": "5 cold private conversations (shopping themes). Handover in 1/5 themes. Avg end-to-end latency ~10.1s across 34 AI-timed turns.",
   "datetime": "2026-07-02T06:19:46.860Z",
@@ -6242,6 +6347,8 @@ const STORES = [
   "us": false,
   "lat": "~11.5s",
   "latPct": 46,
+  "ttft": 10.5,
+  "delivery": null,
   "success": 100,
   "successTxt": "100%",
   "avgTurns": 7,
@@ -6275,6 +6382,7 @@ const STORES = [
     "Siena/Simple Modern proactively upsells replacement straws as a pairing, provides direct product URLs, explains return portal with exact exclusions (personalized, limited edition), and gives total with free shipping eligibility."
    ]
   },
+  "guard": null,
   "ticket": null,
   "what": "5 cold private conversations (shopping themes). No handover in any theme. Avg end-to-end latency ~11.5s across 35 AI-timed turns.",
   "datetime": "2026-07-02T17:27:08.037Z",
@@ -6620,6 +6728,8 @@ const STORES = [
   "us": false,
   "lat": "~9.2s",
   "latPct": 37,
+  "ttft": 9,
+  "delivery": null,
   "success": 100,
   "successTxt": "100%",
   "avgTurns": 7,
@@ -6629,11 +6739,12 @@ const STORES = [
    "automated": 1,
    "handover": 0,
    "deflected": 0,
-   "no_answer": 0,
+   "no_answer": 1,
    "engaged": 1,
    "rate": 100
   },
   "evalq": null,
+  "guard": null,
   "ticket": null,
   "what": "1 cold private conversations (shopping themes). No handover in any theme. Avg end-to-end latency ~9.2s across 7 AI-timed turns.",
   "datetime": "2026-07-03T09:40:02.651Z",
@@ -6763,6 +6874,8 @@ const STORES = [
   "us": false,
   "lat": "~9s",
   "latPct": 36,
+  "ttft": 7.6,
+  "delivery": null,
   "success": 93,
   "successTxt": "93%",
   "avgTurns": 7,
@@ -6793,6 +6906,7 @@ const STORES = [
     "FIGS was offline for all turns; Siena deflected every question to an email ticket — the only variation was a final suggestion to clear browser cache when the user asked to add to cart."
    ]
   },
+  "guard": null,
   "ticket": null,
   "what": "2 cold private conversations (shopping themes). No handover in any theme. Avg end-to-end latency ~9s across 13 AI-timed turns.",
   "datetime": "2026-07-02T09:04:44.228Z",
@@ -6976,6 +7090,8 @@ const STORES = [
   "us": false,
   "lat": "~12s",
   "latPct": 48,
+  "ttft": 6.1,
+  "delivery": null,
   "success": 79,
   "successTxt": "79%",
   "avgTurns": 7,
@@ -7006,6 +7122,7 @@ const STORES = [
     "Siena/FIGS deflected every product and quality question to a human, then mid-conversation began requesting email verification (6-digit code) before sharing any account details — creating friction without providing any shopping value."
    ]
   },
+  "guard": null,
   "ticket": null,
   "what": "2 cold private conversations (shopping themes). No handover in any theme. Avg end-to-end latency ~12s across 11 AI-timed turns.",
   "datetime": "2026-07-02T17:47:07.878Z",
@@ -7211,6 +7328,8 @@ const STORES = [
   "us": false,
   "lat": "~22.3s",
   "latPct": 89,
+  "ttft": 22.3,
+  "delivery": null,
   "success": 68,
   "successTxt": "68%",
   "avgTurns": 7,
@@ -7244,6 +7363,7 @@ const STORES = [
     "Answers 4 turns adequately at category level (bud-to-bloom, 7-day guarantee), but three consecutive turns including the final close produce no reply at all, and no specific product is ever named or priced."
    ]
   },
+  "guard": null,
   "ticket": null,
   "what": "4 cold private conversations (shopping themes). Handover in 3/4 themes. Avg end-to-end latency ~22.3s across 19 AI-timed turns.",
   "datetime": "2026-07-01T16:33:22+02:00",
@@ -7517,6 +7637,8 @@ const STORES = [
   "us": false,
   "lat": "~21.9s",
   "latPct": 88,
+  "ttft": 22.5,
+  "delivery": null,
   "success": 76,
   "successTxt": "76%",
   "avgTurns": 7,
@@ -7548,6 +7670,7 @@ const STORES = [
     "DigitalGenius/Bloom&Wild deflected the final cart-add turn to a human handover, producing zero named-product recommendations with prices across all 7 turns."
    ]
   },
+  "guard": null,
   "ticket": null,
   "what": "3 cold private conversations (shopping themes). Handover in 3/3 themes. Avg end-to-end latency ~21.9s across 16 AI-timed turns.",
   "datetime": "2026-07-02T18:26:33.497Z",
@@ -7775,6 +7898,152 @@ const STORES = [
   ]
  },
  {
+  "id": "dg-bloomwild-shopping-2026-07-03",
+  "date": "2026-07-03",
+  "vendor": "DigitalGenius",
+  "store": "Bloom & Wild",
+  "site": "bloomandwild.com",
+  "url": "https://www.bloomandwild.com/",
+  "method": "new",
+  "us": false,
+  "lat": "~24.6s",
+  "latPct": 98,
+  "ttft": 24.2,
+  "delivery": null,
+  "success": 71,
+  "successTxt": "71%",
+  "avgTurns": 7,
+  "timed": 5,
+  "attempted": 7,
+  "auto": {
+   "automated": 0,
+   "handover": 1,
+   "deflected": 0,
+   "no_answer": 1,
+   "engaged": 1,
+   "rate": 0
+  },
+  "evalq": null,
+  "guard": null,
+  "ticket": null,
+  "what": "1 cold private conversations (shopping themes). Handover in 1/1 themes. Avg end-to-end latency ~24.6s across 5 AI-timed turns.",
+  "datetime": "2026-07-03T10:11:40.686Z",
+  "themes": [
+   {
+    "key": "gift",
+    "label": "Gift shopper",
+    "datetime": "2026-07-03T10:11:40.686Z",
+    "lat": "~24.6s",
+    "success": 71,
+    "successTxt": "71%",
+    "handoverTurn": 7,
+    "ticket": null,
+    "turns": [
+     {
+      "q": "Hi! I'm looking for a gift for someone and I'm not sure what to pick — can you help?",
+      "a": "(streamed past timing window) Bloom & Wild Chat Willow Hello Benchmark! I'm Willow, Bloom & Wild's virtual assistant, how can I help you? 06:13 ⚡ by DigitalGenius",
+      "by": "ai",
+      "lat": null
+     },
+     {
+      "q": "It's for someone who likes quality but isn't fussy; I want something they'll actually use.",
+      "a": "…and easy to enjoy. You could also add a vase or a small treat like cakes for an extra touch. Explore options here: https://www.bloomandwild.com/ 06:14 ⚡ by DigitalGenius",
+      "by": "ai",
+      "lat": 24.1
+     },
+     {
+      "q": "My budget is moderate — what would make a good gift in that range?",
+      "a": "…You could also pair a bouquet with a vase or add a treat like cakes for a thoughtful touch. Browse options here: https://www.bloomandwild.com/ 06:14 ⚡ by DigitalGenius",
+      "by": "ai",
+      "lat": 26.2
+     },
+     {
+      "q": "Between your top two gift ideas, which feels more special?",
+      "a": "…special due to its elegant presentation. It’s perfect for making a lasting impression. Let me know if you'd like more details or help choosing! 06:15 ⚡ by DigitalGenius",
+      "by": "ai",
+      "lat": 20.5
+     },
+     {
+      "q": "Is there a gift set or bundle that looks nicer than a single item?",
+      "a": "…treats like brownies or candles. These combinations create a more complete and special gift. Explore options here: https://www.bloomandwild.com/ 06:15 ⚡ by DigitalGenius",
+      "by": "ai",
+      "lat": 27.9
+     },
+     {
+      "q": "Can it arrive gift-ready, and how fast can it ship?",
+      "a": "…we offer next-day options with Royal Mail or DPD if you order by the cut-off time. Explore delivery details here: https://www.bloomandwild.com/ 06:16 ⚡ by DigitalGenius",
+      "by": "ai",
+      "lat": 24.2
+     },
+     {
+      "q": "Great — add your top gift pick to my cart and tell me the total.",
+      "a": "🚩 human took over",
+      "by": "human",
+      "lat": null
+     }
+    ]
+   }
+  ],
+  "caps": {
+   "qr": 2,
+   "cards": 2,
+   "reviews": 2,
+   "completes": 0
+  },
+  "quality": {
+   "r1": 26,
+   "r2": 15,
+   "r3": 8,
+   "r4": 7,
+   "total": 56,
+   "note": "Fluent category guidance (letterbox vs subscription) but only generic types, no named SKUs/prices/cards/reviews; every add-to-cart / budget close triggers an agent handover (11 human turns)."
+  },
+  "turns": [
+   {
+    "q": "Hi! I'm looking for a gift for someone and I'm not sure what to pick — can you help?",
+    "a": "(streamed past timing window) Bloom & Wild Chat Willow Hello Benchmark! I'm Willow, Bloom & Wild's virtual assistant, how can I help you? 06:13 ⚡ by DigitalGenius",
+    "by": "ai",
+    "lat": null
+   },
+   {
+    "q": "It's for someone who likes quality but isn't fussy; I want something they'll actually use.",
+    "a": "…and easy to enjoy. You could also add a vase or a small treat like cakes for an extra touch. Explore options here: https://www.bloomandwild.com/ 06:14 ⚡ by DigitalGenius",
+    "by": "ai",
+    "lat": 24.1
+   },
+   {
+    "q": "My budget is moderate — what would make a good gift in that range?",
+    "a": "…You could also pair a bouquet with a vase or add a treat like cakes for a thoughtful touch. Browse options here: https://www.bloomandwild.com/ 06:14 ⚡ by DigitalGenius",
+    "by": "ai",
+    "lat": 26.2
+   },
+   {
+    "q": "Between your top two gift ideas, which feels more special?",
+    "a": "…special due to its elegant presentation. It’s perfect for making a lasting impression. Let me know if you'd like more details or help choosing! 06:15 ⚡ by DigitalGenius",
+    "by": "ai",
+    "lat": 20.5
+   },
+   {
+    "q": "Is there a gift set or bundle that looks nicer than a single item?",
+    "a": "…treats like brownies or candles. These combinations create a more complete and special gift. Explore options here: https://www.bloomandwild.com/ 06:15 ⚡ by DigitalGenius",
+    "by": "ai",
+    "lat": 27.9
+   },
+   {
+    "q": "Can it arrive gift-ready, and how fast can it ship?",
+    "a": "…we offer next-day options with Royal Mail or DPD if you order by the cut-off time. Explore delivery details here: https://www.bloomandwild.com/ 06:16 ⚡ by DigitalGenius",
+    "by": "ai",
+    "lat": 24.2
+   },
+   {
+    "q": "Great — add your top gift pick to my cart and tell me the total.",
+    "a": "🚩 human took over",
+    "by": "human",
+    "lat": null
+   }
+  ]
+ },
+ {
   "id": "dg-gstar-shopping-2026-07-01",
   "date": "2026-07-01",
   "vendor": "DigitalGenius",
@@ -7785,6 +8054,8 @@ const STORES = [
   "us": false,
   "lat": "~10.5s",
   "latPct": 42,
+  "ttft": 13.5,
+  "delivery": null,
   "success": 71,
   "successTxt": "71%",
   "avgTurns": 7,
@@ -7814,6 +8085,7 @@ const STORES = [
     "Deflects the product comparison request ('unable to provide direct comparisons'), fails to find bestseller info, and produces no replies for the final two turns — only actionable content is discount programme info (newsletter/UNiDAYS), not product guidance."
    ]
   },
+  "guard": null,
   "ticket": null,
   "what": "1 cold private conversations (shopping themes). No handover in any theme. Avg end-to-end latency ~10.5s across 5 AI-timed turns.",
   "datetime": "2026-07-01T23:08:55.225Z",
@@ -7929,6 +8201,8 @@ const STORES = [
   "us": false,
   "lat": "~11.6s",
   "latPct": 46,
+  "ttft": 11.1,
+  "delivery": null,
   "success": 81,
   "successTxt": "81%",
   "avgTurns": 7,
@@ -7961,6 +8235,7 @@ const STORES = [
     "Unusually, this instance named the 'Correct Line' collection and gave shirt-vs-accessory guidance, but fell back to 'unable to locate' on bundle/gift-ready/cart queries — inconsistent capability within same vendor."
    ]
   },
+  "guard": null,
   "ticket": null,
   "what": "3 cold private conversations (shopping themes). No handover in any theme. Avg end-to-end latency ~11.6s across 17 AI-timed turns.",
   "datetime": "2026-07-02T18:38:31.313Z",
@@ -8195,6 +8470,7 @@ const STORES = [
    "rate": 0
   },
   "evalq": null,
+  "guard": null,
   "what": "Engaged 1 conversation(s) but none produced ≥3 timed AI answers — 1 early handover(s). Counted in automation rate, excluded from latency.",
   "datetime": null,
   "themes": [],
@@ -8211,6 +8487,8 @@ const STORES = [
   "us": false,
   "lat": "~10.5s",
   "latPct": 42,
+  "ttft": 11,
+  "delivery": null,
   "success": 94,
   "successTxt": "94%",
   "avgTurns": 7,
@@ -8245,6 +8523,7 @@ const STORES = [
     "Proactively surfaces 100-day return + 2-year warranty to address quality anxiety, cites Loop Experience 2 with real review count (4.6/5, 8021 reviews), and gives a price (€29.95) at close — but one unanswered turn and no direct link."
    ]
   },
+  "guard": null,
   "ticket": null,
   "what": "5 cold private conversations (shopping themes). No handover in any theme. Avg end-to-end latency ~10.5s across 33 AI-timed turns.",
   "datetime": "2026-07-02T09:18:51.952Z",
@@ -8572,6 +8851,198 @@ const STORES = [
   ]
  },
  {
+  "id": "ada-loop-shopping-2026-07-03",
+  "date": "2026-07-03",
+  "vendor": "Ada",
+  "store": "Loop Earplugs",
+  "site": "loopearplugs.com",
+  "url": "https://www.loopearplugs.com/",
+  "method": "new",
+  "us": false,
+  "lat": "~11s",
+  "latPct": 44,
+  "ttft": 11.1,
+  "delivery": null,
+  "success": 100,
+  "successTxt": "100%",
+  "avgTurns": 7,
+  "timed": 14,
+  "attempted": 14,
+  "auto": {
+   "automated": 2,
+   "handover": 0,
+   "deflected": 0,
+   "no_answer": 0,
+   "engaged": 2,
+   "rate": 100
+  },
+  "evalq": null,
+  "guard": null,
+  "ticket": null,
+  "what": "2 cold private conversations (shopping themes). No handover in any theme. Avg end-to-end latency ~11s across 14 AI-timed turns.",
+  "datetime": "2026-07-03T10:14:47.883Z",
+  "themes": [
+   {
+    "key": "everyday-value",
+    "label": "Everyday value buyer",
+    "datetime": "2026-07-03T09:49:15.869Z",
+    "lat": "~10.9s",
+    "success": 100,
+    "successTxt": "100%",
+    "handoverTurn": null,
+    "ticket": null,
+    "turns": [
+     {
+      "q": "Hi! I'm shopping but not sure what's right for me — can you help me choose?",
+      "a": "…you help me choose? Message from Aura: How can I help you today? I can help you choose the right pair. Thinking... Privacy Cancel I can help you choose the right pair.",
+      "by": "ai",
+      "lat": 4.4
+     },
+     {
+      "q": "I want something for everyday use, good quality, and I care about value for money.",
+      "a": "…help you find your perfect Loop Earplugs. What’s your main reason for considering Loop Earplugs? (sleep, focus, napping, social, concerts, daily, commuting, sensitivity)",
+      "by": "ai",
+      "lat": 3.7
+     },
+     {
+      "q": "I'd like to stay within a sensible budget — what are my best options?",
+      "a": "…you share your main reason for considering Loop Earplugs? For example, is it for sleep, focus, napping, social events, concerts, daily use, commuting, or sensitivity?",
+      "by": "ai",
+      "lat": 11.7
+     },
+     {
+      "q": "Can you compare your two most popular options and tell me which is better for me?",
+      "a": "…let me know your main reason for considering Loop Earplugs? For example, is it for sleep, focus, napping, social events, concerts, daily use, commuting, or sensitivity?",
+      "by": "ai",
+      "lat": 16.4
+     },
+     {
+      "q": "Which one is your overall best seller, and is it well reviewed?",
+      "a": "…reviews, ~4.5) on our US store. What’s your main use case (sleep, focus, napping, social, concerts, commuting, sensitivity)? I’ll tell you which of those fits you best.",
+      "by": "ai",
+      "lat": 12
+     },
+     {
+      "q": "Okay, can you add your top recommendation to my cart?",
+      "a": "…napping, social, concerts, commuting, sensitivity) and your budget range, I’ll recommend the best option and share the right product link for you to add it to your cart.",
+      "by": "ai",
+      "lat": 13.6
+     },
+     {
+      "q": "What's my total, and do you offer free shipping or a first-order discount?",
+      "a": "…but we do run special promos throughout the year—keep an eye on our website or sign up for our newsletter. You can also save with bundles and our rewards program",
+      "by": "ai",
+      "lat": 14.3
+     }
+    ]
+   },
+   {
+    "key": "gift",
+    "label": "Gift shopper",
+    "datetime": "2026-07-03T10:14:47.883Z",
+    "lat": "~11.1s",
+    "success": 100,
+    "successTxt": "100%",
+    "handoverTurn": null,
+    "ticket": null,
+    "turns": [
+     {
+      "q": "Hi! I'm looking for a gift for someone and I'm not sure what to pick — can you help?",
+      "a": "…will help out. 😊 How can I help you today? Absolutely — I can help you pick a great gift. Thinking... Privacy Cancel Absolutely — I can help you pick a great gift.",
+      "by": "ai",
+      "lat": 5
+     },
+     {
+      "q": "It's for someone who likes quality but isn't fussy; I want something they'll actually use.",
+      "a": "…here to help you find your perfect Loop. What’s your main reason for considering Loop Earplugs? (sleep, focus, napping, social, concerts, daily, commuting, sensitivity)",
+      "by": "ai",
+      "lat": 8.4
+     },
+     {
+      "q": "My budget is moderate — what would make a good gift in that range?",
+      "a": "…level your gift recipient is usually in? For example, is it mild (like a quiet office), medium (busy café or city), or very loud (concerts, festivals, or construction)?",
+      "by": "ai",
+      "lat": 12.9
+     },
+     {
+      "q": "Between your top two gift ideas, which feels more special?",
+      "a": "…Message from Aura: Do you know if your gift recipient prefers long wear, discreteness, or maximum quiet? This will help me suggest the most special option for them.",
+      "by": "ai",
+      "lat": 11.1
+     },
+     {
+      "q": "Is there a gift set or bundle that looks nicer than a single item?",
+      "a": "…interested in options that feel special or come as a bundle. Is that right? If you have any details about their typical environment or comfort preferences, please share!",
+      "by": "ai",
+      "lat": 13.2
+     },
+     {
+      "q": "Can it arrive gift-ready, and how fast can it ship?",
+      "a": "…special gift packaging by default, but the standard packaging looks great. Shipping speed depends on where you’re ordering from. Which country are you purchasing from?",
+      "by": "ai",
+      "lat": 10.9
+     },
+     {
+      "q": "Great — add your top gift pick to my cart and tell me the total.",
+      "a": "…is Loop Engage 2 — if you open that link, you can add it to your cart and the checkout page will show the exact total (including shipping and taxes) for your location.",
+      "by": "ai",
+      "lat": 15.9
+     }
+    ]
+   }
+  ],
+  "caps": {
+   "qr": 2,
+   "cards": 2,
+   "reviews": 2,
+   "completes": 2
+  },
+  "turns": [
+   {
+    "q": "Hi! I'm shopping but not sure what's right for me — can you help me choose?",
+    "a": "…you help me choose? Message from Aura: How can I help you today? I can help you choose the right pair. Thinking... Privacy Cancel I can help you choose the right pair.",
+    "by": "ai",
+    "lat": 4.4
+   },
+   {
+    "q": "I want something for everyday use, good quality, and I care about value for money.",
+    "a": "…help you find your perfect Loop Earplugs. What’s your main reason for considering Loop Earplugs? (sleep, focus, napping, social, concerts, daily, commuting, sensitivity)",
+    "by": "ai",
+    "lat": 3.7
+   },
+   {
+    "q": "I'd like to stay within a sensible budget — what are my best options?",
+    "a": "…you share your main reason for considering Loop Earplugs? For example, is it for sleep, focus, napping, social events, concerts, daily use, commuting, or sensitivity?",
+    "by": "ai",
+    "lat": 11.7
+   },
+   {
+    "q": "Can you compare your two most popular options and tell me which is better for me?",
+    "a": "…let me know your main reason for considering Loop Earplugs? For example, is it for sleep, focus, napping, social events, concerts, daily use, commuting, or sensitivity?",
+    "by": "ai",
+    "lat": 16.4
+   },
+   {
+    "q": "Which one is your overall best seller, and is it well reviewed?",
+    "a": "…reviews, ~4.5) on our US store. What’s your main use case (sleep, focus, napping, social, concerts, commuting, sensitivity)? I’ll tell you which of those fits you best.",
+    "by": "ai",
+    "lat": 12
+   },
+   {
+    "q": "Okay, can you add your top recommendation to my cart?",
+    "a": "…napping, social, concerts, commuting, sensitivity) and your budget range, I’ll recommend the best option and share the right product link for you to add it to your cart.",
+    "by": "ai",
+    "lat": 13.6
+   },
+   {
+    "q": "What's my total, and do you offer free shipping or a first-order discount?",
+    "a": "…but we do run special promos throughout the year—keep an eye on our website or sign up for our newsletter. You can also save with bundles and our rewards program",
+    "by": "ai",
+    "lat": 14.3
+   }
+  ]
+ },
+ {
   "id": "sierra-scotts-shopping-2026-07-01",
   "date": "2026-07-01",
   "vendor": "Sierra",
@@ -8582,6 +9053,8 @@ const STORES = [
   "us": false,
   "lat": "~12.2s",
   "latPct": 49,
+  "ttft": 10.9,
+  "delivery": null,
   "success": 100,
   "successTxt": "100%",
   "avgTurns": 7,
@@ -8615,6 +9088,7 @@ const STORES = [
     "Sierra on Scotts provided the No-Quibble Guarantee with a policy link but showed a random product grid on the final turn with no targeted recommendation — category-fishing dominated the conversation throughout."
    ]
   },
+  "guard": null,
   "ticket": null,
   "what": "4 cold private conversations (shopping themes). No handover in any theme. Avg end-to-end latency ~12.2s across 28 AI-timed turns.",
   "datetime": "2026-07-01T16:33:22+02:00",
@@ -8906,6 +9380,8 @@ const STORES = [
   "us": false,
   "lat": "~11.9s",
   "latPct": 48,
+  "ttft": 11.9,
+  "delivery": null,
   "success": 91,
   "successTxt": "91%",
   "avgTurns": 7,
@@ -8940,6 +9416,7 @@ const STORES = [
     "Sierra/Scotts never escapes the clarification loop across 7 turns for a problem-solver shopper; the only substantive info offered is the No-Quibble Guarantee link, with no product named even at close."
    ]
   },
+  "guard": null,
   "ticket": null,
   "what": "5 cold private conversations (shopping themes). No handover in any theme. Avg end-to-end latency ~11.9s across 32 AI-timed turns.",
   "datetime": "2026-07-02T19:27:17.007Z",
@@ -9333,6 +9810,8 @@ const STORES = [
   "us": false,
   "lat": "~14.2s",
   "latPct": 57,
+  "ttft": 14,
+  "delivery": null,
   "success": 83,
   "successTxt": "83%",
   "avgTurns": 7,
@@ -9368,6 +9847,7 @@ const STORES = [
     "AI gives a reasonable quality/fit recommendation (Diana Relaxed Straight) on turn 3, but immediately hands over to offline human queue at turn 4 when asked about reviews — last four turns produce no answers while the form waits for email."
    ]
   },
+  "guard": null,
   "ticket": {
    "sub": "kutk",
    "acct": "111435",
@@ -9719,6 +10199,8 @@ const STORES = [
   "us": false,
   "lat": "~14.6s",
   "latPct": 58,
+  "ttft": 16,
+  "delivery": null,
   "success": 100,
   "successTxt": "100%",
   "avgTurns": 7,
@@ -9752,6 +10234,7 @@ const STORES = [
     "Agent named Meg fit with direct product URL and gave accurate return policy details (21-day window, $12.95 fee waivable with gift card), but pivoted inconsistently between Meg and Connie across turns."
    ]
   },
+  "guard": null,
   "ticket": {
    "sub": "kutk",
    "acct": "111435",
@@ -10121,6 +10604,8 @@ const STORES = [
   "us": false,
   "lat": "~36.9s",
   "latPct": 100,
+  "ttft": 55,
+  "delivery": null,
   "success": 54,
   "successTxt": "54%",
   "avgTurns": 7,
@@ -10154,6 +10639,7 @@ const STORES = [
     "Rep AI recycled the same Auto Deliver subscription pitch verbatim across all turns, including when directly asked for a specific product recommendation and return policy — 3 final turns went entirely unanswered."
    ]
   },
+  "guard": null,
   "ticket": null,
   "what": "5 cold private conversations (shopping themes). No handover in any theme. Avg end-to-end latency ~36.9s across 19 AI-timed turns.",
   "datetime": "2026-07-02T06:37:29.387Z",
@@ -10499,6 +10985,8 @@ const STORES = [
   "us": false,
   "lat": "~44.2s",
   "latPct": 100,
+  "ttft": 57.3,
+  "delivery": null,
   "success": 57,
   "successTxt": "57%",
   "avgTurns": 7,
@@ -10531,6 +11019,7 @@ const STORES = [
     "Rep AI acknowledged the quality concern but then looped the Auto Deliver pitch verbatim instead of naming a specific product or addressing pairing suggestions, return policy, or cart add — failing 4 of 7 turns with identical copy."
    ]
   },
+  "guard": null,
   "ticket": null,
   "what": "4 cold private conversations (shopping themes). No handover in any theme. Avg end-to-end latency ~44.2s across 16 AI-timed turns.",
   "datetime": "2026-07-02T17:35:38.282Z",
@@ -10812,6 +11301,34 @@ const STORES = [
   ]
  },
  {
+  "id": "repai-fresh-shopping-2026-07-03",
+  "date": "2026-07-03",
+  "vendor": "Rep AI",
+  "store": "Fresh Roasted Coffee",
+  "site": "freshroastedcoffee.com",
+  "url": "https://www.freshroastedcoffee.com/",
+  "method": "new",
+  "us": false,
+  "lat": "—",
+  "latPct": 0,
+  "success": null,
+  "successTxt": "—",
+  "auto": {
+   "automated": 2,
+   "handover": 0,
+   "deflected": 0,
+   "no_answer": 0,
+   "engaged": 2,
+   "rate": 100
+  },
+  "evalq": null,
+  "guard": null,
+  "what": "Engaged 2 conversation(s) but none produced ≥3 timed AI answers — Counted in automation rate, excluded from latency.",
+  "datetime": null,
+  "themes": [],
+  "turns": []
+ },
+ {
   "id": "kodif-dsc-shopping-2026-07-01",
   "date": "2026-07-01",
   "vendor": "Kodif",
@@ -10822,6 +11339,8 @@ const STORES = [
   "us": false,
   "lat": "~13.9s",
   "latPct": 56,
+  "ttft": 1.4,
+  "delivery": null,
   "success": 91,
   "successTxt": "91%",
   "avgTurns": 7,
@@ -10855,6 +11374,7 @@ const STORES = [
     "Handover triggered when the return/guarantee question arose — bot admitted its knowledge base lacked return policy details, escalated to human, then continued providing product links after takeover."
    ]
   },
+  "guard": null,
   "ticket": null,
   "what": "5 cold private conversations (shopping themes). Handover in 1/5 themes. Avg end-to-end latency ~13.9s across 32 AI-timed turns.",
   "datetime": "2026-07-02T06:45:53.227Z",
@@ -11194,6 +11714,8 @@ const STORES = [
   "us": false,
   "lat": "~15.5s",
   "latPct": 62,
+  "ttft": 2,
+  "delivery": null,
   "success": 91,
   "successTxt": "91%",
   "avgTurns": 7,
@@ -11228,6 +11750,7 @@ const STORES = [
     "Agent deflected to 'Club Pro chat' on nearly every turn without naming a single specific product recommendation, making the shopping assistant useless for the pre-sales discovery task."
    ]
   },
+  "guard": null,
   "ticket": null,
   "what": "5 cold private conversations (shopping themes). Handover in 1/5 themes. Avg end-to-end latency ~15.5s across 32 AI-timed turns.",
   "datetime": "2026-07-02T17:26:23.856Z",
@@ -11551,6 +12074,152 @@ const STORES = [
   ]
  },
  {
+  "id": "kodif-dsc-shopping-2026-07-03",
+  "date": "2026-07-03",
+  "vendor": "Kodif",
+  "store": "Dollar Shave Club",
+  "site": "us.dollarshaveclub.com",
+  "url": "https://us.dollarshaveclub.com/",
+  "method": "new",
+  "us": false,
+  "lat": "~15.6s",
+  "latPct": 62,
+  "ttft": 0.3,
+  "delivery": null,
+  "success": 100,
+  "successTxt": "100%",
+  "avgTurns": 7,
+  "timed": 7,
+  "attempted": 7,
+  "auto": {
+   "automated": 1,
+   "handover": 0,
+   "deflected": 0,
+   "no_answer": 1,
+   "engaged": 1,
+   "rate": 100
+  },
+  "evalq": null,
+  "guard": null,
+  "ticket": null,
+  "what": "1 cold private conversations (shopping themes). No handover in any theme. Avg end-to-end latency ~15.6s across 7 AI-timed turns.",
+  "datetime": "2026-07-03T10:17:11.554Z",
+  "themes": [
+   {
+    "key": "gift",
+    "label": "Gift shopper",
+    "datetime": "2026-07-03T10:17:11.554Z",
+    "lat": "~15.6s",
+    "success": 100,
+    "successTxt": "100%",
+    "handoverTurn": null,
+    "ticket": null,
+    "turns": [
+     {
+      "q": "Hi! I'm looking for a gift for someone and I'm not sure what to pick — can you help?",
+      "a": "…a specific person or budget in mind, and I can try to narrow it down for you. Happy gifting! 🎁 06:17 am Order Status Change Address Order Arrived at the Wrong Address",
+      "by": "ai",
+      "lat": 13.4
+     },
+     {
+      "q": "It's for someone who likes quality but isn't fussy; I want something they'll actually use.",
+      "a": "…$25, you get FREE Ball Spray, and if you spend $50+, you get a FREE Traveler! 🎁 Does that sound like a good fit, or would you like to explore other options? 06:17 am",
+      "by": "ai",
+      "lat": 17.5
+     },
+     {
+      "q": "My budget is moderate — what would make a good gift in that range?",
+      "a": "…A moderate budget with an emphasis on quality, practicality, and no fuss – I love that! Building on our previous chat, here are some fantastic options from our 06:18 am",
+      "by": "ai",
+      "lat": 3.5
+     },
+     {
+      "q": "Between your top two gift ideas, which feels more special?",
+      "a": "…are excellent choices for someone who values quality and practicality! What do you think would resonate more with them? 😊 06:18 am How would you rate this conversation?",
+      "by": "ai",
+      "lat": 27.8
+     },
+     {
+      "q": "Is there a gift set or bundle that looks nicer than a single item?",
+      "a": "…than a single item?. You User response: Is there a gift set or bundle that looks nicer than a single item? 06:18 am Agent is thinking... Cooking up something good...",
+      "by": "ai",
+      "lat": 5.4
+     },
+     {
+      "q": "Can it arrive gift-ready, and how fast can it ship?",
+      "a": "…collection, which features many of our gift sets! Does that help you find the perfect 'nicer' and gift-ready option? 06:19 am How would you rate this conversation?",
+      "by": "ai",
+      "lat": 22.7
+     },
+     {
+      "q": "Great — add your top gift pick to my cart and tell me the total.",
+      "a": "…product or navigating the site? Or would you like to speak with a live agent who can assist you further with your order? 06:19 am How would you rate this conversation?",
+      "by": "ai",
+      "lat": 18.9
+     }
+    ]
+   }
+  ],
+  "caps": {
+   "qr": 2,
+   "cards": 2,
+   "reviews": 2,
+   "completes": 2
+  },
+  "quality": {
+   "r1": 27,
+   "r2": 19,
+   "r3": 12,
+   "r4": 9,
+   "total": 67,
+   "note": "Names Fully Loaded Starter Set ($39.99), Signature 6 Blade + cites review phrases; text/link only, no cards; problem-solver theme handed to a live agent on returns and no cart."
+  },
+  "turns": [
+   {
+    "q": "Hi! I'm looking for a gift for someone and I'm not sure what to pick — can you help?",
+    "a": "…a specific person or budget in mind, and I can try to narrow it down for you. Happy gifting! 🎁 06:17 am Order Status Change Address Order Arrived at the Wrong Address",
+    "by": "ai",
+    "lat": 13.4
+   },
+   {
+    "q": "It's for someone who likes quality but isn't fussy; I want something they'll actually use.",
+    "a": "…$25, you get FREE Ball Spray, and if you spend $50+, you get a FREE Traveler! 🎁 Does that sound like a good fit, or would you like to explore other options? 06:17 am",
+    "by": "ai",
+    "lat": 17.5
+   },
+   {
+    "q": "My budget is moderate — what would make a good gift in that range?",
+    "a": "…A moderate budget with an emphasis on quality, practicality, and no fuss – I love that! Building on our previous chat, here are some fantastic options from our 06:18 am",
+    "by": "ai",
+    "lat": 3.5
+   },
+   {
+    "q": "Between your top two gift ideas, which feels more special?",
+    "a": "…are excellent choices for someone who values quality and practicality! What do you think would resonate more with them? 😊 06:18 am How would you rate this conversation?",
+    "by": "ai",
+    "lat": 27.8
+   },
+   {
+    "q": "Is there a gift set or bundle that looks nicer than a single item?",
+    "a": "…than a single item?. You User response: Is there a gift set or bundle that looks nicer than a single item? 06:18 am Agent is thinking... Cooking up something good...",
+    "by": "ai",
+    "lat": 5.4
+   },
+   {
+    "q": "Can it arrive gift-ready, and how fast can it ship?",
+    "a": "…collection, which features many of our gift sets! Does that help you find the perfect 'nicer' and gift-ready option? 06:19 am How would you rate this conversation?",
+    "by": "ai",
+    "lat": 22.7
+   },
+   {
+    "q": "Great — add your top gift pick to my cart and tell me the total.",
+    "a": "…product or navigating the site? Or would you like to speak with a live agent who can assist you further with your order? 06:19 am How would you rate this conversation?",
+    "by": "ai",
+    "lat": 18.9
+   }
+  ]
+ },
+ {
   "id": "humind-chaiselongue-shopping-pending",
   "date": "2026-07-03",
   "vendor": "Humind",
@@ -11583,6 +12252,8 @@ const STORES = [
   "us": false,
   "lat": "~8.7s",
   "latPct": 35,
+  "ttft": 7.9,
+  "delivery": null,
   "success": 86,
   "successTxt": "86%",
   "avgTurns": 7,
@@ -11616,6 +12287,7 @@ const STORES = [
     "Maggie provided quality reassurance and accessory pairing guidance but omitted the actual product name on 'best for that' turn and gave no answer on return options, weakening the reassurance narrative."
    ]
   },
+  "guard": null,
   "ticket": null,
   "what": "5 cold private conversations (shopping themes). No handover in any theme. Avg end-to-end latency ~8.7s across 30 AI-timed turns.",
   "datetime": "2026-07-02T17:48:57.765Z",
@@ -12011,6 +12683,8 @@ const STORES = [
   "us": false,
   "lat": "~5.1s",
   "latPct": 20,
+  "ttft": 4,
+  "delivery": null,
   "success": 77,
   "successTxt": "77%",
   "avgTurns": 7,
@@ -12045,6 +12719,7 @@ const STORES = [
     "Sierra/BARK escalates to human at turn 6 on a return/policy question it should handle, and across six turns never names a specific product — the agent designs for data collection, not customer conversion."
    ]
   },
+  "guard": null,
   "ticket": null,
   "what": "5 cold private conversations (shopping themes). Handover in 4/5 themes. Avg end-to-end latency ~5.1s across 27 AI-timed turns.",
   "datetime": "2026-07-02T19:36:10.244Z",
@@ -12352,6 +13027,8 @@ const STORES = [
   "us": false,
   "lat": "~5.1s",
   "latPct": 20,
+  "ttft": 4.7,
+  "delivery": null,
   "success": 93,
   "successTxt": "93%",
   "avgTurns": 7,
@@ -12384,6 +13061,7 @@ const STORES = [
     "Sierra/Sun & Ski delivers a clear, specific return policy (30-day refund, 30-60 store credit, Start a Return link) unprompted on the 'what if it doesn't work' turn, but still names zero products across the conversation."
    ]
   },
+  "guard": null,
   "ticket": null,
   "what": "4 cold private conversations (shopping themes). No handover in any theme. Avg end-to-end latency ~5.1s across 26 AI-timed turns.",
   "datetime": "2026-07-02T19:42:01.931Z",
@@ -12677,6 +13355,8 @@ const STORES = [
   "us": false,
   "lat": "~17.8s",
   "latPct": 71,
+  "ttft": 15.6,
+  "delivery": null,
   "success": 77,
   "successTxt": "77%",
   "avgTurns": 7,
@@ -12710,6 +13390,7 @@ const STORES = [
     "Siena/MUD\\WTR addressed quality concerns empathetically, matched product to use-case (energy/rest/coffee), cited a 30-day guarantee, and suggested pairings (coconut creamer, protein), but escalated to human for the final cart/total step."
    ]
   },
+  "guard": null,
   "ticket": null,
   "what": "5 cold private conversations (shopping themes). Handover in 1/5 themes. Avg end-to-end latency ~17.8s across 27 AI-timed turns.",
   "datetime": "2026-07-02T19:54:12.272Z",
@@ -13093,6 +13774,8 @@ const STORES = [
   "us": false,
   "lat": "~10.1s",
   "latPct": 40,
+  "ttft": 13.6,
+  "delivery": null,
   "success": 57,
   "successTxt": "57%",
   "avgTurns": 7,
@@ -13122,6 +13805,7 @@ const STORES = [
     "Meta AI quippy named specific products (Ultra Lite Sonic Toothbrush, Refillable Floss, subscription) and matched them to the gift brief, but failed to answer 'which feels more special', stalled on bundle/gift-set queries, and handed off before addressing shipping speed."
    ]
   },
+  "guard": null,
   "ticket": null,
   "what": "1 cold private conversations (shopping themes). Handover in 1/1 themes. Avg end-to-end latency ~10.1s across 4 AI-timed turns.",
   "datetime": "2026-07-02T17:36:25.988Z",
@@ -13225,6 +13909,8 @@ const STORES = [
   "us": false,
   "lat": "~3.7s",
   "latPct": 15,
+  "ttft": 2.6,
+  "delivery": null,
   "success": 100,
   "successTxt": "100%",
   "avgTurns": 7,
@@ -13258,6 +13944,7 @@ const STORES = [
     "Meta AI Grove produced no substantive answer on any turn; the bot is effectively a routing widget that deflects all queries to a human agent without attempting any self-service response."
    ]
   },
+  "guard": null,
   "ticket": null,
   "what": "5 cold private conversations (shopping themes). No handover in any theme. Avg end-to-end latency ~3.7s across 35 AI-timed turns.",
   "datetime": "2026-07-02T17:43:18.676Z",
@@ -13605,6 +14292,8 @@ const STORES = [
   "us": false,
   "lat": "~12.9s",
   "latPct": 52,
+  "ttft": 13.4,
+  "delivery": null,
   "success": 77,
   "successTxt": "77%",
   "avgTurns": 7,
@@ -13639,6 +14328,7 @@ const STORES = [
     "Ada deflected 3 of 7 turns as unanswered, looped on 'what specific product do you mean?' without ever naming one, and admitted it lacked review data — the IPSY Shop no-return policy was the only concrete policy information provided."
    ]
   },
+  "guard": null,
   "ticket": null,
   "what": "5 cold private conversations (shopping themes). No handover in any theme. Avg end-to-end latency ~12.9s across 27 AI-timed turns.",
   "datetime": "2026-07-02T20:03:02.061Z",
@@ -14109,6 +14799,7 @@ const STORES = [
    "rate": 100
   },
   "evalq": null,
+  "guard": null,
   "what": "Engaged 5 conversation(s) but none produced ≥3 timed AI answers — Counted in automation rate, excluded from latency.",
   "datetime": null,
   "themes": [],
@@ -14136,6 +14827,7 @@ const STORES = [
    "rate": 100
   },
   "evalq": null,
+  "guard": null,
   "what": "Engaged 5 conversation(s) but none produced ≥3 timed AI answers — Counted in automation rate, excluded from latency.",
   "datetime": null,
   "themes": [],
@@ -14163,6 +14855,7 @@ const STORES = [
    "rate": 100
   },
   "evalq": null,
+  "guard": null,
   "what": "Engaged 4 conversation(s) but none produced ≥3 timed AI answers — Counted in automation rate, excluded from latency.",
   "datetime": null,
   "themes": [],
@@ -14243,6 +14936,8 @@ const STORES = [
   "us": false,
   "lat": "~15.7s",
   "latPct": 63,
+  "ttft": 2.4,
+  "delivery": null,
   "success": 100,
   "successTxt": "100%",
   "avgTurns": 7,
@@ -14277,6 +14972,7 @@ const STORES = [
     "Answered quality/guarantee questions and mentioned supplements as pairings, but refused to name a specific product until the very last turn (still pending), repeatedly deferring to Nutrition Consultants instead of committing to a recommendation."
    ]
   },
+  "guard": null,
   "ticket": null,
   "what": "5 cold private conversations (shopping themes). No handover in any theme. Avg end-to-end latency ~15.7s across 35 AI-timed turns.",
   "datetime": "2026-07-02T17:38:39.264Z",
@@ -14608,6 +15304,8 @@ const STORES = [
   "us": false,
   "lat": "~13.7s",
   "latPct": 55,
+  "ttft": 3.9,
+  "delivery": null,
   "success": 100,
   "successTxt": "100%",
   "avgTurns": 7,
@@ -14638,6 +15336,7 @@ const STORES = [
     "Described Mind & Momentum Gum bundle vs Boost & Beyond Bulk Bags with a comparison and linked bundles page, but kept asking for user goal clarification rather than committing to a pick, and cart-add escalated to customer support handoff."
    ]
   },
+  "guard": null,
   "ticket": null,
   "what": "2 cold private conversations (shopping themes). No handover in any theme. Avg end-to-end latency ~13.7s across 14 AI-timed turns.",
   "datetime": "2026-07-02T17:58:02.007Z",
@@ -14807,6 +15506,8 @@ const STORES = [
   "us": false,
   "lat": "~14.8s",
   "latPct": 59,
+  "ttft": 1.2,
+  "delivery": null,
   "success": 94,
   "successTxt": "94%",
   "avgTurns": 7,
@@ -14842,6 +15543,7 @@ const STORES = [
     "Never named a single product recommendation across 7 turns despite escalating shopper readiness; every turn ended with 'please tell me which specific product you're interested in'—complete failure to convert."
    ]
   },
+  "guard": null,
   "ticket": null,
   "what": "5 cold private conversations (shopping themes). Handover in 1/5 themes. Avg end-to-end latency ~14.8s across 33 AI-timed turns.",
   "datetime": "2026-07-02T18:17:25.991Z",
@@ -15167,6 +15869,8 @@ const STORES = [
   "us": false,
   "lat": "~17s",
   "latPct": 68,
+  "ttft": 1.2,
+  "delivery": null,
   "success": 100,
   "successTxt": "100%",
   "avgTurns": 7,
@@ -15202,6 +15906,7 @@ const STORES = [
     "Repeated 'please tell me which specific product' across 5 turns despite the shopper declaring readiness to buy; safety certifications were detailed but zero product recommendations were ever made."
    ]
   },
+  "guard": null,
   "ticket": null,
   "what": "5 cold private conversations (shopping themes). No handover in any theme. Avg end-to-end latency ~17s across 35 AI-timed turns.",
   "datetime": "2026-07-02T18:30:01.418Z",
@@ -15533,6 +16238,8 @@ const STORES = [
   "us": false,
   "lat": "~16.9s",
   "latPct": 68,
+  "ttft": 1.5,
+  "delivery": null,
   "success": 89,
   "successTxt": "89%",
   "avgTurns": 7,
@@ -15567,6 +16274,7 @@ const STORES = [
     "Committed to a specific product (Babyletto x Avocado Organic Crib Mattress) with certifications (GREENGUARD Gold, MADE SAFE), paired with crib sheets by name and links, but return policy question stalled and cart-add was not performed."
    ]
   },
+  "guard": null,
   "ticket": null,
   "what": "5 cold private conversations (shopping themes). No handover in any theme. Avg end-to-end latency ~16.9s across 31 AI-timed turns.",
   "datetime": "2026-07-02T19:09:54.527Z",
@@ -15886,6 +16594,102 @@ const STORES = [
     "lat": 19.1
    }
   ]
+ },
+ {
+  "id": "google-nordstrom-shopping-pending",
+  "date": "2026-07-03",
+  "vendor": "Google Agentic",
+  "store": "Nordstrom",
+  "site": "nordstrom.com",
+  "url": "https://www.nordstrom.com/",
+  "method": "pending",
+  "us": false,
+  "lat": "—",
+  "success": null,
+  "successTxt": "pending",
+  "successCls": "p-na",
+  "what": "Not captured in a cold run yet — pending.",
+  "turns": []
+ },
+ {
+  "id": "klaviyo-nanuk-shopping-pending",
+  "date": "2026-07-03",
+  "vendor": "Klaviyo",
+  "store": "NANUK",
+  "site": "nanuk.com",
+  "url": "https://nanuk.com/",
+  "method": "pending",
+  "us": false,
+  "lat": "—",
+  "success": null,
+  "successTxt": "pending",
+  "successCls": "p-na",
+  "what": "Not captured in a cold run yet — pending.",
+  "turns": []
+ },
+ {
+  "id": "klaviyo-naked-shopping-pending",
+  "date": "2026-07-03",
+  "vendor": "Klaviyo",
+  "store": "Naked Wardrobe",
+  "site": "nakedwardrobe.com",
+  "url": "https://www.nakedwardrobe.com/",
+  "method": "pending",
+  "us": false,
+  "lat": "—",
+  "success": null,
+  "successTxt": "pending",
+  "successCls": "p-na",
+  "what": "Not captured in a cold run yet — pending.",
+  "turns": []
+ },
+ {
+  "id": "klaviyo-happywax-shopping-pending",
+  "date": "2026-07-03",
+  "vendor": "Klaviyo",
+  "store": "HappyWax",
+  "site": "happywax.com",
+  "url": "https://happywax.com/",
+  "method": "pending",
+  "us": false,
+  "lat": "—",
+  "success": null,
+  "successTxt": "pending",
+  "successCls": "p-na",
+  "what": "Not captured in a cold run yet — pending.",
+  "turns": []
+ },
+ {
+  "id": "shopify-schott-shopping-pending",
+  "date": "2026-07-03",
+  "vendor": "Shopify Inbox",
+  "store": "Schott NYC",
+  "site": "schottnyc.com",
+  "url": "https://www.schottnyc.com/",
+  "method": "pending",
+  "us": false,
+  "lat": "—",
+  "success": null,
+  "successTxt": "pending",
+  "successCls": "p-na",
+  "what": "Not captured in a cold run yet — pending.",
+  "turns": []
+ },
+ {
+  "id": "shopify-jnco-shopping-pending",
+  "date": "2026-07-03",
+  "vendor": "Shopify Inbox",
+  "store": "JNCO",
+  "site": "jnco.com",
+  "url": "https://www.jnco.com/",
+  "method": "pending",
+  "us": false,
+  "lat": "—",
+  "success": null,
+  "successTxt": "pending",
+  "successCls": "p-na",
+  "what": "Not captured in a cold run yet — pending.",
+  "turns": []
  }
 ];
 
@@ -15902,6 +16706,8 @@ const SUPPORT = [
   "us": true,
   "lat": "~12.6s",
   "latPct": 50,
+  "ttft": 13.6,
+  "delivery": null,
   "success": 81,
   "successTxt": "81%",
   "avgTurns": 7,
@@ -15934,6 +16740,7 @@ const SUPPORT = [
     "First two turns silent; answered tracking questions out of sequence and never retrieved actual order status — instructed on finding a tracking link under 'how to speed up' rather than answering the actual question asked."
    ]
   },
+  "guard": null,
   "ticket": {
    "sub": "fr-madura",
    "acct": "74962",
@@ -16181,6 +16988,8 @@ const SUPPORT = [
   "us": true,
   "lat": "~14.6s",
   "latPct": 58,
+  "ttft": 15.7,
+  "delivery": null,
   "success": 43,
   "successTxt": "43%",
   "avgTurns": 7,
@@ -16210,6 +17019,7 @@ const SUPPORT = [
     "Answered first 3 turns adequately but then produced 4 consecutive non-answers (empty replies), leaving the customer without guidance on tracking stalls, finding a link, or order status lookup."
    ]
   },
+  "guard": null,
   "ticket": {
    "sub": "b0qaeh-qf",
    "acct": "70478",
@@ -16341,6 +17151,8 @@ const SUPPORT = [
   "us": true,
   "lat": "~13.2s",
   "latPct": 53,
+  "ttft": 14,
+  "delivery": null,
   "success": 71,
   "successTxt": "71%",
   "avgTurns": 7,
@@ -16372,6 +17184,7 @@ const SUPPORT = [
     "Jade gave unusually detailed and honest shipping policy: dispatch can take up to 28 days, lost-transit claims require 25 extra working days post-expected-delivery—very specific but the long lead times may alarm customers."
    ]
   },
+  "guard": null,
   "ticket": {
    "sub": "b0qaeh-qf",
    "acct": "70478",
@@ -16577,6 +17390,8 @@ const SUPPORT = [
   "us": true,
   "lat": "~15.8s",
   "latPct": 63,
+  "ttft": 14.2,
+  "delivery": null,
   "success": 89,
   "successTxt": "89%",
   "avgTurns": 7,
@@ -16610,6 +17425,7 @@ const SUPPORT = [
     "First turn failed silently; recovery was accurate with specific shipping timelines (3 biz-day prep, 5-6 biz-day delivery) and two tracking links, but never retrieved the customer's actual order status."
    ]
   },
+  "guard": null,
   "ticket": {
    "sub": "beekman1802",
    "acct": "67296",
@@ -16915,6 +17731,8 @@ const SUPPORT = [
   "us": true,
   "lat": "~14.7s",
   "latPct": 59,
+  "ttft": 14.2,
+  "delivery": null,
   "success": 100,
   "successTxt": "100%",
   "avgTurns": 7,
@@ -16949,6 +17767,7 @@ const SUPPORT = [
     "Provided the Aftership tracking URL, exact upgrade shipping costs ($30 Fast/$50 Fastest), and nuanced stuck-tracking advice, but could not actually check the specific order without login."
    ]
   },
+  "guard": null,
   "ticket": {
    "sub": "beekman1802",
    "acct": "67296",
@@ -17312,6 +18131,8 @@ const SUPPORT = [
   "us": true,
   "lat": "~15.3s",
   "latPct": 61,
+  "ttft": 14.8,
+  "delivery": null,
   "success": 96,
   "successTxt": "96%",
   "avgTurns": 7,
@@ -17344,6 +18165,7 @@ const SUPPORT = [
     "Identical failure pattern as all other Baby Bee support threads — every turn returns only the support-hours boilerplate; no tracking guidance, shipping timeframes, or order-status help is provided across any of the seven turns."
    ]
   },
+  "guard": null,
   "ticket": {
    "sub": "babybeeprams",
    "acct": "29437",
@@ -17649,6 +18471,8 @@ const SUPPORT = [
   "us": true,
   "lat": "~10.7s",
   "latPct": 43,
+  "ttft": 13.2,
+  "delivery": null,
   "success": 50,
   "successTxt": "50%",
   "avgTurns": 7,
@@ -17679,6 +18503,7 @@ const SUPPORT = [
     "3 of 7 tracking turns went completely unanswered, and the 4 answered turns returned only the business-hours boilerplate — no shipping timeframes, no tracking link, and no order lookup attempted."
    ]
   },
+  "guard": null,
   "ticket": {
    "sub": "babybeeprams",
    "acct": "29437",
@@ -17868,6 +18693,8 @@ const SUPPORT = [
   "us": true,
   "lat": "~15s",
   "latPct": 60,
+  "ttft": 13.5,
+  "delivery": null,
   "success": 57,
   "successTxt": "57%",
   "avgTurns": 7,
@@ -17897,6 +18724,7 @@ const SUPPORT = [
     "First 4 turns answered well with specific timelines and shipping options, but the last 3 turns (stale tracking, find link, order status) produced no replies — high-value support questions were left completely unanswered."
    ]
   },
+  "guard": null,
   "ticket": {
    "sub": "shoebacca-prod",
    "acct": "112738",
@@ -18044,6 +18872,8 @@ const SUPPORT = [
   "us": false,
   "lat": "~10.2s",
   "latPct": 41,
+  "ttft": 9.6,
+  "delivery": null,
   "success": 71,
   "successTxt": "71%",
   "avgTurns": 7,
@@ -18075,6 +18905,7 @@ const SUPPORT = [
     "Sierra provided comprehensive return details: 100-night mattress trial, 30-day soft goods window (unused/original packaging), no exchanges, free return shipping, and 1-2 week refund processing — complete policy coverage."
    ]
   },
+  "guard": null,
   "ticket": null,
   "what": "2 cold private conversations (support themes). Handover in 1/2 themes. Avg end-to-end latency ~10.2s across 10 AI-timed turns.",
   "datetime": "2026-07-01T16:33:22+02:00",
@@ -18234,6 +19065,8 @@ const SUPPORT = [
   "us": false,
   "lat": "~11.2s",
   "latPct": 45,
+  "ttft": 10.4,
+  "delivery": null,
   "success": 95,
   "successTxt": "95%",
   "avgTurns": 7,
@@ -18265,6 +19098,7 @@ const SUPPORT = [
     "Sierra/Casper covers the full return landscape: product-specific windows (100-night mattress, 30-night furniture, 30-day soft goods), free return shipping confirmed, no exchanges policy, and financed-order refund instructions — all in-channel without escalation."
    ]
   },
+  "guard": null,
   "ticket": null,
   "what": "3 cold private conversations (support themes). No handover in any theme. Avg end-to-end latency ~11.2s across 20 AI-timed turns.",
   "datetime": "2026-07-02T17:29:37.561Z",
@@ -18496,6 +19330,8 @@ const SUPPORT = [
   "us": false,
   "lat": "~8.1s",
   "latPct": 32,
+  "ttft": 7.3,
+  "delivery": null,
   "success": 82,
   "successTxt": "82%",
   "avgTurns": 7,
@@ -18528,6 +19364,7 @@ const SUPPORT = [
     "Sierra/Chubbies provides a complete returns flow: portal URL, prepaid USPS label, 30-day window (extended for loyalty members), exchanges supported, 10-15 business day refund timeline — four turns marked unanswered but substantive answers appear in the reply tails."
    ]
   },
+  "guard": null,
   "ticket": null,
   "what": "4 cold private conversations (support themes). No handover in any theme. Avg end-to-end latency ~8.1s across 23 AI-timed turns.",
   "datetime": "2026-07-02T18:25:04.582Z",
@@ -18805,6 +19642,8 @@ const SUPPORT = [
   "us": false,
   "lat": "~11.5s",
   "latPct": 46,
+  "ttft": 9,
+  "delivery": null,
   "success": 100,
   "successTxt": "100%",
   "avgTurns": 7,
@@ -18839,6 +19678,7 @@ const SUPPORT = [
     "Siena gave precise fulfillment (1-3 days) and delivery (4-8 days) timeframes, explained no expedited shipping exists, and directed the user to claims.simplemodern.com for stuck tracking — clear and actionable throughout."
    ]
   },
+  "guard": null,
   "ticket": null,
   "what": "5 cold private conversations (support themes). No handover in any theme. Avg end-to-end latency ~11.5s across 35 AI-timed turns.",
   "datetime": "2026-07-01T23:06:21.317Z",
@@ -19178,6 +20018,8 @@ const SUPPORT = [
   "us": false,
   "lat": "~11s",
   "latPct": 44,
+  "ttft": 10,
+  "delivery": null,
   "success": 91,
   "successTxt": "91%",
   "avgTurns": 7,
@@ -19212,6 +20054,7 @@ const SUPPORT = [
     "Siena/Simple Modern gives accurate 1-3 day fulfillment + 4-8 day delivery windows and no-expedite policy, but cannot resolve the stuck-tracking issue in-channel; human handover at turn 5 with email follow-up promised."
    ]
   },
+  "guard": null,
   "ticket": null,
   "what": "5 cold private conversations (support themes). Handover in 1/5 themes. Avg end-to-end latency ~11s across 32 AI-timed turns.",
   "datetime": "2026-07-02T17:32:45.395Z",
@@ -19527,6 +20370,8 @@ const SUPPORT = [
   "us": false,
   "lat": "~11.7s",
   "latPct": 47,
+  "ttft": 9.4,
+  "delivery": null,
   "success": 86,
   "successTxt": "86%",
   "avgTurns": 7,
@@ -19557,6 +20402,7 @@ const SUPPORT = [
     "Siena/FIGS gated every tracking-related response behind a 6-digit email verification code, providing zero tracking information; 'what should I do if tracking never updates' triggered a human escalation instead of policy guidance."
    ]
   },
+  "guard": null,
   "ticket": null,
   "what": "2 cold private conversations (support themes). No handover in any theme. Avg end-to-end latency ~11.7s across 12 AI-timed turns.",
   "datetime": "2026-07-02T18:03:30.371Z",
@@ -19742,6 +20588,8 @@ const SUPPORT = [
   "us": false,
   "lat": "~12.8s",
   "latPct": 51,
+  "ttft": 9,
+  "delivery": null,
   "success": 75,
   "successTxt": "75%",
   "avgTurns": 7,
@@ -19775,6 +20623,7 @@ const SUPPORT = [
     "Responds to every single tracking question — including 'how long is delivery?' and 'how do I find my tracking link?' — with the identical order-number/postcode collection prompt, providing no factual information on any turn."
    ]
   },
+  "guard": null,
   "ticket": null,
   "what": "4 cold private conversations (support themes). Handover in 2/4 themes. Avg end-to-end latency ~12.8s across 21 AI-timed turns.",
   "datetime": "2026-07-01T22:47:48.973Z",
@@ -20042,6 +20891,8 @@ const SUPPORT = [
   "us": false,
   "lat": "~16.9s",
   "latPct": 68,
+  "ttft": 20.7,
+  "delivery": null,
   "success": 68,
   "successTxt": "68%",
   "avgTurns": 7,
@@ -20075,6 +20926,7 @@ const SUPPORT = [
     "Bot gave solid delivery-timeframe and upgrade-option answers but never resolved the core 'no tracking' issue — always looping to 'share order number' without actually pulling any order data."
    ]
   },
+  "guard": null,
   "ticket": null,
   "what": "4 cold private conversations (support themes). Handover in 2/4 themes. Avg end-to-end latency ~16.9s across 19 AI-timed turns.",
   "datetime": "2026-07-02T18:31:54.391Z",
@@ -20342,6 +21194,8 @@ const SUPPORT = [
   "us": false,
   "lat": "~12.2s",
   "latPct": 49,
+  "ttft": 14.5,
+  "delivery": null,
   "success": 86,
   "successTxt": "86%",
   "avgTurns": 7,
@@ -20373,6 +21227,7 @@ const SUPPORT = [
     "G-Star's support bot delivered accurate, specific policy answers (6-16 day shipping, 60-day returns, underwear/face masks non-returnable, full payment method list) across all turns before handing over for human contact."
    ]
   },
+  "guard": null,
   "ticket": null,
   "what": "2 cold private conversations (support themes). Handover in 1/2 themes. Avg end-to-end latency ~12.2s across 12 AI-timed turns.",
   "datetime": "2026-07-02T18:17:42.495Z",
@@ -20542,6 +21397,8 @@ const SUPPORT = [
   "us": false,
   "lat": "~10.7s",
   "latPct": 43,
+  "ttft": 7.3,
+  "delivery": null,
   "success": 86,
   "successTxt": "86%",
   "avgTurns": 7,
@@ -20574,6 +21431,7 @@ const SUPPORT = [
     "Meta AI answered generic tracking policy (email notification, 1-4 day delivery, account login) but gave a completely wrong response to 'is there any way to speed it up' — answering with Pro Insider application timing instead of shipping options."
    ]
   },
+  "guard": null,
   "ticket": null,
   "what": "4 cold private conversations (support themes). Handover in 1/4 themes. Avg end-to-end latency ~10.7s across 24 AI-timed turns.",
   "datetime": "2026-07-02T18:35:18.326Z",
@@ -20841,6 +21699,8 @@ const SUPPORT = [
   "us": false,
   "lat": "~9.8s",
   "latPct": 39,
+  "ttft": 10.5,
+  "delivery": null,
   "success": 71,
   "successTxt": "71%",
   "avgTurns": 7,
@@ -20874,6 +21734,7 @@ const SUPPORT = [
     "Gives processing and delivery timeframes on turns 2–3, but four consecutive turns (4–7) produce no reply at all — the assistant completely failed to respond to questions about speeding up, tracking updates, finding the tracking link, or order status lookup."
    ]
   },
+  "guard": null,
   "ticket": null,
   "what": "3 cold private conversations (support themes). No handover in any theme. Avg end-to-end latency ~9.8s across 15 AI-timed turns.",
   "datetime": "2026-07-01T16:33:22+02:00",
@@ -21097,6 +21958,8 @@ const SUPPORT = [
   "us": false,
   "lat": "~11.6s",
   "latPct": 46,
+  "ttft": 11.1,
+  "delivery": null,
   "success": 86,
   "successTxt": "86%",
   "avgTurns": 7,
@@ -21131,6 +21994,7 @@ const SUPPORT = [
     "Sierra/Scotts tracking support repeats the same 'did you order from our site or a retailer?' question across every single turn without providing any shipping timeframes or escalation path."
    ]
   },
+  "guard": null,
   "ticket": null,
   "what": "4 cold private conversations (support themes). No handover in any theme. Avg end-to-end latency ~11.6s across 24 AI-timed turns.",
   "datetime": "2026-07-02T19:30:34.640Z",
@@ -21456,6 +22320,8 @@ const SUPPORT = [
   "us": false,
   "lat": "~13.6s",
   "latPct": 54,
+  "ttft": 13.9,
+  "delivery": null,
   "success": 100,
   "successTxt": "100%",
   "avgTurns": 7,
@@ -21485,6 +22351,7 @@ const SUPPORT = [
     "Gives specific processing (3–4 business days), delivery (4–5 or 7–10 days by order value), and Canada timeframes; explains no post-placement speed-up; directs to FedEx for stale tracking; provides shipping page link — clear, self-service friendly throughout."
    ]
   },
+  "guard": null,
   "ticket": {
    "sub": "kutk",
    "acct": "111435",
@@ -21608,6 +22475,8 @@ const SUPPORT = [
   "us": false,
   "lat": "~15.8s",
   "latPct": 63,
+  "ttft": 15.2,
+  "delivery": null,
   "success": 100,
   "successTxt": "100%",
   "avgTurns": 7,
@@ -21641,6 +22510,7 @@ const SUPPORT = [
     "Agent gave correct processing (3-4 days), delivery windows by order value, and expedited-shipping constraints, but could not pull live tracking without login and offered no self-serve tracking link."
    ]
   },
+  "guard": null,
   "ticket": {
    "sub": "kutk",
    "acct": "111435",
@@ -21938,6 +22808,8 @@ const SUPPORT = [
   "us": false,
   "lat": "~41.1s",
   "latPct": 100,
+  "ttft": 57,
+  "delivery": null,
   "success": 50,
   "successTxt": "50%",
   "avgTurns": 7,
@@ -21968,6 +22840,7 @@ const SUPPORT = [
     "Rep AI on Fresh Roasted Coffee completely ignored all tracking/shipping questions and responded with subscription marketing copy on every single turn, including 3 unanswered turns."
    ]
   },
+  "guard": null,
   "ticket": null,
   "what": "2 cold private conversations (support themes). No handover in any theme. Avg end-to-end latency ~41.1s across 7 AI-timed turns.",
   "datetime": "2026-07-02T09:20:45.501Z",
@@ -22137,6 +23010,8 @@ const SUPPORT = [
   "us": false,
   "lat": "~43.6s",
   "latPct": 100,
+  "ttft": 57.3,
+  "delivery": null,
   "success": 57,
   "successTxt": "57%",
   "avgTurns": 7,
@@ -22170,6 +23045,7 @@ const SUPPORT = [
     "Rep AI completely ignored a 'where is my order' tracking complaint, looping Auto Deliver subscription pitches across all 7 turns and failing to answer questions about tracking link, shipping timeframes, or order status."
    ]
   },
+  "guard": null,
   "ticket": null,
   "what": "5 cold private conversations (support themes). No handover in any theme. Avg end-to-end latency ~43.6s across 20 AI-timed turns.",
   "datetime": "2026-07-02T17:51:29.369Z",
@@ -22501,6 +23377,8 @@ const SUPPORT = [
   "us": false,
   "lat": "~16s",
   "latPct": 64,
+  "ttft": 2,
+  "delivery": null,
   "success": 100,
   "successTxt": "100%",
   "avgTurns": 7,
@@ -22530,6 +23408,7 @@ const SUPPORT = [
     "Correctly stated 24-48h processing and noted blade-only refills may not get tracking; persistently asked for order number/email to look up — but never retrieved actual order status within the captured conversation."
    ]
   },
+  "guard": null,
   "ticket": null,
   "what": "1 cold private conversations (support themes). No handover in any theme. Avg end-to-end latency ~16s across 7 AI-timed turns.",
   "datetime": "2026-07-02T08:49:03.521Z",
@@ -22645,6 +23524,8 @@ const SUPPORT = [
   "us": false,
   "lat": "~10.7s",
   "latPct": 43,
+  "ttft": 2.2,
+  "delivery": null,
   "success": 86,
   "successTxt": "86%",
   "avgTurns": 7,
@@ -22678,6 +23559,7 @@ const SUPPORT = [
     "Provided useful generic info (1-2 day processing, 3-5 day delivery, expedited shipping exists) between credential requests, but never actually looked up an order and stalled repeatedly demanding order number or email."
    ]
   },
+  "guard": null,
   "ticket": null,
   "what": "4 cold private conversations (support themes). Handover in 1/4 themes. Avg end-to-end latency ~10.7s across 24 AI-timed turns.",
   "datetime": "2026-07-02T17:31:05.898Z",
@@ -22953,6 +23835,8 @@ const SUPPORT = [
   "us": false,
   "lat": "~5.5s",
   "latPct": 22,
+  "ttft": 4,
+  "delivery": null,
   "success": 86,
   "successTxt": "86%",
   "avgTurns": 7,
@@ -22988,6 +23872,7 @@ const SUPPORT = [
     "Bot provided useful dispatch-timing and expedited-shipping detail (same-day if ordered before noon PST) and prompted for order number at end, but never pulled live order status from any system."
    ]
   },
+  "guard": null,
   "ticket": null,
   "what": "5 cold private conversations (support themes). No handover in any theme. Avg end-to-end latency ~5.5s across 30 AI-timed turns.",
   "datetime": "2026-07-02T17:54:52.481Z",
@@ -23383,6 +24268,8 @@ const SUPPORT = [
   "us": false,
   "lat": "~5.8s",
   "latPct": 23,
+  "ttft": 4.8,
+  "delivery": null,
   "success": 52,
   "successTxt": "52%",
   "avgTurns": 7,
@@ -23414,6 +24301,7 @@ const SUPPORT = [
     "Sierra/BARK correctly states 2-3 business day processing + 4-10 day delivery and uses Amazon distribution centers, but requires email lookup to check a specific order and escalates if tracking never updates."
    ]
   },
+  "guard": null,
   "ticket": null,
   "what": "3 cold private conversations (support themes). Handover in 3/3 themes. Avg end-to-end latency ~5.8s across 11 AI-timed turns.",
   "datetime": "2026-07-02T19:38:44.494Z",
@@ -23583,6 +24471,8 @@ const SUPPORT = [
   "us": false,
   "lat": "~6.4s",
   "latPct": 26,
+  "ttft": 6,
+  "delivery": null,
   "success": 71,
   "successTxt": "71%",
   "avgTurns": 7,
@@ -23614,6 +24504,7 @@ const SUPPORT = [
     "Sierra/Sun & Ski returns support is highly self-contained: states exact $9.99 return fee, 2-3 day processing time, 30/60-day windows, Performance Guarantee workaround for exchanges, and a direct Start-a-Return link — nearly all questions resolved in-channel."
    ]
   },
+  "guard": null,
   "ticket": null,
   "what": "2 cold private conversations (support themes). Handover in 1/2 themes. Avg end-to-end latency ~6.4s across 10 AI-timed turns.",
   "datetime": "2026-07-02T19:46:35.298Z",
@@ -23799,6 +24690,8 @@ const SUPPORT = [
   "us": false,
   "lat": "~14.3s",
   "latPct": 57,
+  "ttft": 13.1,
+  "delivery": null,
   "success": 80,
   "successTxt": "80%",
   "avgTurns": 7,
@@ -23834,6 +24727,7 @@ const SUPPORT = [
     "Siena/MUDWTR correctly communicates 5-7 US and 10-15 Canada business day timeframes and standard-only shipping, but first turn is unanswered and tracking lookup requires human handover when no order found."
    ]
   },
+  "guard": null,
   "ticket": null,
   "what": "5 cold private conversations (support themes). Handover in 1/5 themes. Avg end-to-end latency ~14.3s across 28 AI-timed turns.",
   "datetime": "2026-07-02T20:02:55.390Z",
@@ -24205,6 +25099,8 @@ const SUPPORT = [
   "us": false,
   "lat": "~11.7s",
   "latPct": 47,
+  "ttft": 6.8,
+  "delivery": null,
   "success": 86,
   "successTxt": "86%",
   "avgTurns": 7,
@@ -24234,6 +25130,7 @@ const SUPPORT = [
     "quippy gave precise, actionable instructions for address change (order details > '...' > Edit Shipping Address), cancellation policy, account detail updates (Manage Subscriptions flow), and 5-10 day refund timeline — only failing on the final order-status check which required human lookup."
    ]
   },
+  "guard": null,
   "ticket": null,
   "what": "1 cold private conversations (support themes). Handover in 1/1 themes. Avg end-to-end latency ~11.7s across 6 AI-timed turns.",
   "datetime": "2026-07-02T17:39:19.729Z",
@@ -24349,6 +25246,8 @@ const SUPPORT = [
   "us": false,
   "lat": "~3.7s",
   "latPct": 15,
+  "ttft": 2.5,
+  "delivery": null,
   "success": 100,
   "successTxt": "100%",
   "avgTurns": 7,
@@ -24382,6 +25281,7 @@ const SUPPORT = [
     "Meta AI Grove provided zero tracking guidance, deflecting all 7 tracking and order-status questions identically to a human agent without any self-service answer."
    ]
   },
+  "guard": null,
   "ticket": null,
   "what": "5 cold private conversations (support themes). No handover in any theme. Avg end-to-end latency ~3.7s across 35 AI-timed turns.",
   "datetime": "2026-07-02T17:47:41.043Z",
@@ -24729,6 +25629,8 @@ const SUPPORT = [
   "us": false,
   "lat": "~12.9s",
   "latPct": 52,
+  "ttft": 11.8,
+  "delivery": null,
   "success": 97,
   "successTxt": "97%",
   "avgTurns": 7,
@@ -24763,6 +25665,7 @@ const SUPPORT = [
     "Ada required account verification for every tracking question including generic policy questions like 'how long does shipping take' — blocking all 7 turns with name-request loops and providing zero shipping timeline information."
    ]
   },
+  "guard": null,
   "ticket": null,
   "what": "5 cold private conversations (support themes). Handover in 1/5 themes. Avg end-to-end latency ~12.9s across 34 AI-timed turns.",
   "datetime": "2026-07-02T20:08:33.338Z",
@@ -25233,6 +26136,7 @@ const SUPPORT = [
    "rate": 100
   },
   "evalq": null,
+  "guard": null,
   "what": "Engaged 5 conversation(s) but none produced ≥3 timed AI answers — Counted in automation rate, excluded from latency.",
   "datetime": null,
   "themes": [],
@@ -25260,6 +26164,7 @@ const SUPPORT = [
    "rate": 100
   },
   "evalq": null,
+  "guard": null,
   "what": "Engaged 4 conversation(s) but none produced ≥3 timed AI answers — Counted in automation rate, excluded from latency.",
   "datetime": null,
   "themes": [],
@@ -25287,6 +26192,7 @@ const SUPPORT = [
    "rate": 100
   },
   "evalq": null,
+  "guard": null,
   "what": "Engaged 4 conversation(s) but none produced ≥3 timed AI answers — Counted in automation rate, excluded from latency.",
   "datetime": null,
   "themes": [],
@@ -25367,6 +26273,8 @@ const SUPPORT = [
   "us": false,
   "lat": "~9.1s",
   "latPct": 36,
+  "ttft": 1.2,
+  "delivery": null,
   "success": 77,
   "successTxt": "77%",
   "avgTurns": 7,
@@ -25403,6 +26311,7 @@ const SUPPORT = [
     "Identical pattern to order-mgmt: all 7 turns looped on requesting full name and email, never answering general shipping timeline questions despite them being policy-level questions requiring no order lookup."
    ]
   },
+  "guard": null,
   "ticket": null,
   "what": "5 cold private conversations (support themes). Handover in 2/5 themes. Avg end-to-end latency ~9.1s across 27 AI-timed turns.",
   "datetime": "2026-07-02T17:44:19.168Z",
@@ -25698,6 +26607,8 @@ const SUPPORT = [
   "us": false,
   "lat": "~8.9s",
   "latPct": 36,
+  "ttft": 1.6,
+  "delivery": null,
   "success": 71,
   "successTxt": "71%",
   "avgTurns": 7,
@@ -25731,6 +26642,7 @@ const SUPPORT = [
     "Kodif/Neuro deflected every policy question by demanding order lookup even for generic FAQ queries like 'how many days do I have to return' — only the refund timeframe (3-5 days) was answered factually."
    ]
   },
+  "guard": null,
   "ticket": null,
   "what": "4 cold private conversations (support themes). Handover in 1/4 themes. Avg end-to-end latency ~8.9s across 20 AI-timed turns.",
   "datetime": "2026-07-02T18:08:21.581Z",
@@ -25990,6 +26902,8 @@ const SUPPORT = [
   "us": false,
   "lat": "~12.6s",
   "latPct": 50,
+  "ttft": 4.5,
+  "delivery": null,
   "success": 100,
   "successTxt": "100%",
   "avgTurns": 7,
@@ -26025,6 +26939,7 @@ const SUPPORT = [
     "Every single response to 7 questions—including 'how long does delivery take?'—was a redirect to provide order number in BL-123456 format; refused to give any general shipping policy information whatsoever."
    ]
   },
+  "guard": null,
   "ticket": null,
   "what": "5 cold private conversations (support themes). No handover in any theme. Avg end-to-end latency ~12.6s across 35 AI-timed turns.",
   "datetime": "2026-07-02T18:22:43.843Z",
@@ -26356,6 +27271,8 @@ const SUPPORT = [
   "us": false,
   "lat": "~12.6s",
   "latPct": 50,
+  "ttft": 3.4,
+  "delivery": null,
   "success": 97,
   "successTxt": "97%",
   "avgTurns": 7,
@@ -26391,6 +27308,7 @@ const SUPPORT = [
     "Agent looped on order-ID collection for all 7 turns, never providing any general shipping timeline info even when asked policy-level questions; pure verification-gate friction with zero self-service value."
    ]
   },
+  "guard": null,
   "ticket": null,
   "what": "5 cold private conversations (support themes). Handover in 1/5 themes. Avg end-to-end latency ~12.6s across 34 AI-timed turns.",
   "datetime": "2026-07-02T18:37:35.294Z",
@@ -26722,6 +27640,8 @@ const SUPPORT = [
   "us": false,
   "lat": "~10.9s",
   "latPct": 44,
+  "ttft": 3.1,
+  "delivery": null,
   "success": 97,
   "successTxt": "97%",
   "avgTurns": 7,
@@ -26757,6 +27677,7 @@ const SUPPORT = [
     "Looped on order-ID collection across all 7 turns without providing any general shipping timeline information, even when the questions were clearly policy-level and required no order lookup."
    ]
   },
+  "guard": null,
   "ticket": null,
   "what": "5 cold private conversations (support themes). No handover in any theme. Avg end-to-end latency ~10.9s across 34 AI-timed turns.",
   "datetime": "2026-07-02T19:16:47.446Z",
@@ -27076,6 +27997,102 @@ const SUPPORT = [
     "lat": 10.1
    }
   ]
+ },
+ {
+  "id": "google-nordstrom-support-pending",
+  "date": "2026-07-03",
+  "vendor": "Google Agentic",
+  "store": "Nordstrom",
+  "site": "nordstrom.com",
+  "url": "https://www.nordstrom.com/",
+  "method": "pending",
+  "us": false,
+  "lat": "—",
+  "success": null,
+  "successTxt": "pending",
+  "successCls": "p-na",
+  "what": "Not captured in a cold run yet — pending.",
+  "turns": []
+ },
+ {
+  "id": "klaviyo-nanuk-support-pending",
+  "date": "2026-07-03",
+  "vendor": "Klaviyo",
+  "store": "NANUK",
+  "site": "nanuk.com",
+  "url": "https://nanuk.com/",
+  "method": "pending",
+  "us": false,
+  "lat": "—",
+  "success": null,
+  "successTxt": "pending",
+  "successCls": "p-na",
+  "what": "Not captured in a cold run yet — pending.",
+  "turns": []
+ },
+ {
+  "id": "klaviyo-naked-support-pending",
+  "date": "2026-07-03",
+  "vendor": "Klaviyo",
+  "store": "Naked Wardrobe",
+  "site": "nakedwardrobe.com",
+  "url": "https://www.nakedwardrobe.com/",
+  "method": "pending",
+  "us": false,
+  "lat": "—",
+  "success": null,
+  "successTxt": "pending",
+  "successCls": "p-na",
+  "what": "Not captured in a cold run yet — pending.",
+  "turns": []
+ },
+ {
+  "id": "klaviyo-happywax-support-pending",
+  "date": "2026-07-03",
+  "vendor": "Klaviyo",
+  "store": "HappyWax",
+  "site": "happywax.com",
+  "url": "https://happywax.com/",
+  "method": "pending",
+  "us": false,
+  "lat": "—",
+  "success": null,
+  "successTxt": "pending",
+  "successCls": "p-na",
+  "what": "Not captured in a cold run yet — pending.",
+  "turns": []
+ },
+ {
+  "id": "shopify-schott-support-pending",
+  "date": "2026-07-03",
+  "vendor": "Shopify Inbox",
+  "store": "Schott NYC",
+  "site": "schottnyc.com",
+  "url": "https://www.schottnyc.com/",
+  "method": "pending",
+  "us": false,
+  "lat": "—",
+  "success": null,
+  "successTxt": "pending",
+  "successCls": "p-na",
+  "what": "Not captured in a cold run yet — pending.",
+  "turns": []
+ },
+ {
+  "id": "shopify-jnco-support-pending",
+  "date": "2026-07-03",
+  "vendor": "Shopify Inbox",
+  "store": "JNCO",
+  "site": "jnco.com",
+  "url": "https://www.jnco.com/",
+  "method": "pending",
+  "us": false,
+  "lat": "—",
+  "success": null,
+  "successTxt": "pending",
+  "successCls": "p-na",
+  "what": "Not captured in a cold run yet — pending.",
+  "turns": []
  }
 ];
 
@@ -27244,10 +28261,15 @@ function renderSummary(){
     // automation: pooled outcome counts across the vendor's store entries (not a mean of rates)
     const ag = arr.reduce((acc,s)=>{ if(s.auto){acc.a+=s.auto.automated;acc.h+=s.auto.handover;acc.d+=s.auto.deflected;acc.e+=s.auto.engaged;} return acc; },{a:0,h:0,d:0,e:0});
     const autoRate = ag.e ? Math.round(100*ag.a/ag.e) : null;
-    return {v, us:arr[0].us, stores:tested.length, convs, autoRate, autoDetail:ag, avgS, avgL, avgT, avgQ};
+    // first-signal (TTFT) + delivery style: median TTFT across stores; delivery = majority vote
+    const ttN=arr.map(s=>s.ttft).filter(x=>x!=null);
+    const avgTtft = ttN.length? (Math.round(ttN.reduce((a,b)=>a+b,0)/ttN.length*10)/10) : null;
+    const deliveries = arr.map(s=>s.delivery).filter(Boolean);
+    const delivery = deliveries.length ? (deliveries.filter(x=>x==='streaming').length*2>=deliveries.length?'streaming':'atomic') : null;
+    return {v, us:arr[0].us, stores:tested.length, convs, autoRate, autoDetail:ag, avgS, avgL, avgT, avgQ, avgTtft, delivery};
   });
   const k=SSORT.key,d=SSORT.dir;
-  const key=r=> k==='vendor'?r.v.toLowerCase() : k==='stores'?r.stores : k==='convs'?r.convs : k==='auto'?(r.autoRate==null?-1:r.autoRate) : k==='success'?(r.avgS==null?-1:r.avgS) : k==='turns'?(r.avgT==null?-1:r.avgT) : k==='qual'?(r.avgQ==null?-1:r.avgQ) : (r.avgL==null?1e9:r.avgL);
+  const key=r=> k==='vendor'?r.v.toLowerCase() : k==='stores'?r.stores : k==='convs'?r.convs : k==='auto'?(r.autoRate==null?-1:r.autoRate) : k==='success'?(r.avgS==null?-1:r.avgS) : k==='turns'?(r.avgT==null?-1:r.avgT) : k==='qual'?(r.avgQ==null?-1:r.avgQ) : k==='ttft'?(r.avgTtft==null?1e9:r.avgTtft) : (r.avgL==null?1e9:r.avgL);
   rows.sort((a,b)=>{const ka=key(a),kb=key(b); return ka<kb?-d:ka>kb?d:0;});
   document.getElementById('summary-body').innerHTML = rows.map(r=>{
     const cls = r.avgS==null?'p-na':r.avgS>=70?'p-ok':r.avgS>=40?'p-mid':'p-bad';
@@ -27261,16 +28283,23 @@ function renderSummary(){
       '<td class="n mono">'+(r.convs||'—')+'</td>'+
       '<td>'+apill+'</td>'+
       '<td class="n mono">'+bar+'<span style="font-weight:700">'+(r.avgL!=null?('~'+r.avgL+'s'):'—')+'</span></td>'+
+      '<td class="n mono">'+ttftCell(r.avgTtft,r.delivery)+'</td>'+
       '<td>'+pill+'</td>'+
       '<td class="n mono qcol">'+qCell(r.avgQ)+'</td>'+
       '<td class="n mono">'+(r.avgT!=null?r.avgT:'—')+'</td></tr>';
   }).join('');
 }
+// First-signal cell: median TTFT + a streaming/atomic badge (Roman's perceived-latency lens).
+function ttftCell(ttft, delivery){
+  if(ttft==null && !delivery) return '—';
+  const badge = delivery ? '<span class="pill '+(delivery==='streaming'?'p-ok':'p-na')+'" style="font-size:9.5px;padding:1px 6px" title="'+(delivery==='streaming'?'streams tokens/segments — substance appears before the full answer':'atomic — the whole reply lands at once, no early signal')+'">'+delivery+'</span>' : '';
+  return (ttft!=null?'<span style="font-weight:700">~'+ttft+'s</span> ':'')+badge;
+}
 function renderResults(){
   const arr=[...AS()];
   const k=RSORT.key,d=RSORT.dir;
   const tcount=s=> s.avgTurns!=null?s.avgTurns:((s.turns&&s.turns.length)?s.turns.length:0);
-  const key=s=> k==='store'?(s.vendor+' '+s.store).toLowerCase() : k==='method'?(s.method||'') : k==='auto'?(aNum(s)==null?-1:aNum(s)) : k==='success'?(sNum(s)==null?-1:sNum(s)) : k==='turns'?tcount(s) : k==='qual'?(qNum(s)==null?-1:qNum(s)) : (latNum(s)==null?1e9:latNum(s));
+  const key=s=> k==='store'?(s.vendor+' '+s.store).toLowerCase() : k==='method'?(s.method||'') : k==='auto'?(aNum(s)==null?-1:aNum(s)) : k==='ttft'?(s.ttft==null?1e9:s.ttft) : k==='success'?(sNum(s)==null?-1:sNum(s)) : k==='turns'?tcount(s) : k==='qual'?(qNum(s)==null?-1:qNum(s)) : (latNum(s)==null?1e9:latNum(s));
   arr.sort((a,b)=>{const ka=key(a),kb=key(b); return ka<kb?-d:ka>kb?d:0;});
   document.getElementById('results-body').innerHTML = arr.map(s=>{
     const latBar = (typeof s.latPct==='number' && s.method!=='pending') ? '<div class="bar" style="display:inline-block;width:70px;vertical-align:middle"><i style="width:'+s.latPct+'%;background:'+(COL[s.vendor]||'#888')+'"></i></div> ' : '';
@@ -27279,6 +28308,7 @@ function renderResults(){
       '<td class="hide-sm">'+methodCell(s)+'</td>'+
       '<td>'+aCell(s)+'</td>'+
       '<td class="n mono">'+latBar+'<span style="font-weight:700">'+(s.lat||'—')+'</span></td>'+
+      '<td class="n mono">'+ttftCell(s.ttft,s.delivery)+'</td>'+
       '<td>'+pillFor(s)+'</td>'+
       '<td class="n mono qcol">'+qCell(qNum(s))+'</td>'+
       '<td class="n mono">'+(tcount(s)?tcount(s):'—')+'</td>'+
@@ -27563,6 +28593,25 @@ function trendChart(title, dates, series, {max=100, unit='%', invert=false}={}){
     '<svg viewBox="0 0 '+W+' '+H+'" style="width:100%;height:auto">'+g+'</svg>'+
     '<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:6px">'+legend+'</div></div>';
 }
+// Guardrails: pool held/total per vendor across the current mode's stores.
+function renderGuardrails(){
+  const body=document.getElementById('guard-body'); if(!body) return;
+  const byV={};
+  AS().forEach(s=>{ if(!s.guard) return; const g=(byV[s.vendor]=byV[s.vendor]||{n:0,held:0,code:0,inj:0,us:s.us}); g.n+=s.guard.n; g.held+=s.guard.held; g.code+=s.guard.codeLeak; g.inj+=s.guard.injectionLeak; });
+  const rows=Object.entries(byV).filter(([,g])=>g.n>0).sort((a,b)=> (b[1].held/b[1].n)-(a[1].held/a[1].n));
+  const sec=document.getElementById('guard-sec');
+  if(!rows.length){ if(sec) sec.style.display='none'; return; }
+  if(sec) sec.style.display='';
+  body.innerHTML=rows.map(([v,g])=>{
+    const pct=Math.round(100*g.held/g.n);
+    const cls=pct>=100?'p-ok':pct>=60?'p-mid':'p-bad';
+    return '<tr><td><span class="vdot" style="background:'+(COL[v]||'#888')+'"></span>'+v+(g.us?'<span class="us-tag">US</span>':'')+'</td>'+
+      '<td class="n mono">'+g.held+'/'+g.n+'</td>'+
+      '<td><span class="pill '+cls+'">'+pct+'%</span></td>'+
+      '<td class="n mono">'+(g.code?'⚠️ '+g.code:'—')+'</td>'+
+      '<td class="n mono">'+(g.inj?'⚠️ '+g.inj:'—')+'</td></tr>';
+  }).join('');
+}
 function renderTrends(){
   const el=document.getElementById('trend-grid'); if(!el) return;
   const t=trendData();
@@ -27590,7 +28639,7 @@ function applyView(){
   if(isBest) setBest(BESTMODE);            // make sure the right sub-panel is showing
 }
 function renderAll(){
-  renderSummary(); renderResults(); renderMatrix(); renderConv(); renderFilter(); renderBest(); renderTrends(); carets();
+  renderSummary(); renderResults(); renderMatrix(); renderConv(); renderFilter(); renderBest(); renderTrends(); renderGuardrails(); carets();
   // Quality column shows in both modes (Relevance rubric for shopping, Resolution for support)
   document.querySelectorAll('.qcol-h').forEach(e=>{ const sc=e.querySelector('.sc'); e.firstChild.textContent = (MODE==='shopping'?'Relevance quality':'Resolution quality'); });
   applyView();

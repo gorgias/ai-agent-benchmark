@@ -417,7 +417,75 @@ export const WIDGETS = {
     },
     async send(page, text) { await shadowSend(page, "humind-gift-finder", text); },
   },
+
+  // --- Vendors added 2026-07-03 (from Roman's benchmark coverage) --------------
+  // GENERIC best-effort driver: dismiss banners, click the most chat-like launcher,
+  // then type into the most chat-like input + Enter. Selectors are broad on purpose —
+  // these three widgets aren't yet reverse-engineered like the others, so a run either
+  // drives them (great, we get data) or records an honest error (→ pending in the
+  // report), never a fabricated number. Refine per-vendor once a run shows the DOM.
+  google_agentic: {
+    scope: { kind: "frame", match: /nordstrom|chat|assistant/i },
+    // Google Agentic Commerce streams the reply as SSE on this endpoint (Roman's finding)
+    // — kept for reference; DOM timing is the primary source until net-parse is wired.
+    net: { match: /agenticapplications\.googleapis\.com\/v1\/sales:executeChat/i },
+    async open(page) { await genericOpenChat(page); },
+    async send(page, text) { await genericSendChat(page, text); },
+  },
+  klaviyo: {
+    // K:AI Customer Agent — split HTTP POST + WebSocket, token-streaming (Roman).
+    scope: { kind: "frame", match: /klaviyo|customer hub|chat|assistant/i },
+    async open(page) { await genericOpenChat(page); },
+    async send(page, text) { await genericSendChat(page, text); },
+  },
+  shopify_inbox: {
+    // Native Shopify Inbox — gated (name/email) single-shot ticket form in most configs
+    // (Roman): 1 canned "Automated" reply, then silent. Expected to fall to no_answer;
+    // that IS the finding. Gate is filled with a dummy identity by fillEmailGate.
+    scope: { kind: "frame", match: /shopify|chat|inbox|message/i },
+    async open(page) { await genericOpenChat(page); },
+    async send(page, text) { await genericSendChat(page, text); },
+  },
 };
+
+// Generic launcher-open: dismiss consent, then click the most chat-like control.
+async function genericOpenChat(page) {
+  await dismiss(page);
+  await page.waitForTimeout(2500);
+  const clicked = await page.evaluate(() => {
+    const rx = /chat|message|assistant|help|concierge|ask/i;
+    const cands = [...document.querySelectorAll('button,[role="button"],a,div[class*="launch" i],div[class*="chat" i],[aria-label]')]
+      .filter(el => rx.test(el.getAttribute("aria-label") || "") || rx.test(el.className || "") || rx.test(el.id || ""));
+    const btn = cands.find(el => el.offsetParent !== null) || cands[0];
+    if (btn) { btn.click(); return true; }
+    return false;
+  }).catch(() => false);
+  await page.waitForTimeout(4000);
+  return clicked;
+}
+
+// Generic send: find the most chat-like text input (in page or any iframe) + Enter.
+async function genericSendChat(page, text) {
+  // try iframes first (widgets are usually cross-origin frames)
+  for (const f of page.frames()) {
+    try {
+      const inp = f.locator('textarea, [contenteditable="true"], input[type="text"]:not([type="email"])').first();
+      if (await inp.count().catch(() => 0)) {
+        await inp.click({ timeout: 3000 }).catch(() => {});
+        await inp.fill(text).catch(async () => { await inp.type(text).catch(() => {}); });
+        await f.page().keyboard.press("Enter").catch(() => {});
+        return;
+      }
+    } catch {}
+  }
+  // fall back to the main page
+  try {
+    const inp = page.locator('textarea, [contenteditable="true"], input[type="text"]:not([type="email"])').first();
+    await inp.click({ timeout: 3000 }).catch(() => {});
+    await inp.fill(text).catch(async () => { await inp.type(text).catch(() => {}); });
+    await page.keyboard.press("Enter");
+  } catch {}
+}
 
 // ---------------------------------------------------------------------------
 // Stores under test — 2–3 per vendor. `candidate:true` = needs verification that
@@ -524,6 +592,19 @@ export const STORES = [
   { key: "kodif-babyletto",   vendor: "Kodif",  store: "Babyletto",       url: "https://babyletto.com/",         widget: "kodif", candidate: true },
   { key: "kodif-davinci",     vendor: "Kodif",  store: "daVinci Baby",    url: "https://davincibaby.com/",       widget: "kodif", candidate: true },
   { key: "kodif-namesake",    vendor: "Kodif",  store: "Namesake",        url: "https://namesakehome.com/",      widget: "kodif", candidate: true },
+
+  // ===== Vendors added 2026-07-03 (Roman's coverage; merchants he verified) =====
+  // All candidate:true — generic driver, not yet reverse-engineered; a run either
+  // captures them or records an honest error. See notes/roman-benchmark-comparison.md.
+  // Google Agentic Commerce (Nordstrom's in-house stack; the strategic new entrant).
+  { key: "google-nordstrom",  vendor: "Google Agentic", store: "Nordstrom", url: "https://www.nordstrom.com/", widget: "google_agentic", candidate: true },
+  // Klaviyo K:AI Customer Agent — merchants Roman confirmed live (cards + add-to-cart on nanuk/naked).
+  { key: "klaviyo-nanuk",     vendor: "Klaviyo", store: "NANUK",           url: "https://nanuk.com/",             widget: "klaviyo", candidate: true },
+  { key: "klaviyo-naked",     vendor: "Klaviyo", store: "Naked Wardrobe",  url: "https://www.nakedwardrobe.com/", widget: "klaviyo", candidate: true },
+  { key: "klaviyo-happywax",  vendor: "Klaviyo", store: "HappyWax",        url: "https://happywax.com/",          widget: "klaviyo", candidate: true },
+  // Shopify Inbox (native) — expected gated/single-shot ticket form (Roman); the finding IS the result.
+  { key: "shopify-schott",    vendor: "Shopify Inbox", store: "Schott NYC", url: "https://www.schottnyc.com/",    widget: "shopify_inbox", candidate: true },
+  { key: "shopify-jnco",      vendor: "Shopify Inbox", store: "JNCO",       url: "https://www.jnco.com/",          widget: "shopify_inbox", candidate: true },
 ];
 
 // Find a frame by element id / title / name / url.
