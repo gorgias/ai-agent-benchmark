@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Takeaways — Gorgias AI Agent Competitive Benchmark</title>
+<title>Industry Takeaways — Gorgias AI Agent Competitive Benchmark</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Inter+Tight:wght@600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
@@ -55,29 +55,65 @@
   .why{display:block;font-size:12px;color:var(--on-muted);margin-top:2px}
   .note{font-size:12px;color:var(--on-muted)}
   .footer{margin-top:56px;font-size:12px;color:var(--on-faint);text-align:center}
+  /* instant hover tooltips for metric definitions */
+  .tt{border-bottom:1.5px dotted var(--on-faint);cursor:help;position:relative}
+  .tt:hover::after{
+    content:attr(data-tip);position:absolute;left:0;bottom:calc(100% + 8px);z-index:99;
+    background:var(--on);color:#fff;font-size:11.5px;font-weight:500;line-height:1.45;
+    padding:8px 11px;border-radius:8px;width:290px;white-space:normal;text-transform:none;letter-spacing:0;
+    box-shadow:0 6px 18px rgba(0,0,0,.25);pointer-events:none}
+  th .tt{border-bottom-color:var(--on-faint)}
+  .winlose{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px;margin-top:14px}
+  .winlose .card{padding:16px 18px;border-top:3px solid var(--success)}
+  .winlose .card.lose{border-top-color:var(--danger)}
+  .winlose h3{font-size:14.5px;font-weight:800;margin-bottom:10px}
+  .winlose li{font-size:13px;margin:8px 0 8px 18px}
+  .winlose li b{font-weight:700}
 </style>
 </head>
 <body>
 <header>
   <h1>What we learned benchmarking <span class="grad">every on-site AI agent</span></h1>
-  <div class="sub">Board takeaways · 302 LLM-judged conversations · 11 vendors · 60+ live stores · July 2026 · <a href="report.html">Full interactive report →</a></div>
+  <div class="sub">Industry takeaways · 302 LLM-judged conversations · 11 vendors · 60+ live stores · July 2026 · <a href="report.html">Full interactive report →</a></div>
 </header>
 <div class="wrap">
 
 <h2>The verdict in four numbers</h2>
 <div class="verdict">
-  <div class="v-card v-good"><div class="v-kpi">98–100%</div><div class="v-lbl"><b>Gorgias automation rate</b> — best in market, both lanes. The AI carries the conversation end-to-end; it almost never bails to a human or punts to email.</div></div>
-  <div class="v-card v-mid"><div class="v-kpi">62/100</div><div class="v-lbl"><b>Gorgias shopping quality</b> — top-4. Strong comparisons &amp; purchase nudges; weaker than Envive (65) on rich product presentation.</div></div>
-  <div class="v-card v-bad"><div class="v-kpi">~18s</div><div class="v-lbl"><b>Gorgias shopping latency</b> — 8th of 9. Sierra answers in ~9.5s, Envive ~12.6s. Latency is our clearest engineering gap.</div></div>
-  <div class="v-card v-bad"><div class="v-kpi">49/100</div><div class="v-lbl"><b>Gorgias support quality</b> — mid-pack, dragged down by ONE misconfigured store (Baby Bee) answering everything with business-hours boilerplate. Configuration, not model.</div></div>
+  <div class="v-card v-good"><div class="v-kpi">98–100%</div><div class="v-lbl"><b><span class="tt" data-tip="Automation rate = % of engaged conversations the AI handled with ZERO human touch: no human handover AND no out-of-channel deflection ('email us' / 'call us'). Early bails count against it. In helpdesk terms: the share of tickets a human never touches.">Gorgias automation rate</span></b> — best in market, both lanes. The AI carries the conversation end-to-end; it almost never bails to a human or punts to email.</div></div>
+  <div class="v-card v-mid"><div class="v-kpi">62/100</div><div class="v-lbl"><b><span class="tt" data-tip="Shopping quality = LLM-judge score /100 per conversation: answer relevance /35, recommendation quality /25, rich commerce elements (cards, prices) /25, close attempt /15.">Gorgias shopping quality</span></b> — top-4. Strong comparisons &amp; purchase nudges; weaker than Envive (65) on rich product presentation.</div></div>
+  <div class="v-card v-bad"><div class="v-kpi">~18s</div><div class="v-lbl"><b><span class="tt" data-tip="Latency = average time from sending a free-typed message to the assistant's COMPLETE final answer, in a cold session. Never stopped on a stall message, never measured on quick-reply chips.">Gorgias shopping latency</span></b> — 8th of 9. Sierra answers in ~9.5s, Envive ~12.6s. Latency is our clearest engineering gap.</div></div>
+  <div class="v-card v-bad"><div class="v-kpi">49/100</div><div class="v-lbl"><b><span class="tt" data-tip="Support quality (Resolution Quality) = LLM-judge score /100 per conversation: in-channel resolution /40, accuracy &amp; grounding /25, actionability /20, clean close /15.">Gorgias support quality</span></b> — mid-pack, dragged down by ONE misconfigured store (Baby Bee) answering everything with business-hours boilerplate. Configuration, not model.</div></div>
 </div>
 <p class="lead" style="margin-top:12px">Composite ranking (50% automation · 25% quality · 25% speed): <b>Envive wins both lanes</b> (75 shopping / 76 support). <b>Gorgias ranks #4 in Shopping (69) and #2 in Support (72)</b> — carried by automation, held back by speed and one bad store config.</p>
+
+<h2>Where Gorgias wins — and where it doesn't</h2>
+<div class="winlose">
+  <div class="card">
+    <h3>✅ Where Gorgias wins vs. the industry</h3>
+    <ul>
+      <li><b>Zero-touch automation — #1 in market.</b> 98% Shopping / 100% Support: the AI carries the conversation end-to-end. Zero human handovers across 26 engaged support conversations; the field ranges 38–93%.</li>
+      <li><b>It sells.</b> Top-4 shopping quality (62/100): head-to-head product comparisons, promo terms cited correctly, consistent purchase nudges — most "support" vendors refuse to sell at all (DigitalGenius scored 12/100 for refusing every recommendation).</li>
+      <li><b>It never punts out of channel.</b> 0 deflections ("email us / call us") measured — Kodif deflected 4 support conversations, Siena 3.</li>
+      <li><b>Consistent coverage.</b> Measurable data on 6 stores, both lanes, every run — the only vendor with a full-fleet baseline you can trend week over week.</li>
+    </ul>
+  </div>
+  <div class="card lose">
+    <h3>❌ Where Gorgias is not winning</h3>
+    <ul>
+      <li><b>Speed — 8th of 9.</b> ~18.3s to a full shopping answer vs. Sierra 9.5s / Envive 12.6s. And delivery is <b>atomic</b>: nothing appears until the whole answer lands, while streaming vendors show substance in 1–5s. The credible bar is ~10–12s.</li>
+      <li><b>Support answer quality — mid-pack.</b> 49/100 vs. Envive/Sierra at 64. Driven by config variance, not the model: one unconfigured store (Baby Bee, business-hours boilerplate, 15/100) cost ~13 points.</li>
+      <li><b>Rich commerce elements.</b> No product cards on 5 of 6 stores — Envive shows cards + prices + bundles + a "final pick" on every turn; that presentation gap is their entire quality lead (65 vs 62).</li>
+      <li><b>The composite crown.</b> Envive wins both lanes today. Closing latency alone (~12s) would put Gorgias at #1 in Support and #2 in Shopping at current automation/quality levels.</li>
+    </ul>
+  </div>
+</div>
 
 <h2>Scoreboard</h2>
 <p class="lead">Automation = share of engaged conversations the AI handled end-to-end in-channel (handovers and email/phone deflections count against; early bails included). Quality = LLM-judge rubric /100. All free-text, cold sessions, no quick-reply chips.</p>
 <div class="card table-scroll">
 <table id="score-table">
-  <thead><tr><th>Vendor</th><th class="n">Composite 🛍️</th><th class="n">Composite 🎧</th><th>Automation 🛍️/🎧</th><th>Quality 🛍️/🎧</th><th class="n">Latency 🛍️/🎧</th><th>Read</th></tr></thead>
+  <thead><tr><th>Vendor</th><th class="n"><span class="tt" data-tip="Composite = 50% automation rate + 25% quality + 25% speed (speed scored 100 at ≤3s, 0 at ≥22s). One number per lane so vendors can be ranked.">Composite</span> 🛍️</th><th class="n"><span class="tt" data-tip="Composite = 50% automation rate + 25% quality + 25% speed (speed scored 100 at ≤3s, 0 at ≥22s). One number per lane so vendors can be ranked.">Composite</span> 🎧</th><th><span class="tt" data-tip="Automation rate = % of engaged conversations the AI handled with ZERO human touch: no human handover AND no deflection out of the channel (no 'email us' / 'call us'). Early bails count against it. This is the ticket-containment metric — the share of conversations a human never has to touch.">Automation</span> 🛍️/🎧</th><th><span class="tt" data-tip="Quality = an LLM judge scores every captured conversation /100 on a per-lane rubric. Shopping: answer relevance /35, recommendation quality /25, rich commerce elements /25, close attempt /15. Support (a.k.a. Resolution Quality): in-channel resolution /40, accuracy &amp; grounding /25, actionability /20, clean close /15.">Quality</span> 🛍️/🎧</th><th class="n"><span class="tt" data-tip="Latency = average time from sending a free-typed message to the assistant's COMPLETE final answer (never stopped on a 'let me check…' stall, never measured on quick-reply chips). Cold session per conversation.">Latency</span> 🛍️/🎧</th><th>Read</th></tr></thead>
   <tbody></tbody>
 </table>
 </div>

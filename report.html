@@ -201,7 +201,7 @@
     <div class="eyebrow">Gorgias R&amp;D · Competitive Intelligence</div>
     <h1>How the <span class="grad">Gorgias AI Agent</span> stacks up against every rival</h1>
     <button class="howbtn" onclick="openModal()"><span class="ic">ⓘ</span> How it works</button>
-    <a class="howbtn" href="takeaways.html" style="text-decoration:none;margin-left:8px"><span class="ic">🎯</span> Board takeaways</a>
+    <a class="howbtn" href="takeaways.html" style="text-decoration:none;margin-left:8px"><span class="ic">🎯</span> Industry takeaways</a>
   </div>
 </header>
 
@@ -305,16 +305,15 @@
 
 <section id="summary-sec">
   <h2 class="sec">Summary — by vendor</h2>
-  <p class="lead">One line per vendor, <strong>averaged across the stores tested in this mode</strong>. Drill into individual stores in the table below. (Legacy single-store success is mapped to a proxy: completed = 100%, partial = 50%, handover = 0%.)</p>
+  <p class="lead">One line per vendor, <strong>averaged across the stores tested in this mode</strong>. Drill into individual stores in the table below. Hover any column header for the metric's exact definition — <strong>Automation rate</strong> is the single containment dimension (conversations a human never touches); answer substance is scored separately by the LLM-judge <strong>Quality</strong> column.</p>
   <div class="card table-scroll">
     <table><thead><tr>
       <th class="srt" onclick="sortSummary('vendor')">Vendor<span class="sc"></span></th>
       <th class="n srt" onclick="sortSummary('stores')">Stores<span class="sc"></span></th>
       <th class="n srt" onclick="sortSummary('convs')">Conversations<span class="sc"></span></th>
-      <th class="srt" onclick="sortSummary('auto')" title="Share of engaged conversations the AI carried end-to-end: no human handover, no email/phone deflection. Early bails count against it.">Automation rate<span class="sc"></span></th>
+      <th class="srt" onclick="sortSummary('auto')" title="Automation rate = % of engaged conversations the AI handled with ZERO human touch — no human handover AND no 'email/call us' deflection. Early bails count against it. In helpdesk terms: the share of tickets a human never touches. (Replaces the old per-turn 'success' column — one containment dimension.)">Automation rate<span class="sc"></span></th>
       <th class="n srt" onclick="sortSummary('lat')">Full answer<span class="sc"></span></th>
-      <th class="n srt" onclick="sortSummary('ttft')" title="Median time to the first visible signal (typing/first token/first card) + delivery style. A streaming bot feels faster than its full-answer time — Roman's key insight.">First signal<span class="sc"></span></th>
-      <th class="srt" onclick="sortSummary('success')">Avg success (no handover)<span class="sc"></span></th>
+      <th class="n srt" onclick="sortSummary('ttft')" title="Median time to the first visible signal (typing/first token/first card) + delivery style: streaming (substance appears early) vs atomic (everything lands at once).">First signal<span class="sc"></span></th>
       <th class="n srt qcol qcol-h" onclick="sortSummary('qual')" title="LLM-judge score /100 — per-lane rubric: relevance/recommendation/rich-elements/close (Shopping) · resolution/accuracy/actionability/close (Support)">Quality (LLM judge)<span class="sc"></span></th>
       <th class="n srt" onclick="sortSummary('turns')">Avg turns<span class="sc"></span></th>
     </tr></thead>
@@ -363,7 +362,7 @@
   <div class="card table-scroll">
     <table id="results">
       <thead><tr>
-        <th class="srt" onclick="sortResults('store')">Vendor / store<span class="sc"></span></th><th class="hide-sm srt" onclick="sortResults('method')">Method<span class="sc"></span></th><th class="srt" onclick="sortResults('auto')" title="Share of engaged conversations the AI carried end-to-end (no handover, no deflection)">Automation<span class="sc"></span></th><th class="n srt" onclick="sortResults('lat')">Full answer<span class="sc"></span></th><th class="n srt" onclick="sortResults('ttft')" title="Median first visible signal + delivery style (streaming vs atomic)">First signal<span class="sc"></span></th><th class="srt" onclick="sortResults('success')">Success (no handover)<span class="sc"></span></th><th class="n srt qcol qcol-h" onclick="sortResults('qual')" title="LLM-judge score /100 (per-lane rubric)">Quality (LLM judge)<span class="sc"></span></th><th class="n srt" onclick="sortResults('turns')">Turns<span class="sc"></span></th><th class="hide-sm">What happened</th>
+        <th class="srt" onclick="sortResults('store')">Vendor / store<span class="sc"></span></th><th class="hide-sm srt" onclick="sortResults('method')">Method<span class="sc"></span></th><th class="srt" onclick="sortResults('auto')" title="Automation rate = % of engaged conversations the AI handled with ZERO human touch — no handover, no 'email/call us' deflection. The share of tickets a human never touches.">Automation<span class="sc"></span></th><th class="n srt" onclick="sortResults('lat')">Full answer<span class="sc"></span></th><th class="n srt" onclick="sortResults('ttft')" title="Median first visible signal + delivery style (streaming vs atomic)">First signal<span class="sc"></span></th><th class="n srt qcol qcol-h" onclick="sortResults('qual')" title="LLM-judge score /100 (per-lane rubric)">Quality (LLM judge)<span class="sc"></span></th><th class="n srt" onclick="sortResults('turns')">Turns<span class="sc"></span></th><th class="hide-sm">What happened</th>
       </tr></thead>
       <tbody id="results-body"></tbody>
     </table>
@@ -28000,8 +27999,6 @@ function renderSummary(){
   const key=r=> k==='vendor'?r.v.toLowerCase() : k==='stores'?r.stores : k==='convs'?r.convs : k==='auto'?(r.autoRate==null?-1:r.autoRate) : k==='success'?(r.avgS==null?-1:r.avgS) : k==='turns'?(r.avgT==null?-1:r.avgT) : k==='qual'?(r.avgQ==null?-1:r.avgQ) : k==='ttft'?(r.avgTtft==null?1e9:r.avgTtft) : (r.avgL==null?1e9:r.avgL);
   rows.sort((a,b)=>{const ka=key(a),kb=key(b); return ka<kb?-d:ka>kb?d:0;});
   document.getElementById('summary-body').innerHTML = rows.map(r=>{
-    const cls = r.avgS==null?'p-na':r.avgS>=70?'p-ok':r.avgS>=40?'p-mid':'p-bad';
-    const pill = r.avgS==null?'<span class="pill p-na">pending</span>':'<span class="pill '+cls+'">'+r.avgS+'%</span>';
     const bar = r.avgL!=null? '<div class="bar" style="display:inline-block;width:70px;vertical-align:middle"><i style="width:'+Math.min(100,r.avgL/20*100)+'%;background:'+(COL[r.v]||'#888')+'"></i></div> ':'';
     const acls = r.autoRate==null?'p-na':r.autoRate>=90?'p-ok':r.autoRate>=70?'p-mid':'p-bad';
     const apill = r.autoRate==null?'<span class="pill p-na">—</span>'
@@ -28012,7 +28009,6 @@ function renderSummary(){
       '<td>'+apill+'</td>'+
       '<td class="n mono">'+bar+'<span style="font-weight:700">'+(r.avgL!=null?('~'+r.avgL+'s'):'—')+'</span></td>'+
       '<td class="n mono">'+ttftCell(r.avgTtft,r.delivery)+'</td>'+
-      '<td>'+pill+'</td>'+
       '<td class="n mono qcol">'+qCell(r.avgQ)+'</td>'+
       '<td class="n mono">'+(r.avgT!=null?r.avgT:'—')+'</td></tr>';
   }).join('');
@@ -28037,7 +28033,6 @@ function renderResults(){
       '<td>'+aCell(s)+'</td>'+
       '<td class="n mono">'+latBar+'<span style="font-weight:700">'+(s.lat||'—')+'</span></td>'+
       '<td class="n mono">'+ttftCell(s.ttft,s.delivery)+'</td>'+
-      '<td>'+pillFor(s)+'</td>'+
       '<td class="n mono qcol">'+qCell(qNum(s))+'</td>'+
       '<td class="n mono">'+(tcount(s)?tcount(s):'—')+'</td>'+
       '<td class="hide-sm note" style="font-size:12px">'+(s.what||'')+'</td>'+
@@ -28253,7 +28248,7 @@ function renderBestPanel(elId, allRows){
   const w=rows[0];
   let h='<div class="best-winner"><div class="best-medal">#1 · winner</div>'+
     '<div class="best-wmain"><div class="best-name"><span class="vdot" style="background:'+col(w.v)+'"></span>'+w.v+(w.us?'<span class="us-tag">US</span>':'')+'</div>'+
-    '<div class="best-sub">'+(w.autoRate!=null?w.autoRate+'% automation · ':'')+Math.round(w.avgS)+'% success · ~'+s1(w.avgL)+'s'+(w.avgQ!=null?' · quality '+w.avgQ+'/100':'')+' · '+pct(w.cov)+' coverage</div></div>'+
+    '<div class="best-sub">'+(w.autoRate!=null?w.autoRate+'% automation':Math.round(w.avgS)+'% success (legacy)')+' · ~'+s1(w.avgL)+'s'+(w.avgQ!=null?' · quality '+w.avgQ+'/100':'')+' · '+pct(w.cov)+' coverage</div></div>'+
     '<div class="best-score">'+w.comp+'<span>/100</span></div></div>';
   if(rows.length>1){
     h+='<div class="best-list">'+rows.slice(1).map((r,i)=>
@@ -28273,7 +28268,7 @@ function gatedHtml(gated,col,pct){
   if(!gated.length) return '';
   return '<div class="best-gated"><div class="gh">Not ranked on speed — too few cleanly-timed turns</div>'+
     gated.map(r=>'<div class="best-row"><span class="best-rname"><span class="vdot" style="background:'+col(r.v)+'"></span>'+r.v+(r.us?'<span class="us-tag">US</span>':'')+'</span>'+
-      '<span class="best-rmeta mono" style="flex:1;text-align:left;color:var(--on-muted)">'+Math.round(r.avgS)+'% success'+(r.avgL!=null?' · ~'+(Math.round(r.avgL*10)/10)+'s on '+r.timed+' turn'+(r.timed===1?'':'s'):' · no timed turns')+'</span>'+
+      '<span class="best-rmeta mono" style="flex:1;text-align:left;color:var(--on-muted)">'+(r.autoRate!=null?r.autoRate+'% automation':Math.round(r.avgS)+'% success (legacy)')+(r.avgL!=null?' · ~'+(Math.round(r.avgL*10)/10)+'s on '+r.timed+' turn'+(r.timed===1?'':'s'):' · no timed turns')+'</span>'+
       '<span class="best-cov mono">'+pct(r.cov)+' cov</span></div>').join('')+'</div>';
 }
 let BESTMODE='shopping';
@@ -28415,7 +28410,12 @@ function applyView(){
 function renderAll(){
   renderSummary(); renderResults(); renderMatrix(); renderConv(); renderFilter(); renderBest(); renderTrends(); renderGuardrails(); carets();
   // Quality column shows in both modes (Relevance rubric for shopping, Resolution for support)
-  document.querySelectorAll('.qcol-h').forEach(e=>{ const sc=e.querySelector('.sc'); e.firstChild.textContent = (MODE==='shopping'?'Relevance quality':'Resolution quality'); });
+  document.querySelectorAll('.qcol-h').forEach(e=>{
+    e.firstChild.textContent = (MODE==='shopping'?'Relevance quality':'Resolution quality');
+    e.title = MODE==='shopping'
+      ? 'Relevance Quality = LLM-judge score /100 per conversation: answer relevance /35, recommendation quality /25, rich commerce elements (cards, prices) /25, close attempt /15.'
+      : 'Resolution Quality = LLM-judge score /100 per conversation: in-channel resolution /40, accuracy & grounding /25, actionability /20, clean close /15. Separate from Automation rate: automation asks "did a human touch it?", this asks "was the answer actually good?"';
+  });
   applyView();
   saveState();
 }
