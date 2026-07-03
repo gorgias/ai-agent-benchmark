@@ -368,30 +368,38 @@ document.querySelector('#score-table tbody').innerHTML=rows.map(r=>
   document.getElementById('ticker-track').innerHTML=one+one;   // duplicated for a seamless loop
 })();
 
-// ---------- living mesh-gradient hero (canvas, ink-in-water on paper) ----------
+// ---------- living, POINTER-REACTIVE mesh-gradient hero (ink-in-water on paper) ----------
 (function(){
   const cv=document.getElementById('heroCanvas'); if(!cv) return;
+  const hero=cv.closest('.hero')||cv.parentElement;
+  const h1=hero.querySelector('h1');
   const ctx=cv.getContext('2d'); const dpr=Math.min(2,window.devicePixelRatio||1);
-  const orbs=[   // restrained palette: coral / peach / violet only — anything more turns to mud
-    {c:[240,96,63],  x:.24,y:.42,ax:.15,ay:.10,sx:0.050,sy:0.040,ph:0.0,r:.55,a:.42},
-    {c:[255,139,93], x:.72,y:.38,ax:.13,ay:.11,sx:0.044,sy:0.052,ph:2.1,r:.50,a:.36},
-    {c:[110,86,207], x:.50,y:.70,ax:.16,ay:.12,sx:0.037,sy:0.046,ph:4.0,r:.52,a:.26},
+  const orbs=[   // restrained palette: coral / peach / violet only. m = parallax depth (how much it follows the mouse)
+    {c:[240,96,63],  x:.24,y:.42,ax:.15,ay:.10,sx:0.050,sy:0.040,ph:0.0,r:.55,a:.44,m:0.12},
+    {c:[255,139,93], x:.72,y:.38,ax:.13,ay:.11,sx:0.044,sy:0.052,ph:2.1,r:.50,a:.38,m:0.22},
+    {c:[110,86,207], x:.50,y:.70,ax:.16,ay:.12,sx:0.037,sy:0.046,ph:4.0,r:.52,a:.28,m:0.32},
   ];
-  let W,H;
+  let W,H, tx=.5,ty=.42, mx=.5,my=.42;   // t = pointer target, m = eased follow
   function size(){ W=cv.width=Math.max(1,cv.offsetWidth*dpr); H=cv.height=Math.max(1,cv.offsetHeight*dpr); }
   size(); addEventListener('resize', size);
+  addEventListener('pointermove',(e)=>{ const r=hero.getBoundingClientRect();
+    tx=Math.max(0,Math.min(1,(e.clientX-r.left)/r.width));
+    ty=Math.max(-.4,Math.min(1.4,(e.clientY-r.top)/r.height)); }, {passive:true});
   function draw(t){
+    mx+=(tx-mx)*0.05; my+=(ty-my)*0.05;          // silky pointer follow
+    const px=mx-.5, py=my-.42;
     ctx.globalCompositeOperation='source-over'; ctx.fillStyle='#F6F2EC'; ctx.fillRect(0,0,W,H);
     ctx.globalCompositeOperation='multiply';
     for(const o of orbs){
-      const cx=(o.x+Math.sin(t*o.sx+o.ph)*o.ax)*W;
-      const cy=(o.y+Math.cos(t*o.sy+o.ph)*o.ay)*H;
+      const cx=(o.x + Math.sin(t*o.sx+o.ph)*o.ax + px*o.m)*W;   // drift + mouse parallax
+      const cy=(o.y + Math.cos(t*o.sy+o.ph)*o.ay + py*o.m)*H;
       const rad=o.r*Math.max(W,H);
       const g=ctx.createRadialGradient(cx,cy,0,cx,cy,rad);
       g.addColorStop(0,`rgba(${o.c[0]},${o.c[1]},${o.c[2]},${o.a})`);
       g.addColorStop(1,`rgba(${o.c[0]},${o.c[1]},${o.c[2]},0)`);
       ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
     }
+    if(h1) h1.style.transform=`translate(${(-px*14).toFixed(1)}px,${(-py*8).toFixed(1)}px)`;   // headline parallax
   }
   if(matchMedia('(prefers-reduced-motion: reduce)').matches){ draw(0); }
   else { let s=0; (function loop(){ s+=0.016; draw(s); requestAnimationFrame(loop); })(); }
