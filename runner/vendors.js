@@ -553,6 +553,7 @@ export const STORES = [
   { key: "sierra-bark",       vendor: "Sierra", store: "BARK",        url: "https://bark.co/",            widget: "sierra" },
   { key: "sierra-sunandski",  vendor: "Sierra", store: "Sun & Ski",   url: "https://www.sunandski.com/",  widget: "sierra" },
   { key: "sierra-madisonreed",vendor: "Sierra", store: "Madison Reed",url: "https://www.madison-reed.com/", widget: "sierra" },
+  { key: "sierra-aloyoga",    vendor: "Sierra", store: "Alo Yoga",    url: "https://www.aloyoga.com/",    widget: "sierra" }, // confirmed 2026-07-03: enable_sierra_ai_chat + sierra_enable_customer_token (Gladly = underlying contact form)
   // Siena (chat.siena.cx webchat)
   { key: "siena-mudwtr",      vendor: "Siena",  store: "MUD\\WTR",    url: "https://mudwtr.com/",         widget: "siena" },
   { key: "siena-spanx",       vendor: "Siena",  store: "Spanx",       url: "https://spanx.com/",          widget: "siena" },
