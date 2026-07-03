@@ -39,10 +39,6 @@ const DATES = dateArg ? [dateArg] : (await allDates());
 const LATEST = DATES[DATES.length - 1];
 console.log(`Generating report data from ${DATES.length} run(s): ${DATES.join(", ")}`);
 
-// LLM-judge Relevance/Resolution Quality scores, per store+mode (populated by the judge pass).
-let QSCORES = { shopping: {}, support: {} };
-try { QSCORES = JSON.parse(await readFile(new URL("./quality-scores.json", import.meta.url).pathname, "utf8")); QSCORES.shopping = QSCORES.shopping || {}; QSCORES.support = QSCORES.support || {}; } catch {}
-
 // Per-CONVERSATION LLM-judge eval scores (eval-scores.json, built by eval-pack/eval-merge +
 // the judge pass). Keyed by "<date>/<conv-filename>". Rubrics: shopping = answer35/rec25/
 // rich25/close15; support = resolution40/accuracy25/actionability20/close15.
@@ -269,9 +265,10 @@ function measuredEntry(site, mode, agg, date) {
     })),
   };
   if (mode === "shopping" && CAPS[site.key]) e.caps = CAPS[site.key];
-  // Relevance/Resolution Quality — LLM-judge scores from quality-scores.json (per store+mode).
-  const qs = QSCORES[mode] && QSCORES[mode][site.key];
-  if (qs) e.quality = qs;
+  // Quality comes EXCLUSIVELY from the per-conversation LLM-judge evals (evalq).
+  // The legacy quality-scores.json fallback (hand-curated, pre-eval methodology) was
+  // removed 2026-07-03 — mixing two scoring methods in one column made numbers
+  // uncomparable across stores.
   // flat turns = first theme, for any legacy code path
   e.turns = e.themes[0] ? e.themes[0].turns : [];
   return e;
