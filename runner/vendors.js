@@ -554,6 +554,19 @@ export const STORES = [
   { key: "sierra-sunandski",  vendor: "Sierra", store: "Sun & Ski",   url: "https://www.sunandski.com/",  widget: "sierra" },
   { key: "sierra-madisonreed",vendor: "Sierra", store: "Madison Reed",url: "https://www.madison-reed.com/", widget: "sierra" },
   { key: "sierra-aloyoga",    vendor: "Sierra", store: "Alo Yoga",    url: "https://www.aloyoga.com/",    widget: "sierra" }, // confirmed 2026-07-03: enable_sierra_ai_chat + sierra_enable_customer_token (Gladly = underlying contact form)
+  // ---- sourcing pass 2026-07-03 (all signature-verified via curl by research agent) ----
+  { key: "sierra-thirdlove",  vendor: "Sierra", store: "ThirdLove",   url: "https://www.thirdlove.com/",  widget: "sierra" },          // sierra.chat + sierraConfig
+  { key: "spiffy-carbahn",    vendor: "Envive", store: "CarBahn",     url: "https://carbahn.com/",        widget: "spiffy" },          // cdn.spiffy
+  { key: "siena-superfoods",  vendor: "Siena",  store: "Superfoods Company", url: "https://superfoodscompany.com/", widget: "siena" }, // siena.cx
+  { key: "ada-simba",         vendor: "Ada",    store: "Simba Sleep", url: "https://simbasleep.com/",     widget: "ada", locale: "en-GB" }, // static.ada.support + adaEmbed
+  { key: "dg-organicbasics",  vendor: "DigitalGenius", store: "Organic Basics", url: "https://organicbasics.com/",     widget: "dg" },                    // digitalgenius.com
+  { key: "dg-clubllondon",    vendor: "DigitalGenius", store: "Club L London",  url: "https://www.clubllondon.com/",   widget: "dg", locale: "en-GB" },   // digitalgenius.com
+  { key: "dg-abbottlyon",     vendor: "DigitalGenius", store: "Abbott Lyon",    url: "https://www.abbottlyon.com/",    widget: "dg", locale: "en-GB" },   // digitalgenius.com
+  { key: "repai-masteringthemix", vendor: "Rep AI", store: "Mastering The Mix", url: "https://www.masteringthemix.com/", widget: "repai", locale: "en-GB" }, // initRep
+  { key: "gorgias-tommyjohn", vendor: "Gorgias", store: "Tommy John",   url: "https://www.tommyjohn.com/",  widget: "gorgias", us: true }, // config.gorgias
+  { key: "gorgias-pepper",    vendor: "Gorgias", store: "Pepper",       url: "https://www.wearpepper.com/", widget: "gorgias", us: true }, // config.gorgias + gorgias-chat
+  { key: "gorgias-drbronner", vendor: "Gorgias", store: "Dr. Bronner's",url: "https://www.drbronner.com/",  widget: "gorgias", us: true }, // config.gorgias
+  { key: "meta-butcherbox",   vendor: "Meta AI", store: "ButcherBox",   url: "https://www.butcherbox.com/", widget: "zendesk" },           // static.zdassets
   // Siena (chat.siena.cx webchat)
   { key: "siena-mudwtr",      vendor: "Siena",  store: "MUD\\WTR",    url: "https://mudwtr.com/",         widget: "siena" },
   { key: "siena-spanx",       vendor: "Siena",  store: "Spanx",       url: "https://spanx.com/",          widget: "siena" },
