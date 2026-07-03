@@ -222,6 +222,7 @@ async function loadAgg(key, mode, date) {
 function outcomeOnlyEntry(site, mode, agg, date) {
   return {
     id: `${site.key}-${mode}-${date}`, date, vendor: site.vendor, store: site.store, site: host(site.url), url: site.url,
+    widget: site.widget, locale: site.locale || "en-US",
     method: "new", us: !!site.us, lat: "—", latPct: 0, success: null, successTxt: "—",
     auto: agg.auto, evalq: agg.evalq, guard: agg.guard,
     what: `Engaged ${agg.auto.engaged} conversation(s) but none produced ≥3 timed AI answers — ` +
@@ -245,6 +246,7 @@ function measuredEntry(site, mode, agg, date) {
       + `Avg end-to-end latency ~${avgS}s across ${st.answered_no_handover} AI-timed turns.`;
   const e = {
     id: `${site.key}-${mode}-${date}`, date, vendor: site.vendor, store: site.store, site: host(site.url), url: site.url,
+    widget: site.widget, locale: site.locale || "en-US",
     method: "new", us: !!site.us,
     lat: avgS != null ? `~${avgS}s` : "—", latPct: avgS != null ? Math.min(100, Math.round(avgS / 25 * 100)) : 0,
     ttft: st.ttft_ms != null ? round1(st.ttft_ms / 1000) : null, delivery: st.delivery,
@@ -278,6 +280,7 @@ function pendingEntry(site, mode) {
   const cur = CURATED[site.key] || { method: "pending", successTxt: "pending", successCls: "p-na", what: "Not captured in a cold run yet — pending." };
   const e = {
     id: `${site.key}-${mode}-pending`, date: LATEST, vendor: site.vendor, store: site.store, site: host(site.url), url: site.url,
+    widget: site.widget, locale: site.locale || "en-US",
     method: cur.method, us: !!site.us, lat: "—", success: null, successTxt: cur.successTxt, successCls: cur.successCls,
     what: cur.what, turns: [],
   };
