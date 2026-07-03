@@ -1,0 +1,3928 @@
+{
+ "2026-07-01/ada-loop-shopping-beginner.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 22,
+   "recommendation": 16,
+   "rich": 4,
+   "close": 4
+  },
+  "total": 46,
+  "resolution_class": "partial",
+  "learning": "Names all 5 products with use-case mapping on turn 2, but circles back to the same use-case question repeatedly and never commits to a single beginner pick until turn 7 with a price but no link or cart affordance.",
+  "judged_at": null
+ },
+ "2026-07-01/ada-loop-shopping-compare-budget.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 10,
+   "recommendation": 4,
+   "rich": 2,
+   "close": 1
+  },
+  "total": 17,
+  "resolution_class": "failed",
+  "learning": "Loops on the same use-case clarifying question for 6 of 7 turns without ever naming a product or price; one unanswered turn; never advances to a recommendation despite the shopper explicitly asking for two named options.",
+  "judged_at": null
+ },
+ "2026-07-01/ada-loop-shopping-everyday-value.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 10,
+   "recommendation": 4,
+   "rich": 2,
+   "close": 1
+  },
+  "total": 17,
+  "resolution_class": "failed",
+  "learning": "Mirrors the compare-budget failure: asks the same noise-level clarifying question on every turn, never names a product or price, and responds to 'what is your best seller?' with yet another clarifying question.",
+  "judged_at": null
+ },
+ "2026-07-01/ada-loop-shopping-gift.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 13,
+   "recommendation": 5,
+   "rich": 3,
+   "close": 2
+  },
+  "total": 23,
+  "resolution_class": "failed",
+  "learning": "Asks clarifying questions on 6 of 7 turns but never names a concrete gift product; only useful answer is on turn 6 (no gift wrapping, Target receipt) — never reaches a recommendation or price.",
+  "judged_at": null
+ },
+ "2026-07-01/ada-loop-shopping-problem-solver.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 23,
+   "recommendation": 14,
+   "rich": 7,
+   "close": 7
+  },
+  "total": 51,
+  "resolution_class": "partial",
+  "learning": "Proactively surfaces 100-day return + 2-year warranty to address quality anxiety, cites Loop Experience 2 with real review count (4.6/5, 8021 reviews), and gives a price (€29.95) at close — but one unanswered turn and no direct link.",
+  "judged_at": null
+ },
+ "2026-07-01/ada-loop-support-damaged.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 8,
+   "accuracy": 10,
+   "actionability": 6,
+   "close": 3
+  },
+  "total": 27,
+  "resolution_class": "partial",
+  "learning": "Correctly distinguishes warranty/replacement vs normal return on turn 2, but then asks the same 'did you order from loopearplugs.com?' gate question on every remaining turn without ever providing actionable next steps or a return link.",
+  "judged_at": null
+ },
+ "2026-07-01/ada-loop-support-returns.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 28,
+   "accuracy": 20,
+   "actionability": 14,
+   "close": 10
+  },
+  "total": 72,
+  "resolution_class": "resolved",
+  "learning": "Delivers accurate, specific policy details across all turns — 100-day window, 5-day refund, exchange via portal, non-returnable edge cases — with two unanswered turns (turns 2 and 5) that knock down the score despite strong overall coverage.",
+  "judged_at": null
+ },
+ "2026-07-01/ada-loop-support-tracking.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 7,
+   "accuracy": 9,
+   "actionability": 4,
+   "close": 2
+  },
+  "total": 22,
+  "resolution_class": "failed",
+  "learning": "Gives processing and delivery timeframes on turns 2–3, but four consecutive turns (4–7) produce no reply at all — the assistant completely failed to respond to questions about speeding up, tracking updates, finding the tracking link, or order status lookup.",
+  "judged_at": null
+ },
+ "2026-07-01/dg-bloomwild-shopping-beginner.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 18,
+   "recommendation": 10,
+   "rich": 5,
+   "close": 2
+  },
+  "total": 35,
+  "resolution_class": "partial",
+  "learning": "Provides a clean taxonomy of product types and names letterbox flowers as easiest first choice, but escalates to human agent on turn 4 (budget question) and the remaining turns produce no AI replies — handover kills the shopping journey.",
+  "judged_at": null
+ },
+ "2026-07-01/dg-bloomwild-shopping-compare-budget.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 24,
+   "recommendation": 16,
+   "rich": 10,
+   "close": 5
+  },
+  "total": 55,
+  "resolution_class": "partial",
+  "learning": "Handles all 6 AI turns well — names letterbox flowers vs subscriptions, explains value distinction, cites referral/bundle savings, gives a personal pick — but escalates to human for the cart/total question and provides no price throughout.",
+  "judged_at": null
+ },
+ "2026-07-01/dg-bloomwild-shopping-gift.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 24,
+   "recommendation": 17,
+   "rich": 10,
+   "close": 5
+  },
+  "total": 56,
+  "resolution_class": "partial",
+  "learning": "Consistently recommends letterbox bouquets with gift-ready packaging detail and next-day delivery specifics, but escalates to human when asked to add to cart — never names a specific product or price point across any turn.",
+  "judged_at": null
+ },
+ "2026-07-01/dg-bloomwild-shopping-problem-solver.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 17,
+   "recommendation": 8,
+   "rich": 3,
+   "close": 2
+  },
+  "total": 30,
+  "resolution_class": "failed",
+  "learning": "Answers 4 turns adequately at category level (bud-to-bloom, 7-day guarantee), but three consecutive turns including the final close produce no reply at all, and no specific product is ever named or priced.",
+  "judged_at": null
+ },
+ "2026-07-01/dg-bloomwild-support-damaged.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 5,
+   "accuracy": 6,
+   "actionability": 4,
+   "close": 2
+  },
+  "total": 17,
+  "resolution_class": "failed",
+  "learning": "Repeats the same 'share order number and postcode' prompt verbatim on every single turn without answering any policy question (refund vs replacement, cost, timing) — zero information provided beyond the data-collection gate.",
+  "judged_at": null
+ },
+ "2026-07-01/dg-bloomwild-support-order-mgmt.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 22,
+   "accuracy": 17,
+   "actionability": 13,
+   "close": 6
+  },
+  "total": 58,
+  "resolution_class": "partial",
+  "learning": "Delivers clear, specific policy on address change, cancellation (48h window), add-items limitation, and post-ship lock — but escalates to human for the refund timeline question and the final order-lookup request remains unanswered.",
+  "judged_at": null
+ },
+ "2026-07-01/dg-bloomwild-support-policy.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 16,
+   "accuracy": 14,
+   "actionability": 8,
+   "close": 4
+  },
+  "total": 42,
+  "resolution_class": "partial",
+  "learning": "Answers international coverage (UK/IE/DE/AT) and delivery stats well, but gives a vague non-answer on return policy ('we aim to make it right') and escalates to human when asked about final-sale items — partial policy coverage, no self-service resolution.",
+  "judged_at": null
+ },
+ "2026-07-01/dg-bloomwild-support-tracking.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 6,
+   "accuracy": 7,
+   "actionability": 4,
+   "close": 2
+  },
+  "total": 19,
+  "resolution_class": "failed",
+  "learning": "Responds to every single tracking question — including 'how long is delivery?' and 'how do I find my tracking link?' — with the identical order-number/postcode collection prompt, providing no factual information on any turn.",
+  "judged_at": null
+ },
+ "2026-07-01/dg-gstar-shopping-everyday-value.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 12,
+   "recommendation": 4,
+   "rich": 4,
+   "close": 1
+  },
+  "total": 21,
+  "resolution_class": "failed",
+  "learning": "Deflects the product comparison request ('unable to provide direct comparisons'), fails to find bestseller info, and produces no replies for the final two turns — only actionable content is discount programme info (newsletter/UNiDAYS), not product guidance.",
+  "judged_at": null
+ },
+ "2026-07-01/envive-kut-shopping-beginner.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 27,
+   "recommendation": 19,
+   "rich": 14,
+   "close": 8
+  },
+  "total": 68,
+  "resolution_class": "resolved",
+  "learning": "Names multiple specific jean styles with use-case rationale, links to fit guide and fit quiz on most turns, provides a concrete product link (Catherine Boyfriend in Black) with shipping threshold at close — strong directional coverage despite no cart-add capability.",
+  "judged_at": null
+ },
+ "2026-07-01/envive-kut-shopping-compare-budget.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 28,
+   "recommendation": 20,
+   "rich": 12,
+   "close": 9
+  },
+  "total": 69,
+  "resolution_class": "resolved",
+  "learning": "Compares Meg vs Ashton with price parity ($119), sizing caveats, and availability; gives a decisive personal pick (Meg); lists promo details; states $119 + $10.95 shipping at close — one failed first-turn delivery but overall very useful comparison.",
+  "judged_at": null
+ },
+ "2026-07-01/envive-kut-shopping-everyday-value.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 26,
+   "recommendation": 17,
+   "rich": 10,
+   "close": 7
+  },
+  "total": 60,
+  "resolution_class": "resolved",
+  "learning": "Recommends Diana Relaxed Straight for everyday comfort based on stated needs, names Meg as bestseller, provides multiple collection links, and closes with 15% first-order email signup offer and free-shipping threshold — no reviews data available acknowledged.",
+  "judged_at": null
+ },
+ "2026-07-01/envive-kut-shopping-gift.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 22,
+   "recommendation": 14,
+   "rich": 10,
+   "close": 6
+  },
+  "total": 52,
+  "resolution_class": "partial",
+  "learning": "Names specific gift items (Coco Sweater, Yona Knit, Carmen Top) and mentions Gift Instantly option; provides shipping timelines; one unanswered turn (turn 2); never gives a product price and the close only points to a collection page rather than a direct product.",
+  "judged_at": null
+ },
+ "2026-07-01/envive-kut-shopping-problem-solver.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 14,
+   "recommendation": 9,
+   "rich": 4,
+   "close": 2
+  },
+  "total": 29,
+  "resolution_class": "deflected",
+  "learning": "AI gives a reasonable quality/fit recommendation (Diana Relaxed Straight) on turn 3, but immediately hands over to offline human queue at turn 4 when asked about reviews — last four turns produce no answers while the form waits for email.",
+  "judged_at": null
+ },
+ "2026-07-01/envive-kut-support-tracking.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 24,
+   "accuracy": 18,
+   "actionability": 14,
+   "close": 9
+  },
+  "total": 65,
+  "resolution_class": "resolved",
+  "learning": "Gives specific processing (3–4 business days), delivery (4–5 or 7–10 days by order value), and Canada timeframes; explains no post-placement speed-up; directs to FedEx for stale tracking; provides shipping page link — clear, self-service friendly throughout.",
+  "judged_at": null
+ },
+ "2026-07-01/gorgias-babybee-shopping-beginner.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 20,
+   "recommendation": 14,
+   "rich": 12,
+   "close": 8
+  },
+  "total": 54,
+  "resolution_class": "partial",
+  "learning": "Names ALTO ($1299.99) as beginner pick with product card by turn 7, but three consecutive turns (2–4) produce no replies while the chat stalls — when it does respond, answers are useful and the close provides a price and encourages a product-page action.",
+  "judged_at": null
+ },
+ "2026-07-01/gorgias-babybee-shopping-compare-budget.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 28,
+   "recommendation": 20,
+   "rich": 16,
+   "close": 10
+  },
+  "total": 74,
+  "resolution_class": "resolved",
+  "learning": "Compares ALTO vs ROVER3 with specific prices ($1299.99 vs $999.99/$799.99), bundle savings detail, decisive recommendation (ALTO for best-balance, ROVER3 for budget), and a product card with correct sale price at close — strong structured comparison.",
+  "judged_at": null
+ },
+ "2026-07-01/gorgias-babybee-shopping-everyday-value.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 18,
+   "recommendation": 12,
+   "rich": 10,
+   "close": 7
+  },
+  "total": 47,
+  "resolution_class": "partial",
+  "learning": "Recommends ALTO with features (lifetime warranty, one-hand fold, 13kg basket) and shows product card with price, but one unanswered turn and three turns that give only boilerplate support hours text instead of substantive answers reduce overall usefulness.",
+  "judged_at": null
+ },
+ "2026-07-01/gorgias-babybee-shopping-gift.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 23,
+   "recommendation": 16,
+   "rich": 14,
+   "close": 7
+  },
+  "total": 60,
+  "resolution_class": "resolved",
+  "learning": "Names JOEY at $279.99 and accessory packs at $299.95 with specific inclusions, presents product cards, and closes by naming the top pick with price — one unanswered turn (gift-ready/ship) and no explicit gift-wrapping confirmation are minor gaps.",
+  "judged_at": null
+ },
+ "2026-07-01/gorgias-babybee-shopping-problem-solver.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 12,
+   "recommendation": 6,
+   "rich": 5,
+   "close": 4
+  },
+  "total": 27,
+  "resolution_class": "failed",
+  "learning": "Four of seven turns produce no substantive answer (stalling at 'Thinking'); when it does respond it offers JUNO/ALTO product buttons but never names a specific product with rationale, and the close provides only support-hours boilerplate.",
+  "judged_at": null
+ },
+ "2026-07-01/gorgias-babybee-support-damaged.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 5,
+   "accuracy": 5,
+   "actionability": 3,
+   "close": 2
+  },
+  "total": 15,
+  "resolution_class": "failed",
+  "learning": "Every single turn produces only the identical support-hours boilerplate and a 'Verify order details' button — zero policy information, no answers to any question about process, costs, replacement, or timelines.",
+  "judged_at": null
+ },
+ "2026-07-01/gorgias-babybee-support-order-mgmt.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 5,
+   "accuracy": 5,
+   "actionability": 3,
+   "close": 2
+  },
+  "total": 15,
+  "resolution_class": "failed",
+  "learning": "All seven turns return the same support-hours boilerplate with 'Verify order details' CTA — none of the policy questions (address change, cancellation window, add-item, shipped order changes, refund timing) are answered.",
+  "judged_at": null
+ },
+ "2026-07-01/gorgias-babybee-support-returns.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 5,
+   "accuracy": 5,
+   "actionability": 3,
+   "close": 2
+  },
+  "total": 15,
+  "resolution_class": "failed",
+  "learning": "All seven turns return support-hours boilerplate with no policy details — return window, start process, shipping cost, refund timeline, exchange options, final-sale items are all unanswered, making the AI chatbot completely non-functional for support.",
+  "judged_at": null
+ },
+ "2026-07-01/gorgias-babybee-support-tracking.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 5,
+   "accuracy": 5,
+   "actionability": 3,
+   "close": 2
+  },
+  "total": 15,
+  "resolution_class": "failed",
+  "learning": "Identical failure pattern as all other Baby Bee support threads — every turn returns only the support-hours boilerplate; no tracking guidance, shipping timeframes, or order-status help is provided across any of the seven turns.",
+  "judged_at": null
+ },
+ "2026-07-01/gorgias-beekman-shopping-beginner.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 28,
+   "recommendation": 20,
+   "rich": 16,
+   "close": 10
+  },
+  "total": 74,
+  "resolution_class": "resolved",
+  "learning": "Names Skincare Winners Travel-Size Gift Set ($37 sale) from turn 3 with consistent rationale (3-step, sensitive skin, low-commitment), flags 20% off threshold on multiple turns as upsell nudge, and shows product card with sale price at close.",
+  "judged_at": null
+ },
+ "2026-07-01/gorgias-beekman-shopping-compare-budget.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 30,
+   "recommendation": 22,
+   "rich": 18,
+   "close": 12
+  },
+  "total": 82,
+  "resolution_class": "resolved",
+  "learning": "Compares Milky Must-Haves vs Hydration Station with specific prices, skin-type fit, and feature breakdown; names a decisive pick; surfaces active Independence Day promo (20% off $100+, ends July 7); closes with product link and prompts toward the discount threshold.",
+  "judged_at": null
+ },
+ "2026-07-01/gorgias-beekman-shopping-everyday-value.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 29,
+   "recommendation": 21,
+   "rich": 17,
+   "close": 11
+  },
+  "total": 78,
+  "resolution_class": "resolved",
+  "learning": "Consistently recommends Milky Must-Haves 3-Piece ($120) for value + sensitivity, mentions free shipping at $80 and 20% off at $100, shows product card with sale price, and closes with welcome email discount offer — confident and commercially aware throughout.",
+  "judged_at": null
+ },
+ "2026-07-01/gorgias-beekman-shopping-gift.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 29,
+   "recommendation": 21,
+   "rich": 17,
+   "close": 11
+  },
+  "total": 78,
+  "resolution_class": "resolved",
+  "learning": "Names Fun in the Sun Travel Pack ($73 sale) as the most-special gift, provides specific shipping speeds and costs ($5 standard, $30 fast, $50 fastest), shows product card, and closes with a direct action prompt — strong gift-context handling with precise pricing.",
+  "judged_at": null
+ },
+ "2026-07-01/gorgias-beekman-shopping-problem-solver.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 28,
+   "recommendation": 22,
+   "rich": 18,
+   "close": 10
+  },
+  "total": 78,
+  "resolution_class": "partial",
+  "learning": "Beekman bot gave a named, clinically-credentialed product recommendation with stat-backed social proof but failed on the final 'add to cart' ask, admitting it cannot transact.",
+  "judged_at": null
+ },
+ "2026-07-01/gorgias-beekman-support-damaged.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 22,
+   "accuracy": 20,
+   "actionability": 14,
+   "close": 10
+  },
+  "total": 66,
+  "resolution_class": "partial",
+  "learning": "First turn failed to deliver (message-not-delivered error), but subsequent answers were accurate and specific: no return shipping for damaged items, photo required, resolution via Neighbor Service team review.",
+  "judged_at": null
+ },
+ "2026-07-01/gorgias-beekman-support-order-mgmt.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 28,
+   "accuracy": 22,
+   "actionability": 16,
+   "close": 11
+  },
+  "total": 77,
+  "resolution_class": "resolved",
+  "learning": "Delivered specific policy details throughout (1-hour cancellation window, 5-10 day refund timeline) with consistent login CTA and direct account link, keeping every answer concrete and actionable.",
+  "judged_at": null
+ },
+ "2026-07-01/gorgias-beekman-support-returns.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 24,
+   "accuracy": 20,
+   "actionability": 14,
+   "close": 10
+  },
+  "total": 68,
+  "resolution_class": "partial",
+  "learning": "First turn produced a message-not-delivered error, but recovery was solid: $8 return fee, 30-day window, no exchanges, GOAT Advent Calendar final-sale exception — all stated accurately.",
+  "judged_at": null
+ },
+ "2026-07-01/gorgias-beekman-support-tracking.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 24,
+   "accuracy": 20,
+   "actionability": 15,
+   "close": 10
+  },
+  "total": 69,
+  "resolution_class": "partial",
+  "learning": "First turn failed silently; recovery was accurate with specific shipping timelines (3 biz-day prep, 5-6 biz-day delivery) and two tracking links, but never retrieved the customer's actual order status.",
+  "judged_at": null
+ },
+ "2026-07-01/gorgias-jade-shopping-beginner.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 14,
+   "recommendation": 5,
+   "rich": 4,
+   "close": 2
+  },
+  "total": 25,
+  "resolution_class": "deflected",
+  "learning": "Jade bot escalated to human handover by turn 3 and then went silent for 4 consecutive turns — it answered support-category questions but made zero product recommendations and the session collapsed.",
+  "judged_at": null
+ },
+ "2026-07-01/gorgias-jade-shopping-compare-budget.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 24,
+   "recommendation": 20,
+   "rich": 16,
+   "close": 9
+  },
+  "total": 69,
+  "resolution_class": "partial",
+  "learning": "Named vinyl vs. keyring comparison was clear and honest, with prices and a direct recommendation on budget; acknowledged it cannot add to cart or confirm discounts, deflecting the final conversion step.",
+  "judged_at": null
+ },
+ "2026-07-01/gorgias-jade-shopping-everyday-value.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 22,
+   "recommendation": 18,
+   "rich": 14,
+   "close": 8
+  },
+  "total": 62,
+  "resolution_class": "partial",
+  "learning": "Consistently pushed the JADE Chrome Logo White T-Shirt as the everyday pick with clear rationale, but could not confirm reviews, cart, or shipping promotions, leaving the shopper to self-serve checkout.",
+  "judged_at": null
+ },
+ "2026-07-01/gorgias-jade-shopping-gift.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 24,
+   "recommendation": 20,
+   "rich": 17,
+   "close": 10
+  },
+  "total": 71,
+  "resolution_class": "partial",
+  "learning": "Progressed gift recommendations well from accessories to necklace set with prices shown, but could not confirm gift-ready packaging, and the final cart-add ask was cleanly declined with a direct product link.",
+  "judged_at": null
+ },
+ "2026-07-01/gorgias-jade-shopping-problem-solver.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 22,
+   "recommendation": 18,
+   "rich": 16,
+   "close": 9
+  },
+  "total": 65,
+  "resolution_class": "partial",
+  "learning": "Vinyl recommendation was coherent and stayed consistent across turns, but the return policy answer was vague ('return shipping costs are not covered') and the final cart-add was declined.",
+  "judged_at": null
+ },
+ "2026-07-01/gorgias-jade-support-tracking.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 14,
+   "accuracy": 14,
+   "actionability": 8,
+   "close": 5
+  },
+  "total": 41,
+  "resolution_class": "failed",
+  "learning": "Answered first 3 turns adequately but then produced 4 consecutive non-answers (empty replies), leaving the customer without guidance on tracking stalls, finding a link, or order status lookup.",
+  "judged_at": null
+ },
+ "2026-07-01/gorgias-madura-shopping-beginner.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 10,
+   "recommendation": 3,
+   "rich": 2,
+   "close": 1
+  },
+  "total": 16,
+  "resolution_class": "failed",
+  "learning": "Madura bot conflated a shopping beginner question with payment-method help and then went offline for the last 3 turns, making no product recommendations and collapsing the session entirely.",
+  "judged_at": null
+ },
+ "2026-07-01/gorgias-madura-shopping-compare-budget.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 12,
+   "recommendation": 5,
+   "rich": 3,
+   "close": 4
+  },
+  "total": 24,
+  "resolution_class": "deflected",
+  "learning": "Madura bot repeatedly asked the shopper to name a category before offering any recommendation, never proactively surfaced a product, and provided no prices, product names, or links throughout the conversation.",
+  "judged_at": null
+ },
+ "2026-07-01/gorgias-madura-shopping-everyday-value.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 10,
+   "recommendation": 4,
+   "rich": 2,
+   "close": 1
+  },
+  "total": 17,
+  "resolution_class": "failed",
+  "learning": "Two turns unanswered mid-session, then fully offline for turns 5-7 with 'message not delivered' errors and a human handover request that was never answered — total session failure.",
+  "judged_at": null
+ },
+ "2026-07-01/gorgias-madura-shopping-gift.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 18,
+   "recommendation": 12,
+   "rich": 10,
+   "close": 8
+  },
+  "total": 48,
+  "resolution_class": "partial",
+  "learning": "Gave coherent generic gift suggestions (bed linen, cushions) but never named a specific product until the last turn where it linked a parure de lit with a shipping cost breakdown — the only concrete commerce element.",
+  "judged_at": null
+ },
+ "2026-07-01/gorgias-madura-support-order-mgmt.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 26,
+   "accuracy": 20,
+   "actionability": 15,
+   "close": 10
+  },
+  "total": 71,
+  "resolution_class": "resolved",
+  "learning": "Accurate 2-hour cancellation window, 14-working-day refund timeline, and detailed return conditions (original packaging, tags, no washing) delivered cleanly with consistent login prompts for order lookup.",
+  "judged_at": null
+ },
+ "2026-07-01/gorgias-madura-support-returns.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 22,
+   "accuracy": 20,
+   "actionability": 14,
+   "close": 9
+  },
+  "total": 65,
+  "resolution_class": "partial",
+  "learning": "First two turns produced no response, but the bot recovered with precise policy: 14-day window, free non-bulky returns from France, made-to-order furniture final sale, and a direct return portal link.",
+  "judged_at": null
+ },
+ "2026-07-01/gorgias-madura-support-tracking.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 16,
+   "accuracy": 15,
+   "actionability": 10,
+   "close": 6
+  },
+  "total": 47,
+  "resolution_class": "partial",
+  "learning": "First two turns silent; answered tracking questions out of sequence and never retrieved actual order status — instructed on finding a tracking link under 'how to speed up' rather than answering the actual question asked.",
+  "judged_at": null
+ },
+ "2026-07-01/gorgias-shoebacca-shopping-beginner.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 22,
+   "recommendation": 18,
+   "rich": 14,
+   "close": 5
+  },
+  "total": 59,
+  "resolution_class": "partial",
+  "learning": "Strong early turns with named products, discounted prices, and welcome offer details, but last 3 turns produced no replies, losing momentum entirely at the recommendation, review, and cart stages.",
+  "judged_at": null
+ },
+ "2026-07-01/gorgias-shoebacca-shopping-compare-budget.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 27,
+   "recommendation": 22,
+   "rich": 19,
+   "close": 10
+  },
+  "total": 78,
+  "resolution_class": "partial",
+  "learning": "AP1 vs Ultima comparison was clear and decisive — named products, sale prices, feature differences, welcome-offer savings — but the bot could not add to cart; directed the shopper to checkout themselves.",
+  "judged_at": null
+ },
+ "2026-07-01/gorgias-shoebacca-shopping-everyday-value.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 26,
+   "recommendation": 21,
+   "rich": 19,
+   "close": 11
+  },
+  "total": 77,
+  "resolution_class": "partial",
+  "learning": "Consistent adidas Daily 4.0 recommendation throughout with price, feature comparison vs Daily 3.0, free shipping and $10 welcome-offer details — honest about not adding to cart but gave a strong product card nudge.",
+  "judged_at": null
+ },
+ "2026-07-01/gorgias-shoebacca-shopping-gift.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 24,
+   "recommendation": 19,
+   "rich": 16,
+   "close": 9
+  },
+  "total": 68,
+  "resolution_class": "partial",
+  "learning": "Pivot from hoodie to sneakers to coordinated outfit set showed good gift-specific reasoning, but the 'top gift pick' at checkout flip-switched to Fremont High Top at $19.95 — inconsistent with the Kaptir recommended earlier.",
+  "judged_at": null
+ },
+ "2026-07-01/gorgias-shoebacca-shopping-problem-solver.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 24,
+   "recommendation": 20,
+   "rich": 17,
+   "close": 10
+  },
+  "total": 71,
+  "resolution_class": "partial",
+  "learning": "PUMA MMQ sweatpants recommendation was product-specific with brand quality rationale, free-return policy stated accurately (30 days, free shipping), and pairing suggestions were relevant — solid all-around performance.",
+  "judged_at": null
+ },
+ "2026-07-01/gorgias-shoebacca-support-tracking.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 16,
+   "accuracy": 16,
+   "actionability": 10,
+   "close": 5
+  },
+  "total": 47,
+  "resolution_class": "partial",
+  "learning": "First 4 turns answered well with specific timelines and shipping options, but the last 3 turns (stale tracking, find link, order status) produced no replies — high-value support questions were left completely unanswered.",
+  "judged_at": null
+ },
+ "2026-07-01/kodif-dsc-shopping-beginner.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 26,
+   "recommendation": 20,
+   "rich": 16,
+   "close": 9
+  },
+  "total": 71,
+  "resolution_class": "partial",
+  "learning": "Named two starter sets with prices ($4.99 No Frills, $10 Humble Beginnings), described the full routine needed, and linked collections — but the bot cannot add to cart and never confirmed a final total.",
+  "judged_at": null
+ },
+ "2026-07-01/kodif-dsc-shopping-compare-budget.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 27,
+   "recommendation": 20,
+   "rich": 15,
+   "close": 8
+  },
+  "total": 70,
+  "resolution_class": "partial",
+  "learning": "Classic 4 Blade vs Humble Twin comparison was specific ($8.50 vs lower price, hair thickness guidance) with promo terms disclosed; last turn stalled mid-response — the cart/total ask produced no visible output.",
+  "judged_at": null
+ },
+ "2026-07-01/kodif-dsc-shopping-everyday-value.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 25,
+   "recommendation": 20,
+   "rich": 14,
+   "close": 8
+  },
+  "total": 67,
+  "resolution_class": "partial",
+  "learning": "Quoted actual review star ratings (4.7 for 4-blade, 4.5 for 6-blade with more reviews) — a standout data point — but bot declared it 'not a shopping assistant' at the cart step, contradicting the whole conversation.",
+  "judged_at": null
+ },
+ "2026-07-01/kodif-dsc-shopping-gift.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 24,
+   "recommendation": 19,
+   "rich": 15,
+   "close": 9
+  },
+  "total": 67,
+  "resolution_class": "partial",
+  "learning": "Fully Loaded Starter Set ($39.99) was a strong on-theme gift pick with set contents listed; gift-ready shipping question produced no answer; correctly gave product-page link with price for the final cart step.",
+  "judged_at": null
+ },
+ "2026-07-01/kodif-dsc-shopping-problem-solver.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 22,
+   "recommendation": 17,
+   "rich": 13,
+   "close": 8
+  },
+  "total": 60,
+  "resolution_class": "partial",
+  "learning": "Handover triggered when the return/guarantee question arose — bot admitted its knowledge base lacked return policy details, escalated to human, then continued providing product links after takeover.",
+  "judged_at": null
+ },
+ "2026-07-01/kodif-dsc-support-tracking.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 18,
+   "accuracy": 18,
+   "actionability": 12,
+   "close": 7
+  },
+  "total": 55,
+  "resolution_class": "partial",
+  "learning": "Correctly stated 24-48h processing and noted blade-only refills may not get tracking; persistently asked for order number/email to look up — but never retrieved actual order status within the captured conversation.",
+  "judged_at": null
+ },
+ "2026-07-01/repai-fresh-shopping-beginner.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 10,
+   "recommendation": 3,
+   "rich": 2,
+   "close": 1
+  },
+  "total": 16,
+  "resolution_class": "failed",
+  "learning": "Rep AI stuck in a loop repeating 'Auto Deliver saves 30% on first order' regardless of question — 4 of 7 turns produced no answer and the same subscription pitch repeated verbatim across every reply.",
+  "judged_at": null
+ },
+ "2026-07-01/repai-fresh-shopping-compare-budget.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 9,
+   "recommendation": 2,
+   "rich": 1,
+   "close": 1
+  },
+  "total": 13,
+  "resolution_class": "failed",
+  "learning": "Rep AI never named a single product or price — every reply was a subscription upsell loop ('30% off first Auto Deliver') regardless of the user's explicit comparison or budget questions.",
+  "judged_at": null
+ },
+ "2026-07-01/repai-fresh-shopping-everyday-value.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 8,
+   "recommendation": 2,
+   "rich": 1,
+   "close": 1
+  },
+  "total": 12,
+  "resolution_class": "failed",
+  "learning": "Rep AI produced 4 unanswered turns and recycled the identical Auto Deliver pitch in all answered turns — no product named, no price given, no comparison made across the entire conversation.",
+  "judged_at": null
+ },
+ "2026-07-01/repai-fresh-shopping-gift.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 8,
+   "recommendation": 2,
+   "rich": 1,
+   "close": 1
+  },
+  "total": 12,
+  "resolution_class": "failed",
+  "learning": "Rep AI failed to engage with any gift-specific question — 3 turns unanswered, every answered turn recycled the Auto Deliver subscription pitch, and no gift product or bundle was ever identified.",
+  "judged_at": null
+ },
+ "2026-07-01/repai-fresh-shopping-problem-solver.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 9,
+   "recommendation": 2,
+   "rich": 1,
+   "close": 1
+  },
+  "total": 13,
+  "resolution_class": "failed",
+  "learning": "Rep AI recycled the same Auto Deliver subscription pitch verbatim across all turns, including when directly asked for a specific product recommendation and return policy — 3 final turns went entirely unanswered.",
+  "judged_at": null
+ },
+ "2026-07-01/repai-fresh-support-returns.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 4,
+   "accuracy": 3,
+   "actionability": 2,
+   "close": 1
+  },
+  "total": 10,
+  "resolution_class": "failed",
+  "learning": "Rep AI answered every return-policy question with a subscription/Auto Deliver pitch and provided no return policy information whatsoever — 4 of 7 turns produced no answer.",
+  "judged_at": null
+ },
+ "2026-07-01/repai-fresh-support-tracking.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 2,
+   "accuracy": 3,
+   "actionability": 2,
+   "close": 1
+  },
+  "total": 8,
+  "resolution_class": "failed",
+  "learning": "Rep AI on Fresh Roasted Coffee completely ignored all tracking/shipping questions and responded with subscription marketing copy on every single turn, including 3 unanswered turns.",
+  "judged_at": null
+ },
+ "2026-07-01/siena-figs-shopping-gift.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 2,
+   "recommendation": 0,
+   "rich": 0,
+   "close": 0
+  },
+  "total": 2,
+  "resolution_class": "deflected",
+  "learning": "Siena on FIGS was offline for the entire session — every turn returned a ticket-creation message with zero shopping assistance, product names, or gift guidance.",
+  "judged_at": null
+ },
+ "2026-07-01/siena-figs-shopping-problem-solver.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 2,
+   "recommendation": 0,
+   "rich": 0,
+   "close": 0
+  },
+  "total": 2,
+  "resolution_class": "deflected",
+  "learning": "FIGS was offline for all turns; Siena deflected every question to an email ticket — the only variation was a final suggestion to clear browser cache when the user asked to add to cart.",
+  "judged_at": null
+ },
+ "2026-07-01/siena-simplemodern-shopping-beginner.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 28,
+   "recommendation": 20,
+   "rich": 20,
+   "close": 10
+  },
+  "total": 78,
+  "resolution_class": "partial",
+  "learning": "Siena on Simple Modern consistently recommended the Mesa Loop 30oz with price ($29.99), product card link, and real review data (4.7/5, 500+ reviews), but could not add to cart and only gave a price range at checkout.",
+  "judged_at": null
+ },
+ "2026-07-01/siena-simplemodern-shopping-compare-budget.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 24,
+   "recommendation": 17,
+   "rich": 18,
+   "close": 9
+  },
+  "total": 68,
+  "resolution_class": "partial",
+  "learning": "Siena showed NFL/Collegiate Trek Tumblers at $34.99 each with product cards and detailed promo tiers (Buy More Save More), but stalled on 3 early turns with clarifying questions before surfacing concrete products.",
+  "judged_at": null
+ },
+ "2026-07-01/siena-simplemodern-shopping-everyday-value.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 20,
+   "recommendation": 15,
+   "rich": 15,
+   "close": 8
+  },
+  "total": 58,
+  "resolution_class": "partial",
+  "learning": "Siena spent the first four turns asking clarifying questions without naming any products; only on turn 5 did it surface the Trek Tumbler 40oz ($24.99, 4.8/5 from 5300 reviews) with a direct link.",
+  "judged_at": null
+ },
+ "2026-07-01/siena-simplemodern-shopping-gift.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 26,
+   "recommendation": 19,
+   "rich": 18,
+   "close": 9
+  },
+  "total": 72,
+  "resolution_class": "partial",
+  "learning": "Siena named the Getaway Bag ($89.99) with a product card, gave shipping timeframe (5-11 business days), and noted free shipping above $30, but could not add to cart and gave no exact gift-ready packaging confirmation.",
+  "judged_at": null
+ },
+ "2026-07-01/siena-simplemodern-shopping-problem-solver.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 24,
+   "recommendation": 16,
+   "rich": 14,
+   "close": 6
+  },
+  "total": 60,
+  "resolution_class": "partial",
+  "learning": "Siena provided good quality reassurance and return policy (30 days, unused/original packaging) but escalated to human agent at the final turn and could not add item to cart or give a total.",
+  "judged_at": null
+ },
+ "2026-07-01/siena-simplemodern-support-damaged.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 26,
+   "accuracy": 19,
+   "actionability": 15,
+   "close": 10
+  },
+  "total": 70,
+  "resolution_class": "partial",
+  "learning": "Siena accurately distinguished damaged-item claims from normal returns, provided photo submission channels (chat or support@simplemodern.com), and handled multi-item scenario, but looped on the purchase-source question every single turn without moving forward.",
+  "judged_at": null
+ },
+ "2026-07-01/siena-simplemodern-support-order-mgmt.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 32,
+   "accuracy": 22,
+   "actionability": 17,
+   "close": 12
+  },
+  "total": 83,
+  "resolution_class": "resolved",
+  "learning": "Siena gave specific, accurate time windows for cancellations (45 min self-service, up to 1 hr via chat, impossible after), address changes, item additions, and refund timelines (3-5 business days) — highly actionable throughout.",
+  "judged_at": null
+ },
+ "2026-07-01/siena-simplemodern-support-policy.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 30,
+   "accuracy": 20,
+   "actionability": 16,
+   "close": 11
+  },
+  "total": 77,
+  "resolution_class": "resolved",
+  "learning": "Siena covered all 7 policy questions accurately — international shipping limits, customs responsibility for Canada, return eligibility (personalized/custom items excluded), and full payment method list — with relevant links throughout.",
+  "judged_at": null
+ },
+ "2026-07-01/siena-simplemodern-support-returns.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 30,
+   "accuracy": 21,
+   "actionability": 16,
+   "close": 11
+  },
+  "total": 78,
+  "resolution_class": "resolved",
+  "learning": "Siena correctly stated 90-day return window, no direct exchanges, return portal link (simplemodern.com/pages/returns-portal), and claims portal for defects — only gap was vague refund timing after return receipt.",
+  "judged_at": null
+ },
+ "2026-07-01/siena-simplemodern-support-tracking.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 30,
+   "accuracy": 21,
+   "actionability": 17,
+   "close": 11
+  },
+  "total": 79,
+  "resolution_class": "resolved",
+  "learning": "Siena gave precise fulfillment (1-3 days) and delivery (4-8 days) timeframes, explained no expedited shipping exists, and directed the user to claims.simplemodern.com for stuck tracking — clear and actionable throughout.",
+  "judged_at": null
+ },
+ "2026-07-01/sierra-casper-shopping-beginner.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 27,
+   "recommendation": 19,
+   "rich": 21,
+   "close": 11
+  },
+  "total": 78,
+  "resolution_class": "partial",
+  "learning": "Sierra on Casper named 'The One' with sale prices (e.g., Queen $899 from $1,149), showed product cards with Add to Cart, and recommended accessories — first turn was unanswered but the rest were strong.",
+  "judged_at": null
+ },
+ "2026-07-01/sierra-casper-shopping-compare-budget.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 25,
+   "recommendation": 18,
+   "rich": 19,
+   "close": 9
+  },
+  "total": 71,
+  "resolution_class": "partial",
+  "learning": "Sierra compared The One vs Dream Max with layer specs and product cards, shared promos (ID.me 5% off, Affirm financing), and gave a clear personal pick — but couldn't add to cart and required size input for final pricing.",
+  "judged_at": null
+ },
+ "2026-07-01/sierra-casper-shopping-everyday-value.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 22,
+   "recommendation": 15,
+   "rich": 17,
+   "close": 8
+  },
+  "total": 62,
+  "resolution_class": "partial",
+  "learning": "Sierra asked clarifying questions on the first two turns without naming products, then showed The One, Cloud One, and Dream with cards — eventually functional but front-loaded with friction.",
+  "judged_at": null
+ },
+ "2026-07-01/sierra-casper-shopping-gift.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 25,
+   "recommendation": 18,
+   "rich": 17,
+   "close": 9
+  },
+  "total": 69,
+  "resolution_class": "partial",
+  "learning": "Sierra named the Original Pillow (Standard $67.50, King $85.50) and sleep bundles on the final turn, recommended the Digital Gift Card, but admitted it had no information on gift-ready packaging or exact shipping speeds.",
+  "judged_at": null
+ },
+ "2026-07-01/sierra-casper-shopping-problem-solver.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 23,
+   "recommendation": 16,
+   "rich": 16,
+   "close": 9
+  },
+  "total": 64,
+  "resolution_class": "partial",
+  "learning": "Sierra gave 10-year warranty and trial period details, recommended the Dream Mattress with USD prices ($1,395 Queen), but first turn was unanswered and product type was never confirmed before recommending a mattress.",
+  "judged_at": null
+ },
+ "2026-07-01/sierra-casper-support-damaged.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 22,
+   "accuracy": 17,
+   "actionability": 14,
+   "close": 9
+  },
+  "total": 62,
+  "resolution_class": "partial",
+  "learning": "Sierra collected claim details and gave replacement timelines (2-8 business days in-stock, 2-4 weeks in-home), but escalated to a human Sleep Specialist for actual resolution — no self-service claim completion in-channel.",
+  "judged_at": null
+ },
+ "2026-07-01/sierra-casper-support-returns.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 33,
+   "accuracy": 22,
+   "actionability": 17,
+   "close": 12
+  },
+  "total": 84,
+  "resolution_class": "resolved",
+  "learning": "Sierra provided comprehensive return details: 100-night mattress trial, 30-day soft goods window (unused/original packaging), no exchanges, free return shipping, and 1-2 week refund processing — complete policy coverage.",
+  "judged_at": null
+ },
+ "2026-07-01/sierra-scotts-shopping-compare-budget.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 5,
+   "recommendation": 2,
+   "rich": 2,
+   "close": 1
+  },
+  "total": 10,
+  "resolution_class": "failed",
+  "learning": "Sierra on Scotts Miracle-Gro asked 'what category are you shopping for?' on every single one of 7 turns without ever naming a product, price, or making a comparison — a complete category-fishing loop.",
+  "judged_at": null
+ },
+ "2026-07-01/sierra-scotts-shopping-everyday-value.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 5,
+   "recommendation": 2,
+   "rich": 2,
+   "close": 1
+  },
+  "total": 10,
+  "resolution_class": "failed",
+  "learning": "Sierra repeated the same category-clarification request across all 7 turns on Scotts, never surfacing any product name, price, or recommendation — identical failure pattern to the compare-budget conversation.",
+  "judged_at": null
+ },
+ "2026-07-01/sierra-scotts-shopping-gift.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 16,
+   "recommendation": 11,
+   "rich": 12,
+   "close": 5
+  },
+  "total": 44,
+  "resolution_class": "partial",
+  "learning": "Sierra eventually surfaced the AeroGarden Harvest Elite ($124.95) after repeated category-fishing, showed a product listing with specs, and gave a direct purchase link — but took 5 turns of stalling before naming anything.",
+  "judged_at": null
+ },
+ "2026-07-01/sierra-scotts-shopping-problem-solver.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 14,
+   "recommendation": 7,
+   "rich": 8,
+   "close": 3
+  },
+  "total": 32,
+  "resolution_class": "failed",
+  "learning": "Sierra on Scotts provided the No-Quibble Guarantee with a policy link but showed a random product grid on the final turn with no targeted recommendation — category-fishing dominated the conversation throughout.",
+  "judged_at": null
+ },
+ "2026-07-02/ada-ipsy-shopping-beginner.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 26,
+   "recommendation": 17,
+   "rich": 8,
+   "close": 7
+  },
+  "total": 58,
+  "resolution_class": "partial",
+  "learning": "Ada on IPSY explained all three tiers clearly with prices and personalization logic, recommended IPSY Original at $16.99/month total — but produced no product cards, images, or commerce elements, and the cart-add turn was marked unanswered.",
+  "judged_at": null
+ },
+ "2026-07-02/ada-ipsy-shopping-compare-budget.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 24,
+   "recommendation": 17,
+   "rich": 6,
+   "close": 7
+  },
+  "total": 54,
+  "resolution_class": "partial",
+  "learning": "Ada gave a clear value-per-shipment comparison (Original $15 vs Extra $32 vs Ultimate $65/quarter) and correctly recommended Extra as the sweet spot for tight budgets, but 2 turns were unanswered and no rich commerce elements appeared.",
+  "judged_at": null
+ },
+ "2026-07-02/ada-ipsy-shopping-everyday-value.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 21,
+   "recommendation": 13,
+   "rich": 5,
+   "close": 5
+  },
+  "total": 44,
+  "resolution_class": "partial",
+  "learning": "Ada had a price inconsistency (IPSY Extra cited as $35 in one turn, $32 in another), 2 unanswered turns, and provided no product links or rich elements — the IPSY Shop explanation was the strongest part of the conversation.",
+  "judged_at": null
+ },
+ "2026-07-02/ada-ipsy-shopping-gift.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 23,
+   "recommendation": 16,
+   "rich": 6,
+   "close": 5
+  },
+  "total": 50,
+  "resolution_class": "partial",
+  "learning": "Ada correctly identified IPSY Extra as the premium gift option and directed the user to the gifting banner on IPSY.com, but 2 turns were unanswered, shipping timing was vague (15 business days after warehouse), and no product images or direct cart links appeared.",
+  "judged_at": null
+ },
+ "2026-07-02/ada-ipsy-shopping-problem-solver.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 15,
+   "recommendation": 8,
+   "rich": 4,
+   "close": 3
+  },
+  "total": 30,
+  "resolution_class": "failed",
+  "learning": "Ada deflected 3 of 7 turns as unanswered, looped on 'what specific product do you mean?' without ever naming one, and admitted it lacked review data — the IPSY Shop no-return policy was the only concrete policy information provided.",
+  "judged_at": null
+ },
+ "2026-07-02/ada-ipsy-support-damaged.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 2,
+   "accuracy": 2,
+   "actionability": 1,
+   "close": 1
+  },
+  "total": 6,
+  "resolution_class": "failed",
+  "learning": "Ada hit an authentication wall on every single turn — all 7 replies requested first and last name, and not one piece of policy, process, or damage-handling information was provided before verification.",
+  "judged_at": null
+ },
+ "2026-07-02/ada-ipsy-support-order-mgmt.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 2,
+   "accuracy": 2,
+   "actionability": 1,
+   "close": 1
+  },
+  "total": 6,
+  "resolution_class": "failed",
+  "learning": "Ada gated every order-management answer behind account verification (first and last name), providing zero substantive information on cancellation windows, address changes, or refund timelines across all 7 turns.",
+  "judged_at": null
+ },
+ "2026-07-02/ada-ipsy-support-policy.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 31,
+   "accuracy": 21,
+   "actionability": 16,
+   "close": 11
+  },
+  "total": 79,
+  "resolution_class": "resolved",
+  "learning": "Ada on IPSY policy handled 6 of 7 turns without requiring authentication — providing shipping links, Canada customs details, clear no-return/final-sale policy, payment methods, and a 45-day replacement window for damaged items.",
+  "judged_at": null
+ },
+ "2026-07-02/ada-ipsy-support-returns.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 33,
+   "accuracy": 22,
+   "actionability": 16,
+   "close": 11
+  },
+  "total": 82,
+  "resolution_class": "resolved",
+  "learning": "Ada gave the sharpest return policy answer in the dataset: '0 days — we don't accept returns,' with a clear 45-day replacement window for damaged items and correct no-exchange stance — concise, accurate, and complete.",
+  "judged_at": null
+ },
+ "2026-07-02/ada-ipsy-support-tracking.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 2,
+   "accuracy": 2,
+   "actionability": 1,
+   "close": 1
+  },
+  "total": 6,
+  "resolution_class": "failed",
+  "learning": "Ada required account verification for every tracking question including generic policy questions like 'how long does shipping take' — blocking all 7 turns with name-request loops and providing zero shipping timeline information.",
+  "judged_at": null
+ },
+ "2026-07-02/dg-bloomwild-shopping-compare-budget.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 18,
+   "recommendation": 11,
+   "rich": 9,
+   "close": 4
+  },
+  "total": 42,
+  "resolution_class": "deflected",
+  "learning": "DigitalGenius on Bloom & Wild surfaced subscription options and three savings mechanisms (loyalty points, £5 multi-item discount, Tesco Clubcard) but first turn was unanswered, stalled on personal recommendation, and escalated to human for cart request.",
+  "judged_at": null
+ },
+ "2026-07-02/dg-bloomwild-shopping-gift.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 20,
+   "recommendation": 13,
+   "rich": 10,
+   "close": 4
+  },
+  "total": 47,
+  "resolution_class": "deflected",
+  "learning": "DigitalGenius gave sensible gift suggestions (letterbox flowers, hand-tied bouquet with vase, £5 multi-item discount) and next-day delivery details, but first turn was unanswered, named no prices, and escalated to human on the cart request.",
+  "judged_at": null
+ },
+ "2026-07-02/dg-bloomwild-shopping-problem-solver.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 18,
+   "recommendation": 8,
+   "rich": 4,
+   "close": 4
+  },
+  "total": 34,
+  "resolution_class": "deflected",
+  "learning": "DigitalGenius/Bloom&Wild deflected the final cart-add turn to a human handover, producing zero named-product recommendations with prices across all 7 turns.",
+  "judged_at": null
+ },
+ "2026-07-02/dg-bloomwild-support-damaged.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 5,
+   "accuracy": 8,
+   "actionability": 4,
+   "close": 3
+  },
+  "total": 20,
+  "resolution_class": "failed",
+  "learning": "The bot looped the same 'share order number and postcode' prompt verbatim across 6 turns without answering any substantive question (photos, refund policy, cost, timing), showing a severe knowledge-gap loop pattern.",
+  "judged_at": null
+ },
+ "2026-07-02/dg-bloomwild-support-order-mgmt.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 18,
+   "accuracy": 16,
+   "actionability": 13,
+   "close": 5
+  },
+  "total": 52,
+  "resolution_class": "partial",
+  "learning": "DigitalGenius correctly explained cancellation window (48h before delivery), address-change limitations, and account update steps, but escalated to human on refund timeline question rather than answering it.",
+  "judged_at": null
+ },
+ "2026-07-02/dg-bloomwild-support-policy.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 14,
+   "accuracy": 15,
+   "actionability": 9,
+   "close": 3
+  },
+  "total": 41,
+  "resolution_class": "partial",
+  "learning": "The bot provided good geographic shipping detail and delivery stats but gave a vague non-answer on return/refund policy and errored out mid-escalation on the final question.",
+  "judged_at": null
+ },
+ "2026-07-02/dg-bloomwild-support-tracking.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 12,
+   "accuracy": 16,
+   "actionability": 10,
+   "close": 5
+  },
+  "total": 43,
+  "resolution_class": "partial",
+  "learning": "Bot gave solid delivery-timeframe and upgrade-option answers but never resolved the core 'no tracking' issue — always looping to 'share order number' without actually pulling any order data.",
+  "judged_at": null
+ },
+ "2026-07-02/dg-gstar-shopping-compare-budget.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 6,
+   "recommendation": 2,
+   "rich": 2,
+   "close": 2
+  },
+  "total": 12,
+  "resolution_class": "failed",
+  "learning": "G-Star's DigitalGenius bot explicitly refused to recommend any product in every single shopping turn, offering only vague pointers to the website instead of any named items or comparisons.",
+  "judged_at": null
+ },
+ "2026-07-02/dg-gstar-shopping-everyday-value.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 8,
+   "recommendation": 6,
+   "rich": 3,
+   "close": 2
+  },
+  "total": 19,
+  "resolution_class": "failed",
+  "learning": "Bot mentioned Barrel Jeans and Raw Denim by name in one turn but refused to compare, never surfaced prices, and failed to answer the final three turns (best-seller, add-to-cart, total).",
+  "judged_at": null
+ },
+ "2026-07-02/dg-gstar-shopping-gift.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 14,
+   "recommendation": 12,
+   "rich": 5,
+   "close": 3
+  },
+  "total": 34,
+  "resolution_class": "deflected",
+  "learning": "Unusually, this instance named the 'Correct Line' collection and gave shirt-vs-accessory guidance, but fell back to 'unable to locate' on bundle/gift-ready/cart queries — inconsistent capability within same vendor.",
+  "judged_at": null
+ },
+ "2026-07-02/dg-gstar-support-damaged.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 22,
+   "accuracy": 18,
+   "actionability": 14,
+   "close": 7
+  },
+  "total": 61,
+  "resolution_class": "partial",
+  "learning": "Bot clearly stated returns are free for damaged items, confirmed refund-not-replacement outcome, and provided return portal + store list, but failed to answer replacement timing or multi-item scenario.",
+  "judged_at": null
+ },
+ "2026-07-02/dg-gstar-support-policy.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 28,
+   "accuracy": 20,
+   "actionability": 14,
+   "close": 10
+  },
+  "total": 72,
+  "resolution_class": "resolved",
+  "learning": "G-Star's support bot delivered accurate, specific policy answers (6-16 day shipping, 60-day returns, underwear/face masks non-returnable, full payment method list) across all turns before handing over for human contact.",
+  "judged_at": null
+ },
+ "2026-07-02/envive-bandolier-shopping-beginner.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 22,
+   "recommendation": 18,
+   "rich": 20,
+   "close": 10
+  },
+  "total": 70,
+  "resolution_class": "partial",
+  "learning": "Envive/Bandolier's Maggie consistently surfaced the Hailey Chrome at $128 with 4.5-star ratings and actual review quotes, and offered a cart-add button prompt, but never confirmed cart addition or computed a total.",
+  "judged_at": null
+ },
+ "2026-07-02/envive-bandolier-shopping-compare-budget.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 25,
+   "recommendation": 20,
+   "rich": 21,
+   "close": 12
+  },
+  "total": 78,
+  "resolution_class": "partial",
+  "learning": "Maggie named three products with prices and ratings, showed pouch-set bundles with sale prices, made a final personal pick (Remi Magnet $158), and offered cart-add — strong discovery flow but cart/total not confirmed.",
+  "judged_at": null
+ },
+ "2026-07-02/envive-bandolier-shopping-everyday-value.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 22,
+   "recommendation": 17,
+   "rich": 19,
+   "close": 8
+  },
+  "total": 66,
+  "resolution_class": "partial",
+  "learning": "Maggie surfaced Remi/Hailey with prices and ratings per turn but failed to answer the add-to-cart turn and gave no total or shipping info when asked directly.",
+  "judged_at": null
+ },
+ "2026-07-02/envive-bandolier-shopping-gift.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 24,
+   "recommendation": 19,
+   "rich": 20,
+   "close": 10
+  },
+  "total": 73,
+  "resolution_class": "partial",
+  "learning": "Bot recommended Dillon/Miller bags with prices and reviews, surfaced the Lily Duet bundle, but couldn't confirm gift-ready packaging and didn't provide a total despite clear cart-add prompt.",
+  "judged_at": null
+ },
+ "2026-07-02/envive-bandolier-shopping-problem-solver.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 20,
+   "recommendation": 14,
+   "rich": 14,
+   "close": 9
+  },
+  "total": 57,
+  "resolution_class": "partial",
+  "learning": "Maggie provided quality reassurance and accessory pairing guidance but omitted the actual product name on 'best for that' turn and gave no answer on return options, weakening the reassurance narrative.",
+  "judged_at": null
+ },
+ "2026-07-02/envive-bandolier-support-damaged.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 28,
+   "accuracy": 19,
+   "actionability": 15,
+   "close": 9
+  },
+  "total": 71,
+  "resolution_class": "resolved",
+  "learning": "Envive/Bandolier clearly explained the warranty replacement process (1-3 day processing), stated no cost for warranty claims, confirmed $8 restocking fee for standard returns, and covered multi-item scenarios.",
+  "judged_at": null
+ },
+ "2026-07-02/envive-bandolier-support-order-mgmt.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 10,
+   "accuracy": 12,
+   "actionability": 8,
+   "close": 4
+  },
+  "total": 34,
+  "resolution_class": "failed",
+  "learning": "On every order-management question the bot admitted it had no information and redirected to customer support, never answering cancellation windows, add-to-order feasibility, or refund timelines.",
+  "judged_at": null
+ },
+ "2026-07-02/envive-bandolier-support-policy.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 24,
+   "accuracy": 17,
+   "actionability": 13,
+   "close": 7
+  },
+  "total": 61,
+  "resolution_class": "partial",
+  "learning": "Bot gave solid return policy (30 days, $8 restocking fee, free exchanges for US) and payment method details, but didn't answer standard shipping timeframes and failed to surface contact info on the last turn.",
+  "judged_at": null
+ },
+ "2026-07-02/envive-bandolier-support-returns.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 28,
+   "accuracy": 19,
+   "actionability": 14,
+   "close": 8
+  },
+  "total": 69,
+  "resolution_class": "resolved",
+  "learning": "Returns policy coverage was strong — 30-day window, $8 restocking fee, free exchanges, international cost responsibility, and exchange process confirmed — but refund timing was deferred to human support.",
+  "judged_at": null
+ },
+ "2026-07-02/envive-bandolier-support-tracking.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 18,
+   "accuracy": 16,
+   "actionability": 12,
+   "close": 6
+  },
+  "total": 52,
+  "resolution_class": "partial",
+  "learning": "Bot provided useful dispatch-timing and expedited-shipping detail (same-day if ordered before noon PST) and prompted for order number at end, but never pulled live order status from any system.",
+  "judged_at": null
+ },
+ "2026-07-02/envive-kut-shopping-beginner.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 28,
+   "recommendation": 21,
+   "rich": 14,
+   "close": 12
+  },
+  "total": 75,
+  "resolution_class": "partial",
+  "learning": "Kut's agent named the Blair High Rise Straight Leg at $119 with a direct product URL and transparent 'can't add to cart from chat' disclosure — best-in-class honesty and specificity for the beginner theme.",
+  "judged_at": null
+ },
+ "2026-07-02/envive-kut-shopping-compare-budget.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 30,
+   "recommendation": 22,
+   "rich": 16,
+   "close": 13
+  },
+  "total": 81,
+  "resolution_class": "partial",
+  "learning": "Kut gave a named head-to-head (Meg vs Catherine at $119 each), reasoned verdict, confirmed 15% first-order discount, and computed discounted prices ($101.15 / $111.10 with shipping) — outstanding advisory depth.",
+  "judged_at": null
+ },
+ "2026-07-02/envive-kut-shopping-everyday-value.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 26,
+   "recommendation": 18,
+   "rich": 12,
+   "close": 9
+  },
+  "total": 65,
+  "resolution_class": "partial",
+  "learning": "Bot recommended Diana Relaxed Straight, explained fit-guide links at every turn, but gave inconsistent picks across turns (Diana then Meg) and couldn't provide a cart total or confirm add-to-cart.",
+  "judged_at": null
+ },
+ "2026-07-02/envive-kut-shopping-gift.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 27,
+   "recommendation": 20,
+   "rich": 13,
+   "close": 11
+  },
+  "total": 71,
+  "resolution_class": "partial",
+  "learning": "Agent named Kara Denim Jacket as the top gift, gave accurate Gift Instantly feature info, and explained shipping timelines including same-day cutoff, but couldn't add to cart or quote a total.",
+  "judged_at": null
+ },
+ "2026-07-02/envive-kut-shopping-problem-solver.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 26,
+   "recommendation": 19,
+   "rich": 12,
+   "close": 11
+  },
+  "total": 68,
+  "resolution_class": "partial",
+  "learning": "Agent named Meg fit with direct product URL and gave accurate return policy details (21-day window, $12.95 fee waivable with gift card), but pivoted inconsistently between Meg and Connie across turns.",
+  "judged_at": null
+ },
+ "2026-07-02/envive-kut-support-order-mgmt.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 26,
+   "accuracy": 19,
+   "actionability": 16,
+   "close": 10
+  },
+  "total": 71,
+  "resolution_class": "resolved",
+  "learning": "Kut's bot answered every order-management question with specific, accurate detail — no address change possible, cancel before processing, 5-10 day refund window — and provided the returns portal link for post-ship scenarios.",
+  "judged_at": null
+ },
+ "2026-07-02/envive-kut-support-policy.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 30,
+   "accuracy": 21,
+   "actionability": 16,
+   "close": 11
+  },
+  "total": 78,
+  "resolution_class": "resolved",
+  "learning": "Exceptional policy coverage: US flat rates ($9.95 under $150, free over), Canada duties-included rates, 3-4 day processing, Final Sale + Final Kut non-returnable items, payment methods, and a direct phone number.",
+  "judged_at": null
+ },
+ "2026-07-02/envive-kut-support-returns.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 32,
+   "accuracy": 22,
+   "actionability": 17,
+   "close": 11
+  },
+  "total": 82,
+  "resolution_class": "resolved",
+  "learning": "Best-in-class returns handling: 21-day window, $12.95 fee waived with e-gift card choice, exact processing timeline (3-5 days + 5-10 bank days), exchange portal link, and Final Sale exclusions all answered accurately.",
+  "judged_at": null
+ },
+ "2026-07-02/envive-kut-support-tracking.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 20,
+   "accuracy": 18,
+   "actionability": 13,
+   "close": 9
+  },
+  "total": 60,
+  "resolution_class": "partial",
+  "learning": "Agent gave correct processing (3-4 days), delivery windows by order value, and expedited-shipping constraints, but could not pull live tracking without login and offered no self-serve tracking link.",
+  "judged_at": null
+ },
+ "2026-07-02/gorgias-babybee-shopping-beginner.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 16,
+   "recommendation": 15,
+   "rich": 17,
+   "close": 11
+  },
+  "total": 59,
+  "resolution_class": "partial",
+  "learning": "Gorgias/Baby Bee named ALTO and ROVER3 with prices and gave a newborn accessories recommendation, but 3 of 7 turns went unanswered mid-session due to apparent load or timeout delays, fragmenting the experience.",
+  "judged_at": null
+ },
+ "2026-07-02/gorgias-babybee-shopping-compare-budget.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 27,
+   "recommendation": 21,
+   "rich": 20,
+   "close": 10
+  },
+  "total": 78,
+  "resolution_class": "partial",
+  "learning": "Bot delivered a precise ALTO vs ROVER3 comparison with exact weights, prices, and basket capacities, named Juno bundle savings, and gave a clear verdict — but one turn returned the boilerplate contact-hours block instead of a recommendation.",
+  "judged_at": null
+ },
+ "2026-07-02/gorgias-babybee-shopping-everyday-value.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 28,
+   "recommendation": 22,
+   "rich": 19,
+   "close": 11
+  },
+  "total": 80,
+  "resolution_class": "partial",
+  "learning": "Gorgias/Baby Bee gave a highly specific ALTO vs ROVER3 comparison with exact specs, identified ALTO as best-seller, disclosed it can't add to cart, and offered bundle savings (up to $300) — strong advisory with honest limitations.",
+  "judged_at": null
+ },
+ "2026-07-02/gorgias-babybee-shopping-gift.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 26,
+   "recommendation": 20,
+   "rich": 19,
+   "close": 11
+  },
+  "total": 76,
+  "resolution_class": "partial",
+  "learning": "Recommended JOEY carrier ($279.99) as the more special gift, surfaced Alto Accessories Pack ($299.95) as a bundle option, gave dispatch/express shipping timelines, but two early turns returned the contact-hours boilerplate.",
+  "judged_at": null
+ },
+ "2026-07-02/gorgias-babybee-shopping-problem-solver.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 23,
+   "recommendation": 18,
+   "rich": 16,
+   "close": 7
+  },
+  "total": 64,
+  "resolution_class": "partial",
+  "learning": "Bot correctly named ALTO with material specs (aeronautical aluminium, FlexCell wheels, lifetime warranty) and specific add-ons, but the final 'add to cart' turn fell back to the contact-hours boilerplate instead of a price.",
+  "judged_at": null
+ },
+ "2026-07-02/gorgias-babybee-support-damaged.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 5,
+   "accuracy": 6,
+   "actionability": 4,
+   "close": 2
+  },
+  "total": 17,
+  "resolution_class": "failed",
+  "learning": "Baby Bee's support bot produced the 'contact us during business hours' boilerplate on almost every turn — 4 of 7 turns unanswered — never resolving photos, replacement/refund, cost, or timing questions.",
+  "judged_at": null
+ },
+ "2026-07-02/gorgias-babybee-support-tracking.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 4,
+   "accuracy": 5,
+   "actionability": 3,
+   "close": 2
+  },
+  "total": 14,
+  "resolution_class": "failed",
+  "learning": "3 of 7 tracking turns went completely unanswered, and the 4 answered turns returned only the business-hours boilerplate — no shipping timeframes, no tracking link, and no order lookup attempted.",
+  "judged_at": null
+ },
+ "2026-07-02/gorgias-beekman-shopping-beginner.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 30,
+   "recommendation": 21,
+   "rich": 18,
+   "close": 11
+  },
+  "total": 80,
+  "resolution_class": "partial",
+  "learning": "Gorgias/Beekman gave named, priced recommendations every turn and admitted gaps honestly (no review quotes), but could not add to cart or quote a total, limiting final conversion.",
+  "judged_at": null
+ },
+ "2026-07-02/gorgias-beekman-shopping-compare-budget.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 30,
+   "recommendation": 22,
+   "rich": 19,
+   "close": 12
+  },
+  "total": 83,
+  "resolution_class": "partial",
+  "learning": "Provided a clear head-to-head comparison with specific sale terms (20% off $100+ through July 7) and consistent purchase nudges, but checkout assistance was unavailable from chat.",
+  "judged_at": null
+ },
+ "2026-07-02/gorgias-beekman-shopping-everyday-value.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 29,
+   "recommendation": 21,
+   "rich": 18,
+   "close": 11
+  },
+  "total": 79,
+  "resolution_class": "partial",
+  "learning": "Consistently pushed Milky Must-Haves 3-Piece with accurate promo thresholds, but the welcome-offer/promo non-stacking caveat was only mentioned on the final turn, slightly muddying value clarity.",
+  "judged_at": null
+ },
+ "2026-07-02/gorgias-beekman-shopping-gift.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 30,
+   "recommendation": 22,
+   "rich": 20,
+   "close": 11
+  },
+  "total": 83,
+  "resolution_class": "partial",
+  "learning": "Escalated well from budget gift to Iconic Essentials €136.95 with gift-readiness and shipping speeds confirmed; the \"I can help with orders but not add to cart\" reply on the final turn was a slight inconsistency.",
+  "judged_at": null
+ },
+ "2026-07-02/gorgias-beekman-shopping-problem-solver.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 31,
+   "recommendation": 22,
+   "rich": 19,
+   "close": 12
+  },
+  "total": 84,
+  "resolution_class": "partial",
+  "learning": "Cited specific clinical stats (94% firmer, 91% lifted) and the exact return policy (30-day, €8 fee vs free store credit) to reassure a skeptical shopper—strongest quality-validation performance in this batch.",
+  "judged_at": null
+ },
+ "2026-07-02/gorgias-beekman-support-damaged.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 18,
+   "accuracy": 18,
+   "actionability": 13,
+   "close": 9
+  },
+  "total": 58,
+  "resolution_class": "partial",
+  "learning": "Correctly stated damaged items skip the $8 return fee and that refund/store credit (not replacement) is the likely outcome, but required login/photo before any resolution step could begin.",
+  "judged_at": null
+ },
+ "2026-07-02/gorgias-beekman-support-order-mgmt.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 22,
+   "accuracy": 20,
+   "actionability": 16,
+   "close": 10
+  },
+  "total": 68,
+  "resolution_class": "partial",
+  "learning": "Gave the specific 1-hour cancellation window, account URL for self-service, and refund timeline (3 biz + 5-10 days) accurately across all turns; final order check still gated on login.",
+  "judged_at": null
+ },
+ "2026-07-02/gorgias-beekman-support-policy.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 32,
+   "accuracy": 22,
+   "actionability": 16,
+   "close": 11
+  },
+  "total": 81,
+  "resolution_class": "resolved",
+  "learning": "Policy Q&A was fully self-service: DHL Express international with duties at checkout, $5 standard shipping, 30-day returns, final sale exclusions, and full contact hours all answered accurately with links.",
+  "judged_at": null
+ },
+ "2026-07-02/gorgias-beekman-support-returns.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 30,
+   "accuracy": 21,
+   "actionability": 15,
+   "close": 10
+  },
+  "total": 76,
+  "resolution_class": "resolved",
+  "learning": "Clearly stated no direct exchanges (store credit or refund only), $8 return fee for refunds, 30-day window, and final sale exclusions with a policy link—complete self-service for all policy questions.",
+  "judged_at": null
+ },
+ "2026-07-02/gorgias-beekman-support-tracking.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 20,
+   "accuracy": 19,
+   "actionability": 15,
+   "close": 9
+  },
+  "total": 63,
+  "resolution_class": "partial",
+  "learning": "Provided the Aftership tracking URL, exact upgrade shipping costs ($30 Fast/$50 Fastest), and nuanced stuck-tracking advice, but could not actually check the specific order without login.",
+  "judged_at": null
+ },
+ "2026-07-02/gorgias-jade-shopping-beginner.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 10,
+   "recommendation": 3,
+   "rich": 2,
+   "close": 1
+  },
+  "total": 16,
+  "resolution_class": "deflected",
+  "learning": "Jade's bot escalated to a human agent after only 2-3 turns, leaving 4 of 7 shopper questions completely unanswered—the handover killed the entire pre-sales conversation.",
+  "judged_at": null
+ },
+ "2026-07-02/gorgias-jade-shopping-compare-budget.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 27,
+   "recommendation": 20,
+   "rich": 17,
+   "close": 10
+  },
+  "total": 74,
+  "resolution_class": "partial",
+  "learning": "Correctly identified THE ENCORE CD as better value than STANDARD CD at same £13.99 price point (8 extra songs, bigger booklet), and honestly confirmed no current promos—solid music merch advisory.",
+  "judged_at": null
+ },
+ "2026-07-02/gorgias-jade-shopping-everyday-value.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 18,
+   "recommendation": 14,
+   "rich": 12,
+   "close": 7
+  },
+  "total": 51,
+  "resolution_class": "partial",
+  "learning": "Jade's bot had an 18-minute stall mid-conversation (turn 3 unanswered) and one more missed turn; when it responded, the water bottle €35 and CD £13.99 picks were reasonable but the dead gaps heavily penalize the experience.",
+  "judged_at": null
+ },
+ "2026-07-02/gorgias-jade-shopping-problem-solver.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 24,
+   "recommendation": 17,
+   "rich": 16,
+   "close": 9
+  },
+  "total": 66,
+  "resolution_class": "partial",
+  "learning": "Jade named specific picks (necklace €83.95, Glitch Tee €45) with material reasons and honest pairings, but disclosed return shipping is not covered only at the penultimate turn—a friction point surfaced too late.",
+  "judged_at": null
+ },
+ "2026-07-02/gorgias-jade-support-damaged.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 10,
+   "accuracy": 14,
+   "actionability": 7,
+   "close": 3
+  },
+  "total": 34,
+  "resolution_class": "deflected",
+  "learning": "First 3 turns provided accurate damaged-item policy (7-day window, full refund or replacement for significant damage, 10% partial for minor), but the agent handover silenced all 4 subsequent questions.",
+  "judged_at": null
+ },
+ "2026-07-02/gorgias-jade-support-tracking.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 20,
+   "accuracy": 20,
+   "actionability": 14,
+   "close": 9
+  },
+  "total": 63,
+  "resolution_class": "partial",
+  "learning": "Jade gave unusually detailed and honest shipping policy: dispatch can take up to 28 days, lost-transit claims require 25 extra working days post-expected-delivery—very specific but the long lead times may alarm customers.",
+  "judged_at": null
+ },
+ "2026-07-02/gorgias-shoebacca-shopping-everyday-value.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 26,
+   "recommendation": 20,
+   "rich": 18,
+   "close": 9
+  },
+  "total": 73,
+  "resolution_class": "partial",
+  "learning": "Shoebacca bot surfaced strong value picks (Keds Double Decker $60→$19.95, adidas Daily 3.0 $64.95) with comparison logic, but the final shipping/discount turn stalled with 'Looking into this for you' and no answer.",
+  "judged_at": null
+ },
+ "2026-07-02/gorgias-shoebacca-shopping-gift.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 14,
+   "recommendation": 12,
+   "rich": 10,
+   "close": 5
+  },
+  "total": 41,
+  "resolution_class": "deflected",
+  "learning": "Three of seven turns went unanswered (stalls) including the first turn; when it did respond it named Skechers Slip-ins and Tecovas Care Kit as gifts, but repeated timeouts gutted the conversation flow.",
+  "judged_at": null
+ },
+ "2026-07-02/kodif-babyletto-shopping-beginner.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 14,
+   "recommendation": 7,
+   "rich": 5,
+   "close": 3
+  },
+  "total": 29,
+  "resolution_class": "deflected",
+  "learning": "Kodif/Babyletto looped on 'what area do you want help with?' without surfacing a single named product recommendation until prompted for bundles—treats a shopping conversation like a support triage menu.",
+  "judged_at": null
+ },
+ "2026-07-02/kodif-babyletto-shopping-compare-budget.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 15,
+   "recommendation": 8,
+   "rich": 5,
+   "close": 3
+  },
+  "total": 31,
+  "resolution_class": "deflected",
+  "learning": "Mentioned Pure Core mattress options as mid-range value picks but kept asking 'standard/mini/midi?' clarifying question across turns instead of committing to a recommendation—circular and frustrating.",
+  "judged_at": null
+ },
+ "2026-07-02/kodif-babyletto-shopping-everyday-value.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 18,
+   "recommendation": 11,
+   "rich": 8,
+   "close": 5
+  },
+  "total": 42,
+  "resolution_class": "partial",
+  "learning": "Babyletto identified the All-Time Faves Bundle as the best seller with a 10% bundle discount and $50 email signup offer, and linked directly to 'Start building'—the most actionable Kodif shopping response in this batch.",
+  "judged_at": null
+ },
+ "2026-07-02/kodif-babyletto-shopping-gift.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 17,
+   "recommendation": 9,
+   "rich": 6,
+   "close": 5
+  },
+  "total": 37,
+  "resolution_class": "partial",
+  "learning": "Defaulted to gift cards on every turn despite the shopper wanting a physical gift; a human agent answered the shipping question correctly, revealing the AI's gift-advisory capability is weak.",
+  "judged_at": null
+ },
+ "2026-07-02/kodif-babyletto-shopping-problem-solver.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 13,
+   "recommendation": 4,
+   "rich": 3,
+   "close": 3
+  },
+  "total": 23,
+  "resolution_class": "failed",
+  "learning": "Never named a single product recommendation across 7 turns despite escalating shopper readiness; every turn ended with 'please tell me which specific product you're interested in'—complete failure to convert.",
+  "judged_at": null
+ },
+ "2026-07-02/kodif-babyletto-support-damaged.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 3,
+   "accuracy": 5,
+   "actionability": 3,
+   "close": 2
+  },
+  "total": 13,
+  "resolution_class": "failed",
+  "learning": "Entered a broken loop: after turn 2, every single response repeated 'Was the crib gifted or purchased from a retail partner?' verbatim, completely ignoring 5 different follow-up questions—catastrophic bot failure.",
+  "judged_at": null
+ },
+ "2026-07-02/kodif-babyletto-support-order-mgmt.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 20,
+   "accuracy": 17,
+   "actionability": 13,
+   "close": 8
+  },
+  "total": 58,
+  "resolution_class": "partial",
+  "learning": "Mishandled the first question (offered order tracking for an address-change request), but recovered with accurate 1-hour cancellation window, email fallback, and 5-7 day refund timeline across later turns.",
+  "judged_at": null
+ },
+ "2026-07-02/kodif-babyletto-support-policy.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 30,
+   "accuracy": 21,
+   "actionability": 15,
+   "close": 10
+  },
+  "total": 76,
+  "resolution_class": "resolved",
+  "learning": "Covered all policy questions fully in-channel with linked support pages: US-only shipping, 5-8 day delivery, Checkout+ extended return benefits, payment methods list, and live chat hours—no gaps.",
+  "judged_at": null
+ },
+ "2026-07-02/kodif-babyletto-support-returns.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 33,
+   "accuracy": 22,
+   "actionability": 16,
+   "close": 11
+  },
+  "total": 82,
+  "resolution_class": "resolved",
+  "learning": "Best returns Q&A in the Kodif batch: correctly offered exchanges (unlike Beekman), cited Checkout+ 60-day window and free return label, 5-7 day refund, and listed all final sale exclusions with portal link.",
+  "judged_at": null
+ },
+ "2026-07-02/kodif-babyletto-support-tracking.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 5,
+   "accuracy": 8,
+   "actionability": 4,
+   "close": 2
+  },
+  "total": 19,
+  "resolution_class": "failed",
+  "learning": "Every single response to 7 questions—including 'how long does delivery take?'—was a redirect to provide order number in BL-123456 format; refused to give any general shipping policy information whatsoever.",
+  "judged_at": null
+ },
+ "2026-07-02/kodif-davinci-shopping-beginner.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 17,
+   "recommendation": 10,
+   "rich": 6,
+   "close": 4
+  },
+  "total": 37,
+  "resolution_class": "partial",
+  "learning": "After an unhelpful first turn, improved by naming Dylan Folding Portable MiniCrib and linking the Crib Buying Guide, but never gave a price, comparison, or clear purchase nudge—discovery experience remains thin.",
+  "judged_at": null
+ },
+ "2026-07-02/kodif-davinci-shopping-compare-budget.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 22,
+   "recommendation": 16,
+   "rich": 9,
+   "close": 6
+  },
+  "total": 53,
+  "resolution_class": "partial",
+  "learning": "Named Jenny Lind 3-in-1 vs Kalani 4-in-1 with a meaningful functional differentiator (full-size bed conversion), but never quoted prices and could not apply a discount or add to cart—missing key conversion elements.",
+  "judged_at": null
+ },
+ "2026-07-02/kodif-davinci-shopping-everyday-value.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 16,
+   "recommendation": 8,
+   "rich": 5,
+   "close": 3
+  },
+  "total": 32,
+  "resolution_class": "deflected",
+  "learning": "Asked for product category clarification three times without committing to a recommendation; collection names and price floors ($40+) were mentioned but no specific product was ever named or linked.",
+  "judged_at": null
+ },
+ "2026-07-02/kodif-davinci-shopping-gift.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 20,
+   "recommendation": 13,
+   "rich": 7,
+   "close": 5
+  },
+  "total": 45,
+  "resolution_class": "partial",
+  "learning": "Suggested cribs under $200 with a link and confirmed 5-8 day shipping, but acknowledged no gift-wrapping and never named a specific product model—shoppers still need to browse the linked page to find anything.",
+  "judged_at": null
+ },
+ "2026-07-02/kodif-davinci-shopping-problem-solver.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 15,
+   "recommendation": 5,
+   "rich": 4,
+   "close": 3
+  },
+  "total": 27,
+  "resolution_class": "failed",
+  "learning": "Repeated 'please tell me which specific product' across 5 turns despite the shopper declaring readiness to buy; safety certifications were detailed but zero product recommendations were ever made.",
+  "judged_at": null
+ },
+ "2026-07-02/kodif-davinci-support-damaged.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 22,
+   "accuracy": 16,
+   "actionability": 13,
+   "close": 8
+  },
+  "total": 59,
+  "resolution_class": "partial",
+  "learning": "Consistently routed to the Replacement Parts page and correctly stated that replacement parts are sent free with no return required for damaged items, but cited limited order-check capability on several turns.",
+  "judged_at": null
+ },
+ "2026-07-02/kodif-davinci-support-order-mgmt.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 19,
+   "accuracy": 17,
+   "actionability": 13,
+   "close": 8
+  },
+  "total": 57,
+  "resolution_class": "partial",
+  "learning": "Gave cancellation@davincibaby.com email and the 1-hour self-service window accurately, but acknowledged a gap on address change and account update, and the refund timeline (10-12 days) is notably longer than Babyletto's.",
+  "judged_at": null
+ },
+ "2026-07-02/kodif-davinci-support-policy.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 28,
+   "accuracy": 20,
+   "actionability": 14,
+   "close": 9
+  },
+  "total": 71,
+  "resolution_class": "partial",
+  "learning": "Strong policy coverage (US-48 only, tiered ship times by item size, Checkout+ benefits, full payment methods list) but escalated to a human agent for the final contact-info question rather than answering it directly.",
+  "judged_at": null
+ },
+ "2026-07-02/kodif-davinci-support-returns.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 35,
+   "accuracy": 22,
+   "actionability": 17,
+   "close": 12
+  },
+  "total": 86,
+  "resolution_class": "resolved",
+  "learning": "Kodif/daVinci correctly distinguished standard 30-day vs Checkout+ 60-day windows, named specific return portal links, and handled every sub-question including non-returnable items (Newton Baby mattresses) with specific detail.",
+  "judged_at": null
+ },
+ "2026-07-02/kodif-davinci-support-tracking.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 8,
+   "accuracy": 10,
+   "actionability": 6,
+   "close": 3
+  },
+  "total": 27,
+  "resolution_class": "failed",
+  "learning": "Agent looped on order-ID collection for all 7 turns, never providing any general shipping timeline info even when asked policy-level questions; pure verification-gate friction with zero self-service value.",
+  "judged_at": null
+ },
+ "2026-07-02/kodif-dsc-shopping-beginner.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 22,
+   "recommendation": 14,
+   "rich": 8,
+   "close": 6
+  },
+  "total": 50,
+  "resolution_class": "partial",
+  "learning": "Named the No Frills Starter Set and described the subscription model clearly, but admitted it had no review data and handed off to human on that turn; no prices shown and cart-add was never completed.",
+  "judged_at": null
+ },
+ "2026-07-02/kodif-dsc-shopping-compare-budget.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 26,
+   "recommendation": 18,
+   "rich": 12,
+   "close": 6
+  },
+  "total": 62,
+  "resolution_class": "partial",
+  "learning": "Strong named-product comparisons with prices ($6/$8.50/$10) and clear value reasoning, but promos question stalled mid-response and cart-add was never executed — conversion nudge stopped short.",
+  "judged_at": null
+ },
+ "2026-07-02/kodif-dsc-shopping-everyday-value.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 24,
+   "recommendation": 16,
+   "rich": 11,
+   "close": 8
+  },
+  "total": 59,
+  "resolution_class": "partial",
+  "learning": "Recommended Classic 4 Blade with product link and explained value reasoning, but couldn't add to cart ('I'm an AI') and had no promo/discount data, leaving the shopper to do the final steps unaided.",
+  "judged_at": null
+ },
+ "2026-07-02/kodif-dsc-shopping-gift.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 22,
+   "recommendation": 14,
+   "rich": 10,
+   "close": 5
+  },
+  "total": 51,
+  "resolution_class": "partial",
+  "learning": "Surfaced gift guide hub and spend-threshold deals upfront, named the 6-Blade Razor as top gift pick with a link and shipping timeline, but bundle question stalled and cart-add remained unexecuted.",
+  "judged_at": null
+ },
+ "2026-07-02/kodif-dsc-shopping-problem-solver.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 9,
+   "recommendation": 4,
+   "rich": 3,
+   "close": 2
+  },
+  "total": 18,
+  "resolution_class": "deflected",
+  "learning": "Agent deflected to 'Club Pro chat' on nearly every turn without naming a single specific product recommendation, making the shopping assistant useless for the pre-sales discovery task.",
+  "judged_at": null
+ },
+ "2026-07-02/kodif-dsc-support-damaged.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 28,
+   "accuracy": 19,
+   "actionability": 16,
+   "close": 11
+  },
+  "total": 74,
+  "resolution_class": "partial",
+  "learning": "Provided clear 30-day Money Back Guarantee path with email contact and refund timeline (5 business days), but deflected to email rather than resolving in-channel and never confirmed whether photos are required or optional.",
+  "judged_at": null
+ },
+ "2026-07-02/kodif-dsc-support-order-mgmt.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 12,
+   "accuracy": 12,
+   "actionability": 8,
+   "close": 5
+  },
+  "total": 37,
+  "resolution_class": "deflected",
+  "learning": "Repeatedly asked for email address without answering any of the general policy questions (cancellation time window, address change feasibility), then handed off to human agent on the 4th turn.",
+  "judged_at": null
+ },
+ "2026-07-02/kodif-dsc-support-returns.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 22,
+   "accuracy": 16,
+   "actionability": 12,
+   "close": 9
+  },
+  "total": 59,
+  "resolution_class": "partial",
+  "learning": "Correctly explained DSC's no-traditional-returns / 30-day Money Back Guarantee model and refund timeline, but the exchange question stalled mid-response and the policy for exchanges vs refunds was never clearly resolved.",
+  "judged_at": null
+ },
+ "2026-07-02/kodif-dsc-support-tracking.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 14,
+   "accuracy": 16,
+   "actionability": 10,
+   "close": 5
+  },
+  "total": 45,
+  "resolution_class": "partial",
+  "learning": "Provided useful generic info (1-2 day processing, 3-5 day delivery, expedited shipping exists) between credential requests, but never actually looked up an order and stalled repeatedly demanding order number or email.",
+  "judged_at": null
+ },
+ "2026-07-02/kodif-jffd-shopping-beginner.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 25,
+   "recommendation": 17,
+   "rich": 13,
+   "close": 5
+  },
+  "total": 60,
+  "resolution_class": "partial",
+  "learning": "Named the Sampler Variety Box with all 6 recipes, cited a real 4.2/5 customer rating and a specific reviewer quote, but couldn't add to cart and left the price/total unanswered.",
+  "judged_at": null
+ },
+ "2026-07-02/kodif-jffd-shopping-compare-budget.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 14,
+   "recommendation": 7,
+   "rich": 6,
+   "close": 4
+  },
+  "total": 31,
+  "resolution_class": "deflected",
+  "learning": "Failed to name or compare two specific products on the direct 'show me your two best value options' request, and deflected the personal pick question by looping to Nutrition Consultants; only shipping thresholds and promo terms were answered.",
+  "judged_at": null
+ },
+ "2026-07-02/kodif-jffd-shopping-everyday-value.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 24,
+   "recommendation": 17,
+   "rich": 13,
+   "close": 7
+  },
+  "total": 61,
+  "resolution_class": "partial",
+  "learning": "Named Best Sellers Variety Pack (4.8/5 rating, real review quote), provided product link and confirmed free shipping eligibility, but couldn't add to cart and had no first-order discount data.",
+  "judged_at": null
+ },
+ "2026-07-02/kodif-jffd-shopping-gift.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 23,
+   "recommendation": 16,
+   "rich": 14,
+   "close": 8
+  },
+  "total": 61,
+  "resolution_class": "partial",
+  "learning": "Consistently recommended the Sampler Variety Box with full price breakdown ($179.99 / $90 autoship), listed all 6 recipes, and gave a product link — but gift-ready packaging question stalled and cart-add was not performed.",
+  "judged_at": null
+ },
+ "2026-07-02/kodif-jffd-shopping-problem-solver.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 18,
+   "recommendation": 10,
+   "rich": 7,
+   "close": 5
+  },
+  "total": 40,
+  "resolution_class": "deflected",
+  "learning": "Answered quality/guarantee questions and mentioned supplements as pairings, but refused to name a specific product until the very last turn (still pending), repeatedly deferring to Nutrition Consultants instead of committing to a recommendation.",
+  "judged_at": null
+ },
+ "2026-07-02/kodif-jffd-support-damaged.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 18,
+   "accuracy": 14,
+   "actionability": 10,
+   "close": 4
+  },
+  "total": 46,
+  "resolution_class": "partial",
+  "learning": "Gave a clear initial path (photos + order number, 5-7 day refund), but when the customer asked replacement vs refund on turn 4, the AI handed off to Nutrition Consultants rather than answering the policy question.",
+  "judged_at": null
+ },
+ "2026-07-02/kodif-jffd-support-order-mgmt.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 6,
+   "accuracy": 8,
+   "actionability": 5,
+   "close": 3
+  },
+  "total": 22,
+  "resolution_class": "failed",
+  "learning": "Every single turn answered 'I need your full name and email address' with no policy information given — zero self-service value; the agent was a pure credential-collection gate for 7 consecutive questions.",
+  "judged_at": null
+ },
+ "2026-07-02/kodif-jffd-support-policy.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 16,
+   "accuracy": 13,
+   "actionability": 9,
+   "close": 4
+  },
+  "total": 42,
+  "resolution_class": "deflected",
+  "learning": "Answered shipping policy and international/customs questions well, but explicitly stated 'I can't provide general shipping policy information' on turn 4 when asked about returns, then handed off to Nutrition Consultant.",
+  "judged_at": null
+ },
+ "2026-07-02/kodif-jffd-support-returns.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 30,
+   "accuracy": 20,
+   "actionability": 15,
+   "close": 11
+  },
+  "total": 76,
+  "resolution_class": "resolved",
+  "learning": "Detailed and accurate: Clean Bowl Guarantee, 30-day window, one-time-per-person rule, 5-7 day refund timeline, third-party retailer carve-out, and confirmed damaged items get free replacement — comprehensive policy coverage.",
+  "judged_at": null
+ },
+ "2026-07-02/kodif-jffd-support-tracking.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 6,
+   "accuracy": 8,
+   "actionability": 5,
+   "close": 3
+  },
+  "total": 22,
+  "resolution_class": "failed",
+  "learning": "Identical pattern to order-mgmt: all 7 turns looped on requesting full name and email, never answering general shipping timeline questions despite them being policy-level questions requiring no order lookup.",
+  "judged_at": null
+ },
+ "2026-07-02/kodif-namesake-shopping-beginner.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 10,
+   "recommendation": 4,
+   "rich": 5,
+   "close": 4
+  },
+  "total": 23,
+  "resolution_class": "deflected",
+  "learning": "Confused the shopping context with a community-navigation forum tool for the first three turns, giving browsing tips instead of product recommendations; only partially recovered with a $50 welcome code mention.",
+  "judged_at": null
+ },
+ "2026-07-02/kodif-namesake-shopping-compare-budget.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 22,
+   "recommendation": 16,
+   "rich": 13,
+   "close": 7
+  },
+  "total": 58,
+  "resolution_class": "partial",
+  "learning": "Recovered well with named mattress comparisons (Pure Core $199 vs Mini $149, GREENGUARD certs, 2-stage vs lightweight), gave a clear personal pick recommendation, but 4 of 7 turns had answered:false and cart-add stalled.",
+  "judged_at": null
+ },
+ "2026-07-02/kodif-namesake-shopping-everyday-value.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 10,
+   "recommendation": 3,
+   "rich": 4,
+   "close": 3
+  },
+  "total": 20,
+  "resolution_class": "deflected",
+  "learning": "Explicitly stated 'I'm not able to provide personalized recommendations' on the opening turn and held that line throughout, redirecting to the website for every product question — a near-complete shopping assistant failure.",
+  "judged_at": null
+ },
+ "2026-07-02/kodif-namesake-shopping-gift.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 20,
+   "recommendation": 12,
+   "rich": 10,
+   "close": 7
+  },
+  "total": 49,
+  "resolution_class": "partial",
+  "learning": "Defaulted to gift cards for the first three turns despite specific product interest, eventually surfaced nursery bundles and provided gift card pricing tiers, but never answered the gift-ready/shipping-speed question.",
+  "judged_at": null
+ },
+ "2026-07-02/kodif-namesake-shopping-problem-solver.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 26,
+   "recommendation": 18,
+   "rich": 13,
+   "close": 8
+  },
+  "total": 65,
+  "resolution_class": "partial",
+  "learning": "Committed to a specific product (Babyletto x Avocado Organic Crib Mattress) with certifications (GREENGUARD Gold, MADE SAFE), paired with crib sheets by name and links, but return policy question stalled and cart-add was not performed.",
+  "judged_at": null
+ },
+ "2026-07-02/kodif-namesake-support-damaged.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 15,
+   "accuracy": 12,
+   "actionability": 8,
+   "close": 4
+  },
+  "total": 39,
+  "resolution_class": "partial",
+  "learning": "Correctly identified free replacement parts as the resolution path and pointed to the parts portal, but subsequent turns looped on order-ID collection and never answered replacement timeline or multi-item damage questions.",
+  "judged_at": null
+ },
+ "2026-07-02/kodif-namesake-support-order-mgmt.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 18,
+   "accuracy": 15,
+   "actionability": 12,
+   "close": 6
+  },
+  "total": 51,
+  "resolution_class": "partial",
+  "learning": "Provided the cancellation email address (namesakecancellation@mdbmail.com) and support email on turn 2, and gave refund timeline context, but address-change and add-item questions were blocked by order-ID gating.",
+  "judged_at": null
+ },
+ "2026-07-02/kodif-namesake-support-policy.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 33,
+   "accuracy": 22,
+   "actionability": 17,
+   "close": 12
+  },
+  "total": 84,
+  "resolution_class": "resolved",
+  "learning": "Exceptional policy coverage: specific delivery timelines by product type (furniture 5-12 days, swatches 7-10 days), confirmed no international shipping, listed all payment methods, detailed final-sale exclusion list, and linked Returns & Exchanges page throughout.",
+  "judged_at": null
+ },
+ "2026-07-02/kodif-namesake-support-returns.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 32,
+   "accuracy": 21,
+   "actionability": 17,
+   "close": 12
+  },
+  "total": 82,
+  "resolution_class": "resolved",
+  "learning": "Strong end-to-end returns coverage: 30-day window, portal link, refund timeline (3-5 days then 5-7 bank days), exchange availability, return shipping cost conditioned on Return Coverage purchase, and complete final-sale exclusion list.",
+  "judged_at": null
+ },
+ "2026-07-02/kodif-namesake-support-tracking.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 8,
+   "accuracy": 10,
+   "actionability": 6,
+   "close": 3
+  },
+  "total": 27,
+  "resolution_class": "failed",
+  "learning": "Looped on order-ID collection across all 7 turns without providing any general shipping timeline information, even when the questions were clearly policy-level and required no order lookup.",
+  "judged_at": null
+ },
+ "2026-07-02/kodif-neuro-shopping-beginner.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 24,
+   "recommendation": 16,
+   "rich": 10,
+   "close": 5
+  },
+  "total": 55,
+  "resolution_class": "partial",
+  "learning": "Named four product lines with use-cases and cited Energy & Focus Gum (20mg caffeine) and Memory & Focus as safe beginner picks, but couldn't add to cart, gave no prices, and the final turn looped on product details instead of completing the purchase.",
+  "judged_at": null
+ },
+ "2026-07-02/kodif-neuro-shopping-compare-budget.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 20,
+   "recommendation": 13,
+   "rich": 9,
+   "close": 5
+  },
+  "total": 47,
+  "resolution_class": "partial",
+  "learning": "Described Mind & Momentum Gum bundle vs Boost & Beyond Bulk Bags with a comparison and linked bundles page, but kept asking for user goal clarification rather than committing to a pick, and cart-add escalated to customer support handoff.",
+  "judged_at": null
+ },
+ "2026-07-02/kodif-neuro-support-damaged.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 8,
+   "accuracy": 10,
+   "actionability": 6,
+   "close": 3
+  },
+  "total": 27,
+  "resolution_class": "failed",
+  "learning": "All 7 turns blocked on requesting email + order number without providing any general policy information (e.g. whether photos are required, whether replacements or refunds are standard) — pure credential-gate with no self-service value.",
+  "judged_at": null
+ },
+ "2026-07-02/kodif-neuro-support-order-mgmt.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 8,
+   "accuracy": 8,
+   "actionability": 5,
+   "close": 3
+  },
+  "total": 24,
+  "resolution_class": "failed",
+  "learning": "Collected full name on turns 1-3 with zero policy information, then handed off to human on turn 4 — no cancellation window, address-change policy, or post-ship modification policy was ever communicated.",
+  "judged_at": null
+ },
+ "2026-07-02/kodif-neuro-support-policy.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 14,
+   "accuracy": 13,
+   "actionability": 8,
+   "close": 4
+  },
+  "total": 39,
+  "resolution_class": "partial",
+  "learning": "Answered shipping timelines and international customs well (turns 1-3), but turns 4-7 all returned the same shipping-timeframes snippet in a clear stuck/loop state — return policy, final sale, payment methods, and contact info were never answered.",
+  "judged_at": null
+ },
+ "2026-07-02/kodif-neuro-support-returns.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 4,
+   "accuracy": 6,
+   "actionability": 4,
+   "close": 3
+  },
+  "total": 17,
+  "resolution_class": "failed",
+  "learning": "Kodif/Neuro deflected every policy question by demanding order lookup even for generic FAQ queries like 'how many days do I have to return' — only the refund timeframe (3-5 days) was answered factually.",
+  "judged_at": null
+ },
+ "2026-07-02/meta-dermalogica-support-damaged.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 12,
+   "accuracy": 14,
+   "actionability": 10,
+   "close": 6
+  },
+  "total": 42,
+  "resolution_class": "partial",
+  "learning": "Meta AI gave contact channels (email, phone, chat) for damaged items and explained the 30-day return window, but could not answer 'do you need photos and where do I send them', triggering an immediate human handover at that step.",
+  "judged_at": null
+ },
+ "2026-07-02/meta-dermalogica-support-order-mgmt.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 22,
+   "accuracy": 18,
+   "actionability": 14,
+   "close": 9
+  },
+  "total": 63,
+  "resolution_class": "partial",
+  "learning": "Meta AI consistently answered order-modification questions with accurate Dermalogica-specific policy (no edits post-placement, carrier redirect after tracking, account updates via person icon), providing a usable if read-only self-service.",
+  "judged_at": null
+ },
+ "2026-07-02/meta-dermalogica-support-returns.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 20,
+   "accuracy": 17,
+   "actionability": 13,
+   "close": 6
+  },
+  "total": 56,
+  "resolution_class": "partial",
+  "learning": "Meta AI provided accurate return policy detail (30 days, prepaid UPS label, no fees, final-sale exclusions) but failed completely on 'how long for refund' and 'can I exchange' by routing to human, exposing a knowledge gap mid-conversation.",
+  "judged_at": null
+ },
+ "2026-07-02/meta-dermalogica-support-tracking.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 16,
+   "accuracy": 13,
+   "actionability": 10,
+   "close": 5
+  },
+  "total": 44,
+  "resolution_class": "partial",
+  "learning": "Meta AI answered generic tracking policy (email notification, 1-4 day delivery, account login) but gave a completely wrong response to 'is there any way to speed it up' — answering with Pro Insider application timing instead of shipping options.",
+  "judged_at": null
+ },
+ "2026-07-02/meta-grove-shopping-beginner.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 0,
+   "recommendation": 0,
+   "rich": 0,
+   "close": 0
+  },
+  "total": 0,
+  "resolution_class": "failed",
+  "learning": "Meta AI on Grove returned the same 'Talk to a Human' deflection response to every single shopping question across all 7 turns, providing zero product guidance, zero recommendations, and zero commerce value.",
+  "judged_at": null
+ },
+ "2026-07-02/meta-grove-shopping-compare-budget.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 0,
+   "recommendation": 0,
+   "rich": 0,
+   "close": 0
+  },
+  "total": 0,
+  "resolution_class": "failed",
+  "learning": "Meta AI on Grove responded identically to every question with a human-handover prompt, completely unable to engage with any comparative or budget-oriented shopping query.",
+  "judged_at": null
+ },
+ "2026-07-02/meta-grove-shopping-everyday-value.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 0,
+   "recommendation": 0,
+   "rich": 0,
+   "close": 0
+  },
+  "total": 0,
+  "resolution_class": "failed",
+  "learning": "Meta AI's Grove integration is entirely non-functional for shopping: every query — including simple 'what are my best options' — received an identical human-transfer prompt with no product content at all.",
+  "judged_at": null
+ },
+ "2026-07-02/meta-grove-shopping-gift.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 0,
+   "recommendation": 0,
+   "rich": 0,
+   "close": 0
+  },
+  "total": 0,
+  "resolution_class": "failed",
+  "learning": "Meta AI Grove offered zero gift guidance across 7 turns, responding with an identical human-handover message to every question regardless of specificity or simplicity.",
+  "judged_at": null
+ },
+ "2026-07-02/meta-grove-shopping-problem-solver.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 0,
+   "recommendation": 0,
+   "rich": 0,
+   "close": 0
+  },
+  "total": 0,
+  "resolution_class": "failed",
+  "learning": "Meta AI Grove produced no substantive answer on any turn; the bot is effectively a routing widget that deflects all queries to a human agent without attempting any self-service response.",
+  "judged_at": null
+ },
+ "2026-07-02/meta-grove-support-damaged.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 0,
+   "accuracy": 0,
+   "actionability": 0,
+   "close": 0
+  },
+  "total": 0,
+  "resolution_class": "failed",
+  "learning": "Meta AI on Grove deflected every support query about damaged items with the same human-handover message, providing zero information about process, photos, replacements, or timelines.",
+  "judged_at": null
+ },
+ "2026-07-02/meta-grove-support-order-mgmt.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 0,
+   "accuracy": 0,
+   "actionability": 0,
+   "close": 0
+  },
+  "total": 0,
+  "resolution_class": "failed",
+  "learning": "Meta AI Grove's support bot failed entirely on order management — every question including basic account-update queries received only a human-transfer CTA with no policy or guidance provided.",
+  "judged_at": null
+ },
+ "2026-07-02/meta-grove-support-policy.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 0,
+   "accuracy": 0,
+   "actionability": 0,
+   "close": 0
+  },
+  "total": 0,
+  "resolution_class": "failed",
+  "learning": "Meta AI Grove deflected every policy query — including basic 'where is your shipping policy' — with an identical human-transfer prompt, demonstrating a completely non-functional support bot for this store.",
+  "judged_at": null
+ },
+ "2026-07-02/meta-grove-support-returns.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 0,
+   "accuracy": 0,
+   "actionability": 0,
+   "close": 0
+  },
+  "total": 0,
+  "resolution_class": "failed",
+  "learning": "Meta AI Grove answered zero return policy questions across 7 turns, issuing the same human-handover message for every query including 'what is your return policy'.",
+  "judged_at": null
+ },
+ "2026-07-02/meta-grove-support-tracking.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 0,
+   "accuracy": 0,
+   "actionability": 0,
+   "close": 0
+  },
+  "total": 0,
+  "resolution_class": "failed",
+  "learning": "Meta AI Grove provided zero tracking guidance, deflecting all 7 tracking and order-status questions identically to a human agent without any self-service answer.",
+  "judged_at": null
+ },
+ "2026-07-02/meta-quip-shopping-gift.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 18,
+   "recommendation": 14,
+   "rich": 6,
+   "close": 4
+  },
+  "total": 42,
+  "resolution_class": "partial",
+  "learning": "Meta AI quippy named specific products (Ultra Lite Sonic Toothbrush, Refillable Floss, subscription) and matched them to the gift brief, but failed to answer 'which feels more special', stalled on bundle/gift-set queries, and handed off before addressing shipping speed.",
+  "judged_at": null
+ },
+ "2026-07-02/meta-quip-support-order-mgmt.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 26,
+   "accuracy": 18,
+   "actionability": 14,
+   "close": 8
+  },
+  "total": 66,
+  "resolution_class": "partial",
+  "learning": "quippy gave precise, actionable instructions for address change (order details > '...' > Edit Shipping Address), cancellation policy, account detail updates (Manage Subscriptions flow), and 5-10 day refund timeline — only failing on the final order-status check which required human lookup.",
+  "judged_at": null
+ },
+ "2026-07-02/repai-fresh-shopping-beginner.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 5,
+   "recommendation": 2,
+   "rich": 0,
+   "close": 2
+  },
+  "total": 9,
+  "resolution_class": "failed",
+  "learning": "Rep AI looped the same Auto Deliver subscription pitch (30% off first order, 15% recurring) as a response to every question including 'what do beginners say in reviews' and 'add to cart', never naming a specific product or providing any real guidance.",
+  "judged_at": null
+ },
+ "2026-07-02/repai-fresh-shopping-everyday-value.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 4,
+   "recommendation": 1,
+   "rich": 0,
+   "close": 1
+  },
+  "total": 6,
+  "resolution_class": "failed",
+  "learning": "Rep AI on Fresh Roasted Coffee got stuck in a single-track subscription-upsell loop, never comparing two products, never naming a best-seller, and failing to answer 4 of 7 turns including 'add to cart' and 'what's my total'.",
+  "judged_at": null
+ },
+ "2026-07-02/repai-fresh-shopping-gift.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 4,
+   "recommendation": 1,
+   "rich": 0,
+   "close": 1
+  },
+  "total": 6,
+  "resolution_class": "failed",
+  "learning": "Rep AI never suggested a specific gift product or bundle for Fresh Roasted Coffee, pivoting every gift-specific question to the subscription savings pitch and failing to answer 'is there a gift set', 'can it ship gift-ready', or 'add to cart'.",
+  "judged_at": null
+ },
+ "2026-07-02/repai-fresh-shopping-problem-solver.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 5,
+   "recommendation": 2,
+   "rich": 0,
+   "close": 1
+  },
+  "total": 8,
+  "resolution_class": "failed",
+  "learning": "Rep AI acknowledged the quality concern but then looped the Auto Deliver pitch verbatim instead of naming a specific product or addressing pairing suggestions, return policy, or cart add — failing 4 of 7 turns with identical copy.",
+  "judged_at": null
+ },
+ "2026-07-02/repai-fresh-support-damaged.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 0,
+   "accuracy": 0,
+   "actionability": 0,
+   "close": 0
+  },
+  "total": 0,
+  "resolution_class": "failed",
+  "learning": "Rep AI completely ignored a damaged item report across 7 turns, replying with subscription upsell copy for every question including 'will I get a replacement or refund' and 'how long does the replacement take'.",
+  "judged_at": null
+ },
+ "2026-07-02/repai-fresh-support-order-mgmt.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 0,
+   "accuracy": 0,
+   "actionability": 0,
+   "close": 0
+  },
+  "total": 0,
+  "resolution_class": "failed",
+  "learning": "Rep AI answered zero order-management questions, substituting a subscription upsell pitch for every support query including address change, cancellation, and 'can I check if my order can still be modified'.",
+  "judged_at": null
+ },
+ "2026-07-02/repai-fresh-support-policy.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 0,
+   "accuracy": 0,
+   "actionability": 0,
+   "close": 0
+  },
+  "total": 0,
+  "resolution_class": "failed",
+  "learning": "Rep AI answered zero shipping or returns policy questions on Fresh Roasted Coffee, replacing all 7 support queries with the same Auto Deliver discount pitch and failing to even point to a policy page.",
+  "judged_at": null
+ },
+ "2026-07-02/repai-fresh-support-returns.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 0,
+   "accuracy": 0,
+   "actionability": 0,
+   "close": 0
+  },
+  "total": 0,
+  "resolution_class": "failed",
+  "learning": "Rep AI answered zero return policy questions for Fresh Roasted Coffee, deflecting every query — including 'what is your return policy' and 'how many days to return' — with subscription upsell messaging and failing 3 of 7 turns entirely.",
+  "judged_at": null
+ },
+ "2026-07-02/repai-fresh-support-tracking.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 0,
+   "accuracy": 0,
+   "actionability": 0,
+   "close": 0
+  },
+  "total": 0,
+  "resolution_class": "failed",
+  "learning": "Rep AI completely ignored a 'where is my order' tracking complaint, looping Auto Deliver subscription pitches across all 7 turns and failing to answer questions about tracking link, shipping timeframes, or order status.",
+  "judged_at": null
+ },
+ "2026-07-02/siena-figs-shopping-beginner.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 0,
+   "recommendation": 0,
+   "rich": 0,
+   "close": 0
+  },
+  "total": 0,
+  "resolution_class": "deflected",
+  "learning": "Siena/FIGS routed every shopping question to a human specialist with generic acknowledgements ('thanks for your question'), providing zero product information, recommendations, or pricing across all 7 turns.",
+  "judged_at": null
+ },
+ "2026-07-02/siena-figs-shopping-problem-solver.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 0,
+   "recommendation": 0,
+   "rich": 0,
+   "close": 0
+  },
+  "total": 0,
+  "resolution_class": "deflected",
+  "learning": "Siena/FIGS deflected every product and quality question to a human, then mid-conversation began requesting email verification (6-digit code) before sharing any account details — creating friction without providing any shopping value.",
+  "judged_at": null
+ },
+ "2026-07-02/siena-figs-support-order-mgmt.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 4,
+   "accuracy": 8,
+   "actionability": 6,
+   "close": 4
+  },
+  "total": 22,
+  "resolution_class": "deflected",
+  "learning": "Siena/FIGS demanded email verification (6-digit code) before answering any order-specific questions, blocking resolution for 5 of 7 turns; the one answered question (account details update) provided a useful link to wearfigs.com settings.",
+  "judged_at": null
+ },
+ "2026-07-02/siena-figs-support-tracking.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 3,
+   "accuracy": 5,
+   "actionability": 3,
+   "close": 2
+  },
+  "total": 13,
+  "resolution_class": "deflected",
+  "learning": "Siena/FIGS gated every tracking-related response behind a 6-digit email verification code, providing zero tracking information; 'what should I do if tracking never updates' triggered a human escalation instead of policy guidance.",
+  "judged_at": null
+ },
+ "2026-07-02/siena-mudwtr-shopping-beginner.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 25,
+   "recommendation": 18,
+   "rich": 12,
+   "close": 5
+  },
+  "total": 60,
+  "resolution_class": "partial",
+  "learning": "Siena/MUD\\WTR (Mycelia) gave genuinely useful beginner guidance — named blends, explained starter kit contents ($60, frother + app trial), addressed reviews and add-ons — but handed off to human for 'add to cart and give total', limiting the close.",
+  "judged_at": null
+ },
+ "2026-07-02/siena-mudwtr-shopping-compare-budget.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 26,
+   "recommendation": 18,
+   "rich": 10,
+   "close": 6
+  },
+  "total": 60,
+  "resolution_class": "partial",
+  "learning": "Siena/MUD\\WTR delivered a concrete two-option comparison (Starter Kit vs. 90-serving bag) with clear trade-offs and pricing context; the human agent who took over for promo queries was helpful and confirmed bundles/starter kits as savings vehicles.",
+  "judged_at": null
+ },
+ "2026-07-02/siena-mudwtr-shopping-everyday-value.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 27,
+   "recommendation": 19,
+   "rich": 10,
+   "close": 5
+  },
+  "total": 61,
+  "resolution_class": "partial",
+  "learning": "Siena/MUD\\WTR named the original blend as best-seller, compared it to functional coffee on value and daily-use criteria, mentioned 90-serving bags as best per-serving value, and confirmed subscription savings — strong advisory but no cart or total provided.",
+  "judged_at": null
+ },
+ "2026-07-02/siena-mudwtr-shopping-gift.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 28,
+   "recommendation": 20,
+   "rich": 13,
+   "close": 5
+  },
+  "total": 66,
+  "resolution_class": "partial",
+  "learning": "Siena/MUD\\WTR gave strong gift guidance: named Original Starter Kit, described frother + mindfulness app trial extras, confirmed US 5-7 day shipping and no gift wrapping, but handed off to human when asked to add to cart and give total.",
+  "judged_at": null
+ },
+ "2026-07-02/siena-mudwtr-shopping-problem-solver.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 27,
+   "recommendation": 18,
+   "rich": 10,
+   "close": 5
+  },
+  "total": 60,
+  "resolution_class": "partial",
+  "learning": "Siena/MUD\\WTR addressed quality concerns empathetically, matched product to use-case (energy/rest/coffee), cited a 30-day guarantee, and suggested pairings (coconut creamer, protein), but escalated to human for the final cart/total step.",
+  "judged_at": null
+ },
+ "2026-07-02/siena-mudwtr-support-damaged.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 30,
+   "accuracy": 20,
+   "actionability": 18,
+   "close": 11
+  },
+  "total": 79,
+  "resolution_class": "resolved",
+  "learning": "Siena/MUD\\WTR provided a specific help center URL, listed exactly what to include (photos, order number, description), confirmed no return shipping cost, and cleanly handled all 7 turns including multi-item scenarios — best support performance in this batch.",
+  "judged_at": null
+ },
+ "2026-07-02/siena-mudwtr-support-order-mgmt.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 14,
+   "accuracy": 16,
+   "actionability": 10,
+   "close": 6
+  },
+  "total": 46,
+  "resolution_class": "partial",
+  "learning": "Siena/MUDWTR gives correct policy on cancellation eligibility (fulfilled vs unfulfilled) but first turn goes completely unanswered and never looks up any order without credentials.",
+  "judged_at": null
+ },
+ "2026-07-02/siena-mudwtr-support-policy.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 18,
+   "accuracy": 17,
+   "actionability": 12,
+   "close": 5
+  },
+  "total": 52,
+  "resolution_class": "partial",
+  "learning": "Siena/MUDWTR handles shipping and return policy turns well (USA/Canada/UK routing, 30-day guarantee) but bizarrely escalates to human for a simple payment methods question, breaking an otherwise solid policy conversation.",
+  "judged_at": null
+ },
+ "2026-07-02/siena-mudwtr-support-returns.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 8,
+   "accuracy": 10,
+   "actionability": 5,
+   "close": 3
+  },
+  "total": 26,
+  "resolution_class": "deflected",
+  "learning": "After two policy turns, Siena/MUDWTR hard-routes every subsequent question (return shipping cost, refund timing, exchange, final sale) to a human agent with no substantive answer — five consecutive deflections in one session.",
+  "judged_at": null
+ },
+ "2026-07-02/siena-mudwtr-support-tracking.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 15,
+   "accuracy": 16,
+   "actionability": 11,
+   "close": 6
+  },
+  "total": 48,
+  "resolution_class": "partial",
+  "learning": "Siena/MUDWTR correctly communicates 5-7 US and 10-15 Canada business day timeframes and standard-only shipping, but first turn is unanswered and tracking lookup requires human handover when no order found.",
+  "judged_at": null
+ },
+ "2026-07-02/siena-simplemodern-shopping-beginner.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 29,
+   "recommendation": 21,
+   "rich": 19,
+   "close": 11
+  },
+  "total": 80,
+  "resolution_class": "resolved",
+  "learning": "Siena/Simple Modern walks a beginner cleanly to a specific named product (Mesa Loop 30oz $26.99) with cited review data (4.7/5, 500+ reviews), product card with link, and honest cart-add caveat with shipping note.",
+  "judged_at": null
+ },
+ "2026-07-02/siena-simplemodern-shopping-compare-budget.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 30,
+   "recommendation": 22,
+   "rich": 20,
+   "close": 12
+  },
+  "total": 84,
+  "resolution_class": "resolved",
+  "learning": "Siena/Simple Modern surfaces two named products with prices (Mesa Loop $29.99 vs NFL Trek $34.99), explains value delta accurately, provides tiered promo details automatically, and gives a clear personal recommendation.",
+  "judged_at": null
+ },
+ "2026-07-02/siena-simplemodern-shopping-everyday-value.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 25,
+   "recommendation": 18,
+   "rich": 17,
+   "close": 11
+  },
+  "total": 71,
+  "resolution_class": "resolved",
+  "learning": "Siena/Simple Modern initially misfires recommending silicone bibs to an everyday drinkware shopper, but recovers to Trek Tumbler 40oz with strong review data (4.8/5, 5300 reviews) and first-order 15% discount info.",
+  "judged_at": null
+ },
+ "2026-07-02/siena-simplemodern-shopping-gift.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 27,
+   "recommendation": 20,
+   "rich": 18,
+   "close": 10
+  },
+  "total": 75,
+  "resolution_class": "resolved",
+  "learning": "Siena/Simple Modern confidently steers a gift shopper to Mesa Loop $29.99 with real product link, shipping window (5-11 business days), and honest packaging caveat (gift receipt but no dedicated gift-wrap service).",
+  "judged_at": null
+ },
+ "2026-07-02/siena-simplemodern-shopping-problem-solver.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 28,
+   "recommendation": 21,
+   "rich": 20,
+   "close": 12
+  },
+  "total": 81,
+  "resolution_class": "resolved",
+  "learning": "Siena/Simple Modern proactively upsells replacement straws as a pairing, provides direct product URLs, explains return portal with exact exclusions (personalized, limited edition), and gives total with free shipping eligibility.",
+  "judged_at": null
+ },
+ "2026-07-02/siena-simplemodern-support-damaged.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 32,
+   "accuracy": 21,
+   "actionability": 17,
+   "close": 11
+  },
+  "total": 81,
+  "resolution_class": "resolved",
+  "learning": "Siena/Simple Modern clearly separates damage claims (claims.simplemodern.com portal) from normal returns, specifies photo requirements, confirms zero cost for damage claims, and handles multi-item scenarios in one channel.",
+  "judged_at": null
+ },
+ "2026-07-02/siena-simplemodern-support-order-mgmt.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 30,
+   "accuracy": 22,
+   "actionability": 17,
+   "close": 11
+  },
+  "total": 80,
+  "resolution_class": "resolved",
+  "learning": "Siena/Simple Modern gives precise cancellation windows (under 45min self-service, 45min-1hr agent-assist, after 1hr no cancellation) and specific refund timeframe (3-5 business days) — among the most actionable order-mgmt responses in the benchmark.",
+  "judged_at": null
+ },
+ "2026-07-02/siena-simplemodern-support-policy.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 29,
+   "accuracy": 21,
+   "actionability": 16,
+   "close": 10
+  },
+  "total": 76,
+  "resolution_class": "resolved",
+  "learning": "Siena/Simple Modern delivers comprehensive policy coverage (US/Canada, 90-day returns, no exchanges, Canadian orders ineligible, 1-3 day fulfillment) with a direct return policy link and holiday queue warning in a single session.",
+  "judged_at": null
+ },
+ "2026-07-02/siena-simplemodern-support-returns.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 33,
+   "accuracy": 22,
+   "actionability": 17,
+   "close": 11
+  },
+  "total": 83,
+  "resolution_class": "resolved",
+  "learning": "Siena/Simple Modern provides a complete returns picture: 90-day window, direct portal URL, return label cost deducted from refund, no exchanges, clear defective-item redirect to claims portal — all answered in-channel without escalation.",
+  "judged_at": null
+ },
+ "2026-07-02/siena-simplemodern-support-tracking.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 22,
+   "accuracy": 18,
+   "actionability": 14,
+   "close": 8
+  },
+  "total": 62,
+  "resolution_class": "partial",
+  "learning": "Siena/Simple Modern gives accurate 1-3 day fulfillment + 4-8 day delivery windows and no-expedite policy, but cannot resolve the stuck-tracking issue in-channel; human handover at turn 5 with email follow-up promised.",
+  "judged_at": null
+ },
+ "2026-07-02/sierra-bark-shopping-beginner.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 18,
+   "recommendation": 10,
+   "rich": 5,
+   "close": 4
+  },
+  "total": 37,
+  "resolution_class": "partial",
+  "learning": "Sierra/BARK names subscription tiers (BarkBox, Lite Box, All Treats) but never provides a price, no product card, and cannot access review data — the assistant consistently asks for dog details before surfacing any concrete recommendation.",
+  "judged_at": null
+ },
+ "2026-07-02/sierra-bark-shopping-compare-budget.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 14,
+   "recommendation": 5,
+   "rich": 3,
+   "close": 3
+  },
+  "total": 25,
+  "resolution_class": "failed",
+  "learning": "Sierra/BARK never produced a comparison despite being asked four times — every turn deflects back to requesting dog details, and the promo turn triggers a human handover; zero named products or prices surfaced across five turns.",
+  "judged_at": null
+ },
+ "2026-07-02/sierra-bark-shopping-everyday-value.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 12,
+   "recommendation": 5,
+   "rich": 3,
+   "close": 2
+  },
+  "total": 22,
+  "resolution_class": "failed",
+  "learning": "Sierra/BARK loops through dog-profile intake questions for all seven turns without surfacing a single specific product name, price, or link — a structural failure where data-gathering completely overrides answering the shopper.",
+  "judged_at": null
+ },
+ "2026-07-02/sierra-bark-shopping-gift.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 19,
+   "recommendation": 12,
+   "rich": 7,
+   "close": 5
+  },
+  "total": 43,
+  "resolution_class": "partial",
+  "learning": "Sierra/BARK correctly identifies gift box and e-gift card options and explains themed/Plush/Super Chewer distinction, but escalates to human on the shipping/gift-ready question and never provides a price throughout.",
+  "judged_at": null
+ },
+ "2026-07-02/sierra-bark-shopping-problem-solver.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 16,
+   "recommendation": 6,
+   "rich": 3,
+   "close": 3
+  },
+  "total": 28,
+  "resolution_class": "failed",
+  "learning": "Sierra/BARK escalates to human at turn 6 on a return/policy question it should handle, and across six turns never names a specific product — the agent designs for data collection, not customer conversion.",
+  "judged_at": null
+ },
+ "2026-07-02/sierra-bark-support-order-mgmt.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 20,
+   "accuracy": 15,
+   "actionability": 12,
+   "close": 7
+  },
+  "total": 54,
+  "resolution_class": "partial",
+  "learning": "Sierra/BARK correctly routes address changes to account Manage Subscriptions and item additions to Featured Collections, but requires login for cancellation lookup and escalates on email-address change — partial self-service.",
+  "judged_at": null
+ },
+ "2026-07-02/sierra-bark-support-policy.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 22,
+   "accuracy": 17,
+   "actionability": 11,
+   "close": 6
+  },
+  "total": 56,
+  "resolution_class": "partial",
+  "learning": "Sierra/BARK gives accurate shipping scope (US 48 states, UPS only) and no-return/Happiness-Guarantee policy, but hands over to human at the return-policy turn — stopping short of the most commonly needed policy detail.",
+  "judged_at": null
+ },
+ "2026-07-02/sierra-bark-support-tracking.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 20,
+   "accuracy": 16,
+   "actionability": 12,
+   "close": 7
+  },
+  "total": 55,
+  "resolution_class": "partial",
+  "learning": "Sierra/BARK correctly states 2-3 business day processing + 4-10 day delivery and uses Amazon distribution centers, but requires email lookup to check a specific order and escalates if tracking never updates.",
+  "judged_at": null
+ },
+ "2026-07-02/sierra-casper-support-damaged.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 34,
+   "accuracy": 22,
+   "actionability": 17,
+   "close": 12
+  },
+  "total": 85,
+  "resolution_class": "resolved",
+  "learning": "Sierra/Casper proactively collects damage details in-channel, accepts photo uploads in chat, specifies free return for warranty items, provides product-type-specific replacement windows (2-8 days standard, 2-4 weeks in-home), and handles multi-item claims gracefully.",
+  "judged_at": null
+ },
+ "2026-07-02/sierra-casper-support-policy.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 34,
+   "accuracy": 23,
+   "actionability": 17,
+   "close": 12
+  },
+  "total": 86,
+  "resolution_class": "resolved",
+  "learning": "Sierra/Casper delivers an unusually complete policy session: direct policy page links, product-differentiated return windows (100-night mattress vs 30-day soft goods), exhaustive payment method list including financing (Affirm/Katapult/Accrue), and a live-agent transfer offer rather than hard escala",
+  "judged_at": null
+ },
+ "2026-07-02/sierra-casper-support-returns.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 33,
+   "accuracy": 22,
+   "actionability": 16,
+   "close": 11
+  },
+  "total": 82,
+  "resolution_class": "resolved",
+  "learning": "Sierra/Casper covers the full return landscape: product-specific windows (100-night mattress, 30-night furniture, 30-day soft goods), free return shipping confirmed, no exchanges policy, and financed-order refund instructions — all in-channel without escalation.",
+  "judged_at": null
+ },
+ "2026-07-02/sierra-chubbies-shopping-beginner.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 26,
+   "recommendation": 18,
+   "rich": 14,
+   "close": 9
+  },
+  "total": 67,
+  "resolution_class": "resolved",
+  "learning": "Sierra/Chubbies names specific starter products with approximate prices ($29.99 tee, $59.99 Movementum shorts) and summarizes review sentiment, but cannot add to cart or confirm exact price — honest about limitations.",
+  "judged_at": null
+ },
+ "2026-07-02/sierra-chubbies-shopping-compare-budget.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 22,
+   "recommendation": 14,
+   "rich": 13,
+   "close": 10
+  },
+  "total": 59,
+  "resolution_class": "partial",
+  "learning": "Sierra/Chubbies loops through category clarification for four turns before eventually naming Classic Lined Swim Trunks at $45 (Hot Summer Deals) and detailing the rewards program — functional but requiring excessive prompting.",
+  "judged_at": null
+ },
+ "2026-07-02/sierra-chubbies-shopping-everyday-value.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 23,
+   "recommendation": 15,
+   "rich": 12,
+   "close": 8
+  },
+  "total": 58,
+  "resolution_class": "partial",
+  "learning": "Sierra/Chubbies compares 24/7 Essential Tee vs Rough n' Tumble Graphic Tee with useful prose but admits it lacks best-seller or review data; free shipping threshold and rewards program communicated but no prices shown for most turns.",
+  "judged_at": null
+ },
+ "2026-07-02/sierra-chubbies-shopping-gift.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 26,
+   "recommendation": 18,
+   "rich": 17,
+   "close": 10
+  },
+  "total": 71,
+  "resolution_class": "resolved",
+  "learning": "Sierra/Chubbies names multiple gift products with direct links (Boss Mode Hoodie, Ice Caps Shorts, Long Sleeve Tee), suggests coordinated Set Hoodie + Sweatpants bundles, and gives shipping windows (5-7 standard, 3-4 expedited) — solid gift session.",
+  "judged_at": null
+ },
+ "2026-07-02/sierra-chubbies-shopping-problem-solver.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 21,
+   "recommendation": 12,
+   "rich": 10,
+   "close": 8
+  },
+  "total": 51,
+  "resolution_class": "partial",
+  "learning": "Sierra/Chubbies handles reassurance and return policy (30-day free returns, exchanges supported) well but never commits to a specific product recommendation across seven turns — quality claims remain generic without a named product to evaluate.",
+  "judged_at": null
+ },
+ "2026-07-02/sierra-chubbies-support-damaged.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 33,
+   "accuracy": 21,
+   "actionability": 17,
+   "close": 11
+  },
+  "total": 82,
+  "resolution_class": "resolved",
+  "learning": "Sierra/Chubbies requires order number plus PO from inside tag for damage claims, offers three contact channels (email/SMS/chat), provides free prepaid label, and quotes 48hr processing after USPS scan — unusually specific process detail.",
+  "judged_at": null
+ },
+ "2026-07-02/sierra-chubbies-support-order-mgmt.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 28,
+   "accuracy": 20,
+   "actionability": 16,
+   "close": 10
+  },
+  "total": 74,
+  "resolution_class": "resolved",
+  "learning": "Sierra/Chubbies gives a precise 55-minute cancellation window (shortest in benchmark), differentiates cancel refund (3-5 days) from return refund (7-10 days), but deflects the account-details update question to email/SMS support.",
+  "judged_at": null
+ },
+ "2026-07-02/sierra-chubbies-support-policy.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 26,
+   "accuracy": 19,
+   "actionability": 14,
+   "close": 9
+  },
+  "total": 68,
+  "resolution_class": "resolved",
+  "learning": "Sierra/Chubbies covers international shipping with buyer-pays-duties detail, 30-day return window, loyalty-member extended window, and final-sale exclusions — two unanswered turns (shipping time, payment methods) slightly undercut an otherwise comprehensive policy session.",
+  "judged_at": null
+ },
+ "2026-07-02/sierra-chubbies-support-returns.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 30,
+   "accuracy": 20,
+   "actionability": 16,
+   "close": 10
+  },
+  "total": 76,
+  "resolution_class": "resolved",
+  "learning": "Sierra/Chubbies provides a complete returns flow: portal URL, prepaid USPS label, 30-day window (extended for loyalty members), exchanges supported, 10-15 business day refund timeline — four turns marked unanswered but substantive answers appear in the reply tails.",
+  "judged_at": null
+ },
+ "2026-07-02/sierra-scotts-shopping-beginner.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 20,
+   "recommendation": 11,
+   "rich": 10,
+   "close": 5
+  },
+  "total": 46,
+  "resolution_class": "partial",
+  "learning": "Sierra/Scotts Miracle-Gro surfaces AeroGarden products with prices ($21.95) in a product carousel but spends most turns asking which category the beginner wants — one unanswered turn and no cart or checkout path provided.",
+  "judged_at": null
+ },
+ "2026-07-02/sierra-scotts-shopping-compare-budget.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 11,
+   "recommendation": 3,
+   "rich": 3,
+   "close": 2
+  },
+  "total": 19,
+  "resolution_class": "failed",
+  "learning": "Sierra/Scotts Miracle-Gro fails to surface a single specific product across seven turns — every response requests category clarification, including on 'add to cart' where it still asks what category the shopper wants.",
+  "judged_at": null
+ },
+ "2026-07-02/sierra-scotts-shopping-everyday-value.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 8,
+   "recommendation": 2,
+   "rich": 3,
+   "close": 2
+  },
+  "total": 15,
+  "resolution_class": "failed",
+  "learning": "Sierra/Scotts loops on category-clarification for all 7 turns, never advancing to a named product — shopper leaves with zero recommendation despite persistent prompting.",
+  "judged_at": null
+ },
+ "2026-07-02/sierra-scotts-shopping-gift.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 13,
+   "recommendation": 8,
+   "rich": 14,
+   "close": 3
+  },
+  "total": 38,
+  "resolution_class": "partial",
+  "learning": "Sierra/Scotts surfaces AeroGarden product cards with prices (~$21–$350) on turn 2 when gift context is given, but never synthesizes a top pick or confirms cart action despite repeated requests.",
+  "judged_at": null
+ },
+ "2026-07-02/sierra-scotts-shopping-problem-solver.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 8,
+   "recommendation": 2,
+   "rich": 2,
+   "close": 1
+  },
+  "total": 13,
+  "resolution_class": "failed",
+  "learning": "Sierra/Scotts never escapes the clarification loop across 7 turns for a problem-solver shopper; the only substantive info offered is the No-Quibble Guarantee link, with no product named even at close.",
+  "judged_at": null
+ },
+ "2026-07-02/sierra-scotts-support-order-mgmt.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 8,
+   "accuracy": 11,
+   "actionability": 8,
+   "close": 5
+  },
+  "total": 32,
+  "resolution_class": "deflected",
+  "learning": "Sierra/Scotts support consistently redirects order management questions to the Help Center link without accessing order data or providing specific timeframes, leaving all actions self-serve on the customer.",
+  "judged_at": null
+ },
+ "2026-07-02/sierra-scotts-support-policy.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 12,
+   "accuracy": 11,
+   "actionability": 10,
+   "close": 5
+  },
+  "total": 38,
+  "resolution_class": "partial",
+  "learning": "Sierra/Scotts can name the No-Quibble Guarantee and link to promo-terms but cannot state a standard shipping timeframe or list accepted payment methods, leaving core policy queries partially unresolved.",
+  "judged_at": null
+ },
+ "2026-07-02/sierra-scotts-support-returns.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 24,
+   "accuracy": 17,
+   "actionability": 11,
+   "close": 8
+  },
+  "total": 60,
+  "resolution_class": "partial",
+  "learning": "Sierra/Scotts handles returns well by citing the No-Quibble Guarantee and confirming no exchanges, but cannot provide a return timeframe or confirm return-shipping costs, leaving the process partially incomplete.",
+  "judged_at": null
+ },
+ "2026-07-02/sierra-scotts-support-tracking.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 5,
+   "accuracy": 5,
+   "actionability": 4,
+   "close": 3
+  },
+  "total": 17,
+  "resolution_class": "failed",
+  "learning": "Sierra/Scotts tracking support repeats the same 'did you order from our site or a retailer?' question across every single turn without providing any shipping timeframes or escalation path.",
+  "judged_at": null
+ },
+ "2026-07-02/sierra-sunandski-shopping-compare-budget.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 10,
+   "recommendation": 3,
+   "rich": 6,
+   "close": 5
+  },
+  "total": 24,
+  "resolution_class": "failed",
+  "learning": "Sierra/Sun & Ski surfaced real promotional info (10% military discount, 70% off winter gear) without being asked, but still refused to name products after 7 full turns of budget-focused questions.",
+  "judged_at": null
+ },
+ "2026-07-02/sierra-sunandski-shopping-everyday-value.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 10,
+   "recommendation": 3,
+   "rich": 5,
+   "close": 5
+  },
+  "total": 23,
+  "resolution_class": "failed",
+  "learning": "Sierra/Sun & Ski proactively mentions 15% new-subscriber discount and free shipping threshold on the final turn, but loops on gender/category clarification throughout without ever presenting a product.",
+  "judged_at": null
+ },
+ "2026-07-02/sierra-sunandski-shopping-gift.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 12,
+   "recommendation": 3,
+   "rich": 4,
+   "close": 4
+  },
+  "total": 23,
+  "resolution_class": "failed",
+  "learning": "Sierra/Sun & Ski correctly states no gift wrapping, orders ship within 24 hrs before 1 PM, and overnight is available — useful logistics detail — but never recommends a single gift item despite seven turns.",
+  "judged_at": null
+ },
+ "2026-07-02/sierra-sunandski-shopping-problem-solver.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 11,
+   "recommendation": 4,
+   "rich": 3,
+   "close": 5
+  },
+  "total": 23,
+  "resolution_class": "failed",
+  "learning": "Sierra/Sun & Ski delivers a clear, specific return policy (30-day refund, 30-60 store credit, Start a Return link) unprompted on the 'what if it doesn't work' turn, but still names zero products across the conversation.",
+  "judged_at": null
+ },
+ "2026-07-02/sierra-sunandski-support-policy.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 27,
+   "accuracy": 20,
+   "actionability": 14,
+   "close": 8
+  },
+  "total": 69,
+  "resolution_class": "partial",
+  "learning": "Sierra/Sun & Ski support is policy-fluent: US-only shipping, 2-5 biz day delivery, $9.99 return label fee, bike $99 restocking, CC and PayPal accepted — two turns technically unanswered but replies were substantive.",
+  "judged_at": null
+ },
+ "2026-07-02/sierra-sunandski-support-returns.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 32,
+   "accuracy": 22,
+   "actionability": 16,
+   "close": 10
+  },
+  "total": 80,
+  "resolution_class": "resolved",
+  "learning": "Sierra/Sun & Ski returns support is highly self-contained: states exact $9.99 return fee, 2-3 day processing time, 30/60-day windows, Performance Guarantee workaround for exchanges, and a direct Start-a-Return link — nearly all questions resolved in-channel.",
+  "judged_at": null
+ },
+ "2026-07-03/sierra-casper-shopping-everyday-value.json": {
+  "mode": "shopping",
+  "rubric": {
+   "answer": 26,
+   "recommendation": 20,
+   "rich": 20,
+   "close": 9
+  },
+  "total": 75,
+  "resolution_class": "partial",
+  "learning": "Sierra/Casper names specific products (The One, Cloud One, Dream) with add-to-cart affordances and identifies The One as best seller and Dream as highest rated, but cannot confirm exact prices or free shipping details at checkout.",
+  "judged_at": null
+ }
+}

@@ -257,7 +257,7 @@
 
     <div class="mblock">
       <h3>Best AI agent — how the ranking works</h3>
-      <p>The two jobs an on-site assistant is hired for are ranked by a single composite that weighs the two things that matter most: <strong>success</strong> (does it finish the job without bailing to a human) and <strong>speed</strong> (latency to the full answer). <span class="mono">Composite = 60% success + 40% speed · speed scored 100 at ≤3s, 0 at ≥22s.</span> Averaged per vendor across its stores; respects the date window. <strong>Ranking is gated on measurement coverage</strong> — a vendor needs enough cleanly-timed turns to be ranked on speed; those with too few are listed separately.</p>
+      <p>The two jobs an on-site assistant is hired for are ranked by a composite of the three things that matter most, in order: <strong>automation rate</strong> (does the AI carry the whole conversation in-channel — no human handover, no email/phone deflection; early bails count against it), <strong>answer quality</strong> (an LLM-judge scores every conversation /100 on a per-lane rubric — relevance, recommendation &amp; rich elements for Shopping; resolution, accuracy &amp; actionability for Support), and <strong>speed</strong> (latency to the full final answer). <span class="mono">Composite = 50% automation + 25% quality + 25% speed · speed scored 100 at ≤3s, 0 at ≥22s</span>, renormalized when a dimension is unavailable. Pooled per vendor across its stores; respects the date window. <strong>Ranking is gated on measurement coverage</strong> — a vendor needs enough cleanly-timed turns to be ranked; those with too few are listed separately.</p>
     </div>
 
     <div class="mblock">
@@ -310,9 +310,10 @@
       <th class="srt" onclick="sortSummary('vendor')">Vendor<span class="sc"></span></th>
       <th class="n srt" onclick="sortSummary('stores')">Stores<span class="sc"></span></th>
       <th class="n srt" onclick="sortSummary('convs')">Conversations<span class="sc"></span></th>
+      <th class="srt" onclick="sortSummary('auto')" title="Share of engaged conversations the AI carried end-to-end: no human handover, no email/phone deflection. Early bails count against it.">Automation rate<span class="sc"></span></th>
       <th class="n srt" onclick="sortSummary('lat')">Avg latency<span class="sc"></span></th>
       <th class="srt" onclick="sortSummary('success')">Avg success (no handover)<span class="sc"></span></th>
-      <th class="n srt qcol qcol-h" onclick="sortSummary('qual')">Relevance quality<span class="sc"></span></th>
+      <th class="n srt qcol qcol-h" onclick="sortSummary('qual')" title="LLM-judge score /100 — per-lane rubric: relevance/recommendation/rich-elements/close (Shopping) · resolution/accuracy/actionability/close (Support)">Quality (LLM judge)<span class="sc"></span></th>
       <th class="n srt" onclick="sortSummary('turns')">Avg turns<span class="sc"></span></th>
     </tr></thead>
       <tbody id="summary-body"></tbody></table>
@@ -321,7 +322,7 @@
 
 <section id="best-sec">
   <h2 class="sec">Best AI agent — by category</h2>
-  <p class="lead">The single best on-site AI agent for each job, ranked by a composite of <strong>success</strong> + <strong>speed</strong>, gated on measurement coverage. <button class="linklike" onclick="openModal()">How the ranking works ↗</button></p>
+  <p class="lead">The single best on-site AI agent for each job, ranked by a composite of <strong>automation</strong> + <strong>quality</strong> + <strong>speed</strong>, gated on measurement coverage. <button class="linklike" onclick="openModal()">How the ranking works ↗</button></p>
   <div class="modebar bestbar">
     <button class="modebtn bestbtn" data-b="shopping" aria-selected="true" onclick="setBest('shopping')">Shopping Assistant</button>
     <button class="modebtn bestbtn" data-b="support" aria-selected="false" onclick="setBest('support')">Support AI Agent</button>
@@ -337,6 +338,12 @@
   <p class="best-note"><strong>Why coverage matters:</strong> we only average turns we could time cleanly. Competitors' <em>slow</em> turns (product rec, add-to-cart) are the ones most likely to stream past the window or break the widget, so they drop out — leaving mostly fast early turns and making a rival look quicker than it is. Gorgias is measured on ~71% of its turns; several competitors on far fewer. A vendor below the coverage bar is listed but <strong>not ranked on speed</strong>. Read latency next to coverage, not alone.</p>
 </section>
 
+<section id="trend-sec">
+  <h2 class="sec">Trends — how each provider evolves run over run</h2>
+  <p class="lead">Every weekly run adds a point per provider. Automation and quality should climb as providers ship; a drop is a regression worth reading. Ignores the date window (shows all runs).</p>
+  <div class="trend-grid" id="trend-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:14px"></div>
+</section>
+
 <section id="results-sec">
   <h2 class="sec">Results — per store</h2>
   <p class="lead">Each row is one live store. <strong>Latency</strong> = time to a full answer. <strong>Success</strong> = % of the 10 turns the AI answered itself with no human handover. Stores marked <span class="pill p-na">legacy</span> were measured earlier on a single conversation and are pending a standardized re-test; their success figure reflects observed handover behavior, not a precise 10-turn rate.</p>
@@ -344,7 +351,7 @@
   <div class="card table-scroll">
     <table id="results">
       <thead><tr>
-        <th class="srt" onclick="sortResults('store')">Vendor / store<span class="sc"></span></th><th class="hide-sm srt" onclick="sortResults('method')">Method<span class="sc"></span></th><th class="n srt" onclick="sortResults('lat')">Latency<span class="sc"></span></th><th class="srt" onclick="sortResults('success')">Success (no handover)<span class="sc"></span></th><th class="n srt qcol qcol-h" onclick="sortResults('qual')">Relevance quality<span class="sc"></span></th><th class="n srt" onclick="sortResults('turns')">Turns<span class="sc"></span></th><th class="hide-sm">What happened</th>
+        <th class="srt" onclick="sortResults('store')">Vendor / store<span class="sc"></span></th><th class="hide-sm srt" onclick="sortResults('method')">Method<span class="sc"></span></th><th class="srt" onclick="sortResults('auto')" title="Share of engaged conversations the AI carried end-to-end (no handover, no deflection)">Automation<span class="sc"></span></th><th class="n srt" onclick="sortResults('lat')">Latency<span class="sc"></span></th><th class="srt" onclick="sortResults('success')">Success (no handover)<span class="sc"></span></th><th class="n srt qcol qcol-h" onclick="sortResults('qual')" title="LLM-judge score /100 (per-lane rubric)">Quality (LLM judge)<span class="sc"></span></th><th class="n srt" onclick="sortResults('turns')">Turns<span class="sc"></span></th><th class="hide-sm">What happened</th>
       </tr></thead>
       <tbody id="results-body"></tbody>
     </table>
@@ -1573,6 +1580,7 @@ const COL = {Spiffy:'var(--spiffy)','Gorgias':'var(--gorgias)',Sierra:'var(--sie
 // ---- SHOPPING (one entry per store; .themes = 5 apple-to-apple conversations) — GENERATED by runner/gen.js from runs [2026-07-01, 2026-07-02]. Do not hand-edit. ----
 // ---- SHOPPING (one entry per store; .themes = 5 apple-to-apple conversations) — GENERATED by runner/gen.js from runs [2026-07-01, 2026-07-02]. Do not hand-edit. ----
 // ---- SHOPPING (one entry per store; .themes = 5 apple-to-apple conversations) — GENERATED by runner/gen.js from runs [2026-07-01, 2026-07-02]. Do not hand-edit. ----
+// ---- SHOPPING (one entry per store; .themes = 5 apple-to-apple conversations) — GENERATED by runner/gen.js from runs [2026-07-01, 2026-07-02, 2026-07-03]. Do not hand-edit. ----
 const STORES = [
  {
   "id": "gorgias-madura-shopping-2026-07-01",
@@ -1590,6 +1598,35 @@ const STORES = [
   "avgTurns": 7,
   "timed": 19,
   "attempted": 28,
+  "auto": {
+   "automated": 3,
+   "handover": 1,
+   "deflected": 0,
+   "no_answer": 0,
+   "engaged": 4,
+   "rate": 75
+  },
+  "evalq": {
+   "n": 4,
+   "total": 26,
+   "dims": {
+    "answer": 13,
+    "recommendation": 6,
+    "rich": 4,
+    "close": 4
+   },
+   "cls": {
+    "failed": 2,
+    "deflected": 1,
+    "partial": 1
+   },
+   "learnings": [
+    "Madura bot conflated a shopping beginner question with payment-method help and then went offline for the last 3 turns, making no product recommendations and collapsing the session entirely.",
+    "Madura bot repeatedly asked the shopper to name a category before offering any recommendation, never proactively surfaced a product, and provided no prices, product names, or links throughout the conversation.",
+    "Two turns unanswered mid-session, then fully offline for turns 5-7 with 'message not delivered' errors and a human handover request that was never answered — total session failure.",
+    "Gave coherent generic gift suggestions (bed linen, cushions) but never named a specific product until the last turn where it linked a parure de lit with a shipping cost breakdown — the only concrete commerce element."
+   ]
+  },
   "ticket": {
    "sub": "fr-madura",
    "acct": "74962",
@@ -1906,6 +1943,35 @@ const STORES = [
   "avgTurns": 7,
   "timed": 31,
   "attempted": 35,
+  "auto": {
+   "automated": 5,
+   "handover": 0,
+   "deflected": 0,
+   "no_answer": 0,
+   "engaged": 5,
+   "rate": 100
+  },
+  "evalq": {
+   "n": 5,
+   "total": 58,
+   "dims": {
+    "answer": 21,
+    "recommendation": 16,
+    "rich": 13,
+    "close": 8
+   },
+   "cls": {
+    "deflected": 1,
+    "partial": 4
+   },
+   "learnings": [
+    "Jade bot escalated to human handover by turn 3 and then went silent for 4 consecutive turns — it answered support-category questions but made zero product recommendations and the session collapsed.",
+    "Named vinyl vs. keyring comparison was clear and honest, with prices and a direct recommendation on budget; acknowledged it cannot add to cart or confirm discounts, deflecting the final conversion step.",
+    "Consistently pushed the JADE Chrome Logo White T-Shirt as the everyday pick with clear rationale, but could not confirm reviews, cart, or shipping promotions, leaving the shopper to self-serve checkout.",
+    "Progressed gift recommendations well from accessories to necklace set with prices shown, but could not confirm gift-ready packaging, and the final cart-add ask was cleanly declined with a direct product link.",
+    "Vinyl recommendation was coherent and stayed consistent across turns, but the return policy answer was vague ('return shipping costs are not covered') and the final cart-add was declined."
+   ]
+  },
   "ticket": {
    "sub": "b0qaeh-qf",
    "acct": "70478",
@@ -2280,6 +2346,34 @@ const STORES = [
   "avgTurns": 7,
   "timed": 22,
   "attempted": 28,
+  "auto": {
+   "automated": 4,
+   "handover": 0,
+   "deflected": 0,
+   "no_answer": 1,
+   "engaged": 4,
+   "rate": 100
+  },
+  "evalq": {
+   "n": 4,
+   "total": 52,
+   "dims": {
+    "answer": 20,
+    "recommendation": 14,
+    "rich": 12,
+    "close": 7
+   },
+   "cls": {
+    "deflected": 1,
+    "partial": 3
+   },
+   "learnings": [
+    "Jade's bot escalated to a human agent after only 2-3 turns, leaving 4 of 7 shopper questions completely unanswered—the handover killed the entire pre-sales conversation.",
+    "Correctly identified THE ENCORE CD as better value than STANDARD CD at same £13.99 price point (8 extra songs, bigger booklet), and honestly confirmed no current promos—solid music merch advisory.",
+    "Jade's bot had an 18-minute stall mid-conversation (turn 3 unanswered) and one more missed turn; when it responded, the water bottle €35 and CD £13.99 picks were reasonable but the dead gaps heavily penalize the experience.",
+    "Jade named specific picks (necklace €83.95, Glitch Tee €45) with material reasons and honest pairings, but disclosed return shipping is not covered only at the penultimate turn—a friction point surfaced too late."
+   ]
+  },
   "ticket": {
    "sub": "b0qaeh-qf",
    "acct": "70478",
@@ -2582,7 +2676,7 @@ const STORES = [
  },
  {
   "id": "gorgias-jshealth-shopping-pending",
-  "date": "2026-07-02",
+  "date": "2026-07-03",
   "vendor": "Gorgias",
   "store": "JSHealth Vitamins",
   "site": "us.jshealthvitamins.com",
@@ -2612,6 +2706,35 @@ const STORES = [
   "avgTurns": 7,
   "timed": 35,
   "attempted": 35,
+  "auto": {
+   "automated": 5,
+   "handover": 0,
+   "deflected": 0,
+   "no_answer": 0,
+   "engaged": 5,
+   "rate": 100
+  },
+  "evalq": {
+   "n": 5,
+   "total": 78,
+   "dims": {
+    "answer": 29,
+    "recommendation": 21,
+    "rich": 17,
+    "close": 11
+   },
+   "cls": {
+    "resolved": 4,
+    "partial": 1
+   },
+   "learnings": [
+    "Names Skincare Winners Travel-Size Gift Set ($37 sale) from turn 3 with consistent rationale (3-step, sensitive skin, low-commitment), flags 20% off threshold on multiple turns as upsell nudge, and shows product card with sale price at close.",
+    "Compares Milky Must-Haves vs Hydration Station with specific prices, skin-type fit, and feature breakdown; names a decisive pick; surfaces active Independence Day promo (20% off $100+, ends July 7); closes with product link and prompts toward the discount threshold.",
+    "Consistently recommends Milky Must-Haves 3-Piece ($120) for value + sensitivity, mentions free shipping at $80 and 20% off at $100, shows product card with sale price, and closes with welcome email discount offer — confident and commercially aware throughout.",
+    "Names Fun in the Sun Travel Pack ($73 sale) as the most-special gift, provides specific shipping speeds and costs ($5 standard, $30 fast, $50 fastest), shows product card, and closes with a direct action prompt — strong gift-context handling with precise pricing.",
+    "Beekman bot gave a named, clinically-credentialed product recommendation with stat-backed social proof but failed on the final 'add to cart' ask, admitting it cannot transact."
+   ]
+  },
   "ticket": {
    "sub": "beekman1802",
    "acct": "67296",
@@ -2986,6 +3109,34 @@ const STORES = [
   "avgTurns": 7,
   "timed": 35,
   "attempted": 35,
+  "auto": {
+   "automated": 5,
+   "handover": 0,
+   "deflected": 0,
+   "no_answer": 0,
+   "engaged": 5,
+   "rate": 100
+  },
+  "evalq": {
+   "n": 5,
+   "total": 82,
+   "dims": {
+    "answer": 30,
+    "recommendation": 22,
+    "rich": 19,
+    "close": 11
+   },
+   "cls": {
+    "partial": 5
+   },
+   "learnings": [
+    "Gorgias/Beekman gave named, priced recommendations every turn and admitted gaps honestly (no review quotes), but could not add to cart or quote a total, limiting final conversion.",
+    "Provided a clear head-to-head comparison with specific sale terms (20% off $100+ through July 7) and consistent purchase nudges, but checkout assistance was unavailable from chat.",
+    "Consistently pushed Milky Must-Haves 3-Piece with accurate promo thresholds, but the welcome-offer/promo non-stacking caveat was only mentioned on the final turn, slightly muddying value clarity.",
+    "Escalated well from budget gift to Iconic Essentials €136.95 with gift-readiness and shipping speeds confirmed; the \"I can help with orders but not add to cart\" reply on the final turn was a slight inconsistency.",
+    "Cited specific clinical stats (94% firmer, 91% lifted) and the exact return policy (30-day, €8 fee vs free store credit) to reassure a skeptical shopper—strongest quality-validation performance in this batch."
+   ]
+  },
   "ticket": {
    "sub": "beekman1802",
    "acct": "67296",
@@ -3360,6 +3511,36 @@ const STORES = [
   "avgTurns": 7,
   "timed": 26,
   "attempted": 35,
+  "auto": {
+   "automated": 5,
+   "handover": 0,
+   "deflected": 0,
+   "no_answer": 0,
+   "engaged": 5,
+   "rate": 100
+  },
+  "evalq": {
+   "n": 5,
+   "total": 52,
+   "dims": {
+    "answer": 20,
+    "recommendation": 14,
+    "rich": 11,
+    "close": 7
+   },
+   "cls": {
+    "partial": 2,
+    "resolved": 2,
+    "failed": 1
+   },
+   "learnings": [
+    "Names ALTO ($1299.99) as beginner pick with product card by turn 7, but three consecutive turns (2–4) produce no replies while the chat stalls — when it does respond, answers are useful and the close provides a price and encourages a product-page action.",
+    "Compares ALTO vs ROVER3 with specific prices ($1299.99 vs $999.99/$799.99), bundle savings detail, decisive recommendation (ALTO for best-balance, ROVER3 for budget), and a product card with correct sale price at close — strong structured comparison.",
+    "Recommends ALTO with features (lifetime warranty, one-hand fold, 13kg basket) and shows product card with price, but one unanswered turn and three turns that give only boilerplate support hours text instead of substantive answers reduce overall usefulness.",
+    "Names JOEY at $279.99 and accessory packs at $299.95 with specific inclusions, presents product cards, and closes by naming the top pick with price — one unanswered turn (gift-ready/ship) and no explicit gift-wrapping confirmation are minor gaps.",
+    "Four of seven turns produce no substantive answer (stalling at 'Thinking'); when it does respond it offers JUNO/ALTO product buttons but never names a specific product with rationale, and the close provides only support-hours boilerplate."
+   ]
+  },
   "ticket": {
    "sub": "babybeeprams",
    "acct": "29437",
@@ -3734,6 +3915,34 @@ const STORES = [
   "avgTurns": 7,
   "timed": 32,
   "attempted": 35,
+  "auto": {
+   "automated": 5,
+   "handover": 0,
+   "deflected": 0,
+   "no_answer": 0,
+   "engaged": 5,
+   "rate": 100
+  },
+  "evalq": {
+   "n": 5,
+   "total": 71,
+   "dims": {
+    "answer": 24,
+    "recommendation": 19,
+    "rich": 18,
+    "close": 10
+   },
+   "cls": {
+    "partial": 5
+   },
+   "learnings": [
+    "Gorgias/Baby Bee named ALTO and ROVER3 with prices and gave a newborn accessories recommendation, but 3 of 7 turns went unanswered mid-session due to apparent load or timeout delays, fragmenting the experience.",
+    "Bot delivered a precise ALTO vs ROVER3 comparison with exact weights, prices, and basket capacities, named Juno bundle savings, and gave a clear verdict — but one turn returned the boilerplate contact-hours block instead of a recommendation.",
+    "Gorgias/Baby Bee gave a highly specific ALTO vs ROVER3 comparison with exact specs, identified ALTO as best-seller, disclosed it can't add to cart, and offered bundle savings (up to $300) — strong advisory with honest limitations.",
+    "Recommended JOEY carrier ($279.99) as the more special gift, surfaced Alto Accessories Pack ($299.95) as a bundle option, gave dispatch/express shipping timelines, but two early turns returned the contact-hours boilerplate.",
+    "Bot correctly named ALTO with material specs (aeronautical aluminium, FlexCell wheels, lifetime warranty) and specific add-ons, but the final 'add to cart' turn fell back to the contact-hours boilerplate instead of a price."
+   ]
+  },
   "ticket": {
    "sub": "babybeeprams",
    "acct": "29437",
@@ -4108,6 +4317,34 @@ const STORES = [
   "avgTurns": 7,
   "timed": 32,
   "attempted": 35,
+  "auto": {
+   "automated": 5,
+   "handover": 0,
+   "deflected": 0,
+   "no_answer": 0,
+   "engaged": 5,
+   "rate": 100
+  },
+  "evalq": {
+   "n": 5,
+   "total": 71,
+   "dims": {
+    "answer": 25,
+    "recommendation": 20,
+    "rich": 17,
+    "close": 9
+   },
+   "cls": {
+    "partial": 5
+   },
+   "learnings": [
+    "Strong early turns with named products, discounted prices, and welcome offer details, but last 3 turns produced no replies, losing momentum entirely at the recommendation, review, and cart stages.",
+    "AP1 vs Ultima comparison was clear and decisive — named products, sale prices, feature differences, welcome-offer savings — but the bot could not add to cart; directed the shopper to checkout themselves.",
+    "Consistent adidas Daily 4.0 recommendation throughout with price, feature comparison vs Daily 3.0, free shipping and $10 welcome-offer details — honest about not adding to cart but gave a strong product card nudge.",
+    "Pivot from hoodie to sneakers to coordinated outfit set showed good gift-specific reasoning, but the 'top gift pick' at checkout flip-switched to Fremont High Top at $19.95 — inconsistent with the Kaptir recommended earlier.",
+    "PUMA MMQ sweatpants recommendation was product-specific with brand quality rationale, free-return policy stated accurately (30 days, free shipping), and pairing suggestions were relevant — solid all-around performance."
+   ]
+  },
   "ticket": {
    "sub": "shoebacca-prod",
    "acct": "112738",
@@ -4482,6 +4719,32 @@ const STORES = [
   "avgTurns": 7,
   "timed": 9,
   "attempted": 14,
+  "auto": {
+   "automated": 2,
+   "handover": 0,
+   "deflected": 0,
+   "no_answer": 3,
+   "engaged": 2,
+   "rate": 100
+  },
+  "evalq": {
+   "n": 2,
+   "total": 57,
+   "dims": {
+    "answer": 20,
+    "recommendation": 16,
+    "rich": 14,
+    "close": 7
+   },
+   "cls": {
+    "partial": 1,
+    "deflected": 1
+   },
+   "learnings": [
+    "Shoebacca bot surfaced strong value picks (Keds Double Decker $60→$19.95, adidas Daily 3.0 $64.95) with comparison logic, but the final shipping/discount turn stalled with 'Looking into this for you' and no answer.",
+    "Three of seven turns went unanswered (stalls) including the first turn; when it did respond it named Skechers Slip-ins and Tecovas Care Kit as gifts, but repeated timeouts gutted the conversation flow."
+   ]
+  },
   "ticket": {
    "sub": "shoebacca-prod",
    "acct": "112738",
@@ -4668,7 +4931,7 @@ const STORES = [
  },
  {
   "id": "spiffy-supergoop-shopping-pending",
-  "date": "2026-07-02",
+  "date": "2026-07-03",
   "vendor": "Envive",
   "store": "Supergoop",
   "site": "supergoop.com/products/everyday-sunscreen",
@@ -4704,6 +4967,34 @@ const STORES = [
   "avgTurns": 7,
   "timed": 33,
   "attempted": 35,
+  "auto": {
+   "automated": 5,
+   "handover": 0,
+   "deflected": 0,
+   "no_answer": 0,
+   "engaged": 5,
+   "rate": 100
+  },
+  "evalq": {
+   "n": 5,
+   "total": 69,
+   "dims": {
+    "answer": 24,
+    "recommendation": 17,
+    "rich": 18,
+    "close": 9
+   },
+   "cls": {
+    "partial": 5
+   },
+   "learnings": [
+    "Sierra on Casper named 'The One' with sale prices (e.g., Queen $899 from $1,149), showed product cards with Add to Cart, and recommended accessories — first turn was unanswered but the rest were strong.",
+    "Sierra compared The One vs Dream Max with layer specs and product cards, shared promos (ID.me 5% off, Affirm financing), and gave a clear personal pick — but couldn't add to cart and required size input for final pricing.",
+    "Sierra asked clarifying questions on the first two turns without naming products, then showed The One, Cloud One, and Dream with cards — eventually functional but front-loaded with friction.",
+    "Sierra named the Original Pillow (Standard $67.50, King $85.50) and sleep bundles on the final turn, recommended the Digital Gift Card, but admitted it had no information on gift-ready packaging or exact shipping speeds.",
+    "Sierra gave 10-year warranty and trial period details, recommended the Dream Mattress with USD prices ($1,395 Queen), but first turn was unanswered and product type was never confirmed before recommending a mattress."
+   ]
+  },
   "ticket": null,
   "what": "5 cold private conversations (shopping themes). No handover in any theme. Avg end-to-end latency ~12.6s across 33 AI-timed turns.",
   "datetime": "2026-07-02T12:12:47.015Z",
@@ -5039,6 +5330,164 @@ const STORES = [
   ]
  },
  {
+  "id": "sierra-casper-shopping-2026-07-03",
+  "date": "2026-07-03",
+  "vendor": "Sierra",
+  "store": "Casper",
+  "site": "casper.com",
+  "url": "https://casper.com/",
+  "method": "new",
+  "us": false,
+  "lat": "~12.4s",
+  "latPct": 50,
+  "success": 100,
+  "successTxt": "100%",
+  "avgTurns": 7,
+  "timed": 7,
+  "attempted": 7,
+  "auto": {
+   "automated": 1,
+   "handover": 0,
+   "deflected": 0,
+   "no_answer": 0,
+   "engaged": 1,
+   "rate": 100
+  },
+  "evalq": {
+   "n": 1,
+   "total": 75,
+   "dims": {
+    "answer": 26,
+    "recommendation": 20,
+    "rich": 20,
+    "close": 9
+   },
+   "cls": {
+    "partial": 1
+   },
+   "learnings": [
+    "Sierra/Casper names specific products (The One, Cloud One, Dream) with add-to-cart affordances and identifies The One as best seller and Dream as highest rated, but cannot confirm exact prices or free shipping details at checkout."
+   ]
+  },
+  "ticket": null,
+  "what": "1 cold private conversations (shopping themes). No handover in any theme. Avg end-to-end latency ~12.4s across 7 AI-timed turns.",
+  "datetime": "2026-07-03T09:37:33.527Z",
+  "themes": [
+   {
+    "key": "everyday-value",
+    "label": "Everyday value buyer",
+    "datetime": "2026-07-03T09:37:33.527Z",
+    "lat": "~12.4s",
+    "success": 100,
+    "successTxt": "100%",
+    "handoverTurn": null,
+    "ticket": null,
+    "turns": [
+     {
+      "q": "Hi! I'm shopping but not sure what's right for me — can you help me choose?",
+      "a": "…switch it up? Also, do you prefer a mattress that’s firm, soft, or somewhere in between?Let me know what matters most to you, and I’ll help narrow down the best options!",
+      "by": "ai",
+      "lat": 13.6
+     },
+     {
+      "q": "I want something for everyday use, good quality, and I care about value for money.",
+      "a": "…you looking for any special features, such as cooling technology or extra support?Let me know your preferences, and I’ll recommend the best Casper mattresses for you!",
+      "by": "ai",
+      "lat": 8.9
+     },
+     {
+      "q": "I'd like to stay within a sensible budget — what are my best options?",
+      "a": "…SizeLearn MoreAdd to CartDreamMedium-plush hybrid comfortNot provided in input, hybrid type, multiple foam layers, flexible supportSelect SizeLearn MoreAdd to Cart",
+      "by": "ai",
+      "lat": 16
+     },
+     {
+      "q": "Can you compare your two most popular options and tell me which is better for me?",
+      "a": "…SizeLearn MoreAdd to CartCloud Onefoam comfort and support11 inches, 4 layers, Breathe Flex Foam, Align Memory Foam, Casper Core+Select SizeLearn MoreAdd to Cart",
+      "by": "ai",
+      "lat": 15.2
+     },
+     {
+      "q": "Which one is your overall best seller, and is it well reviewed?",
+      "a": "…worth considering.Both are well reviewed, so you can feel confident with either option! Would you like more details on The One or Dream, or help deciding between them?",
+      "by": "ai",
+      "lat": 11.7
+     },
+     {
+      "q": "Okay, can you add your top recommendation to my cart?",
+      "a": "…add it yourself.Would you like the link to The One mattress, or do you want to see the Dream as well? Let me know your preferred size, and I’ll send you the right link!",
+      "by": "ai",
+      "lat": 9.1
+     },
+     {
+      "q": "What's my total, and do you offer free shipping or a first-order discount?",
+      "a": "…often offers free shipping on mattresses, but I’ll confirm the details for you once I know your size. Let me know your preferred size and I’ll get your total right away!",
+      "by": "ai",
+      "lat": 12.7
+     }
+    ]
+   }
+  ],
+  "caps": {
+   "qr": 1,
+   "cards": 1,
+   "reviews": 2,
+   "completes": 1
+  },
+  "quality": {
+   "r1": 22,
+   "r2": 16,
+   "r3": 14,
+   "r4": 13,
+   "total": 65,
+   "note": "Only beginner theme captured, but it is strong: product cards w/ Add-to-Cart (The One, Cloud One) + sale prices (Queen $899/$1,149) + specs + reviews; other 4 themes failed to capture."
+  },
+  "turns": [
+   {
+    "q": "Hi! I'm shopping but not sure what's right for me — can you help me choose?",
+    "a": "…switch it up? Also, do you prefer a mattress that’s firm, soft, or somewhere in between?Let me know what matters most to you, and I’ll help narrow down the best options!",
+    "by": "ai",
+    "lat": 13.6
+   },
+   {
+    "q": "I want something for everyday use, good quality, and I care about value for money.",
+    "a": "…you looking for any special features, such as cooling technology or extra support?Let me know your preferences, and I’ll recommend the best Casper mattresses for you!",
+    "by": "ai",
+    "lat": 8.9
+   },
+   {
+    "q": "I'd like to stay within a sensible budget — what are my best options?",
+    "a": "…SizeLearn MoreAdd to CartDreamMedium-plush hybrid comfortNot provided in input, hybrid type, multiple foam layers, flexible supportSelect SizeLearn MoreAdd to Cart",
+    "by": "ai",
+    "lat": 16
+   },
+   {
+    "q": "Can you compare your two most popular options and tell me which is better for me?",
+    "a": "…SizeLearn MoreAdd to CartCloud Onefoam comfort and support11 inches, 4 layers, Breathe Flex Foam, Align Memory Foam, Casper Core+Select SizeLearn MoreAdd to Cart",
+    "by": "ai",
+    "lat": 15.2
+   },
+   {
+    "q": "Which one is your overall best seller, and is it well reviewed?",
+    "a": "…worth considering.Both are well reviewed, so you can feel confident with either option! Would you like more details on The One or Dream, or help deciding between them?",
+    "by": "ai",
+    "lat": 11.7
+   },
+   {
+    "q": "Okay, can you add your top recommendation to my cart?",
+    "a": "…add it yourself.Would you like the link to The One mattress, or do you want to see the Dream as well? Let me know your preferred size, and I’ll send you the right link!",
+    "by": "ai",
+    "lat": 9.1
+   },
+   {
+    "q": "What's my total, and do you offer free shipping or a first-order discount?",
+    "a": "…often offers free shipping on mattresses, but I’ll confirm the details for you once I know your size. Let me know your preferred size and I’ll get your total right away!",
+    "by": "ai",
+    "lat": 12.7
+   }
+  ]
+ },
+ {
   "id": "sierra-chubbies-shopping-2026-07-02",
   "date": "2026-07-02",
   "vendor": "Sierra",
@@ -5054,6 +5503,35 @@ const STORES = [
   "avgTurns": 7,
   "timed": 35,
   "attempted": 35,
+  "auto": {
+   "automated": 5,
+   "handover": 0,
+   "deflected": 0,
+   "no_answer": 0,
+   "engaged": 5,
+   "rate": 100
+  },
+  "evalq": {
+   "n": 5,
+   "total": 61,
+   "dims": {
+    "answer": 24,
+    "recommendation": 15,
+    "rich": 13,
+    "close": 9
+   },
+   "cls": {
+    "resolved": 2,
+    "partial": 3
+   },
+   "learnings": [
+    "Sierra/Chubbies names specific starter products with approximate prices ($29.99 tee, $59.99 Movementum shorts) and summarizes review sentiment, but cannot add to cart or confirm exact price — honest about limitations.",
+    "Sierra/Chubbies loops through category clarification for four turns before eventually naming Classic Lined Swim Trunks at $45 (Hot Summer Deals) and detailing the rewards program — functional but requiring excessive prompting.",
+    "Sierra/Chubbies compares 24/7 Essential Tee vs Rough n' Tumble Graphic Tee with useful prose but admits it lacks best-seller or review data; free shipping threshold and rewards program communicated but no prices shown for most turns.",
+    "Sierra/Chubbies names multiple gift products with direct links (Boss Mode Hoodie, Ice Caps Shorts, Long Sleeve Tee), suggests coordinated Set Hoodie + Sweatpants bundles, and gives shipping windows (5-7 standard, 3-4 expedited) — solid gift session.",
+    "Sierra/Chubbies handles reassurance and return policy (30-day free returns, exchanges supported) well but never commits to a specific product recommendation across seven turns — quality claims remain generic without a named product to evaluate."
+   ]
+  },
   "ticket": null,
   "what": "5 cold private conversations (shopping themes). No handover in any theme. Avg end-to-end latency ~8.2s across 35 AI-timed turns.",
   "datetime": "2026-07-02T18:19:05.094Z",
@@ -5390,6 +5868,34 @@ const STORES = [
   "avgTurns": 7,
   "timed": 34,
   "attempted": 35,
+  "auto": {
+   "automated": 4,
+   "handover": 1,
+   "deflected": 0,
+   "no_answer": 0,
+   "engaged": 5,
+   "rate": 80
+  },
+  "evalq": {
+   "n": 5,
+   "total": 67,
+   "dims": {
+    "answer": 24,
+    "recommendation": 17,
+    "rich": 17,
+    "close": 8
+   },
+   "cls": {
+    "partial": 5
+   },
+   "learnings": [
+    "Siena on Simple Modern consistently recommended the Mesa Loop 30oz with price ($29.99), product card link, and real review data (4.7/5, 500+ reviews), but could not add to cart and only gave a price range at checkout.",
+    "Siena showed NFL/Collegiate Trek Tumblers at $34.99 each with product cards and detailed promo tiers (Buy More Save More), but stalled on 3 early turns with clarifying questions before surfacing concrete products.",
+    "Siena spent the first four turns asking clarifying questions without naming any products; only on turn 5 did it surface the Trek Tumbler 40oz ($24.99, 4.8/5 from 5300 reviews) with a direct link.",
+    "Siena named the Getaway Bag ($89.99) with a product card, gave shipping timeframe (5-11 business days), and noted free shipping above $30, but could not add to cart and gave no exact gift-ready packaging confirmation.",
+    "Siena provided good quality reassurance and return policy (30 days, unused/original packaging) but escalated to human agent at the final turn and could not add item to cart or give a total."
+   ]
+  },
   "ticket": null,
   "what": "5 cold private conversations (shopping themes). Handover in 1/5 themes. Avg end-to-end latency ~10.1s across 34 AI-timed turns.",
   "datetime": "2026-07-02T06:19:46.860Z",
@@ -5740,6 +6246,34 @@ const STORES = [
   "avgTurns": 7,
   "timed": 35,
   "attempted": 35,
+  "auto": {
+   "automated": 5,
+   "handover": 0,
+   "deflected": 0,
+   "no_answer": 0,
+   "engaged": 5,
+   "rate": 100
+  },
+  "evalq": {
+   "n": 5,
+   "total": 78,
+   "dims": {
+    "answer": 28,
+    "recommendation": 20,
+    "rich": 19,
+    "close": 11
+   },
+   "cls": {
+    "resolved": 5
+   },
+   "learnings": [
+    "Siena/Simple Modern walks a beginner cleanly to a specific named product (Mesa Loop 30oz $26.99) with cited review data (4.7/5, 500+ reviews), product card with link, and honest cart-add caveat with shipping note.",
+    "Siena/Simple Modern surfaces two named products with prices (Mesa Loop $29.99 vs NFL Trek $34.99), explains value delta accurately, provides tiered promo details automatically, and gives a clear personal recommendation.",
+    "Siena/Simple Modern initially misfires recommending silicone bibs to an everyday drinkware shopper, but recovers to Trek Tumbler 40oz with strong review data (4.8/5, 5300 reviews) and first-order 15% discount info.",
+    "Siena/Simple Modern confidently steers a gift shopper to Mesa Loop $29.99 with real product link, shipping window (5-11 business days), and honest packaging caveat (gift receipt but no dedicated gift-wrap service).",
+    "Siena/Simple Modern proactively upsells replacement straws as a pairing, provides direct product URLs, explains return portal with exact exclusions (personalized, limited edition), and gives total with free shipping eligibility."
+   ]
+  },
   "ticket": null,
   "what": "5 cold private conversations (shopping themes). No handover in any theme. Avg end-to-end latency ~11.5s across 35 AI-timed turns.",
   "datetime": "2026-07-02T17:27:08.037Z",
@@ -6075,6 +6609,149 @@ const STORES = [
   ]
  },
  {
+  "id": "siena-simplemodern-shopping-2026-07-03",
+  "date": "2026-07-03",
+  "vendor": "Siena",
+  "store": "Simple Modern",
+  "site": "simplemodern.com/products/mesa-loop-30oz-49",
+  "url": "https://www.simplemodern.com/products/mesa-loop-30oz-49",
+  "method": "new",
+  "us": false,
+  "lat": "~9.2s",
+  "latPct": 37,
+  "success": 100,
+  "successTxt": "100%",
+  "avgTurns": 7,
+  "timed": 7,
+  "attempted": 7,
+  "auto": {
+   "automated": 1,
+   "handover": 0,
+   "deflected": 0,
+   "no_answer": 0,
+   "engaged": 1,
+   "rate": 100
+  },
+  "evalq": null,
+  "ticket": null,
+  "what": "1 cold private conversations (shopping themes). No handover in any theme. Avg end-to-end latency ~9.2s across 7 AI-timed turns.",
+  "datetime": "2026-07-03T09:40:02.651Z",
+  "themes": [
+   {
+    "key": "everyday-value",
+    "label": "Everyday value buyer",
+    "datetime": "2026-07-03T09:40:02.651Z",
+    "lat": "~9.2s",
+    "success": 100,
+    "successTxt": "100%",
+    "handoverTurn": null,
+    "ticket": null,
+    "turns": [
+     {
+      "q": "Hi! I'm shopping but not sure what's right for me — can you help me choose?",
+      "a": "…a gift? And is keeping drinks cold all day important to you? Just a few details will help me suggest something that's a great value and super practical! Powered by Siena",
+      "by": "ai",
+      "lat": 6.7
+     },
+     {
+      "q": "I want something for everyday use, good quality, and I care about value for money.",
+      "a": "…size or color in mind, or want to compare a few options, just let me know what you’re thinking! 😊 View Product → Mesa Loop with Covered Straw $29.99 Powered by Siena",
+      "by": "ai",
+      "lat": 8.7
+     },
+     {
+      "q": "I'd like to stay within a sensible budget — what are my best options?",
+      "a": "…to compare features or need help picking between them! 😊 View Product → Mesa Loop with Covered Straw $29.99 View Product → Trek Pivot Tumbler $29.99 Powered by Siena",
+      "by": "ai",
+      "lat": 9
+     },
+     {
+      "q": "Can you compare your two most popular options and tell me which is better for me?",
+      "a": "…you want to see more colors or have any other questions! 😊 View Product → Mesa Loop with Covered Straw $29.99 View Product → Trek Pivot Tumbler $29.99 Powered by Siena",
+      "by": "ai",
+      "lat": 10.4
+     },
+     {
+      "q": "Which one is your overall best seller, and is it well reviewed?",
+      "a": "…40oz is the way to go for everyday use, quality, and value. 😊 View Product → Trek Tumbler $24.99 View Product → Mesa Loop with Covered Straw $29.99 Powered by Siena",
+      "by": "ai",
+      "lat": 10.1
+     },
+     {
+      "q": "Okay, can you add your top recommendation to my cart?",
+      "a": "…your favorite color. It’s a fantastic choice for everyday use! Let me know if you need help with anything else 😊 View Product → Trek Tumbler $24.99 Powered by Siena",
+      "by": "ai",
+      "lat": 10.2
+     },
+     {
+      "q": "What's my total, and do you offer free shipping or a first-order discount?",
+      "a": "…get your discount code by email. Let me know if you have your cart ready and want help double-checking your total or if you have any other questions! 😊 Powered by Siena",
+      "by": "ai",
+      "lat": 9.2
+     }
+    ]
+   }
+  ],
+  "caps": {
+   "qr": 2,
+   "cards": 0,
+   "reviews": 2,
+   "completes": 2
+  },
+  "quality": {
+   "r1": 28,
+   "r2": 18,
+   "r3": 16,
+   "r4": 11,
+   "total": 73,
+   "note": "Names Mesa Loop 30oz / Trek Tumbler w/ View-Product cards + prices + reviews (4.7/4.8, 5,300+); but everyday-value theme loops asking category and problem-solver ends in email handover."
+  },
+  "turns": [
+   {
+    "q": "Hi! I'm shopping but not sure what's right for me — can you help me choose?",
+    "a": "…a gift? And is keeping drinks cold all day important to you? Just a few details will help me suggest something that's a great value and super practical! Powered by Siena",
+    "by": "ai",
+    "lat": 6.7
+   },
+   {
+    "q": "I want something for everyday use, good quality, and I care about value for money.",
+    "a": "…size or color in mind, or want to compare a few options, just let me know what you’re thinking! 😊 View Product → Mesa Loop with Covered Straw $29.99 Powered by Siena",
+    "by": "ai",
+    "lat": 8.7
+   },
+   {
+    "q": "I'd like to stay within a sensible budget — what are my best options?",
+    "a": "…to compare features or need help picking between them! 😊 View Product → Mesa Loop with Covered Straw $29.99 View Product → Trek Pivot Tumbler $29.99 Powered by Siena",
+    "by": "ai",
+    "lat": 9
+   },
+   {
+    "q": "Can you compare your two most popular options and tell me which is better for me?",
+    "a": "…you want to see more colors or have any other questions! 😊 View Product → Mesa Loop with Covered Straw $29.99 View Product → Trek Pivot Tumbler $29.99 Powered by Siena",
+    "by": "ai",
+    "lat": 10.4
+   },
+   {
+    "q": "Which one is your overall best seller, and is it well reviewed?",
+    "a": "…40oz is the way to go for everyday use, quality, and value. 😊 View Product → Trek Tumbler $24.99 View Product → Mesa Loop with Covered Straw $29.99 Powered by Siena",
+    "by": "ai",
+    "lat": 10.1
+   },
+   {
+    "q": "Okay, can you add your top recommendation to my cart?",
+    "a": "…your favorite color. It’s a fantastic choice for everyday use! Let me know if you need help with anything else 😊 View Product → Trek Tumbler $24.99 Powered by Siena",
+    "by": "ai",
+    "lat": 10.2
+   },
+   {
+    "q": "What's my total, and do you offer free shipping or a first-order discount?",
+    "a": "…get your discount code by email. Let me know if you have your cart ready and want help double-checking your total or if you have any other questions! 😊 Powered by Siena",
+    "by": "ai",
+    "lat": 9.2
+   }
+  ]
+ },
+ {
   "id": "siena-figs-shopping-2026-07-01",
   "date": "2026-07-01",
   "vendor": "Siena",
@@ -6090,6 +6767,31 @@ const STORES = [
   "avgTurns": 7,
   "timed": 13,
   "attempted": 14,
+  "auto": {
+   "automated": 2,
+   "handover": 0,
+   "deflected": 0,
+   "no_answer": 0,
+   "engaged": 2,
+   "rate": 100
+  },
+  "evalq": {
+   "n": 2,
+   "total": 2,
+   "dims": {
+    "answer": 2,
+    "recommendation": 0,
+    "rich": 0,
+    "close": 0
+   },
+   "cls": {
+    "deflected": 2
+   },
+   "learnings": [
+    "Siena on FIGS was offline for the entire session — every turn returned a ticket-creation message with zero shopping assistance, product names, or gift guidance.",
+    "FIGS was offline for all turns; Siena deflected every question to an email ticket — the only variation was a final suggestion to clear browser cache when the user asked to add to cart."
+   ]
+  },
   "ticket": null,
   "what": "2 cold private conversations (shopping themes). No handover in any theme. Avg end-to-end latency ~9s across 13 AI-timed turns.",
   "datetime": "2026-07-02T09:04:44.228Z",
@@ -6278,6 +6980,31 @@ const STORES = [
   "avgTurns": 7,
   "timed": 11,
   "attempted": 14,
+  "auto": {
+   "automated": 2,
+   "handover": 0,
+   "deflected": 0,
+   "no_answer": 3,
+   "engaged": 2,
+   "rate": 100
+  },
+  "evalq": {
+   "n": 2,
+   "total": 0,
+   "dims": {
+    "answer": 0,
+    "recommendation": 0,
+    "rich": 0,
+    "close": 0
+   },
+   "cls": {
+    "deflected": 2
+   },
+   "learnings": [
+    "Siena/FIGS routed every shopping question to a human specialist with generic acknowledgements ('thanks for your question'), providing zero product information, recommendations, or pricing across all 7 turns.",
+    "Siena/FIGS deflected every product and quality question to a human, then mid-conversation began requesting email verification (6-digit code) before sharing any account details — creating friction without providing any shopping value."
+   ]
+  },
   "ticket": null,
   "what": "2 cold private conversations (shopping themes). No handover in any theme. Avg end-to-end latency ~12s across 11 AI-timed turns.",
   "datetime": "2026-07-02T17:47:07.878Z",
@@ -6452,7 +7179,7 @@ const STORES = [
  },
  {
   "id": "yuma-evryjewels-shopping-pending",
-  "date": "2026-07-02",
+  "date": "2026-07-03",
   "vendor": "Yuma",
   "store": "EvryJewels",
   "site": "evryjewels.com",
@@ -6488,6 +7215,34 @@ const STORES = [
   "avgTurns": 7,
   "timed": 19,
   "attempted": 28,
+  "auto": {
+   "automated": 1,
+   "handover": 3,
+   "deflected": 0,
+   "no_answer": 0,
+   "engaged": 4,
+   "rate": 25
+  },
+  "evalq": {
+   "n": 4,
+   "total": 44,
+   "dims": {
+    "answer": 21,
+    "recommendation": 13,
+    "rich": 7,
+    "close": 4
+   },
+   "cls": {
+    "partial": 3,
+    "failed": 1
+   },
+   "learnings": [
+    "Provides a clean taxonomy of product types and names letterbox flowers as easiest first choice, but escalates to human agent on turn 4 (budget question) and the remaining turns produce no AI replies — handover kills the shopping journey.",
+    "Handles all 6 AI turns well — names letterbox flowers vs subscriptions, explains value distinction, cites referral/bundle savings, gives a personal pick — but escalates to human for the cart/total question and provides no price throughout.",
+    "Consistently recommends letterbox bouquets with gift-ready packaging detail and next-day delivery specifics, but escalates to human when asked to add to cart — never names a specific product or price point across any turn.",
+    "Answers 4 turns adequately at category level (bud-to-bloom, 7-day guarantee), but three consecutive turns including the final close produce no reply at all, and no specific product is ever named or priced."
+   ]
+  },
   "ticket": null,
   "what": "4 cold private conversations (shopping themes). Handover in 3/4 themes. Avg end-to-end latency ~22.3s across 19 AI-timed turns.",
   "datetime": "2026-07-01T16:33:22+02:00",
@@ -6766,6 +7521,32 @@ const STORES = [
   "avgTurns": 7,
   "timed": 16,
   "attempted": 21,
+  "auto": {
+   "automated": 0,
+   "handover": 5,
+   "deflected": 0,
+   "no_answer": 0,
+   "engaged": 5,
+   "rate": 0
+  },
+  "evalq": {
+   "n": 3,
+   "total": 41,
+   "dims": {
+    "answer": 19,
+    "recommendation": 11,
+    "rich": 8,
+    "close": 4
+   },
+   "cls": {
+    "deflected": 3
+   },
+   "learnings": [
+    "DigitalGenius on Bloom & Wild surfaced subscription options and three savings mechanisms (loyalty points, £5 multi-item discount, Tesco Clubcard) but first turn was unanswered, stalled on personal recommendation, and escalated to human for cart request.",
+    "DigitalGenius gave sensible gift suggestions (letterbox flowers, hand-tied bouquet with vase, £5 multi-item discount) and next-day delivery details, but first turn was unanswered, named no prices, and escalated to human on the cart request.",
+    "DigitalGenius/Bloom&Wild deflected the final cart-add turn to a human handover, producing zero named-product recommendations with prices across all 7 turns."
+   ]
+  },
   "ticket": null,
   "what": "3 cold private conversations (shopping themes). Handover in 3/3 themes. Avg end-to-end latency ~21.9s across 16 AI-timed turns.",
   "datetime": "2026-07-02T18:26:33.497Z",
@@ -7008,6 +7789,30 @@ const STORES = [
   "avgTurns": 7,
   "timed": 5,
   "attempted": 7,
+  "auto": {
+   "automated": 1,
+   "handover": 0,
+   "deflected": 0,
+   "no_answer": 0,
+   "engaged": 1,
+   "rate": 100
+  },
+  "evalq": {
+   "n": 1,
+   "total": 21,
+   "dims": {
+    "answer": 12,
+    "recommendation": 4,
+    "rich": 4,
+    "close": 1
+   },
+   "cls": {
+    "failed": 1
+   },
+   "learnings": [
+    "Deflects the product comparison request ('unable to provide direct comparisons'), fails to find bestseller info, and produces no replies for the final two turns — only actionable content is discount programme info (newsletter/UNiDAYS), not product guidance."
+   ]
+  },
   "ticket": null,
   "what": "1 cold private conversations (shopping themes). No handover in any theme. Avg end-to-end latency ~10.5s across 5 AI-timed turns.",
   "datetime": "2026-07-01T23:08:55.225Z",
@@ -7128,6 +7933,33 @@ const STORES = [
   "avgTurns": 7,
   "timed": 17,
   "attempted": 21,
+  "auto": {
+   "automated": 3,
+   "handover": 0,
+   "deflected": 0,
+   "no_answer": 2,
+   "engaged": 3,
+   "rate": 100
+  },
+  "evalq": {
+   "n": 3,
+   "total": 22,
+   "dims": {
+    "answer": 9,
+    "recommendation": 7,
+    "rich": 3,
+    "close": 2
+   },
+   "cls": {
+    "failed": 2,
+    "deflected": 1
+   },
+   "learnings": [
+    "G-Star's DigitalGenius bot explicitly refused to recommend any product in every single shopping turn, offering only vague pointers to the website instead of any named items or comparisons.",
+    "Bot mentioned Barrel Jeans and Raw Denim by name in one turn but refused to compare, never surfaced prices, and failed to answer the final three turns (best-seller, add-to-cart, total).",
+    "Unusually, this instance named the 'Correct Line' collection and gave shirt-vs-accessory guidance, but fell back to 'unable to locate' on bundle/gift-ready/cart queries — inconsistent capability within same vendor."
+   ]
+  },
   "ticket": null,
   "what": "3 cold private conversations (shopping themes). No handover in any theme. Avg end-to-end latency ~11.6s across 17 AI-timed turns.",
   "datetime": "2026-07-02T18:38:31.313Z",
@@ -7341,26 +8173,31 @@ const STORES = [
   ]
  },
  {
-  "id": "meta-dermalogica-shopping-pending",
+  "id": "meta-dermalogica-shopping-2026-07-02",
   "date": "2026-07-02",
   "vendor": "Meta AI",
   "store": "Dermalogica",
   "site": "dermalogica.com",
   "url": "https://www.dermalogica.com/",
-  "method": "pending",
+  "method": "new",
   "us": false,
   "lat": "—",
+  "latPct": 0,
   "success": null,
-  "successTxt": "pending",
-  "successCls": "p-na",
-  "what": "Not captured in a cold run yet — pending.",
-  "turns": [],
-  "caps": {
-   "qr": 2,
-   "cards": 2,
-   "reviews": 2,
-   "completes": 0
-  }
+  "successTxt": "—",
+  "auto": {
+   "automated": 0,
+   "handover": 1,
+   "deflected": 0,
+   "no_answer": 4,
+   "engaged": 1,
+   "rate": 0
+  },
+  "evalq": null,
+  "what": "Engaged 1 conversation(s) but none produced ≥3 timed AI answers — 1 early handover(s). Counted in automation rate, excluded from latency.",
+  "datetime": null,
+  "themes": [],
+  "turns": []
  },
  {
   "id": "ada-loop-shopping-2026-07-01",
@@ -7378,6 +8215,35 @@ const STORES = [
   "avgTurns": 7,
   "timed": 33,
   "attempted": 35,
+  "auto": {
+   "automated": 5,
+   "handover": 0,
+   "deflected": 0,
+   "no_answer": 0,
+   "engaged": 5,
+   "rate": 100
+  },
+  "evalq": {
+   "n": 5,
+   "total": 31,
+   "dims": {
+    "answer": 16,
+    "recommendation": 9,
+    "rich": 4,
+    "close": 3
+   },
+   "cls": {
+    "partial": 2,
+    "failed": 3
+   },
+   "learnings": [
+    "Names all 5 products with use-case mapping on turn 2, but circles back to the same use-case question repeatedly and never commits to a single beginner pick until turn 7 with a price but no link or cart affordance.",
+    "Loops on the same use-case clarifying question for 6 of 7 turns without ever naming a product or price; one unanswered turn; never advances to a recommendation despite the shopper explicitly asking for two named options.",
+    "Mirrors the compare-budget failure: asks the same noise-level clarifying question on every turn, never names a product or price, and responds to 'what is your best seller?' with yet another clarifying question.",
+    "Asks clarifying questions on 6 of 7 turns but never names a concrete gift product; only useful answer is on turn 6 (no gift wrapping, Target receipt) — never reaches a recommendation or price.",
+    "Proactively surfaces 100-day return + 2-year warranty to address quality anxiety, cites Loop Experience 2 with real review count (4.6/5, 8021 reviews), and gives a price (€29.95) at close — but one unanswered turn and no direct link."
+   ]
+  },
   "ticket": null,
   "what": "5 cold private conversations (shopping themes). No handover in any theme. Avg end-to-end latency ~10.5s across 33 AI-timed turns.",
   "datetime": "2026-07-02T09:18:51.952Z",
@@ -7720,6 +8586,34 @@ const STORES = [
   "avgTurns": 7,
   "timed": 28,
   "attempted": 28,
+  "auto": {
+   "automated": 4,
+   "handover": 0,
+   "deflected": 0,
+   "no_answer": 0,
+   "engaged": 4,
+   "rate": 100
+  },
+  "evalq": {
+   "n": 4,
+   "total": 24,
+   "dims": {
+    "answer": 10,
+    "recommendation": 6,
+    "rich": 6,
+    "close": 3
+   },
+   "cls": {
+    "failed": 3,
+    "partial": 1
+   },
+   "learnings": [
+    "Sierra on Scotts Miracle-Gro asked 'what category are you shopping for?' on every single one of 7 turns without ever naming a product, price, or making a comparison — a complete category-fishing loop.",
+    "Sierra repeated the same category-clarification request across all 7 turns on Scotts, never surfacing any product name, price, or recommendation — identical failure pattern to the compare-budget conversation.",
+    "Sierra eventually surfaced the AeroGarden Harvest Elite ($124.95) after repeated category-fishing, showed a product listing with specs, and gave a direct purchase link — but took 5 turns of stalling before naming anything.",
+    "Sierra on Scotts provided the No-Quibble Guarantee with a policy link but showed a random product grid on the final turn with no targeted recommendation — category-fishing dominated the conversation throughout."
+   ]
+  },
   "ticket": null,
   "what": "4 cold private conversations (shopping themes). No handover in any theme. Avg end-to-end latency ~12.2s across 28 AI-timed turns.",
   "datetime": "2026-07-01T16:33:22+02:00",
@@ -8016,6 +8910,35 @@ const STORES = [
   "avgTurns": 7,
   "timed": 32,
   "attempted": 35,
+  "auto": {
+   "automated": 5,
+   "handover": 0,
+   "deflected": 0,
+   "no_answer": 0,
+   "engaged": 5,
+   "rate": 100
+  },
+  "evalq": {
+   "n": 5,
+   "total": 26,
+   "dims": {
+    "answer": 12,
+    "recommendation": 5,
+    "rich": 6,
+    "close": 3
+   },
+   "cls": {
+    "partial": 2,
+    "failed": 3
+   },
+   "learnings": [
+    "Sierra/Scotts Miracle-Gro surfaces AeroGarden products with prices ($21.95) in a product carousel but spends most turns asking which category the beginner wants — one unanswered turn and no cart or checkout path provided.",
+    "Sierra/Scotts Miracle-Gro fails to surface a single specific product across seven turns — every response requests category clarification, including on 'add to cart' where it still asks what category the shopper wants.",
+    "Sierra/Scotts loops on category-clarification for all 7 turns, never advancing to a named product — shopper leaves with zero recommendation despite persistent prompting.",
+    "Sierra/Scotts surfaces AeroGarden product cards with prices (~$21–$350) on turn 2 when gift context is given, but never synthesizes a top pick or confirms cart action despite repeated requests.",
+    "Sierra/Scotts never escapes the clarification loop across 7 turns for a problem-solver shopper; the only substantive info offered is the No-Quibble Guarantee link, with no product named even at close."
+   ]
+  },
   "ticket": null,
   "what": "5 cold private conversations (shopping themes). No handover in any theme. Avg end-to-end latency ~11.9s across 32 AI-timed turns.",
   "datetime": "2026-07-02T19:27:17.007Z",
@@ -8352,7 +9275,7 @@ const STORES = [
  },
  {
   "id": "yuma-tediber-shopping-pending",
-  "date": "2026-07-02",
+  "date": "2026-07-03",
   "vendor": "Yuma",
   "store": "Tediber",
   "site": "tediber.com",
@@ -8368,7 +9291,7 @@ const STORES = [
  },
  {
   "id": "yuma-glossier-shopping-pending",
-  "date": "2026-07-02",
+  "date": "2026-07-03",
   "vendor": "Yuma",
   "store": "Glossier",
   "site": "glossier.com",
@@ -8384,7 +9307,7 @@ const STORES = [
  },
  {
   "id": "yuma-mfimedical-shopping-pending",
-  "date": "2026-07-02",
+  "date": "2026-07-03",
   "vendor": "Yuma",
   "store": "MFI Medical",
   "site": "mfimedical.com",
@@ -8414,6 +9337,36 @@ const STORES = [
   "avgTurns": 7,
   "timed": 29,
   "attempted": 35,
+  "auto": {
+   "automated": 4,
+   "handover": 1,
+   "deflected": 0,
+   "no_answer": 0,
+   "engaged": 5,
+   "rate": 80
+  },
+  "evalq": {
+   "n": 5,
+   "total": 56,
+   "dims": {
+    "answer": 23,
+    "recommendation": 16,
+    "rich": 10,
+    "close": 6
+   },
+   "cls": {
+    "resolved": 3,
+    "partial": 1,
+    "deflected": 1
+   },
+   "learnings": [
+    "Names multiple specific jean styles with use-case rationale, links to fit guide and fit quiz on most turns, provides a concrete product link (Catherine Boyfriend in Black) with shipping threshold at close — strong directional coverage despite no cart-add capability.",
+    "Compares Meg vs Ashton with price parity ($119), sizing caveats, and availability; gives a decisive personal pick (Meg); lists promo details; states $119 + $10.95 shipping at close — one failed first-turn delivery but overall very useful comparison.",
+    "Recommends Diana Relaxed Straight for everyday comfort based on stated needs, names Meg as bestseller, provides multiple collection links, and closes with 15% first-order email signup offer and free-shipping threshold — no reviews data available acknowledged.",
+    "Names specific gift items (Coco Sweater, Yona Knit, Carmen Top) and mentions Gift Instantly option; provides shipping timelines; one unanswered turn (turn 2); never gives a product price and the close only points to a collection page rather than a direct product.",
+    "AI gives a reasonable quality/fit recommendation (Diana Relaxed Straight) on turn 3, but immediately hands over to offline human queue at turn 4 when asked about reviews — last four turns produce no answers while the form waits for email."
+   ]
+  },
   "ticket": {
    "sub": "kutk",
    "acct": "111435",
@@ -8770,6 +9723,34 @@ const STORES = [
   "avgTurns": 7,
   "timed": 35,
   "attempted": 35,
+  "auto": {
+   "automated": 5,
+   "handover": 0,
+   "deflected": 0,
+   "no_answer": 0,
+   "engaged": 5,
+   "rate": 100
+  },
+  "evalq": {
+   "n": 5,
+   "total": 72,
+   "dims": {
+    "answer": 27,
+    "recommendation": 20,
+    "rich": 13,
+    "close": 11
+   },
+   "cls": {
+    "partial": 5
+   },
+   "learnings": [
+    "Kut's agent named the Blair High Rise Straight Leg at $119 with a direct product URL and transparent 'can't add to cart from chat' disclosure — best-in-class honesty and specificity for the beginner theme.",
+    "Kut gave a named head-to-head (Meg vs Catherine at $119 each), reasoned verdict, confirmed 15% first-order discount, and computed discounted prices ($101.15 / $111.10 with shipping) — outstanding advisory depth.",
+    "Bot recommended Diana Relaxed Straight, explained fit-guide links at every turn, but gave inconsistent picks across turns (Diana then Meg) and couldn't provide a cart total or confirm add-to-cart.",
+    "Agent named Kara Denim Jacket as the top gift, gave accurate Gift Instantly feature info, and explained shipping timelines including same-day cutoff, but couldn't add to cart or quote a total.",
+    "Agent named Meg fit with direct product URL and gave accurate return policy details (21-day window, $12.95 fee waivable with gift card), but pivoted inconsistently between Meg and Connie across turns."
+   ]
+  },
   "ticket": {
    "sub": "kutk",
    "acct": "111435",
@@ -9144,6 +10125,34 @@ const STORES = [
   "avgTurns": 7,
   "timed": 19,
   "attempted": 35,
+  "auto": {
+   "automated": 5,
+   "handover": 0,
+   "deflected": 0,
+   "no_answer": 0,
+   "engaged": 5,
+   "rate": 100
+  },
+  "evalq": {
+   "n": 5,
+   "total": 13,
+   "dims": {
+    "answer": 9,
+    "recommendation": 2,
+    "rich": 1,
+    "close": 1
+   },
+   "cls": {
+    "failed": 5
+   },
+   "learnings": [
+    "Rep AI stuck in a loop repeating 'Auto Deliver saves 30% on first order' regardless of question — 4 of 7 turns produced no answer and the same subscription pitch repeated verbatim across every reply.",
+    "Rep AI never named a single product or price — every reply was a subscription upsell loop ('30% off first Auto Deliver') regardless of the user's explicit comparison or budget questions.",
+    "Rep AI produced 4 unanswered turns and recycled the identical Auto Deliver pitch in all answered turns — no product named, no price given, no comparison made across the entire conversation.",
+    "Rep AI failed to engage with any gift-specific question — 3 turns unanswered, every answered turn recycled the Auto Deliver subscription pitch, and no gift product or bundle was ever identified.",
+    "Rep AI recycled the same Auto Deliver subscription pitch verbatim across all turns, including when directly asked for a specific product recommendation and return policy — 3 final turns went entirely unanswered."
+   ]
+  },
   "ticket": null,
   "what": "5 cold private conversations (shopping themes). No handover in any theme. Avg end-to-end latency ~36.9s across 19 AI-timed turns.",
   "datetime": "2026-07-02T06:37:29.387Z",
@@ -9494,6 +10503,33 @@ const STORES = [
   "avgTurns": 7,
   "timed": 16,
   "attempted": 28,
+  "auto": {
+   "automated": 4,
+   "handover": 0,
+   "deflected": 0,
+   "no_answer": 1,
+   "engaged": 4,
+   "rate": 100
+  },
+  "evalq": {
+   "n": 4,
+   "total": 7,
+   "dims": {
+    "answer": 5,
+    "recommendation": 2,
+    "rich": 0,
+    "close": 1
+   },
+   "cls": {
+    "failed": 4
+   },
+   "learnings": [
+    "Rep AI looped the same Auto Deliver subscription pitch (30% off first order, 15% recurring) as a response to every question including 'what do beginners say in reviews' and 'add to cart', never naming a specific product or providing any real guidance.",
+    "Rep AI on Fresh Roasted Coffee got stuck in a single-track subscription-upsell loop, never comparing two products, never naming a best-seller, and failing to answer 4 of 7 turns including 'add to cart' and 'what's my total'.",
+    "Rep AI never suggested a specific gift product or bundle for Fresh Roasted Coffee, pivoting every gift-specific question to the subscription savings pitch and failing to answer 'is there a gift set', 'can it ship gift-ready', or 'add to cart'.",
+    "Rep AI acknowledged the quality concern but then looped the Auto Deliver pitch verbatim instead of naming a specific product or addressing pairing suggestions, return policy, or cart add — failing 4 of 7 turns with identical copy."
+   ]
+  },
   "ticket": null,
   "what": "4 cold private conversations (shopping themes). No handover in any theme. Avg end-to-end latency ~44.2s across 16 AI-timed turns.",
   "datetime": "2026-07-02T17:35:38.282Z",
@@ -9790,6 +10826,34 @@ const STORES = [
   "avgTurns": 7,
   "timed": 32,
   "attempted": 35,
+  "auto": {
+   "automated": 4,
+   "handover": 1,
+   "deflected": 0,
+   "no_answer": 0,
+   "engaged": 5,
+   "rate": 80
+  },
+  "evalq": {
+   "n": 5,
+   "total": 67,
+   "dims": {
+    "answer": 25,
+    "recommendation": 19,
+    "rich": 15,
+    "close": 8
+   },
+   "cls": {
+    "partial": 5
+   },
+   "learnings": [
+    "Named two starter sets with prices ($4.99 No Frills, $10 Humble Beginnings), described the full routine needed, and linked collections — but the bot cannot add to cart and never confirmed a final total.",
+    "Classic 4 Blade vs Humble Twin comparison was specific ($8.50 vs lower price, hair thickness guidance) with promo terms disclosed; last turn stalled mid-response — the cart/total ask produced no visible output.",
+    "Quoted actual review star ratings (4.7 for 4-blade, 4.5 for 6-blade with more reviews) — a standout data point — but bot declared it 'not a shopping assistant' at the cart step, contradicting the whole conversation.",
+    "Fully Loaded Starter Set ($39.99) was a strong on-theme gift pick with set contents listed; gift-ready shipping question produced no answer; correctly gave product-page link with price for the final cart step.",
+    "Handover triggered when the return/guarantee question arose — bot admitted its knowledge base lacked return policy details, escalated to human, then continued providing product links after takeover."
+   ]
+  },
   "ticket": null,
   "what": "5 cold private conversations (shopping themes). Handover in 1/5 themes. Avg end-to-end latency ~13.9s across 32 AI-timed turns.",
   "datetime": "2026-07-02T06:45:53.227Z",
@@ -10134,6 +11198,35 @@ const STORES = [
   "avgTurns": 7,
   "timed": 32,
   "attempted": 35,
+  "auto": {
+   "automated": 4,
+   "handover": 1,
+   "deflected": 0,
+   "no_answer": 0,
+   "engaged": 5,
+   "rate": 80
+  },
+  "evalq": {
+   "n": 5,
+   "total": 48,
+   "dims": {
+    "answer": 21,
+    "recommendation": 13,
+    "rich": 9,
+    "close": 5
+   },
+   "cls": {
+    "partial": 4,
+    "deflected": 1
+   },
+   "learnings": [
+    "Named the No Frills Starter Set and described the subscription model clearly, but admitted it had no review data and handed off to human on that turn; no prices shown and cart-add was never completed.",
+    "Strong named-product comparisons with prices ($6/$8.50/$10) and clear value reasoning, but promos question stalled mid-response and cart-add was never executed — conversion nudge stopped short.",
+    "Recommended Classic 4 Blade with product link and explained value reasoning, but couldn't add to cart ('I'm an AI') and had no promo/discount data, leaving the shopper to do the final steps unaided.",
+    "Surfaced gift guide hub and spend-threshold deals upfront, named the 6-Blade Razor as top gift pick with a link and shipping timeline, but bundle question stalled and cart-add remained unexecuted.",
+    "Agent deflected to 'Club Pro chat' on nearly every turn without naming a single specific product recommendation, making the shopping assistant useless for the pre-sales discovery task."
+   ]
+  },
   "ticket": null,
   "what": "5 cold private conversations (shopping themes). Handover in 1/5 themes. Avg end-to-end latency ~15.5s across 32 AI-timed turns.",
   "datetime": "2026-07-02T17:26:23.856Z",
@@ -10458,7 +11551,7 @@ const STORES = [
  },
  {
   "id": "humind-chaiselongue-shopping-pending",
-  "date": "2026-07-02",
+  "date": "2026-07-03",
   "vendor": "Humind",
   "store": "La Chaise Longue",
   "site": "lachaiselongue.fr",
@@ -10494,6 +11587,34 @@ const STORES = [
   "avgTurns": 7,
   "timed": 30,
   "attempted": 35,
+  "auto": {
+   "automated": 5,
+   "handover": 0,
+   "deflected": 0,
+   "no_answer": 0,
+   "engaged": 5,
+   "rate": 100
+  },
+  "evalq": {
+   "n": 5,
+   "total": 69,
+   "dims": {
+    "answer": 23,
+    "recommendation": 18,
+    "rich": 19,
+    "close": 10
+   },
+   "cls": {
+    "partial": 5
+   },
+   "learnings": [
+    "Envive/Bandolier's Maggie consistently surfaced the Hailey Chrome at $128 with 4.5-star ratings and actual review quotes, and offered a cart-add button prompt, but never confirmed cart addition or computed a total.",
+    "Maggie named three products with prices and ratings, showed pouch-set bundles with sale prices, made a final personal pick (Remi Magnet $158), and offered cart-add — strong discovery flow but cart/total not confirmed.",
+    "Maggie surfaced Remi/Hailey with prices and ratings per turn but failed to answer the add-to-cart turn and gave no total or shipping info when asked directly.",
+    "Bot recommended Dillon/Miller bags with prices and reviews, surfaced the Lily Duet bundle, but couldn't confirm gift-ready packaging and didn't provide a total despite clear cart-add prompt.",
+    "Maggie provided quality reassurance and accessory pairing guidance but omitted the actual product name on 'best for that' turn and gave no answer on return options, weakening the reassurance narrative."
+   ]
+  },
   "ticket": null,
   "what": "5 cold private conversations (shopping themes). No handover in any theme. Avg end-to-end latency ~8.7s across 30 AI-timed turns.",
   "datetime": "2026-07-02T17:48:57.765Z",
@@ -10816,7 +11937,7 @@ const STORES = [
  },
  {
   "id": "envive-tushbaby-shopping-pending",
-  "date": "2026-07-02",
+  "date": "2026-07-03",
   "vendor": "Envive",
   "store": "Tushbaby",
   "site": "tushbaby.com",
@@ -10832,7 +11953,7 @@ const STORES = [
  },
  {
   "id": "envive-greenpan-shopping-pending",
-  "date": "2026-07-02",
+  "date": "2026-07-03",
   "vendor": "Envive",
   "store": "GreenPan",
   "site": "greenpan.us",
@@ -10848,7 +11969,7 @@ const STORES = [
  },
  {
   "id": "envive-fracture-shopping-pending",
-  "date": "2026-07-02",
+  "date": "2026-07-03",
   "vendor": "Envive",
   "store": "Fracture",
   "site": "fracture.me",
@@ -10864,7 +11985,7 @@ const STORES = [
  },
  {
   "id": "envive-nanit-shopping-pending",
-  "date": "2026-07-02",
+  "date": "2026-07-03",
   "vendor": "Envive",
   "store": "Nanit",
   "site": "nanit.com",
@@ -10894,6 +12015,35 @@ const STORES = [
   "avgTurns": 7,
   "timed": 27,
   "attempted": 35,
+  "auto": {
+   "automated": 1,
+   "handover": 4,
+   "deflected": 0,
+   "no_answer": 0,
+   "engaged": 5,
+   "rate": 20
+  },
+  "evalq": {
+   "n": 5,
+   "total": 31,
+   "dims": {
+    "answer": 16,
+    "recommendation": 8,
+    "rich": 4,
+    "close": 3
+   },
+   "cls": {
+    "partial": 2,
+    "failed": 3
+   },
+   "learnings": [
+    "Sierra/BARK names subscription tiers (BarkBox, Lite Box, All Treats) but never provides a price, no product card, and cannot access review data — the assistant consistently asks for dog details before surfacing any concrete recommendation.",
+    "Sierra/BARK never produced a comparison despite being asked four times — every turn deflects back to requesting dog details, and the promo turn triggers a human handover; zero named products or prices surfaced across five turns.",
+    "Sierra/BARK loops through dog-profile intake questions for all seven turns without surfacing a single specific product name, price, or link — a structural failure where data-gathering completely overrides answering the shopper.",
+    "Sierra/BARK correctly identifies gift box and e-gift card options and explains themed/Plush/Super Chewer distinction, but escalates to human on the shipping/gift-ready question and never provides a price throughout.",
+    "Sierra/BARK escalates to human at turn 6 on a return/policy question it should handle, and across six turns never names a specific product — the agent designs for data collection, not customer conversion."
+   ]
+  },
   "ticket": null,
   "what": "5 cold private conversations (shopping themes). Handover in 4/5 themes. Avg end-to-end latency ~5.1s across 27 AI-timed turns.",
   "datetime": "2026-07-02T19:36:10.244Z",
@@ -11206,6 +12356,33 @@ const STORES = [
   "avgTurns": 7,
   "timed": 26,
   "attempted": 28,
+  "auto": {
+   "automated": 4,
+   "handover": 1,
+   "deflected": 0,
+   "no_answer": 0,
+   "engaged": 5,
+   "rate": 80
+  },
+  "evalq": {
+   "n": 4,
+   "total": 23,
+   "dims": {
+    "answer": 11,
+    "recommendation": 3,
+    "rich": 5,
+    "close": 5
+   },
+   "cls": {
+    "failed": 4
+   },
+   "learnings": [
+    "Sierra/Sun & Ski surfaced real promotional info (10% military discount, 70% off winter gear) without being asked, but still refused to name products after 7 full turns of budget-focused questions.",
+    "Sierra/Sun & Ski proactively mentions 15% new-subscriber discount and free shipping threshold on the final turn, but loops on gender/category clarification throughout without ever presenting a product.",
+    "Sierra/Sun & Ski correctly states no gift wrapping, orders ship within 24 hrs before 1 PM, and overnight is available — useful logistics detail — but never recommends a single gift item despite seven turns.",
+    "Sierra/Sun & Ski delivers a clear, specific return policy (30-day refund, 30-60 store credit, Start a Return link) unprompted on the 'what if it doesn't work' turn, but still names zero products across the conversation."
+   ]
+  },
   "ticket": null,
   "what": "4 cold private conversations (shopping themes). No handover in any theme. Avg end-to-end latency ~5.1s across 26 AI-timed turns.",
   "datetime": "2026-07-02T19:42:01.931Z",
@@ -11474,7 +12651,7 @@ const STORES = [
  },
  {
   "id": "sierra-madisonreed-shopping-pending",
-  "date": "2026-07-02",
+  "date": "2026-07-03",
   "vendor": "Sierra",
   "store": "Madison Reed",
   "site": "madison-reed.com",
@@ -11504,6 +12681,34 @@ const STORES = [
   "avgTurns": 7,
   "timed": 27,
   "attempted": 35,
+  "auto": {
+   "automated": 4,
+   "handover": 1,
+   "deflected": 0,
+   "no_answer": 0,
+   "engaged": 5,
+   "rate": 80
+  },
+  "evalq": {
+   "n": 5,
+   "total": 61,
+   "dims": {
+    "answer": 27,
+    "recommendation": 19,
+    "rich": 11,
+    "close": 5
+   },
+   "cls": {
+    "partial": 5
+   },
+   "learnings": [
+    "Siena/MUD\\WTR (Mycelia) gave genuinely useful beginner guidance — named blends, explained starter kit contents ($60, frother + app trial), addressed reviews and add-ons — but handed off to human for 'add to cart and give total', limiting the close.",
+    "Siena/MUD\\WTR delivered a concrete two-option comparison (Starter Kit vs. 90-serving bag) with clear trade-offs and pricing context; the human agent who took over for promo queries was helpful and confirmed bundles/starter kits as savings vehicles.",
+    "Siena/MUD\\WTR named the original blend as best-seller, compared it to functional coffee on value and daily-use criteria, mentioned 90-serving bags as best per-serving value, and confirmed subscription savings — strong advisory but no cart or total provided.",
+    "Siena/MUD\\WTR gave strong gift guidance: named Original Starter Kit, described frother + mindfulness app trial extras, confirmed US 5-7 day shipping and no gift wrapping, but handed off to human when asked to add to cart and give total.",
+    "Siena/MUD\\WTR addressed quality concerns empathetically, matched product to use-case (energy/rest/coffee), cited a 30-day guarantee, and suggested pairings (coconut creamer, protein), but escalated to human for the final cart/total step."
+   ]
+  },
   "ticket": null,
   "what": "5 cold private conversations (shopping themes). Handover in 1/5 themes. Avg end-to-end latency ~17.8s across 27 AI-timed turns.",
   "datetime": "2026-07-02T19:54:12.272Z",
@@ -11814,7 +13019,7 @@ const STORES = [
  },
  {
   "id": "siena-spanx-shopping-pending",
-  "date": "2026-07-02",
+  "date": "2026-07-03",
   "vendor": "Siena",
   "store": "Spanx",
   "site": "spanx.com",
@@ -11830,7 +13035,7 @@ const STORES = [
  },
  {
   "id": "yuma-goclove-shopping-pending",
-  "date": "2026-07-02",
+  "date": "2026-07-03",
   "vendor": "Yuma",
   "store": "Clove",
   "site": "goclove.com",
@@ -11846,7 +13051,7 @@ const STORES = [
  },
  {
   "id": "yuma-javvy-shopping-pending",
-  "date": "2026-07-02",
+  "date": "2026-07-03",
   "vendor": "Yuma",
   "store": "Javvy Coffee",
   "site": "javvycoffee.com",
@@ -11862,7 +13067,7 @@ const STORES = [
  },
  {
   "id": "meta-cottonon-shopping-pending",
-  "date": "2026-07-02",
+  "date": "2026-07-03",
   "vendor": "Meta AI",
   "store": "Cotton On",
   "site": "cottonon.com/US",
@@ -11892,6 +13097,30 @@ const STORES = [
   "avgTurns": 7,
   "timed": 4,
   "attempted": 7,
+  "auto": {
+   "automated": 0,
+   "handover": 1,
+   "deflected": 0,
+   "no_answer": 4,
+   "engaged": 1,
+   "rate": 0
+  },
+  "evalq": {
+   "n": 1,
+   "total": 42,
+   "dims": {
+    "answer": 18,
+    "recommendation": 14,
+    "rich": 6,
+    "close": 4
+   },
+   "cls": {
+    "partial": 1
+   },
+   "learnings": [
+    "Meta AI quippy named specific products (Ultra Lite Sonic Toothbrush, Refillable Floss, subscription) and matched them to the gift brief, but failed to answer 'which feels more special', stalled on bundle/gift-set queries, and handed off before addressing shipping speed."
+   ]
+  },
   "ticket": null,
   "what": "1 cold private conversations (shopping themes). Handover in 1/1 themes. Avg end-to-end latency ~10.1s across 4 AI-timed turns.",
   "datetime": "2026-07-02T17:36:25.988Z",
@@ -12000,6 +13229,34 @@ const STORES = [
   "avgTurns": 7,
   "timed": 35,
   "attempted": 35,
+  "auto": {
+   "automated": 5,
+   "handover": 0,
+   "deflected": 0,
+   "no_answer": 0,
+   "engaged": 5,
+   "rate": 100
+  },
+  "evalq": {
+   "n": 5,
+   "total": 0,
+   "dims": {
+    "answer": 0,
+    "recommendation": 0,
+    "rich": 0,
+    "close": 0
+   },
+   "cls": {
+    "failed": 5
+   },
+   "learnings": [
+    "Meta AI on Grove returned the same 'Talk to a Human' deflection response to every single shopping question across all 7 turns, providing zero product guidance, zero recommendations, and zero commerce value.",
+    "Meta AI on Grove responded identically to every question with a human-handover prompt, completely unable to engage with any comparative or budget-oriented shopping query.",
+    "Meta AI's Grove integration is entirely non-functional for shopping: every query — including simple 'what are my best options' — received an identical human-transfer prompt with no product content at all.",
+    "Meta AI Grove offered zero gift guidance across 7 turns, responding with an identical human-handover message to every question regardless of specificity or simplicity.",
+    "Meta AI Grove produced no substantive answer on any turn; the bot is effectively a routing widget that deflects all queries to a human agent without attempting any self-service response."
+   ]
+  },
   "ticket": null,
   "what": "5 cold private conversations (shopping themes). No handover in any theme. Avg end-to-end latency ~3.7s across 35 AI-timed turns.",
   "datetime": "2026-07-02T17:43:18.676Z",
@@ -12322,7 +13579,7 @@ const STORES = [
  },
  {
   "id": "ada-endy-shopping-pending",
-  "date": "2026-07-02",
+  "date": "2026-07-03",
   "vendor": "Ada",
   "store": "Endy",
   "site": "endy.com",
@@ -12352,6 +13609,35 @@ const STORES = [
   "avgTurns": 7,
   "timed": 27,
   "attempted": 35,
+  "auto": {
+   "automated": 5,
+   "handover": 0,
+   "deflected": 0,
+   "no_answer": 0,
+   "engaged": 5,
+   "rate": 100
+  },
+  "evalq": {
+   "n": 5,
+   "total": 47,
+   "dims": {
+    "answer": 22,
+    "recommendation": 14,
+    "rich": 6,
+    "close": 5
+   },
+   "cls": {
+    "partial": 4,
+    "failed": 1
+   },
+   "learnings": [
+    "Ada on IPSY explained all three tiers clearly with prices and personalization logic, recommended IPSY Original at $16.99/month total — but produced no product cards, images, or commerce elements, and the cart-add turn was marked unanswered.",
+    "Ada gave a clear value-per-shipment comparison (Original $15 vs Extra $32 vs Ultimate $65/quarter) and correctly recommended Extra as the sweet spot for tight budgets, but 2 turns were unanswered and no rich commerce elements appeared.",
+    "Ada had a price inconsistency (IPSY Extra cited as $35 in one turn, $32 in another), 2 unanswered turns, and provided no product links or rich elements — the IPSY Shop explanation was the strongest part of the conversation.",
+    "Ada correctly identified IPSY Extra as the premium gift option and directed the user to the gifting banner on IPSY.com, but 2 turns were unanswered, shipping timing was vague (15 business days after warehouse), and no product images or direct cart links appeared.",
+    "Ada deflected 3 of 7 turns as unanswered, looped on 'what specific product do you mean?' without ever naming one, and admitted it lacked review data — the IPSY Shop no-return policy was the only concrete policy information provided."
+   ]
+  },
   "ticket": null,
   "what": "5 cold private conversations (shopping themes). No handover in any theme. Avg end-to-end latency ~12.9s across 27 AI-timed turns.",
   "datetime": "2026-07-02T20:03:02.061Z",
@@ -12674,7 +13960,7 @@ const STORES = [
  },
  {
   "id": "ada-yeti-shopping-pending",
-  "date": "2026-07-02",
+  "date": "2026-07-03",
   "vendor": "Ada",
   "store": "YETI",
   "site": "yeti.com",
@@ -12690,7 +13976,7 @@ const STORES = [
  },
  {
   "id": "ada-indigo-shopping-pending",
-  "date": "2026-07-02",
+  "date": "2026-07-03",
   "vendor": "Ada",
   "store": "Indigo",
   "site": "indigo.ca",
@@ -12706,7 +13992,7 @@ const STORES = [
  },
  {
   "id": "meta-motelrocks-shopping-pending",
-  "date": "2026-07-02",
+  "date": "2026-07-03",
   "vendor": "Meta AI",
   "store": "Motel Rocks",
   "site": "motelrocks.com",
@@ -12722,7 +14008,7 @@ const STORES = [
  },
  {
   "id": "yuma-cabaia-shopping-pending",
-  "date": "2026-07-02",
+  "date": "2026-07-03",
   "vendor": "Yuma",
   "store": "CABAIA",
   "site": "cabaia.com",
@@ -12738,7 +14024,7 @@ const STORES = [
  },
  {
   "id": "humind-900care-shopping-pending",
-  "date": "2026-07-02",
+  "date": "2026-07-03",
   "vendor": "Humind",
   "store": "900.care",
   "site": "900.care",
@@ -12754,7 +14040,7 @@ const STORES = [
  },
  {
   "id": "humind-puressentiel-shopping-pending",
-  "date": "2026-07-02",
+  "date": "2026-07-03",
   "vendor": "Humind",
   "store": "Puressentiel",
   "site": "fr.puressentiel.com",
@@ -12770,7 +14056,7 @@ const STORES = [
  },
  {
   "id": "humind-yumi-shopping-pending",
-  "date": "2026-07-02",
+  "date": "2026-07-03",
   "vendor": "Humind",
   "store": "Yumi",
   "site": "yumi.fr",
@@ -12786,7 +14072,7 @@ const STORES = [
  },
  {
   "id": "humind-stormrock-shopping-pending",
-  "date": "2026-07-02",
+  "date": "2026-07-03",
   "vendor": "Humind",
   "store": "Stormrock",
   "site": "stormrock.fr",
@@ -12801,56 +14087,89 @@ const STORES = [
   "turns": []
  },
  {
-  "id": "repai-olly-shopping-pending",
+  "id": "repai-olly-shopping-2026-07-02",
   "date": "2026-07-02",
   "vendor": "Rep AI",
   "store": "OLLY",
   "site": "olly.com",
   "url": "https://www.olly.com/",
-  "method": "pending",
+  "method": "new",
   "us": false,
   "lat": "—",
+  "latPct": 0,
   "success": null,
-  "successTxt": "pending",
-  "successCls": "p-na",
-  "what": "Not captured in a cold run yet — pending.",
+  "successTxt": "—",
+  "auto": {
+   "automated": 5,
+   "handover": 0,
+   "deflected": 0,
+   "no_answer": 0,
+   "engaged": 5,
+   "rate": 100
+  },
+  "evalq": null,
+  "what": "Engaged 5 conversation(s) but none produced ≥3 timed AI answers — Counted in automation rate, excluded from latency.",
+  "datetime": null,
+  "themes": [],
   "turns": []
  },
  {
-  "id": "repai-higherdose-shopping-pending",
+  "id": "repai-higherdose-shopping-2026-07-02",
   "date": "2026-07-02",
   "vendor": "Rep AI",
   "store": "HigherDOSE",
   "site": "higherdose.com",
   "url": "https://higherdose.com/",
-  "method": "pending",
+  "method": "new",
   "us": false,
   "lat": "—",
+  "latPct": 0,
   "success": null,
-  "successTxt": "pending",
-  "successCls": "p-na",
-  "what": "Not captured in a cold run yet — pending.",
+  "successTxt": "—",
+  "auto": {
+   "automated": 5,
+   "handover": 0,
+   "deflected": 0,
+   "no_answer": 0,
+   "engaged": 5,
+   "rate": 100
+  },
+  "evalq": null,
+  "what": "Engaged 5 conversation(s) but none produced ≥3 timed AI answers — Counted in automation rate, excluded from latency.",
+  "datetime": null,
+  "themes": [],
   "turns": []
  },
  {
-  "id": "repai-nutrabio-shopping-pending",
+  "id": "repai-nutrabio-shopping-2026-07-02",
   "date": "2026-07-02",
   "vendor": "Rep AI",
   "store": "NutraBio",
   "site": "nutrabio.com",
   "url": "https://nutrabio.com/",
-  "method": "pending",
+  "method": "new",
   "us": false,
   "lat": "—",
+  "latPct": 0,
   "success": null,
-  "successTxt": "pending",
-  "successCls": "p-na",
-  "what": "Not captured in a cold run yet — pending.",
+  "successTxt": "—",
+  "auto": {
+   "automated": 4,
+   "handover": 0,
+   "deflected": 0,
+   "no_answer": 1,
+   "engaged": 4,
+   "rate": 100
+  },
+  "evalq": null,
+  "what": "Engaged 4 conversation(s) but none produced ≥3 timed AI answers — Counted in automation rate, excluded from latency.",
+  "datetime": null,
+  "themes": [],
   "turns": []
  },
  {
   "id": "repai-satya-shopping-pending",
-  "date": "2026-07-02",
+  "date": "2026-07-03",
   "vendor": "Rep AI",
   "store": "Satya Jewelry",
   "site": "satyajewelry.com",
@@ -12866,7 +14185,7 @@ const STORES = [
  },
  {
   "id": "repai-bikesonline-shopping-pending",
-  "date": "2026-07-02",
+  "date": "2026-07-03",
   "vendor": "Rep AI",
   "store": "BikesOnline",
   "site": "bikesonline.com.au",
@@ -12882,7 +14201,7 @@ const STORES = [
  },
  {
   "id": "repai-kinn-shopping-pending",
-  "date": "2026-07-02",
+  "date": "2026-07-03",
   "vendor": "Rep AI",
   "store": "Kinn Studio",
   "site": "kinnstudio.com",
@@ -12898,7 +14217,7 @@ const STORES = [
  },
  {
   "id": "repai-cwspirits-shopping-pending",
-  "date": "2026-07-02",
+  "date": "2026-07-03",
   "vendor": "Rep AI",
   "store": "Country Wine & Spirits",
   "site": "cwspirits.com",
@@ -12928,6 +14247,35 @@ const STORES = [
   "avgTurns": 7,
   "timed": 35,
   "attempted": 35,
+  "auto": {
+   "automated": 5,
+   "handover": 0,
+   "deflected": 0,
+   "no_answer": 0,
+   "engaged": 5,
+   "rate": 100
+  },
+  "evalq": {
+   "n": 5,
+   "total": 51,
+   "dims": {
+    "answer": 21,
+    "recommendation": 13,
+    "rich": 11,
+    "close": 6
+   },
+   "cls": {
+    "partial": 3,
+    "deflected": 2
+   },
+   "learnings": [
+    "Named the Sampler Variety Box with all 6 recipes, cited a real 4.2/5 customer rating and a specific reviewer quote, but couldn't add to cart and left the price/total unanswered.",
+    "Failed to name or compare two specific products on the direct 'show me your two best value options' request, and deflected the personal pick question by looping to Nutrition Consultants; only shipping thresholds and promo terms were answered.",
+    "Named Best Sellers Variety Pack (4.8/5 rating, real review quote), provided product link and confirmed free shipping eligibility, but couldn't add to cart and had no first-order discount data.",
+    "Consistently recommended the Sampler Variety Box with full price breakdown ($179.99 / $90 autoship), listed all 6 recipes, and gave a product link — but gift-ready packaging question stalled and cart-add was not performed.",
+    "Answered quality/guarantee questions and mentioned supplements as pairings, but refused to name a specific product until the very last turn (still pending), repeatedly deferring to Nutrition Consultants instead of committing to a recommendation."
+   ]
+  },
   "ticket": null,
   "what": "5 cold private conversations (shopping themes). No handover in any theme. Avg end-to-end latency ~15.7s across 35 AI-timed turns.",
   "datetime": "2026-07-02T17:38:39.264Z",
@@ -13264,6 +14612,31 @@ const STORES = [
   "avgTurns": 7,
   "timed": 14,
   "attempted": 14,
+  "auto": {
+   "automated": 2,
+   "handover": 0,
+   "deflected": 0,
+   "no_answer": 3,
+   "engaged": 2,
+   "rate": 100
+  },
+  "evalq": {
+   "n": 2,
+   "total": 51,
+   "dims": {
+    "answer": 22,
+    "recommendation": 15,
+    "rich": 10,
+    "close": 5
+   },
+   "cls": {
+    "partial": 2
+   },
+   "learnings": [
+    "Named four product lines with use-cases and cited Energy & Focus Gum (20mg caffeine) and Memory & Focus as safe beginner picks, but couldn't add to cart, gave no prices, and the final turn looped on product details instead of completing the purchase.",
+    "Described Mind & Momentum Gum bundle vs Boost & Beyond Bulk Bags with a comparison and linked bundles page, but kept asking for user goal clarification rather than committing to a pick, and cart-add escalated to customer support handoff."
+   ]
+  },
   "ticket": null,
   "what": "2 cold private conversations (shopping themes). No handover in any theme. Avg end-to-end latency ~13.7s across 14 AI-timed turns.",
   "datetime": "2026-07-02T17:58:02.007Z",
@@ -13438,6 +14811,36 @@ const STORES = [
   "avgTurns": 7,
   "timed": 33,
   "attempted": 35,
+  "auto": {
+   "automated": 3,
+   "handover": 1,
+   "deflected": 1,
+   "no_answer": 0,
+   "engaged": 5,
+   "rate": 60
+  },
+  "evalq": {
+   "n": 5,
+   "total": 32,
+   "dims": {
+    "answer": 15,
+    "recommendation": 8,
+    "rich": 5,
+    "close": 4
+   },
+   "cls": {
+    "deflected": 2,
+    "partial": 2,
+    "failed": 1
+   },
+   "learnings": [
+    "Kodif/Babyletto looped on 'what area do you want help with?' without surfacing a single named product recommendation until prompted for bundles—treats a shopping conversation like a support triage menu.",
+    "Mentioned Pure Core mattress options as mid-range value picks but kept asking 'standard/mini/midi?' clarifying question across turns instead of committing to a recommendation—circular and frustrating.",
+    "Babyletto identified the All-Time Faves Bundle as the best seller with a 10% bundle discount and $50 email signup offer, and linked directly to 'Start building'—the most actionable Kodif shopping response in this batch.",
+    "Defaulted to gift cards on every turn despite the shopper wanting a physical gift; a human agent answered the shipping question correctly, revealing the AI's gift-advisory capability is weak.",
+    "Never named a single product recommendation across 7 turns despite escalating shopper readiness; every turn ended with 'please tell me which specific product you're interested in'—complete failure to convert."
+   ]
+  },
   "ticket": null,
   "what": "5 cold private conversations (shopping themes). Handover in 1/5 themes. Avg end-to-end latency ~14.8s across 33 AI-timed turns.",
   "datetime": "2026-07-02T18:17:25.991Z",
@@ -13768,6 +15171,36 @@ const STORES = [
   "avgTurns": 7,
   "timed": 35,
   "attempted": 35,
+  "auto": {
+   "automated": 5,
+   "handover": 0,
+   "deflected": 0,
+   "no_answer": 0,
+   "engaged": 5,
+   "rate": 100
+  },
+  "evalq": {
+   "n": 5,
+   "total": 39,
+   "dims": {
+    "answer": 18,
+    "recommendation": 10,
+    "rich": 6,
+    "close": 4
+   },
+   "cls": {
+    "partial": 3,
+    "deflected": 1,
+    "failed": 1
+   },
+   "learnings": [
+    "After an unhelpful first turn, improved by naming Dylan Folding Portable MiniCrib and linking the Crib Buying Guide, but never gave a price, comparison, or clear purchase nudge—discovery experience remains thin.",
+    "Named Jenny Lind 3-in-1 vs Kalani 4-in-1 with a meaningful functional differentiator (full-size bed conversion), but never quoted prices and could not apply a discount or add to cart—missing key conversion elements.",
+    "Asked for product category clarification three times without committing to a recommendation; collection names and price floors ($40+) were mentioned but no specific product was ever named or linked.",
+    "Suggested cribs under $200 with a link and confirmed 5-8 day shipping, but acknowledged no gift-wrapping and never named a specific product model—shoppers still need to browse the linked page to find anything.",
+    "Repeated 'please tell me which specific product' across 5 turns despite the shopper declaring readiness to buy; safety certifications were detailed but zero product recommendations were ever made."
+   ]
+  },
   "ticket": null,
   "what": "5 cold private conversations (shopping themes). No handover in any theme. Avg end-to-end latency ~17s across 35 AI-timed turns.",
   "datetime": "2026-07-02T18:30:01.418Z",
@@ -14104,6 +15537,35 @@ const STORES = [
   "avgTurns": 7,
   "timed": 31,
   "attempted": 35,
+  "auto": {
+   "automated": 5,
+   "handover": 0,
+   "deflected": 0,
+   "no_answer": 0,
+   "engaged": 5,
+   "rate": 100
+  },
+  "evalq": {
+   "n": 5,
+   "total": 43,
+   "dims": {
+    "answer": 18,
+    "recommendation": 11,
+    "rich": 9,
+    "close": 6
+   },
+   "cls": {
+    "deflected": 2,
+    "partial": 3
+   },
+   "learnings": [
+    "Confused the shopping context with a community-navigation forum tool for the first three turns, giving browsing tips instead of product recommendations; only partially recovered with a $50 welcome code mention.",
+    "Recovered well with named mattress comparisons (Pure Core $199 vs Mini $149, GREENGUARD certs, 2-stage vs lightweight), gave a clear personal pick recommendation, but 4 of 7 turns had answered:false and cart-add stalled.",
+    "Explicitly stated 'I'm not able to provide personalized recommendations' on the opening turn and held that line throughout, redirecting to the website for every product question — a near-complete shopping assistant failure.",
+    "Defaulted to gift cards for the first three turns despite specific product interest, eventually surfaced nursery bundles and provided gift card pricing tiers, but never answered the gift-ready/shipping-speed question.",
+    "Committed to a specific product (Babyletto x Avocado Organic Crib Mattress) with certifications (GREENGUARD Gold, MADE SAFE), paired with crib sheets by name and links, but return policy question stalled and cart-add was not performed."
+   ]
+  },
   "ticket": null,
   "what": "5 cold private conversations (shopping themes). No handover in any theme. Avg end-to-end latency ~16.9s across 31 AI-timed turns.",
   "datetime": "2026-07-02T19:09:54.527Z",
@@ -14426,7 +15888,7 @@ const STORES = [
  }
 ];
 
-// ---- SUPPORT (same store list, support themes) — GENERATED by runner/gen.js from runs [2026-07-01, 2026-07-02]. Do not hand-edit. ----
+// ---- SUPPORT (same store list, support themes) — GENERATED by runner/gen.js from runs [2026-07-01, 2026-07-02, 2026-07-03]. Do not hand-edit. ----
 const SUPPORT = [
  {
   "id": "gorgias-madura-support-2026-07-01",
@@ -14444,6 +15906,33 @@ const SUPPORT = [
   "avgTurns": 7,
   "timed": 17,
   "attempted": 21,
+  "auto": {
+   "automated": 3,
+   "handover": 0,
+   "deflected": 0,
+   "no_answer": 0,
+   "engaged": 3,
+   "rate": 100
+  },
+  "evalq": {
+   "n": 3,
+   "total": 61,
+   "dims": {
+    "resolution": 21,
+    "accuracy": 18,
+    "actionability": 13,
+    "close": 8
+   },
+   "cls": {
+    "resolved": 1,
+    "partial": 2
+   },
+   "learnings": [
+    "Accurate 2-hour cancellation window, 14-working-day refund timeline, and detailed return conditions (original packaging, tags, no washing) delivered cleanly with consistent login prompts for order lookup.",
+    "First two turns produced no response, but the bot recovered with precise policy: 14-day window, free non-bulky returns from France, made-to-order furniture final sale, and a direct return portal link.",
+    "First two turns silent; answered tracking questions out of sequence and never retrieved actual order status — instructed on finding a tracking link under 'how to speed up' rather than answering the actual question asked."
+   ]
+  },
   "ticket": {
    "sub": "fr-madura",
    "acct": "74962",
@@ -14696,6 +16185,30 @@ const SUPPORT = [
   "avgTurns": 7,
   "timed": 3,
   "attempted": 7,
+  "auto": {
+   "automated": 1,
+   "handover": 0,
+   "deflected": 0,
+   "no_answer": 0,
+   "engaged": 1,
+   "rate": 100
+  },
+  "evalq": {
+   "n": 1,
+   "total": 41,
+   "dims": {
+    "resolution": 14,
+    "accuracy": 14,
+    "actionability": 8,
+    "close": 5
+   },
+   "cls": {
+    "failed": 1
+   },
+   "learnings": [
+    "Answered first 3 turns adequately but then produced 4 consecutive non-answers (empty replies), leaving the customer without guidance on tracking stalls, finding a link, or order status lookup."
+   ]
+  },
   "ticket": {
    "sub": "b0qaeh-qf",
    "acct": "70478",
@@ -14832,6 +16345,32 @@ const SUPPORT = [
   "avgTurns": 7,
   "timed": 10,
   "attempted": 14,
+  "auto": {
+   "automated": 5,
+   "handover": 0,
+   "deflected": 0,
+   "no_answer": 0,
+   "engaged": 5,
+   "rate": 100
+  },
+  "evalq": {
+   "n": 2,
+   "total": 49,
+   "dims": {
+    "resolution": 15,
+    "accuracy": 17,
+    "actionability": 11,
+    "close": 6
+   },
+   "cls": {
+    "deflected": 1,
+    "partial": 1
+   },
+   "learnings": [
+    "First 3 turns provided accurate damaged-item policy (7-day window, full refund or replacement for significant damage, 10% partial for minor), but the agent handover silenced all 4 subsequent questions.",
+    "Jade gave unusually detailed and honest shipping policy: dispatch can take up to 28 days, lost-transit claims require 25 extra working days post-expected-delivery—very specific but the long lead times may alarm customers."
+   ]
+  },
   "ticket": {
    "sub": "b0qaeh-qf",
    "acct": "70478",
@@ -15012,7 +16551,7 @@ const SUPPORT = [
  },
  {
   "id": "gorgias-jshealth-support-pending",
-  "date": "2026-07-02",
+  "date": "2026-07-03",
   "vendor": "Gorgias",
   "store": "JSHealth Vitamins",
   "site": "us.jshealthvitamins.com",
@@ -15042,6 +16581,34 @@ const SUPPORT = [
   "avgTurns": 7,
   "timed": 25,
   "attempted": 28,
+  "auto": {
+   "automated": 4,
+   "handover": 0,
+   "deflected": 0,
+   "no_answer": 0,
+   "engaged": 4,
+   "rate": 100
+  },
+  "evalq": {
+   "n": 4,
+   "total": 70,
+   "dims": {
+    "resolution": 25,
+    "accuracy": 21,
+    "actionability": 15,
+    "close": 10
+   },
+   "cls": {
+    "partial": 3,
+    "resolved": 1
+   },
+   "learnings": [
+    "First turn failed to deliver (message-not-delivered error), but subsequent answers were accurate and specific: no return shipping for damaged items, photo required, resolution via Neighbor Service team review.",
+    "Delivered specific policy details throughout (1-hour cancellation window, 5-10 day refund timeline) with consistent login CTA and direct account link, keeping every answer concrete and actionable.",
+    "First turn produced a message-not-delivered error, but recovery was solid: $8 return fee, 30-day window, no exchanges, GOAT Advent Calendar final-sale exception — all stated accurately.",
+    "First turn failed silently; recovery was accurate with specific shipping timelines (3 biz-day prep, 5-6 biz-day delivery) and two tracking links, but never retrieved the customer's actual order status."
+   ]
+  },
   "ticket": {
    "sub": "beekman1802",
    "acct": "67296",
@@ -15352,6 +16919,35 @@ const SUPPORT = [
   "avgTurns": 7,
   "timed": 35,
   "attempted": 35,
+  "auto": {
+   "automated": 5,
+   "handover": 0,
+   "deflected": 0,
+   "no_answer": 0,
+   "engaged": 5,
+   "rate": 100
+  },
+  "evalq": {
+   "n": 5,
+   "total": 69,
+   "dims": {
+    "resolution": 24,
+    "accuracy": 20,
+    "actionability": 15,
+    "close": 10
+   },
+   "cls": {
+    "partial": 3,
+    "resolved": 2
+   },
+   "learnings": [
+    "Correctly stated damaged items skip the $8 return fee and that refund/store credit (not replacement) is the likely outcome, but required login/photo before any resolution step could begin.",
+    "Gave the specific 1-hour cancellation window, account URL for self-service, and refund timeline (3 biz + 5-10 days) accurately across all turns; final order check still gated on login.",
+    "Policy Q&A was fully self-service: DHL Express international with duties at checkout, $5 standard shipping, 30-day returns, final sale exclusions, and full contact hours all answered accurately with links.",
+    "Clearly stated no direct exchanges (store credit or refund only), $8 return fee for refunds, 30-day window, and final sale exclusions with a policy link—complete self-service for all policy questions.",
+    "Provided the Aftership tracking URL, exact upgrade shipping costs ($30 Fast/$50 Fastest), and nuanced stuck-tracking advice, but could not actually check the specific order without login."
+   ]
+  },
   "ticket": {
    "sub": "beekman1802",
    "acct": "67296",
@@ -15720,6 +17316,33 @@ const SUPPORT = [
   "avgTurns": 7,
   "timed": 27,
   "attempted": 28,
+  "auto": {
+   "automated": 4,
+   "handover": 0,
+   "deflected": 0,
+   "no_answer": 0,
+   "engaged": 4,
+   "rate": 100
+  },
+  "evalq": {
+   "n": 4,
+   "total": 15,
+   "dims": {
+    "resolution": 5,
+    "accuracy": 5,
+    "actionability": 3,
+    "close": 2
+   },
+   "cls": {
+    "failed": 4
+   },
+   "learnings": [
+    "Every single turn produces only the identical support-hours boilerplate and a 'Verify order details' button — zero policy information, no answers to any question about process, costs, replacement, or timelines.",
+    "All seven turns return the same support-hours boilerplate with 'Verify order details' CTA — none of the policy questions (address change, cancellation window, add-item, shipped order changes, refund timing) are answered.",
+    "All seven turns return support-hours boilerplate with no policy details — return window, start process, shipping cost, refund timeline, exchange options, final-sale items are all unanswered, making the AI chatbot completely non-functional for support.",
+    "Identical failure pattern as all other Baby Bee support threads — every turn returns only the support-hours boilerplate; no tracking guidance, shipping timeframes, or order-status help is provided across any of the seven turns."
+   ]
+  },
   "ticket": {
    "sub": "babybeeprams",
    "acct": "29437",
@@ -16030,6 +17653,31 @@ const SUPPORT = [
   "avgTurns": 7,
   "timed": 7,
   "attempted": 14,
+  "auto": {
+   "automated": 3,
+   "handover": 0,
+   "deflected": 0,
+   "no_answer": 2,
+   "engaged": 3,
+   "rate": 100
+  },
+  "evalq": {
+   "n": 2,
+   "total": 16,
+   "dims": {
+    "resolution": 5,
+    "accuracy": 6,
+    "actionability": 4,
+    "close": 2
+   },
+   "cls": {
+    "failed": 2
+   },
+   "learnings": [
+    "Baby Bee's support bot produced the 'contact us during business hours' boilerplate on almost every turn — 4 of 7 turns unanswered — never resolving photos, replacement/refund, cost, or timing questions.",
+    "3 of 7 tracking turns went completely unanswered, and the 4 answered turns returned only the business-hours boilerplate — no shipping timeframes, no tracking link, and no order lookup attempted."
+   ]
+  },
   "ticket": {
    "sub": "babybeeprams",
    "acct": "29437",
@@ -16224,6 +17872,30 @@ const SUPPORT = [
   "avgTurns": 7,
   "timed": 4,
   "attempted": 7,
+  "auto": {
+   "automated": 1,
+   "handover": 0,
+   "deflected": 0,
+   "no_answer": 0,
+   "engaged": 1,
+   "rate": 100
+  },
+  "evalq": {
+   "n": 1,
+   "total": 47,
+   "dims": {
+    "resolution": 16,
+    "accuracy": 16,
+    "actionability": 10,
+    "close": 5
+   },
+   "cls": {
+    "partial": 1
+   },
+   "learnings": [
+    "First 4 turns answered well with specific timelines and shipping options, but the last 3 turns (stale tracking, find link, order status) produced no replies — high-value support questions were left completely unanswered."
+   ]
+  },
   "ticket": {
    "sub": "shoebacca-prod",
    "acct": "112738",
@@ -16346,7 +18018,7 @@ const SUPPORT = [
  },
  {
   "id": "spiffy-supergoop-support-pending",
-  "date": "2026-07-02",
+  "date": "2026-07-03",
   "vendor": "Envive",
   "store": "Supergoop",
   "site": "supergoop.com/products/everyday-sunscreen",
@@ -16376,6 +18048,32 @@ const SUPPORT = [
   "avgTurns": 7,
   "timed": 10,
   "attempted": 14,
+  "auto": {
+   "automated": 1,
+   "handover": 1,
+   "deflected": 0,
+   "no_answer": 0,
+   "engaged": 2,
+   "rate": 50
+  },
+  "evalq": {
+   "n": 2,
+   "total": 73,
+   "dims": {
+    "resolution": 28,
+    "accuracy": 20,
+    "actionability": 16,
+    "close": 11
+   },
+   "cls": {
+    "partial": 1,
+    "resolved": 1
+   },
+   "learnings": [
+    "Sierra collected claim details and gave replacement timelines (2-8 business days in-stock, 2-4 weeks in-home), but escalated to a human Sleep Specialist for actual resolution — no self-service claim completion in-channel.",
+    "Sierra provided comprehensive return details: 100-night mattress trial, 30-day soft goods window (unused/original packaging), no exchanges, free return shipping, and 1-2 week refund processing — complete policy coverage."
+   ]
+  },
   "ticket": null,
   "what": "2 cold private conversations (support themes). Handover in 1/2 themes. Avg end-to-end latency ~10.2s across 10 AI-timed turns.",
   "datetime": "2026-07-01T16:33:22+02:00",
@@ -16540,6 +18238,32 @@ const SUPPORT = [
   "avgTurns": 7,
   "timed": 20,
   "attempted": 21,
+  "auto": {
+   "automated": 3,
+   "handover": 1,
+   "deflected": 0,
+   "no_answer": 1,
+   "engaged": 4,
+   "rate": 75
+  },
+  "evalq": {
+   "n": 3,
+   "total": 84,
+   "dims": {
+    "resolution": 34,
+    "accuracy": 22,
+    "actionability": 17,
+    "close": 12
+   },
+   "cls": {
+    "resolved": 3
+   },
+   "learnings": [
+    "Sierra/Casper proactively collects damage details in-channel, accepts photo uploads in chat, specifies free return for warranty items, provides product-type-specific replacement windows (2-8 days standard, 2-4 weeks in-home), and handles multi-item claims gracefully.",
+    "Sierra/Casper delivers an unusually complete policy session: direct policy page links, product-differentiated return windows (100-night mattress vs 30-day soft goods), exhaustive payment method list including financing (Affirm/Katapult/Accrue), and a live-agent transfer offer rather than hard escala",
+    "Sierra/Casper covers the full return landscape: product-specific windows (100-night mattress, 30-night furniture, 30-day soft goods), free return shipping confirmed, no exchanges policy, and financed-order refund instructions — all in-channel without escalation."
+   ]
+  },
   "ticket": null,
   "what": "3 cold private conversations (support themes). No handover in any theme. Avg end-to-end latency ~11.2s across 20 AI-timed turns.",
   "datetime": "2026-07-02T17:29:37.561Z",
@@ -16776,6 +18500,33 @@ const SUPPORT = [
   "avgTurns": 7,
   "timed": 23,
   "attempted": 28,
+  "auto": {
+   "automated": 3,
+   "handover": 1,
+   "deflected": 1,
+   "no_answer": 0,
+   "engaged": 5,
+   "rate": 60
+  },
+  "evalq": {
+   "n": 4,
+   "total": 75,
+   "dims": {
+    "resolution": 29,
+    "accuracy": 20,
+    "actionability": 16,
+    "close": 10
+   },
+   "cls": {
+    "resolved": 4
+   },
+   "learnings": [
+    "Sierra/Chubbies requires order number plus PO from inside tag for damage claims, offers three contact channels (email/SMS/chat), provides free prepaid label, and quotes 48hr processing after USPS scan — unusually specific process detail.",
+    "Sierra/Chubbies gives a precise 55-minute cancellation window (shortest in benchmark), differentiates cancel refund (3-5 days) from return refund (7-10 days), but deflects the account-details update question to email/SMS support.",
+    "Sierra/Chubbies covers international shipping with buyer-pays-duties detail, 30-day return window, loyalty-member extended window, and final-sale exclusions — two unanswered turns (shipping time, payment methods) slightly undercut an otherwise comprehensive policy session.",
+    "Sierra/Chubbies provides a complete returns flow: portal URL, prepaid USPS label, 30-day window (extended for loyalty members), exchanges supported, 10-15 business day refund timeline — four turns marked unanswered but substantive answers appear in the reply tails."
+   ]
+  },
   "ticket": null,
   "what": "4 cold private conversations (support themes). No handover in any theme. Avg end-to-end latency ~8.1s across 23 AI-timed turns.",
   "datetime": "2026-07-02T18:25:04.582Z",
@@ -17058,6 +18809,35 @@ const SUPPORT = [
   "avgTurns": 7,
   "timed": 35,
   "attempted": 35,
+  "auto": {
+   "automated": 4,
+   "handover": 0,
+   "deflected": 1,
+   "no_answer": 0,
+   "engaged": 5,
+   "rate": 80
+  },
+  "evalq": {
+   "n": 5,
+   "total": 77,
+   "dims": {
+    "resolution": 30,
+    "accuracy": 21,
+    "actionability": 16,
+    "close": 11
+   },
+   "cls": {
+    "partial": 1,
+    "resolved": 4
+   },
+   "learnings": [
+    "Siena accurately distinguished damaged-item claims from normal returns, provided photo submission channels (chat or support@simplemodern.com), and handled multi-item scenario, but looped on the purchase-source question every single turn without moving forward.",
+    "Siena gave specific, accurate time windows for cancellations (45 min self-service, up to 1 hr via chat, impossible after), address changes, item additions, and refund timelines (3-5 business days) — highly actionable throughout.",
+    "Siena covered all 7 policy questions accurately — international shipping limits, customs responsibility for Canada, return eligibility (personalized/custom items excluded), and full payment method list — with relevant links throughout.",
+    "Siena correctly stated 90-day return window, no direct exchanges, return portal link (simplemodern.com/pages/returns-portal), and claims portal for defects — only gap was vague refund timing after return receipt.",
+    "Siena gave precise fulfillment (1-3 days) and delivery (4-8 days) timeframes, explained no expedited shipping exists, and directed the user to claims.simplemodern.com for stuck tracking — clear and actionable throughout."
+   ]
+  },
   "ticket": null,
   "what": "5 cold private conversations (support themes). No handover in any theme. Avg end-to-end latency ~11.5s across 35 AI-timed turns.",
   "datetime": "2026-07-01T23:06:21.317Z",
@@ -17402,6 +19182,35 @@ const SUPPORT = [
   "avgTurns": 7,
   "timed": 32,
   "attempted": 35,
+  "auto": {
+   "automated": 3,
+   "handover": 1,
+   "deflected": 1,
+   "no_answer": 0,
+   "engaged": 5,
+   "rate": 60
+  },
+  "evalq": {
+   "n": 5,
+   "total": 76,
+   "dims": {
+    "resolution": 29,
+    "accuracy": 21,
+    "actionability": 16,
+    "close": 10
+   },
+   "cls": {
+    "resolved": 4,
+    "partial": 1
+   },
+   "learnings": [
+    "Siena/Simple Modern clearly separates damage claims (claims.simplemodern.com portal) from normal returns, specifies photo requirements, confirms zero cost for damage claims, and handles multi-item scenarios in one channel.",
+    "Siena/Simple Modern gives precise cancellation windows (under 45min self-service, 45min-1hr agent-assist, after 1hr no cancellation) and specific refund timeframe (3-5 business days) — among the most actionable order-mgmt responses in the benchmark.",
+    "Siena/Simple Modern delivers comprehensive policy coverage (US/Canada, 90-day returns, no exchanges, Canadian orders ineligible, 1-3 day fulfillment) with a direct return policy link and holiday queue warning in a single session.",
+    "Siena/Simple Modern provides a complete returns picture: 90-day window, direct portal URL, return label cost deducted from refund, no exchanges, clear defective-item redirect to claims portal — all answered in-channel without escalation.",
+    "Siena/Simple Modern gives accurate 1-3 day fulfillment + 4-8 day delivery windows and no-expedite policy, but cannot resolve the stuck-tracking issue in-channel; human handover at turn 5 with email follow-up promised."
+   ]
+  },
   "ticket": null,
   "what": "5 cold private conversations (support themes). Handover in 1/5 themes. Avg end-to-end latency ~11s across 32 AI-timed turns.",
   "datetime": "2026-07-02T17:32:45.395Z",
@@ -17722,6 +19531,31 @@ const SUPPORT = [
   "avgTurns": 7,
   "timed": 12,
   "attempted": 14,
+  "auto": {
+   "automated": 2,
+   "handover": 0,
+   "deflected": 0,
+   "no_answer": 3,
+   "engaged": 2,
+   "rate": 100
+  },
+  "evalq": {
+   "n": 2,
+   "total": 18,
+   "dims": {
+    "resolution": 4,
+    "accuracy": 7,
+    "actionability": 5,
+    "close": 3
+   },
+   "cls": {
+    "deflected": 2
+   },
+   "learnings": [
+    "Siena/FIGS demanded email verification (6-digit code) before answering any order-specific questions, blocking resolution for 5 of 7 turns; the one answered question (account details update) provided a useful link to wearfigs.com settings.",
+    "Siena/FIGS gated every tracking-related response behind a 6-digit email verification code, providing zero tracking information; 'what should I do if tracking never updates' triggered a human escalation instead of policy guidance."
+   ]
+  },
   "ticket": null,
   "what": "2 cold private conversations (support themes). No handover in any theme. Avg end-to-end latency ~11.7s across 12 AI-timed turns.",
   "datetime": "2026-07-02T18:03:30.371Z",
@@ -17882,7 +19716,7 @@ const SUPPORT = [
  },
  {
   "id": "yuma-evryjewels-support-pending",
-  "date": "2026-07-02",
+  "date": "2026-07-03",
   "vendor": "Yuma",
   "store": "EvryJewels",
   "site": "evryjewels.com",
@@ -17912,6 +19746,34 @@ const SUPPORT = [
   "avgTurns": 7,
   "timed": 21,
   "attempted": 28,
+  "auto": {
+   "automated": 2,
+   "handover": 2,
+   "deflected": 0,
+   "no_answer": 0,
+   "engaged": 4,
+   "rate": 50
+  },
+  "evalq": {
+   "n": 4,
+   "total": 34,
+   "dims": {
+    "resolution": 12,
+    "accuracy": 11,
+    "actionability": 7,
+    "close": 4
+   },
+   "cls": {
+    "failed": 2,
+    "partial": 2
+   },
+   "learnings": [
+    "Repeats the same 'share order number and postcode' prompt verbatim on every single turn without answering any policy question (refund vs replacement, cost, timing) — zero information provided beyond the data-collection gate.",
+    "Delivers clear, specific policy on address change, cancellation (48h window), add-items limitation, and post-ship lock — but escalates to human for the refund timeline question and the final order-lookup request remains unanswered.",
+    "Answers international coverage (UK/IE/DE/AT) and delivery stats well, but gives a vague non-answer on return policy ('we aim to make it right') and escalates to human when asked about final-sale items — partial policy coverage, no self-service resolution.",
+    "Responds to every single tracking question — including 'how long is delivery?' and 'how do I find my tracking link?' — with the identical order-number/postcode collection prompt, providing no factual information on any turn."
+   ]
+  },
   "ticket": null,
   "what": "4 cold private conversations (support themes). Handover in 2/4 themes. Avg end-to-end latency ~12.8s across 21 AI-timed turns.",
   "datetime": "2026-07-01T22:47:48.973Z",
@@ -18184,6 +20046,34 @@ const SUPPORT = [
   "avgTurns": 7,
   "timed": 19,
   "attempted": 28,
+  "auto": {
+   "automated": 2,
+   "handover": 2,
+   "deflected": 0,
+   "no_answer": 1,
+   "engaged": 4,
+   "rate": 50
+  },
+  "evalq": {
+   "n": 4,
+   "total": 39,
+   "dims": {
+    "resolution": 12,
+    "accuracy": 14,
+    "actionability": 9,
+    "close": 4
+   },
+   "cls": {
+    "failed": 1,
+    "partial": 3
+   },
+   "learnings": [
+    "The bot looped the same 'share order number and postcode' prompt verbatim across 6 turns without answering any substantive question (photos, refund policy, cost, timing), showing a severe knowledge-gap loop pattern.",
+    "DigitalGenius correctly explained cancellation window (48h before delivery), address-change limitations, and account update steps, but escalated to human on refund timeline question rather than answering it.",
+    "The bot provided good geographic shipping detail and delivery stats but gave a vague non-answer on return/refund policy and errored out mid-escalation on the final question.",
+    "Bot gave solid delivery-timeframe and upgrade-option answers but never resolved the core 'no tracking' issue — always looping to 'share order number' without actually pulling any order data."
+   ]
+  },
   "ticket": null,
   "what": "4 cold private conversations (support themes). Handover in 2/4 themes. Avg end-to-end latency ~16.9s across 19 AI-timed turns.",
   "datetime": "2026-07-02T18:31:54.391Z",
@@ -18456,6 +20346,32 @@ const SUPPORT = [
   "avgTurns": 7,
   "timed": 12,
   "attempted": 14,
+  "auto": {
+   "automated": 2,
+   "handover": 1,
+   "deflected": 0,
+   "no_answer": 2,
+   "engaged": 3,
+   "rate": 67
+  },
+  "evalq": {
+   "n": 2,
+   "total": 67,
+   "dims": {
+    "resolution": 25,
+    "accuracy": 19,
+    "actionability": 14,
+    "close": 9
+   },
+   "cls": {
+    "partial": 1,
+    "resolved": 1
+   },
+   "learnings": [
+    "Bot clearly stated returns are free for damaged items, confirmed refund-not-replacement outcome, and provided return portal + store list, but failed to answer replacement timing or multi-item scenario.",
+    "G-Star's support bot delivered accurate, specific policy answers (6-16 day shipping, 60-day returns, underwear/face masks non-returnable, full payment method list) across all turns before handing over for human contact."
+   ]
+  },
   "ticket": null,
   "what": "2 cold private conversations (support themes). Handover in 1/2 themes. Avg end-to-end latency ~12.2s across 12 AI-timed turns.",
   "datetime": "2026-07-02T18:17:42.495Z",
@@ -18630,6 +20546,33 @@ const SUPPORT = [
   "avgTurns": 7,
   "timed": 24,
   "attempted": 28,
+  "auto": {
+   "automated": 3,
+   "handover": 1,
+   "deflected": 0,
+   "no_answer": 1,
+   "engaged": 4,
+   "rate": 75
+  },
+  "evalq": {
+   "n": 4,
+   "total": 51,
+   "dims": {
+    "resolution": 18,
+    "accuracy": 16,
+    "actionability": 12,
+    "close": 7
+   },
+   "cls": {
+    "partial": 4
+   },
+   "learnings": [
+    "Meta AI gave contact channels (email, phone, chat) for damaged items and explained the 30-day return window, but could not answer 'do you need photos and where do I send them', triggering an immediate human handover at that step.",
+    "Meta AI consistently answered order-modification questions with accurate Dermalogica-specific policy (no edits post-placement, carrier redirect after tracking, account updates via person icon), providing a usable if read-only self-service.",
+    "Meta AI provided accurate return policy detail (30 days, prepaid UPS label, no fees, final-sale exclusions) but failed completely on 'how long for refund' and 'can I exchange' by routing to human, exposing a knowledge gap mid-conversation.",
+    "Meta AI answered generic tracking policy (email notification, 1-4 day delivery, account login) but gave a completely wrong response to 'is there any way to speed it up' — answering with Pro Insider application timing instead of shipping options."
+   ]
+  },
   "ticket": null,
   "what": "4 cold private conversations (support themes). Handover in 1/4 themes. Avg end-to-end latency ~10.7s across 24 AI-timed turns.",
   "datetime": "2026-07-02T18:35:18.326Z",
@@ -18902,6 +20845,34 @@ const SUPPORT = [
   "avgTurns": 7,
   "timed": 15,
   "attempted": 21,
+  "auto": {
+   "automated": 3,
+   "handover": 0,
+   "deflected": 0,
+   "no_answer": 0,
+   "engaged": 3,
+   "rate": 100
+  },
+  "evalq": {
+   "n": 3,
+   "total": 40,
+   "dims": {
+    "resolution": 14,
+    "accuracy": 13,
+    "actionability": 8,
+    "close": 5
+   },
+   "cls": {
+    "partial": 1,
+    "resolved": 1,
+    "failed": 1
+   },
+   "learnings": [
+    "Correctly distinguishes warranty/replacement vs normal return on turn 2, but then asks the same 'did you order from loopearplugs.com?' gate question on every remaining turn without ever providing actionable next steps or a return link.",
+    "Delivers accurate, specific policy details across all turns — 100-day window, 5-day refund, exchange via portal, non-returnable edge cases — with two unanswered turns (turns 2 and 5) that knock down the score despite strong overall coverage.",
+    "Gives processing and delivery timeframes on turns 2–3, but four consecutive turns (4–7) produce no reply at all — the assistant completely failed to respond to questions about speeding up, tracking updates, finding the tracking link, or order status lookup."
+   ]
+  },
   "ticket": null,
   "what": "3 cold private conversations (support themes). No handover in any theme. Avg end-to-end latency ~9.8s across 15 AI-timed turns.",
   "datetime": "2026-07-01T16:33:22+02:00",
@@ -19130,6 +21101,35 @@ const SUPPORT = [
   "avgTurns": 7,
   "timed": 24,
   "attempted": 28,
+  "auto": {
+   "automated": 4,
+   "handover": 0,
+   "deflected": 0,
+   "no_answer": 1,
+   "engaged": 4,
+   "rate": 100
+  },
+  "evalq": {
+   "n": 4,
+   "total": 37,
+   "dims": {
+    "resolution": 12,
+    "accuracy": 11,
+    "actionability": 8,
+    "close": 5
+   },
+   "cls": {
+    "deflected": 1,
+    "partial": 2,
+    "failed": 1
+   },
+   "learnings": [
+    "Sierra/Scotts support consistently redirects order management questions to the Help Center link without accessing order data or providing specific timeframes, leaving all actions self-serve on the customer.",
+    "Sierra/Scotts can name the No-Quibble Guarantee and link to promo-terms but cannot state a standard shipping timeframe or list accepted payment methods, leaving core policy queries partially unresolved.",
+    "Sierra/Scotts handles returns well by citing the No-Quibble Guarantee and confirming no exchanges, but cannot provide a return timeframe or confirm return-shipping costs, leaving the process partially incomplete.",
+    "Sierra/Scotts tracking support repeats the same 'did you order from our site or a retailer?' question across every single turn without providing any shipping timeframes or escalation path."
+   ]
+  },
   "ticket": null,
   "what": "4 cold private conversations (support themes). No handover in any theme. Avg end-to-end latency ~11.6s across 24 AI-timed turns.",
   "datetime": "2026-07-02T19:30:34.640Z",
@@ -19398,7 +21398,7 @@ const SUPPORT = [
  },
  {
   "id": "yuma-tediber-support-pending",
-  "date": "2026-07-02",
+  "date": "2026-07-03",
   "vendor": "Yuma",
   "store": "Tediber",
   "site": "tediber.com",
@@ -19414,7 +21414,7 @@ const SUPPORT = [
  },
  {
   "id": "yuma-glossier-support-pending",
-  "date": "2026-07-02",
+  "date": "2026-07-03",
   "vendor": "Yuma",
   "store": "Glossier",
   "site": "glossier.com",
@@ -19430,7 +21430,7 @@ const SUPPORT = [
  },
  {
   "id": "yuma-mfimedical-support-pending",
-  "date": "2026-07-02",
+  "date": "2026-07-03",
   "vendor": "Yuma",
   "store": "MFI Medical",
   "site": "mfimedical.com",
@@ -19460,6 +21460,30 @@ const SUPPORT = [
   "avgTurns": 7,
   "timed": 7,
   "attempted": 7,
+  "auto": {
+   "automated": 1,
+   "handover": 0,
+   "deflected": 0,
+   "no_answer": 0,
+   "engaged": 1,
+   "rate": 100
+  },
+  "evalq": {
+   "n": 1,
+   "total": 65,
+   "dims": {
+    "resolution": 24,
+    "accuracy": 18,
+    "actionability": 14,
+    "close": 9
+   },
+   "cls": {
+    "resolved": 1
+   },
+   "learnings": [
+    "Gives specific processing (3–4 business days), delivery (4–5 or 7–10 days by order value), and Canada timeframes; explains no post-placement speed-up; directs to FedEx for stale tracking; provides shipping page link — clear, self-service friendly throughout."
+   ]
+  },
   "ticket": {
    "sub": "kutk",
    "acct": "111435",
@@ -19588,6 +21612,34 @@ const SUPPORT = [
   "avgTurns": 7,
   "timed": 28,
   "attempted": 28,
+  "auto": {
+   "automated": 3,
+   "handover": 0,
+   "deflected": 1,
+   "no_answer": 1,
+   "engaged": 4,
+   "rate": 75
+  },
+  "evalq": {
+   "n": 4,
+   "total": 73,
+   "dims": {
+    "resolution": 27,
+    "accuracy": 20,
+    "actionability": 16,
+    "close": 10
+   },
+   "cls": {
+    "resolved": 3,
+    "partial": 1
+   },
+   "learnings": [
+    "Kut's bot answered every order-management question with specific, accurate detail — no address change possible, cancel before processing, 5-10 day refund window — and provided the returns portal link for post-ship scenarios.",
+    "Exceptional policy coverage: US flat rates ($9.95 under $150, free over), Canada duties-included rates, 3-4 day processing, Final Sale + Final Kut non-returnable items, payment methods, and a direct phone number.",
+    "Best-in-class returns handling: 21-day window, $12.95 fee waived with e-gift card choice, exact processing timeline (3-5 days + 5-10 bank days), exchange portal link, and Final Sale exclusions all answered accurately.",
+    "Agent gave correct processing (3-4 days), delivery windows by order value, and expedited-shipping constraints, but could not pull live tracking without login and offered no self-serve tracking link."
+   ]
+  },
   "ticket": {
    "sub": "kutk",
    "acct": "111435",
@@ -19890,6 +21942,31 @@ const SUPPORT = [
   "avgTurns": 7,
   "timed": 7,
   "attempted": 14,
+  "auto": {
+   "automated": 2,
+   "handover": 0,
+   "deflected": 0,
+   "no_answer": 0,
+   "engaged": 2,
+   "rate": 100
+  },
+  "evalq": {
+   "n": 2,
+   "total": 9,
+   "dims": {
+    "resolution": 3,
+    "accuracy": 3,
+    "actionability": 2,
+    "close": 1
+   },
+   "cls": {
+    "failed": 2
+   },
+   "learnings": [
+    "Rep AI answered every return-policy question with a subscription/Auto Deliver pitch and provided no return policy information whatsoever — 4 of 7 turns produced no answer.",
+    "Rep AI on Fresh Roasted Coffee completely ignored all tracking/shipping questions and responded with subscription marketing copy on every single turn, including 3 unanswered turns."
+   ]
+  },
   "ticket": null,
   "what": "2 cold private conversations (support themes). No handover in any theme. Avg end-to-end latency ~41.1s across 7 AI-timed turns.",
   "datetime": "2026-07-02T09:20:45.501Z",
@@ -20064,6 +22141,34 @@ const SUPPORT = [
   "avgTurns": 7,
   "timed": 20,
   "attempted": 35,
+  "auto": {
+   "automated": 5,
+   "handover": 0,
+   "deflected": 0,
+   "no_answer": 0,
+   "engaged": 5,
+   "rate": 100
+  },
+  "evalq": {
+   "n": 5,
+   "total": 0,
+   "dims": {
+    "resolution": 0,
+    "accuracy": 0,
+    "actionability": 0,
+    "close": 0
+   },
+   "cls": {
+    "failed": 5
+   },
+   "learnings": [
+    "Rep AI completely ignored a damaged item report across 7 turns, replying with subscription upsell copy for every question including 'will I get a replacement or refund' and 'how long does the replacement take'.",
+    "Rep AI answered zero order-management questions, substituting a subscription upsell pitch for every support query including address change, cancellation, and 'can I check if my order can still be modified'.",
+    "Rep AI answered zero shipping or returns policy questions on Fresh Roasted Coffee, replacing all 7 support queries with the same Auto Deliver discount pitch and failing to even point to a policy page.",
+    "Rep AI answered zero return policy questions for Fresh Roasted Coffee, deflecting every query — including 'what is your return policy' and 'how many days to return' — with subscription upsell messaging and failing 3 of 7 turns entirely.",
+    "Rep AI completely ignored a 'where is my order' tracking complaint, looping Auto Deliver subscription pitches across all 7 turns and failing to answer questions about tracking link, shipping timeframes, or order status."
+   ]
+  },
   "ticket": null,
   "what": "5 cold private conversations (support themes). No handover in any theme. Avg end-to-end latency ~43.6s across 20 AI-timed turns.",
   "datetime": "2026-07-02T17:51:29.369Z",
@@ -20400,6 +22505,30 @@ const SUPPORT = [
   "avgTurns": 7,
   "timed": 7,
   "attempted": 7,
+  "auto": {
+   "automated": 1,
+   "handover": 0,
+   "deflected": 0,
+   "no_answer": 0,
+   "engaged": 1,
+   "rate": 100
+  },
+  "evalq": {
+   "n": 1,
+   "total": 55,
+   "dims": {
+    "resolution": 18,
+    "accuracy": 18,
+    "actionability": 12,
+    "close": 7
+   },
+   "cls": {
+    "partial": 1
+   },
+   "learnings": [
+    "Correctly stated 24-48h processing and noted blade-only refills may not get tracking; persistently asked for order number/email to look up — but never retrieved actual order status within the captured conversation."
+   ]
+  },
   "ticket": null,
   "what": "1 cold private conversations (support themes). No handover in any theme. Avg end-to-end latency ~16s across 7 AI-timed turns.",
   "datetime": "2026-07-02T08:49:03.521Z",
@@ -20520,6 +22649,34 @@ const SUPPORT = [
   "avgTurns": 7,
   "timed": 24,
   "attempted": 28,
+  "auto": {
+   "automated": 2,
+   "handover": 2,
+   "deflected": 1,
+   "no_answer": 0,
+   "engaged": 5,
+   "rate": 40
+  },
+  "evalq": {
+   "n": 4,
+   "total": 54,
+   "dims": {
+    "resolution": 19,
+    "accuracy": 16,
+    "actionability": 12,
+    "close": 8
+   },
+   "cls": {
+    "partial": 3,
+    "deflected": 1
+   },
+   "learnings": [
+    "Provided clear 30-day Money Back Guarantee path with email contact and refund timeline (5 business days), but deflected to email rather than resolving in-channel and never confirmed whether photos are required or optional.",
+    "Repeatedly asked for email address without answering any of the general policy questions (cancellation time window, address change feasibility), then handed off to human agent on the 4th turn.",
+    "Correctly explained DSC's no-traditional-returns / 30-day Money Back Guarantee model and refund timeline, but the exchange question stalled mid-response and the policy for exchanges vs refunds was never clearly resolved.",
+    "Provided useful generic info (1-2 day processing, 3-5 day delivery, expedited shipping exists) between credential requests, but never actually looked up an order and stalled repeatedly demanding order number or email."
+   ]
+  },
   "ticket": null,
   "what": "4 cold private conversations (support themes). Handover in 1/4 themes. Avg end-to-end latency ~10.7s across 24 AI-timed turns.",
   "datetime": "2026-07-02T17:31:05.898Z",
@@ -20770,7 +22927,7 @@ const SUPPORT = [
  },
  {
   "id": "humind-chaiselongue-support-pending",
-  "date": "2026-07-02",
+  "date": "2026-07-03",
   "vendor": "Humind",
   "store": "La Chaise Longue",
   "site": "lachaiselongue.fr",
@@ -20800,6 +22957,36 @@ const SUPPORT = [
   "avgTurns": 7,
   "timed": 30,
   "attempted": 35,
+  "auto": {
+   "automated": 5,
+   "handover": 0,
+   "deflected": 0,
+   "no_answer": 0,
+   "engaged": 5,
+   "rate": 100
+  },
+  "evalq": {
+   "n": 5,
+   "total": 57,
+   "dims": {
+    "resolution": 22,
+    "accuracy": 17,
+    "actionability": 12,
+    "close": 7
+   },
+   "cls": {
+    "resolved": 2,
+    "failed": 1,
+    "partial": 2
+   },
+   "learnings": [
+    "Envive/Bandolier clearly explained the warranty replacement process (1-3 day processing), stated no cost for warranty claims, confirmed $8 restocking fee for standard returns, and covered multi-item scenarios.",
+    "On every order-management question the bot admitted it had no information and redirected to customer support, never answering cancellation windows, add-to-order feasibility, or refund timelines.",
+    "Bot gave solid return policy (30 days, $8 restocking fee, free exchanges for US) and payment method details, but didn't answer standard shipping timeframes and failed to surface contact info on the last turn.",
+    "Returns policy coverage was strong — 30-day window, $8 restocking fee, free exchanges, international cost responsibility, and exchange process confirmed — but refund timing was deferred to human support.",
+    "Bot provided useful dispatch-timing and expedited-shipping detail (same-day if ordered before noon PST) and prompted for order number at end, but never pulled live order status from any system."
+   ]
+  },
   "ticket": null,
   "what": "5 cold private conversations (support themes). No handover in any theme. Avg end-to-end latency ~5.5s across 30 AI-timed turns.",
   "datetime": "2026-07-02T17:54:52.481Z",
@@ -21122,7 +23309,7 @@ const SUPPORT = [
  },
  {
   "id": "envive-tushbaby-support-pending",
-  "date": "2026-07-02",
+  "date": "2026-07-03",
   "vendor": "Envive",
   "store": "Tushbaby",
   "site": "tushbaby.com",
@@ -21138,7 +23325,7 @@ const SUPPORT = [
  },
  {
   "id": "envive-greenpan-support-pending",
-  "date": "2026-07-02",
+  "date": "2026-07-03",
   "vendor": "Envive",
   "store": "GreenPan",
   "site": "greenpan.us",
@@ -21154,7 +23341,7 @@ const SUPPORT = [
  },
  {
   "id": "envive-fracture-support-pending",
-  "date": "2026-07-02",
+  "date": "2026-07-03",
   "vendor": "Envive",
   "store": "Fracture",
   "site": "fracture.me",
@@ -21170,7 +23357,7 @@ const SUPPORT = [
  },
  {
   "id": "envive-nanit-support-pending",
-  "date": "2026-07-02",
+  "date": "2026-07-03",
   "vendor": "Envive",
   "store": "Nanit",
   "site": "nanit.com",
@@ -21200,6 +23387,32 @@ const SUPPORT = [
   "avgTurns": 7,
   "timed": 11,
   "attempted": 21,
+  "auto": {
+   "automated": 0,
+   "handover": 4,
+   "deflected": 0,
+   "no_answer": 1,
+   "engaged": 4,
+   "rate": 0
+  },
+  "evalq": {
+   "n": 3,
+   "total": 55,
+   "dims": {
+    "resolution": 21,
+    "accuracy": 16,
+    "actionability": 12,
+    "close": 7
+   },
+   "cls": {
+    "partial": 3
+   },
+   "learnings": [
+    "Sierra/BARK correctly routes address changes to account Manage Subscriptions and item additions to Featured Collections, but requires login for cancellation lookup and escalates on email-address change — partial self-service.",
+    "Sierra/BARK gives accurate shipping scope (US 48 states, UPS only) and no-return/Happiness-Guarantee policy, but hands over to human at the return-policy turn — stopping short of the most commonly needed policy detail.",
+    "Sierra/BARK correctly states 2-3 business day processing + 4-10 day delivery and uses Amazon distribution centers, but requires email lookup to check a specific order and escalates if tracking never updates."
+   ]
+  },
   "ticket": null,
   "what": "3 cold private conversations (support themes). Handover in 3/3 themes. Avg end-to-end latency ~5.8s across 11 AI-timed turns.",
   "datetime": "2026-07-02T19:38:44.494Z",
@@ -21374,6 +23587,32 @@ const SUPPORT = [
   "avgTurns": 7,
   "timed": 10,
   "attempted": 14,
+  "auto": {
+   "automated": 1,
+   "handover": 2,
+   "deflected": 0,
+   "no_answer": 2,
+   "engaged": 3,
+   "rate": 33
+  },
+  "evalq": {
+   "n": 2,
+   "total": 75,
+   "dims": {
+    "resolution": 30,
+    "accuracy": 21,
+    "actionability": 15,
+    "close": 9
+   },
+   "cls": {
+    "partial": 1,
+    "resolved": 1
+   },
+   "learnings": [
+    "Sierra/Sun & Ski support is policy-fluent: US-only shipping, 2-5 biz day delivery, $9.99 return label fee, bike $99 restocking, CC and PayPal accepted — two turns technically unanswered but replies were substantive.",
+    "Sierra/Sun & Ski returns support is highly self-contained: states exact $9.99 return fee, 2-3 day processing time, 30/60-day windows, Performance Guarantee workaround for exchanges, and a direct Start-a-Return link — nearly all questions resolved in-channel."
+   ]
+  },
   "ticket": null,
   "what": "2 cold private conversations (support themes). Handover in 1/2 themes. Avg end-to-end latency ~6.4s across 10 AI-timed turns.",
   "datetime": "2026-07-02T19:46:35.298Z",
@@ -21534,7 +23773,7 @@ const SUPPORT = [
  },
  {
   "id": "sierra-madisonreed-support-pending",
-  "date": "2026-07-02",
+  "date": "2026-07-03",
   "vendor": "Sierra",
   "store": "Madison Reed",
   "site": "madison-reed.com",
@@ -21564,6 +23803,36 @@ const SUPPORT = [
   "avgTurns": 7,
   "timed": 28,
   "attempted": 35,
+  "auto": {
+   "automated": 3,
+   "handover": 1,
+   "deflected": 1,
+   "no_answer": 0,
+   "engaged": 5,
+   "rate": 60
+  },
+  "evalq": {
+   "n": 5,
+   "total": 50,
+   "dims": {
+    "resolution": 17,
+    "accuracy": 16,
+    "actionability": 11,
+    "close": 6
+   },
+   "cls": {
+    "resolved": 1,
+    "partial": 3,
+    "deflected": 1
+   },
+   "learnings": [
+    "Siena/MUD\\WTR provided a specific help center URL, listed exactly what to include (photos, order number, description), confirmed no return shipping cost, and cleanly handled all 7 turns including multi-item scenarios — best support performance in this batch.",
+    "Siena/MUDWTR gives correct policy on cancellation eligibility (fulfilled vs unfulfilled) but first turn goes completely unanswered and never looks up any order without credentials.",
+    "Siena/MUDWTR handles shipping and return policy turns well (USA/Canada/UK routing, 30-day guarantee) but bizarrely escalates to human for a simple payment methods question, breaking an otherwise solid policy conversation.",
+    "After two policy turns, Siena/MUDWTR hard-routes every subsequent question (return shipping cost, refund timing, exchange, final sale) to a human agent with no substantive answer — five consecutive deflections in one session.",
+    "Siena/MUDWTR correctly communicates 5-7 US and 10-15 Canada business day timeframes and standard-only shipping, but first turn is unanswered and tracking lookup requires human handover when no order found."
+   ]
+  },
   "ticket": null,
   "what": "5 cold private conversations (support themes). Handover in 1/5 themes. Avg end-to-end latency ~14.3s across 28 AI-timed turns.",
   "datetime": "2026-07-02T20:02:55.390Z",
@@ -21862,7 +24131,7 @@ const SUPPORT = [
  },
  {
   "id": "siena-spanx-support-pending",
-  "date": "2026-07-02",
+  "date": "2026-07-03",
   "vendor": "Siena",
   "store": "Spanx",
   "site": "spanx.com",
@@ -21878,7 +24147,7 @@ const SUPPORT = [
  },
  {
   "id": "yuma-goclove-support-pending",
-  "date": "2026-07-02",
+  "date": "2026-07-03",
   "vendor": "Yuma",
   "store": "Clove",
   "site": "goclove.com",
@@ -21894,7 +24163,7 @@ const SUPPORT = [
  },
  {
   "id": "yuma-javvy-support-pending",
-  "date": "2026-07-02",
+  "date": "2026-07-03",
   "vendor": "Yuma",
   "store": "Javvy Coffee",
   "site": "javvycoffee.com",
@@ -21910,7 +24179,7 @@ const SUPPORT = [
  },
  {
   "id": "meta-cottonon-support-pending",
-  "date": "2026-07-02",
+  "date": "2026-07-03",
   "vendor": "Meta AI",
   "store": "Cotton On",
   "site": "cottonon.com/US",
@@ -21940,6 +24209,30 @@ const SUPPORT = [
   "avgTurns": 7,
   "timed": 6,
   "attempted": 7,
+  "auto": {
+   "automated": 0,
+   "handover": 1,
+   "deflected": 0,
+   "no_answer": 4,
+   "engaged": 1,
+   "rate": 0
+  },
+  "evalq": {
+   "n": 1,
+   "total": 66,
+   "dims": {
+    "resolution": 26,
+    "accuracy": 18,
+    "actionability": 14,
+    "close": 8
+   },
+   "cls": {
+    "partial": 1
+   },
+   "learnings": [
+    "quippy gave precise, actionable instructions for address change (order details > '...' > Edit Shipping Address), cancellation policy, account detail updates (Manage Subscriptions flow), and 5-10 day refund timeline — only failing on the final order-status check which required human lookup."
+   ]
+  },
   "ticket": null,
   "what": "1 cold private conversations (support themes). Handover in 1/1 themes. Avg end-to-end latency ~11.7s across 6 AI-timed turns.",
   "datetime": "2026-07-02T17:39:19.729Z",
@@ -22060,6 +24353,34 @@ const SUPPORT = [
   "avgTurns": 7,
   "timed": 35,
   "attempted": 35,
+  "auto": {
+   "automated": 5,
+   "handover": 0,
+   "deflected": 0,
+   "no_answer": 0,
+   "engaged": 5,
+   "rate": 100
+  },
+  "evalq": {
+   "n": 5,
+   "total": 0,
+   "dims": {
+    "resolution": 0,
+    "accuracy": 0,
+    "actionability": 0,
+    "close": 0
+   },
+   "cls": {
+    "failed": 5
+   },
+   "learnings": [
+    "Meta AI on Grove deflected every support query about damaged items with the same human-handover message, providing zero information about process, photos, replacements, or timelines.",
+    "Meta AI Grove's support bot failed entirely on order management — every question including basic account-update queries received only a human-transfer CTA with no policy or guidance provided.",
+    "Meta AI Grove deflected every policy query — including basic 'where is your shipping policy' — with an identical human-transfer prompt, demonstrating a completely non-functional support bot for this store.",
+    "Meta AI Grove answered zero return policy questions across 7 turns, issuing the same human-handover message for every query including 'what is your return policy'.",
+    "Meta AI Grove provided zero tracking guidance, deflecting all 7 tracking and order-status questions identically to a human agent without any self-service answer."
+   ]
+  },
   "ticket": null,
   "what": "5 cold private conversations (support themes). No handover in any theme. Avg end-to-end latency ~3.7s across 35 AI-timed turns.",
   "datetime": "2026-07-02T17:47:41.043Z",
@@ -22382,7 +24703,7 @@ const SUPPORT = [
  },
  {
   "id": "ada-endy-support-pending",
-  "date": "2026-07-02",
+  "date": "2026-07-03",
   "vendor": "Ada",
   "store": "Endy",
   "site": "endy.com",
@@ -22412,6 +24733,35 @@ const SUPPORT = [
   "avgTurns": 7,
   "timed": 34,
   "attempted": 35,
+  "auto": {
+   "automated": 4,
+   "handover": 1,
+   "deflected": 0,
+   "no_answer": 0,
+   "engaged": 5,
+   "rate": 80
+  },
+  "evalq": {
+   "n": 5,
+   "total": 36,
+   "dims": {
+    "resolution": 14,
+    "accuracy": 10,
+    "actionability": 7,
+    "close": 5
+   },
+   "cls": {
+    "failed": 3,
+    "resolved": 2
+   },
+   "learnings": [
+    "Ada hit an authentication wall on every single turn — all 7 replies requested first and last name, and not one piece of policy, process, or damage-handling information was provided before verification.",
+    "Ada gated every order-management answer behind account verification (first and last name), providing zero substantive information on cancellation windows, address changes, or refund timelines across all 7 turns.",
+    "Ada on IPSY policy handled 6 of 7 turns without requiring authentication — providing shipping links, Canada customs details, clear no-return/final-sale policy, payment methods, and a 45-day replacement window for damaged items.",
+    "Ada gave the sharpest return policy answer in the dataset: '0 days — we don't accept returns,' with a clear 45-day replacement window for damaged items and correct no-exchange stance — concise, accurate, and complete.",
+    "Ada required account verification for every tracking question including generic policy questions like 'how long does shipping take' — blocking all 7 turns with name-request loops and providing zero shipping timeline information."
+   ]
+  },
   "ticket": null,
   "what": "5 cold private conversations (support themes). Handover in 1/5 themes. Avg end-to-end latency ~12.9s across 34 AI-timed turns.",
   "datetime": "2026-07-02T20:08:33.338Z",
@@ -22734,7 +25084,7 @@ const SUPPORT = [
  },
  {
   "id": "ada-yeti-support-pending",
-  "date": "2026-07-02",
+  "date": "2026-07-03",
   "vendor": "Ada",
   "store": "YETI",
   "site": "yeti.com",
@@ -22750,7 +25100,7 @@ const SUPPORT = [
  },
  {
   "id": "ada-indigo-support-pending",
-  "date": "2026-07-02",
+  "date": "2026-07-03",
   "vendor": "Ada",
   "store": "Indigo",
   "site": "indigo.ca",
@@ -22766,7 +25116,7 @@ const SUPPORT = [
  },
  {
   "id": "meta-motelrocks-support-pending",
-  "date": "2026-07-02",
+  "date": "2026-07-03",
   "vendor": "Meta AI",
   "store": "Motel Rocks",
   "site": "motelrocks.com",
@@ -22782,7 +25132,7 @@ const SUPPORT = [
  },
  {
   "id": "yuma-cabaia-support-pending",
-  "date": "2026-07-02",
+  "date": "2026-07-03",
   "vendor": "Yuma",
   "store": "CABAIA",
   "site": "cabaia.com",
@@ -22798,7 +25148,7 @@ const SUPPORT = [
  },
  {
   "id": "humind-900care-support-pending",
-  "date": "2026-07-02",
+  "date": "2026-07-03",
   "vendor": "Humind",
   "store": "900.care",
   "site": "900.care",
@@ -22814,7 +25164,7 @@ const SUPPORT = [
  },
  {
   "id": "humind-puressentiel-support-pending",
-  "date": "2026-07-02",
+  "date": "2026-07-03",
   "vendor": "Humind",
   "store": "Puressentiel",
   "site": "fr.puressentiel.com",
@@ -22830,7 +25180,7 @@ const SUPPORT = [
  },
  {
   "id": "humind-yumi-support-pending",
-  "date": "2026-07-02",
+  "date": "2026-07-03",
   "vendor": "Humind",
   "store": "Yumi",
   "site": "yumi.fr",
@@ -22846,7 +25196,7 @@ const SUPPORT = [
  },
  {
   "id": "humind-stormrock-support-pending",
-  "date": "2026-07-02",
+  "date": "2026-07-03",
   "vendor": "Humind",
   "store": "Stormrock",
   "site": "stormrock.fr",
@@ -22861,56 +25211,89 @@ const SUPPORT = [
   "turns": []
  },
  {
-  "id": "repai-olly-support-pending",
+  "id": "repai-olly-support-2026-07-02",
   "date": "2026-07-02",
   "vendor": "Rep AI",
   "store": "OLLY",
   "site": "olly.com",
   "url": "https://www.olly.com/",
-  "method": "pending",
+  "method": "new",
   "us": false,
   "lat": "—",
+  "latPct": 0,
   "success": null,
-  "successTxt": "pending",
-  "successCls": "p-na",
-  "what": "Not captured in a cold run yet — pending.",
+  "successTxt": "—",
+  "auto": {
+   "automated": 5,
+   "handover": 0,
+   "deflected": 0,
+   "no_answer": 0,
+   "engaged": 5,
+   "rate": 100
+  },
+  "evalq": null,
+  "what": "Engaged 5 conversation(s) but none produced ≥3 timed AI answers — Counted in automation rate, excluded from latency.",
+  "datetime": null,
+  "themes": [],
   "turns": []
  },
  {
-  "id": "repai-higherdose-support-pending",
+  "id": "repai-higherdose-support-2026-07-02",
   "date": "2026-07-02",
   "vendor": "Rep AI",
   "store": "HigherDOSE",
   "site": "higherdose.com",
   "url": "https://higherdose.com/",
-  "method": "pending",
+  "method": "new",
   "us": false,
   "lat": "—",
+  "latPct": 0,
   "success": null,
-  "successTxt": "pending",
-  "successCls": "p-na",
-  "what": "Not captured in a cold run yet — pending.",
+  "successTxt": "—",
+  "auto": {
+   "automated": 4,
+   "handover": 0,
+   "deflected": 0,
+   "no_answer": 1,
+   "engaged": 4,
+   "rate": 100
+  },
+  "evalq": null,
+  "what": "Engaged 4 conversation(s) but none produced ≥3 timed AI answers — Counted in automation rate, excluded from latency.",
+  "datetime": null,
+  "themes": [],
   "turns": []
  },
  {
-  "id": "repai-nutrabio-support-pending",
+  "id": "repai-nutrabio-support-2026-07-02",
   "date": "2026-07-02",
   "vendor": "Rep AI",
   "store": "NutraBio",
   "site": "nutrabio.com",
   "url": "https://nutrabio.com/",
-  "method": "pending",
+  "method": "new",
   "us": false,
   "lat": "—",
+  "latPct": 0,
   "success": null,
-  "successTxt": "pending",
-  "successCls": "p-na",
-  "what": "Not captured in a cold run yet — pending.",
+  "successTxt": "—",
+  "auto": {
+   "automated": 4,
+   "handover": 0,
+   "deflected": 0,
+   "no_answer": 1,
+   "engaged": 4,
+   "rate": 100
+  },
+  "evalq": null,
+  "what": "Engaged 4 conversation(s) but none produced ≥3 timed AI answers — Counted in automation rate, excluded from latency.",
+  "datetime": null,
+  "themes": [],
   "turns": []
  },
  {
   "id": "repai-satya-support-pending",
-  "date": "2026-07-02",
+  "date": "2026-07-03",
   "vendor": "Rep AI",
   "store": "Satya Jewelry",
   "site": "satyajewelry.com",
@@ -22926,7 +25309,7 @@ const SUPPORT = [
  },
  {
   "id": "repai-bikesonline-support-pending",
-  "date": "2026-07-02",
+  "date": "2026-07-03",
   "vendor": "Rep AI",
   "store": "BikesOnline",
   "site": "bikesonline.com.au",
@@ -22942,7 +25325,7 @@ const SUPPORT = [
  },
  {
   "id": "repai-kinn-support-pending",
-  "date": "2026-07-02",
+  "date": "2026-07-03",
   "vendor": "Rep AI",
   "store": "Kinn Studio",
   "site": "kinnstudio.com",
@@ -22958,7 +25341,7 @@ const SUPPORT = [
  },
  {
   "id": "repai-cwspirits-support-pending",
-  "date": "2026-07-02",
+  "date": "2026-07-03",
   "vendor": "Rep AI",
   "store": "Country Wine & Spirits",
   "site": "cwspirits.com",
@@ -22988,6 +25371,37 @@ const SUPPORT = [
   "avgTurns": 7,
   "timed": 27,
   "attempted": 35,
+  "auto": {
+   "automated": 3,
+   "handover": 2,
+   "deflected": 0,
+   "no_answer": 0,
+   "engaged": 5,
+   "rate": 60
+  },
+  "evalq": {
+   "n": 5,
+   "total": 42,
+   "dims": {
+    "resolution": 15,
+    "accuracy": 13,
+    "actionability": 9,
+    "close": 5
+   },
+   "cls": {
+    "partial": 1,
+    "failed": 2,
+    "deflected": 1,
+    "resolved": 1
+   },
+   "learnings": [
+    "Gave a clear initial path (photos + order number, 5-7 day refund), but when the customer asked replacement vs refund on turn 4, the AI handed off to Nutrition Consultants rather than answering the policy question.",
+    "Every single turn answered 'I need your full name and email address' with no policy information given — zero self-service value; the agent was a pure credential-collection gate for 7 consecutive questions.",
+    "Answered shipping policy and international/customs questions well, but explicitly stated 'I can't provide general shipping policy information' on turn 4 when asked about returns, then handed off to Nutrition Consultant.",
+    "Detailed and accurate: Clean Bowl Guarantee, 30-day window, one-time-per-person rule, 5-7 day refund timeline, third-party retailer carve-out, and confirmed damaged items get free replacement — comprehensive policy coverage.",
+    "Identical pattern to order-mgmt: all 7 turns looped on requesting full name and email, never answering general shipping timeline questions despite them being policy-level questions requiring no order lookup."
+   ]
+  },
   "ticket": null,
   "what": "5 cold private conversations (support themes). Handover in 2/5 themes. Avg end-to-end latency ~9.1s across 27 AI-timed turns.",
   "datetime": "2026-07-02T17:44:19.168Z",
@@ -23288,6 +25702,34 @@ const SUPPORT = [
   "avgTurns": 7,
   "timed": 20,
   "attempted": 28,
+  "auto": {
+   "automated": 3,
+   "handover": 1,
+   "deflected": 0,
+   "no_answer": 1,
+   "engaged": 4,
+   "rate": 75
+  },
+  "evalq": {
+   "n": 4,
+   "total": 27,
+   "dims": {
+    "resolution": 9,
+    "accuracy": 9,
+    "actionability": 6,
+    "close": 3
+   },
+   "cls": {
+    "failed": 3,
+    "partial": 1
+   },
+   "learnings": [
+    "All 7 turns blocked on requesting email + order number without providing any general policy information (e.g. whether photos are required, whether replacements or refunds are standard) — pure credential-gate with no self-service value.",
+    "Collected full name on turns 1-3 with zero policy information, then handed off to human on turn 4 — no cancellation window, address-change policy, or post-ship modification policy was ever communicated.",
+    "Answered shipping timelines and international customs well (turns 1-3), but turns 4-7 all returned the same shipping-timeframes snippet in a clear stuck/loop state — return policy, final sale, payment methods, and contact info were never answered.",
+    "Kodif/Neuro deflected every policy question by demanding order lookup even for generic FAQ queries like 'how many days do I have to return' — only the refund timeframe (3-5 days) was answered factually."
+   ]
+  },
   "ticket": null,
   "what": "4 cold private conversations (support themes). Handover in 1/4 themes. Avg end-to-end latency ~8.9s across 20 AI-timed turns.",
   "datetime": "2026-07-02T18:08:21.581Z",
@@ -23552,6 +25994,36 @@ const SUPPORT = [
   "avgTurns": 7,
   "timed": 35,
   "attempted": 35,
+  "auto": {
+   "automated": 3,
+   "handover": 0,
+   "deflected": 2,
+   "no_answer": 0,
+   "engaged": 5,
+   "rate": 60
+  },
+  "evalq": {
+   "n": 5,
+   "total": 50,
+   "dims": {
+    "resolution": 18,
+    "accuracy": 15,
+    "actionability": 10,
+    "close": 7
+   },
+   "cls": {
+    "failed": 2,
+    "partial": 1,
+    "resolved": 2
+   },
+   "learnings": [
+    "Entered a broken loop: after turn 2, every single response repeated 'Was the crib gifted or purchased from a retail partner?' verbatim, completely ignoring 5 different follow-up questions—catastrophic bot failure.",
+    "Mishandled the first question (offered order tracking for an address-change request), but recovered with accurate 1-hour cancellation window, email fallback, and 5-7 day refund timeline across later turns.",
+    "Covered all policy questions fully in-channel with linked support pages: US-only shipping, 5-8 day delivery, Checkout+ extended return benefits, payment methods list, and live chat hours—no gaps.",
+    "Best returns Q&A in the Kodif batch: correctly offered exchanges (unlike Beekman), cited Checkout+ 60-day window and free return label, 5-7 day refund, and listed all final sale exclusions with portal link.",
+    "Every single response to 7 questions—including 'how long does delivery take?'—was a redirect to provide order number in BL-123456 format; refused to give any general shipping policy information whatsoever."
+   ]
+  },
   "ticket": null,
   "what": "5 cold private conversations (support themes). No handover in any theme. Avg end-to-end latency ~12.6s across 35 AI-timed turns.",
   "datetime": "2026-07-02T18:22:43.843Z",
@@ -23888,6 +26360,36 @@ const SUPPORT = [
   "avgTurns": 7,
   "timed": 34,
   "attempted": 35,
+  "auto": {
+   "automated": 3,
+   "handover": 1,
+   "deflected": 1,
+   "no_answer": 0,
+   "engaged": 5,
+   "rate": 60
+  },
+  "evalq": {
+   "n": 5,
+   "total": 60,
+   "dims": {
+    "resolution": 22,
+    "accuracy": 17,
+    "actionability": 13,
+    "close": 8
+   },
+   "cls": {
+    "partial": 3,
+    "resolved": 1,
+    "failed": 1
+   },
+   "learnings": [
+    "Consistently routed to the Replacement Parts page and correctly stated that replacement parts are sent free with no return required for damaged items, but cited limited order-check capability on several turns.",
+    "Gave cancellation@davincibaby.com email and the 1-hour self-service window accurately, but acknowledged a gap on address change and account update, and the refund timeline (10-12 days) is notably longer than Babyletto's.",
+    "Strong policy coverage (US-48 only, tiered ship times by item size, Checkout+ benefits, full payment methods list) but escalated to a human agent for the final contact-info question rather than answering it directly.",
+    "Kodif/daVinci correctly distinguished standard 30-day vs Checkout+ 60-day windows, named specific return portal links, and handled every sub-question including non-returnable items (Newton Baby mattresses) with specific detail.",
+    "Agent looped on order-ID collection for all 7 turns, never providing any general shipping timeline info even when asked policy-level questions; pure verification-gate friction with zero self-service value."
+   ]
+  },
   "ticket": null,
   "what": "5 cold private conversations (support themes). Handover in 1/5 themes. Avg end-to-end latency ~12.6s across 34 AI-timed turns.",
   "datetime": "2026-07-02T18:37:35.294Z",
@@ -24224,6 +26726,36 @@ const SUPPORT = [
   "avgTurns": 7,
   "timed": 34,
   "attempted": 35,
+  "auto": {
+   "automated": 5,
+   "handover": 0,
+   "deflected": 0,
+   "no_answer": 0,
+   "engaged": 5,
+   "rate": 100
+  },
+  "evalq": {
+   "n": 5,
+   "total": 57,
+   "dims": {
+    "resolution": 21,
+    "accuracy": 16,
+    "actionability": 12,
+    "close": 7
+   },
+   "cls": {
+    "partial": 2,
+    "resolved": 2,
+    "failed": 1
+   },
+   "learnings": [
+    "Correctly identified free replacement parts as the resolution path and pointed to the parts portal, but subsequent turns looped on order-ID collection and never answered replacement timeline or multi-item damage questions.",
+    "Provided the cancellation email address (namesakecancellation@mdbmail.com) and support email on turn 2, and gave refund timeline context, but address-change and add-item questions were blocked by order-ID gating.",
+    "Exceptional policy coverage: specific delivery timelines by product type (furniture 5-12 days, swatches 7-10 days), confirmed no international shipping, listed all payment methods, detailed final-sale exclusion list, and linked Returns & Exchanges page throughout.",
+    "Strong end-to-end returns coverage: 30-day window, portal link, refund timeline (3-5 days then 5-7 bank days), exchange availability, return shipping cost conditioned on Return Coverage purchase, and complete final-sale exclusion list.",
+    "Looped on order-ID collection across all 7 turns without providing any general shipping timeline information, even when the questions were clearly policy-level and required no order lookup."
+   ]
+  },
   "ticket": null,
   "what": "5 cold private conversations (support themes). No handover in any theme. Avg end-to-end latency ~10.9s across 34 AI-timed turns.",
   "datetime": "2026-07-02T19:16:47.446Z",
@@ -24584,7 +27116,16 @@ attachQ(STORES, QUALITY, 'quality');
 attachQ(SUPPORT, QUALITY_SUPPORT, 'quality');
 // Run date — every conversation is stamped with the date it was captured (accumulates per run).
 [...STORES, ...SUPPORT].forEach(s=>{ s.date = s.date || '2026-06-30'; });
-function qNum(s){ return s.quality ? s.quality.total : null; }
+function qNum(s){ return (s.evalq && s.evalq.total!=null) ? s.evalq.total : (s.quality ? s.quality.total : null); }
+// automation-rate helpers — s.auto = {automated,handover,deflected,no_answer,engaged,rate}
+function aNum(s){ return (s.auto && s.auto.rate!=null) ? s.auto.rate : null; }
+function aCell(s){
+  const a=s.auto;
+  if(!a || a.rate==null) return '<span class="pill p-na">—</span>';
+  const cls=a.rate>=90?'p-ok':a.rate>=70?'p-mid':'p-bad';
+  const tip='automated '+a.automated+' · handover '+a.handover+' · deflected '+a.deflected+(a.no_answer?' · no answer '+a.no_answer:'');
+  return '<span class="pill '+cls+'" title="'+tip+'">'+a.rate+'%</span>';
+}
 function qCls(v){ return v==null?'p-na':v>=85?'p-ok':v>=65?'p-mid':'p-bad'; }
 function qCell(v){
   if(v==null) return '<span class="pill p-na" style="opacity:.6">—</span>';
@@ -24699,18 +27240,25 @@ function renderSummary(){
     const avgQ = qN.length? Math.round(qN.reduce((a,b)=>a+b,0)/qN.length) : null;
     // total conversations captured for this vendor in this mode (each theme = 1 conversation)
     const convs = arr.reduce((a,s)=> a + (s.themes&&s.themes.length ? s.themes.length : ((s.turns&&s.turns.length)?1:0)), 0);
-    return {v, us:arr[0].us, stores:tested.length, convs, avgS, avgL, avgT, avgQ};
+    // automation: pooled outcome counts across the vendor's store entries (not a mean of rates)
+    const ag = arr.reduce((acc,s)=>{ if(s.auto){acc.a+=s.auto.automated;acc.h+=s.auto.handover;acc.d+=s.auto.deflected;acc.e+=s.auto.engaged;} return acc; },{a:0,h:0,d:0,e:0});
+    const autoRate = ag.e ? Math.round(100*ag.a/ag.e) : null;
+    return {v, us:arr[0].us, stores:tested.length, convs, autoRate, autoDetail:ag, avgS, avgL, avgT, avgQ};
   });
   const k=SSORT.key,d=SSORT.dir;
-  const key=r=> k==='vendor'?r.v.toLowerCase() : k==='stores'?r.stores : k==='convs'?r.convs : k==='success'?(r.avgS==null?-1:r.avgS) : k==='turns'?(r.avgT==null?-1:r.avgT) : k==='qual'?(r.avgQ==null?-1:r.avgQ) : (r.avgL==null?1e9:r.avgL);
+  const key=r=> k==='vendor'?r.v.toLowerCase() : k==='stores'?r.stores : k==='convs'?r.convs : k==='auto'?(r.autoRate==null?-1:r.autoRate) : k==='success'?(r.avgS==null?-1:r.avgS) : k==='turns'?(r.avgT==null?-1:r.avgT) : k==='qual'?(r.avgQ==null?-1:r.avgQ) : (r.avgL==null?1e9:r.avgL);
   rows.sort((a,b)=>{const ka=key(a),kb=key(b); return ka<kb?-d:ka>kb?d:0;});
   document.getElementById('summary-body').innerHTML = rows.map(r=>{
     const cls = r.avgS==null?'p-na':r.avgS>=70?'p-ok':r.avgS>=40?'p-mid':'p-bad';
     const pill = r.avgS==null?'<span class="pill p-na">pending</span>':'<span class="pill '+cls+'">'+r.avgS+'%</span>';
     const bar = r.avgL!=null? '<div class="bar" style="display:inline-block;width:70px;vertical-align:middle"><i style="width:'+Math.min(100,r.avgL/20*100)+'%;background:'+(COL[r.v]||'#888')+'"></i></div> ':'';
+    const acls = r.autoRate==null?'p-na':r.autoRate>=90?'p-ok':r.autoRate>=70?'p-mid':'p-bad';
+    const apill = r.autoRate==null?'<span class="pill p-na">—</span>'
+      :'<span class="pill '+acls+'" title="automated '+r.autoDetail.a+' · handover '+r.autoDetail.h+' · deflected '+r.autoDetail.d+' — over '+r.autoDetail.e+' engaged conversations">'+r.autoRate+'%</span>';
     return '<tr><td><span class="vdot" style="background:'+(COL[r.v]||'#888')+'"></span><span class="vname">'+r.v+'</span>'+(r.us?'<span class="us-tag">US</span>':'')+'</td>'+
       '<td class="n mono">'+r.stores+'</td>'+
       '<td class="n mono">'+(r.convs||'—')+'</td>'+
+      '<td>'+apill+'</td>'+
       '<td class="n mono">'+bar+'<span style="font-weight:700">'+(r.avgL!=null?('~'+r.avgL+'s'):'—')+'</span></td>'+
       '<td>'+pill+'</td>'+
       '<td class="n mono qcol">'+qCell(r.avgQ)+'</td>'+
@@ -24721,13 +27269,14 @@ function renderResults(){
   const arr=[...AS()];
   const k=RSORT.key,d=RSORT.dir;
   const tcount=s=> s.avgTurns!=null?s.avgTurns:((s.turns&&s.turns.length)?s.turns.length:0);
-  const key=s=> k==='store'?(s.vendor+' '+s.store).toLowerCase() : k==='method'?(s.method||'') : k==='success'?(sNum(s)==null?-1:sNum(s)) : k==='turns'?tcount(s) : k==='qual'?(qNum(s)==null?-1:qNum(s)) : (latNum(s)==null?1e9:latNum(s));
+  const key=s=> k==='store'?(s.vendor+' '+s.store).toLowerCase() : k==='method'?(s.method||'') : k==='auto'?(aNum(s)==null?-1:aNum(s)) : k==='success'?(sNum(s)==null?-1:sNum(s)) : k==='turns'?tcount(s) : k==='qual'?(qNum(s)==null?-1:qNum(s)) : (latNum(s)==null?1e9:latNum(s));
   arr.sort((a,b)=>{const ka=key(a),kb=key(b); return ka<kb?-d:ka>kb?d:0;});
   document.getElementById('results-body').innerHTML = arr.map(s=>{
     const latBar = (typeof s.latPct==='number' && s.method!=='pending') ? '<div class="bar" style="display:inline-block;width:70px;vertical-align:middle"><i style="width:'+s.latPct+'%;background:'+(COL[s.vendor]||'#888')+'"></i></div> ' : '';
     return '<tr data-v="'+s.vendor+'" class="'+(s.method==='legacy'?'legacy':'')+'">'+
       '<td>'+vcell(s)+'</td>'+
       '<td class="hide-sm">'+methodCell(s)+'</td>'+
+      '<td>'+aCell(s)+'</td>'+
       '<td class="n mono">'+latBar+'<span style="font-weight:700">'+(s.lat||'—')+'</span></td>'+
       '<td>'+pillFor(s)+'</td>'+
       '<td class="n mono qcol">'+qCell(qNum(s))+'</td>'+
@@ -24890,9 +27439,16 @@ function filterBy(v){
     tr.style.display = (v==='__all' || tr.dataset.v===v) ? '' : 'none';
   });
 }
-// --- Best AI agent by category: composite of success + speed, per vendor, per category ---
+// --- Best AI agent by category: composite of AUTOMATION + QUALITY + SPEED, per vendor ---
+// Automation (does the AI carry the journey end-to-end, in-channel) is the metric the
+// product is hired for → heaviest weight. Quality = LLM-judge rubric score /100.
 function speedScore(lat){ return Math.max(0, Math.min(100, (22-lat)/(22-3)*100)); }   // ≤3s→100, ≥22s→0
-function composite(r){ return Math.round(0.6*r.avgS + 0.4*speedScore(r.avgL)); }        // 60% success + 40% speed
+function composite(r){
+  const parts=[[0.5, r.autoRate!=null? r.autoRate : (r.avgS!=null? r.avgS : null)],   // automation (success as legacy fallback)
+               [0.25, r.avgQ], [0.25, r.avgL!=null? speedScore(r.avgL) : null]].filter(p=>p[1]!=null);
+  const wsum=parts.reduce((a,p)=>a+p[0],0);
+  return wsum? Math.round(parts.reduce((a,p)=>a+p[0]*p[1],0)/wsum) : null;             // renormalized over available dims
+}
 const MIN_TIMED=8, MIN_COV=0.30;   // coverage bar to be ranked on speed
 function aggVendors(dataset){
   const byV={};
@@ -24902,19 +27458,21 @@ function aggVendors(dataset){
     const sN=arr.map(sNum).filter(x=>x!=null), lN=arr.map(latNum).filter(x=>x!=null), qN=arr.map(qNum).filter(x=>x!=null);
     const timed=arr.reduce((a,s)=>a+(s.timed||0),0), attempted=arr.reduce((a,s)=>a+(s.attempted||0),0);
     const cov = attempted? timed/attempted : 0;
+    const ag = arr.reduce((acc,s)=>{ if(s.auto){acc.a+=s.auto.automated;acc.h+=s.auto.handover;acc.d+=s.auto.deflected;acc.e+=s.auto.engaged;} return acc; },{a:0,h:0,d:0,e:0});
     const r={
       v, us:arr[0].us,
       stores: arr.filter(s=>s.method==='new'||s.method==='legacy').length,
+      autoRate: ag.e? Math.round(100*ag.a/ag.e) : null, autoDetail: ag,
       avgS: sN.length? sN.reduce((a,b)=>a+b,0)/sN.length : null,
       avgL: lN.length? lN.reduce((a,b)=>a+b,0)/lN.length : null,
       avgQ: qN.length? Math.round(qN.reduce((a,b)=>a+b,0)/qN.length) : null,
       timed, attempted, cov,
     };
-    r.eligible = r.avgS!=null && r.avgL!=null && timed>=MIN_TIMED && cov>=MIN_COV;
+    r.eligible = (r.autoRate!=null || r.avgS!=null) && r.avgL!=null && timed>=MIN_TIMED && cov>=MIN_COV;
     return r;
-  }).filter(r=>r.avgS!=null)                       // must at least have a success figure
-    .map(r=>({...r, comp: r.avgL!=null? composite(r): null}))
-    .sort((a,b)=> (b.eligible-a.eligible) || (b.comp||-1)-(a.comp||-1) || b.avgS-a.avgS);
+  }).filter(r=>r.autoRate!=null || r.avgS!=null)
+    .map(r=>({...r, comp: composite(r)}))
+    .sort((a,b)=> (b.eligible-a.eligible) || (b.comp||-1)-(a.comp||-1) || (b.autoRate||0)-(a.autoRate||0));
 }
 function renderBestPanel(elId, allRows){
   const el=document.getElementById(elId); if(!el) return;
@@ -24924,7 +27482,7 @@ function renderBestPanel(elId, allRows){
   const w=rows[0];
   let h='<div class="best-winner"><div class="best-medal">#1 · winner</div>'+
     '<div class="best-wmain"><div class="best-name"><span class="vdot" style="background:'+col(w.v)+'"></span>'+w.v+(w.us?'<span class="us-tag">US</span>':'')+'</div>'+
-    '<div class="best-sub">'+Math.round(w.avgS)+'% success · ~'+s1(w.avgL)+'s · '+pct(w.cov)+' coverage'+(w.avgQ!=null?' · quality '+w.avgQ:'')+'</div></div>'+
+    '<div class="best-sub">'+(w.autoRate!=null?w.autoRate+'% automation · ':'')+Math.round(w.avgS)+'% success · ~'+s1(w.avgL)+'s'+(w.avgQ!=null?' · quality '+w.avgQ+'/100':'')+' · '+pct(w.cov)+' coverage</div></div>'+
     '<div class="best-score">'+w.comp+'<span>/100</span></div></div>';
   if(rows.length>1){
     h+='<div class="best-list">'+rows.slice(1).map((r,i)=>
@@ -24932,7 +27490,7 @@ function renderBestPanel(elId, allRows){
       '<span class="best-rname"><span class="vdot" style="background:'+col(r.v)+'"></span>'+r.v+(r.us?'<span class="us-tag">US</span>':'')+'</span>'+
       '<span class="bar best-bar"><i style="width:'+r.comp+'%;background:'+col(r.v)+'"></i></span>'+
       '<span class="best-rnum mono">'+r.comp+'</span>'+
-      '<span class="best-rmeta mono">'+Math.round(r.avgS)+'% · '+s1(r.avgL)+'s</span>'+
+      '<span class="best-rmeta mono">'+(r.autoRate!=null?r.autoRate+'% auto · ':'')+s1(r.avgL)+'s'+(r.avgQ!=null?' · q'+r.avgQ:'')+'</span>'+
       '<span class="best-cov mono">'+pct(r.cov)+' cov</span></div>').join('')+'</div>';
   }
   const gi=rows.findIndex(r=>r.v==='Gorgias');
@@ -24958,6 +27516,61 @@ function renderBest(){
   renderBestPanel('best-shopping', aggVendors(STORES));
   renderBestPanel('best-support', aggVendors(SUPPORT));
 }
+
+// --- Trends: per-vendor metric evolution across run dates (time series) ---
+// One small-multiple chart per metric; a line per vendor; a dot per run date.
+function trendData(){
+  const ds = MODE==='shopping'? STORES : SUPPORT;
+  const byVD={};                                     // vendor -> date -> accumulators
+  ds.forEach(s=>{
+    if(!s.date || s.method==='pending') return;
+    const vd=(byVD[s.vendor]=byVD[s.vendor]||{});
+    const a=(vd[s.date]=vd[s.date]||{a:0,e:0,q:[],l:[]});
+    if(s.auto){ a.a+=s.auto.automated; a.e+=s.auto.engaged; }
+    const q=qNum(s); if(q!=null) a.q.push(q);
+    const l=latNum(s); if(l!=null) a.l.push(l);
+  });
+  const dates=[...new Set(Object.values(byVD).flatMap(vd=>Object.keys(vd)))].sort();
+  const series=(pick)=>Object.entries(byVD).map(([v,vd])=>({
+    v, pts: dates.map(d=>{ const a=vd[d]; return a? pick(a) : null; })
+  })).filter(s=>s.pts.filter(x=>x!=null).length>=1);
+  return { dates,
+    auto: series(a=>a.e? Math.round(100*a.a/a.e) : null),
+    qual: series(a=>a.q.length? Math.round(a.q.reduce((x,y)=>x+y,0)/a.q.length) : null),
+    lat:  series(a=>a.l.length? Math.round(a.l.reduce((x,y)=>x+y,0)/a.l.length*10)/10 : null),
+  };
+}
+function trendChart(title, dates, series, {max=100, unit='%', invert=false}={}){
+  const W=290,H=150,P={l:30,r:8,t:10,b:22};
+  const iw=W-P.l-P.r, ih=H-P.t-P.b;
+  const lo=0, hi=invert? Math.max(max, ...series.flatMap(s=>s.pts.filter(x=>x!=null)))*1.1||max : max;
+  const X=i=> P.l + (dates.length<2? iw/2 : i*(iw/(dates.length-1)));
+  const Y=v=> P.t + ih - (v-lo)/(hi-lo)*ih;
+  let g='';
+  [0,0.5,1].forEach(f=>{ const v=lo+(hi-lo)*f, y=Y(v);
+    g+='<line x1="'+P.l+'" y1="'+y+'" x2="'+(W-P.r)+'" y2="'+y+'" stroke="rgba(0,0,0,.07)"/>'+
+       '<text x="'+(P.l-4)+'" y="'+(y+3)+'" text-anchor="end" font-size="8.5" fill="#999">'+Math.round(v)+(unit==='%'?'':'')+'</text>'; });
+  dates.forEach((d,i)=>{ g+='<text x="'+X(i)+'" y="'+(H-6)+'" text-anchor="middle" font-size="8.5" fill="#999">'+d.slice(5)+'</text>'; });
+  series.forEach(s=>{
+    const c=COL[s.v]||'#888';
+    const seg=s.pts.map((v,i)=> v==null? null : [X(i),Y(v)]).filter(Boolean);
+    if(seg.length>1) g+='<polyline fill="none" stroke="'+c+'" stroke-width="2" stroke-linecap="round" points="'+seg.map(p=>p.join(',')).join(' ')+'"/>';
+    s.pts.forEach((v,i)=>{ if(v!=null) g+='<circle cx="'+X(i)+'" cy="'+Y(v)+'" r="3" fill="'+c+'"><title>'+s.v+' · '+dates[i]+' · '+v+unit+'</title></circle>'; });
+  });
+  const legend=series.map(s=>'<span style="display:inline-flex;align-items:center;gap:4px;font-size:10.5px;color:var(--on-muted)"><span class="vdot" style="background:'+(COL[s.v]||'#888')+'"></span>'+s.v+'</span>').join(' ');
+  return '<div class="card" style="padding:12px"><div style="font-size:12.5px;font-weight:700;margin-bottom:4px">'+title+'</div>'+
+    '<svg viewBox="0 0 '+W+' '+H+'" style="width:100%;height:auto">'+g+'</svg>'+
+    '<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:6px">'+legend+'</div></div>';
+}
+function renderTrends(){
+  const el=document.getElementById('trend-grid'); if(!el) return;
+  const t=trendData();
+  if(t.dates.length<1){ el.innerHTML='<div class="best-empty">No runs yet.</div>'; return; }
+  el.innerHTML =
+    trendChart('Automation rate (%)', t.dates, t.auto, {max:100, unit:'%'}) +
+    trendChart('Quality — LLM-judge score (/100)', t.dates, t.qual, {max:100, unit:''}) +
+    trendChart('Avg latency (s) — lower is better', t.dates, t.lat, {max:30, unit:'s', invert:true});
+}
 let VIEW='shopping';                       // top-level tab: shopping | support | best
 function applyView(){
   const isBest = VIEW==='best';
@@ -24976,7 +27589,7 @@ function applyView(){
   if(isBest) setBest(BESTMODE);            // make sure the right sub-panel is showing
 }
 function renderAll(){
-  renderSummary(); renderResults(); renderMatrix(); renderConv(); renderFilter(); renderBest(); carets();
+  renderSummary(); renderResults(); renderMatrix(); renderConv(); renderFilter(); renderBest(); renderTrends(); carets();
   // Quality column shows in both modes (Relevance rubric for shopping, Resolution for support)
   document.querySelectorAll('.qcol-h').forEach(e=>{ const sc=e.querySelector('.sc'); e.firstChild.textContent = (MODE==='shopping'?'Relevance quality':'Resolution quality'); });
   applyView();

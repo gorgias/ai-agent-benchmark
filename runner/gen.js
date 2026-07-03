@@ -14,7 +14,7 @@ import { readFile, writeFile, readdir, rename, stat } from "node:fs/promises";
 import { existsSync } from "node:fs";
 import { STORES as SITES } from "./vendors.js";
 import { SHOPPING_THEMES, SUPPORT_THEMES } from "./pools.js";
-import { convoValidity } from "./classify.js";
+import { convoValidity, convoOutcome } from "./classify.js";
 
 const args = process.argv.slice(2);
 const dateArg = (() => { const i = args.indexOf("--date"); return i >= 0 ? args[i + 1] : null; })();
@@ -39,6 +39,12 @@ console.log(`Generating report data from ${DATES.length} run(s): ${DATES.join(",
 // LLM-judge Relevance/Resolution Quality scores, per store+mode (populated by the judge pass).
 let QSCORES = { shopping: {}, support: {} };
 try { QSCORES = JSON.parse(await readFile(new URL("./quality-scores.json", import.meta.url).pathname, "utf8")); QSCORES.shopping = QSCORES.shopping || {}; QSCORES.support = QSCORES.support || {}; } catch {}
+
+// Per-CONVERSATION LLM-judge eval scores (eval-scores.json, built by eval-pack/eval-merge +
+// the judge pass). Keyed by "<date>/<conv-filename>". Rubrics: shopping = answer35/rec25/
+// rich25/close15; support = resolution40/accuracy25/actionability20/close15.
+let EVALS = {};
+try { EVALS = JSON.parse(await readFile(new URL("./eval-scores.json", import.meta.url).pathname, "utf8")); } catch {}
 
 // ---- per-store capability matrix (SHOPPING only). 1=yes, 0=no, 2=untested. ----
 const CAPS = {
@@ -113,9 +119,22 @@ async function loadAgg(key, mode, date) {
   try { files = (await readdir(dir)).filter(f => f.startsWith(`${key}-${mode}-`) && f.endsWith(".json")); } catch { return null; }
   if (!files.length) return null;
   const themes = [];
+  // AUTOMATION outcomes tally over ALL captured conversations — including early-bail
+  // handovers that the latency validity gate rightly excludes. Latency needs ≥3 timed
+  // answers; automation must count a T1 handover as a failure, not drop it.
+  const auto = { automated: 0, handover: 0, deflected: 0, no_answer: 0 };
+  const evalAgg = { n: 0, total: 0, dims: {}, cls: {}, learnings: [] };
   for (const f of files) {
     try {
       const obj = JSON.parse(await readFile(`${dir}/${f}`, "utf8"));
+      auto[convoOutcome(obj.turns || []).outcome]++;
+      const ev = EVALS[`${date}/${f}`];
+      if (ev && ev.total != null) {
+        evalAgg.n++; evalAgg.total += ev.total;
+        for (const [k, v] of Object.entries(ev.rubric || {})) evalAgg.dims[k] = (evalAgg.dims[k] || 0) + v;
+        evalAgg.cls[ev.resolution_class] = (evalAgg.cls[ev.resolution_class] || 0) + 1;
+        if (ev.learning) evalAgg.learnings.push(ev.learning);
+      }
       // datetime of the conversation: explicit capture stamp, else the file's mtime
       let dt = obj.capturedAt;
       if (!dt) { try { dt = (await stat(`${dir}/${f}`)).mtime.toISOString(); } catch {} }
@@ -127,7 +146,24 @@ async function loadAgg(key, mode, date) {
       themes.push(obj);
     } catch {}
   }
-  if (!themes.length) return null;
+  const engaged = auto.automated + auto.handover + auto.deflected;
+  const autoOut = {
+    ...auto, engaged,
+    rate: engaged ? Math.round((auto.automated / engaged) * 100) : null,
+  };
+  const evalOut = evalAgg.n ? {
+    n: evalAgg.n,
+    total: Math.round(evalAgg.total / evalAgg.n),
+    dims: Object.fromEntries(Object.entries(evalAgg.dims).map(([k, v]) => [k, Math.round(v / evalAgg.n)])),
+    cls: evalAgg.cls,
+    learnings: evalAgg.learnings.slice(0, 8),
+  } : null;
+  if (!themes.length) {
+    // No latency-valid conversation, but engaged outcomes still exist (early bails):
+    // surface them so the automation table doesn't silently hide the worst failures.
+    if (engaged) return { themes: [], stats: null, ticket: null, auto: autoOut, evalq: evalOut };
+    return null;
+  }
   const order = (mode === "support" ? SUPPORT_THEMES : SHOPPING_THEMES).map(t => t.key);
   themes.sort((a, b) => order.indexOf(a.theme) - order.indexOf(b.theme));
   const aiMs = themes.flatMap(t => (t.turns || []).filter(x => x.by === "ai" && x.complete_ms != null).map(x => x.complete_ms));
@@ -136,6 +172,7 @@ async function loadAgg(key, mode, date) {
   const themesWithHandover = themes.filter(t => t.stats && t.stats.handover_turn != null).length;
   const tk = [...themes].reverse().find(t => t.ticket && t.ticket.conversation_id) || themes.find(t => t.ticket);
   return {
+    auto: autoOut, evalq: evalOut,
     themes: themes.map(t => ({ theme: t.theme, label: t.themeLabel, turns: t.turns, stats: t.stats, ticket: t.ticket || null, error: t.error || null, datetime: t._datetime || null })),
     stats: {
       n_themes: themes.length, turns_total: totalTurns,
@@ -148,6 +185,22 @@ async function loadAgg(key, mode, date) {
       themes_with_handover: themesWithHandover,
     },
     ticket: tk ? tk.ticket : null,
+  };
+}
+
+// Engaged conversations exist (early bails / deflections) but none passed the latency
+// validity gate — an OUTCOME-ONLY entry so the automation table shows the failure
+// instead of silently hiding the store for that run.
+function outcomeOnlyEntry(site, mode, agg, date) {
+  return {
+    id: `${site.key}-${mode}-${date}`, date, vendor: site.vendor, store: site.store, site: host(site.url), url: site.url,
+    method: "new", us: !!site.us, lat: "—", latPct: 0, success: null, successTxt: "—",
+    auto: agg.auto, evalq: agg.evalq,
+    what: `Engaged ${agg.auto.engaged} conversation(s) but none produced ≥3 timed AI answers — ` +
+      (agg.auto.handover ? `${agg.auto.handover} early handover(s). ` : "") +
+      (agg.auto.deflected ? `${agg.auto.deflected} deflection(s). ` : "") +
+      `Counted in automation rate, excluded from latency.`,
+    datetime: null, themes: [], turns: [],
   };
 }
 
@@ -169,6 +222,7 @@ function measuredEntry(site, mode, agg, date) {
     success, successTxt: success != null ? success + "%" : "—",
     avgTurns: st.avg_turns,
     timed: st.answered_no_handover, attempted: st.turns_total,   // latency-measurement coverage
+    auto: agg.auto, evalq: agg.evalq,
     ticket: tk(agg.ticket),
     what,
     datetime: agg.themes.map(t => t.datetime).filter(Boolean).sort().pop() || null,
@@ -215,6 +269,7 @@ async function buildMode(mode) {
     for (const date of DATES) {
       const agg = await loadAgg(site.key, mode, date);
       if (agg && agg.themes && agg.themes.length) { out.push(measuredEntry(site, mode, agg, date)); anyMeasured = true; }
+      else if (agg && agg.auto && agg.auto.engaged) { out.push(outcomeOnlyEntry(site, mode, agg, date)); anyMeasured = true; }
     }
     // No data in ANY run → one pending row (skip untested breadth-candidates whose vendor is already represented).
     if (!anyMeasured && !(site.candidate && vendorsWithReal.has(site.vendor))) out.push(pendingEntry(site, mode));
