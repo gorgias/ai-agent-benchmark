@@ -15,8 +15,9 @@ on:
         description: "Run date YYYY-MM-DD (blank = today)"
         required: false
         default: ""
-  schedule:
-    - cron: "0 6 * * 1"   # every Monday 06:00 UTC
+  # NO schedule: the weekly run is LOCAL (launchd → runner/weekly-local.sh, Monday 07:00).
+  # One sharded cloud run burns ~900 Actions minutes (free plan = 2000/month) — cloud is
+  # a MANUAL fallback only (workflow_dispatch), e.g. when the laptop is unavailable.
 
 permissions:
   contents: write
