@@ -238,14 +238,11 @@
      This is the Editions-style "wow": real flowing motion, not static blobs. */
   .hero{position:relative;overflow:hidden}
   .hero-canvas{position:absolute;inset:0;z-index:0;width:100%;height:100%;filter:blur(52px) saturate(1.12);
-    -webkit-mask-image:radial-gradient(115% 95% at 50% 46%,#000 28%,transparent 74%);
-            mask-image:radial-gradient(115% 95% at 50% 46%,#000 28%,transparent 74%)}
+    -webkit-mask-image:radial-gradient(145% 135% at 50% 32%,#000 14%,rgba(0,0,0,.55) 44%,rgba(0,0,0,.18) 68%,transparent 88%);
+            mask-image:radial-gradient(145% 135% at 50% 32%,#000 14%,rgba(0,0,0,.55) 44%,rgba(0,0,0,.18) 68%,transparent 88%)}
   .hero>.wrap{position:relative;z-index:2}
-    -webkit-mask-image:linear-gradient(to bottom,transparent 0%,#000 8%,rgba(0,0,0,.4) 60%,transparent 100%);
-            mask-image:linear-gradient(to bottom,transparent 0%,#000 8%,rgba(0,0,0,.4) 60%,transparent 100%)}
   .sitefoot{margin-top:60px;padding:34px 26px 46px;border-top:1px solid var(--glass-border);text-align:center;font-size:12.5px;color:var(--on-muted)}
   .sitefoot a{color:var(--primary);font-weight:600;text-decoration:none;margin:0 10px}
-  @media (prefers-reduced-motion: reduce){
   /* trend leaders podium */
   .trend-leaders{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}
   .lead-card{display:flex;flex-direction:column;padding:18px 18px 14px}
