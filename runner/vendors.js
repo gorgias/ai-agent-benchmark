@@ -623,6 +623,11 @@ export const STORES = [
   // Snipes / Beauty Pie — no DigitalGenius on-site widget (verified); DG on-site footprint = Bloom & Wild + G-Star only.
   { key: "meta-motelrocks",   vendor: "Meta AI", store: "Motel Rocks", url: "https://www.motelrocks.com/", widget: "zendesk" },
   { key: "yuma-cabaia",       vendor: "Yuma",   store: "CABAIA",      url: "https://cabaia.com/",         widget: "yuma" }, // Yuma-native (app.yuma.ai/w/26d426e8); Zendesk = email tickets only
+  // MESHKI — the only OTHER Yuma-native brand found (2026-07-03); 3 regional instances with DISTINCT
+  // widget UUIDs (meshki.us shares meshki.com's UUID → skipped as redundant). Pushes Yuma to 6 stores.
+  { key: "yuma-meshki",       vendor: "Yuma",   store: "MESHKI",      url: "https://meshki.com/",         widget: "yuma", locale: "en-AU" }, // app.yuma.ai/w/4f7a9401
+  { key: "yuma-meshki-au",    vendor: "Yuma",   store: "MESHKI AU",   url: "https://meshki.com.au/",      widget: "yuma", locale: "en-AU" }, // app.yuma.ai/w/df03b930
+  { key: "yuma-meshki-uk",    vendor: "Yuma",   store: "MESHKI UK",   url: "https://meshki.co.uk/",       widget: "yuma", locale: "en-GB" }, // app.yuma.ai/w/5d646ace
 
   // Headed-only vendors (widget loads only in real Chrome). candidate=excluded from headless runs.
   { key: "humind-900care",    vendor: "Humind", store: "900.care",    url: "https://www.900.care/",       widget: "humind", candidate: true, locale: "fr-FR" },
