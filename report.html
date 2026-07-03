@@ -234,24 +234,26 @@
   .sitenav .links a:hover{color:var(--on);background:rgba(240,96,63,.10)}
   .sitenav .links a.active{color:#fff;background:var(--on)}
   @media(max-width:820px){.sitenav .links a{padding:7px 10px;font-size:12px}}
-  /* MAGICAL moving background — Editions-style gradient mesh, strongest up top,
-     softening under the data so tables stay readable */
-  .page-aurora{position:fixed;inset:0;z-index:-2;overflow:hidden;pointer-events:none;filter:blur(72px) saturate(1.25);opacity:.55;
-    -webkit-mask-image:linear-gradient(to bottom,#000 0%,rgba(0,0,0,.55) 42%,rgba(0,0,0,.32) 100%);
-    mask-image:linear-gradient(to bottom,#000 0%,rgba(0,0,0,.55) 42%,rgba(0,0,0,.32) 100%);
-    animation:paHue 24s ease-in-out infinite alternate}
+  /* LIVING mesh gradient — a canvas of ink-in-water color orbs, animated, behind the hero.
+     This is the Editions-style "wow": real flowing motion, not static blobs. */
+  .hero{position:relative;overflow:hidden}
+  .hero-canvas{position:absolute;inset:0;z-index:0;width:100%;height:100%;filter:blur(34px) saturate(1.18);
+    -webkit-mask-image:radial-gradient(120% 90% at 50% 22%,#000 42%,transparent 82%);
+            mask-image:radial-gradient(120% 90% at 50% 22%,#000 42%,transparent 82%)}
+  .hero>.wrap{position:relative;z-index:2}
+  /* faint continuation of the tint down the scroll body so the page reads as one surface */
+  .page-aurora{position:fixed;inset:0;z-index:-2;overflow:hidden;pointer-events:none;filter:blur(96px);opacity:.22;
+    -webkit-mask-image:linear-gradient(to bottom,transparent 0%,#000 8%,rgba(0,0,0,.4) 60%,transparent 100%);
+            mask-image:linear-gradient(to bottom,transparent 0%,#000 8%,rgba(0,0,0,.4) 60%,transparent 100%)}
   .page-aurora i{position:absolute;border-radius:50%;mix-blend-mode:multiply}
-  .page-aurora i:nth-child(1){width:56vw;height:56vw;left:-18vw;top:-12vh;background:radial-gradient(circle,var(--primary) 0%,transparent 60%);animation:pa1 22s ease-in-out infinite alternate}
-  .page-aurora i:nth-child(2){width:48vw;height:48vw;right:-16vw;top:18vh;background:radial-gradient(circle,var(--accent) 0%,transparent 60%);opacity:.85;animation:pa2 27s ease-in-out infinite alternate}
-  .page-aurora i:nth-child(3){width:42vw;height:42vw;left:22vw;bottom:-20vh;background:radial-gradient(circle,var(--primary-2) 0%,transparent 60%);animation:pa3 25s ease-in-out infinite alternate}
-  .page-aurora i:nth-child(4){width:34vw;height:34vw;left:38vw;top:-8vh;background:radial-gradient(circle,#FFC24D 0%,transparent 60%);opacity:.55;animation:pa4 30s ease-in-out infinite alternate}
-  @keyframes pa1{to{transform:translate(11vw,9vh) scale(1.2)}}
-  @keyframes pa2{to{transform:translate(-10vw,-11vh) scale(.85)}}
-  @keyframes pa3{to{transform:translate(9vw,-8vh) scale(1.15)}}
-  @keyframes pa4{to{transform:translate(-8vw,10vh) scale(1.12)}}
-  @keyframes paHue{to{filter:blur(72px) saturate(1.25) hue-rotate(-14deg)}}
-  /* fine film grain over the mesh — the "material" feel */
-  body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.05;
+  .page-aurora i:nth-child(1){width:52vw;height:52vw;left:-16vw;top:14vh;background:radial-gradient(circle,var(--primary) 0%,transparent 60%);animation:pa1 26s ease-in-out infinite alternate}
+  .page-aurora i:nth-child(2){width:44vw;height:44vw;right:-14vw;top:44vh;background:radial-gradient(circle,var(--accent) 0%,transparent 60%);opacity:.7;animation:pa2 31s ease-in-out infinite alternate}
+  .page-aurora i:nth-child(3){width:40vw;height:40vw;left:26vw;bottom:-16vh;background:radial-gradient(circle,var(--primary-2) 0%,transparent 60%);animation:pa3 28s ease-in-out infinite alternate}
+  @keyframes pa1{to{transform:translate(9vw,7vh) scale(1.15)}}
+  @keyframes pa2{to{transform:translate(-8vw,-9vh) scale(.9)}}
+  @keyframes pa3{to{transform:translate(7vw,-6vh) scale(1.1)}}
+  /* fine film grain — the premium "material" feel */
+  body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.045;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
   .sitefoot{margin-top:60px;padding:34px 26px 46px;border-top:1px solid var(--glass-border);text-align:center;font-size:12.5px;color:var(--on-muted)}
   .sitefoot a{color:var(--primary);font-weight:600;text-decoration:none;margin:0 10px}
@@ -284,7 +286,7 @@
   </div>
 </nav>
 <header class="hero">
-  <div class="aurora" aria-hidden="true"><i></i><i></i></div>
+  <canvas class="hero-canvas" id="heroCanvas" aria-hidden="true"></canvas>
   <div class="wrap">
     <div class="eyebrow">Gorgias R&amp;D · Competitive Intelligence</div>
     <h1>How the <span class="grad">Gorgias AI Agent</span> stacks up against every rival</h1>
@@ -31067,6 +31069,39 @@ renderAll();
 </footer>
 
 <script>
+// ---------- living mesh-gradient hero (canvas, ink-in-water on paper) ----------
+(function(){
+  const cv=document.getElementById('heroCanvas'); if(!cv) return;
+  const ctx=cv.getContext('2d'); const dpr=Math.min(2,window.devicePixelRatio||1);
+  const orbs=[
+    {c:[240,96,63],  x:.18,y:.30,ax:.16,ay:.10,sx:0.052,sy:0.041,ph:0.0,r:.62},
+    {c:[255,139,93], x:.72,y:.24,ax:.14,ay:.12,sx:0.047,sy:0.055,ph:1.7,r:.55},
+    {c:[110,86,207], x:.55,y:.66,ax:.18,ay:.13,sx:0.039,sy:0.048,ph:3.2,r:.60},
+    {c:[255,194,77], x:.34,y:.12,ax:.12,ay:.10,sx:0.058,sy:0.036,ph:4.6,r:.48},
+    {c:[255,158,176],x:.86,y:.70,ax:.13,ay:.14,sx:0.044,sy:0.052,ph:5.9,r:.50},
+  ];
+  let W,H;
+  function size(){ W=cv.width=Math.max(1,cv.offsetWidth*dpr); H=cv.height=Math.max(1,cv.offsetHeight*dpr); }
+  size(); addEventListener('resize', size);
+  const PAPER='#F6F2EC';
+  function draw(t){
+    ctx.globalCompositeOperation='source-over'; ctx.fillStyle=PAPER; ctx.fillRect(0,0,W,H);
+    ctx.globalCompositeOperation='multiply';
+    for(const o of orbs){
+      const cx=(o.x+Math.sin(t*o.sx+o.ph)*o.ax)*W;
+      const cy=(o.y+Math.cos(t*o.sy+o.ph)*o.ay)*H;
+      const rad=o.r*Math.max(W,H);
+      const g=ctx.createRadialGradient(cx,cy,0,cx,cy,rad);
+      g.addColorStop(0,`rgba(${o.c[0]},${o.c[1]},${o.c[2]},0.82)`);
+      g.addColorStop(1,`rgba(${o.c[0]},${o.c[1]},${o.c[2]},0)`);
+      ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
+    }
+  }
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(reduce){ draw(0); }
+  else { let s=0; (function loop(){ s+=0.016; draw(s); requestAnimationFrame(loop); })(); }
+})();
+
 // ---------- v3 visual layer: hero stats + scroll reveals (additive; no data-logic changes) ----------
 (function(){
   try{

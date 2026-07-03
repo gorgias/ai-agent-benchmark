@@ -462,24 +462,27 @@ export const WIDGETS = {
       await dismiss(page);
       // fire the lazy-load gate (widget.js waits for scroll/pointerdown/keydown)
       await page.mouse.move(280, 320).catch(() => {});
-      await page.mouse.wheel(0, 220).catch(() => {});
+      await page.mouse.wheel(0, 260).catch(() => {});
       await page.keyboard.press("Tab").catch(() => {});
       // wait for the app.yuma.ai iframe to mount
-      for (let i = 0; i < 20 && !(await findFrame(page, "app.yuma.ai")); i++) await page.waitForTimeout(900);
+      for (let i = 0; i < 22 && !(await findFrame(page, "app.yuma.ai")); i++) await page.waitForTimeout(900);
       const f = await findFrame(page, "app.yuma.ai");
       if (!f) return;
       // launcher lives INSIDE the iframe
       const launcher = f.locator('[aria-label="Open chat widget"], .widgetTrigger').first();
       await launcher.click({ timeout: 8000 }).catch(() => {});
-      await page.waitForTimeout(2500);
-      await fillEmailGate(page, f);
+      // WAIT for the composer to actually exist before returning (verified selector:
+      // textarea.chatPage__textarea, aria-label="Ask your question"). No email gate on Yuma.
+      await f.locator('.chatPage__textarea, [aria-label="Ask your question"], textarea').first()
+        .waitFor({ state: "visible", timeout: 15000 }).catch(() => {});
+      await page.waitForTimeout(600);
     },
     async send(page, text) {
       const f = await findFrame(page, "app.yuma.ai");
       if (!f) return;
-      const inp = f.locator('[aria-label="Message"], .chatPage__textarea, textarea').first();
-      await inp.click({ timeout: 5000 }).catch(() => {});
-      await inp.fill(text).catch(async () => { await inp.type(text).catch(() => {}); });
+      const inp = f.locator('.chatPage__textarea, [aria-label="Ask your question"], textarea').first();
+      await inp.click({ timeout: 6000 }).catch(() => {});
+      await inp.fill(text).catch(async () => { await inp.type(text, { delay: 12 }).catch(() => {}); });
       await inp.press("Enter").catch(async () => {
         await f.locator('[aria-label="Send message"], .chatPage__submitBtn').first().click({ timeout: 3000 }).catch(() => {});
       });
