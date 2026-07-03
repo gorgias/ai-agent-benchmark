@@ -229,24 +229,33 @@
     background:color-mix(in srgb,var(--bg) 80%,transparent);backdrop-filter:blur(14px);border-bottom:1px solid var(--glass-border)}
   .sitenav .brand{display:flex;align-items:center;gap:9px;font-family:'Inter Tight';font-weight:800;font-size:13.5px;letter-spacing:-.01em;color:var(--on);text-decoration:none;white-space:nowrap}
   .sitenav .brand i{width:10px;height:10px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--primary-2));display:inline-block;flex:none}
-  .sitenav .links{display:flex;gap:17px;margin-left:auto;flex-wrap:wrap}
-  .sitenav .links a{font-size:12.5px;font-weight:600;color:var(--on-muted);text-decoration:none;transition:color .15s}
-  .sitenav .links a:hover{color:var(--primary)}
-  .sitenav .cta{font-size:12.5px;font-weight:700;color:#fff;background:var(--on);padding:8px 15px;border-radius:999px;text-decoration:none;white-space:nowrap;transition:transform .15s,background .15s}
-  .sitenav .cta:hover{background:var(--primary);transform:translateY(-1px)}
-  @media(max-width:820px){.sitenav .links{display:none}}
-  /* ambient moving background across the WHOLE page (very subtle, fixed) */
-  .page-aurora{position:fixed;inset:0;z-index:-2;overflow:hidden;pointer-events:none;filter:blur(90px);opacity:.28}
-  .page-aurora i{position:absolute;border-radius:50%}
-  .page-aurora i:nth-child(1){width:52vw;height:52vw;left:-16vw;top:-10vh;background:radial-gradient(circle,var(--primary) 0%,transparent 62%);animation:pa1 26s ease-in-out infinite alternate}
-  .page-aurora i:nth-child(2){width:44vw;height:44vw;right:-14vw;top:26vh;background:radial-gradient(circle,var(--accent) 0%,transparent 62%);opacity:.7;animation:pa2 32s ease-in-out infinite alternate}
-  .page-aurora i:nth-child(3){width:38vw;height:38vw;left:24vw;bottom:-22vh;background:radial-gradient(circle,var(--primary-2) 0%,transparent 62%);animation:pa3 29s ease-in-out infinite alternate}
-  @keyframes pa1{to{transform:translate(9vw,7vh) scale(1.15)}}
-  @keyframes pa2{to{transform:translate(-8vw,-9vh) scale(.9)}}
-  @keyframes pa3{to{transform:translate(7vw,-6vh) scale(1.1)}}
+  .sitenav .links{display:flex;gap:6px;margin-left:auto;flex-wrap:wrap}
+  .sitenav .links a{font-size:13.5px;font-weight:700;color:var(--on-muted);text-decoration:none;padding:8px 16px;border-radius:999px;transition:color .15s,background .15s}
+  .sitenav .links a:hover{color:var(--on);background:rgba(240,96,63,.10)}
+  .sitenav .links a.active{color:#fff;background:var(--on)}
+  @media(max-width:820px){.sitenav .links a{padding:7px 10px;font-size:12px}}
+  /* MAGICAL moving background — Editions-style gradient mesh, strongest up top,
+     softening under the data so tables stay readable */
+  .page-aurora{position:fixed;inset:0;z-index:-2;overflow:hidden;pointer-events:none;filter:blur(72px) saturate(1.25);opacity:.55;
+    -webkit-mask-image:linear-gradient(to bottom,#000 0%,rgba(0,0,0,.55) 42%,rgba(0,0,0,.32) 100%);
+    mask-image:linear-gradient(to bottom,#000 0%,rgba(0,0,0,.55) 42%,rgba(0,0,0,.32) 100%);
+    animation:paHue 24s ease-in-out infinite alternate}
+  .page-aurora i{position:absolute;border-radius:50%;mix-blend-mode:multiply}
+  .page-aurora i:nth-child(1){width:56vw;height:56vw;left:-18vw;top:-12vh;background:radial-gradient(circle,var(--primary) 0%,transparent 60%);animation:pa1 22s ease-in-out infinite alternate}
+  .page-aurora i:nth-child(2){width:48vw;height:48vw;right:-16vw;top:18vh;background:radial-gradient(circle,var(--accent) 0%,transparent 60%);opacity:.85;animation:pa2 27s ease-in-out infinite alternate}
+  .page-aurora i:nth-child(3){width:42vw;height:42vw;left:22vw;bottom:-20vh;background:radial-gradient(circle,var(--primary-2) 0%,transparent 60%);animation:pa3 25s ease-in-out infinite alternate}
+  .page-aurora i:nth-child(4){width:34vw;height:34vw;left:38vw;top:-8vh;background:radial-gradient(circle,#FFC24D 0%,transparent 60%);opacity:.55;animation:pa4 30s ease-in-out infinite alternate}
+  @keyframes pa1{to{transform:translate(11vw,9vh) scale(1.2)}}
+  @keyframes pa2{to{transform:translate(-10vw,-11vh) scale(.85)}}
+  @keyframes pa3{to{transform:translate(9vw,-8vh) scale(1.15)}}
+  @keyframes pa4{to{transform:translate(-8vw,10vh) scale(1.12)}}
+  @keyframes paHue{to{filter:blur(72px) saturate(1.25) hue-rotate(-14deg)}}
+  /* fine film grain over the mesh — the "material" feel */
+  body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.05;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
   .sitefoot{margin-top:60px;padding:34px 26px 46px;border-top:1px solid var(--glass-border);text-align:center;font-size:12.5px;color:var(--on-muted)}
   .sitefoot a{color:var(--primary);font-weight:600;text-decoration:none;margin:0 10px}
-  @media (prefers-reduced-motion: reduce){ .page-aurora i{animation:none!important} }
+  @media (prefers-reduced-motion: reduce){ .page-aurora,.page-aurora i{animation:none!important} body::after{display:none} }
   /* trend leaders podium */
   .trend-leaders{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
   .lead-card .lc-h{font-size:10.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--on-muted);margin-bottom:10px}
@@ -262,11 +271,10 @@
 <nav class="sitenav">
   <a class="brand" href="report.html"><i></i>GORGIAS · AI AGENT BENCHMARK</a>
   <div class="links">
-    <a href="#summary-sec">Summary</a><a href="#best-sec">Best AI Agent</a><a href="#trend-sec">Trends</a>
-    <a href="#results-sec">Results</a><a href="#conv-sec">Conversations</a>
-    <a href="takeaways.html#verdict">Verdict</a><a href="takeaways.html#providers">Providers</a>
+    <a href="takeaways.html">Summary</a>
+    <a href="report.html#best" onclick="setMode('best')">Best AI Agent</a>
+    <a href="report.html" class="active" aria-current="page">Detailed report</a>
   </div>
-  <a class="cta" href="takeaways.html">Industry takeaways →</a>
 </nav>
 <header class="hero">
   <div class="aurora" aria-hidden="true"><i></i><i></i></div>
@@ -30608,6 +30616,9 @@ renderAll();
       [[total,'conversations'],[vendors,'vendors'],[stores,'live stores'],[dates,'runs']].map(([n,l])=>
         '<div class="hs"><div class="n" data-count="'+n+'">0</div><div class="l">'+l+'</div></div>').join('');
   }catch(e){}
+  // nav deep-link: report.html#best opens the Best AI Agent view directly
+  const applyHashMode=()=>{ if(location.hash==='#best'){ try{ setMode('best'); }catch(e){} } };
+  applyHashMode(); window.addEventListener('hashchange', applyHashMode);
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
   // reveal each top-level section as it enters the viewport
   const sections = document.querySelectorAll('section');
