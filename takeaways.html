@@ -152,13 +152,12 @@
   .note{font-size:12.5px;color:var(--on-muted);line-height:1.7}
   .footer{padding:44px 26px 60px;font-size:12px;color:var(--on-faint);text-align:center;border-top:1px solid var(--line)}
 
-  /* ---------- tooltips ---------- */
-  .tt{border-bottom:1.5px dotted var(--on-faint);cursor:help;position:relative}
-  .tt:hover::after{
-    content:attr(data-tip);position:absolute;left:0;bottom:calc(100% + 8px);z-index:99;
-    background:var(--ink);color:#fff;font-size:11.5px;font-weight:500;line-height:1.45;
-    padding:9px 12px;border-radius:9px;width:300px;white-space:normal;text-transform:none;letter-spacing:0;
-    box-shadow:0 8px 24px rgba(0,0,0,.3);pointer-events:none}
+  /* ---------- tooltips (JS, fixed-position — CSS ::after got clipped by overflow cards) ---------- */
+  .tt{border-bottom:1.5px dotted var(--on-faint);cursor:help}
+  #jstip{position:fixed;z-index:999;max-width:320px;background:var(--ink);color:#fff;font-size:12px;font-weight:500;line-height:1.5;
+    padding:10px 13px;border-radius:10px;box-shadow:0 10px 30px rgba(0,0,0,.3);pointer-events:none;opacity:0;transition:opacity .12s;
+    text-transform:none;letter-spacing:0}
+  #jstip.on{opacity:1}
 
   /* ---------- reveal on scroll ---------- */
   .rv{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1)}
@@ -399,6 +398,21 @@ document.querySelector('#score-table tbody').innerHTML=rows.map(r=>
   const one=names.map(n=>'<span><i style="background:'+n.c+'"></i>'+n.v+'</span>').join('');
   document.getElementById('ticker-track').innerHTML=one+one;   // duplicated for a seamless loop
 })();
+
+// ---------- universal fixed-position tooltip (same as report.html) ----------
+const tip=document.createElement('div'); tip.id='jstip'; document.body.appendChild(tip);
+document.body.addEventListener('mouseover',(e)=>{
+  let el=e.target.closest('[data-tip],[title]');
+  if(el&&el.hasAttribute('title')){ el.dataset.tip=el.getAttribute('title'); el.removeAttribute('title'); }
+  if(el&&el.dataset.tip){
+    tip.textContent=el.dataset.tip; tip.classList.add('on');
+    const r=el.getBoundingClientRect();
+    tip.style.left=Math.min(innerWidth-330,Math.max(8,r.left))+'px';
+    tip.style.top=(r.bottom+8)+'px';
+    requestAnimationFrame(()=>{ const th=tip.offsetHeight; if(r.bottom+8+th>innerHeight-8) tip.style.top=Math.max(8,r.top-th-8)+'px'; });
+  } else tip.classList.remove('on');
+});
+document.addEventListener('scroll',()=>tip.classList.remove('on'),{passive:true});
 
 // ---------- reveal on scroll ----------
 const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
