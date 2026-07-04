@@ -1,22 +1,18 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="robots" content="noindex,nofollow">
-
+<meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow">
 <title>Run status — Gorgias AI Agent Benchmark</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Inter+Tight:wght@700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <style>
 :root{--ink:#16120D;--paper:#F6F2EC;--on:#1B1712;--mut:#6B6259;--faint:#A89D92;--coral:#F0603F;--mint:#1E9E6A;--amber:#D98A00;--red:#D64545;--line:rgba(27,23,18,.10)}
 *{box-sizing:border-box;margin:0;padding:0}body{font-family:'Inter',-apple-system,sans-serif;background:var(--paper);color:var(--on);padding:28px 22px 60px;line-height:1.5}
 .mono{font-family:'JetBrains Mono',ui-monospace,monospace;font-variant-numeric:tabular-nums}.n{text-align:right}.note{color:var(--mut);font-size:12.5px}.warn{color:var(--amber);font-weight:700}
-.wrap{max-width:900px;margin:0 auto}
-h1{font-family:'Inter Tight';font-size:30px;font-weight:900;letter-spacing:-.02em;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.wrap{max-width:900px;margin:0 auto}h1{font-family:'Inter Tight';font-size:30px;font-weight:900;letter-spacing:-.02em;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
 a.back{color:var(--coral);text-decoration:none;font-weight:700;font-size:13px}
 .badge{font-size:12px;font-weight:800;padding:4px 11px;border-radius:999px;letter-spacing:.02em}
 .badge.live{background:#FDEAEA;color:var(--red)}.badge.ok{background:#E2F4EA;color:var(--mint)}.badge.idle{background:#EEE9E4;color:var(--faint)}
 .sub{color:var(--mut);font-size:13px;margin-top:6px}
 .big{margin:26px 0;background:#fff;border:1px solid var(--line);border-radius:18px;padding:22px 24px}
-.big .pct{font-family:'Inter Tight';font-size:52px;font-weight:900;letter-spacing:-.03em;line-height:1}
-.big .cap{color:var(--mut);font-size:13px;margin-top:2px}
+.big .pct{font-family:'Inter Tight';font-size:52px;font-weight:900;letter-spacing:-.03em;line-height:1}.big .cap{color:var(--mut);font-size:13px;margin-top:2px}
 .bar{height:9px;border-radius:999px;background:rgba(27,23,18,.08);overflow:hidden}.bar span{display:block;height:100%;border-radius:999px}
 .big .bar{height:14px;margin-top:16px}.big .bar span{background:linear-gradient(90deg,var(--coral),#FF8B5D)}
 .kpis{display:flex;gap:26px;margin-top:14px;flex-wrap:wrap}.kpi b{font-family:'Inter Tight';font-size:22px;font-weight:800}.kpi span{color:var(--mut);font-size:12px;display:block}
@@ -24,154 +20,41 @@ h2{font-family:'Inter Tight';font-size:16px;font-weight:800;margin:26px 0 10px}
 table{width:100%;border-collapse:collapse;font-size:13px;background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden}
 th{font-size:10.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--faint);text-align:left;padding:9px 12px;border-bottom:1px solid var(--line)}
 td{padding:9px 12px;border-bottom:1px solid rgba(27,23,18,.05);vertical-align:middle}tr:last-child td{border-bottom:none}
-.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:8px;vertical-align:baseline}
-.chip{display:inline-block;font-size:11.5px;font-weight:700;background:#FDEAEA;color:var(--red);padding:2px 9px;border-radius:999px;margin:2px 0}
+.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:8px}.chip{display:inline-block;font-size:11.5px;font-weight:700;background:#FDEAEA;color:var(--red);padding:2px 9px;border-radius:999px;margin:2px 0}
 .feed{background:var(--ink);color:#E9E3DA;border-radius:14px;padding:14px 16px;font-family:'JetBrains Mono',monospace;font-size:11.5px;line-height:1.7;max-height:320px;overflow:auto}
 .ev-done{color:#43D598}.ev-fail{color:#FF7A5C}.ev-run{color:#C9BEB0}
+.live-dot{width:8px;height:8px;border-radius:50%;background:var(--red);display:inline-block;animation:pulse 1.4s infinite}@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+#upd{font-size:11px;color:var(--faint);margin-left:auto}
 </style></head><body><div class="wrap">
-<h1>Capture run status <span class="badge idle">idle — filesystem snapshot</span></h1>
-<div class="sub">Run date <b>2026-07-03</b> · snapshot 2026-07-04 16:21:48 UTC · <a class="back" href="report.html">← report</a> · <a class="back" href="takeaways.html">summary</a> · <a class="back" href="report.html?view=conversations">conversations</a></div>
-
-<div class="big">
-  <div class="pct">61%</div>
-  <div class="cap">124 of 203 conversations captured this run</div>
-  <div class="bar"><span style="width:61%;background:undefined"></span></div>
-  <div class="kpis">
-    <div class="kpi"><b class="mono">68</b><span>valid (timed)</span></div>
-    <div class="kpi"><b class="mono">56</b><span>invalid / failed</span></div>
-    <div class="kpi"><b class="mono">79</b><span>remaining</span></div>
-    <div class="kpi"><b class="mono">19</b><span>stores in run</span></div>
-  </div>
-  
+<h1>Capture run status <span id="badge"></span><span id="upd"></span></h1>
+<div class="sub" id="meta"></div>
+<div id="root"><div class="note" style="margin-top:24px">Loading run status…</div></div>
 </div>
-
-<h2>Upcoming — next daily run</h2>
-<div class="big" style="padding:16px 20px">
-  <div class="sub" style="margin:0 0 10px"><b>Daily · 08:00 local</b> · ~33 conversations across 3 stores · <span class="warn">3 never-measured (new)</span></div>
-  <div style="display:flex;flex-wrap:wrap;gap:6px"><span class="chip" style="background:rgba(240,96,63,.10);color:var(--coral)">Ada · Goodfood ✦</span><span class="chip" style="background:rgba(240,96,63,.10);color:var(--coral)">Ada · Indigo ✦</span><span class="chip" style="background:rgba(240,96,63,.10);color:var(--coral)">Ada · Knix ✦</span></div>
-  <div class="note" style="margin-top:8px">✦ = never measured yet (sourced to grow pool diversity). Order = new sites first, then stalest. <a class="back" href="report.html">full report →</a></div>
-</div>
-
-<h2>By store</h2>
-<table><thead><tr><th>Store</th><th class="n">Valid</th><th>Progress</th><th class="n">Invalid</th><th class="n">Pending</th></tr></thead><tbody><tr>
-      <td><span class="dot" style="background:#64748b"></span><b>Ada</b> · Loop Earplugs</td>
-      <td class="mono n">11/11</td>
-      <td style="min-width:160px"><div class="bar"><span style="width:100%;background:#64748b"></span></div></td>
-      <td class="mono n">·</td>
-      <td class="mono n">·</td>
-    </tr><tr>
-      <td><span class="dot" style="background:#64748b"></span><b>Ada</b> · Simba Sleep</td>
-      <td class="mono n">0/11</td>
-      <td style="min-width:160px"><div class="bar"><span style="width:0%;background:#64748b"></span></div></td>
-      <td class="mono n"><span class="warn">1</span></td>
-      <td class="mono n">10</td>
-    </tr><tr>
-      <td><span class="dot" style="background:#8b5cf6"></span><b>DigitalGenius</b> · Bloom &amp; Wild</td>
-      <td class="mono n">6/11</td>
-      <td style="min-width:160px"><div class="bar"><span style="width:55%;background:#8b5cf6"></span></div></td>
-      <td class="mono n"><span class="warn">3</span></td>
-      <td class="mono n">2</td>
-    </tr><tr>
-      <td><span class="dot" style="background:#22c55e"></span><b>Envive</b> · Supergoop</td>
-      <td class="mono n">0/11</td>
-      <td style="min-width:160px"><div class="bar"><span style="width:0%;background:#22c55e"></span></div></td>
-      <td class="mono n"><span class="warn">5</span></td>
-      <td class="mono n">6</td>
-    </tr><tr>
-      <td><span class="dot" style="background:#888"></span><b>Google Agentic</b> · Nordstrom</td>
-      <td class="mono n">0/11</td>
-      <td style="min-width:160px"><div class="bar"><span style="width:0%;background:#888"></span></div></td>
-      <td class="mono n"><span class="warn">4</span></td>
-      <td class="mono n">7</td>
-    </tr><tr>
-      <td><span class="dot" style="background:#f0603f"></span><b>Gorgias</b> · Glamnetic</td>
-      <td class="mono n">3/5</td>
-      <td style="min-width:160px"><div class="bar"><span style="width:60%;background:#f0603f"></span></div></td>
-      <td class="mono n"><span class="warn">1</span></td>
-      <td class="mono n">1</td>
-    </tr><tr>
-      <td><span class="dot" style="background:#f0603f"></span><b>Gorgias</b> · Madura</td>
-      <td class="mono n">0/11</td>
-      <td style="min-width:160px"><div class="bar"><span style="width:0%;background:#f0603f"></span></div></td>
-      <td class="mono n"><span class="warn">5</span></td>
-      <td class="mono n">6</td>
-    </tr><tr>
-      <td><span class="dot" style="background:#14b8a6"></span><b>Humind</b> · La Chaise Longue</td>
-      <td class="mono n">0/11</td>
-      <td style="min-width:160px"><div class="bar"><span style="width:0%;background:#14b8a6"></span></div></td>
-      <td class="mono n"><span class="warn">4</span></td>
-      <td class="mono n">7</td>
-    </tr><tr>
-      <td><span class="dot" style="background:#f59e0b"></span><b>Klaviyo</b> · NANUK</td>
-      <td class="mono n">0/11</td>
-      <td style="min-width:160px"><div class="bar"><span style="width:0%;background:#f59e0b"></span></div></td>
-      <td class="mono n"><span class="warn">4</span></td>
-      <td class="mono n">7</td>
-    </tr><tr>
-      <td><span class="dot" style="background:#eab308"></span><b>Kodif</b> · Dollar Shave Club</td>
-      <td class="mono n">8/11</td>
-      <td style="min-width:160px"><div class="bar"><span style="width:73%;background:#eab308"></span></div></td>
-      <td class="mono n">·</td>
-      <td class="mono n">3</td>
-    </tr><tr>
-      <td><span class="dot" style="background:#3b82f6"></span><b>Meta AI</b> · Dermalogica</td>
-      <td class="mono n">0/11</td>
-      <td style="min-width:160px"><div class="bar"><span style="width:0%;background:#3b82f6"></span></div></td>
-      <td class="mono n"><span class="warn">5</span></td>
-      <td class="mono n">6</td>
-    </tr><tr>
-      <td><span class="dot" style="background:#ef4444"></span><b>Rep AI</b> · Fresh Roasted Coffee</td>
-      <td class="mono n">0/11</td>
-      <td style="min-width:160px"><div class="bar"><span style="width:0%;background:#ef4444"></span></div></td>
-      <td class="mono n"><span class="warn">4</span></td>
-      <td class="mono n">7</td>
-    </tr><tr>
-      <td><span class="dot" style="background:#888"></span><b>Shopify Inbox</b> · Schott NYC</td>
-      <td class="mono n">0/11</td>
-      <td style="min-width:160px"><div class="bar"><span style="width:0%;background:#888"></span></div></td>
-      <td class="mono n"><span class="warn">4</span></td>
-      <td class="mono n">7</td>
-    </tr><tr>
-      <td><span class="dot" style="background:#a855f7"></span><b>Siena</b> · Simple Modern</td>
-      <td class="mono n">11/11</td>
-      <td style="min-width:160px"><div class="bar"><span style="width:100%;background:#a855f7"></span></div></td>
-      <td class="mono n">·</td>
-      <td class="mono n">·</td>
-    </tr><tr>
-      <td><span class="dot" style="background:#0ea5e9"></span><b>Sierra</b> · Casper</td>
-      <td class="mono n">8/11</td>
-      <td style="min-width:160px"><div class="bar"><span style="width:73%;background:#0ea5e9"></span></div></td>
-      <td class="mono n"><span class="warn">3</span></td>
-      <td class="mono n">·</td>
-    </tr><tr>
-      <td><span class="dot" style="background:#ec4899"></span><b>Yuma</b> · CABAIA</td>
-      <td class="mono n">0/11</td>
-      <td style="min-width:160px"><div class="bar"><span style="width:0%;background:#ec4899"></span></div></td>
-      <td class="mono n"><span class="warn">11</span></td>
-      <td class="mono n">·</td>
-    </tr><tr>
-      <td><span class="dot" style="background:#ec4899"></span><b>Yuma</b> · EvryJewels</td>
-      <td class="mono n">10/11</td>
-      <td style="min-width:160px"><div class="bar"><span style="width:91%;background:#ec4899"></span></div></td>
-      <td class="mono n"><span class="warn">1</span></td>
-      <td class="mono n">·</td>
-    </tr><tr>
-      <td><span class="dot" style="background:#ec4899"></span><b>Yuma</b> · MESHKI</td>
-      <td class="mono n">0/11</td>
-      <td style="min-width:160px"><div class="bar"><span style="width:0%;background:#ec4899"></span></div></td>
-      <td class="mono n"><span class="warn">1</span></td>
-      <td class="mono n">10</td>
-    </tr><tr>
-      <td><span class="dot" style="background:#ec4899"></span><b>Yuma</b> · Tediber</td>
-      <td class="mono n">11/11</td>
-      <td style="min-width:160px"><div class="bar"><span style="width:100%;background:#ec4899"></span></div></td>
-      <td class="mono n">·</td>
-      <td class="mono n">·</td>
-    </tr></tbody></table>
-
-<h2>Failed / invalid</h2>
-<table><thead><tr><th>Conversation</th><th>Reason</th></tr></thead><tbody><tr><td colspan="2" class="note">No failed/invalid conversations recorded.</td></tr></tbody></table>
-
-<h2>Recent activity</h2>
-<div class="feed"><div class="note">No live log attached — showing filesystem snapshot only.</div></div>
-</div></body></html>
+<script>
+const VC={"Gorgias":"#f0603f","Envive":"#22c55e","Spiffy":"#22c55e","Sierra":"#0ea5e9","Siena":"#a855f7","Kodif":"#eab308","Ada":"#64748b","Meta AI":"#3b82f6","Rep AI":"#ef4444","DigitalGenius":"#8b5cf6","Klaviyo":"#f59e0b","Humind":"#14b8a6","Yuma":"#ec4899","Decagon":"#7c3aed"};
+const esc=s=>String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;");
+const bar=(v,max,col)=>'<div class="bar"><span style="width:'+(max?Math.round(100*v/max):0)+'%;background:'+(col||'linear-gradient(90deg,#F0603F,#FF8B5D)')+'"></span></div>';
+function render(d){
+  const badge={running:'<span class="badge live"><span class="live-dot"></span> LIVE — capturing</span>',done:'<span class="badge ok">✓ run complete</span>',idle:'<span class="badge idle">idle — last run</span>'}[d.state]||'';
+  document.getElementById('badge').innerHTML=badge;
+  document.getElementById('meta').innerHTML='Run date <b>'+esc(d.date)+'</b> · snapshot '+esc((d.generatedAt||'').replace('T',' ').slice(0,19))+' UTC · <a class="back" href="report.html">← report</a> · <a class="back" href="takeaways.html">summary</a> · <a class="back" href="report.html?view=conversations">conversations</a>';
+  const rows=(d.rows||[]).map(r=>'<tr><td><span class="dot" style="background:'+r.col+'"></span><b>'+esc(r.vendor)+'</b> · '+esc(r.store)+'</td><td class="mono n">'+r.valid+'/'+r.expected+'</td><td style="min-width:150px">'+bar(r.valid,r.expected,r.col)+'</td><td class="mono n">'+(r.invalid?'<span class="warn">'+r.invalid+'</span>':'·')+'</td><td class="mono n">'+(r.pending||'·')+'</td></tr>').join('')||'<tr><td colspan="5" class="note">No stores in this run.</td></tr>';
+  const fails=(d.failures||[]).map(f=>'<tr><td class="mono">'+esc(f.id)+'</td><td class="note">'+esc(f.why)+'</td></tr>').join('')||'<tr><td colspan="2" class="note">No failed/invalid conversations.</td></tr>';
+  const acts=(d.activity||[]).map(e=>'<div class="ev-'+e.t+'">'+esc(e.txt)+'</div>').join('')||'<div class="note">No live log attached.</div>';
+  const running=d.state==='running'&&d.running&&d.running.length?'<div class="sub" style="margin-top:14px">⏳ In flight: '+d.running.map(x=>'<span class="chip">'+esc(x)+'</span>').join(' ')+'</div>':'';
+  const next=d.next&&d.next.stores&&d.next.stores.length?'<h2>Upcoming — next daily run</h2><div class="big" style="padding:16px 20px"><div class="sub" style="margin:0 0 10px"><b>Daily · 08:00 local</b> · ~'+d.next.plannedConvs+' conversations across '+d.next.stores.length+' stores'+(d.next.newSites?' · <span class="warn">'+d.next.newSites+' never-measured (new)</span>':'')+'</div><div style="display:flex;flex-wrap:wrap;gap:6px">'+d.next.stores.map(s=>'<span class="chip" style="background:rgba(240,96,63,.10);color:#F0603F">'+esc(s.vendor)+' · '+esc(s.store)+(s.lastRun?'':' ✦')+'</span>').join('')+'</div><div class="note" style="margin-top:8px">✦ = never measured yet (grows pool diversity).</div></div>':'';
+  document.getElementById('root').innerHTML=
+    '<div class="big"><div class="pct">'+d.pct+'%</div><div class="cap">'+d.done+' of '+d.total+' conversations captured this run</div>'+bar(d.done,d.total)+
+    '<div class="kpis"><div class="kpi"><b class="mono">'+d.totValid+'</b><span>valid (timed)</span></div><div class="kpi"><b class="mono">'+d.totInvalid+'</b><span>invalid / failed</span></div><div class="kpi"><b class="mono">'+d.remaining+'</b><span>remaining</span></div><div class="kpi"><b class="mono">'+d.storesInRun+'</b><span>stores in run</span></div></div>'+running+'</div>'+
+    next+'<h2>By store</h2><table><thead><tr><th>Store</th><th class="n">Valid</th><th>Progress</th><th class="n">Invalid</th><th class="n">Pending</th></tr></thead><tbody>'+rows+'</tbody></table>'+
+    '<h2>Failed / invalid</h2><table><thead><tr><th>Conversation</th><th>Reason</th></tr></thead><tbody>'+fails+'</tbody></table>'+
+    '<h2>Recent activity</h2><div class="feed">'+acts+'</div>';
+}
+let lastOk=0;
+async function tick(){
+  try{ const r=await fetch('run-status.json?_='+Date.now()); if(!r.ok) throw 0; const d=await r.json(); render(d); lastOk=Date.now();
+    document.getElementById('upd').textContent='updated '+new Date().toLocaleTimeString();
+  }catch(e){ document.getElementById('upd').textContent='(offline — retrying)'; }
+}
+tick(); setInterval(tick, 8000);   // auto-refresh — the page updates itself, no rebuild needed
+</script></body></html>
