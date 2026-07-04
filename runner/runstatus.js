@@ -69,6 +69,10 @@ async function build() {
   let log = null;
   if (LOG && existsSync(LOG)) { try { log = parseLog(await readFile(LOG, "utf8")); } catch {} }
 
+  // Upcoming-runs plan (daily-plan.js → run-next.json): what the next daily run will cover.
+  let next = null;
+  try { next = JSON.parse(await readFile(new URL("../run-next.json", import.meta.url).pathname, "utf8")); } catch {}
+
   // Which stores are IN this run? With a log, ONLY the stores it mentions (the true run scope).
   // Without a log, fall back to every store that has a conv file for this date (whole program).
   const mentioned = new Set();
@@ -171,6 +175,13 @@ td{padding:9px 12px;border-bottom:1px solid rgba(27,23,18,.05);vertical-align:mi
   </div>
   ${state === "running" ? `<div class="sub" style="margin-top:14px">⏳ In flight: ${running}</div>` : ""}
 </div>
+
+${next && next.stores && next.stores.length ? `<h2>Upcoming — next daily run</h2>
+<div class="big" style="padding:16px 20px">
+  <div class="sub" style="margin:0 0 10px"><b>Daily · 08:00 local</b> · ~${next.plannedConvs} conversations across ${next.stores.length} stores${next.newSites ? ` · <span class="warn">${next.newSites} never-measured (new)</span>` : ""}</div>
+  <div style="display:flex;flex-wrap:wrap;gap:6px">${next.stores.map(s => `<span class="chip" style="background:rgba(240,96,63,.10);color:var(--coral)">${esc(s.vendor)} · ${esc(s.store)}${s.lastRun ? "" : " ✦"}</span>`).join("")}</div>
+  <div class="note" style="margin-top:8px">✦ = never measured yet (sourced to grow pool diversity). Order = new sites first, then stalest. <a class="back" href="report.html">full report →</a></div>
+</div>` : ""}
 
 <h2>By store</h2>
 <table><thead><tr><th>Store</th><th class="n">Valid</th><th>Progress</th><th class="n">Invalid</th><th class="n">Pending</th></tr></thead><tbody>${storeRows || `<tr><td colspan="5" class="note">No stores detected for this run.</td></tr>`}</tbody></table>
