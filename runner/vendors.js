@@ -551,6 +551,13 @@ export const STORES = [
   { key: "gorgias-jshealth", vendor: "Gorgias", store: "JSHealth Vitamins", url: "https://us.jshealthvitamins.com/", widget: "gorgias", us: true, v3: true }, // pre_ga (Cortex)
   { key: "gorgias-beekman",  vendor: "Gorgias", store: "Beekman 1802",  url: "https://beekman1802.com/",             widget: "gorgias", us: true, v3: true }, // beta_3_sa — V3 Shopping Assistant (Cortex)
   { key: "gorgias-shoebacca", vendor: "Gorgias", store: "Shoebacca",    url: "https://www.shoebacca.com/",           widget: "gorgias", us: true, v3: true }, // beta_1_support (Cortex)
+  // High-volume, high-performing V3 (beta_3_sa) stores sourced from Cortex (2026-07-04) — added
+  // for coverage/credibility, not to chase rank (rank gap is speed, not automation). Verified: live config.gorgias widget on Shopify.
+  { key: "gorgias-icewatch",   vendor: "Gorgias", store: "Ice-Watch",   url: "https://www.ice-watch.com/",  widget: "gorgias", locale: "en-US", v3: true }, // beta_3_sa · SA success 82% @6.4k tickets (Cortex)
+  { key: "gorgias-amicci",     vendor: "Gorgias", store: "Amicci",      url: "https://amicci.com/",         widget: "gorgias", locale: "en-GB", v3: true }, // beta_3_sa · 1.2k AI int (Cortex)
+  { key: "gorgias-addisonbay", vendor: "Gorgias", store: "Addison Bay", url: "https://addisonbay.com/",     widget: "gorgias", us: true, locale: "en-US", v3: true }, // beta_3_sa (Cortex)
+  // NWA Hype (nwahype.com) dropped: captured 9 conversations, 0 measurable (all —ms — widget never
+  // produced a timed answer; unmeasurable like Klaviyo/Humind/Decagon), so no honest data to add.
 
   // Spiffy.ai
   { key: "spiffy-supergoop", vendor: "Envive", store: "Supergoop",  url: "https://supergoop.com/products/everyday-sunscreen?variant=31189086634082", widget: "spiffy" },
