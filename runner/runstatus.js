@@ -194,6 +194,28 @@ ${next && next.stores && next.stores.length ? `<h2>Upcoming — next daily run</
 </div></body></html>`;
 
   await writeFile(OUT, html);
+
+  // Live feed for the report's Conversations tab: while a run is ACTIVE, emit the run's
+  // captured conversations so the report can prepend them in real time (vs waiting for the
+  // batch gen). Cleared to inactive when no run is live.
+  const LIVE = new URL("../live-feed.json", import.meta.url).pathname;
+  if (log && !log.finished) {
+    const convs = [];
+    for (const f of convFiles) {
+      if (!mentioned.has(f.replace(/-(shopping|support)-.*$/, ""))) continue;
+      try {
+        const d = JSON.parse(readFileSync(`${convDir}/${f}`, "utf8"));
+        if (!(d.turns && d.turns.length)) continue;
+        convs.push({ vendor: d.vendor, store: d.store, lane: d.mode, label: d.themeLabel || d.theme,
+          lat: d.stats && d.stats.avg_ms != null ? `~${Math.round(d.stats.avg_ms / 100) / 10}s` : "—",
+          valid: d.valid === true, ts: d.capturedAt || null });
+      } catch {}
+    }
+    convs.sort((a, b) => (b.ts || "").localeCompare(a.ts || ""));
+    await writeFile(LIVE, JSON.stringify({ active: true, runDate: date, updatedAt: now, convs }));
+  } else {
+    await writeFile(LIVE, JSON.stringify({ active: false, convs: [] }));
+  }
   return { pct, done, total, state, stores: rows.length };
 }
 
