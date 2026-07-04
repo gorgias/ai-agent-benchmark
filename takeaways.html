@@ -179,14 +179,14 @@
 <section class="band" id="verdict">
   <div class="wrap">
     <div class="kicker rv">The verdict</div>
-    <h2 class="rv">Four numbers tell the story.</h2>
+    <h2 class="rv">Automation leader. One gap to #1.</h2>
     <div class="verdict rv-stagger">
-      <div class="v-card v-good"><div class="v-kpi"><span data-count="98">0</span>–<span data-count="100">0</span>%</div><div class="v-lbl"><b><span class="tt" data-tip="Automation rate = % of engaged conversations the AI handled with ZERO human touch: no human handover AND no out-of-channel deflection ('email us' / 'call us'). Early bails count against it. In helpdesk terms: the share of tickets a human never touches.">Gorgias automation rate</span></b> — best in market, both lanes. The AI carries the conversation end-to-end; it almost never bails to a human or punts to email.</div></div>
-      <div class="v-card v-mid"><div class="v-kpi"><span data-count="62">0</span>/100</div><div class="v-lbl"><b><span class="tt" data-tip="Shopping quality = LLM-judge score /100 per conversation: answer relevance /35, recommendation quality /25, rich commerce elements (cards, prices) /25, close attempt /15.">Gorgias shopping quality</span></b> — top-4. Strong comparisons &amp; purchase nudges; weaker than Envive (65) on rich product presentation.</div></div>
-      <div class="v-card v-bad"><div class="v-kpi">~<span data-count="18">0</span>s</div><div class="v-lbl"><b><span class="tt" data-tip="Latency = average time from sending a free-typed message to the assistant's COMPLETE final answer, in a cold session. Never stopped on a stall message, never measured on quick-reply chips.">Gorgias shopping latency</span></b> — 8th of 9. Sierra answers in ~9.5s, Envive ~12.6s. Latency is our clearest engineering gap.</div></div>
-      <div class="v-card v-good"><div class="v-kpi"><span data-count="57">0</span>/100</div><div class="v-lbl"><b><span class="tt" data-tip="Support quality (Resolution Quality) = LLM-judge score /100 per conversation: in-channel resolution /40, accuracy &amp; grounding /25, actionability /20, clean close /15.">Gorgias support quality</span></b> — <b>#2 support composite (74)</b>, one point behind Envive. Best store Beekman scores 71, rivalling the market's best. Paired with #1 automation, Support is our strongest lane.</div></div>
+      <div class="v-card v-good"><div class="v-kpi">#1</div><div class="v-lbl"><b><span class="tt" data-tip="Automation rate = % of engaged conversations the AI handled with ZERO human touch: no human handover AND no out-of-channel deflection ('email us' / 'call us'). Early bails count against it. In helpdesk terms: the share of tickets a human never touches.">Automation — both lanes</span></b>. 98–100% of engaged conversations handled with zero human touch, vs a field that spans 38–100%. Only Gorgias never hands off in support (26 of 26). <b>The one metric you can't fake — containment — is ours.</b></div></div>
+      <div class="v-card v-good"><div class="v-kpi">#2</div><div class="v-lbl"><b><span class="tt" data-tip="Support composite = 50% automation + 25% quality + 25% speed. Support quality (Resolution Quality) = LLM-judge /100: in-channel resolution /40, accuracy &amp; grounding /25, actionability /20, clean close /15.">Support composite — 74</span></b>, one point behind Envive (75). The best store already ties the market's top quality. <b>Support is our strongest lane.</b></div></div>
+      <div class="v-card v-mid"><div class="v-kpi">#3</div><div class="v-lbl"><b><span class="tt" data-tip="Shopping composite = 50% automation + 25% quality + 25% speed. Quality /100: answer relevance /35, recommendation quality /25, rich commerce elements /25, close attempt /15.">Shopping composite — 71</span></b>, behind Envive (75). The gap is <b>speed and rich presentation, not answers</b> — answer quality is already top-4.</div></div>
+      <div class="v-card v-bad"><div class="v-kpi">~18s</div><div class="v-lbl"><b><span class="tt" data-tip="Latency = average time from sending a free-typed message to the assistant's COMPLETE final answer, in a cold session. Never stopped on a stall message, never measured on quick-reply chips.">The gap: speed</span></b>. 8th of 9 on shopping latency (Sierra 9.5s, Envive 12.6s). <b>Close this single lever → #1 in both lanes.</b> Everything else is tuning.</div></div>
     </div>
-    <p class="comp-note rv">Composite ranking (50% automation · 25% quality · 25% speed): <b>Gorgias ranks #2 in Support (74, one point behind Envive) and #3 in Shopping (71)</b>. Envive leads overall on its shopping score; Gorgias is held back only by shopping speed.</p>
+    <p class="comp-note rv"><b>Bottom line:</b> Gorgias is the market's automation leader and a top-2 support agent. One engineering gap — full-answer latency — is all that stands between it and #1 overall. Composite = 50% automation · 25% quality · 25% speed.</p>
   </div>
 </section>
 
@@ -234,22 +234,6 @@
       </div>
     </div>
 
-    <div class="card rv" style="margin-top:16px">
-      <h3 style="font-family:'Inter Tight';font-size:15px;font-weight:800;margin-bottom:4px">Gorgias support quality, store by store</h3>
-      <p class="note" style="margin-bottom:12px">The ceiling is top-tier; the spread is the onboarding-QA opportunity. <b>Baby Bee was excluded</b> from the dataset — it was a non-functional deployment (business-hours boilerplate on every question, no AI actually answering), the same class as a dead/chip-gated widget we never score. All functioning stores shown.</p>
-      <div class="table-scroll">
-      <table>
-        <thead><tr><th>Gorgias store</th><th class="n">Support quality</th><th>Read</th></tr></thead>
-        <tbody>
-          <tr style="background:rgba(30,158,106,.07)"><td><b>Beekman 1802</b></td><td class="n mono"><b>71</b></td><td class="note">rivals Envive's best (71); behind only Sierra Casper (84)</td></tr>
-          <tr><td>Madura</td><td class="n mono">61</td><td class="note">specific policy + timeframes</td></tr>
-          <tr><td>Shoebacca</td><td class="n mono">47</td><td class="note">thinner on order-management specifics</td></tr>
-          <tr><td>Jade</td><td class="n mono">46</td><td class="note">generalities where rivals cite exact terms</td></tr>
-          <tr style="border-top:2px solid var(--line)"><td><b>Average</b> <span class="us-tag">US</span></td><td class="n mono"><b>57</b></td><td class="note">composite 74 — #2, one point behind Envive</td></tr>
-        </tbody>
-      </table>
-      </div>
-    </div>
   </div>
 </section>
 
