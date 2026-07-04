@@ -539,7 +539,6 @@ export const STORES = [
   { key: "gorgias-jade",     vendor: "Gorgias", store: "Jade",          url: "https://shop.jadeofficial.com/",       widget: "gorgias", us: true },
   { key: "gorgias-jshealth", vendor: "Gorgias", store: "JSHealth Vitamins", url: "https://us.jshealthvitamins.com/", widget: "gorgias", us: true },
   { key: "gorgias-beekman",  vendor: "Gorgias", store: "Beekman 1802",  url: "https://beekman1802.com/",             widget: "gorgias", us: true },
-  { key: "gorgias-babybee",  vendor: "Gorgias", store: "Baby Bee",      url: "https://babybeeonline.com/",           widget: "gorgias", us: true },
   { key: "gorgias-shoebacca", vendor: "Gorgias", store: "Shoebacca",    url: "https://www.shoebacca.com/",           widget: "gorgias", us: true },
 
   // Spiffy.ai

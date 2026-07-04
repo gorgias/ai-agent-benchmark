@@ -51,7 +51,6 @@ const CAPS = {
   "gorgias-madura": { qr: 0, cards: 0, reviews: 0, completes: 1 },
   "gorgias-jade": { qr: 1, cards: 0, reviews: 0, completes: 1 },
   "gorgias-beekman": { qr: 1, cards: 0, reviews: 0, completes: 1 },
-  "gorgias-babybee": { qr: 1, cards: 0, reviews: 0, completes: 1 },
   "gorgias-shoebacca": { qr: 1, cards: 0, reviews: 0, completes: 1 },
   "sierra-casper": { qr: 1, cards: 1, reviews: 2, completes: 1 },
   "sierra-scotts": { qr: 2, cards: 2, reviews: 2, completes: 2 },

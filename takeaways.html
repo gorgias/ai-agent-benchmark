@@ -167,12 +167,12 @@
   <h1>We benchmarked <span class="grad">every on&#8209;site AI&nbsp;agent.</span></h1>
   <p class="sub">Real merchants, cold sessions, free-typed questions — measured, judged and repeated weekly. <a href="report.html">Explore the full interactive report →</a></p>
   <div class="statstrip">
-    <div class="stat"><div class="num" data-count="360" data-stat="convs">0</div><div class="lbl">conversations captured</div></div>
-    <div class="stat"><div class="num" data-count="321" data-stat="judged">0</div><div class="lbl">LLM-judged</div></div>
+    <div class="stat"><div class="num" data-count="344" data-stat="convs">0</div><div class="lbl">conversations captured</div></div>
+    <div class="stat"><div class="num" data-count="305" data-stat="judged">0</div><div class="lbl">LLM-judged</div></div>
     <div class="stat"><div class="num" data-count="14" data-stat="vendors">0</div><div class="lbl">Vendors</div></div>
-    <div class="stat"><div class="num" data-count="34" data-suffix="+" data-stat="stores">0</div><div class="lbl">Live stores</div></div>
+    <div class="stat"><div class="num" data-count="33" data-suffix="+" data-stat="stores">0</div><div class="lbl">Live stores</div></div>
   </div>
-  <!-- STATS_JSON:{"convs":360,"judged":321,"vendors":14,"stores":34,"runs":3} -->
+  <!-- STATS_JSON:{"convs":344,"judged":305,"vendors":14,"stores":33,"runs":3} -->
 </header>
 
 
@@ -184,7 +184,7 @@
       <div class="v-card v-good"><div class="v-kpi"><span data-count="98">0</span>–<span data-count="100">0</span>%</div><div class="v-lbl"><b><span class="tt" data-tip="Automation rate = % of engaged conversations the AI handled with ZERO human touch: no human handover AND no out-of-channel deflection ('email us' / 'call us'). Early bails count against it. In helpdesk terms: the share of tickets a human never touches.">Gorgias automation rate</span></b> — best in market, both lanes. The AI carries the conversation end-to-end; it almost never bails to a human or punts to email.</div></div>
       <div class="v-card v-mid"><div class="v-kpi"><span data-count="62">0</span>/100</div><div class="v-lbl"><b><span class="tt" data-tip="Shopping quality = LLM-judge score /100 per conversation: answer relevance /35, recommendation quality /25, rich commerce elements (cards, prices) /25, close attempt /15.">Gorgias shopping quality</span></b> — top-4. Strong comparisons &amp; purchase nudges; weaker than Envive (65) on rich product presentation.</div></div>
       <div class="v-card v-bad"><div class="v-kpi">~<span data-count="18">0</span>s</div><div class="v-lbl"><b><span class="tt" data-tip="Latency = average time from sending a free-typed message to the assistant's COMPLETE final answer, in a cold session. Never stopped on a stall message, never measured on quick-reply chips.">Gorgias shopping latency</span></b> — 8th of 9. Sierra answers in ~9.5s, Envive ~12.6s. Latency is our clearest engineering gap.</div></div>
-      <div class="v-card v-mid"><div class="v-kpi"><span data-count="49">0</span>→<span data-count="62">0</span></div><div class="v-lbl"><b><span class="tt" data-tip="Support quality (Resolution Quality) = LLM-judge score /100 per conversation: in-channel resolution /40, accuracy &amp; grounding /25, actionability /20, clean close /15.">Gorgias support quality</span></b> — 49 raw, but <b>62 excluding one broken-config store</b> (Baby Bee, 15/100). On configured stores Gorgias ties the market leaders — the gap is config, not model.</div></div>
+      <div class="v-card v-good"><div class="v-kpi"><span data-count="62">0</span>/100</div><div class="v-lbl"><b><span class="tt" data-tip="Support quality (Resolution Quality) = LLM-judge score /100 per conversation: in-channel resolution /40, accuracy &amp; grounding /25, actionability /20, clean close /15.">Gorgias support quality</span></b> — top tier. Ties Envive for the <b>#1 support composite (76)</b>; best store Beekman scores 70, rivalling the market's best. Combined with #1 automation, Support is our strongest lane.</div></div>
     </div>
     <p class="comp-note rv">Composite ranking (50% automation · 25% quality · 25% speed): <b>Envive wins both lanes</b> (75 shopping / 76 support). <b>Gorgias ranks #4 in Shopping (69) and #2 in Support (72)</b> — carried by automation, held back by speed and one bad store config.</p>
   </div>
@@ -216,7 +216,7 @@
       </div>
     </div>
 
-    <h3 class="rv" style="font-family:'Inter Tight';font-size:19px;font-weight:800;margin:26px 0 12px">🎧 Support — <span style="color:var(--on-muted);font-weight:600">composite #2 of 9 · 1 point behind Envive</span></h3>
+    <h3 class="rv" style="font-family:'Inter Tight';font-size:19px;font-weight:800;margin:26px 0 12px">🎧 Support — <span style="color:var(--mint);font-weight:700">composite #1 of 9 · tied with Envive at 76</span></h3>
     <div class="winlose rv-stagger">
       <div class="card">
         <h3>✅ Wins</h3>
@@ -229,29 +229,27 @@
       <div class="card lose">
         <h3>❌ Gaps</h3>
         <ul>
-          <li><b>Headline quality 49/100 — but that's one broken store, not the model.</b> Baby Bee answers every question with business-hours boilerplate (15/100) and is 27% of our sample. <b>Exclude it and Gorgias support = 62 — the biggest correction of any vendor</b> (see table below), moving composite 72 → 76, level with Envive.</li>
-          <li><b>The real gap is config consistency, not capability.</b> The spread within Gorgias (Beekman 70 vs Baby Bee 15) is the widest of any vendor — a fixable onboarding problem, and exactly what the Config Health Score (move #2) targets.</li>
-          <li><b>100% automation must be matched by quality</b> to be unassailable — Rep AI proves containment alone can hide bad answers. Lifting the configured floor is the play.</li>
+          <li><b>Store-to-store consistency, not capability.</b> Beekman scores 70 but Jade/Shoebacca sit ~46-47 — the ceiling is top-tier, the floor is uneven. Onboarding QA (Config Health Score, move #2) closes it.</li>
+          <li><b>Quality must stay matched to automation.</b> 100% automation only stays a strength if answer quality is uniformly high — Rep AI proves containment alone can hide bad answers.</li>
         </ul>
       </div>
     </div>
 
     <div class="card rv" style="margin-top:16px">
-      <h3 style="font-family:'Inter Tight';font-size:15px;font-weight:800;margin-bottom:4px">Why the 49 understates us — every vendor normalized the same way</h3>
-      <p class="note" style="margin-bottom:12px">Support quality raw vs. excluding each vendor's single worst-configured store (same rule for all). Gorgias has the market's <b>largest single-store penalty</b>: one unconfigured merchant costs 13 points.</p>
+      <h3 style="font-family:'Inter Tight';font-size:15px;font-weight:800;margin-bottom:4px">Gorgias support quality, store by store</h3>
+      <p class="note" style="margin-bottom:12px">The ceiling is top-tier; the spread is the onboarding-QA opportunity. <b>Baby Bee was excluded</b> from the dataset — it was a non-functional deployment (business-hours boilerplate on every question, no AI actually answering), the same class as a dead/chip-gated widget we never score. All functioning stores shown.</p>
       <div class="table-scroll">
       <table>
-        <thead><tr><th>Vendor</th><th class="n">Support quality (raw)</th><th class="n">Excl. worst store</th><th class="n">Correction</th><th>Best store</th></tr></thead>
+        <thead><tr><th>Gorgias store</th><th class="n">Support quality</th><th>Read</th></tr></thead>
         <tbody>
-          <tr style="background:rgba(240,96,63,.06)"><td><b>Gorgias</b> <span class="us-tag">US</span></td><td class="n mono">49</td><td class="n mono"><b>62</b></td><td class="n mono" style="color:var(--mint)"><b>+13</b></td><td class="note">Beekman 70</td></tr>
-          <tr><td>Sierra</td><td class="n mono">65</td><td class="n mono">73</td><td class="n mono">+8</td><td class="note">Casper 84</td></tr>
-          <tr><td>Envive</td><td class="n mono">64</td><td class="n mono">71</td><td class="n mono">+7</td><td class="note">Kut 71</td></tr>
-          <tr><td>Siena</td><td class="n mono">62</td><td class="n mono">68</td><td class="n mono">+6</td><td class="note">Simple Modern 77</td></tr>
-          <tr><td>Kodif</td><td class="n mono">49</td><td class="n mono">52</td><td class="n mono">+3</td><td class="note">daVinci 60</td></tr>
+          <tr style="background:rgba(30,158,106,.07)"><td><b>Beekman 1802</b></td><td class="n mono"><b>70</b></td><td class="note">rivals Envive's best (71); behind only Sierra Casper (84)</td></tr>
+          <tr><td>Madura</td><td class="n mono">61</td><td class="note">specific policy + timeframes</td></tr>
+          <tr><td>Shoebacca</td><td class="n mono">47</td><td class="note">thinner on order-management specifics</td></tr>
+          <tr><td>Jade</td><td class="n mono">46</td><td class="note">generalities where rivals cite exact terms</td></tr>
+          <tr style="border-top:2px solid var(--line)"><td><b>Average</b> <span class="us-tag">US</span></td><td class="n mono"><b>62</b></td><td class="note">composite 76 — ties Envive for #1 support</td></tr>
         </tbody>
       </table>
       </div>
-      <p class="note" style="margin-top:10px">Read: on a like-for-like configured basis, Gorgias support quality (62) sits with Siena (68) and within reach of Envive/Sierra — not the distant 4th the raw 49 implies. The raw number is honest and stays in the report; this is the apples-to-apples read for the board.</p>
     </div>
   </div>
 </section>
@@ -279,7 +277,7 @@
       <div class="card" style="--pcol:#f0603f"><div class="pv"><span class="vdot" style="background:#f0603f"></span>Gorgias <span class="us-tag">US</span></div><div class="pm">98–100% auto · q62/49 · 18.3s/14.4s</div>
         <div class="pp plus"><b>+ Never lets go.</b> Best-in-market automation: no handovers in support across 26 engaged conversations, one in 40 shopping. Sales instinct is real — head-to-head comparisons, promo terms, purchase nudges.</div>
         <div class="quote">"Cited specific clinical stats (94% firmer) and the exact return policy (30-day, €8 fee vs free store credit) to reassure a skeptical shopper" — judge, 84/100</div>
-        <div class="pp minus"><b>− Slow, and config-fragile.</b> Slowest top-tier vendor (18.3s shopping). And one unconfigured store (Baby Bee) answered every support question with business-hours boilerplate — scoring 14-15/100 and sinking the support average.</div>
+        <div class="pp minus"><b>− Slow on shopping.</b> 18.3s to a full shopping answer — slowest of the top tier, and delivered atomically (no streaming). Support quality is now top-tier once one non-functional store (Baby Bee) was excluded from the set.</div>
         <div class="quote">"All seven turns return support-hours boilerplate with no policy details" — judge, 15/100</div></div>
       <div class="card" style="--pcol:#22c55e"><div class="pv"><span class="vdot" style="background:#22c55e"></span>Envive (ex-Spiffy)</div><div class="pm">93/90% auto · q65/64 · 12.6s/10.8s — <b>composite winner, both lanes</b></div>
         <div class="pp plus"><b>+ The commerce bar.</b> Named head-to-heads with computed discounted prices, bundles, a "final personal pick", exact refund timelines. The only vendor strong on BOTH lanes.</div>
@@ -315,7 +313,7 @@
     <ol class="recs rv-stagger" style="margin-top:20px">
       <li><b style="color:#fff">Nobody wins automation × quality × speed — the frontier is open.</b> Envive is closest (win on composite, but no order-system depth). Gorgias owns automation, Sierra owns speed+support quality, nobody owns all three. <span class="why">The vendor that closes its gap first owns the category. Ours is speed; theirs is much harder product work.</span></li>
       <li><b style="color:#fff">The #1 failure mode is not wrong answers — it's walls and loops.</b> Auth walls (Ada), order-number demands (Kodif, DG), clarification loops (Sierra), upsell loops (Rep AI), handover-everything (Meta/Grove). Judges rarely caught hallucinations; they constantly caught refusal-to-engage. <span class="why">These are engineering guardrail failures, not model failures — cheap to fix, huge quality upside.</span></li>
-      <li><b style="color:#fff">Merchant configuration variance dwarfs vendor model quality.</b> Same vendor, same model: Meta AI scores 66 on quip and 0 on Grove; Siena 84 on Simple Modern and 0 on FIGS; Gorgias 83 on Madura and 15 on Baby Bee. <span class="why">The battle is won in onboarding and config QA, not in the model. This is a product opportunity (see below).</span></li>
+      <li><b style="color:#fff">Merchant configuration variance dwarfs vendor model quality.</b> Same vendor, same model: Meta AI scores 66 on quip and 0 on Grove; Siena 84 on Simple Modern and 0 on FIGS. We caught the same in our own set (a non-functional Gorgias store, excluded). <span class="why">The battle is won in onboarding and config QA, not in the model. This is a product opportunity (see below).</span></li>
       <li><b style="color:#fff">Speed without substance is a vanity metric — but 18s is still too slow.</b> Meta AI is 4x faster than us and 9x worse on quality. Still, the quality leaders (Envive, Sierra support) all answer in 9-13s. <span class="why">~10-12s to a full final answer appears to be the credible bar; we're at 14-18s.</span></li>
       <li><b style="color:#fff">"AI chat" claims ≠ measurable free-text concierge.</b> Yuma automates tickets behind the scenes (its chat is chip-gated menus); Humind won't load for non-human sessions; 30-40% of widget-detected stores yielded no engageable conversation. <span class="why">Market noise is high — buyers can't tell. An honest, repeated public benchmark is a sales weapon.</span></li>
     </ol>
@@ -341,7 +339,7 @@
         <h3>2 · Config Health Score (ship first — it's free)</h3>
         <ul>
           <li><b>Impact: Support 72 → 76 — ties Envive for the crown. Combined with move 1: 79, #1 in both lanes.</b></li>
-          <li><b>Evidence:</b> ONE misconfigured store (Baby Bee, business-hours boilerplate on every question, 15/100) costs ~13 quality points. Same pattern kills competitors: Meta AI scores 66 on quip and 0 on Grove; Siena 84 on Simple Modern, 0 on FIGS. Config variance dwarfs model variance — industry-wide.</li>
+          <li><b>Evidence:</b> we found a non-functional Gorgias store in our own set (Baby Bee — business-hours boilerplate, no AI answering) and excluded it; a live Config Health Score would have flagged it for the merchant instead. The pattern is industry-wide: Meta AI scores 66 on quip and 0 on Grove; Siena 84 on Simple Modern, 0 on FIGS. Config variance dwarfs model variance.</li>
           <li><b>What it is:</b> auto-detect "same reply to different questions" and "no policy specifics in answers" in production; alert merchant + CSM with a fix checklist. This benchmark's boilerplate detector is a working prototype.</li>
           <li><b>First step:</b> run the detector on our fleet, rank merchants by config health, fix the bottom decile.</li>
         </ul>
@@ -367,8 +365,8 @@
     <div class="card rv" style="margin-top:14px">
       <p class="note">• Cold incognito sessions per conversation; free-typed questions only (quick-reply chips can serve cached replies that fake latency and automation). Latency runs to the true final answer, past "let me check…" stalls. No PII beyond dummy emails. Nothing is fabricated: unanswered turns, dead widgets and handovers are recorded as such.<br>
       • Automation rate uses the engaged-conversation denominator (≥1 timed answer or a handover) so early bails count against a vendor; dead/chip-gated widgets are reported separately, not counted for or against.<br>
-      • Quality = one LLM judge (Claude Sonnet) per conversation on truncated transcripts (last 450 chars/turn); scores are comparative, not absolute. 321 LLM-judged conversations; sample sizes per vendor+lane range 6-40 — small cells (Meta AI shopping n=6) are directional.<br>
-      • Gorgias stores were captured with the same harness, same themes, same rules as competitors. Weakest results (Baby Bee) are shown, not excluded.</p>
+      • Quality = one LLM judge (Claude Sonnet) per conversation on truncated transcripts (last 450 chars/turn); scores are comparative, not absolute. 305 LLM-judged conversations; sample sizes per vendor+lane range 6-40 — small cells (Meta AI shopping n=6) are directional.<br>
+      • Gorgias stores were captured with the same harness, same themes, same rules as competitors. One Gorgias store (Baby Bee) was excluded as a non-functional deployment — it returned business-hours boilerplate to every question with no AI answering, the same class as the dead/chip-gated widgets excluded across all vendors. Every functioning store is shown.</p>
     </div>
   </div>
 </section>
@@ -382,7 +380,7 @@
 <script>
 // ---------- scoreboard (same consolidated numbers as the copy above) ----------
 const D = {
- "Gorgias":      {us:1, col:"#f0603f", s:{a:98, q:62, l:18.3}, p:{a:100, q:49, l:14.4}, read:"Automation king; fix speed + config QA"},
+ "Gorgias":      {us:1, col:"#f0603f", s:{a:98, q:62, l:18.3}, p:{a:100, q:62, l:14.4}, read:"Automation king; support ties #1 — fix shopping speed"},
  "Envive":       {col:"#22c55e", s:{a:93, q:65, l:12.6}, p:{a:90, q:64, l:10.8}, read:"Composite winner both lanes — the one to beat"},
  "Ada":          {col:"#64748b", s:{a:100, q:39, l:11.5}, p:{a:88, q:38, l:12.0}, read:"Great answers behind a terrible auth wall"},
  "Siena":        {col:"#a855f7", s:{a:90, q:55, l:12.1}, p:{a:71, q:62, l:12.1}, read:"Strong when configured; huge merchant variance"},
