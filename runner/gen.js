@@ -78,6 +78,8 @@ const CURATED = {
 
 const host = (url) => { try { return new URL(url).host.replace(/^www\./, "") + new URL(url).pathname.replace(/\/$/, ""); } catch { return (url || "").replace(/^https?:\/\//, "").replace(/^www\./, "").replace(/\/$/, ""); } };
 const round1 = (n) => Math.round(n * 10) / 10;
+// p-th percentile (nearest-rank) — used for p75 latency, Gorgias's headline latency metric.
+const percentile = (arr, p) => { if (!arr || !arr.length) return null; const s = [...arr].sort((a, b) => a - b); return s[Math.min(s.length - 1, Math.floor(p / 100 * s.length))]; };
 
 // Clean the captured reply tail into a short, honest answer cell.
 function cleanReply(s) {
@@ -207,6 +209,7 @@ async function loadAgg(key, mode, date) {
       answered_no_handover: answered,
       success_rate: totalTurns ? Math.round((answered / totalTurns) * 100) : null,
       avg_ms: aiMs.length ? Math.round(aiMs.reduce((a, b) => a + b, 0) / aiMs.length) : null,
+      p75_ms: aiMs.length ? Math.round(percentile(aiMs, 75)) : null,   // Gorgias benchmarks on p75
       min_ms: aiMs.length ? Math.min(...aiMs) : null,
       max_ms: aiMs.length ? Math.max(...aiMs) : null,
       ttft_ms: ttfts.length ? Math.round(median(ttfts)) : null,      // median first-signal
@@ -251,6 +254,7 @@ function measuredEntry(site, mode, agg, date) {
     widget: site.widget, locale: site.locale || "en-US",
     method: "new", us: !!site.us,
     lat: avgS != null ? `~${avgS}s` : "—", latPct: avgS != null ? Math.min(100, Math.round(avgS / 25 * 100)) : 0,
+    latP75: st.p75_ms != null ? round1(st.p75_ms / 1000) : null,   // p75 latency (seconds)
     ttft: st.ttft_ms != null ? round1(st.ttft_ms / 1000) : null, delivery: st.delivery,
     success, successTxt: success != null ? success + "%" : "—",
     avgTurns: st.avg_turns,
@@ -299,10 +303,11 @@ async function buildMode(mode) {
   const out = [];
   for (const site of SITES) {
     if (!site.url) continue;                 // skip TBD placeholder rows
-    // Shopping lane: only Gorgias stores confirmed on AI Agent V3 (Evoli) count — V2
-    // shopping isn't representative of the shipping product (Cortex ai_next_gen /
-    // v3_ai_agent_architecture_beta_phase; v3:false stores like Jade are excluded here).
-    if (mode === "shopping" && site.vendor === "Gorgias" && site.v3 === false) continue;
+    // Standing rule (Max): a Gorgias store confirmed NOT on AI Agent V3 (Evoli) is excluded
+    // from BOTH lanes — V2 isn't representative of the shipping product and drags the numbers
+    // down abnormally. `v3:false` is set from Cortex dim_accounts.v3_ai_agent_architecture_beta_phase
+    // (null = not V3). e.g. Jade (drags support to q41-49), Tommy John, Dr. Bronner's.
+    if (site.vendor === "Gorgias" && site.v3 === false) continue;
     // Accumulate: one dated entry per run that actually captured this store.
     let anyMeasured = false;
     for (const date of DATES) {
@@ -379,8 +384,11 @@ function laneScores(arr) {
     const a = ag.e ? Math.round(100 * ag.a / ag.e) : null;
     const q = qN.length ? Math.round(qN.reduce((x, y) => x + y, 0) / qN.length) : null;
     const l = lN.length ? Math.round(lN.reduce((x, y) => x + y, 0) / lN.length * 10) / 10 : null;
+    // p75 pooled over EVERY timed AI turn across the vendor's stores (baked turn.lat = seconds)
+    const turnLats = es.flatMap(s => (s.themes || []).flatMap(t => (t.turns || []).filter(x => x.by === "ai" && x.lat != null).map(x => x.lat)));
+    const l75 = turnLats.length ? Math.round(percentile(turnLats, 75) * 10) / 10 : null;
     if (a == null && q == null && l == null) continue;
-    out[v] = { a, q, l };
+    out[v] = { a, q, l, l75 };
   }
   return out;
 }
