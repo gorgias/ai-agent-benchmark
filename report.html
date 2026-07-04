@@ -178,6 +178,11 @@
   .best-list{margin-top:10px;display:flex;flex-direction:column}
   .best-row{display:flex;align-items:center;gap:10px;padding:8px 4px;border-top:1px solid var(--line);font-size:13px}
   .best-rank{color:var(--on-faint);font-weight:700;width:24px}
+  /* the "i" that reveals the per-vendor scientific reasoning on hover */
+  .why-i{display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;flex:none;border-radius:50%;
+    border:1.3px solid var(--primary);color:var(--primary);font-size:10px;font-weight:800;font-style:normal;cursor:help;
+    margin-left:6px;line-height:1;transition:background .15s,color .15s}
+  .why-i:hover{background:var(--primary);color:#fff}
   .best-rname{flex:0 0 118px;display:flex;align-items:center;font-weight:600;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
   .best-bar{flex:1}
   .best-rnum{font-weight:800;width:26px;text-align:right}
@@ -353,9 +358,9 @@
 <div class="wrap">
 
 <div class="modebar">
-  <button class="modebtn" data-m="shopping" aria-selected="true" onclick="setMode('shopping')">🛍️ Shopping Assistant</button>
+  <button class="modebtn" data-m="best" aria-selected="true" onclick="setMode('best')">🏆 Best AI Agent</button>
+  <button class="modebtn" data-m="shopping" aria-selected="false" onclick="setMode('shopping')">🛍️ Shopping Assistant</button>
   <button class="modebtn" data-m="support" aria-selected="false" onclick="setMode('support')">🎧 Support</button>
-  <button class="modebtn" data-m="best" aria-selected="false" onclick="setMode('best')">🏆 Best AI Agent</button>
 </div>
 <p class="lead" id="mode-note" style="text-align:center;margin:0 auto 6px">Shopping-discovery conversations that must end in a real product recommendation.</p>
 
@@ -31439,20 +31444,44 @@ function aggVendors(dataset){
     .map(r=>({...r, comp: composite(r)}))
     .sort((a,b)=> (b.eligible-a.eligible) || (b.comp||-1)-(a.comp||-1) || (b.autoRate||0)-(a.autoRate||0));
 }
+// Per-vendor scientific reasoning — built from THIS vendor's actual measured metrics, so the
+// "why it ranks here" is transparent and auditable, not editorial. Shown on the ⓘ hover.
+function bestReason(r, rank, total){
+  const s1=x=>Math.round(x*10)/10, pct=c=>Math.round(c*100)+'%';
+  const sp = r.avgL!=null? Math.round(speedScore(r.avgL)) : null;
+  const dims=[
+    {k:'automation', w:50, v:(r.autoRate!=null?r.autoRate:(r.avgS!=null?Math.round(r.avgS):null)),
+      raw:(r.autoRate!=null? r.autoRate+'% of engaged conversations carried end-to-end — no human handover, no email/phone deflection' : Math.round(r.avgS)+'% turn success (legacy proxy)')},
+    {k:'answer quality', w:25, v:r.avgQ, raw:(r.avgQ!=null? r.avgQ+'/100 on the LLM-judge rubric' : 'not quality-scored')},
+    {k:'speed', w:25, v:sp, raw:(r.avgL!=null? '~'+s1(r.avgL)+'s to the full answer → '+sp+'/100 on the speed curve (100 at ≤3s, 0 at ≥22s)' : 'no cleanly-timed turns')},
+  ];
+  const scored=dims.filter(d=>d.v!=null);
+  const lead=[...scored].sort((a,b)=>b.v-a.v)[0], lag=[...scored].sort((a,b)=>a.v-b.v)[0];
+  const contrib=scored.map(d=>d.w+'%×'+d.v).join(' + ');
+  let t='Composite '+r.comp+'/100  =  '+contrib+', renormalized. ';
+  t+='Ranked #'+rank+' of '+total+'. ';
+  t+='Strongest dimension: '+lead.k+' — '+lead.raw+'. ';
+  if(lag!==lead) t+='Weakest: '+lag.k+' — '+lag.raw+'. ';
+  t+='Basis: '+r.timed+' cleanly-timed turns across '+r.stores+' store'+(r.stores>1?'s':'')+', '+pct(r.cov)+' measurement coverage.';
+  if(r.v==='Gorgias') t+='  ◆ This is us.';
+  return t.replace(/"/g,'&quot;');
+}
 function renderBestPanel(elId, allRows){
   const el=document.getElementById(elId); if(!el) return;
   const col=v=>COL[v]||'#888', s1=x=>Math.round(x*10)/10, pct=c=>Math.round(c*100)+'%';
   const rows=allRows.filter(r=>r.eligible), gated=allRows.filter(r=>!r.eligible);
   if(!rows.length){ el.innerHTML='<div class="best-empty">Not enough cleanly-timed turns in this window to rank anyone on speed yet.</div>'+gatedHtml(gated,col,pct); return; }
+  const N=rows.length;
+  const iChip=(r,rank)=>'<span class="why-i" data-tip="'+bestReason(r,rank,N)+'">i</span>';
   const w=rows[0];
   let h='<div class="best-winner"><div class="best-medal">#1 · winner</div>'+
-    '<div class="best-wmain"><div class="best-name"><span class="vdot" style="background:'+col(w.v)+'"></span>'+w.v+(w.us?'<span class="us-tag">US</span>':'')+'</div>'+
+    '<div class="best-wmain"><div class="best-name"><span class="vdot" style="background:'+col(w.v)+'"></span>'+w.v+(w.us?'<span class="us-tag">US</span>':'')+iChip(w,1)+'</div>'+
     '<div class="best-sub">'+(w.autoRate!=null?w.autoRate+'% automation':Math.round(w.avgS)+'% success (legacy)')+' · ~'+s1(w.avgL)+'s'+(w.avgQ!=null?' · quality '+w.avgQ+'/100':'')+' · '+pct(w.cov)+' coverage</div></div>'+
     '<div class="best-score">'+w.comp+'<span>/100</span></div></div>';
   if(rows.length>1){
     h+='<div class="best-list">'+rows.slice(1).map((r,i)=>
       '<div class="best-row"><span class="best-rank">#'+(i+2)+'</span>'+
-      '<span class="best-rname"><span class="vdot" style="background:'+col(r.v)+'"></span>'+r.v+(r.us?'<span class="us-tag">US</span>':'')+'</span>'+
+      '<span class="best-rname"><span class="vdot" style="background:'+col(r.v)+'"></span>'+r.v+(r.us?'<span class="us-tag">US</span>':'')+iChip(r,i+2)+'</span>'+
       '<span class="bar best-bar"><i style="width:'+r.comp+'%;background:'+col(r.v)+'"></i></span>'+
       '<span class="best-rnum mono">'+r.comp+'</span>'+
       '<span class="best-rmeta mono">'+(r.autoRate!=null?r.autoRate+'% auto · ':'')+s1(r.avgL)+'s'+(r.avgQ!=null?' · q'+r.avgQ:'')+'</span>'+
@@ -31614,7 +31643,7 @@ function renderLeaders(){
     mk('Fastest full answer','⚡',lArr,r=>(Math.round(r.avgL*10)/10)+'s') +
     (sArr.length? mk('Fastest first signal','✨',sArr,r=>(Math.round(r.avgTtft*10)/10)+'s') : '');
 }
-let VIEW='shopping';                       // top-level tab: shopping | support | best
+let VIEW='best';                           // top-level tab: best | shopping | support (Best shows first)
 function applyView(){
   const isBest = VIEW==='best';
   const show=(id,on)=>{ const e=document.getElementById(id); if(e) e.style.display = on?'':'none'; };
@@ -31622,6 +31651,9 @@ function applyView(){
   show('summary-sec', !isBest);
   show('results-sec', !isBest);
   show('conv-sec', !isBest);
+  show('trend-sec', !isBest);              // trends/guardrails/coverage belong to the detailed views
+  show('guard-sec', !isBest);
+  show('coverage-sec', !isBest);
   show('caps-sec', !isBest && MODE==='shopping');
   // method & caveats stays visible in every view
   document.getElementById('mode-note').textContent = isBest
@@ -31687,8 +31719,10 @@ function setMode(m){
   renderAll();
 }
 // --- persist tab / mode / sort / date window ---
-function saveState(){ try{ localStorage.setItem('sb.v1', JSON.stringify({view:VIEW, mode:MODE, ss:SSORT, rs:RSORT, from:DATE_FROM, to:DATE_TO})); }catch(e){} }
-function loadState(){ try{ const s=JSON.parse(localStorage.getItem('sb.v1')||'null'); if(!s) return null; if(s.mode) MODE=s.mode; VIEW = s.view || s.mode || 'shopping'; if(s.ss) SSORT=s.ss; if(s.rs) RSORT=s.rs; return s; }catch(e){ return null; } }
+function saveState(){ try{ localStorage.setItem('sb.v2', JSON.stringify({view:VIEW, mode:MODE, ss:SSORT, rs:RSORT, from:DATE_FROM, to:DATE_TO})); }catch(e){} }
+// key bumped to v2 so the new "Best AI Agent first" default lands for everyone (a stale
+// saved tab from v1 can't pin an old landing view).
+function loadState(){ try{ const s=JSON.parse(localStorage.getItem('sb.v2')||'null'); if(!s) return null; if(s.mode) MODE=s.mode; VIEW = s.view || s.mode || 'best'; if(s.ss) SSORT=s.ss; if(s.rs) RSORT=s.rs; return s; }catch(e){ return null; } }
 const _saved = loadState();
 document.querySelectorAll('.modebtn[data-m]').forEach(b=>b.setAttribute('aria-selected', b.dataset.m===VIEW));
 // Restore a saved window ONLY if it still covers the newest capture; a stale end-date
