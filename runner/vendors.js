@@ -604,6 +604,7 @@ export const STORES = [
   { key: "gorgias-tommyjohn", vendor: "Gorgias", store: "Tommy John",   url: "https://www.tommyjohn.com/",  widget: "gorgias", us: true, v3: false }, // config.gorgias — NOT on V3 (Cortex: v3 phase null, SA never enabled) → excluded from Shopping
   { key: "gorgias-pepper",    vendor: "Gorgias", store: "Pepper",       url: "https://www.wearpepper.com/", widget: "gorgias", us: true, v3: true }, // config.gorgias + gorgias-chat — V3 (Cortex: beta_2_actions)
   { key: "gorgias-drbronner", vendor: "Gorgias", store: "Dr. Bronner's",url: "https://www.drbronner.com/",  widget: "gorgias", us: true, v3: false }, // config.gorgias — NOT on V3 (Cortex: v3 phase null; runs legacy/V2 Shopping Assistant) → excluded from Shopping
+  { key: "gorgias-glamnetic", vendor: "Gorgias", store: "Glamnetic",    url: "https://www.glamnetic.com/",  widget: "gorgias", us: true, modes: ["support"] }, // config.gorgias — SUPPORT ONLY per Max (not Shopping Assistant)
   { key: "meta-butcherbox",   vendor: "Meta AI", store: "ButcherBox",   url: "https://www.butcherbox.com/", widget: "zendesk" },           // static.zdassets
   // Siena (chat.siena.cx webchat)
   { key: "siena-mudwtr",      vendor: "Siena",  store: "MUD\\WTR",    url: "https://mudwtr.com/",         widget: "siena" },
@@ -633,6 +634,9 @@ export const STORES = [
   { key: "humind-puressentiel",vendor:"Humind", store: "Puressentiel",url: "https://fr.puressentiel.com/",widget: "humind", candidate: true, locale: "fr-FR" },
   { key: "humind-yumi",       vendor: "Humind", store: "Yumi",        url: "https://www.yumi.fr/",        widget: "humind", candidate: true, locale: "fr-FR" },
   { key: "humind-stormrock",  vendor: "Humind", store: "Stormrock",   url: "https://stormrock.fr/",       widget: "humind", candidate: true, locale: "fr-FR" },
+  { key: "humind-weedy",      vendor: "Humind", store: "Weedy",       url: "https://weedy.fr/",           widget: "humind", candidate: true, locale: "fr-FR" }, // signature-verified: humind
+  { key: "humind-solsemilla", vendor: "Humind", store: "Sol Semilla", url: "https://sol-semilla.fr/",     widget: "humind", candidate: true, locale: "fr-FR" }, // signature-verified: humind
+  // NOTE: lamaisonconvertible.fr requested for Humind but is actually iAdvize (no humind signature) — skipped to avoid mislabeling.
   // Rep AI — headed-only (concierge injects ~12-15s after load). candidate=excluded from headless runs.
   { key: "repai-olly",        vendor: "Rep AI", store: "OLLY",            url: "https://www.olly.com/",          widget: "repai", candidate: true },
   { key: "repai-higherdose",  vendor: "Rep AI", store: "HigherDOSE",      url: "https://higherdose.com/",        widget: "repai", candidate: true },
@@ -657,6 +661,7 @@ export const STORES = [
   { key: "klaviyo-nanuk",     vendor: "Klaviyo", store: "NANUK",           url: "https://nanuk.com/",             widget: "klaviyo", candidate: true },
   { key: "klaviyo-naked",     vendor: "Klaviyo", store: "Naked Wardrobe",  url: "https://www.nakedwardrobe.com/", widget: "klaviyo", candidate: true },
   { key: "klaviyo-happywax",  vendor: "Klaviyo", store: "HappyWax",        url: "https://happywax.com/",          widget: "klaviyo", candidate: true },
+  { key: "klaviyo-harney",    vendor: "Klaviyo", store: "Harney & Sons",   url: "https://www.harney.com/",        widget: "klaviyo", candidate: true }, // signature-verified: klaviyo-onsite
   // Shopify Inbox (native) — expected gated/single-shot ticket form (Roman); the finding IS the result.
   { key: "shopify-schott",    vendor: "Shopify Inbox", store: "Schott NYC", url: "https://www.schottnyc.com/",    widget: "shopify_inbox", candidate: true },
   { key: "shopify-jnco",      vendor: "Shopify Inbox", store: "JNCO",       url: "https://www.jnco.com/",          widget: "shopify_inbox", candidate: true },
@@ -678,15 +683,18 @@ export const STORES = [
   { key: "repai-fass",        vendor: "Rep AI", store: "FASS Motorsports", url: "https://www.fassmotorsports.com/", widget: "repai" },
 ];
 
-// Find a frame by element id / title / name / url.
+// Find a frame by element id / title / name / url. `match` may be a string
+// (substring) OR a RegExp (e.g. Klaviyo's /klaviyo|chat|assistant/i) — using
+// .includes() on a regex throws, so route through this predicate.
 export async function findFrame(page, match) {
+  const hit = (s) => match instanceof RegExp ? match.test(s || "") : (s || "").includes(match);
   for (const f of page.frames()) {
-    if ((f.name() || "").includes(match) || f.url().includes(match)) return f;
+    if (hit(f.name()) || hit(f.url())) return f;
     try {
       const el = await f.frameElement();
       const id = (await el.getAttribute("id")) || "";
       const title = (await el.getAttribute("title")) || "";
-      if (id.includes(match) || title.includes(match)) return f;
+      if (hit(id) || hit(title)) return f;
     } catch {}
   }
   return null;

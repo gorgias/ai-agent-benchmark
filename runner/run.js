@@ -349,7 +349,8 @@ async function runStoreMode(browser, store, mode, theme) {
   const convFile = (k, mode, theme) => `${CONV_DIR}/${k}-${mode}-${theme}.json`;
   const tasks = [];
   let skipped = 0;
-  for (const store of targets) for (const mode of MODES) {
+  for (const store of targets) for (const mode of MODES.filter(m => !store.modes || store.modes.includes(m))) {
+    // per-store `modes` restricts a store to specific lanes (e.g. Glamnetic = support only)
     let themes = mode === "support" ? SUPPORT_THEMES : SHOPPING_THEMES;
     if (THEME_LIMIT) themes = themes.slice(0, THEME_LIMIT);
     for (const theme of themes) {
