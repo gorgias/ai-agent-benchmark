@@ -37,6 +37,9 @@ async function allDates() {
 // are kept. Pass --date to regenerate from a single run only.
 const DATES = dateArg ? [dateArg] : (await allDates());
 const LATEST = DATES[DATES.length - 1];
+// Trailing 14-day window (inclusive) for RANKINGS — the point is that older runs matter less
+// as new ones accumulate. ISO date strings compare lexically, so a string cutoff is enough.
+const CUTOFF_14D = (() => { const d = new Date(LATEST + "T00:00:00Z"); d.setUTCDate(d.getUTCDate() - 13); return d.toISOString().slice(0, 10); })();
 console.log(`Generating report data from ${DATES.length} run(s): ${DATES.join(", ")}`);
 
 // Per-CONVERSATION LLM-judge eval scores (eval-scores.json, built by eval-pack/eval-merge +
@@ -375,7 +378,8 @@ const PALETTE = { Gorgias:"#f0603f", Envive:"#22c55e", Ada:"#64748b", Siena:"#a8
 const speedScoreG = (l) => Math.max(0, Math.min(100, (22 - l) / 19 * 100));
 const latNumG = (s) => { const m = (s.lat || "").match(/[\d.]+/); return m ? parseFloat(m[0]) : null; };
 function laneScores(arr) {
-  const byV = {}; arr.forEach(s => { (byV[s.vendor] = byV[s.vendor] || []).push(s); });
+  // rankings use only the trailing 14 days (recency-weighted — older runs age out)
+  const byV = {}; arr.filter(s => !s.date || s.date >= CUTOFF_14D).forEach(s => { (byV[s.vendor] = byV[s.vendor] || []).push(s); });
   const out = {};
   for (const [v, es] of Object.entries(byV)) {
     const ag = es.reduce((a, s) => { if (s.auto) { a.a += s.auto.automated; a.e += s.auto.engaged; } return a; }, { a: 0, e: 0 });

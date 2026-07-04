@@ -22,6 +22,7 @@
   body{font-family:'Inter',-apple-system,sans-serif;background:var(--paper);color:var(--on);-webkit-font-smoothing:antialiased;line-height:1.55;overflow-x:hidden}
   .mono{font-family:'JetBrains Mono',ui-monospace,monospace;font-variant-numeric:tabular-nums}
   .p75mut{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:10.5px;color:var(--on-faint);font-weight:600;margin-top:2px}
+  .prank{display:inline-flex;align-items:center;justify-content:center;min-width:24px;height:22px;padding:0 6px;margin-right:9px;border-radius:6px;background:var(--ink);color:#fff;font-family:'Inter Tight';font-weight:800;font-size:12px;flex:none;vertical-align:middle}
   a{color:var(--coral)}
   ::selection{background:var(--coral);color:#fff}
   :focus-visible{outline:2px solid var(--coral);outline-offset:2px;border-radius:4px}
@@ -259,6 +260,7 @@
   <div class="wrap">
     <div class="kicker rv">Provider profiles</div>
     <h2 class="rv">What each provider does differently.</h2>
+    <p class="lead rv">Ranked <b>#1–#N by overall composite</b> (mean of both lanes) over the <b>trailing 14 days</b> — recent runs count, older ones age out. "Not measurable" providers (no drivable free-text agent) are unranked.</p>
     <div class="prof rv-stagger" style="margin-top:22px">
       <div class="card" style="--pcol:#f0603f"><div class="pv"><span class="vdot" style="background:#f0603f"></span>Gorgias <span class="us-tag">US</span></div><div class="pm">98/86% auto · q65/66 · 18.2s/14.8s · p75 20.7s/15.2s</div>
         <div class="pp plus"><b>+ Never lets go.</b> Best-in-market automation — ~86% in support, 98% in shopping. Sales instinct is real: head-to-head comparisons, promo terms, purchase nudges, and the V3 Shopping Assistant renders product cards. Shopping quality now ties Envive (65).</div>
@@ -388,6 +390,21 @@ document.querySelector('#score-table tbody').innerHTML=rows.map(r=>
  '<td>'+pill(r.s&&r.s.q,60,40)+' / '+pill(r.p&&r.p.q,60,40)+'</td>'+
  '<td class="n mono">'+latCell(r.s)+' / '+latCell(r.p)+'<div class="p75mut">p75 '+cell(r.s,'l75')+(r.s&&r.s.l75!=null?'s':'')+' / '+cell(r.p,'l75')+(r.p&&r.p.l75!=null?'s':'')+'</div></td></tr>').join('');
 function latCell(m){ return (m&&m.l!=null)? m.l+'s' : '—'; }
+
+// Provider-profile ranking: rank vendors by overall composite (mean of shopping+support,
+// over the trailing-14-day D) and inject a #N badge into each profile card. Data-driven so
+// it never drifts from the scoreboard.
+(function(){
+  const ranked = Object.entries(D).map(([v,d])=>{ const vals=[comp(d.s),comp(d.p)].filter(x=>x!=null); return {v, overall: vals.length?Math.round(vals.reduce((a,b)=>a+b,0)/vals.length):null}; })
+    .filter(x=>x.overall!=null).sort((a,b)=>b.overall-a.overall);
+  const rankOf={}; ranked.forEach((x,i)=>rankOf[x.v]=i+1);
+  const keys=Object.keys(rankOf).sort((a,b)=>b.length-a.length);
+  document.querySelectorAll('#providers .prof .card .pv').forEach(pv=>{
+    const txt=(pv.textContent||'').trim().toLowerCase();
+    const key=keys.find(k=> txt.startsWith(k.toLowerCase()) || txt.includes(k.toLowerCase()));
+    if(key && rankOf[key]){ const b=document.createElement('span'); b.className='prank'; b.textContent='#'+rankOf[key]; pv.insertBefore(b, pv.firstChild); }
+  });
+})();
 
 
 // ---------- living, POINTER-REACTIVE mesh-gradient hero (ink-in-water on paper) ----------
