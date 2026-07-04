@@ -1,0 +1,74 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<meta http-equiv="refresh" content="12">
+<title>Run status — Gorgias AI Agent Benchmark</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Inter+Tight:wght@700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#16120D;--paper:#F6F2EC;--on:#1B1712;--mut:#6B6259;--faint:#A89D92;--coral:#F0603F;--mint:#1E9E6A;--amber:#D98A00;--red:#D64545;--line:rgba(27,23,18,.10)}
+*{box-sizing:border-box;margin:0;padding:0}body{font-family:'Inter',-apple-system,sans-serif;background:var(--paper);color:var(--on);padding:28px 22px 60px;line-height:1.5}
+.mono{font-family:'JetBrains Mono',ui-monospace,monospace;font-variant-numeric:tabular-nums}.n{text-align:right}.note{color:var(--mut);font-size:12.5px}.warn{color:var(--amber);font-weight:700}
+.wrap{max-width:900px;margin:0 auto}
+h1{font-family:'Inter Tight';font-size:30px;font-weight:900;letter-spacing:-.02em;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+a.back{color:var(--coral);text-decoration:none;font-weight:700;font-size:13px}
+.badge{font-size:12px;font-weight:800;padding:4px 11px;border-radius:999px;letter-spacing:.02em}
+.badge.live{background:#FDEAEA;color:var(--red)}.badge.ok{background:#E2F4EA;color:var(--mint)}.badge.idle{background:#EEE9E4;color:var(--faint)}
+.sub{color:var(--mut);font-size:13px;margin-top:6px}
+.big{margin:26px 0;background:#fff;border:1px solid var(--line);border-radius:18px;padding:22px 24px}
+.big .pct{font-family:'Inter Tight';font-size:52px;font-weight:900;letter-spacing:-.03em;line-height:1}
+.big .cap{color:var(--mut);font-size:13px;margin-top:2px}
+.bar{height:9px;border-radius:999px;background:rgba(27,23,18,.08);overflow:hidden}.bar span{display:block;height:100%;border-radius:999px}
+.big .bar{height:14px;margin-top:16px}.big .bar span{background:linear-gradient(90deg,var(--coral),#FF8B5D)}
+.kpis{display:flex;gap:26px;margin-top:14px;flex-wrap:wrap}.kpi b{font-family:'Inter Tight';font-size:22px;font-weight:800}.kpi span{color:var(--mut);font-size:12px;display:block}
+h2{font-family:'Inter Tight';font-size:16px;font-weight:800;margin:26px 0 10px}
+table{width:100%;border-collapse:collapse;font-size:13px;background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+th{font-size:10.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--faint);text-align:left;padding:9px 12px;border-bottom:1px solid var(--line)}
+td{padding:9px 12px;border-bottom:1px solid rgba(27,23,18,.05);vertical-align:middle}tr:last-child td{border-bottom:none}
+.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:8px;vertical-align:baseline}
+.chip{display:inline-block;font-size:11.5px;font-weight:700;background:#FDEAEA;color:var(--red);padding:2px 9px;border-radius:999px;margin:2px 0}
+.feed{background:var(--ink);color:#E9E3DA;border-radius:14px;padding:14px 16px;font-family:'JetBrains Mono',monospace;font-size:11.5px;line-height:1.7;max-height:320px;overflow:auto}
+.ev-done{color:#43D598}.ev-fail{color:#FF7A5C}.ev-run{color:#C9BEB0}
+</style></head><body><div class="wrap">
+<h1>Capture run status <span class="badge live">● LIVE — capturing</span></h1>
+<div class="sub">Run date <b>2026-07-03</b> · snapshot 2026-07-04 14:32:42 UTC · <a class="back" href="report.html">← report</a> · <a class="back" href="takeaways.html">summary</a></div>
+
+<div class="big">
+  <div class="pct">6%</div>
+  <div class="cap">3 of 49 conversations captured this run</div>
+  <div class="bar"><span style="width:6%;background:undefined"></span></div>
+  <div class="kpis">
+    <div class="kpi"><b class="mono">2</b><span>valid (timed)</span></div>
+    <div class="kpi"><b class="mono">1</b><span>invalid / failed</span></div>
+    <div class="kpi"><b class="mono">46</b><span>remaining</span></div>
+    <div class="kpi"><b class="mono">3</b><span>stores in run</span></div>
+  </div>
+  <div class="sub" style="margin-top:14px">⏳ In flight: <span class="chip">humind-weedy/shopping/everyday-value</span> <span class="chip">humind-weedy/shopping/gift</span></div>
+</div>
+
+<h2>By store</h2>
+<table><thead><tr><th>Store</th><th class="n">Valid</th><th>Progress</th><th class="n">Invalid</th><th class="n">Pending</th></tr></thead><tbody><tr>
+      <td><span class="dot" style="background:#f0603f"></span><b>Gorgias</b> · Glamnetic</td>
+      <td class="mono n">2/5</td>
+      <td style="min-width:160px"><div class="bar"><span style="width:40%;background:#f0603f"></span></div></td>
+      <td class="mono n">·</td>
+      <td class="mono n">3</td>
+    </tr><tr>
+      <td><span class="dot" style="background:#14b8a6"></span><b>Humind</b> · Weedy</td>
+      <td class="mono n">0/11</td>
+      <td style="min-width:160px"><div class="bar"><span style="width:0%;background:#14b8a6"></span></div></td>
+      <td class="mono n">·</td>
+      <td class="mono n">11</td>
+    </tr><tr>
+      <td><span class="dot" style="background:#f59e0b"></span><b>Klaviyo</b> · Naked Wardrobe</td>
+      <td class="mono n">0/11</td>
+      <td style="min-width:160px"><div class="bar"><span style="width:0%;background:#f59e0b"></span></div></td>
+      <td class="mono n"><span class="warn">1</span></td>
+      <td class="mono n">10</td>
+    </tr></tbody></table>
+
+<h2>Failed / invalid</h2>
+<table><thead><tr><th>Conversation</th><th>Reason</th></tr></thead><tbody><tr><td class="mono">klaviyo-naked/shopping/everyday-value</td><td class="note">INVALID — only 0 timed AI answer(s) (need 3) — no measurable latency (timed 0/0)</td></tr><tr><td class="mono">klaviyo-naked/shopping/everyday-value</td><td class="note">FAILED: TypeError: First argument to String.prototype.includes must not be a regular expre</td></tr></tbody></table>
+
+<h2>Recent activity</h2>
+<div class="feed"><div class="ev ev-run">[humind-weedy/shopping/everyday-value] T9 —ms</div><div class="ev ev-run">[humind-weedy/shopping/gift] T3 —ms</div><div class="ev ev-run">[humind-weedy/shopping/everyday-value] T8 —ms</div><div class="ev ev-run">[humind-weedy/shopping/gift] T2 —ms</div><div class="ev ev-run">[humind-weedy/shopping/everyday-value] T7 —ms</div><div class="ev ev-run">[humind-weedy/shopping/gift] T1 —ms</div><div class="ev ev-run">[humind-weedy/shopping/everyday-value] T6 —ms</div><div class="ev ev-run">[humind-weedy/shopping/gift] widget open @9s → first message</div><div class="ev ev-run">[humind-weedy/shopping/gift] page @1s → opening widget…</div><div class="ev ev-done">✔ [3/49] gorgias-glamnetic/support/returns · success 100% · avg 14192ms</div><div class="ev ev-run">[gorgias-glamnetic/support/returns] T10 15006ms</div><div class="ev ev-run">[humind-weedy/shopping/everyday-value] T5 —ms</div><div class="ev ev-run">[gorgias-glamnetic/support/returns] T9 14292ms</div><div class="ev ev-run">[gorgias-glamnetic/support/returns] T8 11785ms</div><div class="ev ev-run">[gorgias-glamnetic/support/returns] T7 14864ms</div><div class="ev ev-run">[humind-weedy/shopping/everyday-value] T4 —ms</div></div>
+</div></body></html>
