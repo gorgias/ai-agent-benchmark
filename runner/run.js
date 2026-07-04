@@ -86,9 +86,13 @@ const MODES = (modeFilter || ["shopping", "support"]);
 const STAMP = (process.env.RUN_DATE || new Date().toISOString().slice(0, 10));
 
 let targets = STORES.filter(s => s.url);
-if (storeFilter) targets = targets.filter(s => storeFilter.includes(s.key));
-if (vendorFilter) targets = targets.filter(s => vendorFilter.map(x => x.toLowerCase()).includes(s.vendor.toLowerCase()));
+// --store accepts space- OR comma-separated keys (`--store a b` or `--store a,b`). pick()
+// returns the space-split tokens; we also split on commas so a comma-list doesn't silently
+// match nothing (which used to print a misleading "ALL DONE").
+if (storeFilter) { const keys = storeFilter.flatMap(x => x.split(",")).map(x => x.trim()).filter(Boolean); targets = targets.filter(s => keys.includes(s.key)); }
+if (vendorFilter) targets = targets.filter(s => vendorFilter.flatMap(x => x.split(",")).map(x => x.trim().toLowerCase()).includes(s.vendor.toLowerCase()));
 if (skipCandidates) targets = targets.filter(s => !s.candidate);
+if ((storeFilter || vendorFilter) && !targets.length) { console.error(`✗ --store/--vendor matched ZERO stores (filter: ${JSON.stringify(storeFilter || vendorFilter)}). Check the keys against vendors.js.`); process.exit(1); }
 
 const sleep = (ms) => new Promise(r => setTimeout(r, ms));
 
