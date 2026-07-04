@@ -157,7 +157,7 @@ td{padding:9px 12px;border-bottom:1px solid rgba(27,23,18,.05);vertical-align:mi
 .ev-done{color:#43D598}.ev-fail{color:#FF7A5C}.ev-run{color:#C9BEB0}
 </style></head><body><div class="wrap">
 <h1>Capture run status ${stateBadge}</h1>
-<div class="sub">Run date <b>${date}</b> · snapshot ${now.replace("T"," ").slice(0,19)} UTC · <a class="back" href="report.html">← report</a> · <a class="back" href="takeaways.html">summary</a></div>
+<div class="sub">Run date <b>${date}</b> · snapshot ${now.replace("T"," ").slice(0,19)} UTC · <a class="back" href="report.html">← report</a> · <a class="back" href="takeaways.html">summary</a> · <a class="back" href="report.html?view=conversations">conversations</a></div>
 
 <div class="big">
   <div class="pct">${pct}%</div>

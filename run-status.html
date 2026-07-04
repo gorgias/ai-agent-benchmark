@@ -1,7 +1,7 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
-<meta http-equiv="refresh" content="12">
+
 <title>Run status — Gorgias AI Agent Benchmark</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Inter+Tight:wght@700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <style>
@@ -29,40 +29,142 @@ td{padding:9px 12px;border-bottom:1px solid rgba(27,23,18,.05);vertical-align:mi
 .feed{background:var(--ink);color:#E9E3DA;border-radius:14px;padding:14px 16px;font-family:'JetBrains Mono',monospace;font-size:11.5px;line-height:1.7;max-height:320px;overflow:auto}
 .ev-done{color:#43D598}.ev-fail{color:#FF7A5C}.ev-run{color:#C9BEB0}
 </style></head><body><div class="wrap">
-<h1>Capture run status <span class="badge live">● LIVE — capturing</span></h1>
-<div class="sub">Run date <b>2026-07-03</b> · snapshot 2026-07-04 14:47:52 UTC · <a class="back" href="report.html">← report</a> · <a class="back" href="takeaways.html">summary</a></div>
+<h1>Capture run status <span class="badge idle">idle — filesystem snapshot</span></h1>
+<div class="sub">Run date <b>2026-07-03</b> · snapshot 2026-07-04 15:21:18 UTC · <a class="back" href="report.html">← report</a> · <a class="back" href="takeaways.html">summary</a> · <a class="back" href="report.html?view=conversations">conversations</a></div>
 
 <div class="big">
-  <div class="pct">8%</div>
-  <div class="cap">2 of 24 conversations captured this run</div>
-  <div class="bar"><span style="width:8%;background:undefined"></span></div>
+  <div class="pct">61%</div>
+  <div class="cap">124 of 203 conversations captured this run</div>
+  <div class="bar"><span style="width:61%;background:undefined"></span></div>
   <div class="kpis">
-    <div class="kpi"><b class="mono">3</b><span>valid (timed)</span></div>
-    <div class="kpi"><b class="mono">3</b><span>invalid / failed</span></div>
-    <div class="kpi"><b class="mono">22</b><span>remaining</span></div>
-    <div class="kpi"><b class="mono">2</b><span>stores in run</span></div>
+    <div class="kpi"><b class="mono">68</b><span>valid (timed)</span></div>
+    <div class="kpi"><b class="mono">56</b><span>invalid / failed</span></div>
+    <div class="kpi"><b class="mono">79</b><span>remaining</span></div>
+    <div class="kpi"><b class="mono">19</b><span>stores in run</span></div>
   </div>
-  <div class="sub" style="margin-top:14px">⏳ In flight: <span class="chip">gorgias-glamnetic/support/order-mgmt</span> <span class="chip">klaviyo-naked/shopping/gift</span></div>
+  
 </div>
 
 <h2>By store</h2>
 <table><thead><tr><th>Store</th><th class="n">Valid</th><th>Progress</th><th class="n">Invalid</th><th class="n">Pending</th></tr></thead><tbody><tr>
+      <td><span class="dot" style="background:#64748b"></span><b>Ada</b> · Loop Earplugs</td>
+      <td class="mono n">11/11</td>
+      <td style="min-width:160px"><div class="bar"><span style="width:100%;background:#64748b"></span></div></td>
+      <td class="mono n">·</td>
+      <td class="mono n">·</td>
+    </tr><tr>
+      <td><span class="dot" style="background:#64748b"></span><b>Ada</b> · Simba Sleep</td>
+      <td class="mono n">0/11</td>
+      <td style="min-width:160px"><div class="bar"><span style="width:0%;background:#64748b"></span></div></td>
+      <td class="mono n"><span class="warn">1</span></td>
+      <td class="mono n">10</td>
+    </tr><tr>
+      <td><span class="dot" style="background:#8b5cf6"></span><b>DigitalGenius</b> · Bloom &amp; Wild</td>
+      <td class="mono n">6/11</td>
+      <td style="min-width:160px"><div class="bar"><span style="width:55%;background:#8b5cf6"></span></div></td>
+      <td class="mono n"><span class="warn">3</span></td>
+      <td class="mono n">2</td>
+    </tr><tr>
+      <td><span class="dot" style="background:#22c55e"></span><b>Envive</b> · Supergoop</td>
+      <td class="mono n">0/11</td>
+      <td style="min-width:160px"><div class="bar"><span style="width:0%;background:#22c55e"></span></div></td>
+      <td class="mono n"><span class="warn">5</span></td>
+      <td class="mono n">6</td>
+    </tr><tr>
+      <td><span class="dot" style="background:#888"></span><b>Google Agentic</b> · Nordstrom</td>
+      <td class="mono n">0/11</td>
+      <td style="min-width:160px"><div class="bar"><span style="width:0%;background:#888"></span></div></td>
+      <td class="mono n"><span class="warn">4</span></td>
+      <td class="mono n">7</td>
+    </tr><tr>
       <td><span class="dot" style="background:#f0603f"></span><b>Gorgias</b> · Glamnetic</td>
       <td class="mono n">3/5</td>
       <td style="min-width:160px"><div class="bar"><span style="width:60%;background:#f0603f"></span></div></td>
       <td class="mono n"><span class="warn">1</span></td>
       <td class="mono n">1</td>
     </tr><tr>
-      <td><span class="dot" style="background:#f59e0b"></span><b>Klaviyo</b> · Naked Wardrobe</td>
+      <td><span class="dot" style="background:#f0603f"></span><b>Gorgias</b> · Madura</td>
+      <td class="mono n">0/11</td>
+      <td style="min-width:160px"><div class="bar"><span style="width:0%;background:#f0603f"></span></div></td>
+      <td class="mono n"><span class="warn">5</span></td>
+      <td class="mono n">6</td>
+    </tr><tr>
+      <td><span class="dot" style="background:#14b8a6"></span><b>Humind</b> · La Chaise Longue</td>
+      <td class="mono n">0/11</td>
+      <td style="min-width:160px"><div class="bar"><span style="width:0%;background:#14b8a6"></span></div></td>
+      <td class="mono n"><span class="warn">4</span></td>
+      <td class="mono n">7</td>
+    </tr><tr>
+      <td><span class="dot" style="background:#f59e0b"></span><b>Klaviyo</b> · NANUK</td>
       <td class="mono n">0/11</td>
       <td style="min-width:160px"><div class="bar"><span style="width:0%;background:#f59e0b"></span></div></td>
-      <td class="mono n"><span class="warn">2</span></td>
-      <td class="mono n">9</td>
+      <td class="mono n"><span class="warn">4</span></td>
+      <td class="mono n">7</td>
+    </tr><tr>
+      <td><span class="dot" style="background:#eab308"></span><b>Kodif</b> · Dollar Shave Club</td>
+      <td class="mono n">8/11</td>
+      <td style="min-width:160px"><div class="bar"><span style="width:73%;background:#eab308"></span></div></td>
+      <td class="mono n">·</td>
+      <td class="mono n">3</td>
+    </tr><tr>
+      <td><span class="dot" style="background:#3b82f6"></span><b>Meta AI</b> · Dermalogica</td>
+      <td class="mono n">0/11</td>
+      <td style="min-width:160px"><div class="bar"><span style="width:0%;background:#3b82f6"></span></div></td>
+      <td class="mono n"><span class="warn">5</span></td>
+      <td class="mono n">6</td>
+    </tr><tr>
+      <td><span class="dot" style="background:#ef4444"></span><b>Rep AI</b> · Fresh Roasted Coffee</td>
+      <td class="mono n">0/11</td>
+      <td style="min-width:160px"><div class="bar"><span style="width:0%;background:#ef4444"></span></div></td>
+      <td class="mono n"><span class="warn">4</span></td>
+      <td class="mono n">7</td>
+    </tr><tr>
+      <td><span class="dot" style="background:#888"></span><b>Shopify Inbox</b> · Schott NYC</td>
+      <td class="mono n">0/11</td>
+      <td style="min-width:160px"><div class="bar"><span style="width:0%;background:#888"></span></div></td>
+      <td class="mono n"><span class="warn">4</span></td>
+      <td class="mono n">7</td>
+    </tr><tr>
+      <td><span class="dot" style="background:#a855f7"></span><b>Siena</b> · Simple Modern</td>
+      <td class="mono n">11/11</td>
+      <td style="min-width:160px"><div class="bar"><span style="width:100%;background:#a855f7"></span></div></td>
+      <td class="mono n">·</td>
+      <td class="mono n">·</td>
+    </tr><tr>
+      <td><span class="dot" style="background:#0ea5e9"></span><b>Sierra</b> · Casper</td>
+      <td class="mono n">8/11</td>
+      <td style="min-width:160px"><div class="bar"><span style="width:73%;background:#0ea5e9"></span></div></td>
+      <td class="mono n"><span class="warn">3</span></td>
+      <td class="mono n">·</td>
+    </tr><tr>
+      <td><span class="dot" style="background:#ec4899"></span><b>Yuma</b> · CABAIA</td>
+      <td class="mono n">0/11</td>
+      <td style="min-width:160px"><div class="bar"><span style="width:0%;background:#ec4899"></span></div></td>
+      <td class="mono n"><span class="warn">11</span></td>
+      <td class="mono n">·</td>
+    </tr><tr>
+      <td><span class="dot" style="background:#ec4899"></span><b>Yuma</b> · EvryJewels</td>
+      <td class="mono n">10/11</td>
+      <td style="min-width:160px"><div class="bar"><span style="width:91%;background:#ec4899"></span></div></td>
+      <td class="mono n"><span class="warn">1</span></td>
+      <td class="mono n">·</td>
+    </tr><tr>
+      <td><span class="dot" style="background:#ec4899"></span><b>Yuma</b> · MESHKI</td>
+      <td class="mono n">0/11</td>
+      <td style="min-width:160px"><div class="bar"><span style="width:0%;background:#ec4899"></span></div></td>
+      <td class="mono n"><span class="warn">1</span></td>
+      <td class="mono n">10</td>
+    </tr><tr>
+      <td><span class="dot" style="background:#ec4899"></span><b>Yuma</b> · Tediber</td>
+      <td class="mono n">11/11</td>
+      <td style="min-width:160px"><div class="bar"><span style="width:100%;background:#ec4899"></span></div></td>
+      <td class="mono n">·</td>
+      <td class="mono n">·</td>
     </tr></tbody></table>
 
 <h2>Failed / invalid</h2>
-<table><thead><tr><th>Conversation</th><th>Reason</th></tr></thead><tbody><tr><td class="mono">gorgias-glamnetic/support/policy</td><td class="note">INVALID — only 1 timed AI answer(s) (need 3) — no measurable latency (timed 1/1, handover)</td></tr><tr><td class="mono">klaviyo-naked/shopping/everyday-value</td><td class="note">INVALID — only 0 timed AI answer(s) (need 3) — no measurable latency (timed 0/10)</td></tr></tbody></table>
+<table><thead><tr><th>Conversation</th><th>Reason</th></tr></thead><tbody><tr><td colspan="2" class="note">No failed/invalid conversations recorded.</td></tr></tbody></table>
 
 <h2>Recent activity</h2>
-<div class="feed"><div class="ev ev-run">[klaviyo-naked/shopping/gift] widget open @8s → first message</div><div class="ev ev-run">[gorgias-glamnetic/support/order-mgmt] T8 —ms</div><div class="ev ev-run">[klaviyo-naked/shopping/gift] page @1s → opening widget…</div><div class="ev ev-done">✔ [2/24] gorgias-glamnetic/support/policy · success 10% · avg 13315ms  🚩 handover@T2</div><div class="ev ev-fail">[gorgias-glamnetic/support/policy] INVALID — only 1 timed AI answer(s) (need 3) — no measurable latency (timed 1/1, handover)</div><div class="ev ev-run">[gorgias-glamnetic/support/policy] T10 (not sent — handed to human)</div><div class="ev ev-run">[gorgias-glamnetic/support/policy] T9 (not sent — handed to human)</div><div class="ev ev-run">[gorgias-glamnetic/support/policy] T8 (not sent — handed to human)</div><div class="ev ev-run">[gorgias-glamnetic/support/policy] T7 (not sent — handed to human)</div><div class="ev ev-run">[gorgias-glamnetic/support/policy] T6 (not sent — handed to human)</div><div class="ev ev-run">[gorgias-glamnetic/support/policy] T5 (not sent — handed to human)</div><div class="ev ev-run">[gorgias-glamnetic/support/policy] T4 (not sent — handed to human)</div><div class="ev ev-run">[gorgias-glamnetic/support/policy] T3 (not sent — handed to human)</div><div class="ev ev-run">[gorgias-glamnetic/support/policy] T2 (human)  ⛔ HANDOVER: leave your email</div><div class="ev ev-run">[gorgias-glamnetic/support/policy] T1 13315ms</div><div class="ev ev-run">[gorgias-glamnetic/support/policy] widget open @18s → first message</div></div>
+<div class="feed"><div class="note">No live log attached — showing filesystem snapshot only.</div></div>
 </div></body></html>
