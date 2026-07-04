@@ -1,5 +1,5 @@
 // Standardized, THEMED conversation pools. The SAME set of themes runs on EVERY
-// store (apple-to-apple). Each theme is an independent ~7-turn conversation; the
+// store (apple-to-apple). Each theme is an independent 10-turn conversation (guardrails = 3 probes); the
 // runner runs each theme in its OWN fresh incognito context, so no two
 // conversations (themes or modes) ever share session state.
 //
@@ -19,6 +19,9 @@ export const SHOPPING_THEMES = [
     "Which one is your overall best seller, and is it well reviewed?",
     "Okay, can you add your top recommendation to my cart?",
     "What's my total, and do you offer free shipping or a first-order discount?",
+    "Is there a warranty or guarantee if something goes wrong?",
+    "How long will delivery take, roughly?",
+    "And if I change my mind, how easy is it to return?",
   ]},
   { key: "gift", label: "Gift shopper", turns: [
     "Hi! I'm looking for a gift for someone and I'm not sure what to pick — can you help?",
@@ -28,6 +31,9 @@ export const SHOPPING_THEMES = [
     "Is there a gift set or bundle that looks nicer than a single item?",
     "Can it arrive gift-ready, and how fast can it ship?",
     "Great — add your top gift pick to my cart and tell me the total.",
+    "Can you include a gift message or a gift receipt?",
+    "If they want to exchange it, how would that work?",
+    "Any discount if I add a second smaller item?",
   ]},
   { key: "problem-solver", label: "Specific need / reassurance", turns: [
     "Hi — I have a specific need and I'm worried about picking the wrong thing. Can you help?",
@@ -37,6 +43,9 @@ export const SHOPPING_THEMES = [
     "Is there anything I should pair it with to get the best result?",
     "If it doesn't work out for me, what are my options?",
     "Okay, I'm convinced — add your recommendation and give me the total.",
+    "How do I use it correctly to get the best result?",
+    "Is there a subscription or refill option?",
+    "Confirm my total and when it will arrive?",
   ]},
   { key: "compare-budget", label: "Comparison, budget-tight", turns: [
     "Hi! I'm deciding between a few options and money's a bit tight — can you help me choose?",
@@ -46,6 +55,9 @@ export const SHOPPING_THEMES = [
     "Are there any current promos, bundles, or ways to save?",
     "Which would you personally pick on my budget?",
     "Add that one to my cart and tell me the total with any discount.",
+    "Does the cheaper one have the same warranty as the pricier one?",
+    "Can I pay in installments or split payment?",
+    "Confirm my total and the fastest shipping option?",
   ]},
   { key: "beginner", label: "Total beginner", turns: [
     "Hi! I'm completely new to this and don't know where to start — can you guide me?",
@@ -55,6 +67,9 @@ export const SHOPPING_THEMES = [
     "What do beginners usually say about it in reviews?",
     "Is there anything else a beginner needs to get started?",
     "Okay, add your beginner recommendation to my cart — what's the total?",
+    "How do I use it properly the very first time?",
+    "What's the return policy if it turns out not to be right for me?",
+    "Confirm my total and the delivery estimate?",
   ]},
   // GUARDRAIL battery (adversarial robustness — adopted from Roman's methodology; his
   // probes caught Siena writing a full Python script and Sierra locking into refusal
@@ -79,6 +94,9 @@ export const SUPPORT_THEMES = [
     "What should I do if the tracking never updates?",
     "How do I find my tracking link?",
     "Can you check the status of my latest order?",
+    "My tracking says delivered but I didn't receive it — what now?",
+    "Can I reroute the package to a different address?",
+    "Do you compensate for a long delay?",
   ]},
   { key: "returns", label: "Returns & exchanges", turns: [
     "What is your return policy?",
@@ -88,6 +106,9 @@ export const SUPPORT_THEMES = [
     "How long until I get my refund once you receive it?",
     "Can I exchange for a different size or option instead of a refund?",
     "Are any items final sale / non-returnable?",
+    "Do I need the original packaging to return something?",
+    "Can I return an online order in a physical store?",
+    "How do I track the status of my refund?",
   ]},
   { key: "damaged", label: "Damaged / faulty item", turns: [
     "My order arrived and one item is damaged — what do I do?",
@@ -97,6 +118,9 @@ export const SUPPORT_THEMES = [
     "Do I have to pay anything to return the damaged item?",
     "How long does the replacement take?",
     "What if more than one item in my order is affected?",
+    "Can I keep the damaged item or must I ship it back?",
+    "Will the replacement ship with priority?",
+    "What if the replacement is also damaged?",
   ]},
   { key: "order-mgmt", label: "Modify / cancel order", turns: [
     "Can I change the shipping address on an order I just placed?",
@@ -106,6 +130,9 @@ export const SUPPORT_THEMES = [
     "How do I update my contact or account details?",
     "If I cancel, how long until I'm refunded?",
     "Can you check whether my latest order can still be modified?",
+    "Can I combine two separate orders into one shipment?",
+    "Can I change the payment method on my order?",
+    "Will I get an email confirmation once the change is made?",
   ]},
   { key: "policy", label: "Shipping & returns policy", turns: [
     "Where can I find your full shipping policy?",
@@ -115,6 +142,9 @@ export const SUPPORT_THEMES = [
     "Are any items final sale or non-returnable?",
     "What payment methods do you accept for an order?",
     "How do I contact your support team if I have an issue with an order?",
+    "Do you price match or honor a price drop after purchase?",
+    "What's your warranty policy on defective items?",
+    "Do you have a loyalty or rewards program?",
   ]},
 ];
 
