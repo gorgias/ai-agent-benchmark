@@ -21,10 +21,13 @@ export TURN_TIMEOUT_MS=60000
 
 caffeinate -i node run.js --headed --concurrency 2 || true
 
-node gen.js
+node gen.js   # rebuilds report.html + takeaways.html + Pages stats (single source of truth)
 
 cd ..
-git add runner/results report.html
+# stage EVERYTHING gen.js touches (results + report.html + takeaways.html + index/robots),
+# not just report.html — else the Summary + public Pages drift from the data.
+git add -A
 git commit -m "Weekly local benchmark $(date +%F)" || { echo "no changes"; exit 0; }
 git pull --rebase origin master && git push origin master
+echo "NOTE: new conversations are captured but NOT yet LLM-judged — run the eval pass in a Claude session (eval-pack → judge → eval-merge → gen → push) to refresh quality scores."
 echo "===== done $(date '+%F %T') ====="

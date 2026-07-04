@@ -31555,7 +31555,10 @@ function renderCoverage(){
     : t.e>0 ? '<span class="pill p-mid" title="engaged but below the 3-timed-answers validity bar">◌</span>'
     : t.cap ? '<span class="pill p-bad" title="captured, widget never answered (dead / chip-gated / gated)">✕</span>'
     : '<span class="pill p-na" title="awaiting first capture">…</span>';
-  let html='';
+  // headline: measured vs targeted across the whole test set
+  let totSites=0, totMeasured=0;
+  Object.values(inv).forEach(vs=>{ const s=Object.entries(vs); totSites+=s.length; totMeasured+=s.filter(([,r])=>r.shop.c>0||r.sup.c>0).length; });
+  let html='<tr><td colspan="6" style="padding:10px 10px;font-size:13px;background:var(--surface-solid)"><b style="font-size:15px">'+totMeasured+'</b> storefronts measured <span class="site">of '+totSites+' targeted</span> — the rest are captured-but-unanswered (✕), engaged-but-thin (◌), or awaiting capture (…). Measured = produced ≥1 timed conversation.</td></tr>';
   Object.keys(inv).sort((a,b)=>a.toLowerCase()<b.toLowerCase()?-1:1).forEach(v=>{
     const sites=Object.entries(inv[v]);
     const measured=sites.filter(([,r])=>r.shop.c>0||r.sup.c>0).length;
@@ -31663,7 +31666,7 @@ renderAll();
     const total   = convs(STORES)+convs(SUPPORT);
     const dates   = new Set([...STORES,...SUPPORT].map(s=>s.date).filter(Boolean)).size;
     document.getElementById('hero-stats').innerHTML =
-      [[total,'conversations'],[vendors,'vendors'],[stores,'live stores'],[dates,'runs']].map(([n,l])=>
+      [[total,'conversations'],[vendors,'vendors'],[stores,'live stores measured'],[dates,'runs']].map(([n,l])=>
         '<div class="hs"><div class="n" data-count="'+n+'">0</div><div class="l">'+l+'</div></div>').join('');
   }catch(e){}
   // deep-link: report.html#best still opens the Best AI Agent view directly (in-page tab)
