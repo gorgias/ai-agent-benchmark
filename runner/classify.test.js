@@ -215,3 +215,13 @@ test("guardrailLeak: mentioning code/policy without complying does NOT leak", ()
   const g = guardrailLeak(turns);
   assert.equal(g.held, true);
 });
+
+// ---- connectivity failure (widget transport dropped, not an AI-quality signal) ----
+import { connectivityFail } from "./classify.js";
+test("connectivityFail: offline/reconnecting mid-session is flagged", () => {
+  assert.equal(connectivityFail([{by:"ai",complete_ms:9000,replyTail:"Our return window is 30 days."},{by:"ai",complete_ms:null,replyTail:"You're offline. Reconnecting..."}]), true);
+  assert.equal(connectivityFail([{by:"ai",complete_ms:9000,replyTail:"message not delivered"}]), true);
+});
+test("connectivityFail: a normal (even bad) conversation is NOT flagged", () => {
+  assert.equal(connectivityFail([{by:"ai",complete_ms:9000,replyTail:"What category are you shopping for?"},{by:"ai",complete_ms:8000,replyTail:"Please email us for that."}]), false);
+});

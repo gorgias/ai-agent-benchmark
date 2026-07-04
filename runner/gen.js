@@ -14,7 +14,7 @@ import { readFile, writeFile, readdir, rename, stat } from "node:fs/promises";
 import { existsSync } from "node:fs";
 import { STORES as SITES } from "./vendors.js";
 import { SHOPPING_THEMES, SUPPORT_THEMES } from "./pools.js";
-import { convoValidity, convoOutcome, guardrailLeak } from "./classify.js";
+import { convoValidity, convoOutcome, guardrailLeak, connectivityFail } from "./classify.js";
 
 // Themes whose turns must NOT count toward latency / automation / quality (robustness only).
 const GUARDRAIL_KEYS = new Set(["guardrails"]);
@@ -136,6 +136,9 @@ async function loadAgg(key, mode, date) {
         guard.convs.push({ theme: obj.theme, turns: obj.turns, datetime: obj.capturedAt || null, eval: ev || null });
         continue;   // never in latency/automation/quality aggregates
       }
+      // CONNECTIVITY FAILURE: widget dropped mid-session (offline/reconnecting) — measures the
+      // store's transport, not AI quality. Excluded from ALL aggregates, every vendor alike.
+      if (connectivityFail(obj.turns || [])) continue;
       auto[convoOutcome(obj.turns || []).outcome]++;
       const ev = EVALS[`${date}/${f}`];
       if (ev && ev.total != null) {
@@ -343,17 +346,54 @@ console.log(`Wrote ${REPORT} (runs ${DATES.join(", ")}).`);
 // The Summary (takeaways) and the Detailed report must never disagree on totals. We
 // compute from the SAME baked arrays the report uses, so both pages move together.
 const convCount = (arr) => arr.reduce((n, s) => n + ((s.themes && s.themes.length) || 0), 0);
+// judged counted ONLY over conversations actually shown in the report (evalq.n per entry) —
+// so "conversations" and "LLM-judged" describe the SAME set and align, instead of the raw
+// eval-file count which also includes guardrail + connectivity-failed conversations.
+const judgedShown = (arr) => arr.reduce((n, s) => n + ((s.evalq && s.evalq.n) || 0), 0);
 const allEntries = [...STORES, ...SUPPORT];
 const STATS = {
   convs: convCount(STORES) + convCount(SUPPORT),
-  judged: Object.keys(EVALS).length,
+  judged: judgedShown(STORES) + judgedShown(SUPPORT),
   vendors: new Set(allEntries.map(s => s.vendor)).size,
   stores: new Set(allEntries.filter(s => s.method === "new").map(s => s.site)).size,
   runs: DATES.length,
 };
+// Per-vendor lane composites — computed with the EXACT formula the report uses, then injected
+// into takeaways' scoreboard so the Summary can NEVER drift from the Detailed report again.
+const PALETTE = { Gorgias:"#f0603f", Envive:"#22c55e", Ada:"#64748b", Siena:"#a855f7", Sierra:"#0ea5e9",
+  Kodif:"#eab308", "Meta AI":"#3b82f6", "Rep AI":"#ef4444", DigitalGenius:"#8b5cf6", Yuma:"#14b8a6",
+  Humind:"#f59e0b", "Google Agentic":"#4285F4", Klaviyo:"#111", "Shopify Inbox":"#95BF47" };
+const speedScoreG = (l) => Math.max(0, Math.min(100, (22 - l) / 19 * 100));
+const latNumG = (s) => { const m = (s.lat || "").match(/[\d.]+/); return m ? parseFloat(m[0]) : null; };
+function laneScores(arr) {
+  const byV = {}; arr.forEach(s => { (byV[s.vendor] = byV[s.vendor] || []).push(s); });
+  const out = {};
+  for (const [v, es] of Object.entries(byV)) {
+    const ag = es.reduce((a, s) => { if (s.auto) { a.a += s.auto.automated; a.e += s.auto.engaged; } return a; }, { a: 0, e: 0 });
+    const qN = es.map(s => s.evalq && s.evalq.total).filter(x => x != null);
+    const lN = es.map(latNumG).filter(x => x != null);
+    const a = ag.e ? Math.round(100 * ag.a / ag.e) : null;
+    const q = qN.length ? Math.round(qN.reduce((x, y) => x + y, 0) / qN.length) : null;
+    const l = lN.length ? Math.round(lN.reduce((x, y) => x + y, 0) / lN.length * 10) / 10 : null;
+    if (a == null && q == null && l == null) continue;
+    out[v] = { a, q, l };
+  }
+  return out;
+}
+const shopS = laneScores(STORES), supS = laneScores(SUPPORT);
+const D_OBJ = {};
+for (const v of new Set([...Object.keys(shopS), ...Object.keys(supS)])) {
+  const us = allEntries.find(s => s.vendor === v && s.us) ? 1 : 0;
+  D_OBJ[v] = { ...(us ? { us: 1 } : {}), col: PALETTE[v] || "#888",
+    s: shopS[v] || null, p: supS[v] || null };
+}
+const D_JSON = " const D = " + JSON.stringify(D_OBJ) + ";";
+
 try {
   const TK = new URL("../takeaways.html", import.meta.url).pathname;
   let tk = await readFile(TK, "utf8");
+  // replace the scoreboard data object between markers (kept in sync forever)
+  tk = tk.replace(/\/\*SCORES_START\*\/[\s\S]*?\/\*SCORES_END\*\//, `/*SCORES_START*/${D_JSON}/*SCORES_END*/`);
   // inject the live values as data-count so the count-up animation uses them
   tk = tk.replace(/(data-stat="convs"[^>]*data-count=")\d+(")/, `$1${STATS.convs}$2`)
          .replace(/(data-count=")\d+("[^>]*data-stat="convs")/, `$1${STATS.convs}$2`)

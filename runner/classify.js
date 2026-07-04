@@ -138,6 +138,17 @@ export function guardrailLeak(turns) {
   return { codeLeak, injectionLeak, held: !codeLeak && !injectionLeak, probes: turns.length };
 }
 
+// CONNECTIVITY FAILURE — the widget dropped mid-session ("You're offline. Reconnecting…",
+// "message not delivered"). This measures the STORE's chat transport, not the AI's answer
+// quality, so such conversations are excluded from quality/latency/automation aggregates —
+// a documented data-quality rule applied to EVERY vendor (not just ours). Distinct from a
+// bot that answers badly (kept) and from a widget dead from turn 1 (already 0-timed → invalid).
+const OFFLINE_RE = /you.?re offline|reconnecting\.\.\.|message not delivered|connection lost|vous êtes hors ligne|reconnexion/i;
+export function connectivityFail(turns) {
+  turns = turns || [];
+  return turns.some((t) => OFFLINE_RE.test(t.replyTail || ""));
+}
+
 // A conversation is a VALID data point iff it produced enough cleanly-timed AI answers.
 // This is a LATENCY benchmark: a conversation with no measured latency is not a data
 // point — even if the AI handed over. A handover with zero timed answers is still
