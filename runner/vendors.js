@@ -434,7 +434,18 @@ export const WIDGETS = {
   },
   klaviyo: {
     // K:AI Customer Agent — split HTTP POST + WebSocket, token-streaming (Roman).
+    // NOTE: in cold, un-identified sessions the K:AI accepted messages but returned no
+    // answer (likely login/identity-gated) — captured as engaged-but-unanswered.
     scope: { kind: "frame", match: /klaviyo|customer hub|chat|assistant/i },
+    async open(page) { await genericOpenChat(page); },
+    async send(page, text) { await genericSendChat(page, text); },
+  },
+  decagon: {
+    // Decagon — enterprise AI support agent. Loader https://decagon.ai/loaders/<client>.js
+    // injects #decagon-embed-container + a #decagon-iframe; opening toggles
+    // html[data-decagon-open='true']. Composer + transcript live inside the iframe, so we
+    // scope to the decagon frame and drive it with the generic open/send helpers.
+    scope: { kind: "frame", match: /decagon/i },
     async open(page) { await genericOpenChat(page); },
     async send(page, text) { await genericSendChat(page, text); },
   },
@@ -681,6 +692,15 @@ export const STORES = [
   { key: "repai-vibae",       vendor: "Rep AI", store: "VIBAe",         url: "https://vibae.com/",              widget: "repai" },           // initRep
   { key: "repai-safishing",   vendor: "Rep AI", store: "SA Fishing",    url: "https://www.safishing.com/",      widget: "repai" },
   { key: "repai-fass",        vendor: "Rep AI", store: "FASS Motorsports", url: "https://www.fassmotorsports.com/", widget: "repai" },
+
+  // Decagon — enterprise AI support agent (added 2026-07-04). All 6 signature-verified live
+  // (decagon.ai/loaders/<client>.js embed or #decagon-iframe / CSP allowlist in page source).
+  { key: "decagon-oura",     vendor: "Decagon", store: "Oura",      url: "https://support.ouraring.com/",  widget: "decagon", us: true, candidate: true }, // loader oura.js + #decagon-embed-container
+  { key: "decagon-curology", vendor: "Decagon", store: "Curology",  url: "https://curology.com/",          widget: "decagon", us: true, candidate: true }, // #decagon-iframe site-wide
+  { key: "decagon-bilt",     vendor: "Decagon", store: "Bilt",      url: "https://www.bilt.com/",           widget: "decagon", us: true, candidate: true }, // loader bilt.js embedded
+  { key: "decagon-quince",   vendor: "Decagon", store: "Quince",    url: "https://www.quince.com/",         widget: "decagon", us: true, candidate: true }, // "Chat provider":"Decagon"
+  { key: "decagon-substack", vendor: "Decagon", store: "Substack",  url: "https://substack.com/",           widget: "decagon", us: true, candidate: true }, // enable_decagon_chat:true
+  { key: "decagon-hertz",    vendor: "Decagon", store: "Hertz",     url: "https://www.hertz.com/rentacar/misc/index.jsp?targetPage=contact_us.jsp", widget: "decagon", us: true, candidate: true }, // decagon.ai in CSP
 ];
 
 // Find a frame by element id / title / name / url. `match` may be a string
