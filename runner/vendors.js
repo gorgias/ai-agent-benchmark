@@ -535,11 +535,11 @@ async function genericSendChat(page, text) {
 // ---------------------------------------------------------------------------
 export const STORES = [
   // Gorgias (us) — Glamnetic intentionally excluded
-  { key: "gorgias-madura",   vendor: "Gorgias", store: "Madura",        url: "https://www.madura.com/en",            widget: "gorgias", us: true, locale: "en-US" },
-  { key: "gorgias-jade",     vendor: "Gorgias", store: "Jade",          url: "https://shop.jadeofficial.com/",       widget: "gorgias", us: true },
-  { key: "gorgias-jshealth", vendor: "Gorgias", store: "JSHealth Vitamins", url: "https://us.jshealthvitamins.com/", widget: "gorgias", us: true },
-  { key: "gorgias-beekman",  vendor: "Gorgias", store: "Beekman 1802",  url: "https://beekman1802.com/",             widget: "gorgias", us: true },
-  { key: "gorgias-shoebacca", vendor: "Gorgias", store: "Shoebacca",    url: "https://www.shoebacca.com/",           widget: "gorgias", us: true },
+  { key: "gorgias-madura",   vendor: "Gorgias", store: "Madura",        url: "https://www.madura.com/en",            widget: "gorgias", us: true, locale: "en-US", v3: true },  // pre_ga (Cortex)
+  { key: "gorgias-jade",     vendor: "Gorgias", store: "Jade",          url: "https://shop.jadeofficial.com/",       widget: "gorgias", us: true, v3: false }, // NOT on V3 (Cortex: no v3 beta phase) — excluded from Shopping
+  { key: "gorgias-jshealth", vendor: "Gorgias", store: "JSHealth Vitamins", url: "https://us.jshealthvitamins.com/", widget: "gorgias", us: true, v3: true }, // pre_ga (Cortex)
+  { key: "gorgias-beekman",  vendor: "Gorgias", store: "Beekman 1802",  url: "https://beekman1802.com/",             widget: "gorgias", us: true, v3: true }, // beta_3_sa — V3 Shopping Assistant (Cortex)
+  { key: "gorgias-shoebacca", vendor: "Gorgias", store: "Shoebacca",    url: "https://www.shoebacca.com/",           widget: "gorgias", us: true, v3: true }, // beta_1_support (Cortex)
 
   // Spiffy.ai
   { key: "spiffy-supergoop", vendor: "Envive", store: "Supergoop",  url: "https://supergoop.com/products/everyday-sunscreen?variant=31189086634082", widget: "spiffy" },
@@ -601,9 +601,9 @@ export const STORES = [
   { key: "dg-clubllondon",    vendor: "DigitalGenius", store: "Club L London",  url: "https://www.clubllondon.com/",   widget: "dg", locale: "en-GB" },   // digitalgenius.com
   { key: "dg-abbottlyon",     vendor: "DigitalGenius", store: "Abbott Lyon",    url: "https://www.abbottlyon.com/",    widget: "dg", locale: "en-GB" },   // digitalgenius.com
   { key: "repai-masteringthemix", vendor: "Rep AI", store: "Mastering The Mix", url: "https://www.masteringthemix.com/", widget: "repai", locale: "en-GB" }, // initRep
-  { key: "gorgias-tommyjohn", vendor: "Gorgias", store: "Tommy John",   url: "https://www.tommyjohn.com/",  widget: "gorgias", us: true }, // config.gorgias
-  { key: "gorgias-pepper",    vendor: "Gorgias", store: "Pepper",       url: "https://www.wearpepper.com/", widget: "gorgias", us: true }, // config.gorgias + gorgias-chat
-  { key: "gorgias-drbronner", vendor: "Gorgias", store: "Dr. Bronner's",url: "https://www.drbronner.com/",  widget: "gorgias", us: true }, // config.gorgias
+  { key: "gorgias-tommyjohn", vendor: "Gorgias", store: "Tommy John",   url: "https://www.tommyjohn.com/",  widget: "gorgias", us: true, v3: false }, // config.gorgias — NOT on V3 (Cortex: v3 phase null, SA never enabled) → excluded from Shopping
+  { key: "gorgias-pepper",    vendor: "Gorgias", store: "Pepper",       url: "https://www.wearpepper.com/", widget: "gorgias", us: true, v3: true }, // config.gorgias + gorgias-chat — V3 (Cortex: beta_2_actions)
+  { key: "gorgias-drbronner", vendor: "Gorgias", store: "Dr. Bronner's",url: "https://www.drbronner.com/",  widget: "gorgias", us: true, v3: false }, // config.gorgias — NOT on V3 (Cortex: v3 phase null; runs legacy/V2 Shopping Assistant) → excluded from Shopping
   { key: "meta-butcherbox",   vendor: "Meta AI", store: "ButcherBox",   url: "https://www.butcherbox.com/", widget: "zendesk" },           // static.zdassets
   // Siena (chat.siena.cx webchat)
   { key: "siena-mudwtr",      vendor: "Siena",  store: "MUD\\WTR",    url: "https://mudwtr.com/",         widget: "siena" },

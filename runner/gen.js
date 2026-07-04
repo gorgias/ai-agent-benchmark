@@ -299,6 +299,10 @@ async function buildMode(mode) {
   const out = [];
   for (const site of SITES) {
     if (!site.url) continue;                 // skip TBD placeholder rows
+    // Shopping lane: only Gorgias stores confirmed on AI Agent V3 (Evoli) count — V2
+    // shopping isn't representative of the shipping product (Cortex ai_next_gen /
+    // v3_ai_agent_architecture_beta_phase; v3:false stores like Jade are excluded here).
+    if (mode === "shopping" && site.vendor === "Gorgias" && site.v3 === false) continue;
     // Accumulate: one dated entry per run that actually captured this store.
     let anyMeasured = false;
     for (const date of DATES) {

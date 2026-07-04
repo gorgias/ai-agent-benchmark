@@ -167,12 +167,12 @@
   <h1>We benchmarked <span class="grad">every on&#8209;site AI&nbsp;agent.</span></h1>
   <p class="sub">Real merchants, cold sessions, free-typed questions — measured, judged and repeated weekly. <a href="report.html">Explore the full interactive report →</a></p>
   <div class="statstrip">
-    <div class="stat"><div class="num" data-count="338" data-stat="convs">0</div><div class="lbl">conversations captured</div></div>
-    <div class="stat"><div class="num" data-count="338" data-stat="judged">0</div><div class="lbl">LLM-judged</div></div>
+    <div class="stat"><div class="num" data-count="329" data-stat="convs">0</div><div class="lbl">conversations captured</div></div>
+    <div class="stat"><div class="num" data-count="329" data-stat="judged">0</div><div class="lbl">LLM-judged</div></div>
     <div class="stat"><div class="num" data-count="14" data-stat="vendors">0</div><div class="lbl">Vendors</div></div>
     <div class="stat"><div class="num" data-count="33" data-suffix="+" data-stat="stores">0</div><div class="lbl">live stores measured</div></div>
   </div>
-  <!-- STATS_JSON:{"convs":338,"judged":338,"vendors":14,"stores":33,"runs":3} -->
+  <!-- STATS_JSON:{"convs":329,"judged":329,"vendors":14,"stores":33,"runs":3} -->
 </header>
 
 
@@ -364,7 +364,7 @@
     <div class="card rv" style="margin-top:14px">
       <p class="note">• Cold incognito sessions per conversation; free-typed questions only (quick-reply chips can serve cached replies that fake latency and automation). Latency runs to the true final answer, past "let me check…" stalls. No PII beyond dummy emails. Nothing is fabricated: unanswered turns, dead widgets and handovers are recorded as such.<br>
       • Automation rate uses the engaged-conversation denominator (≥1 timed answer or a handover) so early bails count against a vendor; dead/chip-gated widgets are reported separately, not counted for or against.<br>
-      • Quality = one LLM judge (Claude Sonnet) per conversation on truncated transcripts (last 450 chars/turn); scores are comparative, not absolute. 338 LLM-judged conversations; sample sizes per vendor+lane range 6-40 — small cells (Meta AI shopping n=6) are directional.<br>
+      • Quality = one LLM judge (Claude Sonnet) per conversation on truncated transcripts (last 450 chars/turn); scores are comparative, not absolute. 329 LLM-judged conversations; sample sizes per vendor+lane range 6-40 — small cells (Meta AI shopping n=6) are directional.<br>
       • Gorgias stores were captured with the same harness, same themes, same rules as competitors. One Gorgias store (Baby Bee) was excluded as a non-functional deployment — it returned business-hours boilerplate to every question with no AI answering, the same class as the dead/chip-gated widgets excluded across all vendors. Every functioning store is shown.</p>
     </div>
   </div>
@@ -378,7 +378,7 @@
 
 <script>
 // ---------- scoreboard — D is INJECTED by gen.js from the SAME data as the Detailed report ----------
-/*SCORES_START*/ const D = {"Gorgias":{"us":1,"col":"#f0603f","s":{"a":100,"q":62,"l":18.2},"p":{"a":100,"q":57,"l":14.7}},"Envive":{"col":"#22c55e","s":{"a":93,"q":64,"l":12.5},"p":{"a":90,"q":65,"l":11.6}},"Sierra":{"col":"#0ea5e9","s":{"a":85,"q":42,"l":9.6},"p":{"a":57,"q":68,"l":9.2}},"Siena":{"col":"#a855f7","s":{"a":92,"q":48,"l":12.2},"p":{"a":73,"q":59,"l":11.7}},"Yuma":{"col":"#14b8a6","s":{"a":90,"q":73,"l":18.1},"p":{"a":67,"q":54,"l":17}},"DigitalGenius":{"col":"#8b5cf6","s":{"a":28,"q":35,"l":18.2},"p":{"a":62,"q":45,"l":13.8}},"Meta AI":{"col":"#3b82f6","s":{"a":56,"q":21,"l":6.9},"p":{"a":80,"q":39,"l":8.7}},"Ada":{"col":"#64748b","s":{"a":100,"q":38,"l":11.8},"p":{"a":92,"q":41,"l":11.1}},"Rep AI":{"col":"#ef4444","s":{"a":100,"q":10,"l":40.6},"p":{"a":100,"q":5,"l":42.4}},"Kodif":{"col":"#eab308","s":{"a":89,"q":49,"l":15},"p":{"a":66,"q":50,"l":11.4}}};/*SCORES_END*/
+/*SCORES_START*/ const D = {"Gorgias":{"us":1,"col":"#f0603f","s":{"a":100,"q":65,"l":18.2},"p":{"a":100,"q":57,"l":14.7}},"Envive":{"col":"#22c55e","s":{"a":93,"q":64,"l":12.5},"p":{"a":90,"q":65,"l":11.6}},"Sierra":{"col":"#0ea5e9","s":{"a":85,"q":42,"l":9.6},"p":{"a":57,"q":68,"l":9.2}},"Siena":{"col":"#a855f7","s":{"a":92,"q":48,"l":12.2},"p":{"a":73,"q":59,"l":11.7}},"Yuma":{"col":"#14b8a6","s":{"a":90,"q":73,"l":18.1},"p":{"a":67,"q":54,"l":17}},"DigitalGenius":{"col":"#8b5cf6","s":{"a":28,"q":35,"l":18.2},"p":{"a":62,"q":45,"l":13.8}},"Meta AI":{"col":"#3b82f6","s":{"a":56,"q":21,"l":6.9},"p":{"a":80,"q":39,"l":8.7}},"Ada":{"col":"#64748b","s":{"a":100,"q":38,"l":11.8},"p":{"a":92,"q":41,"l":11.1}},"Rep AI":{"col":"#ef4444","s":{"a":100,"q":10,"l":40.6},"p":{"a":100,"q":5,"l":42.4}},"Kodif":{"col":"#eab308","s":{"a":89,"q":49,"l":15},"p":{"a":66,"q":50,"l":11.4}}};/*SCORES_END*/
 const speed=l=>Math.max(0,Math.min(100,(22-l)/19*100));
 function comp(m){ if(!m) return null; const parts=[[.5,m.a],[.25,m.q],[.25,m.l!=null?speed(m.l):null]].filter(p=>p[1]!=null); const w=parts.reduce((a,p)=>a+p[0],0); return w?Math.round(parts.reduce((a,p)=>a+p[0]*p[1],0)/w):null; }
 const rows=Object.entries(D).map(([v,d])=>({v,...d,cs:comp(d.s),cp:comp(d.p)}))
