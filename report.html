@@ -122,6 +122,10 @@
   .cf-ticket{text-decoration:none;font-size:13px;flex:none;opacity:.85}
   .cf-ticket:hover{opacity:1}
   .cf-ticketbar{background:rgba(240,96,63,.07);border:1px solid var(--glass-border);border-radius:10px;padding:8px 12px;font-size:12.5px;margin:8px 0 4px;color:var(--on-muted)}
+  #conv-live{border:1px solid rgba(214,69,69,.35);border-radius:12px;overflow:hidden;margin-bottom:12px}
+  .cf-liveban{display:flex;align-items:center;gap:8px;background:#fdeaea;color:var(--danger);font-weight:700;font-size:12.5px;padding:9px 14px}
+  .cf-livedot{width:8px;height:8px;border-radius:50%;background:var(--danger);animation:pulse 1.4s infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
   .cf-ticketbar b{color:var(--on)}
   .cf-ticketbar a{color:var(--primary);text-decoration:none;font-weight:700}.cf-ticketbar a:hover{text-decoration:underline}
   /* conversations smart-filter bar */
@@ -489,6 +493,7 @@
   <h2 class="sec">Conversations</h2>
   <p class="lead">Every captured conversation across <strong>both lanes</strong>, freshest first. Filter by lane, vendor, outcome or latency, or search the transcripts. Click a row to expand the full turn-by-turn transcript with <strong>per-message latency</strong>; a <span style="color:var(--danger);font-weight:700">human handover</span> is flagged, and Gorgias conversations link to their <strong>ticket</strong>.</p>
   <div id="conv-filters"></div>
+  <div id="conv-live" style="display:none"></div>
   <div id="conv-count" class="note" style="margin:2px 2px 10px;font-size:12px"></div>
   <div class="card table-scroll" id="conv-feed" style="max-height:none"></div>
 </section>
@@ -31390,6 +31395,29 @@ function toggleCF(i){
   if(body.hidden){ if(!body.dataset.filled){ const it=CF_ITEMS[i]||{}; body.innerHTML=ticketBar(it)+turnsHtml(it.turns||[]); body.dataset.filled='1'; } body.hidden=false; if(caret)caret.textContent='▾'; }
   else { body.hidden=true; if(caret)caret.textContent='▸'; }
 }
+// Live feed (local runs): while a capture is active, poll live-feed.json and prepend the
+// freshly-captured conversations above the baked feed with a LIVE banner. On Pages (no active
+// run) the fetch 404s / is inactive → the banner stays hidden. Full transcripts land at the
+// next gen; this makes the tab dynamic during a run instead of batch-only.
+async function pollLive(){
+  const host=document.getElementById('conv-live'); if(!host) return;
+  if(VIEW!=='conversations'){ host.style.display='none'; return; }
+  try{
+    const r=await fetch('live-feed.json?_='+Date.now()); if(!r.ok){ host.style.display='none'; return; }
+    const lf=await r.json();
+    if(lf && lf.active && lf.convs && lf.convs.length){
+      host.style.display='';
+      host.innerHTML='<div class="cf-liveban"><span class="cf-livedot"></span>Live run in progress — '+lf.convs.length+' captured so far ('+(lf.runDate||'')+'). Full transcripts appear at the next refresh.</div>'+
+        lf.convs.slice(0,12).map(c=>'<div class="cf-item"><div class="cf-row" style="cursor:default">'+
+          '<span class="cf-lane">'+(c.lane==='shopping'?'🛍️':'🎧')+'</span>'+
+          '<span class="vdot" style="background:'+(COL[c.vendor]||'#888')+'"></span>'+
+          '<span class="cf-store">'+(c.store||'')+'</span><span class="cf-meta">'+(c.vendor||'')+' · '+(c.label||'')+'</span>'+
+          '<span class="cf-dt">live</span><span class="lat">'+(c.lat||'—')+'</span>'+
+          '<span class="pill '+(c.valid?'p-ok':'p-bad')+'">'+(c.valid?'valid':'no answer')+'</span></div></div>').join('');
+    } else { host.style.display='none'; host.innerHTML=''; }
+  }catch(e){ host.style.display='none'; }
+}
+setInterval(pollLive, 12000);
 function renderFilter(){
   const vendors = [...new Set(AS().map(s=>s.vendor))];
   document.getElementById('store-filter').innerHTML =
@@ -31659,7 +31687,7 @@ function applyView(){
   navSet('nav-conversations', isConv);
   navSet('nav-report', !isConv);
   if(isBest) setBest(BESTMODE);            // make sure the right sub-panel is showing
-  if(isConv) renderConv();                 // rebuild the unified feed when entering the tab
+  if(isConv){ renderConv(); pollLive(); }  // rebuild the unified feed + check for a live run
 }
 // --- Coverage: the full vendor × website test inventory (date-window independent) ---
 const WIDGET_LABEL = { gorgias:"Gorgias Chat", spiffy:"Envive (Spiffy) shadow-DOM", sierra:"Sierra SDK", siena:"Siena webchat",
