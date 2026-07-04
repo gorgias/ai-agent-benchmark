@@ -117,6 +117,23 @@
   .cf-caret{color:var(--on-faint);font-size:11px;width:12px;text-align:center}
   .cf-body{padding:0 16px 10px}
   .cf-body[hidden]{display:none}
+  .cf-lane{font-size:13px;flex:none}
+  .cf-ticket{text-decoration:none;font-size:13px;flex:none;opacity:.85}
+  .cf-ticket:hover{opacity:1}
+  .cf-ticketbar{background:rgba(240,96,63,.07);border:1px solid var(--glass-border);border-radius:10px;padding:8px 12px;font-size:12.5px;margin:8px 0 4px;color:var(--on-muted)}
+  .cf-ticketbar b{color:var(--on)}
+  .cf-ticketbar a{color:var(--primary);text-decoration:none;font-weight:700}.cf-ticketbar a:hover{text-decoration:underline}
+  /* conversations smart-filter bar */
+  .cf-filterbar{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;margin-bottom:12px}
+  .cf-fg{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+  .cf-fl{font-size:10.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--on-faint);margin-right:2px}
+  .ftab{font-size:12.5px;font-weight:600;padding:5px 11px;border-radius:999px;border:1px solid var(--glass-border);background:rgba(255,255,255,.5);cursor:pointer;color:var(--on-muted);transition:.15s}
+  .ftab:hover{border-color:var(--primary);color:var(--on)}
+  .ftab[aria-selected="true"]{background:var(--on);color:#fff;border-color:var(--on)}
+  .cf-sel{font:inherit;font-size:12.5px;font-weight:600;padding:5px 10px;border-radius:10px;border:1px solid var(--glass-border);background:var(--surface);color:var(--on);cursor:pointer}
+  .cf-search{flex:1 1 200px;min-width:180px}
+  .cf-inp{width:100%;font:inherit;font-size:13px;padding:7px 12px;border-radius:10px;border:1px solid var(--glass-border);background:var(--surface);color:var(--on)}
+  .cf-inp:focus{outline:2px solid var(--primary);outline-offset:1px}
   .linklike{background:none;border:none;padding:0;font:inherit;color:var(--primary);cursor:pointer;font-weight:700}
   .linklike:hover{text-decoration:underline}
   .theme-bar{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0 4px}
@@ -361,6 +378,7 @@
   <button class="modebtn" data-m="best" aria-selected="true" onclick="setMode('best')">🏆 Best AI Agent</button>
   <button class="modebtn" data-m="shopping" aria-selected="false" onclick="setMode('shopping')">🛍️ Shopping Assistant</button>
   <button class="modebtn" data-m="support" aria-selected="false" onclick="setMode('support')">🎧 Support</button>
+  <button class="modebtn" data-m="conversations" aria-selected="false" onclick="setMode('conversations')">💬 Conversations</button>
 </div>
 <p class="lead" id="mode-note" style="text-align:center;margin:0 auto 6px">Shopping-discovery conversations that must end in a real product recommendation.</p>
 
@@ -476,9 +494,11 @@
 </section>
 
 <section id="conv-sec">
-  <h2 class="sec">All conversations · newest first</h2>
-  <p class="lead">Every captured conversation in this mode, <strong>freshest first</strong> (by capture date &amp; time). Click a row to expand the full turn-by-turn transcript with <strong>per-message latency</strong>; a <span style="color:var(--danger);font-weight:700">human handover</span> is flagged (human replies are never timed).</p>
-  <div class="card table-scroll" id="conv-feed"></div>
+  <h2 class="sec">Conversations</h2>
+  <p class="lead">Every captured conversation across <strong>both lanes</strong>, freshest first. Filter by lane, vendor, outcome or latency, or search the transcripts. Click a row to expand the full turn-by-turn transcript with <strong>per-message latency</strong>; a <span style="color:var(--danger);font-weight:700">human handover</span> is flagged, and Gorgias conversations link to their <strong>ticket</strong>.</p>
+  <div id="conv-filters"></div>
+  <div id="conv-count" class="note" style="margin:2px 2px 10px;font-size:12px"></div>
+  <div class="card table-scroll" id="conv-feed" style="max-height:none"></div>
 </section>
 
 </div>
@@ -30993,43 +31013,92 @@ function fmtDT(iso){
   return d.toLocaleString(undefined,{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit',timeZoneName:'short'});
 }
 let CF_ITEMS=[];
-function renderConv(){
-  // Flatten every conversation for this mode into one list, newest first.
-  CF_ITEMS=[];
-  CONVS().forEach(s=>{
+// --- Conversations tab: unified feed across BOTH lanes + smart filters + Gorgias ticket links ---
+let CF_FILTER = { lane:'all', vendor:'__all', outcome:'all', lat:'all', q:'' };
+function convLatNum(s){ const m=String(s||'').match(/[\d.]+/); return m?+m[0]:null; }
+function convOutcomeOf(it){ return it.handoverTurn ? 'handover' : 'automated'; }
+function buildConvItems(){
+  const items=[];
+  const feed=(arr,lane)=>arr.forEach(s=>{
     const list = (s.themes&&s.themes.length) ? s.themes
-      : [{label:'conversation', turns:s.turns, lat:s.lat, success:s.success, successTxt:s.successTxt, handoverTurn:null, datetime:s.datetime}];
+      : (s.turns&&s.turns.length ? [{label:'conversation', turns:s.turns, lat:s.lat, success:s.success, successTxt:s.successTxt, handoverTurn:null, datetime:s.datetime, ticket:s.ticket}] : []);
     list.forEach(th=>{
       if(!(th.turns&&th.turns.length)) return;
       if(!inRange(convDate(s,th))) return;   // per-conversation date filter (by capture date)
-      CF_ITEMS.push({ vendor:s.vendor, store:s.store, us:s.us, label:th.label||'conversation',
+      items.push({ vendor:s.vendor, store:s.store, us:s.us, lane, label:th.label||'conversation',
         datetime: th.datetime||s.datetime||null, lat:th.lat, success:th.success,
-        successTxt:th.successTxt, handoverTurn:th.handoverTurn, turns:th.turns });
+        successTxt:th.successTxt, handoverTurn:th.handoverTurn, ticket:th.ticket||s.ticket||null, turns:th.turns });
     });
   });
-  CF_ITEMS.sort((a,b)=> (b.datetime||'').localeCompare(a.datetime||''));   // ISO sorts chronologically
-  const feed=document.getElementById('conv-feed');
-  if(!CF_ITEMS.length){ feed.innerHTML='<div class="note" style="padding:16px">No recorded conversation for this mode yet.</div>'; return; }
-  feed.innerHTML = CF_ITEMS.map((it,i)=>{
+  feed(STORES,'shopping'); feed(SUPPORT,'support');
+  items.sort((a,b)=> (b.datetime||'').localeCompare(a.datetime||''));   // ISO sorts chronologically
+  return items;
+}
+function passConvFilter(it){
+  const f=CF_FILTER;
+  if(f.lane!=='all' && it.lane!==f.lane) return false;
+  if(f.vendor!=='__all' && it.vendor!==f.vendor) return false;
+  if(f.outcome!=='all' && convOutcomeOf(it)!==f.outcome) return false;
+  if(f.lat!=='all'){ const l=convLatNum(it.lat); if(l==null) return false;
+    if(f.lat==='fast'&&!(l<10)) return false; if(f.lat==='mid'&&!(l>=10&&l<=20)) return false; if(f.lat==='slow'&&!(l>20)) return false; }
+  if(f.q){ const q=f.q.toLowerCase();
+    const hay=(it.store+' '+it.vendor+' '+it.label+' '+(it.turns||[]).map(t=>(t.q||'')+' '+(t.a||'')).join(' ')).toLowerCase();
+    if(!hay.includes(q)) return false; }
+  return true;
+}
+function setConvFilter(group,val){ CF_FILTER[group]=val; renderConv(); }
+function renderConvFilters(){
+  const host=document.getElementById('conv-filters'); if(!host) return;
+  const vendors=[...new Set([...STORES,...SUPPORT].map(s=>s.vendor))].sort();
+  const chip=(g,v,label)=>'<button class="ftab" aria-selected="'+(CF_FILTER[g]===v)+'" onclick="setConvFilter(\''+g+'\',\''+v+'\')">'+label+'</button>';
+  host.innerHTML =
+    '<div class="cf-filterbar">'+
+      '<div class="cf-fg"><span class="cf-fl">Lane</span>'+chip('lane','all','All')+chip('lane','shopping','🛍️ Shopping')+chip('lane','support','🎧 Support')+'</div>'+
+      '<div class="cf-fg"><span class="cf-fl">Outcome</span>'+chip('outcome','all','All')+chip('outcome','automated','✅ Automated')+chip('outcome','handover','🚩 Handover')+'</div>'+
+      '<div class="cf-fg"><span class="cf-fl">Latency</span>'+chip('lat','all','All')+chip('lat','fast','&lt;10s')+chip('lat','mid','10–20s')+chip('lat','slow','&gt;20s')+'</div>'+
+      '<div class="cf-fg"><span class="cf-fl">Vendor</span><select class="cf-sel" onchange="setConvFilter(\'vendor\',this.value)"><option value="__all">All vendors</option>'+
+        vendors.map(v=>'<option value="'+v+'"'+(CF_FILTER.vendor===v?' selected':'')+'>'+v+'</option>').join('')+'</select></div>'+
+      '<div class="cf-fg cf-search"><input type="search" class="cf-inp" placeholder="Search transcripts…" value="'+CF_FILTER.q.replace(/"/g,'&quot;')+'" oninput="setConvFilter(\'q\',this.value)"></div>'+
+    '</div>';
+}
+function renderConv(){
+  CF_ITEMS = buildConvItems();
+  renderConvFilters();
+  const shown = CF_ITEMS.filter(passConvFilter);
+  const feed=document.getElementById('conv-feed'); if(!feed) return;
+  const cnt=document.getElementById('conv-count'); if(cnt) cnt.textContent = shown.length+' of '+CF_ITEMS.length+' conversations';
+  if(!shown.length){ feed.innerHTML='<div class="note" style="padding:16px">No conversations match these filters.</div>'; return; }
+  feed.innerHTML = shown.map((it)=>{
+    const i = CF_ITEMS.indexOf(it);
     const pill='<span class="pill '+themePillCls(it.success)+'">'+(it.successTxt||'—')+'</span>';
     const ho= it.handoverTurn?'<span class="lat" style="color:var(--danger);background:#fdeaea">🚩 @T'+it.handoverTurn+'</span>':'';
+    const laneBadge='<span class="cf-lane" title="'+it.lane+'">'+(it.lane==='shopping'?'🛍️':'🎧')+'</span>';
+    const tkt = (it.vendor==='Gorgias' && it.ticket && it.ticket.sub) ? '<a class="cf-ticket" href="https://'+it.ticket.sub+'.gorgias.com/app/tickets" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="Open in Gorgias (account '+it.ticket.acct+')">🎫</a>' : '';
     return '<div class="cf-item">'+
       '<button class="cf-row" onclick="toggleCF('+i+')">'+
+        laneBadge+
         '<span class="vdot" style="background:'+(COL[it.vendor]||'#888')+'"></span>'+
         '<span class="cf-store">'+it.store+(it.us?'<span class="us-tag">US</span>':'')+'</span>'+
         '<span class="cf-meta">'+it.vendor+' · '+it.label+'</span>'+
         '<span class="cf-dt">'+(fmtDT(it.datetime)||'—')+'</span>'+
-        '<span class="lat">'+(it.lat||'—')+'</span>'+pill+ho+
+        '<span class="lat">'+(it.lat||'—')+'</span>'+pill+ho+tkt+
         '<span class="cf-caret" id="cf-caret-'+i+'">▸</span>'+
       '</button>'+
       '<div class="cf-body" id="cf-body-'+i+'" hidden></div>'+
     '</div>';
   }).join('');
 }
+function ticketBar(it){
+  if(it.vendor!=='Gorgias') return '';       // tickets are a Gorgias concept — don't link others to gorgias.com
+  const t=it.ticket; if(!t||!t.sub) return '';
+  return '<div class="cf-ticketbar">🎫 <b>Gorgias</b> · account <span class="mono">#'+(t.acct||'—')+'</span>'+
+    (t.conv?' · conversation <span class="mono">'+String(t.conv).slice(0,8)+'…</span>':'')+
+    ' · <a href="https://'+t.sub+'.gorgias.com/app/tickets" target="_blank" rel="noopener">open in '+t.sub+'.gorgias.com ↗</a></div>';
+}
 function toggleCF(i){
   const body=document.getElementById('cf-body-'+i), caret=document.getElementById('cf-caret-'+i);
   if(!body) return;
-  if(body.hidden){ if(!body.dataset.filled){ body.innerHTML=turnsHtml((CF_ITEMS[i]||{}).turns||[]); body.dataset.filled='1'; } body.hidden=false; if(caret)caret.textContent='▾'; }
+  if(body.hidden){ if(!body.dataset.filled){ const it=CF_ITEMS[i]||{}; body.innerHTML=ticketBar(it)+turnsHtml(it.turns||[]); body.dataset.filled='1'; } body.hidden=false; if(caret)caret.textContent='▾'; }
   else { body.hidden=true; if(caret)caret.textContent='▸'; }
 }
 function renderFilter(){
@@ -31292,22 +31361,27 @@ function renderLeaders(){
 let VIEW='best';                           // top-level tab: best | shopping | support (Best shows first)
 function applyView(){
   const isBest = VIEW==='best';
+  const isConv = VIEW==='conversations';    // dedicated all-conversations tab
+  const isData = !isBest && !isConv;        // the shopping/support detail views
   const show=(id,on)=>{ const e=document.getElementById(id); if(e) e.style.display = on?'':'none'; };
   show('best-sec', isBest);                // ranking view = its own page
-  show('summary-sec', !isBest);
-  show('results-sec', !isBest);
-  show('conv-sec', !isBest);
-  show('trend-sec', !isBest);              // trends/guardrails/coverage belong to the detailed views
-  show('guard-sec', !isBest);
-  show('coverage-sec', !isBest);
-  show('caps-sec', !isBest && MODE==='shopping');
+  show('summary-sec', isData);
+  show('results-sec', isData);
+  show('conv-sec', isConv);                // conversations now live in their OWN top-level tab
+  show('trend-sec', isData);               // trends/guardrails/coverage belong to the detailed views
+  show('guard-sec', isData);
+  show('coverage-sec', isData);
+  show('caps-sec', isData && MODE==='shopping');
   // method & caveats stays visible in every view
   document.getElementById('mode-note').textContent = isBest
     ? 'The single best on-site AI agent for each job — ranked by success + speed, gated on measurement coverage. Use the sub-toggle to switch job.'
-    : (MODE==='shopping'
-        ? 'Shopping-discovery conversations that must end in a real product recommendation.'
-        : 'Support conversations — shipping, delivery, returns & policy. Success = answered without a spontaneous human handover.');
+    : isConv
+      ? 'Every captured conversation across both lanes — filter, search, and open the full transcript. Gorgias conversations link to their ticket.'
+      : (MODE==='shopping'
+          ? 'Shopping-discovery conversations that must end in a real product recommendation.'
+          : 'Support conversations — shipping, delivery, returns & policy. Success = answered without a spontaneous human handover.');
   if(isBest) setBest(BESTMODE);            // make sure the right sub-panel is showing
+  if(isConv) renderConv();                 // rebuild the unified feed when entering the tab
 }
 // --- Coverage: the full vendor × website test inventory (date-window independent) ---
 const WIDGET_LABEL = { gorgias:"Gorgias Chat", spiffy:"Envive (Spiffy) shadow-DOM", sierra:"Sierra SDK", siena:"Siena webchat",
@@ -31363,7 +31437,7 @@ function renderAll(){
 }
 function setMode(m){
   VIEW=m;
-  if(m!=='best') MODE=m;                    // keep MODE a valid data mode for the tables
+  if(m==='shopping'||m==='support') MODE=m; // keep MODE a valid data mode ('best'/'conversations' don't touch it)
   document.querySelectorAll('.modebtn[data-m]').forEach(b=>b.setAttribute('aria-selected', b.dataset.m===VIEW));
   renderAll();
 }
