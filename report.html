@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Gorgias AI Agent · Competitive Benchmark</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -270,7 +271,6 @@
   <a class="brand" href="report.html"><i></i>GORGIAS · AI AGENT BENCHMARK</a>
   <div class="links">
     <a href="takeaways.html">Summary</a>
-    <a href="report.html#best" id="nav-best">Best AI Agent</a>
     <a href="report.html" id="nav-report" class="active" aria-current="page">Detailed report</a>
   </div>
 </nav>
@@ -31795,19 +31795,9 @@ renderAll();
       [[total,'conversations'],[vendors,'vendors'],[stores,'live stores'],[dates,'runs']].map(([n,l])=>
         '<div class="hs"><div class="n" data-count="'+n+'">0</div><div class="l">'+l+'</div></div>').join('');
   }catch(e){}
-  // nav deep-link: report.html#best opens the Best AI Agent view directly
+  // deep-link: report.html#best still opens the Best AI Agent view directly (in-page tab)
   const applyHashMode=()=>{ if(location.hash==='#best'){ try{ setMode('best'); }catch(e){} } };
   applyHashMode(); window.addEventListener('hashchange', applyHashMode);
-  // nav ↔ view sync: "Best AI Agent" and "Detailed report" are two VIEWS of this page —
-  // the active pill must follow the current view, and clicking swaps views without reload.
-  const navBest=document.getElementById('nav-best'), navRep=document.getElementById('nav-report');
-  function syncNav(){ const best=(typeof VIEW!=='undefined'&&VIEW==='best')||(typeof MODE!=='undefined'&&MODE==='best');
-    if(navBest&&navRep){ navBest.classList.toggle('active',best); navRep.classList.toggle('active',!best);
-      navBest.toggleAttribute('aria-current',best); navRep.toggleAttribute('aria-current',!best); } }
-  if(navBest) navBest.addEventListener('click',e=>{ e.preventDefault(); try{setMode('best');}catch(x){} history.replaceState(null,'','#best'); syncNav(); window.scrollTo({top:0,behavior:'smooth'}); });
-  if(navRep) navRep.addEventListener('click',e=>{ e.preventDefault(); try{setMode('shopping');}catch(x){} history.replaceState(null,'',location.pathname); syncNav(); window.scrollTo({top:0,behavior:'smooth'}); });
-  try{ const __sm=window.setMode; window.setMode=function(m){ __sm(m); syncNav(); }; }catch(e){}
-  syncNav();
   // universal fixed-position tooltip — CSS ::after tooltips get CLIPPED inside
   // overflow:auto cards; this one lives on <body> and clamps to the viewport.
   const tip=document.createElement('div'); tip.id='jstip'; document.body.appendChild(tip);
