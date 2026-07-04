@@ -30,45 +30,39 @@ td{padding:9px 12px;border-bottom:1px solid rgba(27,23,18,.05);vertical-align:mi
 .ev-done{color:#43D598}.ev-fail{color:#FF7A5C}.ev-run{color:#C9BEB0}
 </style></head><body><div class="wrap">
 <h1>Capture run status <span class="badge live">● LIVE — capturing</span></h1>
-<div class="sub">Run date <b>2026-07-03</b> · snapshot 2026-07-04 14:32:42 UTC · <a class="back" href="report.html">← report</a> · <a class="back" href="takeaways.html">summary</a></div>
+<div class="sub">Run date <b>2026-07-03</b> · snapshot 2026-07-04 14:47:52 UTC · <a class="back" href="report.html">← report</a> · <a class="back" href="takeaways.html">summary</a></div>
 
 <div class="big">
-  <div class="pct">6%</div>
-  <div class="cap">3 of 49 conversations captured this run</div>
-  <div class="bar"><span style="width:6%;background:undefined"></span></div>
+  <div class="pct">8%</div>
+  <div class="cap">2 of 24 conversations captured this run</div>
+  <div class="bar"><span style="width:8%;background:undefined"></span></div>
   <div class="kpis">
-    <div class="kpi"><b class="mono">2</b><span>valid (timed)</span></div>
-    <div class="kpi"><b class="mono">1</b><span>invalid / failed</span></div>
-    <div class="kpi"><b class="mono">46</b><span>remaining</span></div>
-    <div class="kpi"><b class="mono">3</b><span>stores in run</span></div>
+    <div class="kpi"><b class="mono">3</b><span>valid (timed)</span></div>
+    <div class="kpi"><b class="mono">3</b><span>invalid / failed</span></div>
+    <div class="kpi"><b class="mono">22</b><span>remaining</span></div>
+    <div class="kpi"><b class="mono">2</b><span>stores in run</span></div>
   </div>
-  <div class="sub" style="margin-top:14px">⏳ In flight: <span class="chip">humind-weedy/shopping/everyday-value</span> <span class="chip">humind-weedy/shopping/gift</span></div>
+  <div class="sub" style="margin-top:14px">⏳ In flight: <span class="chip">gorgias-glamnetic/support/order-mgmt</span> <span class="chip">klaviyo-naked/shopping/gift</span></div>
 </div>
 
 <h2>By store</h2>
 <table><thead><tr><th>Store</th><th class="n">Valid</th><th>Progress</th><th class="n">Invalid</th><th class="n">Pending</th></tr></thead><tbody><tr>
       <td><span class="dot" style="background:#f0603f"></span><b>Gorgias</b> · Glamnetic</td>
-      <td class="mono n">2/5</td>
-      <td style="min-width:160px"><div class="bar"><span style="width:40%;background:#f0603f"></span></div></td>
-      <td class="mono n">·</td>
-      <td class="mono n">3</td>
-    </tr><tr>
-      <td><span class="dot" style="background:#14b8a6"></span><b>Humind</b> · Weedy</td>
-      <td class="mono n">0/11</td>
-      <td style="min-width:160px"><div class="bar"><span style="width:0%;background:#14b8a6"></span></div></td>
-      <td class="mono n">·</td>
-      <td class="mono n">11</td>
+      <td class="mono n">3/5</td>
+      <td style="min-width:160px"><div class="bar"><span style="width:60%;background:#f0603f"></span></div></td>
+      <td class="mono n"><span class="warn">1</span></td>
+      <td class="mono n">1</td>
     </tr><tr>
       <td><span class="dot" style="background:#f59e0b"></span><b>Klaviyo</b> · Naked Wardrobe</td>
       <td class="mono n">0/11</td>
       <td style="min-width:160px"><div class="bar"><span style="width:0%;background:#f59e0b"></span></div></td>
-      <td class="mono n"><span class="warn">1</span></td>
-      <td class="mono n">10</td>
+      <td class="mono n"><span class="warn">2</span></td>
+      <td class="mono n">9</td>
     </tr></tbody></table>
 
 <h2>Failed / invalid</h2>
-<table><thead><tr><th>Conversation</th><th>Reason</th></tr></thead><tbody><tr><td class="mono">klaviyo-naked/shopping/everyday-value</td><td class="note">INVALID — only 0 timed AI answer(s) (need 3) — no measurable latency (timed 0/0)</td></tr><tr><td class="mono">klaviyo-naked/shopping/everyday-value</td><td class="note">FAILED: TypeError: First argument to String.prototype.includes must not be a regular expre</td></tr></tbody></table>
+<table><thead><tr><th>Conversation</th><th>Reason</th></tr></thead><tbody><tr><td class="mono">gorgias-glamnetic/support/policy</td><td class="note">INVALID — only 1 timed AI answer(s) (need 3) — no measurable latency (timed 1/1, handover)</td></tr><tr><td class="mono">klaviyo-naked/shopping/everyday-value</td><td class="note">INVALID — only 0 timed AI answer(s) (need 3) — no measurable latency (timed 0/10)</td></tr></tbody></table>
 
 <h2>Recent activity</h2>
-<div class="feed"><div class="ev ev-run">[humind-weedy/shopping/everyday-value] T9 —ms</div><div class="ev ev-run">[humind-weedy/shopping/gift] T3 —ms</div><div class="ev ev-run">[humind-weedy/shopping/everyday-value] T8 —ms</div><div class="ev ev-run">[humind-weedy/shopping/gift] T2 —ms</div><div class="ev ev-run">[humind-weedy/shopping/everyday-value] T7 —ms</div><div class="ev ev-run">[humind-weedy/shopping/gift] T1 —ms</div><div class="ev ev-run">[humind-weedy/shopping/everyday-value] T6 —ms</div><div class="ev ev-run">[humind-weedy/shopping/gift] widget open @9s → first message</div><div class="ev ev-run">[humind-weedy/shopping/gift] page @1s → opening widget…</div><div class="ev ev-done">✔ [3/49] gorgias-glamnetic/support/returns · success 100% · avg 14192ms</div><div class="ev ev-run">[gorgias-glamnetic/support/returns] T10 15006ms</div><div class="ev ev-run">[humind-weedy/shopping/everyday-value] T5 —ms</div><div class="ev ev-run">[gorgias-glamnetic/support/returns] T9 14292ms</div><div class="ev ev-run">[gorgias-glamnetic/support/returns] T8 11785ms</div><div class="ev ev-run">[gorgias-glamnetic/support/returns] T7 14864ms</div><div class="ev ev-run">[humind-weedy/shopping/everyday-value] T4 —ms</div></div>
+<div class="feed"><div class="ev ev-run">[klaviyo-naked/shopping/gift] widget open @8s → first message</div><div class="ev ev-run">[gorgias-glamnetic/support/order-mgmt] T8 —ms</div><div class="ev ev-run">[klaviyo-naked/shopping/gift] page @1s → opening widget…</div><div class="ev ev-done">✔ [2/24] gorgias-glamnetic/support/policy · success 10% · avg 13315ms  🚩 handover@T2</div><div class="ev ev-fail">[gorgias-glamnetic/support/policy] INVALID — only 1 timed AI answer(s) (need 3) — no measurable latency (timed 1/1, handover)</div><div class="ev ev-run">[gorgias-glamnetic/support/policy] T10 (not sent — handed to human)</div><div class="ev ev-run">[gorgias-glamnetic/support/policy] T9 (not sent — handed to human)</div><div class="ev ev-run">[gorgias-glamnetic/support/policy] T8 (not sent — handed to human)</div><div class="ev ev-run">[gorgias-glamnetic/support/policy] T7 (not sent — handed to human)</div><div class="ev ev-run">[gorgias-glamnetic/support/policy] T6 (not sent — handed to human)</div><div class="ev ev-run">[gorgias-glamnetic/support/policy] T5 (not sent — handed to human)</div><div class="ev ev-run">[gorgias-glamnetic/support/policy] T4 (not sent — handed to human)</div><div class="ev ev-run">[gorgias-glamnetic/support/policy] T3 (not sent — handed to human)</div><div class="ev ev-run">[gorgias-glamnetic/support/policy] T2 (human)  ⛔ HANDOVER: leave your email</div><div class="ev ev-run">[gorgias-glamnetic/support/policy] T1 13315ms</div><div class="ev ev-run">[gorgias-glamnetic/support/policy] widget open @18s → first message</div></div>
 </div></body></html>
