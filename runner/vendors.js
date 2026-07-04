@@ -660,6 +660,22 @@ export const STORES = [
   // Shopify Inbox (native) — expected gated/single-shot ticket form (Roman); the finding IS the result.
   { key: "shopify-schott",    vendor: "Shopify Inbox", store: "Schott NYC", url: "https://www.schottnyc.com/",    widget: "shopify_inbox", candidate: true },
   { key: "shopify-jnco",      vendor: "Shopify Inbox", store: "JNCO",       url: "https://www.jnco.com/",          widget: "shopify_inbox", candidate: true },
+  // ---- sourcing pass 2 (2026-07-03) — signature-verified, to raise statistical significance ----
+  { key: "spiffy-clove",      vendor: "Envive", store: "Clove",         url: "https://www.clovebrand.com/",     widget: "spiffy" },          // cdn.spiffy.ai
+  { key: "spiffy-fur",        vendor: "Envive", store: "Fur",           url: "https://www.furyou.com/",         widget: "spiffy" },          // cdn.spiffy.ai
+  { key: "dg-kukoon",         vendor: "DigitalGenius", store: "Kukoon", url: "https://kukoon.com/",             widget: "dg", locale: "en-GB" }, // chat.digitalgenius.com
+  { key: "meta-typo",         vendor: "Meta AI", store: "Typo",         url: "https://www.typo.com.au/",        widget: "zendesk", locale: "en-AU" }, // static.zdassets.com
+  { key: "meta-factorie",     vendor: "Meta AI", store: "Factorie",     url: "https://www.factorie.com.au/",    widget: "zendesk", locale: "en-AU" },
+  { key: "meta-supre",        vendor: "Meta AI", store: "Supre",        url: "https://www.supre.com.au/",       widget: "zendesk", locale: "en-AU" },
+  { key: "meta-puma",         vendor: "Meta AI", store: "PUMA",         url: "https://us.puma.com/",            widget: "zendesk" },
+  { key: "meta-publicrec",    vendor: "Meta AI", store: "Public Rec",   url: "https://publicrec.com/",          widget: "zendesk" },
+  { key: "meta-saatva",       vendor: "Meta AI", store: "Saatva",       url: "https://www.saatva.com/",         widget: "zendesk" },
+  { key: "sierra-babylist",   vendor: "Sierra", store: "Babylist",      url: "https://www.babylist.com/",       widget: "sierra" },          // sierraConfig
+  { key: "ada-knix",          vendor: "Ada",    store: "Knix",          url: "https://knix.com/",               widget: "ada" },             // static.ada.support
+  { key: "ada-goodfood",      vendor: "Ada",    store: "Goodfood",      url: "https://www.makegoodfood.ca/",    widget: "ada", locale: "en-CA" },
+  { key: "repai-vibae",       vendor: "Rep AI", store: "VIBAe",         url: "https://vibae.com/",              widget: "repai" },           // initRep
+  { key: "repai-safishing",   vendor: "Rep AI", store: "SA Fishing",    url: "https://www.safishing.com/",      widget: "repai" },
+  { key: "repai-fass",        vendor: "Rep AI", store: "FASS Motorsports", url: "https://www.fassmotorsports.com/", widget: "repai" },
 ];
 
 // Find a frame by element id / title / name / url.
