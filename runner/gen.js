@@ -48,10 +48,10 @@ try { EVALS = JSON.parse(await readFile(new URL("./eval-scores.json", import.met
 // ---- per-store capability matrix (SHOPPING only). 1=yes, 0=no, 2=untested. ----
 const CAPS = {
   "spiffy-supergoop": { qr: 1, cards: 1, reviews: 1, completes: 1 },
-  "gorgias-madura": { qr: 0, cards: 0, reviews: 0, completes: 1 },
-  "gorgias-jade": { qr: 1, cards: 0, reviews: 0, completes: 1 },
-  "gorgias-beekman": { qr: 1, cards: 0, reviews: 0, completes: 1 },
-  "gorgias-shoebacca": { qr: 1, cards: 0, reviews: 0, completes: 1 },
+  "gorgias-madura": { qr: 0, cards: 1, reviews: 0, completes: 1 },   // V3 SA renders product cards (transcript evidence: product links/cards)
+  "gorgias-jade": { qr: 1, cards: 0, reviews: 0, completes: 1 },     // (excluded from Shopping — not V3)
+  "gorgias-beekman": { qr: 1, cards: 1, reviews: 0, completes: 1 },  // V3 SA (beta_3_sa) — product cards observed
+  "gorgias-shoebacca": { qr: 1, cards: 1, reviews: 0, completes: 1 },// product cards observed in transcripts
   "sierra-casper": { qr: 1, cards: 1, reviews: 2, completes: 1 },
   "sierra-scotts": { qr: 2, cards: 2, reviews: 2, completes: 2 },
   "siena-simplemodern": { qr: 2, cards: 0, reviews: 2, completes: 2 },
