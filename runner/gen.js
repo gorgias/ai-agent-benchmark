@@ -339,3 +339,31 @@ const summarize = (arr, mode) => {
 summarize(STORES, "shopping");
 summarize(SUPPORT, "support");
 console.log(`Wrote ${REPORT} (runs ${DATES.join(", ")}).`);
+
+// ---- SINGLE SOURCE OF TRUTH: push the same headline counts into takeaways.html ----
+// The Summary (takeaways) and the Detailed report must never disagree on totals. We
+// compute from the SAME baked arrays the report uses, so both pages move together.
+const convCount = (arr) => arr.reduce((n, s) => n + ((s.themes && s.themes.length) || 0), 0);
+const allEntries = [...STORES, ...SUPPORT];
+const STATS = {
+  convs: convCount(STORES) + convCount(SUPPORT),
+  judged: Object.keys(EVALS).length,
+  vendors: new Set(allEntries.map(s => s.vendor)).size,
+  stores: new Set(allEntries.filter(s => s.method === "new").map(s => s.site)).size,
+  runs: DATES.length,
+};
+try {
+  const TK = new URL("../takeaways.html", import.meta.url).pathname;
+  let tk = await readFile(TK, "utf8");
+  // inject the live values as data-count so the count-up animation uses them
+  tk = tk.replace(/(data-stat="convs"[^>]*data-count=")\d+(")/, `$1${STATS.convs}$2`)
+         .replace(/(data-count=")\d+("[^>]*data-stat="convs")/, `$1${STATS.convs}$2`)
+         .replace(/(data-count=")\d+("\s+data-stat="judged")/, `$1${STATS.judged}$2`)
+         .replace(/(data-count=")\d+("\s+data-stat="vendors")/, `$1${STATS.vendors}$2`)
+         .replace(/(data-count=")\d+("[^>]*data-stat="stores")/, `$1${STATS.stores}$2`)
+         .replace(/<!-- STATS_JSON:.*?-->/, `<!-- STATS_JSON:${JSON.stringify(STATS)} -->`);
+  // reconcile the prose count in the method note (any "NNN LLM-judged conversations")
+  tk = tk.replace(/\b\d{3}\s+LLM-judged conversations\b/g, `${STATS.judged} LLM-judged conversations`);
+  await writeFile(TK + ".tmp", tk); await rename(TK + ".tmp", TK);
+  console.log(`Synced takeaways.html stats: ${STATS.convs} convs · ${STATS.judged} judged · ${STATS.vendors} vendors · ${STATS.stores} stores`);
+} catch (e) { console.log("takeaways sync skipped:", e.message); }
