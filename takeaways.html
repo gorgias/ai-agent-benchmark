@@ -24,6 +24,9 @@
   .p75mut{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:10.5px;color:var(--on-faint);font-weight:600;margin-top:2px}
   .prank{display:inline-flex;align-items:center;justify-content:center;min-width:24px;height:22px;padding:0 6px;margin-right:9px;border-radius:6px;background:var(--ink);color:#fff;font-family:'Inter Tight';font-weight:800;font-size:12px;flex:none;vertical-align:middle}
   .rk{font-size:10px;font-weight:800;color:var(--on-faint);font-variant-numeric:tabular-nums}
+  /* visible ⓘ affordance on every tooltip carrier — hover targets must be discoverable */
+  .tt::after,[data-tip]::after{content:"ⓘ";font-size:.68em;color:var(--coral);opacity:.6;margin-left:3px;vertical-align:super}
+  .tt:hover::after,[data-tip]:hover::after{opacity:1}
   a{color:var(--coral)}
   ::selection{background:var(--coral);color:#fff}
   :focus-visible{outline:2px solid var(--coral);outline-offset:2px;border-radius:4px}
