@@ -73,27 +73,32 @@ checks** and *derives* the numbers — the judge never picks a number.)
 **resolution** (max 40)
 | check | pts | passes when |
 |---|---|---|
-| `s_answered` | 18 | the issue gets a real answer or procedure in-channel |
+| `s_answered` | 18 | the PRIMARY ask gets a complete, store-specific answer or procedure in-channel. A generic pointer ("check our returns page"), a partial answer, or industry-generality boilerplate fails |
 | `s_outcome` | 12 | the ending is outcome-correct: resolved in-channel, **or** a justified handover done well (context collected first, expectations set). An unjustified bail on an answerable question fails |
 | `s_no_deflect` | 10 | doesn't push the shopper out of channel ("email us", "call us") when the question was answerable in-chat |
 
 **accuracy** (max 25)
 | check | pts | passes when |
 |---|---|---|
-| `g_specific` | 13 | gives specific, grounded facts (timeframes, policy terms, concrete conditions) — not vague reassurance |
-| `g_consistent` | 12 | no self-contradiction; no invented policy details |
+| `g_specific` | 13 | gives ≥2 concrete, store-specific facts (a number, timeframe, named policy term, concrete condition). One vague reassurance ("we'll sort it out") fails |
+| `g_consistent` | 5 | no self-contradiction across turns |
+| `g_grounded` | 7 | policy/product claims read as grounded in THIS store (named policies, actual conditions, store-specific procedures) rather than plausible industry generalities |
 
 **actionability** (max 20)
 | check | pts | passes when |
 |---|---|---|
-| `t_steps` | 12 | the shopper leaves with concrete steps they can act on |
+| `t_steps` | 12 | the shopper leaves with steps they can execute NOW in their situation (cold session, no account) — numbered or clearly sequenced; "reach out if…" alone fails |
 | `t_complete` | 8 | the answer covers the actual ask (not a fragment of it) |
 
 **close** (max 15)
 | check | pts | passes when |
 |---|---|---|
-| `k_expectations` | 8 | sets expectations for what happens next (who does what, by when) |
+| `k_expectations` | 8 | sets expectations with WHO acts and WHEN (a timeframe) — vague "soon"/"we'll be in touch" fails |
 | `k_clean` | 7 | clean, complete close |
+
+> Calibration note (v2.1): the five support checks above were tightened after the first
+> pinned-cohort run showed them passing at 83–100% (non-discriminating bars); `g_consistent`
+> was split into `g_consistent` (5) + `g_grounded` (7). Weights per dimension are unchanged.
 
 ## Output contract (per conversation)
 
