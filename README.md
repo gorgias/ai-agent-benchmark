@@ -12,7 +12,7 @@ Every conversation is captured cold (fresh incognito context), driven with **fre
 | **Automation rate** | % of *engaged* conversations the AI handled with **zero human touch** — no handover, no "email/call us" deflection. The containment metric: the share of tickets a human never touches. |
 | **Answer quality** | An LLM judge scores every conversation `/100` on a per-lane rubric (Relevance for Shopping, Resolution for Support). |
 | **Latency** | True end-to-end — message sent → *final* answer rendered, past "let me check…" stalls. Plus **first signal** (TTFT) and delivery style (streaming vs atomic). |
-| **Composite** | `50% automation + 25% quality + 25% speed` (speed 100 at ≤3 s, 0 at ≥22 s), renormalized over available dimensions. One rankable number per lane. |
+| **Composite** | `40% automation + 40% quality + 20% speed` (speed 100 at ≤3 s, 0 at ≥22 s), renormalized over available dimensions. Automation and quality are equal pillars — a fast deflection must not outrank substance; speed separates close vendors. One rankable number per lane. |
 
 **Live report:** https://gorgias.github.io/ai-agent-benchmark/report.html — **Summary:** https://gorgias.github.io/ai-agent-benchmark/takeaways.html
 _(public URL, `noindex` + `robots.txt` so it is never search-indexed)_
