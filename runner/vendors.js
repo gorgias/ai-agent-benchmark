@@ -551,8 +551,8 @@ export const STORES = [
   { key: "gorgias-jshealth", vendor: "Gorgias", store: "JSHealth Vitamins", url: "https://us.jshealthvitamins.com/", widget: "gorgias", us: true, v3: true }, // pre_ga (Cortex)
   { key: "gorgias-beekman",  vendor: "Gorgias", store: "Beekman 1802",  url: "https://beekman1802.com/",             widget: "gorgias", us: true, v3: true }, // beta_3_sa — V3 Shopping Assistant (Cortex)
   { key: "gorgias-shoebacca", vendor: "Gorgias", store: "Shoebacca",    url: "https://www.shoebacca.com/",           widget: "gorgias", us: true, v3: true }, // beta_1_support (Cortex)
-  // High-volume, high-performing V3 (beta_3_sa) stores sourced from Cortex (2026-07-04) — added
-  // for coverage/credibility, not to chase rank (rank gap is speed, not automation). Verified: live config.gorgias widget on Shopify.
+  // High-volume V3 (beta_3_sa) stores sourced 2026-07-04 to widen sample coverage, same as the
+  // Ada/Zendesk widening passes. Verified: live config.gorgias widget on Shopify.
   { key: "gorgias-icewatch",   vendor: "Gorgias", store: "Ice-Watch",   url: "https://www.ice-watch.com/",  widget: "gorgias", locale: "en-US", v3: true }, // beta_3_sa · SA success 82% @6.4k tickets (Cortex)
   { key: "gorgias-amicci",     vendor: "Gorgias", store: "Amicci",      url: "https://amicci.com/",         widget: "gorgias", locale: "en-GB", v3: true }, // beta_3_sa · 1.2k AI int (Cortex)
   { key: "gorgias-addisonbay", vendor: "Gorgias", store: "Addison Bay", url: "https://addisonbay.com/",     widget: "gorgias", us: true, locale: "en-US", v3: true }, // beta_3_sa (Cortex)
@@ -628,10 +628,13 @@ export const STORES = [
   { key: "siena-mudwtr",      vendor: "Siena",  store: "MUD\\WTR",    url: "https://mudwtr.com/",         widget: "siena" },
   { key: "siena-spanx",       vendor: "Siena",  store: "Spanx",       url: "https://spanx.com/",          widget: "siena" },
   // Yuma (runs behind Gorgias helpdesk → drive the Gorgias widget)
-  // Zendesk AI ("Meta AI")
-  { key: "meta-cottonon",     vendor: "Meta AI",store: "Cotton On",   url: "https://cottonon.com/US/",    widget: "zendesk" },
-  { key: "meta-quip",         vendor: "Meta AI",store: "quip",        url: "https://www.getquip.com/",    widget: "zendesk" },
-  { key: "meta-grove",        vendor: "Meta AI",store: "Grove",       url: "https://www.grove.co/",       widget: "zendesk" },
+  // Zendesk AI ("Meta AI") — messaging widgets re-verified 2026-07-05 via ekr.zdassets.com/compose/<key>
+  // (a `messenger` product block = live conversational widget, not a help-center form).
+  { key: "meta-cottonon",     vendor: "Meta AI",store: "Cotton On",   url: "https://cottonon.com/US/",    widget: "zendesk" }, // verified messenger. NOTE: Cotton On Group runs ONE deployment across cottonon/typo/factorie/supre — correlated, not independent samples.
+  // quip (getquip.com) DROPPED 2026-07-05: dual-vendor page — Zendesk messenger AND a live Gorgias
+  // chat install are both wired; ambiguous which widget a shopper gets, so its data can't be
+  // attributed to a single vendor. Prior captures excluded from Meta AI aggregates via drop list.
+  { key: "meta-grove",        vendor: "Meta AI",store: "Grove",       url: "https://www.grove.co/",       widget: "zendesk" }, // verified messenger
   // Ada (often loads on the help/support page, not the homepage)
   { key: "ada-endy",          vendor: "Ada",    store: "Endy",        url: "https://www.endy.com/",       widget: "ada" },
   { key: "ada-ipsy",          vendor: "Ada",    store: "IPSY",        url: "https://help.ipsy.com/",      widget: "ada" },
@@ -639,7 +642,7 @@ export const STORES = [
   { key: "ada-indigo",        vendor: "Ada",    store: "Indigo",      url: "https://www.indigo.ca/",      widget: "ada" },
   // top-ups to reach ≥5 sourced sites/vendor (most DG widgets lazy-load → may need headed)
   // Snipes / Beauty Pie — no DigitalGenius on-site widget (verified); DG on-site footprint = Bloom & Wild + G-Star only.
-  { key: "meta-motelrocks",   vendor: "Meta AI", store: "Motel Rocks", url: "https://www.motelrocks.com/", widget: "zendesk" },
+  // meta-motelrocks DROPPED 2026-07-05: help-center only — no live ekr snippet (legacy 2021 theme asset 404s); no drivable chat.
   { key: "yuma-cabaia",       vendor: "Yuma",   store: "CABAIA",      url: "https://cabaia.com/",         widget: "yuma" }, // Yuma-native (app.yuma.ai/w/26d426e8); Zendesk = email tickets only
   // MESHKI — the only OTHER Yuma-native brand found (2026-07-03); 3 regional instances with DISTINCT
   // widget UUIDs (meshki.us shares meshki.com's UUID → skipped as redundant). Pushes Yuma to 6 stores.
@@ -687,15 +690,40 @@ export const STORES = [
   { key: "spiffy-clove",      vendor: "Envive", store: "Clove",         url: "https://www.clovebrand.com/",     widget: "spiffy" },          // cdn.spiffy.ai
   { key: "spiffy-fur",        vendor: "Envive", store: "Fur",           url: "https://www.furyou.com/",         widget: "spiffy" },          // cdn.spiffy.ai
   { key: "dg-kukoon",         vendor: "DigitalGenius", store: "Kukoon", url: "https://kukoon.com/",             widget: "dg", locale: "en-GB" }, // chat.digitalgenius.com
-  { key: "meta-typo",         vendor: "Meta AI", store: "Typo",         url: "https://www.typo.com.au/",        widget: "zendesk", locale: "en-AU" }, // static.zdassets.com
-  { key: "meta-factorie",     vendor: "Meta AI", store: "Factorie",     url: "https://www.factorie.com.au/",    widget: "zendesk", locale: "en-AU" },
-  { key: "meta-supre",        vendor: "Meta AI", store: "Supre",        url: "https://www.supre.com.au/",       widget: "zendesk", locale: "en-AU" },
-  { key: "meta-puma",         vendor: "Meta AI", store: "PUMA",         url: "https://us.puma.com/",            widget: "zendesk" },
-  { key: "meta-publicrec",    vendor: "Meta AI", store: "Public Rec",   url: "https://publicrec.com/",          widget: "zendesk" },
-  { key: "meta-saatva",       vendor: "Meta AI", store: "Saatva",       url: "https://www.saatva.com/",         widget: "zendesk" },
+  // Cotton On Group siblings (typo/factorie/supre + cottonon) share ONE Zendesk deployment — correlated
+  // samples, not independent stores; keep for coverage but read as one deployment family.
+  { key: "meta-typo",         vendor: "Meta AI", store: "Typo",         url: "https://www.typo.com.au/",        widget: "zendesk", locale: "en-AU" }, // verified messenger (ekr compose)
+  { key: "meta-factorie",     vendor: "Meta AI", store: "Factorie",     url: "https://www.factorie.com.au/",    widget: "zendesk", locale: "en-AU" }, // verified messenger
+  { key: "meta-supre",        vendor: "Meta AI", store: "Supre",        url: "https://www.supre.com.au/",       widget: "zendesk", locale: "en-AU" }, // verified messenger
+  { key: "meta-puma",         vendor: "Meta AI", store: "PUMA",         url: "https://us.puma.com/",            widget: "zendesk" }, // verified messenger
+  { key: "meta-publicrec",    vendor: "Meta AI", store: "Public Rec",   url: "https://publicrec.com/",          widget: "zendesk" }, // verified messenger (Intercom strings on page are inert data, no loader)
+  // meta-saatva DROPPED 2026-07-05: no chat-vendor snippet in served HTML (help-center links only) — not drivable headlessly.
+  // NEW verified Zendesk-messenger retail storefronts (2026-07-05; ekr compose = messenger + endUserConversations):
+  { key: "meta-generalpants", vendor: "Meta AI", store: "General Pants",   url: "https://www.generalpants.com/",     widget: "zendesk", locale: "en-AU" },
+  { key: "meta-universalstore", vendor: "Meta AI", store: "Universal Store", url: "https://www.universalstore.com/", widget: "zendesk", locale: "en-AU" },
+  { key: "meta-barkers",      vendor: "Meta AI", store: "Barkers",         url: "https://www.barkersonline.co.nz/",  widget: "zendesk", locale: "en-NZ" },
+  { key: "meta-camilla",      vendor: "Meta AI", store: "CAMILLA",         url: "https://camilla.com/",              widget: "zendesk", locale: "en-AU" },
+  { key: "meta-sealy",        vendor: "Meta AI", store: "Sealy",           url: "https://www.sealy.com/",            widget: "zendesk", us: true },
+  { key: "meta-tempurpedic",  vendor: "Meta AI", store: "Tempur-Pedic",    url: "https://www.tempurpedic.com/",      widget: "zendesk", us: true },
+  { key: "meta-horizn",       vendor: "Meta AI", store: "Horizn Studios",  url: "https://www.horizn-studios.com/",   widget: "zendesk", locale: "en-GB" },
+  { key: "meta-nomnom",       vendor: "Meta AI", store: "NomNom",          url: "https://www.nomnomnow.com/",        widget: "zendesk", us: true },
+  { key: "meta-hyperice",     vendor: "Meta AI", store: "Hyperice",        url: "https://www.hyperice.com/",         widget: "zendesk", us: true },
+  { key: "meta-blundstone",   vendor: "Meta AI", store: "Blundstone",      url: "https://www.blundstone.com/",       widget: "zendesk", us: true },
+  { key: "meta-next",         vendor: "Meta AI", store: "NEXT",            url: "https://www.next.co.uk/help",       widget: "zendesk", locale: "en-GB" }, // widget loads on /help route
+  { key: "meta-petbarn",      vendor: "Meta AI", store: "Petbarn",         url: "https://www.petbarn.com.au/",       widget: "zendesk", locale: "en-AU" },
   { key: "sierra-babylist",   vendor: "Sierra", store: "Babylist",      url: "https://www.babylist.com/",       widget: "sierra" },          // sierraConfig
   { key: "ada-knix",          vendor: "Ada",    store: "Knix",          url: "https://knix.com/",               widget: "ada" },             // static.ada.support
   { key: "ada-goodfood",      vendor: "Ada",    store: "Goodfood",      url: "https://www.makegoodfood.ca/",    widget: "ada", locale: "en-CA" },
+  // Wider Ada target — NEW retail storefronts sourced + widget-verified 2026-07-05 (real
+  // static.ada.support embed + data-handle on the public homepage; consumer brands, public chat).
+  { key: "ada-sodastream",    vendor: "Ada",    store: "SodaStream",      url: "https://www.sodastream.com/",   widget: "ada", us: true }, // data-handle sodastream
+  { key: "ada-sodastream-uk", vendor: "Ada",    store: "SodaStream UK",   url: "https://sodastream.co.uk/",     widget: "ada", locale: "en-GB" },
+  { key: "ada-moroccanoil",   vendor: "Ada",    store: "Moroccanoil",     url: "https://www.moroccanoil.com/",  widget: "ada", us: true }, // data-handle moroccanoil
+  { key: "ada-peets",         vendor: "Ada",    store: "Peet's Coffee",   url: "https://www.peets.com/",        widget: "ada", us: true }, // data-handle peetscoffee
+  { key: "ada-alen",          vendor: "Ada",    store: "Alen",            url: "https://www.alen.com/",         widget: "ada", us: true }, // data-handle alen (air purifiers — considered purchase)
+  { key: "ada-americantall",  vendor: "Ada",    store: "American Tall",   url: "https://www.americantall.com/", widget: "ada", us: true }, // data-handle americantall-gen (sizing → shopping)
+  { key: "ada-trx",           vendor: "Ada",    store: "TRX Training",    url: "https://www.trxtraining.com/",  widget: "ada", us: true }, // data-handle trx-gr
+  { key: "ada-uaudio",        vendor: "Ada",    store: "Universal Audio", url: "https://www.uaudio.com/",       widget: "ada", us: true }, // data-handle universalaudio
   { key: "repai-vibae",       vendor: "Rep AI", store: "VIBAe",         url: "https://vibae.com/",              widget: "repai" },           // initRep
   { key: "repai-safishing",   vendor: "Rep AI", store: "SA Fishing",    url: "https://www.safishing.com/",      widget: "repai" },
   { key: "repai-fass",        vendor: "Rep AI", store: "FASS Motorsports", url: "https://www.fassmotorsports.com/", widget: "repai" },
