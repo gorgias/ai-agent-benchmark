@@ -59,11 +59,32 @@ RUN_DATE=$(date +%F) node run.js --headed --concurrency 2
 node gen.js                 # rebuild report.html + takeaways.html + Pages stats from results/
 ```
 
-**Quality evals** (needs a Claude session; no API key on the machine):
+**Quality evals** (needs a Claude session; no API key on the machine). The judge
+specification is versioned in-repo: **`runner/eval-rubric.md`** (v2). Design, in short:
+
+- **Binary, evidence-forced checks — the judge never picks a number.** Each rubric
+  dimension decomposes into pass/fail checks; a passing check must quote the transcript.
+  Sub-scores and the /100 total are *derived* from the booleans by a fixed point mapping
+  in `eval-merge.js`.
+- **Blind batches.** `eval-pack.js` strips vendor/store identity (opaque keys + masked
+  text); judges score behavior, not brands. The key→id map stays merge-side only.
+- **Deterministic signals.** Price/link/review/option presence is regex-detected at pack
+  time and enforced at merge — a rich-element check cannot pass without its signal in the
+  actual transcript.
+- **Outcome correctness.** A justified, well-executed handover is scored as correct support
+  behavior; containment is measured separately by automation rate (never double-penalized).
+- **Audit loop.** `eval-audit.js` runs an adversarial second pass on sampled verdicts
+  against the judge-trap catalog (`notes/judge-traps.md`), flips FALSE_POSITIVE /
+  FALSE_NEGATIVE verdicts, re-derives scores, and marks the run *trusted* at ≥90% agreement
+  (`eval-audit.json`).
+
 ```bash
-node eval-pack.js /tmp/batches 12      # unscored valid conversations → batch files
-#   → hand each batch to LLM-judge subagents (rubric in eval-pack's prompt)
-node eval-merge.js /tmp/scored         # fold judge outputs into eval-scores.json
+node eval-pack.js /tmp/batches 12      # unscored valid conversations → BLIND batch files + map-*.json
+#   → hand each batch to LLM-judge subagents (spec: runner/eval-rubric.md)
+node eval-merge.js /tmp/batches        # resolve keys, derive scores from checks, enforce signal gates
+node eval-audit.js pack /tmp/audit 24  # adversarial audit sample → audit batches
+#   → hand audit batches to an auditor subagent, outputs audited-*.json
+node eval-audit.js merge /tmp/audit    # fold audit back (flips + re-derive), writes eval-audit.json
 node gen.js                            # bake the scores in
 ```
 

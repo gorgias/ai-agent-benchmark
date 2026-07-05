@@ -50,12 +50,30 @@ The **headless runner** uses the DOM growth+stability method uniformly (Playwrig
 
 ## Answer-quality eval
 
-Latency only matters if the answer is good. Recorded answers are scored by a **blind LLM-judge panel** (see [`data_quality_eval.json`](../data_quality_eval.json)):
+Latency only matters if the answer is good. Every valid conversation is scored `/100` by an
+LLM judge under the **versioned in-repo spec [`runner/eval-rubric.md`](../runner/eval-rubric.md)** (v2):
 
-- **Anonymization:** vendors are relabeled **Store A–F**; judges don't know which brand is which (including Gorgias) — removes brand bias.
-- **Panel:** 3 independent judges score each store; we report the **mean** (judge agreement was high, e.g. Sierra 5/5/5, Gorgias 4/4/4 — so the ranking is stable).
-- **Rubric (1–5, or 0 if it didn't answer / escalated):** directness (did it actually answer?), accuracy/specificity, helpfulness/actionability (links, options, next steps), and commerce effectiveness (does it move the shopper toward a confident purchase?).
-- Scored in three buckets — FAQ, Policy/returns, Product-recommendation — so the comparison is like-for-like.
+- **Blind batches:** `eval-pack.js` strips vendor & store identity (opaque keys, masked
+  transcript text) before judging — judges score behavior, not brands. The key→id map is
+  merge-side only.
+- **Binary, evidence-forced checks:** each lane dimension (Shopping: answer 35 /
+  recommendation 25 / rich 25 / close 15 · Support: resolution 40 / accuracy 25 /
+  actionability 20 / close 15) decomposes into pass/fail checks; a passing check must quote
+  the transcript. The judge never emits a number — `eval-merge.js` derives sub-scores and
+  the /100 total from the booleans via a fixed point mapping.
+- **Deterministic signal gates:** price/link/review/option presence is regex-detected from
+  the stored transcript and enforced at merge — a rich-element check cannot pass without
+  its signal.
+- **Outcome correctness:** a justified, well-executed handover scores as correct support
+  behavior; containment is measured separately by automation rate (never double-penalized).
+- **Adversarial audit loop:** `eval-audit.js` re-examines sampled verdicts against the
+  judge-trap catalog ([`notes/judge-traps.md`](../notes/judge-traps.md)), flips
+  FALSE_POSITIVE / FALSE_NEGATIVE verdicts, re-derives scores, and reports the run's
+  judge-agreement rate (trusted at ≥90%, `eval-audit.json`).
+
+*(An earlier iteration used a 3-judge panel over hand-picked answers relabeled Store A–F —
+superseded by the per-conversation pipeline above; legacy scores were removed from the
+report on 2026-07-03.)*
 
 ## Handover = red flag
 
