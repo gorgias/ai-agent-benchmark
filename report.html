@@ -300,7 +300,7 @@
   <a class="brand" href="report.html"><i></i>GORGIAS · AI AGENT BENCHMARK</a>
   <div class="links">
     <a href="takeaways.html">Summary</a>
-    <a href="report.html" id="nav-report" class="active" aria-current="page">Detailed report</a>
+    <a href="report.html" id="nav-report" class="active" aria-current="page" onclick="try{sessionStorage.removeItem('sb.conv')}catch(e){}">Detailed report</a>
     <a href="report.html?view=conversations" id="nav-conversations">Conversations</a>
     <a href="run-status.html">Run status</a>
     <a href="#how" onclick="event.preventDefault();openModal();" title="How this benchmark works — method, metrics, quality judging, honesty notes">ⓘ How it works</a>
@@ -38950,6 +38950,15 @@ function applyView(){
   const navSet=(id,on)=>{ const e=document.getElementById(id); if(!e) return; e.classList.toggle('active',on); if(on) e.setAttribute('aria-current','page'); else e.removeAttribute('aria-current'); };
   navSet('nav-conversations', isConv);
   navSet('nav-report', !isConv);
+  // reload-resilience: remember the Conversations intent per tab and keep the URL param in
+  // sync, so a refresh (or a hot-reloading preview) restores the same view instead of
+  // silently falling back to the default report.
+  try {
+    if(isConv) sessionStorage.setItem('sb.conv','1'); else sessionStorage.removeItem('sb.conv');
+    const u=new URL(location.href);
+    if(isConv) u.searchParams.set('view','conversations'); else u.searchParams.delete('view');
+    history.replaceState(null,'',u);
+  } catch(e){}
   if(isBest) setBest(BESTMODE);            // make sure the right sub-panel is showing
   if(isConv){ renderConv(); pollLive(); }  // rebuild the unified feed + check for a live run
 }
@@ -39019,13 +39028,14 @@ function saveState(){ try{ localStorage.setItem('sb.v2', JSON.stringify({view:VI
 // saved tab from v1 can't pin an old landing view).
 function loadState(){ try{ const s=JSON.parse(localStorage.getItem('sb.v2')||'null'); if(!s) return null; if(s.mode) MODE=s.mode; VIEW = s.view || s.mode || 'best'; if(s.ss) SSORT=s.ss; if(s.rs) RSORT=s.rs; if(Array.isArray(s.vf)) VFILTER=new Set(s.vf); if(Array.isArray(s.wf)) WFILTER=new Set(s.wf); return s; }catch(e){ return null; } }
 const _saved = loadState();
-// Conversations is reached as a top-nav destination (report.html?view=conversations) — the
-// URL param drives it. It must NOT be sticky: without the param, fall back to the report
-// (a saved view=conversations from a prior visit would otherwise pin the feed on plain
-// report.html / "Detailed report").
+// Conversations is reached as a top-nav destination (report.html?view=conversations).
+// Resilience: the view must SURVIVE reloads in the same tab (hot-reloading previews, manual
+// refresh, regenerated files) — otherwise it "flashes then disappears" back to the default
+// view. Per-tab sessionStorage remembers the intent; clicking "Detailed report" clears it.
+// A fresh tab without the param still lands on the report (no cross-session stickiness).
 try {
   const _pv = new URLSearchParams(location.search).get('view');
-  if(_pv==='conversations') VIEW='conversations';
+  if(_pv==='conversations' || sessionStorage.getItem('sb.conv')==='1') VIEW='conversations';
   else if(VIEW==='conversations') VIEW='best';
 } catch(e){ if(VIEW==='conversations') VIEW='best'; }
 document.querySelectorAll('.modebtn[data-m]').forEach(b=>b.setAttribute('aria-selected', b.dataset.m===VIEW));
