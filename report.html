@@ -495,7 +495,7 @@
   <p class="lead">Beyond answering: does it use <strong>quick replies</strong> (suggested chips), render <strong>product cards</strong> ("pull cards" with price/links), surface <strong>reviews</strong>, and <strong>complete the sale</strong> itself? <span class="matrix"><span class="y">●</span> yes · <span class="n">●</span> no · <span class="p">●</span> not yet tested</span></p>
   <div class="card table-scroll">
     <table class="matrix"><thead><tr>
-      <th>Vendor</th><th>Quick replies</th><th>Product cards</th><th>Reviews</th><th>Completes sale (no handoff)</th><th class="n">Score</th>
+      <th class="n" title="Rank by capabilities score">#</th><th>Vendor</th><th>Quick replies</th><th>Product cards</th><th>Reviews</th><th>Completes sale (no handoff)</th><th class="n">Score</th>
     </tr></thead><tbody id="matrix-body"></tbody></table>
   </div>
 </section>
@@ -38014,16 +38014,23 @@ function renderMatrix(){
   const merge = a => a.includes(1) ? 1 : a.includes(0) ? 0 : 2;
   const byV={};
   AS().filter(s=>(s.method==='new'||s.method==='legacy') && s.caps).forEach(s=>{ (byV[s.vendor]=byV[s.vendor]||[]).push(s); });
-  let html='';
-  Object.keys(byV).forEach(v=>{
+  // Rank vendors by capabilities score: yes-count first, then tested-count (more coverage
+  // breaks ties), then name. Untested (n/t) vendors sink to the bottom.
+  const rowsD = Object.keys(byV).map(v=>{
     const stores=byV[v];
     const c={ qr:merge(stores.map(s=>s.caps.qr)), cards:merge(stores.map(s=>s.caps.cards)), reviews:merge(stores.map(s=>s.caps.reviews)), completes:merge(stores.map(s=>s.caps.completes)) };
     const dims=[c.qr,c.cards,c.reviews,c.completes];
     const yes=dims.filter(x=>x===1).length, tested=dims.filter(x=>x===0||x===1).length;
+    return { v, stores, c, yes, tested };
+  }).sort((a,b)=> b.yes-a.yes || b.tested-a.tested || (a.v<b.v?-1:1));
+  let html='';
+  rowsD.forEach((r,i)=>{
+    const {v,stores,c,yes,tested}=r;
     const scoreTxt = tested? yes+'/4' : 'n/t';
     const sc = !tested ? 'var(--on-faint)' : (yes>=3?'var(--success)':yes>=2?'var(--warning)':'var(--danger)');
     const n=stores.length;
-    html+='<tr data-v="'+v+'"><td><span class="vdot" style="background:'+(COL[v]||'#888')+'"></span>'+v+(stores[0].us?'<span class="us-tag">US</span>':'')+' <span class="site">'+n+' store'+(n>1?'s':'')+'</span></td>'+
+    html+='<tr data-v="'+v+'"><td class="n mono" style="width:30px;color:var(--on-faint);font-weight:800">'+(tested?('#'+(i+1)):'—')+'</td>'+
+      '<td><span class="vdot" style="background:'+(COL[v]||'#888')+'"></span>'+v+(stores[0].us?'<span class="us-tag">US</span>':'')+' <span class="site">'+n+' store'+(n>1?'s':'')+'</span></td>'+
       '<td>'+sym(c.qr)+'</td><td>'+sym(c.cards)+'</td><td>'+sym(c.reviews)+'</td><td>'+sym(c.completes)+'</td>'+
       '<td class="n mono" style="font-weight:800;color:'+sc+'">'+scoreTxt+'</td></tr>';
   });

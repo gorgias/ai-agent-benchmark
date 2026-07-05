@@ -35,15 +35,19 @@ function parseLog(text) {
   const lines = text.split("\n");
   let total = 0, done = 0;
   const doneKeys = new Set(), failed = [], events = [];
-  for (const ln of lines) {
+  for (const rawLn of lines) {
+    // lines may be prefixed with an ISO timestamp (run.js) — split it off for local rendering
+    const tsm = rawLn.match(/^(\d{4}-\d{2}-\d{2}T[\d:.]+Z)\s+/);
+    const ts = tsm ? tsm[1] : null;
+    const ln = tsm ? rawLn.slice(tsm[0].length) : rawLn;
     let m = ln.match(/✔ \[(\d+)\/(\d+)\]\s+(\S+)\/(\S+)\/(\S+)\s+·\s+success\s+(\S+)%?\s+·\s+avg\s+(\S+)/);
-    if (m) { total = Math.max(total, +m[2]); done = Math.max(done, +m[1]); doneKeys.add(`${m[3]}/${m[4]}/${m[5]}`); events.push({ t: "done", id: `${m[3]}/${m[4]}/${m[5]}`, txt: ln.trim() }); continue; }
+    if (m) { total = Math.max(total, +m[2]); done = Math.max(done, +m[1]); doneKeys.add(`${m[3]}/${m[4]}/${m[5]}`); events.push({ t: "done", id: `${m[3]}/${m[4]}/${m[5]}`, txt: ln.trim(), ts }); continue; }
     m = ln.match(/\[(\S+)\/(\S+)\/(\S+)\]\s+(INVALID.*|FAILED.*)/);
-    if (m) { failed.push({ id: `${m[1]}/${m[2]}/${m[3]}`, why: m[4].slice(0, 90) }); events.push({ t: "fail", id: `${m[1]}/${m[2]}/${m[3]}`, txt: ln.trim() }); continue; }
+    if (m) { failed.push({ id: `${m[1]}/${m[2]}/${m[3]}`, why: m[4].slice(0, 90) }); events.push({ t: "fail", id: `${m[1]}/${m[2]}/${m[3]}`, txt: ln.trim(), ts }); continue; }
     m = ln.match(/✗\s+(\S+)\/(\S+)\/(\S+)\s+ERR\s+(.*)/);
     if (m) { failed.push({ id: `${m[1]}/${m[2]}/${m[3]}`, why: m[4].slice(0, 90) }); continue; }
     m = ln.match(/\[(\S+)\/(\S+)\/(\S+)\]\s+(page @|widget open|T\d+)/);
-    if (m) events.push({ t: "run", id: `${m[1]}/${m[2]}/${m[3]}`, txt: ln.trim() });
+    if (m) events.push({ t: "run", id: `${m[1]}/${m[2]}/${m[3]}`, txt: ln.trim(), ts });
   }
   const finished = /Done\. Wrote \d+ conversations/.test(text);
   const running = [...new Set(events.filter(e => e.t === "run" && !doneKeys.has(e.id)).map(e => e.id))].slice(-4);
@@ -102,7 +106,7 @@ async function computeStatus() {
     running: (log && log.running) || [],
     rows,
     failures: (log ? log.failed : []).slice(-14).reverse(),
-    activity: (log ? log.events : []).slice(-16).reverse().map(e => ({ t: e.t, txt: e.txt.replace(/^\s+/, "") })),
+    activity: (log ? log.events : []).slice(-16).reverse().map(e => ({ t: e.t, txt: e.txt.replace(/^\s+/, ""), ts: e.ts || null })),
     next: next && next.stores ? { plannedConvs: next.plannedConvs, newSites: next.newSites, stores: next.stores } : null,
   };
 }
@@ -132,7 +136,7 @@ th{font-size:10.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--fa
 td{padding:9px 12px;border-bottom:1px solid rgba(27,23,18,.05);vertical-align:middle}tr:last-child td{border-bottom:none}
 .dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:8px}.chip{display:inline-block;font-size:11.5px;font-weight:700;background:#FDEAEA;color:var(--red);padding:2px 9px;border-radius:999px;margin:2px 0}
 .feed{background:var(--ink);color:#E9E3DA;border-radius:14px;padding:14px 16px;font-family:'JetBrains Mono',monospace;font-size:11.5px;line-height:1.7;max-height:320px;overflow:auto}
-.ev-done{color:#43D598}.ev-fail{color:#FF7A5C}.ev-run{color:#C9BEB0}
+.ev-done{color:#43D598}.ev-fail{color:#FF7A5C}.ev-run{color:#C9BEB0}.ev-ts{color:#8A8078;font-weight:700}
 .live-dot{width:8px;height:8px;border-radius:50%;background:var(--red);display:inline-block;animation:pulse 1.4s infinite}@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
 #upd{font-size:11px;color:var(--faint);margin-left:auto}
 </style></head><body><div class="wrap">
@@ -150,7 +154,8 @@ function render(d){
   document.getElementById('meta').innerHTML='Run date <b>'+esc(d.date)+'</b> · snapshot '+esc((d.generatedAt||'').replace('T',' ').slice(0,19))+' UTC · <a class="back" href="report.html">← report</a> · <a class="back" href="takeaways.html">summary</a> · <a class="back" href="report.html?view=conversations">conversations</a>';
   const rows=(d.rows||[]).map(r=>'<tr><td><span class="dot" style="background:'+r.col+'"></span><b>'+esc(r.vendor)+'</b> · '+esc(r.store)+'</td><td class="mono n">'+r.valid+'/'+r.expected+'</td><td style="min-width:150px">'+bar(r.valid,r.expected,r.col)+'</td><td class="mono n">'+(r.invalid?'<span class="warn">'+r.invalid+'</span>':'·')+'</td><td class="mono n">'+(r.pending||'·')+'</td></tr>').join('')||'<tr><td colspan="5" class="note">No stores in this run.</td></tr>';
   const fails=(d.failures||[]).map(f=>'<tr><td class="mono">'+esc(f.id)+'</td><td class="note">'+esc(f.why)+'</td></tr>').join('')||'<tr><td colspan="2" class="note">No failed/invalid conversations.</td></tr>';
-  const acts=(d.activity||[]).map(e=>'<div class="ev-'+e.t+'">'+esc(e.txt)+'</div>').join('')||'<div class="note">No live log attached.</div>';
+  const lt=ts=>{ if(!ts) return ''; try{ const d=new Date(ts); return '<span class="ev-ts">'+d.toLocaleDateString([],{month:'short',day:'numeric'})+' '+d.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit',second:'2-digit'})+'</span> '; }catch(e){ return ''; } };
+  const acts=(d.activity||[]).map(e=>'<div class="ev-'+e.t+'">'+lt(e.ts)+esc(e.txt)+'</div>').join('')||'<div class="note">No live log attached.</div>';
   const running=d.state==='running'&&d.running&&d.running.length?'<div class="sub" style="margin-top:14px">⏳ In flight: '+d.running.map(x=>'<span class="chip">'+esc(x)+'</span>').join(' ')+'</div>':'';
   const next=d.next&&d.next.stores&&d.next.stores.length?'<h2>Upcoming — next daily run</h2><div class="big" style="padding:16px 20px"><div class="sub" style="margin:0 0 10px"><b>Daily · 08:00 local</b> · ~'+d.next.plannedConvs+' conversations across '+d.next.stores.length+' stores'+(d.next.newSites?' · <span class="warn">'+d.next.newSites+' never-measured (new)</span>':'')+'</div><div style="display:flex;flex-wrap:wrap;gap:6px">'+d.next.stores.map(s=>'<span class="chip" style="background:rgba(240,96,63,.10);color:#F0603F">'+esc(s.vendor)+' · '+esc(s.store)+(s.lastRun?'':' ✦')+'</span>').join('')+'</div><div class="note" style="margin-top:8px">✦ = never measured yet (grows pool diversity).</div></div>':'';
   document.getElementById('root').innerHTML=

@@ -195,6 +195,21 @@
   </div>
 </section>
 
+<section id="scoreboard" style="padding-top:0">
+  <div class="wrap">
+    <div class="kicker rv">The numbers</div>
+    <h2 class="rv">Scoreboard.</h2>
+    <p class="lead rv">Automation = share of engaged conversations the AI handled end-to-end in-channel (handovers and email/phone deflections count against; early bails included). Quality = LLM-judge rubric /100. All free-text, cold sessions, no quick-reply chips. Hover any header for the exact definition.</p>
+    <div class="card table-scroll rv" style="padding:10px 14px">
+    <table id="score-table">
+      <thead><tr><th class="n"><span class="tt" data-tip="Overall position — vendors ordered by the sum of their two lane composites. The small #n next to each composite is the rank within that lane.">#</span></th><th>Vendor</th><th class="n"><span class="tt" data-tip="Composite = 50% automation rate + 25% quality + 25% speed (speed scored 100 at ≤3s, 0 at ≥22s). One number per lane so vendors can be ranked.">Composite</span> 🛍️</th><th class="n"><span class="tt" data-tip="Composite = 50% automation rate + 25% quality + 25% speed (speed scored 100 at ≤3s, 0 at ≥22s). One number per lane so vendors can be ranked.">Composite</span> 🎧</th><th><span class="tt" data-tip="Automation rate = % of engaged conversations the AI handled with ZERO human touch: no human handover AND no deflection out of the channel (no 'email us' / 'call us'). Early bails count against it. This is the ticket-containment metric — the share of conversations a human never has to touch.">Automation</span> 🛍️/🎧</th><th><span class="tt" data-tip="Quality = an LLM judge scores every captured conversation /100 on a per-lane rubric, judged BLIND (vendor identity stripped) via binary evidence-forced checks — the score is derived from the checks, never picked by the judge. Shopping: answer relevance /35, recommendation quality /25, rich commerce elements /25, close attempt /15. Support: in-channel resolution /40, accuracy &amp; grounding /25, actionability /20, clean close /15. Spec: runner/eval-rubric.md.">Quality</span> 🛍️/🎧</th><th class="n"><span class="tt" data-tip="Latency = mean time from sending a free-typed message to the assistant's COMPLETE final answer (never stopped on a 'let me check…' stall, never on quick-reply chips), cold session. p75 = 75th-percentile latency across all timed turns — Gorgias's own benchmark metric, less flattered by a few fast replies.">Latency + p75</span> 🛍️/🎧</th></tr></thead>
+      <tbody></tbody>
+    </table>
+    </div>
+    <p class="note rv" style="margin-top:12px">Not rankable: <b>Yuma</b> (ticket/email automation behind Gorgias/Zendesk — no free-text on-site concierge to measure: its chat surfaces are chip-gated menus) and <b>Humind</b> (widget only initializes for real human sessions; blocked our capture in every environment).</p>
+  </div>
+</section>
+
 <section id="winlose">
   <div class="wrap">
     <div class="kicker rv">Head to head</div>
@@ -242,20 +257,6 @@
   </div>
 </section>
 
-<section id="scoreboard" style="padding-top:0">
-  <div class="wrap">
-    <div class="kicker rv">The numbers</div>
-    <h2 class="rv">Scoreboard.</h2>
-    <p class="lead rv">Automation = share of engaged conversations the AI handled end-to-end in-channel (handovers and email/phone deflections count against; early bails included). Quality = LLM-judge rubric /100. All free-text, cold sessions, no quick-reply chips. Hover any header for the exact definition.</p>
-    <div class="card table-scroll rv" style="padding:10px 14px">
-    <table id="score-table">
-      <thead><tr><th class="n"><span class="tt" data-tip="Overall position — vendors ordered by the sum of their two lane composites. The small #n next to each composite is the rank within that lane.">#</span></th><th>Vendor</th><th class="n"><span class="tt" data-tip="Composite = 50% automation rate + 25% quality + 25% speed (speed scored 100 at ≤3s, 0 at ≥22s). One number per lane so vendors can be ranked.">Composite</span> 🛍️</th><th class="n"><span class="tt" data-tip="Composite = 50% automation rate + 25% quality + 25% speed (speed scored 100 at ≤3s, 0 at ≥22s). One number per lane so vendors can be ranked.">Composite</span> 🎧</th><th><span class="tt" data-tip="Automation rate = % of engaged conversations the AI handled with ZERO human touch: no human handover AND no deflection out of the channel (no 'email us' / 'call us'). Early bails count against it. This is the ticket-containment metric — the share of conversations a human never has to touch.">Automation</span> 🛍️/🎧</th><th><span class="tt" data-tip="Quality = an LLM judge scores every captured conversation /100 on a per-lane rubric, judged BLIND (vendor identity stripped) via binary evidence-forced checks — the score is derived from the checks, never picked by the judge. Shopping: answer relevance /35, recommendation quality /25, rich commerce elements /25, close attempt /15. Support: in-channel resolution /40, accuracy &amp; grounding /25, actionability /20, clean close /15. Spec: runner/eval-rubric.md.">Quality</span> 🛍️/🎧</th><th class="n"><span class="tt" data-tip="Latency = mean time from sending a free-typed message to the assistant's COMPLETE final answer (never stopped on a 'let me check…' stall, never on quick-reply chips), cold session. p75 = 75th-percentile latency across all timed turns — Gorgias's own benchmark metric, less flattered by a few fast replies.">Latency + p75</span> 🛍️/🎧</th></tr></thead>
-      <tbody></tbody>
-    </table>
-    </div>
-    <p class="note rv" style="margin-top:12px">Not rankable: <b>Yuma</b> (ticket/email automation behind Gorgias/Zendesk — no free-text on-site concierge to measure: its chat surfaces are chip-gated menus) and <b>Humind</b> (widget only initializes for real human sessions; blocked our capture in every environment).</p>
-  </div>
-</section>
 
 <section id="providers" style="padding-top:0">
   <div class="wrap">
