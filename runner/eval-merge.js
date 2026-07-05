@@ -31,7 +31,7 @@ const CHECKS = {
   },
   support: {
     resolution: { s_answered: 18, s_outcome: 12, s_no_deflect: 10 },
-    accuracy: { g_specific: 13, g_consistent: 12 },
+    accuracy: { g_specific: 13, g_consistent: 5, g_grounded: 7 },   // v2.1: g_consistent split (calibration)
     actionability: { t_steps: 12, t_complete: 8 },
     close: { k_expectations: 8, k_clean: 7 },
   },
