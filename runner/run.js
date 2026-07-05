@@ -25,6 +25,10 @@ import { WIDGETS, STORES, readTranscript } from "./vendors.js";
 import { SHOPPING_THEMES, SUPPORT_THEMES } from "./pools.js";
 import { isGen, isAck, isNoAnswer, detectHandover, convoValidity } from "./classify.js";
 
+// Prefix every log line with an ISO timestamp so run-status can render each activity event
+// in the viewer's local time. runstatus.parseLog strips/keeps the prefix.
+{ const _log = console.log.bind(console); console.log = (...a) => _log(new Date().toISOString() + " " + a.join(" ")); }
+
 const POLL_MS = 250, STABLE_MS = 5000, GROWTH = 60, SETTLE_MS = 2500;
 const TURN_TIMEOUT_MS = Number(process.env.TURN_TIMEOUT_MS) || 60000;
 // Real desktop UA — some chat widgets refuse to load for the default headless UA.
