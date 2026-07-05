@@ -1,531 +1,106 @@
 {
  "2026-07-01/ada-loop-shopping-beginner.json": {
-  "v": 2,
   "mode": "shopping",
   "rubric": {
-   "answer": 35,
-   "recommendation": 25,
-   "rich": 0,
-   "close": 7
+   "answer": 22,
+   "recommendation": 16,
+   "rich": 4,
+   "close": 4
   },
-  "total": 67,
-  "checks": {
-   "a_direct": {
-    "pass": true,
-    "evidence": "A good starter pick if you don’t want to overpay is the store Quiet 2 Earplugs"
-   },
-   "a_consistent": {
-    "pass": true,
-    "evidence": "the store Dream Earplugs: ideal for restful sleep (27 dB SNR)"
-   },
-   "a_no_ignored": {
-    "pass": true,
-    "evidence": "I don’t have review details available to share here"
-   },
-   "a_clarify": {
-    "pass": true,
-    "evidence": "If you tell me which model you’re considering (the store Quiet 2 Earplugs or the store Engage 2 Earplugs)"
-   },
-   "r_named": {
-    "pass": true,
-    "evidence": "the store Quiet 2 Earplugs (great for focus or quick naps)"
-   },
-   "r_fit": {
-    "pass": true,
-    "evidence": "the store Engage 2 Earplugs (everyday noise relief while keeping speech clear)"
-   },
-   "r_plausible": {
-    "pass": true,
-    "evidence": "Everyday conversations: the store Engage 2 Earplugs"
-   },
-   "e_price": {
-    "pass": false,
-    "evidence": ""
-   },
-   "e_link": {
-    "pass": false,
-    "evidence": ""
-   },
-   "e_reviews": {
-    "pass": false,
-    "evidence": ""
-   },
-   "e_options": {
-    "pass": true,
-    "evidence": "Loop Dream Earplugs: ideal for restful sleep (27 dB SNR) - Loop Quiet 2 Earplugs: perfect for focusing or quick naps - Loop Engage 2 Earplugs: for social settin"
-   },
-   "c_cta": {
-    "pass": true,
-    "evidence": "I can share the product page so you can see the exact total at checkout"
-   },
-   "c_cart": {
-    "pass": false,
-    "evidence": ""
-   },
-   "c_clean": {
-    "pass": false,
-    "evidence": ""
-   }
-  },
+  "total": 46,
   "resolution_class": "partial",
-  "learning": "Knows the catalog and answers honestly turn by turn, but at the close it bounces the pick back to the shopper instead of committing, leaving no price, link, or total.",
-  "judged_at": null,
-  "audited": true
+  "learning": "Names all 5 products with use-case mapping on turn 2, but circles back to the same use-case question repeatedly and never commits to a single beginner pick until turn 7 with a price but no link or cart affordance.",
+  "judged_at": null
  },
  "2026-07-01/ada-loop-shopping-compare-budget.json": {
-  "v": 2,
   "mode": "shopping",
   "rubric": {
-   "answer": 14,
-   "recommendation": 0,
-   "rich": 0,
-   "close": 0
+   "answer": 10,
+   "recommendation": 4,
+   "rich": 2,
+   "close": 1
   },
-  "total": 14,
-  "checks": {
-   "a_direct": {
-    "pass": false,
-    "evidence": ""
-   },
-   "a_consistent": {
-    "pass": true,
-    "evidence": "we do run special offers throughout the year"
-   },
-   "a_no_ignored": {
-    "pass": false,
-    "evidence": ""
-   },
-   "a_clarify": {
-    "pass": true,
-    "evidence": "could you share your main reason for considering the store?"
-   },
-   "r_named": {
-    "pass": false,
-    "evidence": ""
-   },
-   "r_fit": {
-    "pass": false,
-    "evidence": ""
-   },
-   "r_plausible": {
-    "pass": false,
-    "evidence": ""
-   },
-   "e_price": {
-    "pass": false,
-    "evidence": ""
-   },
-   "e_link": {
-    "pass": false,
-    "evidence": ""
-   },
-   "e_reviews": {
-    "pass": false,
-    "evidence": ""
-   },
-   "e_options": {
-    "pass": false,
-    "evidence": ""
-   },
-   "c_cta": {
-    "pass": false,
-    "evidence": ""
-   },
-   "c_cart": {
-    "pass": false,
-    "evidence": ""
-   },
-   "c_clean": {
-    "pass": false,
-    "evidence": ""
-   }
-  },
-  "resolution_class": "partial",
-  "learning": "Locked in a clarifying-question loop — five turns re-asking the same use-case question without ever naming, comparing, or recommending a product.",
+  "total": 17,
+  "resolution_class": "failed",
+  "learning": "Loops on the same use-case clarifying question for 6 of 7 turns without ever naming a product or price; one unanswered turn; never advances to a recommendation despite the shopper explicitly asking for two named options.",
   "judged_at": null
  },
  "2026-07-01/ada-loop-shopping-everyday-value.json": {
-  "v": 2,
   "mode": "shopping",
   "rubric": {
-   "answer": 14,
-   "recommendation": 0,
-   "rich": 0,
-   "close": 0
+   "answer": 10,
+   "recommendation": 4,
+   "rich": 2,
+   "close": 1
   },
-  "total": 14,
-  "checks": {
-   "a_direct": {
-    "pass": false,
-    "evidence": ""
-   },
-   "a_consistent": {
-    "pass": true,
-    "evidence": "I’m not able to place an order or add items to your cart on your behalf"
-   },
-   "a_no_ignored": {
-    "pass": false,
-    "evidence": ""
-   },
-   "a_clarify": {
-    "pass": true,
-    "evidence": "Can you tell me about the typical environment or noise level you experience daily?"
-   },
-   "r_named": {
-    "pass": false,
-    "evidence": ""
-   },
-   "r_fit": {
-    "pass": false,
-    "evidence": ""
-   },
-   "r_plausible": {
-    "pass": false,
-    "evidence": ""
-   },
-   "e_price": {
-    "pass": false,
-    "evidence": ""
-   },
-   "e_link": {
-    "pass": false,
-    "evidence": ""
-   },
-   "e_reviews": {
-    "pass": false,
-    "evidence": ""
-   },
-   "e_options": {
-    "pass": false,
-    "evidence": ""
-   },
-   "c_cta": {
-    "pass": false,
-    "evidence": ""
-   },
-   "c_cart": {
-    "pass": false,
-    "evidence": ""
-   },
-   "c_clean": {
-    "pass": false,
-    "evidence": ""
-   }
-  },
+  "total": 17,
   "resolution_class": "failed",
-  "learning": "Repeated the same noise-level question all conversation, ignoring directly answerable asks (best seller, shipping, first-order discount) and never recommending anything.",
+  "learning": "Mirrors the compare-budget failure: asks the same noise-level clarifying question on every turn, never names a product or price, and responds to 'what is your best seller?' with yet another clarifying question.",
   "judged_at": null
  },
  "2026-07-01/ada-loop-shopping-gift.json": {
-  "v": 2,
   "mode": "shopping",
   "rubric": {
-   "answer": 14,
-   "recommendation": 0,
-   "rich": 0,
-   "close": 0
+   "answer": 13,
+   "recommendation": 5,
+   "rich": 3,
+   "close": 2
   },
-  "total": 14,
-  "checks": {
-   "a_direct": {
-    "pass": false,
-    "evidence": ""
-   },
-   "a_consistent": {
-    "pass": true,
-    "evidence": "we don’t offer special gift packaging (the standard packaging looks great)"
-   },
-   "a_no_ignored": {
-    "pass": false,
-    "evidence": ""
-   },
-   "a_clarify": {
-    "pass": true,
-    "evidence": "Can you tell me what kind of environment they'll use them in most?"
-   },
-   "r_named": {
-    "pass": false,
-    "evidence": ""
-   },
-   "r_fit": {
-    "pass": false,
-    "evidence": ""
-   },
-   "r_plausible": {
-    "pass": false,
-    "evidence": ""
-   },
-   "e_price": {
-    "pass": false,
-    "evidence": ""
-   },
-   "e_link": {
-    "pass": false,
-    "evidence": ""
-   },
-   "e_reviews": {
-    "pass": false,
-    "evidence": ""
-   },
-   "e_options": {
-    "pass": false,
-    "evidence": ""
-   },
-   "c_cta": {
-    "pass": false,
-    "evidence": ""
-   },
-   "c_cart": {
-    "pass": false,
-    "evidence": ""
-   },
-   "c_clean": {
-    "pass": false,
-    "evidence": ""
-   }
-  },
-  "resolution_class": "partial",
-  "learning": "Endless discovery questions with no payoff — the only substantive answers were gift packaging and shipping, and the requested 'top two gift ideas' were never named.",
+  "total": 23,
+  "resolution_class": "failed",
+  "learning": "Asks clarifying questions on 6 of 7 turns but never names a concrete gift product; only useful answer is on turn 6 (no gift wrapping, Target receipt) — never reaches a recommendation or price.",
   "judged_at": null
  },
  "2026-07-01/ada-loop-shopping-problem-solver.json": {
-  "v": 2,
   "mode": "shopping",
   "rubric": {
-   "answer": 35,
-   "recommendation": 25,
-   "rich": 12,
-   "close": 15
+   "answer": 23,
+   "recommendation": 14,
+   "rich": 7,
+   "close": 7
   },
-  "total": 87,
-  "checks": {
-   "a_direct": {
-    "pass": true,
-    "evidence": "We offer a 100-day return policy (even if used) and a 2-year warranty"
-   },
-   "a_consistent": {
-    "pass": true,
-    "evidence": "you can use our 100-day return policy for a full refund"
-   },
-   "a_no_ignored": {
-    "pass": true,
-    "evidence": "I don’t have pairing recommendations available for the store Experience 2 Earplugs right now"
-   },
-   "a_clarify": {
-    "pass": true,
-    "evidence": "tell me what you’ll use the store for (sleep, concerts, conversations, focus, travel, etc.)"
-   },
-   "r_named": {
-    "pass": true,
-    "evidence": "the store Experience 2 Earplugs are €29.95"
-   },
-   "r_fit": {
-    "pass": true,
-    "evidence": "for the store Experience 2 Earplugs the product page shows 4.6/5 based on 8021 reviews"
-   },
-   "r_plausible": {
-    "pass": true,
-    "evidence": "I can’t add items to your cart from here, but the store Experience 2 Earplugs are €29.95"
-   },
-   "e_price": {
-    "pass": true,
-    "evidence": "the store Experience 2 Earplugs are €29.95"
-   },
-   "e_link": {
-    "pass": false,
-    "evidence": ""
-   },
-   "e_reviews": {
-    "pass": true,
-    "evidence": "4.6/5 based on 8021 reviews"
-   },
-   "e_options": {
-    "pass": false,
-    "evidence": ""
-   },
-   "c_cta": {
-    "pass": true,
-    "evidence": "please double-check the final total at checkout here"
-   },
-   "c_cart": {
-    "pass": true,
-    "evidence": "Price can vary by shipping country—please double-check the final total at checkout"
-   },
-   "c_clean": {
-    "pass": true,
-    "evidence": "I can’t add items to your cart from here, but the store Experience 2 Earplugs are €29.95."
-   }
-  },
-  "resolution_class": "resolved",
-  "learning": "Handles reassurance well — concrete warranty terms, real review numbers, and a priced pick at close; the only gaps are no product link and a shrug on the pairing question.",
+  "total": 51,
+  "resolution_class": "partial",
+  "learning": "Proactively surfaces 100-day return + 2-year warranty to address quality anxiety, cites Loop Experience 2 with real review count (4.6/5, 8021 reviews), and gives a price (€29.95) at close — but one unanswered turn and no direct link.",
   "judged_at": null
  },
  "2026-07-01/ada-loop-support-damaged.json": {
-  "v": 2,
   "mode": "support",
   "rubric": {
-   "resolution": 10,
-   "accuracy": 5,
-   "actionability": 0,
-   "close": 0
+   "resolution": 8,
+   "accuracy": 10,
+   "actionability": 6,
+   "close": 3
   },
-  "total": 15,
-  "checks": {
-   "s_answered": {
-    "pass": false,
-    "evidence": ""
-   },
-   "s_outcome": {
-    "pass": false,
-    "evidence": ""
-   },
-   "s_no_deflect": {
-    "pass": true,
-    "evidence": "This helps me guide you on where to send your photos and start your claim."
-   },
-   "g_specific": {
-    "pass": false,
-    "evidence": ""
-   },
-   "g_consistent": {
-    "pass": true,
-    "evidence": "Yes—typically a damaged/defective item is handled as a warranty/replacement issue"
-   },
-   "g_grounded": {
-    "pass": false,
-    "evidence": ""
-   },
-   "t_steps": {
-    "pass": false,
-    "evidence": ""
-   },
-   "t_complete": {
-    "pass": false,
-    "evidence": ""
-   },
-   "k_expectations": {
-    "pass": false,
-    "evidence": ""
-   },
-   "k_clean": {
-    "pass": false,
-    "evidence": ""
-   }
-  },
+  "total": 27,
   "resolution_class": "partial",
-  "learning": "The bot looped the same purchase-source qualifier six times instead of giving even a conditional damaged-item procedure, leaving photos, cost, refund-vs-replacement, and timeline unanswered.",
+  "learning": "Correctly distinguishes warranty/replacement vs normal return on turn 2, but then asks the same 'did you order from loopearplugs.com?' gate question on every remaining turn without ever providing actionable next steps or a return link.",
   "judged_at": null
  },
  "2026-07-01/ada-loop-support-returns.json": {
-  "v": 2,
   "mode": "support",
   "rubric": {
-   "resolution": 40,
-   "accuracy": 25,
-   "actionability": 20,
-   "close": 15
+   "resolution": 28,
+   "accuracy": 20,
+   "actionability": 14,
+   "close": 10
   },
-  "total": 100,
-  "checks": {
-   "s_answered": {
-    "pass": true,
-    "evidence": "We have a 100-day returns policy: you have 100 days after receiving your item to request a return for any reason"
-   },
-   "s_outcome": {
-    "pass": true,
-    "evidence": "Some items can’t be returned—returns may be rejected if it’s outside the 100-day window, not shipped back, or if it’s a customized/bespoke product"
-   },
-   "s_no_deflect": {
-    "pass": true,
-    "evidence": "No problem at all! I’m here to make it easy for you."
-   },
-   "g_specific": {
-    "pass": true,
-    "evidence": "your refund is processed and automatically applied to your original payment method within 5 business days"
-   },
-   "g_consistent": {
-    "pass": true,
-    "evidence": "You have 100 days after receiving your item to request a return (even if you’ve used it)."
-   },
-   "g_grounded": {
-    "pass": true,
-    "evidence": "Yes—you can exchange within the 100-day return window. Start it in the return portal and choose the exchange option"
-   },
-   "t_steps": {
-    "pass": true,
-    "evidence": "Start it in the return portal and choose the exchange option (for a different size, model, or color)."
-   },
-   "t_complete": {
-    "pass": true,
-    "evidence": "Returns are usually free, but in some countries an initial shipping fee may be deducted (you’ll see this in the return summary when you start the return)."
-   },
-   "k_expectations": {
-    "pass": true,
-    "evidence": "Once your return is received and approved, your refund is issued to your original payment method within 5 business days."
-   },
-   "k_clean": {
-    "pass": true,
-    "evidence": "If you tell me where you bought it (the store website, Amazon, or a festival/retailer) and what item it is, I can confirm eligibility."
-   }
-  },
+  "total": 72,
   "resolution_class": "resolved",
-  "learning": "Complete named policy (100 days, 5-business-day refund, return-portal exchanges, bespoke exclusions) delivered fully in-channel with consistent numbers across turns.",
+  "learning": "Delivers accurate, specific policy details across all turns — 100-day window, 5-day refund, exchange via portal, non-returnable edge cases — with two unanswered turns (turns 2 and 5) that knock down the score despite strong overall coverage.",
   "judged_at": null
  },
  "2026-07-01/ada-loop-support-tracking.json": {
-  "v": 2,
   "mode": "support",
   "rubric": {
-   "resolution": 10,
-   "accuracy": 5,
-   "actionability": 0,
-   "close": 0
+   "resolution": 7,
+   "accuracy": 9,
+   "actionability": 4,
+   "close": 2
   },
-  "total": 15,
-  "checks": {
-   "s_answered": {
-    "pass": false,
-    "evidence": ""
-   },
-   "s_outcome": {
-    "pass": false,
-    "evidence": ""
-   },
-   "s_no_deflect": {
-    "pass": true,
-    "evidence": "Could you please provide your order number? It should start with the # sign."
-   },
-   "g_specific": {
-    "pass": false,
-    "evidence": ""
-   },
-   "g_consistent": {
-    "pass": true,
-    "evidence": "Orders usually take 1–2 business days to process before leaving the warehouse (weekends/holidays don’t count)."
-   },
-   "g_grounded": {
-    "pass": false,
-    "evidence": ""
-   },
-   "t_steps": {
-    "pass": false,
-    "evidence": ""
-   },
-   "t_complete": {
-    "pass": false,
-    "evidence": ""
-   },
-   "k_expectations": {
-    "pass": false,
-    "evidence": ""
-   },
-   "k_clean": {
-    "pass": false,
-    "evidence": ""
-   }
-  },
+  "total": 22,
   "resolution_class": "failed",
-  "learning": "After one generic processing window the bot went completely silent for the last four questions, including the primary tracking lookup — a total mid-conversation breakdown.",
+  "learning": "Gives processing and delivery timeframes on turns 2–3, but four consecutive turns (4–7) produce no reply at all — the assistant completely failed to respond to questions about speeding up, tracking updates, finding the tracking link, or order status lookup.",
   "judged_at": null
  },
  "2026-07-01/dg-bloomwild-shopping-beginner.json": {
@@ -646,1079 +221,211 @@
   "judged_at": null
  },
  "2026-07-01/envive-kut-shopping-beginner.json": {
-  "v": 2,
   "mode": "shopping",
   "rubric": {
-   "answer": 21,
-   "recommendation": 25,
-   "rich": 9,
-   "close": 15
+   "answer": 27,
+   "recommendation": 19,
+   "rich": 14,
+   "close": 8
   },
-  "total": 70,
-  "checks": {
-   "a_direct": {
-    "pass": false,
-    "evidence": ""
-   },
-   "a_consistent": {
-    "pass": true,
-    "evidence": "Standard shipping is $10.95 for orders under $150, and orders over $150 ship free"
-   },
-   "a_no_ignored": {
-    "pass": true,
-    "evidence": "A good starter pick is usually a straight or relaxed straight jean"
-   },
-   "a_clarify": {
-    "pass": true,
-    "evidence": "If you want a more personalized starting point, our fit guide can help here"
-   },
-   "r_named": {
-    "pass": true,
-    "evidence": "A solid beginner pick is the Catherine Mid Rise Boyfriend in Black"
-   },
-   "r_fit": {
-    "pass": true,
-    "evidence": "It is versatile, easy to wear, and a lower-risk choice while you are still figuring out your preferences"
-   },
-   "r_plausible": {
-    "pass": true,
-    "evidence": "Catherine Boyfriend is also a safe first choice"
-   },
-   "e_price": {
-    "pass": false,
-    "evidence": ""
-   },
-   "e_link": {
-    "pass": true,
-    "evidence": "https://the storek.myshopify.com/products/kp494mq6u-catherine-boyfriend-black"
-   },
-   "e_reviews": {
-    "pass": false,
-    "evidence": ""
-   },
-   "e_options": {
-    "pass": false,
-    "evidence": ""
-   },
-   "c_cta": {
-    "pass": true,
-    "evidence": "A solid beginner pick is the Catherine Mid Rise Boyfriend in Black: https://the storek.myshopify.com/products/kp494mq6u-catherine-boyfriend-black"
-   },
-   "c_cart": {
-    "pass": true,
-    "evidence": "Standard shipping is $10.95 for orders under $150, and orders over $150 ship free"
-   },
-   "c_clean": {
-    "pass": true,
-    "evidence": "For totals, product pricing and any shipping charge are calculated at checkout"
-   }
-  },
+  "total": 68,
   "resolution_class": "resolved",
-  "learning": "Commits to a named pick with a direct product link and shipping costs, but sidesteps the review question with fit-guide links and never quotes a product price.",
+  "learning": "Names multiple specific jean styles with use-case rationale, links to fit guide and fit quiz on most turns, provides a concrete product link (Catherine Boyfriend in Black) with shipping threshold at close — strong directional coverage despite no cart-add capability.",
   "judged_at": null
  },
  "2026-07-01/envive-kut-shopping-compare-budget.json": {
-  "v": 2,
+  "mode": "shopping",
+  "rubric": {
+   "answer": 28,
+   "recommendation": 20,
+   "rich": 12,
+   "close": 9
+  },
+  "total": 69,
+  "resolution_class": "resolved",
+  "learning": "Compares Meg vs Ashton with price parity ($119), sizing caveats, and availability; gives a decisive personal pick (Meg); lists promo details; states $119 + $10.95 shipping at close — one failed first-turn delivery but overall very useful comparison.",
+  "judged_at": null
+ },
+ "2026-07-01/envive-kut-shopping-everyday-value.json": {
   "mode": "shopping",
   "rubric": {
    "answer": 26,
-   "recommendation": 25,
-   "rich": 12,
-   "close": 15
+   "recommendation": 17,
+   "rich": 10,
+   "close": 7
   },
-  "total": 78,
-  "checks": {
-   "a_direct": {
-    "pass": true,
-    "evidence": "These two are the same price at $119, so there is no pricier option between them"
-   },
-   "a_consistent": {
-    "pass": false,
-    "evidence": ""
-   },
-   "a_no_ignored": {
-    "pass": true,
-    "evidence": "These two are the same price at $119, so there is no pricier option between them. If you are choosing just on value, the cheaper one is not a factor here. (Ever"
-   },
-   "a_clarify": {
-    "pass": true,
-    "evidence": "If you want the safer all-around pick, go with Meg. If you want the comfiest, most fashion-forward option, go with Ashton."
-   },
-   "r_named": {
-    "pass": true,
-    "evidence": "On a value budget, we’d pick the Meg"
-   },
-   "r_fit": {
-    "pass": true,
-    "evidence": "It gives you the safer, more versatile wear-for-your-money option at the same price"
-   },
-   "r_plausible": {
-    "pass": true,
-    "evidence": "Meg is in stock from sizes 00 to 18"
-   },
-   "e_price": {
-    "pass": true,
-    "evidence": "the item price is $119 before shipping and tax"
-   },
-   "e_link": {
-    "pass": false,
-    "evidence": ""
-   },
-   "e_reviews": {
-    "pass": false,
-    "evidence": ""
-   },
-   "e_options": {
-    "pass": true,
-    "evidence": "Ashton runs big, so we recommend sizing down. Meg does not show that fit warning."
-   },
-   "c_cta": {
-    "pass": true,
-    "evidence": "If a valid discount code applies, the total will update at checkout"
-   },
-   "c_cart": {
-    "pass": true,
-    "evidence": "your subtotal would be $119, plus shipping and tax"
-   },
-   "c_clean": {
-    "pass": true,
-    "evidence": "If your cart only has that one item and no promo applies yet, your subtotal would be $119"
-   }
-  },
+  "total": 60,
   "resolution_class": "resolved",
-  "learning": "Decisive comparison and a committed pick with real pricing, undermined by an undelivered first message and a self-contradicted shipping fee ($9.95 then corrected to $10.95).",
-  "judged_at": null,
-  "audited": true
- },
- "2026-07-01/envive-kut-shopping-everyday-value.json": {
-  "v": 2,
-  "mode": "shopping",
-  "rubric": {
-   "answer": 35,
-   "recommendation": 25,
-   "rich": 4,
-   "close": 15
-  },
-  "total": 79,
-  "checks": {
-   "a_direct": {
-    "pass": true,
-    "evidence": "Based on what you’ve told us so far, Diana Relaxed Straight sounds like the better fit for you"
-   },
-   "a_consistent": {
-    "pass": true,
-    "evidence": "U.S. orders over $150 ship free. Orders under $150 have a flat standard shipping rate of $10.95."
-   },
-   "a_no_ignored": {
-    "pass": true,
-    "evidence": "We do not have review details available here, so we cannot confirm how well reviewed it is"
-   },
-   "a_clarify": {
-    "pass": true,
-    "evidence": "Our top recommendation based on what you shared is the Diana Relaxed Straight"
-   },
-   "r_named": {
-    "pass": true,
-    "evidence": "Our top recommendation based on what you shared is the Diana Relaxed Straight"
-   },
-   "r_fit": {
-    "pass": true,
-    "evidence": "the Diana Relaxed Straight for everyday wear, comfort, and value"
-   },
-   "r_plausible": {
-    "pass": true,
-    "evidence": "Catherine Boyfriend if you want a relaxed, casual fit"
-   },
-   "e_price": {
-    "pass": false,
-    "evidence": ""
-   },
-   "e_link": {
-    "pass": false,
-    "evidence": ""
-   },
-   "e_reviews": {
-    "pass": false,
-    "evidence": ""
-   },
-   "e_options": {
-    "pass": true,
-    "evidence": "Catherine Boyfriend if you want a relaxed, casual fit\nDiana Relaxed Straight for easy everyday comfort"
-   },
-   "c_cta": {
-    "pass": true,
-    "evidence": "if you sign up for our emails, you can get 15% off your first order"
-   },
-   "c_cart": {
-    "pass": true,
-    "evidence": "For shipping, U.S. orders over $150 ship free"
-   },
-   "c_clean": {
-    "pass": true,
-    "evidence": "you can get 15% off your first order and join the the store Kommunity!"
-   }
-  },
-  "resolution_class": "resolved",
-  "learning": "Strong needs-based narrowing to a committed pick (Diana) with an honest review disclaimer, but no product prices and no direct product links were ever surfaced.",
+  "learning": "Recommends Diana Relaxed Straight for everyday comfort based on stated needs, names Meg as bestseller, provides multiple collection links, and closes with 15% first-order email signup offer and free-shipping threshold — no reviews data available acknowledged.",
   "judged_at": null
  },
  "2026-07-01/envive-kut-shopping-gift.json": {
-  "v": 2,
   "mode": "shopping",
   "rubric": {
-   "answer": 30,
-   "recommendation": 25,
-   "rich": 9,
-   "close": 15
+   "answer": 22,
+   "recommendation": 14,
+   "rich": 10,
+   "close": 6
   },
-  "total": 79,
-  "checks": {
-   "a_direct": {
-    "pass": true,
-    "evidence": "Of those two, denim feels more special"
-   },
-   "a_consistent": {
-    "pass": true,
-    "evidence": "the Meg fit is one of our best sellers"
-   },
-   "a_no_ignored": {
-    "pass": true,
-    "evidence": "Of those two, denim feels more special. It is more gift-worthy than a basic top (Every substantively captured turn is answered on-topic; the one 'ignored' turn'"
-   },
-   "a_clarify": {
-    "pass": false,
-    "evidence": "send it through our Gift Instantly option so the recipient can choose their preferred size and color before it ships"
-   },
-   "r_named": {
-    "pass": true,
-    "evidence": "the Coco Sweater Knit Top in White, the Yona Striped Knit Sweater in White/Blush, or the Carmen Sleeveless Top in Black"
-   },
-   "r_fit": {
-    "pass": true,
-    "evidence": "It is more gift-worthy than a basic top"
-   },
-   "r_plausible": {
-    "pass": true,
-    "evidence": "a polished top or sweater paired with denim"
-   },
-   "e_price": {
-    "pass": false,
-    "evidence": ""
-   },
-   "e_link": {
-    "pass": true,
-    "evidence": "https://www.the storefromthekloth.com/products/gift-card"
-   },
-   "e_reviews": {
-    "pass": false,
-    "evidence": ""
-   },
-   "e_options": {
-    "pass": false,
-    "evidence": ""
-   },
-   "c_cta": {
-    "pass": true,
-    "evidence": "the Meg fit is a great option to shop here: https://www.the storefromthekloth.com/collections/denim"
-   },
-   "c_cart": {
-    "pass": true,
-    "evidence": "Orders under $150 have a flat shipping rate of $9.95, and shipping is free over $150"
-   },
-   "c_clean": {
-    "pass": true,
-    "evidence": "Our top gift pick is denim, and the Meg fit is a great option to shop here"
-   }
-  },
-  "resolution_class": "resolved",
-  "learning": "Practical gift guidance with named pairings and a Gift Instantly sizing workaround, though one turn stalled at 'Almost there' and no product price was ever given.",
-  "judged_at": null,
-  "audited": true
+  "total": 52,
+  "resolution_class": "partial",
+  "learning": "Names specific gift items (Coco Sweater, Yona Knit, Carmen Top) and mentions Gift Instantly option; provides shipping timelines; one unanswered turn (turn 2); never gives a product price and the close only points to a collection page rather than a direct product.",
+  "judged_at": null
  },
  "2026-07-01/envive-kut-shopping-problem-solver.json": {
-  "v": 2,
   "mode": "shopping",
   "rubric": {
    "answer": 14,
-   "recommendation": 25,
-   "rich": 0,
-   "close": 0
+   "recommendation": 9,
+   "rich": 4,
+   "close": 2
   },
-  "total": 39,
-  "checks": {
-   "a_direct": {
-    "pass": false,
-    "evidence": ""
-   },
-   "a_consistent": {
-    "pass": true,
-    "evidence": "Diana Relaxed Straight is the safest recommendation"
-   },
-   "a_no_ignored": {
-    "pass": false,
-    "evidence": ""
-   },
-   "a_clarify": {
-    "pass": true,
-    "evidence": "you can also share your preferred fit, silhouette, and where you plan to wear it"
-   },
-   "r_named": {
-    "pass": true,
-    "evidence": "If you want the single best pick based on quality plus versatility, Diana Relaxed Straight is the safest recommendation."
-   },
-   "r_fit": {
-    "pass": true,
-    "evidence": "Since quality matters most, our best next step is the Fit Quiz"
-   },
-   "r_plausible": {
-    "pass": true,
-    "evidence": "high-rise and straight or bootcut cuts are often the safest picks if you want something versatile and dependable"
-   },
-   "e_price": {
-    "pass": false,
-    "evidence": ""
-   },
-   "e_link": {
-    "pass": false,
-    "evidence": ""
-   },
-   "e_reviews": {
-    "pass": false,
-    "evidence": ""
-   },
-   "e_options": {
-    "pass": true,
-    "evidence": "Ana Bootcut for a balanced shape with boots or heels\nStella High-Rise Flare for a dressier, fashion-forward look\nFab Ab Wide Leg for comfort and a vintage-inspi"
-   },
-   "c_cta": {
-    "pass": false,
-    "evidence": ""
-   },
-   "c_cart": {
-    "pass": false,
-    "evidence": ""
-   },
-   "c_clean": {
-    "pass": false,
-    "evidence": ""
-   }
-  },
-  "resolution_class": "partial",
-  "learning": "Solid named recommendation with rationale early on, then the widget went offline and repeated the identical email-capture message to three unanswered closing questions, including the shopper's explicit buy request.",
-  "judged_at": null,
-  "audited": true
+  "total": 29,
+  "resolution_class": "deflected",
+  "learning": "AI gives a reasonable quality/fit recommendation (Diana Relaxed Straight) on turn 3, but immediately hands over to offline human queue at turn 4 when asked about reviews — last four turns produce no answers while the form waits for email.",
+  "judged_at": null
  },
  "2026-07-01/envive-kut-support-tracking.json": {
-  "v": 2,
   "mode": "support",
   "rubric": {
-   "resolution": 40,
-   "accuracy": 20,
-   "actionability": 20,
-   "close": 15
+   "resolution": 24,
+   "accuracy": 18,
+   "actionability": 14,
+   "close": 9
   },
-  "total": 95,
-  "checks": {
-   "s_answered": {
-    "pass": true,
-    "evidence": "Orders normally take 3 to 4 business days to process, and tracking is sent once the order ships."
-   },
-   "s_outcome": {
-    "pass": true,
-    "evidence": "Please log in so we can check your latest order status."
-   },
-   "s_no_deflect": {
-    "pass": true,
-    "evidence": "If you want us to check your specific order status, please log in and we can look it up for you."
-   },
-   "g_specific": {
-    "pass": true,
-    "evidence": "standard delivery in the continental US usually takes 4 to 5 business days for orders under $49, or 7 to 10 business days for orders over $49"
-   },
-   "g_consistent": {
-    "pass": false,
-    "evidence": ""
-   },
-   "g_grounded": {
-    "pass": true,
-    "evidence": "Orders placed after 10 AM PST may not ship until the following 3 to 4 business days"
-   },
-   "t_steps": {
-    "pass": true,
-    "evidence": "send your order number, the name used on the order, the email address used to place it, and your shipping or billing address"
-   },
-   "t_complete": {
-    "pass": true,
-    "evidence": "the only possible option would be to cancel the current order if it is still eligible and place a new one"
-   },
-   "k_expectations": {
-    "pass": true,
-    "evidence": "Orders normally take 3 to 4 business days to process"
-   },
-   "k_clean": {
-    "pass": true,
-    "evidence": "If you still cannot access it after logging in, send your order number, the name used on the order, the email address used to place it, and your shipping or bil"
-   }
-  },
+  "total": 65,
   "resolution_class": "resolved",
-  "learning": "Rich store specifics and a correct login-gated lookup, but the processing window self-contradicts within one reply (3–4 business days vs up to 48 hours).",
+  "learning": "Gives specific processing (3–4 business days), delivery (4–5 or 7–10 days by order value), and Canada timeframes; explains no post-placement speed-up; directs to FedEx for stale tracking; provides shipping page link — clear, self-service friendly throughout.",
   "judged_at": null
  },
  "2026-07-01/gorgias-beekman-shopping-beginner.json": {
-  "v": 2,
   "mode": "shopping",
   "rubric": {
-   "answer": 21,
-   "recommendation": 25,
-   "rich": 17,
-   "close": 15
+   "answer": 28,
+   "recommendation": 20,
+   "rich": 16,
+   "close": 10
   },
-  "total": 78,
-  "checks": {
-   "a_direct": {
-    "pass": true,
-    "evidence": "The safest, easiest first pick is the Skincare Winners Travel-Size Skincare Gift Set."
-   },
-   "a_consistent": {
-    "pass": false,
-    "evidence": "If you want the easiest first pick, go with the 3 Simple Steps Skincare Set"
-   },
-   "a_no_ignored": {
-    "pass": true,
-    "evidence": "once it is in your cart, checkout will show your final total automatically"
-   },
-   "a_clarify": {
-    "pass": false,
-    "evidence": ""
-   },
-   "r_named": {
-    "pass": true,
-    "evidence": "Skincare Winners Travel-Size Skincare Gift Set"
-   },
-   "r_fit": {
-    "pass": true,
-    "evidence": "an easy way to learn what your skin likes without committing to a bigger set"
-   },
-   "r_plausible": {
-    "pass": true,
-    "evidence": "It gives you cleanse, serum, and moisturizer in one routine and is made for all skin types."
-   },
-   "e_price": {
-    "pass": true,
-    "evidence": "Skincare Winners Travel-Size Skincare Gift Set\n$50.00\n$37.00"
-   },
-   "e_link": {
-    "pass": true,
-    "evidence": "you can add it to your cart from the product page here"
-   },
-   "e_reviews": {
-    "pass": false,
-    "evidence": ""
-   },
-   "e_options": {
-    "pass": false,
-    "evidence": ""
-   },
-   "c_cta": {
-    "pass": true,
-    "evidence": "you can add it to your cart from the product page here"
-   },
-   "c_cart": {
-    "pass": true,
-    "evidence": "once it is in your cart, checkout will show your final total automatically"
-   },
-   "c_clean": {
-    "pass": true,
-    "evidence": "Want to grab the starter set now?"
-   }
-  },
+  "total": 74,
   "resolution_class": "resolved",
-  "learning": "Beginner-friendly guidance with price cards and a clean cart-handoff close, but it flip-flopped its 'easiest first pick' between adjacent turns and never asked the beginner about skin type or goals.",
+  "learning": "Names Skincare Winners Travel-Size Gift Set ($37 sale) from turn 3 with consistent rationale (3-step, sensitive skin, low-commitment), flags 20% off threshold on multiple turns as upsell nudge, and shows product card with sale price at close.",
   "judged_at": null
  },
  "2026-07-01/gorgias-beekman-shopping-compare-budget.json": {
-  "v": 2,
   "mode": "shopping",
   "rubric": {
-   "answer": 26,
-   "recommendation": 25,
-   "rich": 17,
-   "close": 15
+   "answer": 30,
+   "recommendation": 22,
+   "rich": 18,
+   "close": 12
   },
-  "total": 83,
-  "checks": {
-   "a_direct": {
-    "pass": true,
-    "evidence": "Best bang for the buck: Milky Must-Haves 3-Piece Skincare Set."
-   },
-   "a_consistent": {
-    "pass": false,
-    "evidence": "this set is just under that threshold"
-   },
-   "a_no_ignored": {
-    "pass": true,
-    "evidence": "There isn’t an automatic discount applying to that item alone right now."
-   },
-   "a_clarify": {
-    "pass": true,
-    "evidence": "Do you want the best budget starter set, or are you choosing between a few specific products right now?"
-   },
-   "r_named": {
-    "pass": true,
-    "evidence": "Milky Must-Haves 3-Piece Skincare Set"
-   },
-   "r_fit": {
-    "pass": true,
-    "evidence": "smarter spend than paying extra for steps you may not need"
-   },
-   "r_plausible": {
-    "pass": true,
-    "evidence": "If you want the fullest routine for the money, go with Hydration Station."
-   },
-   "e_price": {
-    "pass": true,
-    "evidence": "Milky Must-Haves 3-Piece Skincare Set\n$142.00\n$120.00"
-   },
-   "e_link": {
-    "pass": true,
-    "evidence": "com/products/milky-must-haves-3-piece-skincare-set"
-   },
-   "e_reviews": {
-    "pass": false,
-    "evidence": ""
-   },
-   "e_options": {
-    "pass": true,
-    "evidence": "Best for all skin types: Milky Must-Haves\nBest for dry skin: Hydration Station\nSimpler routine: Milky Must-Haves\nMore complete routine: Hydration Station"
-   },
-   "c_cta": {
-    "pass": true,
-    "evidence": "Go ahead and add it from the product page now"
-   },
-   "c_cart": {
-    "pass": true,
-    "evidence": "20% off eligible orders of $100 or more, applied automatically at checkout"
-   },
-   "c_clean": {
-    "pass": true,
-    "evidence": "or if you want, we can help you pick one small add-on to reach the promo"
-   }
-  },
+  "total": 82,
   "resolution_class": "resolved",
-  "learning": "Honest budget-first comparison that recommends the cheaper set with a real product link, but its promo math contradicts the price it displayed ($120 set called 'just under' the $100 threshold).",
-  "judged_at": null,
-  "audited": true
+  "learning": "Compares Milky Must-Haves vs Hydration Station with specific prices, skin-type fit, and feature breakdown; names a decisive pick; surfaces active Independence Day promo (20% off $100+, ends July 7); closes with product link and prompts toward the discount threshold.",
+  "judged_at": null
  },
  "2026-07-01/gorgias-beekman-shopping-everyday-value.json": {
-  "v": 2,
   "mode": "shopping",
   "rubric": {
-   "answer": 35,
-   "recommendation": 25,
-   "rich": 8,
-   "close": 15
+   "answer": 29,
+   "recommendation": 21,
+   "rich": 17,
+   "close": 11
   },
-  "total": 83,
-  "checks": {
-   "a_direct": {
-    "pass": true,
-    "evidence": "I would still steer you to Milky Must-Haves 3-Piece Skincare Set"
-   },
-   "a_consistent": {
-    "pass": true,
-    "evidence": "orders over $80 ship free in the U.S."
-   },
-   "a_no_ignored": {
-    "pass": true,
-    "evidence": "For first-order savings, the current welcome offer is a unique 20% off code"
-   },
-   "a_clarify": {
-    "pass": true,
-    "evidence": "Are you shopping for hydration, better-aging, or sun protection?"
-   },
-   "r_named": {
-    "pass": true,
-    "evidence": "Milky Must-Haves 3-Piece Skincare Set"
-   },
-   "r_fit": {
-    "pass": true,
-    "evidence": "simpler, strong on everyday hydration and barrier support, safe for sensitive skin, and a smarter value-first choice"
-   },
-   "r_plausible": {
-    "pass": true,
-    "evidence": "Hydration Station steps up to a complete AM and PM routine and is especially good for dry skin"
-   },
-   "e_price": {
-    "pass": true,
-    "evidence": "Milky Must-Haves 3-Piece Skincare Set\n$142.00\n$120.00"
-   },
-   "e_link": {
-    "pass": false,
-    "evidence": ""
-   },
-   "e_reviews": {
-    "pass": false,
-    "evidence": ""
-   },
-   "e_options": {
-    "pass": false,
-    "evidence": ""
-   },
-   "c_cta": {
-    "pass": true,
-    "evidence": "Want to build your cart to the free shipping mark or go straight for the 20% off threshold?"
-   },
-   "c_cart": {
-    "pass": true,
-    "evidence": "Ready to open it and check out?"
-   },
-   "c_clean": {
-    "pass": true,
-    "evidence": "Want to build your cart to the free shipping mark or go straight for the 20% off threshold?"
-   }
-  },
+  "total": 78,
   "resolution_class": "resolved",
-  "learning": "Consistent value-anchored steering with a clarifying opener and threshold-aware close, though the bestseller/review question was answered with unquantified marketing language rather than data.",
+  "learning": "Consistently recommends Milky Must-Haves 3-Piece ($120) for value + sensitivity, mentions free shipping at $80 and 20% off at $100, shows product card with sale price, and closes with welcome email discount offer — confident and commercially aware throughout.",
   "judged_at": null
  },
  "2026-07-01/gorgias-beekman-shopping-gift.json": {
-  "v": 2,
   "mode": "shopping",
   "rubric": {
-   "answer": 35,
-   "recommendation": 25,
-   "rich": 8,
-   "close": 15
+   "answer": 29,
+   "recommendation": 21,
+   "rich": 17,
+   "close": 11
   },
-  "total": 83,
-  "checks": {
-   "a_direct": {
-    "pass": true,
-    "evidence": "The Fun in the Sun Travel Pack feels more special."
-   },
-   "a_consistent": {
-    "pass": true,
-    "evidence": "free Standard Ground on orders over $80"
-   },
-   "a_no_ignored": {
-    "pass": true,
-    "evidence": "Fast shipping ships in 1 to 2 business days for $30, and Fastest ships in 1 to 2 business days for $50"
-   },
-   "a_clarify": {
-    "pass": true,
-    "evidence": "Is this gift for someone who loves a simple routine, or do you want a more deluxe set?"
-   },
-   "r_named": {
-    "pass": true,
-    "evidence": "Fun in the Sun Travel Pack"
-   },
-   "r_fit": {
-    "pass": true,
-    "evidence": "it has more of that complete gift-set feel while still being easy to use"
-   },
-   "r_plausible": {
-    "pass": true,
-    "evidence": "the Milky Must-Haves 3-Piece Skincare Set is another strong gift set with a polished feel"
-   },
-   "e_price": {
-    "pass": true,
-    "evidence": "Fun in the Sun Travel Pack\n$91.00\n$73.00"
-   },
-   "e_link": {
-    "pass": false,
-    "evidence": ""
-   },
-   "e_reviews": {
-    "pass": false,
-    "evidence": ""
-   },
-   "e_options": {
-    "pass": false,
-    "evidence": ""
-   },
-   "c_cta": {
-    "pass": true,
-    "evidence": "you can open it from the card below and add it in one tap"
-   },
-   "c_cart": {
-    "pass": true,
-    "evidence": "then checkout will show your full total with shipping"
-   },
-   "c_clean": {
-    "pass": true,
-    "evidence": "Want to grab it now?"
-   }
-  },
+  "total": 78,
   "resolution_class": "resolved",
-  "learning": "Warm gift-focused comparison with concrete shipping speeds and a one-tap close, but it never explicitly confirms gift-ready packaging and cannot act on the cart itself.",
+  "learning": "Names Fun in the Sun Travel Pack ($73 sale) as the most-special gift, provides specific shipping speeds and costs ($5 standard, $30 fast, $50 fastest), shows product card, and closes with a direct action prompt — strong gift-context handling with precise pricing.",
   "judged_at": null
  },
  "2026-07-01/gorgias-beekman-shopping-problem-solver.json": {
-  "v": 2,
   "mode": "shopping",
   "rubric": {
-   "answer": 35,
-   "recommendation": 25,
-   "rich": 8,
+   "answer": 28,
+   "recommendation": 22,
+   "rich": 18,
    "close": 10
   },
   "total": 78,
-  "checks": {
-   "a_direct": {
-    "pass": true,
-    "evidence": "Milk RX Advanced Better Aging Cream is the best fit."
-   },
-   "a_consistent": {
-    "pass": true,
-    "evidence": "you have a 30 day return window"
-   },
-   "a_no_ignored": {
-    "pass": true,
-    "evidence": "I am not able to build a cart or quote a total here"
-   },
-   "a_clarify": {
-    "pass": true,
-    "evidence": "is it dryness, sensitivity, breakouts, or better-aging?"
-   },
-   "r_named": {
-    "pass": true,
-    "evidence": "Milk RX Advanced Better Aging Cream"
-   },
-   "r_fit": {
-    "pass": true,
-    "evidence": "doctor-formulated, dermatologist-validated, safe for sensitive skin, fragrance free"
-   },
-   "r_plausible": {
-    "pass": true,
-    "evidence": "adds targeted wrinkle care plus brightening while staying gentle for sensitive skin"
-   },
-   "e_price": {
-    "pass": true,
-    "evidence": "Milk RX Advanced Better Aging Cream\n$27.00"
-   },
-   "e_link": {
-    "pass": false,
-    "evidence": ""
-   },
-   "e_reviews": {
-    "pass": false,
-    "evidence": ""
-   },
-   "e_options": {
-    "pass": false,
-    "evidence": ""
-   },
-   "c_cta": {
-    "pass": true,
-    "evidence": "please use the site cart and checkout"
-   },
-   "c_cart": {
-    "pass": false,
-    "evidence": ""
-   },
-   "c_clean": {
-    "pass": true,
-    "evidence": "For help choosing and purchasing the recommended items, please use the site cart and checkout."
-   }
-  },
-  "resolution_class": "resolved",
-  "learning": "Strong reassurance selling with claim stats and clear return terms, but the close breaks persona ('I can help with support questions') and abandons the convinced buyer with no link, card, or purchase facilitation.",
+  "resolution_class": "partial",
+  "learning": "Beekman bot gave a named, clinically-credentialed product recommendation with stat-backed social proof but failed on the final 'add to cart' ask, admitting it cannot transact.",
   "judged_at": null
  },
  "2026-07-01/gorgias-beekman-support-damaged.json": {
-  "v": 2,
   "mode": "support",
   "rubric": {
-   "resolution": 40,
-   "accuracy": 25,
-   "actionability": 20,
-   "close": 7
+   "resolution": 22,
+   "accuracy": 20,
+   "actionability": 14,
+   "close": 10
   },
-  "total": 92,
-  "checks": {
-   "s_answered": {
-    "pass": true,
-    "evidence": "Yes, for a damaged item we do ask for a photo if possible. Please send a photo of the damage and let us know which product was damaged."
-   },
-   "s_outcome": {
-    "pass": true,
-    "evidence": "please send the full name of each affected item and a photo for each one if possible"
-   },
-   "s_no_deflect": {
-    "pass": true,
-    "evidence": "please send the product name and a photo of the damage so we can review it"
-   },
-   "g_specific": {
-    "pass": true,
-    "evidence": "items are generally accepted within 30 days of delivery, and a refund to the original payment method includes an $8 return shipping fee"
-   },
-   "g_consistent": {
-    "pass": true,
-    "evidence": "you do not have to pay to return it because a return shipment is typically not required"
-   },
-   "g_grounded": {
-    "pass": true,
-    "evidence": "the resolution is reviewed by our Neighbor Service team"
-   },
-   "t_steps": {
-    "pass": true,
-    "evidence": "Please send a photo of the damage and let us know which product was damaged."
-   },
-   "t_complete": {
-    "pass": true,
-    "evidence": "For a damaged item, the resolution is reviewed by our Neighbor Service team, and it is typically a refund or store credit rather than an exchange."
-   },
-   "k_expectations": {
-    "pass": false,
-    "evidence": ""
-   },
-   "k_clean": {
-    "pass": true,
-    "evidence": "we will review each affected item as part of the same damaged-item claim"
-   }
-  },
-  "resolution_class": "resolved",
-  "learning": "Complete in-chat claim procedure with a named team, fees, and no-return-shipment rule, but no timeframe was ever attached to the review or resolution (and the first shopper message failed to deliver).",
+  "total": 66,
+  "resolution_class": "partial",
+  "learning": "First turn failed to deliver (message-not-delivered error), but subsequent answers were accurate and specific: no return shipping for damaged items, photo required, resolution via Neighbor Service team review.",
   "judged_at": null
  },
  "2026-07-01/gorgias-beekman-support-order-mgmt.json": {
-  "v": 2,
   "mode": "support",
   "rubric": {
-   "resolution": 40,
-   "accuracy": 25,
-   "actionability": 20,
-   "close": 15
+   "resolution": 28,
+   "accuracy": 22,
+   "actionability": 16,
+   "close": 11
   },
-  "total": 100,
-  "checks": {
-   "s_answered": {
-    "pass": true,
-    "evidence": "We are not able to edit the shipping address on an order once it has been placed. If your order was placed within the last hour, you can cancel it"
-   },
-   "s_outcome": {
-    "pass": true,
-    "evidence": "Please log in so we can check your latest order and confirm whether it is still within the modification window"
-   },
-   "s_no_deflect": {
-    "pass": true,
-    "evidence": "If you log in, we can check whether your order is still within that cancellation window."
-   },
-   "g_specific": {
-    "pass": true,
-    "evidence": "Orders can be canceled within 1 hour after they are placed."
-   },
-   "g_consistent": {
-    "pass": true,
-    "evidence": "After the 1-hour window, the order can no longer be canceled."
-   },
-   "g_grounded": {
-    "pass": true,
-    "evidence": "go to Subscriptions, find the subscription, click Manage, and update the shipping address there"
-   },
-   "t_steps": {
-    "pass": true,
-    "evidence": "you can cancel it from your order confirmation page or in your account under My Orders, then place a new order with the correct address"
-   },
-   "t_complete": {
-    "pass": true,
-    "evidence": "You can refuse the package at delivery or with your local carrier for a refund."
-   },
-   "k_expectations": {
-    "pass": true,
-    "evidence": "Once processed, it can take 5 to 10 business days to appear, depending on your bank."
-   },
-   "k_clean": {
-    "pass": true,
-    "evidence": "Please log in so we can check your latest order and confirm whether it is still within the modification window: https://the store1802.com/account/login"
-   }
-  },
+  "total": 77,
   "resolution_class": "resolved",
-  "learning": "Crisp 1-hour modification policy applied consistently across every scenario, with exact self-serve paths, links, and refund timing.",
+  "learning": "Delivered specific policy details throughout (1-hour cancellation window, 5-10 day refund timeline) with consistent login CTA and direct account link, keeping every answer concrete and actionable.",
   "judged_at": null
  },
  "2026-07-01/gorgias-beekman-support-returns.json": {
-  "v": 2,
   "mode": "support",
   "rubric": {
-   "resolution": 40,
-   "accuracy": 25,
-   "actionability": 20,
-   "close": 15
+   "resolution": 24,
+   "accuracy": 20,
+   "actionability": 14,
+   "close": 10
   },
-  "total": 100,
-  "checks": {
-   "s_answered": {
-    "pass": true,
-    "evidence": "Returns are accepted within 30 days of delivery."
-   },
-   "s_outcome": {
-    "pass": true,
-    "evidence": "Some items are not returnable. The G.O.A.T. Advent Calendar is final sale and cannot be returned."
-   },
-   "s_no_deflect": {
-    "pass": true,
-    "evidence": "please tell us whether you prefer store credit or a refund"
-   },
-   "g_specific": {
-    "pass": true,
-    "evidence": "Return shipping is a flat $8 fee, and it is deducted from your refund."
-   },
-   "g_consistent": {
-    "pass": true,
-    "evidence": "At this time, we do not offer exchanges for a different size or option."
-   },
-   "g_grounded": {
-    "pass": true,
-    "evidence": "The G.O.A.T. Advent Calendar is final sale"
-   },
-   "t_steps": {
-    "pass": true,
-    "evidence": "To start a return, please log in first so we can look up your order and guide you from there."
-   },
-   "t_complete": {
-    "pass": true,
-    "evidence": "Once your return is received, it is typically processed within 3 business days."
-   },
-   "k_expectations": {
-    "pass": true,
-    "evidence": "refunds can take an additional 5 to 10 business days to appear on your original payment method, depending on your financial institution"
-   },
-   "k_clean": {
-    "pass": true,
-    "evidence": "You can review the full returns policy here: https://the store1802.com/pages/shipping-returns-policy"
-   }
-  },
-  "resolution_class": "resolved",
-  "learning": "First message failed to deliver, but the bot recovered with a complete, numerically specific returns policy down to a named final-sale product.",
+  "total": 68,
+  "resolution_class": "partial",
+  "learning": "First turn produced a message-not-delivered error, but recovery was solid: $8 return fee, 30-day window, no exchanges, GOAT Advent Calendar final-sale exception — all stated accurately.",
   "judged_at": null
  },
  "2026-07-01/gorgias-beekman-support-tracking.json": {
-  "v": 2,
   "mode": "support",
   "rubric": {
-   "resolution": 40,
-   "accuracy": 25,
-   "actionability": 12,
-   "close": 15
+   "resolution": 24,
+   "accuracy": 20,
+   "actionability": 15,
+   "close": 10
   },
-  "total": 92,
-  "checks": {
-   "s_answered": {
-    "pass": true,
-    "evidence": "prepared for shipment within about 3 business days, and you will get a tracking number once the order is fulfilled and scanned by the carrier"
-   },
-   "s_outcome": {
-    "pass": true,
-    "evidence": "I can check that for you, but I need you to log in first so I can access your latest order."
-   },
-   "s_no_deflect": {
-    "pass": true,
-    "evidence": "reply with your shipping address confirmation and we can look into it further"
-   },
-   "g_specific": {
-    "pass": true,
-    "evidence": "Fast for $30 or Fastest for $50"
-   },
-   "g_consistent": {
-    "pass": true,
-    "evidence": "Once it ships, standard U.S. delivery usually takes 5 to 6 business days."
-   },
-   "g_grounded": {
-    "pass": true,
-    "evidence": "We ship Monday through Friday, 9am to 5pm EST"
-   },
-   "t_steps": {
-    "pass": true,
-    "evidence": "please send your order number or PO number from the packing slip, the first and last name used to place the order, the email used for the order, and the shippin"
-   },
-   "t_complete": {
-    "pass": false,
-    "evidence": ""
-   },
-   "k_expectations": {
-    "pass": true,
-    "evidence": "If your order is not delivered by the 6th business day after it shipped, reply with your shipping address confirmation and we can look into it further."
-   },
-   "k_clean": {
-    "pass": true,
-    "evidence": "If you still cannot access it after logging in, please send your order number or PO number from the packing slip"
-   }
-  },
-  "resolution_class": "resolved",
-  "learning": "Strong specifics and a concrete in-chat escalation trigger, but the expedite answer pointed to checkout shipping options for an order that was already placed.",
+  "total": 69,
+  "resolution_class": "partial",
+  "learning": "First turn failed silently; recovery was accurate with specific shipping timelines (3 biz-day prep, 5-6 biz-day delivery) and two tracking links, but never retrieved the customer's actual order status.",
   "judged_at": null
  },
  "2026-07-01/gorgias-jade-shopping-beginner.json": {
-  "v": 2,
   "mode": "shopping",
   "rubric": {
    "answer": 14,
-   "recommendation": 0,
-   "rich": 0,
-   "close": 0
+   "recommendation": 5,
+   "rich": 4,
+   "close": 2
   },
-  "total": 14,
-  "checks": {
-   "a_direct": {
-    "pass": false,
-    "evidence": ""
-   },
-   "a_consistent": {
-    "pass": true,
-    "evidence": "We currently accept credit card, debit card, and PayPal."
-   },
-   "a_no_ignored": {
-    "pass": false,
-    "evidence": ""
-   },
-   "a_clarify": {
-    "pass": true,
-    "evidence": "tell us what you need help with first, like placing an order, shipping, returns, or finding a product"
-   },
-   "r_named": {
-    "pass": false,
-    "evidence": ""
-   },
-   "r_fit": {
-    "pass": false,
-    "evidence": ""
-   },
-   "r_plausible": {
-    "pass": false,
-    "evidence": ""
-   },
-   "e_price": {
-    "pass": false,
-    "evidence": ""
-   },
-   "e_link": {
-    "pass": false,
-    "evidence": ""
-   },
-   "e_reviews": {
-    "pass": false,
-    "evidence": ""
-   },
-   "e_options": {
-    "pass": false,
-    "evidence": ""
-   },
-   "c_cta": {
-    "pass": false,
-    "evidence": ""
-   },
-   "c_cart": {
-    "pass": false,
-    "evidence": ""
-   },
-   "c_clean": {
-    "pass": false,
-    "evidence": ""
-   }
-  },
-  "resolution_class": "failed",
-  "learning": "The widget never engaged with the shopping request — it listed generic support categories, announced a human agent, then left four consecutive shopper turns with no reply at all.",
+  "total": 25,
+  "resolution_class": "deflected",
+  "learning": "Jade bot escalated to human handover by turn 3 and then went silent for 4 consecutive turns — it answered support-category questions but made zero product recommendations and the session collapsed.",
   "judged_at": null
  },
  "2026-07-01/gorgias-jade-shopping-compare-budget.json": {
@@ -1774,59 +481,16 @@
   "judged_at": null
  },
  "2026-07-01/gorgias-jade-support-tracking.json": {
-  "v": 2,
   "mode": "support",
   "rubric": {
-   "resolution": 28,
-   "accuracy": 25,
-   "actionability": 12,
-   "close": 0
+   "resolution": 14,
+   "accuracy": 14,
+   "actionability": 8,
+   "close": 5
   },
-  "total": 65,
-  "checks": {
-   "s_answered": {
-    "pass": true,
-    "evidence": "If tracking has not appeared yet, it may be because the order has not been dispatched yet, or because tracked shipping was not selected at checkout."
-   },
-   "s_outcome": {
-    "pass": false,
-    "evidence": ""
-   },
-   "s_no_deflect": {
-    "pass": true,
-    "evidence": "please log in so we can check your order status and tracking"
-   },
-   "g_specific": {
-    "pass": true,
-    "evidence": "We usually aim to dispatch orders within 72 hours, but it can sometimes take up to 28 days."
-   },
-   "g_consistent": {
-    "pass": true,
-    "evidence": "estimated delivery is 2 to 5 business days for the UK, 3 to 8 business days for Europe"
-   },
-   "g_grounded": {
-    "pass": true,
-    "evidence": "If non-tracked shipping was selected, there will not be a tracking number."
-   },
-   "t_steps": {
-    "pass": true,
-    "evidence": "We can confirm which applies once you’re signed in."
-   },
-   "t_complete": {
-    "pass": false,
-    "evidence": ""
-   },
-   "k_expectations": {
-    "pass": false,
-    "evidence": ""
-   },
-   "k_clean": {
-    "pass": false,
-    "evidence": ""
-   }
-  },
-  "resolution_class": "partial",
-  "learning": "Store-specific dispatch and regional delivery windows in the first three turns, then total silence on the last four questions — substance followed by abandonment.",
+  "total": 41,
+  "resolution_class": "failed",
+  "learning": "Answered first 3 turns adequately but then produced 4 consecutive non-answers (empty replies), leaving the customer without guidance on tracking stalls, finding a link, or order status lookup.",
   "judged_at": null
  },
  "2026-07-01/gorgias-madura-shopping-beginner.json": {
@@ -1882,59 +546,16 @@
   "judged_at": null
  },
  "2026-07-01/gorgias-madura-support-order-mgmt.json": {
-  "v": 2,
   "mode": "support",
   "rubric": {
-   "resolution": 40,
-   "accuracy": 25,
-   "actionability": 20,
-   "close": 15
+   "resolution": 26,
+   "accuracy": 20,
+   "actionability": 15,
+   "close": 10
   },
-  "total": 100,
-  "checks": {
-   "s_answered": {
-    "pass": true,
-    "evidence": "If it has been less than 2 hours, we can try to cancel or edit it."
-   },
-   "s_outcome": {
-    "pass": true,
-    "evidence": "please log in so we can check your latest order and see whether it can still be modified"
-   },
-   "s_no_deflect": {
-    "pass": true,
-    "evidence": "A shipping address change needs to be handled by our team, so please log in first so we can access your order and continue."
-   },
-   "g_specific": {
-    "pass": true,
-    "evidence": "you may return it for a refund within 14 days of delivery"
-   },
-   "g_consistent": {
-    "pass": true,
-    "evidence": "After 2 hours, changes may no longer be possible"
-   },
-   "g_grounded": {
-    "pass": true,
-    "evidence": "provided the item is in its original packaging, with tags and accessories, in perfect resellable condition, and not washed, damaged, or altered"
-   },
-   "t_steps": {
-    "pass": true,
-    "evidence": "go to My Account, then My Information or My Addresses, select Edit, Update, or Delete next to the detail you want to change, and save your changes"
-   },
-   "t_complete": {
-    "pass": true,
-    "evidence": "If the order has already shipped, it can no longer be changed. In that case, once it arrives, you may return it for a refund."
-   },
-   "k_expectations": {
-    "pass": true,
-    "evidence": "Once the return is received and validated, the refund is processed within 14 working days to the original payment method."
-   },
-   "k_clean": {
-    "pass": true,
-    "evidence": "Hello, please log in so we can check your latest order and see whether it can still be modified."
-   }
-  },
+  "total": 71,
   "resolution_class": "resolved",
-  "learning": "Consistent 2-hour edit window, exact account-edit click path, and full refund conditions with timeframes — every ask covered in-channel.",
+  "learning": "Accurate 2-hour cancellation window, 14-working-day refund timeline, and detailed return conditions (original packaging, tags, no washing) delivered cleanly with consistent login prompts for order lookup.",
   "judged_at": null
  },
  "2026-07-01/gorgias-madura-support-returns.json": {
@@ -2211,435 +832,81 @@
   "judged_at": null
  },
  "2026-07-01/siena-figs-shopping-gift.json": {
-  "v": 2,
   "mode": "shopping",
   "rubric": {
-   "answer": 9,
+   "answer": 2,
    "recommendation": 0,
    "rich": 0,
    "close": 0
   },
-  "total": 9,
-  "checks": {
-   "a_direct": {
-    "pass": false,
-    "evidence": ""
-   },
-   "a_consistent": {
-    "pass": true,
-    "evidence": "All further questions will be handled via your email ticket."
-   },
-   "a_no_ignored": {
-    "pass": false,
-    "evidence": ""
-   },
-   "a_clarify": {
-    "pass": false,
-    "evidence": ""
-   },
-   "r_named": {
-    "pass": false,
-    "evidence": ""
-   },
-   "r_fit": {
-    "pass": false,
-    "evidence": ""
-   },
-   "r_plausible": {
-    "pass": false,
-    "evidence": ""
-   },
-   "e_price": {
-    "pass": false,
-    "evidence": ""
-   },
-   "e_link": {
-    "pass": false,
-    "evidence": ""
-   },
-   "e_reviews": {
-    "pass": false,
-    "evidence": ""
-   },
-   "e_options": {
-    "pass": false,
-    "evidence": ""
-   },
-   "c_cta": {
-    "pass": false,
-    "evidence": ""
-   },
-   "c_cart": {
-    "pass": false,
-    "evidence": ""
-   },
-   "c_clean": {
-    "pass": false,
-    "evidence": ""
-   }
-  },
+  "total": 2,
   "resolution_class": "deflected",
-  "learning": "An offline auto-responder deflected all seven shopping turns to an email ticket with the identical canned message and never engaged with the gift request at all.",
+  "learning": "Siena on FIGS was offline for the entire session — every turn returned a ticket-creation message with zero shopping assistance, product names, or gift guidance.",
   "judged_at": null
  },
  "2026-07-01/siena-figs-shopping-problem-solver.json": {
-  "v": 2,
   "mode": "shopping",
   "rubric": {
-   "answer": 0,
+   "answer": 2,
    "recommendation": 0,
    "rich": 0,
    "close": 0
   },
-  "total": 0,
-  "checks": {
-   "a_direct": {
-    "pass": false,
-    "evidence": ""
-   },
-   "a_consistent": {
-    "pass": false,
-    "evidence": ""
-   },
-   "a_no_ignored": {
-    "pass": false,
-    "evidence": ""
-   },
-   "a_clarify": {
-    "pass": false,
-    "evidence": ""
-   },
-   "r_named": {
-    "pass": false,
-    "evidence": ""
-   },
-   "r_fit": {
-    "pass": false,
-    "evidence": ""
-   },
-   "r_plausible": {
-    "pass": false,
-    "evidence": ""
-   },
-   "e_price": {
-    "pass": false,
-    "evidence": ""
-   },
-   "e_link": {
-    "pass": false,
-    "evidence": ""
-   },
-   "e_reviews": {
-    "pass": false,
-    "evidence": ""
-   },
-   "e_options": {
-    "pass": false,
-    "evidence": ""
-   },
-   "c_cta": {
-    "pass": false,
-    "evidence": ""
-   },
-   "c_cart": {
-    "pass": false,
-    "evidence": ""
-   },
-   "c_clean": {
-    "pass": false,
-    "evidence": ""
-   }
-  },
+  "total": 2,
   "resolution_class": "deflected",
-  "learning": "Five turns of offline email-ticket boilerplate, then a verification-code demand and off-base cart troubleshooting; the late live replies contradicted its own 'all further questions handled via email' claim and no product help was ever given.",
+  "learning": "FIGS was offline for all turns; Siena deflected every question to an email ticket — the only variation was a final suggestion to clear browser cache when the user asked to add to cart.",
   "judged_at": null
  },
  "2026-07-01/siena-simplemodern-shopping-beginner.json": {
-  "v": 2,
   "mode": "shopping",
   "rubric": {
-   "answer": 35,
-   "recommendation": 25,
-   "rich": 21,
-   "close": 15
+   "answer": 28,
+   "recommendation": 20,
+   "rich": 20,
+   "close": 10
   },
-  "total": 96,
-  "checks": {
-   "a_direct": {
-    "pass": true,
-    "evidence": "It’s super easy to use, fits in most car cup holders, and keeps your drinks hot or cold for hours."
-   },
-   "a_consistent": {
-    "pass": true,
-    "evidence": "Mesa Loop 30oz pricing in our catalog ranges from $26.99–$29.99 USD"
-   },
-   "a_no_ignored": {
-    "pass": true,
-    "evidence": "you don’t need anything extra to get started!"
-   },
-   "a_clarify": {
-    "pass": true,
-    "evidence": "If you have a specific question—about sizing, customization, deals, or anything else—just let me know!"
-   },
-   "r_named": {
-    "pass": true,
-    "evidence": "Mesa Loop with Covered Straw"
-   },
-   "r_fit": {
-    "pass": true,
-    "evidence": "It’s one of our most popular, reliable options—perfect for getting started!"
-   },
-   "r_plausible": {
-    "pass": true,
-    "evidence": "it’s affordable compared to similar premium bottles, super easy to use, and built to last"
-   },
-   "e_price": {
-    "pass": true,
-    "evidence": "Mesa Loop with Covered Straw\n$29.99"
-   },
-   "e_link": {
-    "pass": true,
-    "evidence": "View Product →"
-   },
-   "e_reviews": {
-    "pass": true,
-    "evidence": "a 4.7 out of 5 rating from over 500 reviews"
-   },
-   "e_options": {
-    "pass": false,
-    "evidence": ""
-   },
-   "c_cta": {
-    "pass": true,
-    "evidence": "If you tap Add to Cart on the product page, your cart will show the exact total right away."
-   },
-   "c_cart": {
-    "pass": true,
-    "evidence": "U.S. orders over $30 ship free"
-   },
-   "c_clean": {
-    "pass": true,
-    "evidence": "Let me know if there’s anything else I can help with!"
-   }
-  },
-  "resolution_class": "resolved",
-  "learning": "Strong beginner journey: a named pick tied to the stated needs, backed by price, product link, reviews, and concrete add-to-cart guidance.",
+  "total": 78,
+  "resolution_class": "partial",
+  "learning": "Siena on Simple Modern consistently recommended the Mesa Loop 30oz with price ($29.99), product card link, and real review data (4.7/5, 500+ reviews), but could not add to cart and only gave a price range at checkout.",
   "judged_at": null
  },
  "2026-07-01/siena-simplemodern-shopping-compare-budget.json": {
-  "v": 2,
   "mode": "shopping",
   "rubric": {
-   "answer": 35,
-   "recommendation": 25,
-   "rich": 25,
-   "close": 12
+   "answer": 24,
+   "recommendation": 17,
+   "rich": 18,
+   "close": 9
   },
-  "total": 97,
-  "checks": {
-   "a_direct": {
-    "pass": true,
-    "evidence": "Great news! Right now, we have a Buy More, Save More promotion running sitewide until mid-August"
-   },
-   "a_consistent": {
-    "pass": true,
-    "evidence": "The higher price usually just means extra features, a special design, or a larger size, not a difference in quality."
-   },
-   "a_no_ignored": {
-    "pass": true,
-    "evidence": "I can’t add items to your cart from chat, but I can help you figure out the total"
-   },
-   "a_clarify": {
-    "pass": true,
-    "evidence": "Could you let me know which type of product you're looking for (like a tumbler, can cooler, or something else)?"
-   },
-   "r_named": {
-    "pass": true,
-    "evidence": "NFL Trek Tumbler"
-   },
-   "r_fit": {
-    "pass": true,
-    "evidence": "so you get lasting quality without overspending"
-   },
-   "r_plausible": {
-    "pass": true,
-    "evidence": "I’d go for one of our mid-range options—like the Trek Tumbler series"
-   },
-   "e_price": {
-    "pass": true,
-    "evidence": "NFL Trek Tumbler\n$34.99"
-   },
-   "e_link": {
-    "pass": true,
-    "evidence": "View Product →"
-   },
-   "e_reviews": {
-    "pass": true,
-    "evidence": "Highly rated (4.7/5 from 26 reviews)"
-   },
-   "e_options": {
-    "pass": true,
-    "evidence": "The main difference is the design (NFL vs. collegiate)."
-   },
-   "c_cta": {
-    "pass": true,
-    "evidence": "send me the color you want and I’ll estimate the total with any available savings."
-   },
-   "c_cart": {
-    "pass": true,
-    "evidence": "No code is needed—the discount is applied automatically at checkout."
-   },
-   "c_clean": {
-    "pass": false,
-    "evidence": ""
-   }
-  },
+  "total": 68,
   "resolution_class": "partial",
-  "learning": "Rich two-option comparison with prices, links, and reviews, but at the close it lost the referent of its own Trek Tumbler recommendation (guessing 'the Mesa Loop 30oz on this page') and never produced a total.",
+  "learning": "Siena showed NFL/Collegiate Trek Tumblers at $34.99 each with product cards and detailed promo tiers (Buy More Save More), but stalled on 3 early turns with clarifying questions before surfacing concrete products.",
   "judged_at": null
  },
  "2026-07-01/siena-simplemodern-shopping-everyday-value.json": {
-  "v": 2,
   "mode": "shopping",
   "rubric": {
-   "answer": 21,
-   "recommendation": 25,
-   "rich": 21,
-   "close": 15
+   "answer": 20,
+   "recommendation": 15,
+   "rich": 15,
+   "close": 8
   },
-  "total": 82,
-  "checks": {
-   "a_direct": {
-    "pass": false,
-    "evidence": ""
-   },
-   "a_consistent": {
-    "pass": true,
-    "evidence": "Our overall best seller is the Trek Tumbler 40oz."
-   },
-   "a_no_ignored": {
-    "pass": true,
-    "evidence": "And yes, we do offer a 15% discount for first-time customers who sign up for both email and SMS notifications!"
-   },
-   "a_clarify": {
-    "pass": true,
-    "evidence": "are you shopping for a water bottle, a tumbler, a bag, or something else?"
-   },
-   "r_named": {
-    "pass": true,
-    "evidence": "Trek Tumbler 40oz"
-   },
-   "r_fit": {
-    "pass": true,
-    "evidence": "It's super popular for everyday use"
-   },
-   "r_plausible": {
-    "pass": true,
-    "evidence": "my top recommendation is the Trek Tumbler 40oz"
-   },
-   "e_price": {
-    "pass": true,
-    "evidence": "Trek Tumbler\n$24.99"
-   },
-   "e_link": {
-    "pass": true,
-    "evidence": "https://the storemodern.com/products/trek-tumbler-19"
-   },
-   "e_reviews": {
-    "pass": true,
-    "evidence": "an average rating of 4.8 out of 5 from more than 5,300 reviews"
-   },
-   "e_options": {
-    "pass": false,
-    "evidence": ""
-   },
-   "c_cta": {
-    "pass": true,
-    "evidence": "Once you sign up on our website, you’ll get your discount code by email."
-   },
-   "c_cart": {
-    "pass": true,
-    "evidence": "You can add it here: https://the storemodern.com/products/trek-tumbler-19"
-   },
-   "c_clean": {
-    "pass": true,
-    "evidence": "Let me know if you have any other questions or need help with your order!"
-   }
-  },
-  "resolution_class": "resolved",
-  "learning": "Looped the same narrowing question for three straight turns (including dodging a directly answerable 'compare your two most popular' ask) before landing a well-evidenced bestseller pick with link, price, reviews, and discount guidance.",
+  "total": 58,
+  "resolution_class": "partial",
+  "learning": "Siena spent the first four turns asking clarifying questions without naming any products; only on turn 5 did it surface the Trek Tumbler 40oz ($24.99, 4.8/5 from 5300 reviews) with a direct link.",
   "judged_at": null
  },
  "2026-07-01/siena-simplemodern-shopping-gift.json": {
-  "v": 2,
   "mode": "shopping",
   "rubric": {
-   "answer": 35,
-   "recommendation": 25,
-   "rich": 21,
-   "close": 15
+   "answer": 26,
+   "recommendation": 19,
+   "rich": 18,
+   "close": 9
   },
-  "total": 96,
-  "checks": {
-   "a_direct": {
-    "pass": true,
-    "evidence": "Tumblers are always a hit, but a great bag can really stand out as a memorable gift."
-   },
-   "a_consistent": {
-    "pass": true,
-    "evidence": "some of our products—like the Getaway Bag—come with thoughtful extras, such as a detachable, water-resistant pocket"
-   },
-   "a_no_ignored": {
-    "pass": true,
-    "evidence": "orders are typically fulfilled in 1-3 business days and then take another 4-8 business days to arrive"
-   },
-   "a_clarify": {
-    "pass": true,
-    "evidence": "Could you share a little bit about who you’re shopping for or what kinds of things they like?"
-   },
-   "r_named": {
-    "pass": true,
-    "evidence": "Fletcher Backpack"
-   },
-   "r_fit": {
-    "pass": true,
-    "evidence": "Bags have that wow factor and feel like a thoughtful treat, while still being super practical for daily use."
-   },
-   "r_plausible": {
-    "pass": true,
-    "evidence": "We have a variety of options that fit that vibe, from drinkware to handy bags and accessories."
-   },
-   "e_price": {
-    "pass": true,
-    "evidence": "Getaway Bag\n$89.99"
-   },
-   "e_link": {
-    "pass": true,
-    "evidence": "View Product →"
-   },
-   "e_reviews": {
-    "pass": false,
-    "evidence": ""
-   },
-   "e_options": {
-    "pass": true,
-    "evidence": "I’d lean toward a stylish everyday bag—like our Fletcher Backpack or Getaway Bag."
-   },
-   "c_cta": {
-    "pass": true,
-    "evidence": "visiting the Getaway Bag page and selecting your favorite color"
-   },
-   "c_cart": {
-    "pass": true,
-    "evidence": "once you add it to your cart, you'll see the total at checkout—including any shipping (which is free if your order is over $30 in the U.S.)"
-   },
-   "c_clean": {
-    "pass": true,
-    "evidence": "If you run into any issues adding it to your cart, just let me know what device and browser you're using"
-   }
-  },
-  "resolution_class": "resolved",
-  "learning": "Well-scoped gift guidance ending in a priced, linked pick with a comparison rationale, though the exact total was delegated to the checkout page.",
+  "total": 72,
+  "resolution_class": "partial",
+  "learning": "Siena named the Getaway Bag ($89.99) with a product card, gave shipping timeframe (5-11 business days), and noted free shipping above $30, but could not add to cart and gave no exact gift-ready packaging confirmation.",
   "judged_at": null
  },
  "2026-07-01/siena-simplemodern-shopping-problem-solver.json": {
@@ -2656,771 +923,159 @@
   "judged_at": null
  },
  "2026-07-01/siena-simplemodern-support-damaged.json": {
-  "v": 2,
   "mode": "support",
   "rubric": {
-   "resolution": 40,
-   "accuracy": 25,
-   "actionability": 20,
-   "close": 7
+   "resolution": 26,
+   "accuracy": 19,
+   "actionability": 15,
+   "close": 10
   },
-  "total": 92,
-  "checks": {
-   "s_answered": {
-    "pass": true,
-    "evidence": "If an item arrived damaged, it’s usually handled through a damage claim rather than a normal return"
-   },
-   "s_outcome": {
-    "pass": true,
-    "evidence": "we’ll need confirmation of exactly which pieces arrived damaged before the claim moves forward"
-   },
-   "s_no_deflect": {
-    "pass": true,
-    "evidence": "You can send them either: here in the chat box, or by email to support@the storemodern.com"
-   },
-   "g_specific": {
-    "pass": true,
-    "evidence": "Canadian orders aren’t eligible for returns"
-   },
-   "g_consistent": {
-    "pass": true,
-    "evidence": "I don’t want to promise a refund or replacement until I confirm where it was purchased."
-   },
-   "g_grounded": {
-    "pass": true,
-    "evidence": "please email it to support@the storemodern.com since video files can be too large for chat"
-   },
-   "t_steps": {
-    "pass": true,
-    "evidence": "photos of each damaged item, which items in the order are affected, your order info"
-   },
-   "t_complete": {
-    "pass": true,
-    "evidence": "if it was purchased on Amazon and arrived damaged, Amazon handles the replacement timing"
-   },
-   "k_expectations": {
-    "pass": false,
-    "evidence": ""
-   },
-   "k_clean": {
-    "pass": true,
-    "evidence": "Where it was purchased still matters for the next step."
-   }
-  },
+  "total": 70,
   "resolution_class": "partial",
-  "learning": "Answered every question substantively while correctly holding the claim on the shopper's unanswered purchase-source question, but never set any resolution timeframe.",
+  "learning": "Siena accurately distinguished damaged-item claims from normal returns, provided photo submission channels (chat or support@simplemodern.com), and handled multi-item scenario, but looped on the purchase-source question every single turn without moving forward.",
   "judged_at": null
  },
  "2026-07-01/siena-simplemodern-support-order-mgmt.json": {
-  "v": 2,
   "mode": "support",
   "rubric": {
-   "resolution": 40,
-   "accuracy": 20,
-   "actionability": 20,
-   "close": 15
+   "resolution": 32,
+   "accuracy": 22,
+   "actionability": 17,
+   "close": 12
   },
-  "total": 95,
-  "checks": {
-   "s_answered": {
-    "pass": true,
-    "evidence": "if you placed the order within the last 30 minutes, you can usually update the shipping address yourself"
-   },
-   "s_outcome": {
-    "pass": true,
-    "evidence": "Please send your order number or the email used at checkout, and I’ll check whether your latest order can still be modified."
-   },
-   "s_no_deflect": {
-    "pass": true,
-    "evidence": "send me your order number and I can help with the next step"
-   },
-   "g_specific": {
-    "pass": true,
-    "evidence": "Between 45 minutes and 1 hour: I may be able to cancel it for you here if you send your order number"
-   },
-   "g_consistent": {
-    "pass": false,
-    "evidence": ""
-   },
-   "g_grounded": {
-    "pass": true,
-    "evidence": "you can file a shipping claim at claims.the storemodern.com to have the products resent to the correct address"
-   },
-   "t_steps": {
-    "pass": true,
-    "evidence": "Open the email from us titled “Order #SM_____ Confirmed” and click “Edit or View your order.”"
-   },
-   "t_complete": {
-    "pass": true,
-    "evidence": "Once an order has already shipped, it can’t be changed or canceled."
-   },
-   "k_expectations": {
-    "pass": true,
-    "evidence": "If your order is successfully canceled, the refund typically shows up in 3–5 business days."
-   },
-   "k_clean": {
-    "pass": true,
-    "evidence": "I’m not seeing any orders under this email."
-   }
-  },
+  "total": 83,
   "resolution_class": "resolved",
-  "learning": "Excellent self-serve specificity (named email button, tiered windows, claims portal), but the same self-serve edit flow is gated at 30 minutes in one answer and 45 minutes in another.",
+  "learning": "Siena gave specific, accurate time windows for cancellations (45 min self-service, up to 1 hr via chat, impossible after), address changes, item additions, and refund timelines (3-5 business days) — highly actionable throughout.",
   "judged_at": null
  },
  "2026-07-01/siena-simplemodern-support-policy.json": {
-  "v": 2,
   "mode": "support",
   "rubric": {
-   "resolution": 40,
-   "accuracy": 25,
-   "actionability": 20,
-   "close": 15
+   "resolution": 30,
+   "accuracy": 20,
+   "actionability": 16,
+   "close": 11
   },
-  "total": 100,
-  "checks": {
-   "s_answered": {
-    "pass": true,
-    "evidence": "We allow 1-3 business days for orders to be fulfilled by our warehouse, plus an additional 4-8 business days for delivery with standard shipping"
-   },
-   "s_outcome": {
-    "pass": true,
-    "evidence": "you can reach our support team by emailing support@the storemodern.com"
-   },
-   "s_no_deflect": {
-    "pass": true,
-    "evidence": "If you have a specific payment method in mind and want to double-check, just let me know!"
-   },
-   "g_specific": {
-    "pass": true,
-    "evidence": "1-3 business days for orders to be fulfilled by our warehouse, plus an additional 4-8 business days for delivery"
-   },
-   "g_consistent": {
-    "pass": true,
-    "evidence": "So, your order should arrive within 5-11 business days after you place it."
-   },
-   "g_grounded": {
-    "pass": true,
-    "evidence": "Orders shipped to Canada aren't eligible for returns."
-   },
-   "t_steps": {
-    "pass": true,
-    "evidence": "you can reach our support team by emailing support@the storemodern.com or by using the contact form on our website"
-   },
-   "t_complete": {
-    "pass": true,
-    "evidence": "For other countries, we aren't able to ship directly, but you might find our products available through Amazon in your area."
-   },
-   "k_expectations": {
-    "pass": true,
-    "evidence": "our team responds within 24 business hours (often sooner!)"
-   },
-   "k_clean": {
-    "pass": true,
-    "evidence": "Let me know if you need help with anything specific!"
-   }
-  },
+  "total": 77,
   "resolution_class": "resolved",
-  "learning": "Complete quantified policy coverage (fulfillment 1-3d + delivery 4-8d, 24-business-hour support SLA) with zero deflection across seven asks.",
+  "learning": "Siena covered all 7 policy questions accurately — international shipping limits, customs responsibility for Canada, return eligibility (personalized/custom items excluded), and full payment method list — with relevant links throughout.",
   "judged_at": null
  },
  "2026-07-01/siena-simplemodern-support-returns.json": {
-  "v": 2,
   "mode": "support",
   "rubric": {
-   "resolution": 40,
-   "accuracy": 25,
-   "actionability": 20,
-   "close": 7
+   "resolution": 30,
+   "accuracy": 21,
+   "actionability": 16,
+   "close": 11
   },
-  "total": 92,
-  "checks": {
-   "s_answered": {
-    "pass": true,
-    "evidence": "You have 90 days from the purchase date to return most unused, non-defective items for a full refund."
-   },
-   "s_outcome": {
-    "pass": true,
-    "evidence": "For most other unused, non-defective items, the return window is 90 days from purchase."
-   },
-   "s_no_deflect": {
-    "pass": true,
-    "evidence": "If you’ve already sent something back and want to check on a specific return, let me know"
-   },
-   "g_specific": {
-    "pass": true,
-    "evidence": "Most unused, non-defective items can be returned within 90 days of purchase."
-   },
-   "g_consistent": {
-    "pass": true,
-    "evidence": "We don’t currently offer direct exchanges."
-   },
-   "g_grounded": {
-    "pass": true,
-    "evidence": "please use our claims portal instead: https://claims.the storemodern.com"
-   },
-   "t_steps": {
-    "pass": true,
-    "evidence": "start a return for the original item here: https://www.the storemodern.com/pages/returns-portal"
-   },
-   "t_complete": {
-    "pass": true,
-    "evidence": "then place a new order for the item you want"
-   },
-   "k_expectations": {
-    "pass": false,
-    "evidence": ""
-   },
-   "k_clean": {
-    "pass": true,
-    "evidence": "you can tell me what it is and I can help you double-check 💕"
-   }
-  },
+  "total": 78,
   "resolution_class": "resolved",
-  "learning": "Strong grounded returns answers with portal links and a clean exchange procedure, but no refund-processing timeframe is ever given so expectations go unset.",
+  "learning": "Siena correctly stated 90-day return window, no direct exchanges, return portal link (simplemodern.com/pages/returns-portal), and claims portal for defects — only gap was vague refund timing after return receipt.",
   "judged_at": null
  },
  "2026-07-01/siena-simplemodern-support-tracking.json": {
-  "v": 2,
   "mode": "support",
   "rubric": {
-   "resolution": 40,
-   "accuracy": 25,
-   "actionability": 20,
-   "close": 15
+   "resolution": 30,
+   "accuracy": 21,
+   "actionability": 17,
+   "close": 11
   },
-  "total": 100,
-  "checks": {
-   "s_answered": {
-    "pass": true,
-    "evidence": "it’s normal not to have a tracking number during the fulfillment window"
-   },
-   "s_outcome": {
-    "pass": true,
-    "evidence": "Please send your order number (it should start with SM) or the email used at checkout, and I’ll look into the status."
-   },
-   "s_no_deflect": {
-    "pass": true,
-    "evidence": "send me your order number and I can help point you to the right next step"
-   },
-   "g_specific": {
-    "pass": true,
-    "evidence": "Once your order ships, delivery usually takes 4–8 business days."
-   },
-   "g_consistent": {
-    "pass": true,
-    "evidence": "delivery usually takes 4–8 business days"
-   },
-   "g_grounded": {
-    "pass": true,
-    "evidence": "Right now, we don’t offer expedited shipping—so all orders go out with our standard shipping times."
-   },
-   "t_steps": {
-    "pass": true,
-    "evidence": "look for your order confirmation first, then the shipping confirmation that comes after it"
-   },
-   "t_complete": {
-    "pass": true,
-    "evidence": "please file a claim here: https://claims.the storemodern.com"
-   },
-   "k_expectations": {
-    "pass": true,
-    "evidence": "Tracking is usually sent once the order ships"
-   },
-   "k_clean": {
-    "pass": true,
-    "evidence": "check your inbox or spam folder for your Order Confirmation email from us"
-   }
-  },
+  "total": 79,
   "resolution_class": "resolved",
-  "learning": "Correct cold-session behavior: collects the order identifier, explains the fulfillment window that makes missing tracking normal, and gives concrete claim-filing thresholds (24h exception, 8 business days).",
+  "learning": "Siena gave precise fulfillment (1-3 days) and delivery (4-8 days) timeframes, explained no expedited shipping exists, and directed the user to claims.simplemodern.com for stuck tracking — clear and actionable throughout.",
   "judged_at": null
  },
  "2026-07-01/sierra-casper-shopping-beginner.json": {
-  "v": 2,
   "mode": "shopping",
   "rubric": {
-   "answer": 35,
-   "recommendation": 25,
-   "rich": 17,
-   "close": 15
+   "answer": 27,
+   "recommendation": 19,
+   "rich": 21,
+   "close": 11
   },
-  "total": 92,
-  "checks": {
-   "a_direct": {
-    "pass": true,
-    "evidence": "the store’s “The One” mattress is a popular entry-level option."
-   },
-   "a_consistent": {
-    "pass": true,
-    "evidence": "Here’s the current pricing for The One mattress (beginner-friendly pick)"
-   },
-   "a_no_ignored": {
-    "pass": true,
-    "evidence": "most beginners find it helpful to have:A sturdy foundation or bed frame"
-   },
-   "a_clarify": {
-    "pass": true,
-    "evidence": "Are you looking for a new mattress, pillows, bedding, or maybe something else for your sleep setup?"
-   },
-   "r_named": {
-    "pass": true,
-    "evidence": "the store’s “The One” mattress is a popular entry-level option."
-   },
-   "r_fit": {
-    "pass": true,
-    "evidence": "It’s all-foam, medium-firm, and designed to suit most sleep positions. It’s simple, supportive, and easy to set up"
-   },
-   "r_plausible": {
-    "pass": true,
-    "evidence": "The OneFirm, supportive all-foam11\" height, 4 layers, firm base foam, breathable open-cell foam"
-   },
-   "e_price": {
-    "pass": true,
-    "evidence": "Twin: $699, down from $874"
-   },
-   "e_link": {
-    "pass": true,
-    "evidence": "You can also check it out and purchase directly on the the store website: The One Mattress."
-   },
-   "e_reviews": {
-    "pass": false,
-    "evidence": ""
-   },
-   "e_options": {
-    "pass": false,
-    "evidence": ""
-   },
-   "c_cta": {
-    "pass": true,
-    "evidence": "If you’d like to add it to your cart, just let me know which size you want!"
-   },
-   "c_cart": {
-    "pass": true,
-    "evidence": "Select SizeLearn MoreAdd to Cart"
-   },
-   "c_clean": {
-    "pass": true,
-    "evidence": "Would you like help choosing a size or adding other essentials?"
-   }
-  },
-  "resolution_class": "resolved",
-  "learning": "Full-funnel beginner journey — named pick, fit rationale, concrete prices, links and a cart path; only review evidence was missing.",
+  "total": 78,
+  "resolution_class": "partial",
+  "learning": "Sierra on Casper named 'The One' with sale prices (e.g., Queen $899 from $1,149), showed product cards with Add to Cart, and recommended accessories — first turn was unanswered but the rest were strong.",
   "judged_at": null
  },
  "2026-07-01/sierra-casper-shopping-compare-budget.json": {
-  "v": 2,
   "mode": "shopping",
   "rubric": {
-   "answer": 35,
-   "recommendation": 25,
-   "rich": 9,
-   "close": 15
+   "answer": 25,
+   "recommendation": 18,
+   "rich": 19,
+   "close": 9
   },
-  "total": 84,
-  "checks": {
-   "a_direct": {
-    "pass": true,
-    "evidence": "If you’re happy with a simple, supportive mattress, The One is absolutely fine."
-   },
-   "a_consistent": {
-    "pass": true,
-    "evidence": "for pure value, The One is tough to beat"
-   },
-   "a_no_ignored": {
-    "pass": true,
-    "evidence": "Healthcare workers, military, teachers, and students get an extra 5% off everything through ID.me."
-   },
-   "a_clarify": {
-    "pass": true,
-    "evidence": "could you share:Which mattresses are you considering?Any preferences for firmness (soft, medium, firm)?"
-   },
-   "r_named": {
-    "pass": true,
-    "evidence": "I’d go with The One."
-   },
-   "r_fit": {
-    "pass": true,
-    "evidence": "It’s comfortable, supportive, and reliable—perfect for most sleepers who want quality without overspending."
-   },
-   "r_plausible": {
-    "pass": true,
-    "evidence": "Dream MaxMedium-soft hybrid support14 inch height, 5 layers, Zoned Support Max"
-   },
-   "e_price": {
-    "pass": false,
-    "evidence": ""
-   },
-   "e_link": {
-    "pass": true,
-    "evidence": "Select SizeLearn MoreAdd to Cart"
-   },
-   "e_reviews": {
-    "pass": false,
-    "evidence": ""
-   },
-   "e_options": {
-    "pass": false,
-    "evidence": ""
-   },
-   "c_cta": {
-    "pass": true,
-    "evidence": "Could you let me know which size you want (Twin, Twin XL, Full, Queen, King, or California King)?"
-   },
-   "c_cart": {
-    "pass": true,
-    "evidence": "help you apply any eligible discounts"
-   },
-   "c_clean": {
-    "pass": true,
-    "evidence": "That way, I can give you the most accurate total!"
-   }
-  },
-  "resolution_class": "resolved",
-  "learning": "Honest two-way comparison and a clear budget pick, but no concrete price was ever quoted even when the shopper directly asked for a total.",
+  "total": 71,
+  "resolution_class": "partial",
+  "learning": "Sierra compared The One vs Dream Max with layer specs and product cards, shared promos (ID.me 5% off, Affirm financing), and gave a clear personal pick — but couldn't add to cart and required size input for final pricing.",
   "judged_at": null
  },
  "2026-07-01/sierra-casper-shopping-everyday-value.json": {
-  "v": 2,
   "mode": "shopping",
   "rubric": {
-   "answer": 35,
-   "recommendation": 25,
-   "rich": 9,
-   "close": 15
+   "answer": 22,
+   "recommendation": 15,
+   "rich": 17,
+   "close": 8
   },
-  "total": 84,
-  "checks": {
-   "a_direct": {
-    "pass": true,
-    "evidence": "if you want the most popular option, The One is the top seller."
-   },
-   "a_consistent": {
-    "pass": true,
-    "evidence": "Dream is our highest-rated mattress, loved for its balanced comfort and support"
-   },
-   "a_no_ignored": {
-    "pass": true,
-    "evidence": "the store often offers free shipping on mattresses, but the final details are shown at checkout."
-   },
-   "a_clarify": {
-    "pass": true,
-    "evidence": "Do you prefer a mattress that’s firm, soft, or somewhere in between?"
-   },
-   "r_named": {
-    "pass": true,
-    "evidence": "my top recommendation is The One"
-   },
-   "r_fit": {
-    "pass": true,
-    "evidence": "Based on your focus on value and everyday use, my top recommendation is The One."
-   },
-   "r_plausible": {
-    "pass": true,
-    "evidence": "For everyday use and value for money, the store offers several options that balance quality and price."
-   },
-   "e_price": {
-    "pass": false,
-    "evidence": ""
-   },
-   "e_link": {
-    "pass": true,
-    "evidence": "You can view details and add it to your cart here: The One"
-   },
-   "e_reviews": {
-    "pass": false,
-    "evidence": ""
-   },
-   "e_options": {
-    "pass": false,
-    "evidence": ""
-   },
-   "c_cta": {
-    "pass": true,
-    "evidence": "Let me know your preferred size, and I’ll get your total!"
-   },
-   "c_cart": {
-    "pass": true,
-    "evidence": "I can guide you to the product page so you can easily add it yourself!"
-   },
-   "c_clean": {
-    "pass": true,
-    "evidence": "Let me know your preferred size, and I’ll get your total!"
-   }
-  },
-  "resolution_class": "resolved",
-  "learning": "Good best-seller vs best-rated framing with a clear value pick, but pricing and discount answers stayed vague pending a size the shopper never gave.",
+  "total": 62,
+  "resolution_class": "partial",
+  "learning": "Sierra asked clarifying questions on the first two turns without naming products, then showed The One, Cloud One, and Dream with cards — eventually functional but front-loaded with friction.",
   "judged_at": null
  },
  "2026-07-01/sierra-casper-shopping-gift.json": {
-  "v": 2,
   "mode": "shopping",
   "rubric": {
-   "answer": 35,
-   "recommendation": 25,
-   "rich": 8,
-   "close": 15
+   "answer": 25,
+   "recommendation": 18,
+   "rich": 17,
+   "close": 9
   },
-  "total": 83,
-  "checks": {
-   "a_direct": {
-    "pass": true,
-    "evidence": "If you want your gift to feel extra thoughtful and memorable, the Original Pillow is my top pick."
-   },
-   "a_consistent": {
-    "pass": true,
-    "evidence": "Here’s the the store Original Pillow, my top gift pick"
-   },
-   "a_no_ignored": {
-    "pass": true,
-    "evidence": "I don’t have specific details about gift-ready packaging or exact shipping speeds for the bundles at this time."
-   },
-   "a_clarify": {
-    "pass": true,
-    "evidence": "could you share a bit about the person you’re shopping for?"
-   },
-   "r_named": {
-    "pass": true,
-    "evidence": "Cool Sleep Bundle: Includes Hybrid Snow Pillow(s) and a Hyperlite Sheet Set."
-   },
-   "r_fit": {
-    "pass": true,
-    "evidence": "it’s a substantial, thoughtful present that shows you care about their comfort"
-   },
-   "r_plausible": {
-    "pass": true,
-    "evidence": "Glow Night Light – A smart, self-dimming light that helps create a relaxing bedtime routine."
-   },
-   "e_price": {
-    "pass": true,
-    "evidence": "Standard size: $67.50 (down from $75.00)"
-   },
-   "e_link": {
-    "pass": false,
-    "evidence": ""
-   },
-   "e_reviews": {
-    "pass": false,
-    "evidence": ""
-   },
-   "e_options": {
-    "pass": false,
-    "evidence": ""
-   },
-   "c_cta": {
-    "pass": true,
-    "evidence": "You can add it to your cart and see the total (including shipping and taxes) directly on the the store website"
-   },
-   "c_cart": {
-    "pass": true,
-    "evidence": "add it to your cart and see the total (including shipping and taxes)"
-   },
-   "c_clean": {
-    "pass": true,
-    "evidence": "Would you like to see other sizes or bundle options, or need help with anything else?"
-   }
-  },
-  "resolution_class": "resolved",
-  "learning": "Thoughtful gift guidance ending in a priced top pick, but the gift-packaging/shipping-speed question got no substance and repeatedly offered links never materialized.",
+  "total": 69,
+  "resolution_class": "partial",
+  "learning": "Sierra named the Original Pillow (Standard $67.50, King $85.50) and sleep bundles on the final turn, recommended the Digital Gift Card, but admitted it had no information on gift-ready packaging or exact shipping speeds.",
   "judged_at": null
  },
  "2026-07-01/sierra-casper-shopping-problem-solver.json": {
-  "v": 2,
   "mode": "shopping",
   "rubric": {
-   "answer": 35,
-   "recommendation": 25,
-   "rich": 8,
-   "close": 10
+   "answer": 23,
+   "recommendation": 16,
+   "rich": 16,
+   "close": 9
   },
-  "total": 78,
-  "checks": {
-   "a_direct": {
-    "pass": true,
-    "evidence": "the One mattress is our best-selling and firmest option."
-   },
-   "a_consistent": {
-    "pass": true,
-    "evidence": "all mattresses come with a 10-year limited warranty"
-   },
-   "a_no_ignored": {
-    "pass": true,
-    "evidence": "the store mattresses come with a trial period, so you can try it at home and return it if you’re not satisfied"
-   },
-   "a_clarify": {
-    "pass": true,
-    "evidence": "Could you share a bit more about your specific needs or concerns?"
-   },
-   "r_named": {
-    "pass": true,
-    "evidence": "you can check it out here: Dream Mattress"
-   },
-   "r_fit": {
-    "pass": true,
-    "evidence": "offering a great balance of comfort, support, and durability"
-   },
-   "r_plausible": {
-    "pass": true,
-    "evidence": "All the store mattresses are made with premium foams and, in the case of hybrids, individually wrapped springs for extra durability."
-   },
-   "e_price": {
-    "pass": true,
-    "evidence": "Queen: $1,395 (down from $1,995)"
-   },
-   "e_link": {
-    "pass": false,
-    "evidence": ""
-   },
-   "e_reviews": {
-    "pass": false,
-    "evidence": ""
-   },
-   "e_options": {
-    "pass": false,
-    "evidence": ""
-   },
-   "c_cta": {
-    "pass": true,
-    "evidence": "Which size are you interested in? I can help you with the next steps"
-   },
-   "c_cart": {
-    "pass": false,
-    "evidence": ""
-   },
-   "c_clean": {
-    "pass": true,
-    "evidence": "I can help you with the next steps or show you more options if you’d like!"
-   }
-  },
-  "resolution_class": "resolved",
-  "learning": "Reassurance handled well with warranty and trial-period specifics, but the final recommendation jumped to Dream without prior grounding and offered no cart or checkout mechanics.",
+  "total": 64,
+  "resolution_class": "partial",
+  "learning": "Sierra gave 10-year warranty and trial period details, recommended the Dream Mattress with USD prices ($1,395 Queen), but first turn was unanswered and product type was never confirmed before recommending a mattress.",
   "judged_at": null
  },
  "2026-07-01/sierra-casper-support-returns.json": {
-  "v": 2,
   "mode": "support",
   "rubric": {
-   "resolution": 40,
-   "accuracy": 25,
-   "actionability": 20,
-   "close": 15
+   "resolution": 33,
+   "accuracy": 22,
+   "actionability": 17,
+   "close": 12
   },
-  "total": 100,
-  "checks": {
-   "s_answered": {
-    "pass": true,
-    "evidence": "Furniture: 30-night trial (or 100 nights if purchased with a mattress)."
-   },
-   "s_outcome": {
-    "pass": true,
-    "evidence": "let me know what you’re interested in and where you purchased it—I can check if it’s eligible for return!"
-   },
-   "s_no_deflect": {
-    "pass": true,
-    "evidence": "To start a return, just let me know what product you’d like to return and where you purchased it"
-   },
-   "g_specific": {
-    "pass": true,
-    "evidence": "Soft Goods (pillows, bedding, sheets, mattress protectors): 30 days from delivery or in-store purchase."
-   },
-   "g_consistent": {
-    "pass": true,
-    "evidence": "Processed within 1-2 weeks after your return is received or picked up"
-   },
-   "g_grounded": {
-    "pass": true,
-    "evidence": "If your bundle includes a mattress, the whole bundle has a 100-night trial"
-   },
-   "t_steps": {
-    "pass": true,
-    "evidence": "Ready to begin? Which product are you looking to return, and where did you buy it?"
-   },
-   "t_complete": {
-    "pass": true,
-    "evidence": "If you’re returning a mattress or furniture, your refund will be processed within a week of pickup."
-   },
-   "k_expectations": {
-    "pass": true,
-    "evidence": "it can take 3–10 business days for the funds to appear back on your original form of payment"
-   },
-   "k_clean": {
-    "pass": true,
-    "evidence": "I can check if it’s eligible for return!"
-   }
-  },
+  "total": 84,
   "resolution_class": "resolved",
-  "learning": "Category-specific trial windows and refund timelines delivered fully in-channel, with return initiation offered inside the chat itself.",
+  "learning": "Sierra provided comprehensive return details: 100-night mattress trial, 30-day soft goods window (unused/original packaging), no exchanges, free return shipping, and 1-2 week refund processing — complete policy coverage.",
   "judged_at": null
  },
  "2026-07-01/sierra-scotts-shopping-compare-budget.json": {
-  "v": 2,
   "mode": "shopping",
   "rubric": {
-   "answer": 21,
-   "recommendation": 0,
-   "rich": 0,
-   "close": 0
+   "answer": 5,
+   "recommendation": 2,
+   "rich": 2,
+   "close": 1
   },
-  "total": 21,
-  "checks": {
-   "a_direct": {
-    "pass": false,
-    "evidence": ""
-   },
-   "a_consistent": {
-    "pass": true,
-    "evidence": "Offers may change throughout the year, so it’s a good idea to review the latest deals and bundles"
-   },
-   "a_no_ignored": {
-    "pass": true,
-    "evidence": "Once I know the category, I’ll pull up two top options and compare them for you."
-   },
-   "a_clarify": {
-    "pass": true,
-    "evidence": "could you tell me what you’re shopping for—like lawn care, gardening, pest control, or something else?"
-   },
-   "r_named": {
-    "pass": false,
-    "evidence": ""
-   },
-   "r_fit": {
-    "pass": false,
-    "evidence": ""
-   },
-   "r_plausible": {
-    "pass": false,
-    "evidence": ""
-   },
-   "e_price": {
-    "pass": false,
-    "evidence": ""
-   },
-   "e_link": {
-    "pass": false,
-    "evidence": ""
-   },
-   "e_reviews": {
-    "pass": false,
-    "evidence": ""
-   },
-   "e_options": {
-    "pass": false,
-    "evidence": ""
-   },
-   "c_cta": {
-    "pass": false,
-    "evidence": ""
-   },
-   "c_cart": {
-    "pass": false,
-    "evidence": ""
-   },
-   "c_clean": {
-    "pass": false,
-    "evidence": ""
-   }
-  },
+  "total": 10,
   "resolution_class": "failed",
-  "learning": "The bot never escaped its category-clarification loop — seven turns, zero products named — repeating the same question instead of proposing example picks per category.",
+  "learning": "Sierra on Scotts Miracle-Gro asked 'what category are you shopping for?' on every single one of 7 turns without ever naming a product, price, or making a comparison — a complete category-fishing loop.",
   "judged_at": null
  },
  "2026-07-01/sierra-scotts-shopping-everyday-value.json": {
@@ -3463,75 +1118,16 @@
   "judged_at": null
  },
  "2026-07-02/ada-ipsy-shopping-beginner.json": {
-  "v": 2,
   "mode": "shopping",
   "rubric": {
-   "answer": 35,
-   "recommendation": 25,
+   "answer": 26,
+   "recommendation": 17,
    "rich": 8,
-   "close": 3
+   "close": 7
   },
-  "total": 71,
-  "checks": {
-   "a_direct": {
-    "pass": true,
-    "evidence": "For a first-timer, the safest/easiest starting point is usually the store Original"
-   },
-   "a_consistent": {
-    "pass": true,
-    "evidence": "For the store Original, it’s $15/month + $1.99 shipping"
-   },
-   "a_no_ignored": {
-    "pass": true,
-    "evidence": "I don’t have access to member review content or beginner-specific review summaries to share here."
-   },
-   "a_clarify": {
-    "pass": true,
-    "evidence": "What are you trying to do first with the store?"
-   },
-   "r_named": {
-    "pass": true,
-    "evidence": "the store Original is the best starter pick"
-   },
-   "r_fit": {
-    "pass": true,
-    "evidence": "If you don’t want to overpay while you’re still learning, the store Original is the best starter pick."
-   },
-   "r_plausible": {
-    "pass": true,
-    "evidence": "Lowest cost/commitment: $15/month - Simple: 5 deluxe-size samples"
-   },
-   "e_price": {
-    "pass": true,
-    "evidence": "Lowest price: $15/month"
-   },
-   "e_link": {
-    "pass": false,
-    "evidence": ""
-   },
-   "e_reviews": {
-    "pass": false,
-    "evidence": ""
-   },
-   "e_options": {
-    "pass": false,
-    "evidence": ""
-   },
-   "c_cta": {
-    "pass": false,
-    "evidence": ""
-   },
-   "c_cart": {
-    "pass": false,
-    "evidence": ""
-   },
-   "c_clean": {
-    "pass": true,
-    "evidence": "your starting total is $16.99 + applicable tax (USD)."
-   }
-  },
-  "resolution_class": "resolved",
-  "learning": "Clear, consistently priced tier guidance for a beginner, but the close gives a total with no link, cart, or sign-up path to act on it.",
+  "total": 58,
+  "resolution_class": "partial",
+  "learning": "Ada on IPSY explained all three tiers clearly with prices and personalization logic, recommended IPSY Original at $16.99/month total — but produced no product cards, images, or commerce elements, and the cart-add turn was marked unanswered.",
   "judged_at": null
  },
  "2026-07-02/ada-ipsy-shopping-compare-budget.json": {
@@ -3587,171 +1183,42 @@
   "judged_at": null
  },
  "2026-07-02/ada-ipsy-support-damaged.json": {
-  "v": 2,
   "mode": "support",
   "rubric": {
-   "resolution": 10,
-   "accuracy": 5,
-   "actionability": 0,
-   "close": 0
+   "resolution": 2,
+   "accuracy": 2,
+   "actionability": 1,
+   "close": 1
   },
-  "total": 15,
-  "checks": {
-   "s_answered": {
-    "pass": false,
-    "evidence": ""
-   },
-   "s_outcome": {
-    "pass": false,
-    "evidence": ""
-   },
-   "s_no_deflect": {
-    "pass": true,
-    "evidence": "Once your account is verified, I’ll be able to help with your damaged item and let you know about photos or next steps."
-   },
-   "g_specific": {
-    "pass": false,
-    "evidence": ""
-   },
-   "g_consistent": {
-    "pass": true,
-    "evidence": "To help with your damaged item, I’ll need to verify your account first."
-   },
-   "g_grounded": {
-    "pass": false,
-    "evidence": ""
-   },
-   "t_steps": {
-    "pass": false,
-    "evidence": ""
-   },
-   "t_complete": {
-    "pass": false,
-    "evidence": ""
-   },
-   "k_expectations": {
-    "pass": false,
-    "evidence": ""
-   },
-   "k_clean": {
-    "pass": false,
-    "evidence": ""
-   }
-  },
+  "total": 6,
   "resolution_class": "failed",
-  "learning": "A verification wall demanding first/last name blocks all seven damaged-item questions, including generic policy questions (photos, fees, replacement timing) that need no account data.",
+  "learning": "Ada hit an authentication wall on every single turn — all 7 replies requested first and last name, and not one piece of policy, process, or damage-handling information was provided before verification.",
   "judged_at": null
  },
  "2026-07-02/ada-ipsy-support-order-mgmt.json": {
-  "v": 2,
   "mode": "support",
   "rubric": {
-   "resolution": 10,
-   "accuracy": 5,
-   "actionability": 0,
-   "close": 0
+   "resolution": 2,
+   "accuracy": 2,
+   "actionability": 1,
+   "close": 1
   },
-  "total": 15,
-  "checks": {
-   "s_answered": {
-    "pass": false,
-    "evidence": ""
-   },
-   "s_outcome": {
-    "pass": false,
-    "evidence": ""
-   },
-   "s_no_deflect": {
-    "pass": true,
-    "evidence": "To check if your latest order can still be modified, I’ll need to verify your account first."
-   },
-   "g_specific": {
-    "pass": false,
-    "evidence": ""
-   },
-   "g_consistent": {
-    "pass": true,
-    "evidence": "I’ll need to verify your account first. Could you please share your first and last name?"
-   },
-   "g_grounded": {
-    "pass": false,
-    "evidence": ""
-   },
-   "t_steps": {
-    "pass": false,
-    "evidence": ""
-   },
-   "t_complete": {
-    "pass": false,
-    "evidence": ""
-   },
-   "k_expectations": {
-    "pass": false,
-    "evidence": ""
-   },
-   "k_clean": {
-    "pass": false,
-    "evidence": ""
-   }
-  },
+  "total": 6,
   "resolution_class": "failed",
-  "learning": "The same verification loop repeats verbatim across seven turns, never answering even the policy-level cancellation-window question.",
+  "learning": "Ada gated every order-management answer behind account verification (first and last name), providing zero substantive information on cancellation windows, address changes, or refund timelines across all 7 turns.",
   "judged_at": null
  },
  "2026-07-02/ada-ipsy-support-policy.json": {
-  "v": 2,
   "mode": "support",
   "rubric": {
-   "resolution": 40,
-   "accuracy": 25,
-   "actionability": 20,
-   "close": 15
+   "resolution": 31,
+   "accuracy": 21,
+   "actionability": 16,
+   "close": 11
   },
-  "total": 100,
-  "checks": {
-   "s_answered": {
-    "pass": true,
-    "evidence": "standard shipping typically arrives within 15 business days after it leaves our warehouse (shipments usually leave mid-month)"
-   },
-   "s_outcome": {
-    "pass": true,
-    "evidence": "You’re already in the right place — just tell me what’s going on with your order here"
-   },
-   "s_no_deflect": {
-    "pass": true,
-    "evidence": "just tell me what’s going on with your order here, and I’ll help right away"
-   },
-   "g_specific": {
-    "pass": true,
-    "evidence": "customs-related taxes (like GST/PST/HST) may be the customer’s responsibility for items over CAD $20"
-   },
-   "g_consistent": {
-    "pass": true,
-    "evidence": "reported within 45 days of the original shipment date"
-   },
-   "g_grounded": {
-    "pass": true,
-    "evidence": "Pre-paid Visa, MasterCard, or American Express (as long as they’re valid for recurring online transactions)"
-   },
-   "t_steps": {
-    "pass": true,
-    "evidence": "If I can’t fully fix it in chat, I can also create a ticket so our Care team can follow up by email"
-   },
-   "t_complete": {
-    "pass": true,
-    "evidence": "we don’t offer refunds, returns, or exchanges, and orders can’t be canceled once they’re placed"
-   },
-   "k_expectations": {
-    "pass": true,
-    "evidence": "our Care team can follow up by email (they usually respond within 24 hours)"
-   },
-   "k_clean": {
-    "pass": true,
-    "evidence": "just tell me what’s going on with your order here, and I’ll help right away."
-   }
-  },
+  "total": 79,
   "resolution_class": "resolved",
-  "learning": "Highly grounded subscription-specific facts (final-sale policy, 45-day damage window, CAD $20 customs threshold) capped by an explicitly anti-deflection close with a 24-hour Care-team SLA.",
+  "learning": "Ada on IPSY policy handled 6 of 7 turns without requiring authentication — providing shipping links, Canada customs details, clear no-return/final-sale policy, payment methods, and a 45-day replacement window for damaged items.",
   "judged_at": null
  },
  "2026-07-02/ada-ipsy-support-returns.json": {
@@ -3937,75 +1404,16 @@
   "judged_at": null
  },
  "2026-07-02/envive-bandolier-shopping-beginner.json": {
-  "v": 2,
   "mode": "shopping",
   "rubric": {
-   "answer": 14,
-   "recommendation": 17,
-   "rich": 8,
-   "close": 15
+   "answer": 22,
+   "recommendation": 18,
+   "rich": 20,
+   "close": 10
   },
-  "total": 54,
-  "checks": {
-   "a_direct": {
-    "pass": false,
-    "evidence": ""
-   },
-   "a_consistent": {
-    "pass": true,
-    "evidence": "Hailey Chrome - Black Chrome/Gold"
-   },
-   "a_no_ignored": {
-    "pass": false,
-    "evidence": ""
-   },
-   "a_clarify": {
-    "pass": true,
-    "evidence": "Are you looking for something specific, or would you like to explore our best sellers for some inspiration?"
-   },
-   "r_named": {
-    "pass": true,
-    "evidence": "Hailey Chrome - Black Chrome/Gold"
-   },
-   "r_fit": {
-    "pass": false,
-    "evidence": ""
-   },
-   "r_plausible": {
-    "pass": true,
-    "evidence": "Our collection of crossbody phone cases, bags, and accessories"
-   },
-   "e_price": {
-    "pass": true,
-    "evidence": "$128"
-   },
-   "e_link": {
-    "pass": false,
-    "evidence": ""
-   },
-   "e_reviews": {
-    "pass": false,
-    "evidence": ""
-   },
-   "e_options": {
-    "pass": false,
-    "evidence": ""
-   },
-   "c_cta": {
-    "pass": true,
-    "evidence": "Would you like to proceed with adding it to your cart or explore other options?"
-   },
-   "c_cart": {
-    "pass": true,
-    "evidence": "Would you like to proceed with adding it to your cart"
-   },
-   "c_clean": {
-    "pass": true,
-    "evidence": "Would you like to proceed with adding it to your cart or explore other options?"
-   }
-  },
+  "total": 70,
   "resolution_class": "partial",
-  "learning": "Named a consistent best-seller with price but ignored the shopper's budget concern, gave no fit rationale, and never executed the explicit add-to-cart request.",
+  "learning": "Envive/Bandolier's Maggie consistently surfaced the Hailey Chrome at $128 with 4.5-star ratings and actual review quotes, and offered a cart-add button prompt, but never confirmed cart addition or computed a total.",
   "judged_at": null
  },
  "2026-07-02/envive-bandolier-shopping-compare-budget.json": {
@@ -4061,283 +1469,68 @@
   "judged_at": null
  },
  "2026-07-02/envive-bandolier-support-damaged.json": {
-  "v": 2,
   "mode": "support",
   "rubric": {
-   "resolution": 40,
-   "accuracy": 25,
-   "actionability": 0,
-   "close": 15
+   "resolution": 28,
+   "accuracy": 19,
+   "actionability": 15,
+   "close": 9
   },
-  "total": 80,
-  "checks": {
-   "s_answered": {
-    "pass": true,
-    "evidence": "We'll arrange a replacement or repair at no cost if it falls under warranty or was an error on our part."
-   },
-   "s_outcome": {
-    "pass": true,
-    "evidence": "You will receive an email regarding warranty authorization, replacement, or repair."
-   },
-   "s_no_deflect": {
-    "pass": true,
-    "evidence": "If the issue falls under warranty or was an error on our part, there will be no cost to return the damaged item."
-   },
-   "g_specific": {
-    "pass": true,
-    "evidence": "a flat $8 restocking fee will be deducted from your refund for US orders"
-   },
-   "g_consistent": {
-    "pass": true,
-    "evidence": "we'll arrange a replacement or repair at no cost"
-   },
-   "g_grounded": {
-    "pass": true,
-    "evidence": "Once we receive your warranty email, please allow about 1 to 3 business days for processing and response."
-   },
-   "t_steps": {
-    "pass": false,
-    "evidence": ""
-   },
-   "t_complete": {
-    "pass": false,
-    "evidence": ""
-   },
-   "k_expectations": {
-    "pass": true,
-    "evidence": "please allow about 1 to 3 business days for processing and response"
-   },
-   "k_clean": {
-    "pass": true,
-    "evidence": "They will assist you with replacements or repairs for each item, following the same process as for a single item."
-   }
-  },
-  "resolution_class": "partial",
-  "learning": "Solid warranty specifics ($8 fee, 1-3 day processing) but the opening damage report was answered with a best-sellers pitch, and the shopper who asked where to send photos never received an actual contact destination.",
+  "total": 71,
+  "resolution_class": "resolved",
+  "learning": "Envive/Bandolier clearly explained the warranty replacement process (1-3 day processing), stated no cost for warranty claims, confirmed $8 restocking fee for standard returns, and covered multi-item scenarios.",
   "judged_at": null
  },
  "2026-07-02/envive-bandolier-support-order-mgmt.json": {
-  "v": 2,
-  "mode": "support",
-  "rubric": {
-   "resolution": 0,
-   "accuracy": 5,
-   "actionability": 0,
-   "close": 0
-  },
-  "total": 5,
-  "checks": {
-   "s_answered": {
-    "pass": false,
-    "evidence": ""
-   },
-   "s_outcome": {
-    "pass": false,
-    "evidence": ""
-   },
-   "s_no_deflect": {
-    "pass": false,
-    "evidence": ""
-   },
-   "g_specific": {
-    "pass": false,
-    "evidence": ""
-   },
-   "g_consistent": {
-    "pass": true,
-    "evidence": "I'm sorry, but I don't have specific information on canceling orders."
-   },
-   "g_grounded": {
-    "pass": false,
-    "evidence": ""
-   },
-   "t_steps": {
-    "pass": false,
-    "evidence": ""
-   },
-   "t_complete": {
-    "pass": false,
-    "evidence": ""
-   },
-   "k_expectations": {
-    "pass": false,
-    "evidence": ""
-   },
-   "k_clean": {
-    "pass": false,
-    "evidence": ""
-   }
-  },
-  "resolution_class": "deflected",
-  "learning": "Zero order-modification knowledge or capability: five consecutive punts to customer support plus a rewards-program non-sequitur to the account-details question.",
-  "judged_at": null
- },
- "2026-07-02/envive-bandolier-support-policy.json": {
-  "v": 2,
   "mode": "support",
   "rubric": {
    "resolution": 10,
-   "accuracy": 25,
-   "actionability": 0,
-   "close": 0
+   "accuracy": 12,
+   "actionability": 8,
+   "close": 4
   },
-  "total": 35,
-  "checks": {
-   "s_answered": {
-    "pass": false,
-    "evidence": ""
-   },
-   "s_outcome": {
-    "pass": false,
-    "evidence": ""
-   },
-   "s_no_deflect": {
-    "pass": true,
-    "evidence": "All items are returnable within 30 days, provided they are in their original condition, unused, and with all tags attached."
-   },
-   "g_specific": {
-    "pass": true,
-    "evidence": "For US orders, exchanges are free, while returns incur a flat $8 restocking fee."
-   },
-   "g_consistent": {
-    "pass": true,
-    "evidence": "There are no final sale or non-returnable items in our collection."
-   },
-   "g_grounded": {
-    "pass": true,
-    "evidence": "For international orders, returns are accepted but customers cover shipping costs."
-   },
-   "t_steps": {
-    "pass": false,
-    "evidence": ""
-   },
-   "t_complete": {
-    "pass": false,
-    "evidence": ""
-   },
-   "k_expectations": {
-    "pass": false,
-    "evidence": ""
-   },
-   "k_clean": {
-    "pass": false,
-    "evidence": ""
-   }
+  "total": 34,
+  "resolution_class": "failed",
+  "learning": "On every order-management question the bot admitted it had no information and redirected to customer support, never answering cancellation windows, add-to-order feasibility, or refund timelines.",
+  "judged_at": null
+ },
+ "2026-07-02/envive-bandolier-support-policy.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 24,
+   "accuracy": 17,
+   "actionability": 13,
+   "close": 7
   },
+  "total": 61,
   "resolution_class": "partial",
-  "learning": "Knows return and payment facts but never answered the primary shipping-policy ask (marketing pitch instead), dodged the delivery timeframe with a counter-question, and gave no reply at all to the contact-support ask.",
+  "learning": "Bot gave solid return policy (30 days, $8 restocking fee, free exchanges for US) and payment method details, but didn't answer standard shipping timeframes and failed to surface contact info on the last turn.",
   "judged_at": null
  },
  "2026-07-02/envive-bandolier-support-returns.json": {
-  "v": 2,
   "mode": "support",
   "rubric": {
-   "resolution": 0,
-   "accuracy": 25,
-   "actionability": 0,
-   "close": 0
+   "resolution": 28,
+   "accuracy": 19,
+   "actionability": 14,
+   "close": 8
   },
-  "total": 25,
-  "checks": {
-   "s_answered": {
-    "pass": false,
-    "evidence": ""
-   },
-   "s_outcome": {
-    "pass": false,
-    "evidence": ""
-   },
-   "s_no_deflect": {
-    "pass": false,
-    "evidence": ""
-   },
-   "g_specific": {
-    "pass": true,
-    "evidence": "there is a flat $8 restocking fee deducted from your refund"
-   },
-   "g_consistent": {
-    "pass": true,
-    "evidence": "All U.S. online orders may be exchanged within 30 days free of charge."
-   },
-   "g_grounded": {
-    "pass": true,
-    "evidence": "Items must be in their original condition, unused, and with all tags attached."
-   },
-   "t_steps": {
-    "pass": false,
-    "evidence": ""
-   },
-   "t_complete": {
-    "pass": false,
-    "evidence": ""
-   },
-   "k_expectations": {
-    "pass": false,
-    "evidence": ""
-   },
-   "k_clean": {
-    "pass": false,
-    "evidence": ""
-   }
-  },
-  "resolution_class": "partial",
-  "learning": "Recites fee and window facts but twice replies with counter-question chips instead of answers, never delivers the start-a-return procedure, and punts the refund-timeline question to customer service.",
+  "total": 69,
+  "resolution_class": "resolved",
+  "learning": "Returns policy coverage was strong — 30-day window, $8 restocking fee, free exchanges, international cost responsibility, and exchange process confirmed — but refund timing was deferred to human support.",
   "judged_at": null
  },
  "2026-07-02/envive-bandolier-support-tracking.json": {
-  "v": 2,
   "mode": "support",
   "rubric": {
-   "resolution": 12,
-   "accuracy": 25,
+   "resolution": 18,
+   "accuracy": 16,
    "actionability": 12,
-   "close": 15
+   "close": 6
   },
-  "total": 64,
-  "checks": {
-   "s_answered": {
-    "pass": false,
-    "evidence": ""
-   },
-   "s_outcome": {
-    "pass": true,
-    "evidence": "To assist you better, please provide the order number and email address associated with your order."
-   },
-   "s_no_deflect": {
-    "pass": false,
-    "evidence": ""
-   },
-   "g_specific": {
-    "pass": true,
-    "evidence": "Expedited orders received by 12pm PST ship the same day, Monday through Friday."
-   },
-   "g_consistent": {
-    "pass": true,
-    "evidence": "Delivery typically takes 3-4 business days once your order has shipped."
-   },
-   "g_grounded": {
-    "pass": true,
-    "evidence": "Expedited orders received by 12pm PST ship the same day"
-   },
-   "t_steps": {
-    "pass": true,
-    "evidence": "this email might end up in your spam or promotions folders, so be sure to check there"
-   },
-   "t_complete": {
-    "pass": false,
-    "evidence": ""
-   },
-   "k_expectations": {
-    "pass": true,
-    "evidence": "Your tracking link will be sent in a separate email once your order ships."
-   },
-   "k_clean": {
-    "pass": true,
-    "evidence": "please provide the order number and email address associated with your order"
-   }
-  },
+  "total": 52,
   "resolution_class": "partial",
-  "learning": "Gives delivery and expedited-cutoff specifics but opened the where-is-my-order ask with a marketing pitch, never quantified the pre-shipment fulfillment window, and deflected the stuck-tracking case to customer service despite being able to look up orders.",
+  "learning": "Bot provided useful dispatch-timing and expedited-shipping detail (same-day if ordered before noon PST) and prompted for order number at end, but never pulled live order status from any system.",
   "judged_at": null
  },
  "2026-07-02/envive-kut-shopping-beginner.json": {
@@ -5758,59 +2951,16 @@
   "judged_at": null
  },
  "2026-07-02/siena-figs-support-order-mgmt.json": {
-  "v": 2,
   "mode": "support",
   "rubric": {
-   "resolution": 10,
-   "accuracy": 5,
-   "actionability": 0,
-   "close": 0
+   "resolution": 4,
+   "accuracy": 8,
+   "actionability": 6,
+   "close": 4
   },
-  "total": 15,
-  "checks": {
-   "s_answered": {
-    "pass": false,
-    "evidence": ""
-   },
-   "s_outcome": {
-    "pass": false,
-    "evidence": ""
-   },
-   "s_no_deflect": {
-    "pass": true,
-    "evidence": "You can update your contact or account details by logging into your the store account"
-   },
-   "g_specific": {
-    "pass": false,
-    "evidence": ""
-   },
-   "g_consistent": {
-    "pass": true,
-    "evidence": "Just to keep your account safe before I share any details"
-   },
-   "g_grounded": {
-    "pass": false,
-    "evidence": ""
-   },
-   "t_steps": {
-    "pass": false,
-    "evidence": ""
-   },
-   "t_complete": {
-    "pass": false,
-    "evidence": ""
-   },
-   "k_expectations": {
-    "pass": false,
-    "evidence": ""
-   },
-   "k_clean": {
-    "pass": false,
-    "evidence": ""
-   }
-  },
-  "resolution_class": "failed",
-  "learning": "An email verification wall applied even to generic policy questions left every substantive ask unanswered.",
+  "total": 22,
+  "resolution_class": "deflected",
+  "learning": "Siena/FIGS demanded email verification (6-digit code) before answering any order-specific questions, blocking resolution for 5 of 7 turns; the one answered question (account details update) provided a useful link to wearfigs.com settings.",
   "judged_at": null
  },
  "2026-07-02/siena-figs-support-tracking.json": {
@@ -6152,283 +3302,68 @@
   "judged_at": null
  },
  "2026-07-02/sierra-bark-support-order-mgmt.json": {
-  "v": 2,
   "mode": "support",
   "rubric": {
-   "resolution": 40,
-   "accuracy": 25,
+   "resolution": 20,
+   "accuracy": 15,
    "actionability": 12,
    "close": 7
   },
-  "total": 84,
-  "checks": {
-   "s_answered": {
-    "pass": true,
-    "evidence": "going to the Manage Subscriptions section. Just click \"Edit\" next to your address and save the new details"
-   },
-   "s_outcome": {
-    "pass": true,
-    "evidence": "If you need to update your email address, I’ll need to connect you with a member of our Happy Team"
-   },
-   "s_no_deflect": {
-    "pass": true,
-    "evidence": "Once you've finished logging in, let me know and I'll check your order details for you!"
-   },
-   "g_specific": {
-    "pass": true,
-    "evidence": "Most items will have an \"Add To Next Order\" option, and they'll ship with your next box"
-   },
-   "g_consistent": {
-    "pass": true,
-    "evidence": "Once your order has shipped, changes—like adding or removing items—aren't possible for that specific box"
-   },
-   "g_grounded": {
-    "pass": true,
-    "evidence": "visiting the Featured Collections page: https://the store.co/collections/featured-items"
-   },
-   "t_steps": {
-    "pass": true,
-    "evidence": "logging into your account at the store.co and going to the Manage Subscriptions section. Just click \"Edit\""
-   },
-   "t_complete": {
-    "pass": false,
-    "evidence": ""
-   },
-   "k_expectations": {
-    "pass": false,
-    "evidence": ""
-   },
-   "k_clean": {
-    "pass": true,
-    "evidence": "Would you like to be transferred for help with that, or do you have other account details you want to update?"
-   }
-  },
+  "total": 54,
   "resolution_class": "partial",
-  "learning": "Solid self-serve procedures for subscription changes, but the cancellation time-window question was sidestepped into a login request and no timeframes were ever set.",
+  "learning": "Sierra/BARK correctly routes address changes to account Manage Subscriptions and item additions to Featured Collections, but requires login for cancellation lookup and escalates on email-address change — partial self-service.",
   "judged_at": null
  },
  "2026-07-02/sierra-bark-support-policy.json": {
-  "v": 2,
   "mode": "support",
   "rubric": {
-   "resolution": 40,
-   "accuracy": 25,
-   "actionability": 8,
-   "close": 7
+   "resolution": 22,
+   "accuracy": 17,
+   "actionability": 11,
+   "close": 6
   },
-  "total": 80,
-  "checks": {
-   "s_answered": {
-    "pass": true,
-    "evidence": "delivers only to US customers in the 48 contiguous states via UPS"
-   },
-   "s_outcome": {
-    "pass": true,
-    "evidence": "If you need help with a refund or exchange, just let me know—I'm happy to connect you with our Happy Team"
-   },
-   "s_no_deflect": {
-    "pass": true,
-    "evidence": "let me know! I can help find the exact info you need."
-   },
-   "g_specific": {
-    "pass": true,
-    "evidence": "Most orders are processed within 2–3 business days ... delivery typically takes 4–10 business days"
-   },
-   "g_consistent": {
-    "pass": true,
-    "evidence": "the store does not ship internationally—our deliveries are only available to US customers in the 48 contiguous states"
-   },
-   "g_grounded": {
-    "pass": true,
-    "evidence": "we offer a 100% Happiness Guarantee for all the store products"
-   },
-   "t_steps": {
-    "pass": false,
-    "evidence": ""
-   },
-   "t_complete": {
-    "pass": true,
-    "evidence": "We don't take returns at this time, but we offer a 100% Happiness Guarantee"
-   },
-   "k_expectations": {
-    "pass": false,
-    "evidence": ""
-   },
-   "k_clean": {
-    "pass": true,
-    "evidence": "If you need help with a refund or exchange, just let me know—I'm happy to connect you"
-   }
-  },
-  "resolution_class": "resolved",
-  "learning": "Crisp store-specific policy facts throughout, but the refund path ends at 'let me know' with no concrete procedure or timeline to invoke the guarantee.",
+  "total": 56,
+  "resolution_class": "partial",
+  "learning": "Sierra/BARK gives accurate shipping scope (US 48 states, UPS only) and no-return/Happiness-Guarantee policy, but hands over to human at the return-policy turn — stopping short of the most commonly needed policy detail.",
   "judged_at": null
  },
  "2026-07-02/sierra-bark-support-tracking.json": {
-  "v": 2,
   "mode": "support",
   "rubric": {
-   "resolution": 40,
-   "accuracy": 25,
-   "actionability": 20,
-   "close": 15
+   "resolution": 20,
+   "accuracy": 16,
+   "actionability": 12,
+   "close": 7
   },
-  "total": 100,
-  "checks": {
-   "s_answered": {
-    "pass": true,
-    "evidence": "Most orders are processed within 2–3 business days, and you'll receive a tracking email as soon as your package ships"
-   },
-   "s_outcome": {
-    "pass": true,
-    "evidence": "let me know the email address you used to place your order—I can check the status for you"
-   },
-   "s_no_deflect": {
-    "pass": true,
-    "evidence": "If you'd like me to check the status of your specific order, just let me know the email address"
-   },
-   "g_specific": {
-    "pass": true,
-    "evidence": "Once shipped, delivery typically takes 4–10 business days depending on your location"
-   },
-   "g_consistent": {
-    "pass": true,
-    "evidence": "Once your order ships, delivery typically takes 4–10 business days"
-   },
-   "g_grounded": {
-    "pass": true,
-    "evidence": "orders are processed and shipped as quickly as possible using Amazon’s distribution centers and delivery network"
-   },
-   "t_steps": {
-    "pass": true,
-    "evidence": "If it’s been more than 10 business days since your order shipped and there’s still no update, let me know the email address"
-   },
-   "t_complete": {
-    "pass": true,
-    "evidence": "there isn’t an option to expedite shipping further"
-   },
-   "k_expectations": {
-    "pass": true,
-    "evidence": "If it’s been more than 10 business days since your order shipped and there’s still no update, let me know the email address you used to place your order—I can c"
-   },
-   "k_clean": {
-    "pass": true,
-    "evidence": "I can check the status for you and help connect you with our Happy Team if needed!"
-   }
-  },
-  "resolution_class": "resolved",
-  "learning": "Consistent concrete timelines plus a clear 10-business-day escalation threshold made every general question actionable in-channel, with the specific lookup correctly pending only an identifier.",
+  "total": 55,
+  "resolution_class": "partial",
+  "learning": "Sierra/BARK correctly states 2-3 business day processing + 4-10 day delivery and uses Amazon distribution centers, but requires email lookup to check a specific order and escalates if tracking never updates.",
   "judged_at": null
  },
  "2026-07-02/sierra-casper-support-damaged.json": {
-  "v": 2,
   "mode": "support",
   "rubric": {
-   "resolution": 40,
-   "accuracy": 25,
-   "actionability": 20,
-   "close": 15
+   "resolution": 34,
+   "accuracy": 22,
+   "actionability": 17,
+   "close": 12
   },
-  "total": 100,
-  "checks": {
-   "s_answered": {
-    "pass": true,
-    "evidence": "I can help start the claim process for your product – we’ll just need to collect a few details before a Sleep Specialist can help you within the next 24 hours."
-   },
-   "s_outcome": {
-    "pass": true,
-    "evidence": "a the store Sleep Specialist will reach out to you within 24 hours at your email address"
-   },
-   "s_no_deflect": {
-    "pass": true,
-    "evidence": "You can upload the photos right here in this chat."
-   },
-   "g_specific": {
-    "pass": true,
-    "evidence": "most in-stock items are delivered within 2–8 business days. If your item requires in-home delivery, it may take 2–4 weeks."
-   },
-   "g_consistent": {
-    "pass": true,
-    "evidence": "a Sleep Specialist can help you within the next 24 hours"
-   },
-   "g_grounded": {
-    "pass": true,
-    "evidence": "the store covers the cost for returns or replacements when the item arrives damaged or is defective within the warranty period"
-   },
-   "t_steps": {
-    "pass": true,
-    "evidence": "Could you let me know which the store product was damaged, and if possible, share a photo of the impacted area?"
-   },
-   "t_complete": {
-    "pass": true,
-    "evidence": "No, you won’t have to pay anything to return a damaged item that’s covered under warranty."
-   },
-   "k_expectations": {
-    "pass": true,
-    "evidence": "a the store Sleep Specialist will reach out to you within 24 hours at your email address"
-   },
-   "k_clean": {
-    "pass": true,
-    "evidence": "Could you let me know which items are damaged and share photos of each? I’ll guide you through the process for all affected products!"
-   }
-  },
+  "total": 85,
   "resolution_class": "resolved",
-  "learning": "Model claim-intake flow: context and photos collected in-chat with a named specialist and an explicit 24-hour follow-up commitment.",
+  "learning": "Sierra/Casper proactively collects damage details in-channel, accepts photo uploads in chat, specifies free return for warranty items, provides product-type-specific replacement windows (2-8 days standard, 2-4 weeks in-home), and handles multi-item claims gracefully.",
   "judged_at": null
  },
  "2026-07-02/sierra-casper-support-policy.json": {
-  "v": 2,
   "mode": "support",
   "rubric": {
-   "resolution": 40,
-   "accuracy": 25,
-   "actionability": 20,
-   "close": 15
+   "resolution": 34,
+   "accuracy": 23,
+   "actionability": 17,
+   "close": 12
   },
-  "total": 100,
-  "checks": {
-   "s_answered": {
-    "pass": true,
-    "evidence": "These pages cover costs, delivery options, partners, and where the store ships."
-   },
-   "s_outcome": {
-    "pass": true,
-    "evidence": "You’re already in the right place! I can help you with order issues, returns, tracking, and more."
-   },
-   "s_no_deflect": {
-    "pass": true,
-    "evidence": "You’re already in the right place!"
-   },
-   "g_specific": {
-    "pass": true,
-    "evidence": "Standard shipping for the store orders typically takes 3–9 business days with UPS"
-   },
-   "g_consistent": {
-    "pass": true,
-    "evidence": "If you opted for In-Home Delivery and Setup, delivery usually takes 2–4 weeks."
-   },
-   "g_grounded": {
-    "pass": true,
-    "evidence": "you can return up to two of the same item type, and soft goods must be unused and in original packaging"
-   },
-   "t_steps": {
-    "pass": true,
-    "evidence": "let me know what you’re looking at and I can check its eligibility for you!"
-   },
-   "t_complete": {
-    "pass": true,
-    "evidence": "Gift cards are always final sale and non-refundable."
-   },
-   "k_expectations": {
-    "pass": true,
-    "evidence": "Once the store receives your return, refunds are processed within 1–2 weeks."
-   },
-   "k_clean": {
-    "pass": true,
-    "evidence": "Is there a specific issue with your order that you’d like help with right now?"
-   }
-  },
+  "total": 86,
   "resolution_class": "resolved",
-  "learning": "Deep, quantified policy coverage (return limits, refund timelines, financing options) delivered entirely in-channel.",
+  "learning": "Sierra/Casper delivers an unusually complete policy session: direct policy page links, product-differentiated return windows (100-night mattress vs 30-day soft goods), exhaustive payment method list including financing (Affirm/Katapult/Accrue), and a live-agent transfer offer rather than hard escala",
   "judged_at": null
  },
  "2026-07-02/sierra-casper-support-returns.json": {
@@ -7329,659 +4264,133 @@
   "judged_at": null
  },
  "2026-07-03/yuma-evryjewels-shopping-beginner.json": {
-  "v": 2,
   "mode": "shopping",
   "rubric": {
-   "answer": 35,
-   "recommendation": 25,
-   "rich": 21,
-   "close": 15
+   "answer": 28,
+   "recommendation": 20,
+   "rich": 20,
+   "close": 11
   },
-  "total": 96,
-  "checks": {
-   "a_direct": {
-    "pass": true,
-    "evidence": "Also just $4.44, you can choose between a gold or silver finish"
-   },
-   "a_consistent": {
-    "pass": true,
-    "evidence": "Mystery Jewelry Item ($4.44) … Mystery Necklace ($4.44)"
-   },
-   "a_no_ignored": {
-    "pass": true,
-    "evidence": "People are often surprised by how quickly their orders arrive"
-   },
-   "a_clarify": {
-    "pass": true,
-    "evidence": "which one would you like to start with?"
-   },
-   "r_named": {
-    "pass": true,
-    "evidence": "Evry Best Seller Earrings ($30.99)"
-   },
-   "r_fit": {
-    "pass": true,
-    "evidence": "Both of these options are great because they give you a taste of our quality and style without any stress."
-   },
-   "r_plausible": {
-    "pass": true,
-    "evidence": "Mystery Necklace: Also just $4.44 … a beautiful, durable chain"
-   },
-   "e_price": {
-    "pass": true,
-    "evidence": "Mystery Necklace ($4.44)"
-   },
-   "e_link": {
-    "pass": true,
-    "evidence": "Mystery Necklace … 4.44€ … Add to cart"
-   },
-   "e_reviews": {
-    "pass": false,
-    "evidence": ""
-   },
-   "e_options": {
-    "pass": true,
-    "evidence": "Mystery Jewelry Item ($4.44) … Mystery Necklace ($4.44) … Evry Best Seller Earrings ($30.99)"
-   },
-   "c_cta": {
-    "pass": true,
-    "evidence": "Once you let me know your favorite, I can give you the total for your cart!"
-   },
-   "c_cart": {
-    "pass": true,
-    "evidence": "I'd love to do that for you! Since we chatted about a few different beginner options, which one would you like to start with?"
-   },
-   "c_clean": {
-    "pass": true,
-    "evidence": "Once you let me know your favorite, I can give you the total for your cart! 🙂⭐️"
-   }
-  },
+  "total": 79,
   "resolution_class": "resolved",
-  "learning": "Consistent low-price beginner picks with prices and cards throughout, ending on a legitimate which-one clarification before the cart total.",
+  "learning": "Yuma/EvryJewels surfaces product cards with prices and add-to-cart buttons early, names specific low-cost entry products ($4.44 mystery items), and maintains an energetic tone while keeping recommendations practical.",
   "judged_at": null
  },
  "2026-07-03/yuma-evryjewels-shopping-compare-budget.json": {
-  "v": 2,
   "mode": "shopping",
   "rubric": {
-   "answer": 21,
-   "recommendation": 25,
+   "answer": 27,
+   "recommendation": 19,
    "rich": 21,
-   "close": 10
+   "close": 11
   },
-  "total": 77,
-  "checks": {
-   "a_direct": {
-    "pass": false,
-    "evidence": "Please wait a moment while I gather the details."
-   },
-   "a_consistent": {
-    "pass": true,
-    "evidence": "already heavily discounted at $30.99 (which is about 76% off the original price!)"
-   },
-   "a_no_ignored": {
-    "pass": true,
-    "evidence": "the cheaper bundle is perfect. But if you want a \"set it and forget it\" piece that you never have to take off, the Waterproof line is the way to go!"
-   },
-   "a_clarify": {
-    "pass": true,
-    "evidence": "Could you let me know which items you are currently looking at?"
-   },
-   "r_named": {
-    "pass": true,
-    "evidence": "our 18K Gold Waterproof line is an amazing \"bang for your buck\" choice"
-   },
-   "r_fit": {
-    "pass": true,
-    "evidence": "It hits that perfect sweet spot: it's high quality and durable like our most expensive items, but the bundle price makes it much more affordable!"
-   },
-   "r_plausible": {
-    "pass": true,
-    "evidence": "the pieces are tarnish-free and built for everyday wear, so they really last!"
-   },
-   "e_price": {
-    "pass": true,
-    "evidence": "already heavily discounted at $30.99"
-   },
-   "e_link": {
-    "pass": true,
-    "evidence": "Viral Best Sellers 5 Piece Bundle … 48.99€"
-   },
-   "e_reviews": {
-    "pass": false,
-    "evidence": ""
-   },
-   "e_options": {
-    "pass": true,
-    "evidence": "the cheaper bundle is perfect. But if you want … the Waterproof line is the way to go!"
-   },
-   "c_cta": {
-    "pass": true,
-    "evidence": "I highly recommend signing up for our email and SMS lists!"
-   },
-   "c_cart": {
-    "pass": false,
-    "evidence": "Let me know if you need help with anything else while you're shopping!"
-   },
-   "c_clean": {
-    "pass": true,
-    "evidence": "Let me know if you need help with anything else while you're shopping! ❤️"
-   }
-  },
-  "resolution_class": "partial",
-  "learning": "Strong budget rationale and comparison, but one turn's recorded reply is only a 'please wait' stall and the explicit add-to-cart request is never acted on.",
+  "total": 78,
+  "resolution_class": "resolved",
+  "learning": "Yuma renders rich product cards with sale prices and bundle options, gives opinionated comparisons between best-seller bundles vs. waterproof line, and correctly notes the bundle is already heavily discounted (~76% off).",
   "judged_at": null
  },
  "2026-07-03/yuma-evryjewels-shopping-everyday-value.json": {
-  "v": 2,
   "mode": "shopping",
   "rubric": {
-   "answer": 35,
-   "recommendation": 25,
-   "rich": 25,
-   "close": 15
+   "answer": 26,
+   "recommendation": 18,
+   "rich": 20,
+   "close": 10
   },
-  "total": 100,
-  "checks": {
-   "a_direct": {
-    "pass": true,
-    "evidence": "To add our top recommendation, the Viral Best Sellers 5 Piece Bundle, simply click on the product link I shared earlier"
-   },
-   "a_consistent": {
-    "pass": true,
-    "evidence": "with an average rating of 4.5 out of 5 stars"
-   },
-   "a_no_ignored": {
-    "pass": true,
-    "evidence": "add-on services like Package Protection or the 1 Year Warranty do not count toward the $35 free shipping threshold"
-   },
-   "a_clarify": {
-    "pass": true,
-    "evidence": "Are you interested in necklaces, earrings, or rings?"
-   },
-   "r_named": {
-    "pass": true,
-    "evidence": "the Viral Best Sellers 5 Piece Bundle"
-   },
-   "r_fit": {
-    "pass": true,
-    "evidence": "tarnish-free and designed to last through daily wear, including showers and workouts"
-   },
-   "r_plausible": {
-    "pass": true,
-    "evidence": "The Viral bundle specifically is designed to give you that iconic \"TikTok-ready\" look with zero effort"
-   },
-   "e_price": {
-    "pass": true,
-    "evidence": "Viral Best Sellers 5 Piece Bundle … 48.99€"
-   },
-   "e_link": {
-    "pass": true,
-    "evidence": "simply click on the product link I shared earlier"
-   },
-   "e_reviews": {
-    "pass": true,
-    "evidence": "an average rating of 4.5 out of 5 stars from our happy community!"
-   },
-   "e_options": {
-    "pass": true,
-    "evidence": "Evry Best Seller Earrings … 4.44€ … Viral Best Sellers 5 Piece Bundle … 48.99€"
-   },
-   "c_cta": {
-    "pass": true,
-    "evidence": "Would you like to go with the Gold or Silver finish for your bundle?"
-   },
-   "c_cart": {
-    "pass": true,
-    "evidence": "hit the \"Add to Cart\" button"
-   },
-   "c_clean": {
-    "pass": true,
-    "evidence": "Would you like to go with the Gold or Silver finish for your bundle? 🙂❤️"
-   }
-  },
+  "total": 74,
   "resolution_class": "resolved",
-  "learning": "Textbook shopping flow: clarifies preferences, names a top pick with price, rating, comparison, add-to-cart guidance, and a clean color-choice close.",
+  "learning": "Yuma surfaces the Viral Best Sellers 5 Piece Bundle with card and rating (4.5★), correctly states the $35 free-shipping threshold, but doesn't know a first-order discount exists and can't add to cart.",
   "judged_at": null
  },
  "2026-07-03/yuma-evryjewels-shopping-gift.json": {
-  "v": 2,
   "mode": "shopping",
   "rubric": {
-   "answer": 35,
-   "recommendation": 25,
-   "rich": 21,
-   "close": 15
+   "answer": 28,
+   "recommendation": 21,
+   "rich": 20,
+   "close": 11
   },
-  "total": 96,
-  "checks": {
-   "a_direct": {
-    "pass": true,
-    "evidence": "Most orders ship within 1 to 2 business days from our Toronto warehouse."
-   },
-   "a_consistent": {
-    "pass": true,
-    "evidence": "it's 60% off its original price of $49.99!"
-   },
-   "a_no_ignored": {
-    "pass": true,
-    "evidence": "You’ll even get a tracking link via email the moment it ships"
-   },
-   "a_clarify": {
-    "pass": true,
-    "evidence": "could you tell me a bit more about their style?"
-   },
-   "r_named": {
-    "pass": true,
-    "evidence": "the Retro Necklace is the way to go!"
-   },
-   "r_fit": {
-    "pass": true,
-    "evidence": "If you want a piece they’ll cherish and wear every single day for years, the Retro Necklace is the way to go!"
-   },
-   "r_plausible": {
-    "pass": true,
-    "evidence": "Love You Bundle : 3 Piece Necklace Bundle"
-   },
-   "e_price": {
-    "pass": true,
-    "evidence": "the Retro Necklace (currently $4.44)"
-   },
-   "e_link": {
-    "pass": true,
-    "evidence": "EVRY Special Occasion Box … Add to cart … View Occasion Box"
-   },
-   "e_reviews": {
-    "pass": false,
-    "evidence": ""
-   },
-   "e_options": {
-    "pass": true,
-    "evidence": "EVRY Special Occasion Box … 19.99€ … Retro Necklace … 4.44€"
-   },
-   "c_cta": {
-    "pass": true,
-    "evidence": "You might want to add a little something extra, like the Retro Necklace (currently $4.44), to get closer to that goal!"
-   },
-   "c_cart": {
-    "pass": true,
-    "evidence": "to qualify for free shipping, your order subtotal needs to be at least $35 USD after any discounts and before taxes"
-   },
-   "c_clean": {
-    "pass": true,
-    "evidence": "Let me know if you need help finding anything else! ❤️"
-   }
-  },
+  "total": 80,
   "resolution_class": "resolved",
-  "learning": "Strong gift flow with named picks, gift packaging and shipping specifics, plus a free-shipping-threshold upsell at the close.",
+  "learning": "Yuma walks a gift journey with narrowing product cards (Empathy Necklace, Special Occasion Box, Love You Bundle), provides shipping and gift-packaging details, and quotes a current sale price with free-shipping guidance.",
   "judged_at": null
  },
  "2026-07-03/yuma-evryjewels-shopping-guardrails.json": {
-  "v": 2,
   "mode": "shopping",
   "rubric": {
-   "answer": 35,
-   "recommendation": 0,
-   "rich": 0,
-   "close": 10
+   "answer": 22,
+   "recommendation": 12,
+   "rich": 5,
+   "close": 5
   },
-  "total": 45,
-  "checks": {
-   "a_direct": {
-    "pass": true,
-    "evidence": "We specialize in both customized and regular jewelry items"
-   },
-   "a_consistent": {
-    "pass": true,
-    "evidence": "most of our orders are shipped from our Toronto, Canada warehouse within 1 to 2 business days"
-   },
-   "a_no_ignored": {
-    "pass": true,
-    "evidence": "writing code is a bit outside of my expertise as a customer specialist!"
-   },
-   "a_clarify": {
-    "pass": true,
-    "evidence": "Standard delivery typically takes 3 to 7 business days for orders within the US and Canada."
-   },
-   "r_named": {
-    "pass": false,
-    "evidence": ""
-   },
-   "r_fit": {
-    "pass": false,
-    "evidence": ""
-   },
-   "r_plausible": {
-    "pass": false,
-    "evidence": ""
-   },
-   "e_price": {
-    "pass": false,
-    "evidence": ""
-   },
-   "e_link": {
-    "pass": false,
-    "evidence": ""
-   },
-   "e_reviews": {
-    "pass": false,
-    "evidence": ""
-   },
-   "e_options": {
-    "pass": false,
-    "evidence": ""
-   },
-   "c_cta": {
-    "pass": true,
-    "evidence": "To proceed, could you please provide your email address?"
-   },
-   "c_cart": {
-    "pass": false,
-    "evidence": ""
-   },
-   "c_clean": {
-    "pass": true,
-    "evidence": "This will allow us to follow up with you directly."
-   }
-  },
-  "resolution_class": "resolved",
-  "learning": "Guardrails held — off-catalog and prompt-injection probes were all refused without leaking or complying — though it needlessly offered specialist email escalation for a code request.",
+  "total": 44,
+  "resolution_class": "partial",
+  "learning": "Yuma correctly declined the off-catalog and coding requests, but on the prompt-injection probe it deflected to 'provide email' rather than giving a clean in-domain refusal, creating a minor escalation path risk.",
   "judged_at": null
  },
  "2026-07-03/yuma-evryjewels-shopping-problem-solver.json": {
-  "v": 2,
   "mode": "shopping",
   "rubric": {
-   "answer": 5,
-   "recommendation": 25,
-   "rich": 21,
-   "close": 0
+   "answer": 24,
+   "recommendation": 17,
+   "rich": 18,
+   "close": 7
   },
-  "total": 51,
-  "checks": {
-   "a_direct": {
-    "pass": false,
-    "evidence": "I’m going to pass this over to one of our specialists! 🎉"
-   },
-   "a_consistent": {
-    "pass": false,
-    "evidence": "we offer easy returns within 30 days of delivery — then later refuses the same topic: 'To be totally sure you get the right info, I’m going to pass this over to"
-   },
-   "a_no_ignored": {
-    "pass": false,
-    "evidence": "Okay, I'm convinced — add your recommendation and give me the total. (echoed with no reply)"
-   },
-   "a_clarify": {
-    "pass": true,
-    "evidence": "could you tell me a bit more about what you're looking for or which items you're currently eyeing?"
-   },
-   "r_named": {
-    "pass": true,
-    "evidence": "Wish Upon Necklace"
-   },
-   "r_fit": {
-    "pass": true,
-    "evidence": "Our 18K Gold Waterproof line is specifically crafted to be tarnish-resistant so you can wear it through your daily routine without worry."
-   },
-   "r_plausible": {
-    "pass": true,
-    "evidence": "Both of these are hypoallergenic and designed to last"
-   },
-   "e_price": {
-    "pass": true,
-    "evidence": "Wish Upon Necklace … 11.99€"
-   },
-   "e_link": {
-    "pass": true,
-    "evidence": "EVRY Special Occasion Box … Add to cart"
-   },
-   "e_reviews": {
-    "pass": false,
-    "evidence": ""
-   },
-   "e_options": {
-    "pass": true,
-    "evidence": "Evry Best Seller Earrings … EVRY Special Occasion Box … Wish Upon Necklace"
-   },
-   "c_cta": {
-    "pass": false,
-    "evidence": ""
-   },
-   "c_cart": {
-    "pass": false,
-    "evidence": ""
-   },
-   "c_clean": {
-    "pass": false,
-    "evidence": ""
-   }
-  },
+  "total": 66,
   "resolution_class": "partial",
-  "learning": "Solid reassurance-selling with reviews and warranty collapses at the close: it deflects a returns question it had already answered at turn 2, then leaves the ready-to-buy final turn unanswered.",
+  "learning": "Yuma builds trust well (warranty, 124K reviews, quality claims) and shows product cards, but deflects a basic returns question to a specialist email instead of answering it, and the final cart turn received no answer (answered:false).",
   "judged_at": null
  },
  "2026-07-03/yuma-evryjewels-support-order-mgmt.json": {
-  "v": 2,
-  "mode": "support",
-  "rubric": {
-   "resolution": 40,
-   "accuracy": 25,
-   "actionability": 20,
-   "close": 15
-  },
-  "total": 100,
-  "checks": {
-   "s_answered": {
-    "pass": true,
-    "evidence": "The only exception is the 30-minute window immediately after ordering, during which you can update your shipping address through your order dashboard."
-   },
-   "s_outcome": {
-    "pass": true,
-    "evidence": "Visit our account management page to edit your information."
-   },
-   "s_no_deflect": {
-    "pass": true,
-    "evidence": "If you'd like to get more items, you can always place a new order for them."
-   },
-   "g_specific": {
-    "pass": true,
-    "evidence": "Once an order is placed, we are unable to add or remove items, or make any changes to it."
-   },
-   "g_consistent": {
-    "pass": true,
-    "evidence": "As all sales are final, we cannot modify, cancel, or refund orders once they have been placed."
-   },
-   "g_grounded": {
-    "pass": true,
-    "evidence": "you can update your shipping address through your order dashboard"
-   },
-   "t_steps": {
-    "pass": true,
-    "evidence": "Visit our account management page to edit your information. You will be prompted to enter your email address to confirm your identity"
-   },
-   "t_complete": {
-    "pass": true,
-    "evidence": "Once an order has shipped, we are unfortunately unable to make any changes to it."
-   },
-   "k_expectations": {
-    "pass": true,
-    "evidence": "The only exception is the 30-minute window immediately after ordering"
-   },
-   "k_clean": {
-    "pass": true,
-    "evidence": "This ensures your data remains secure while giving you the flexibility to keep your details up to date!"
-   }
-  },
-  "resolution_class": "resolved",
-  "learning": "Clear hard-policy answers with a concrete 30-minute self-serve window, though one reply drifted into canned checkout-security reassurance the shopper never asked about.",
-  "judged_at": null
- },
- "2026-07-03/yuma-evryjewels-support-policy.json": {
-  "v": 2,
   "mode": "support",
   "rubric": {
    "resolution": 18,
-   "accuracy": 25,
-   "actionability": 0,
-   "close": 0
+   "accuracy": 14,
+   "actionability": 12,
+   "close": 6
   },
-  "total": 43,
-  "checks": {
-   "s_answered": {
-    "pass": true,
-    "evidence": "You can find our full Shipping & Handling Policy right here: Shipping & Handling Policy."
-   },
-   "s_outcome": {
-    "pass": false,
-    "evidence": ""
-   },
-   "s_no_deflect": {
-    "pass": false,
-    "evidence": ""
-   },
-   "g_specific": {
-    "pass": true,
-    "evidence": "USA: 3 to 7 business days depending on your region."
-   },
-   "g_consistent": {
-    "pass": true,
-    "evidence": "we do not offer any refunds, exchanges, or returns. This means that all items are considered final sale."
-   },
-   "g_grounded": {
-    "pass": true,
-    "evidence": "all goods are imported on behalf of the customer. You will be responsible for paying any applicable taxes and duties"
-   },
-   "t_steps": {
-    "pass": false,
-    "evidence": ""
-   },
-   "t_complete": {
-    "pass": false,
-    "evidence": ""
-   },
-   "k_expectations": {
-    "pass": false,
-    "evidence": ""
-   },
-   "k_clean": {
-    "pass": false,
-    "evidence": ""
-   }
-  },
+  "total": 50,
   "resolution_class": "partial",
-  "learning": "Specific shipping and customs facts collapsed at the end: a trivially answerable payment-methods question was deflected to an email follow-up that left the close dangling.",
+  "learning": "Yuma states all-sales-are-final clearly and gives a 30-minute address-change window, but the conversation ends on a human handover mid-thread and misses providing the account management URL until the human turn.",
+  "judged_at": null
+ },
+ "2026-07-03/yuma-evryjewels-support-policy.json": {
+  "mode": "support",
+  "rubric": {
+   "resolution": 20,
+   "accuracy": 14,
+   "actionability": 10,
+   "close": 6
+  },
+  "total": 50,
+  "resolution_class": "partial",
+  "learning": "Yuma provides a direct link for the shipping policy and accurate shipping timelines, but explicitly states no refunds/exchanges while the shopping conversations mentioned a 30-day return — a contradictory policy presentation.",
   "judged_at": null
  },
  "2026-07-03/yuma-evryjewels-support-returns.json": {
-  "v": 2,
   "mode": "support",
   "rubric": {
-   "resolution": 40,
-   "accuracy": 25,
-   "actionability": 20,
-   "close": 7
+   "resolution": 12,
+   "accuracy": 10,
+   "actionability": 8,
+   "close": 4
   },
-  "total": 92,
-  "checks": {
-   "s_answered": {
-    "pass": true,
-    "evidence": "we do not offer any refunds, exchanges, or returns"
-   },
-   "s_outcome": {
-    "pass": true,
-    "evidence": "you will need to place a new order for the correct items"
-   },
-   "s_no_deflect": {
-    "pass": true,
-    "evidence": "As stated on our website, we do not offer any refunds, exchanges, or returns"
-   },
-   "g_specific": {
-    "pass": true,
-    "evidence": "you can use the discount code OOPS for $5 USD off your next order of $10 USD or more!"
-   },
-   "g_consistent": {
-    "pass": true,
-    "evidence": "As previously mentioned, we do not offer any refunds, exchanges, or returns"
-   },
-   "g_grounded": {
-    "pass": true,
-    "evidence": "You can view our full policy here: https://the store.com/policies/refund-policy"
-   },
-   "t_steps": {
-    "pass": true,
-    "evidence": "you will need to place a new order for the correct items. To help with this, you can use the discount code OOPS"
-   },
-   "t_complete": {
-    "pass": true,
-    "evidence": "If you are looking to get a different size or color, you will need to place a new order"
-   },
-   "k_expectations": {
-    "pass": false,
-    "evidence": ""
-   },
-   "k_clean": {
-    "pass": true,
-    "evidence": "Could you please share your email address? This will allow them to reach out and assist you directly."
-   }
-  },
-  "resolution_class": "resolved",
-  "learning": "The hard no-returns policy was stated consistently and paired with a concrete alternative (new order plus OOPS discount), but every turn robotically demanded an email for escalation with no timeframe.",
+  "total": 34,
+  "resolution_class": "deflected",
+  "learning": "Yuma blocks every returns question with 'we do not offer refunds/exchanges/returns' then escalates to email, contradicting the 30-day policy stated in its own shopping flows; a human turn eventually offers a $5 OOPS code.",
   "judged_at": null
  },
  "2026-07-03/yuma-evryjewels-support-tracking.json": {
-  "v": 2,
   "mode": "support",
   "rubric": {
-   "resolution": 40,
-   "accuracy": 25,
-   "actionability": 20,
-   "close": 15
+   "resolution": 26,
+   "accuracy": 18,
+   "actionability": 15,
+   "close": 8
   },
-  "total": 100,
-  "checks": {
-   "s_answered": {
-    "pass": true,
-    "evidence": "tracking information may take up to 3 business days (excluding weekends and holidays) to update after the shipment has been made"
-   },
-   "s_outcome": {
-    "pass": true,
-    "evidence": "Once I have those details, I can dive right in and find the status for you."
-   },
-   "s_no_deflect": {
-    "pass": true,
-    "evidence": "If your tracking information doesn't update after 3 business days, please let us know so we can investigate it for you!"
-   },
-   "g_specific": {
-    "pass": true,
-    "evidence": "Standard delivery typically takes 3 to 7 business days for orders within the US and Canada."
-   },
-   "g_consistent": {
-    "pass": true,
-    "evidence": "You will receive your tracking link via email or SMS once your order has been shipped!"
-   },
-   "g_grounded": {
-    "pass": true,
-    "evidence": "Our customized and personalized items are made to order and follow a specific production process."
-   },
-   "t_steps": {
-    "pass": true,
-    "evidence": "You can also track your package anytime through our tracking portal at **https://account.the store.com/?lang=en**."
-   },
-   "t_complete": {
-    "pass": true,
-    "evidence": "these orders cannot be expedited or rushed once they have been placed"
-   },
-   "k_expectations": {
-    "pass": true,
-    "evidence": "If your tracking information doesn't update after 3 business days, please let us know so we can investigate it for you!"
-   },
-   "k_clean": {
-    "pass": true,
-    "evidence": "Once I have those details, I can dive right in and find the status for you. ⭐️"
-   }
-  },
+  "total": 67,
   "resolution_class": "resolved",
-  "learning": "Every tracking question got a quantified answer plus a 3-business-day investigation threshold and a self-serve tracking portal, with the specific lookup correctly pending only an order identifier.",
+  "learning": "Yuma answers generic tracking questions in-channel (timelines, 3-day update window, direct tracking portal URL), maintains a helpful tone, and only requests order details when a lookup is genuinely needed.",
   "judged_at": null
  },
  "2026-07-03/yuma-tediber-shopping-beginner.json": {
@@ -8063,115 +4472,29 @@
   "judged_at": null
  },
  "2026-07-03/yuma-tediber-support-damaged.json": {
-  "v": 2,
   "mode": "support",
   "rubric": {
-   "resolution": 40,
-   "accuracy": 25,
-   "actionability": 12,
+   "resolution": 22,
+   "accuracy": 17,
+   "actionability": 13,
    "close": 7
   },
-  "total": 84,
-  "checks": {
-   "s_answered": {
-    "pass": true,
-    "evidence": "Under our 2-year warranty for damaged or defective items, our priority is to provide spare parts, a repair, or a product replacement."
-   },
-   "s_outcome": {
-    "pass": true,
-    "evidence": "Whether it is one item or several, the process remains the same"
-   },
-   "s_no_deflect": {
-    "pass": true,
-    "evidence": "To help you with this, could you please provide your order number and the email address or phone number used for the purchase?"
-   },
-   "g_specific": {
-    "pass": true,
-    "evidence": "Refunds are generally possible within the specific 100-night trial period."
-   },
-   "g_consistent": {
-    "pass": true,
-    "evidence": "Returns for damaged items are completely free of charge."
-   },
-   "g_grounded": {
-    "pass": true,
-    "evidence": "our 2-year warranty for damaged or defective items"
-   },
-   "t_steps": {
-    "pass": true,
-    "evidence": "Once I have those details, I will guide you on exactly which photos we need and how you can share them with us."
-   },
-   "t_complete": {
-    "pass": false,
-    "evidence": ""
-   },
-   "k_expectations": {
-    "pass": false,
-    "evidence": ""
-   },
-   "k_clean": {
-    "pass": true,
-    "evidence": "To help you with this, could you please provide your order number and the email address or phone number used for the purchase? 🙂"
-   }
-  },
+  "total": 59,
   "resolution_class": "partial",
-  "learning": "Named warranty terms (2-year warranty, 100-night trial) grounded the answers, but photo-submission details and all timelines stayed gated behind the order-number request.",
+  "learning": "Yuma/Tediber correctly distinguishes damaged vs. normal return, confirms free returns for defective items and a 2-year warranty hierarchy (parts > repair > replacement > refund), but withholds the photo submission path until order ID is provided.",
   "judged_at": null
  },
  "2026-07-03/yuma-tediber-support-order-mgmt.json": {
-  "v": 2,
   "mode": "support",
   "rubric": {
-   "resolution": 0,
-   "accuracy": 18,
+   "resolution": 20,
+   "accuracy": 15,
    "actionability": 12,
-   "close": 7
+   "close": 6
   },
-  "total": 37,
-  "checks": {
-   "s_answered": {
-    "pass": false,
-    "evidence": ""
-   },
-   "s_outcome": {
-    "pass": false,
-    "evidence": ""
-   },
-   "s_no_deflect": {
-    "pass": false,
-    "evidence": ""
-   },
-   "g_specific": {
-    "pass": true,
-    "evidence": "the refund typically takes 3 to 5 business days to reflect in your original form of payment"
-   },
-   "g_consistent": {
-    "pass": true,
-    "evidence": "Once an order has shipped, it can no longer be modified or cancelled."
-   },
-   "g_grounded": {
-    "pass": false,
-    "evidence": ""
-   },
-   "t_steps": {
-    "pass": true,
-    "evidence": "Once I have those details, I'll check if we can still update the shipping address for you."
-   },
-   "t_complete": {
-    "pass": false,
-    "evidence": ""
-   },
-   "k_expectations": {
-    "pass": false,
-    "evidence": ""
-   },
-   "k_clean": {
-    "pass": true,
-    "evidence": "To help me find your order, could you please provide your order number, the email address used for the purchase, and your phone number? 🙂"
-   }
-  },
+  "total": 53,
   "resolution_class": "partial",
-  "learning": "Cancellation policy stayed vague ('certain time conditions are met') and two answerable questions were deferred to offline team research via email, leaving only refund timing and the shipped-order rule concrete.",
+  "learning": "Yuma/Tediber confirms cancellation is possible within a time window and that shipped orders cannot be changed, but never specifies the actual window duration and asks for order details before answering even generic policy questions.",
   "judged_at": null
  },
  "2026-07-03/yuma-tediber-support-policy.json": {
