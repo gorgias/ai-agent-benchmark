@@ -303,6 +303,7 @@
     <a href="report.html" id="nav-report" class="active" aria-current="page">Detailed report</a>
     <a href="report.html?view=conversations" id="nav-conversations">Conversations</a>
     <a href="run-status.html">Run status</a>
+    <a href="#how" onclick="event.preventDefault();openModal();" title="How this benchmark works — method, metrics, quality judging, honesty notes">ⓘ How it works</a>
   </div>
 </nav>
 <header class="hero">
@@ -311,7 +312,6 @@
     <div class="eyebrow">Gorgias R&amp;D · Competitive Intelligence</div>
     <h1>How the <span class="grad">Gorgias AI Agent</span> stacks up against every rival</h1>
     <div class="hero-stats" id="hero-stats" aria-label="dataset size"></div>
-    <button class="howbtn" onclick="openModal()"><span class="ic">ⓘ</span> How it works</button>
   </div>
 </header>
 
@@ -321,6 +321,14 @@
     <h2 class="mh">How this benchmark works</h2>
     <p class="msub">A head-to-head test of the <strong>Gorgias AI Agent</strong> against every rival's live on-site AI — measured on identical footing.</p>
 
+    <div class="toggle-tabs" id="mtabs" style="margin:14px 0 6px">
+      <button class="tab" data-mt="test" aria-selected="true" onclick="setMTab('test')">🧪 The test</button>
+      <button class="tab" data-mt="metrics" aria-selected="false" onclick="setMTab('metrics')">📐 Metrics &amp; ranking</button>
+      <button class="tab" data-mt="quality" aria-selected="false" onclick="setMTab('quality')">⚖️ Quality judging</button>
+      <button class="tab" data-mt="method" aria-selected="false" onclick="setMTab('method')">🤝 Method &amp; honesty</button>
+    </div>
+
+    <div class="mtab" data-mtp="test">
     <div class="mblock">
       <h3>The test</h3>
       <p>The same scripted, multi-turn conversations are run against each store's live on-site assistant — <strong>apple-to-apple</strong> across vendors. Each store gets <strong>5 themed conversations per mode</strong> (~7 turns each): five Shopping themes (everyday value, gift, problem-solver, comparison, beginner) and five Support themes (tracking, returns, damaged item, order changes, policy).</p>
@@ -330,7 +338,9 @@
       <h3>Cold &amp; private</h3>
       <p>Every conversation runs in a <strong>fresh, isolated browser session</strong> — no warm history, a genuine cold start. We <strong>never ask to speak to a human</strong>; an unprompted handover on a normal question is exactly the failure we're measuring.</p>
     </div>
+    </div>
 
+    <div class="mtab" data-mtp="metrics" hidden>
     <div class="mblock">
       <h3>What we measure</h3>
       <ul>
@@ -339,7 +349,9 @@
         <li><strong>Answer quality</strong> — graded on Gorgias's own evaluation rubrics (below).</li>
       </ul>
     </div>
+    </div>
 
+    <div class="mtab" data-mtp="quality" hidden>
     <div class="mblock">
       <h3>Quality rubrics (0–100)</h3>
       <div class="mrubric">
@@ -360,7 +372,9 @@
       </div>
       <p style="margin-top:8px;font-size:12px">Each dimension decomposes into <strong>binary, evidence-forced checks</strong>: an LLM judge marks each check pass/fail and must quote the transcript to credit it — the /100 score is <em>derived</em> from the checks by a fixed point mapping, never chosen by the judge. Judging is <strong>blind</strong> (vendor & store identity stripped from batches), rich-element checks are <strong>gated on deterministic signals</strong> (a price/link/review must literally appear in the transcript), and a justified, well-executed handover is scored as correct support behavior — containment is measured separately by automation rate, never double-penalized. Sampled verdicts get an <strong>adversarial audit pass</strong> against a catalog of known judge traps; wrong verdicts are flipped and re-scored, and each run reports its judge-agreement rate. Full spec: <span class="mono">runner/eval-rubric.md</span>.</p>
     </div>
+    </div>
 
+    <div class="mtab" data-mtp="metrics" hidden>
     <div class="mblock">
       <h3>Sample window</h3>
       <p>Runs <strong>accumulate</strong>: each new run adds dated conversations and keeps the old ones. The date picker narrows the sample to a window (default: last 30 days), so every score reflects exactly the runs you've selected.</p>
@@ -370,7 +384,9 @@
       <h3>Best AI agent — how the ranking works</h3>
       <p>The two jobs an on-site assistant is hired for are ranked by a composite of three things: <strong>automation rate</strong> (does the AI carry the whole conversation in-channel — no human handover, no email/phone deflection; early bails count against it) and <strong>answer quality</strong> (an LLM-judge scores every conversation /100 on a per-lane rubric — relevance, recommendation &amp; rich elements for Shopping; resolution, accuracy &amp; actionability for Support) as <strong>equal pillars</strong> — containment only counts if the answers hold up, and a fast deflection must never outrank substance — with <strong>speed</strong> (latency to the full final answer) separating otherwise-close vendors. <span class="mono">Composite = 40% automation + 40% quality + 20% speed · speed scored 100 at ≤3s, 0 at ≥22s</span>, renormalized when a dimension is unavailable. Pooled per vendor across its stores; respects the date window. <strong>Ranking is gated on measurement coverage</strong> — a vendor needs enough cleanly-timed turns to be ranked; those with too few are listed separately.</p>
     </div>
+    </div>
 
+    <div class="mtab" data-mtp="method" hidden>
     <div class="mblock">
       <h3>Method &amp; caveats</h3>
       <ul>
@@ -381,6 +397,16 @@
         <li><strong>"Envive" = Spiffy.ai</strong> (same company, rebranded) — treated as one vendor.</li>
         <li><strong>Coverage is honest, not uniform</strong> — only Gorgias drives fully headless; competitor widgets are headed-only and some have hard ceilings (offline widgets, handover-only). Stores with no timed AI turn are left unscored, never invented.</li>
       </ul>
+    </div>
+    <div class="mblock">
+      <h3>Honesty notes</h3>
+      <ul>
+        <li><strong>Free-typed questions only</strong> — quick-reply chips can serve cached replies that fake latency and automation. No PII beyond dummy emails. Nothing is fabricated: unanswered turns, dead widgets and handovers are recorded as such.</li>
+        <li><strong>Automation uses the engaged denominator</strong> (≥1 timed answer or a handover) so early bails count against a vendor; dead/chip-gated widgets are reported separately, not counted for or against.</li>
+        <li><strong>Quality judging is audited</strong> — blind batches, evidence-forced checks, deterministic signal gates (see the Quality judging tab); sampled verdicts get an adversarial audit pass and the judge-agreement rate is reported. Scores are comparative, not absolute; small vendor×lane cells (n&lt;10) are directional.</li>
+        <li><strong>Gorgias gets no special treatment</strong> — same harness, same themes, same rules; one Gorgias store (Baby Bee) was excluded as a non-functional deployment, the same class as dead/chip-gated widgets excluded across all vendors. Every functioning store is shown.</li>
+      </ul>
+    </div>
     </div>
   </div>
 </div>
@@ -38249,7 +38275,10 @@ function toggleFPop(e,which){ e.stopPropagation(); closeCal&&closeCal(); const m
 function clearFilter(which){ (which==='vf'?VFILTER:WFILTER).clear(); if(which==='vf') pruneWF(); renderFilterPops(); renderAll(); saveState(); }
 function fToggle(which,val){ const set=which==='vf'?VFILTER:WFILTER; if(set.has(val)) set.delete(val); else set.add(val); if(which==='vf') pruneWF(); renderFilterPops(); renderAll(); saveState(); }
 // cascade: website options narrow to the selected vendors; drop selected sites that vanish
-function fSites(){ return [...new Set([...STORES,...SUPPORT].filter(s=>s.site&&(!VFILTER.size||VFILTER.has(s.vendor))).map(s=>s.site))].sort(); }
+// sort ignoring the "www." prefix — otherwise all www.* domains cluster together and the
+// list reads as random instead of A→Z
+const siteKey=s=>s.replace(/^www\./,"").toLowerCase();
+function fSites(){ return [...new Set([...STORES,...SUPPORT].filter(s=>s.site&&(!VFILTER.size||VFILTER.has(s.vendor))).map(s=>s.site))].sort((a,b)=>siteKey(a).localeCompare(siteKey(b))); }
 function pruneWF(){ const ok=new Set(fSites()); for(const w of [...WFILTER]) if(!ok.has(w)) WFILTER.delete(w); }
 function renderFilterPops(){
   const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');
@@ -38259,7 +38288,7 @@ function renderFilterPops(){
   const vl=document.getElementById('vf-list');
   if(vl) vl.innerHTML=vendors.map(v=>'<label><input type="checkbox" '+(VFILTER.has(v)?'checked':'')+' onchange="fToggle(\'vf\',\''+esc(v)+'\')"> '+esc(v)+'<span class="fcount">'+vCount(v)+' site'+(vCount(v)>1?'s':'')+'</span></label>').join('');
   const wl=document.getElementById('wf-list');
-  if(wl) wl.innerHTML=fSites().map(w=>'<label><input type="checkbox" '+(WFILTER.has(w)?'checked':'')+' onchange="fToggle(\'wf\',\''+esc(w)+'\')"> '+esc(w)+'</label>').join('');
+  if(wl) wl.innerHTML=fSites().map(w=>'<label><input type="checkbox" '+(WFILTER.has(w)?'checked':'')+' onchange="fToggle(\'wf\',\''+esc(w)+'\')"> '+esc(w.replace(/^www\./,''))+'</label>').join('');
   const lab=(id,set,word)=>{ const el=document.getElementById(id); if(!el) return; el.textContent=!set.size?('All '+word+'s'):set.size===1?[...set][0]:set.size+' '+word+'s'; el.parentElement.classList.toggle('active',!!set.size); };
   lab('vf-label',VFILTER,'vendor'); lab('wf-label',WFILTER,'website');
 }
@@ -38315,6 +38344,13 @@ function initDates(){
 function openModal(){ document.getElementById('howto').hidden=false; document.body.style.overflow='hidden'; }
 function closeModal(){ document.getElementById('howto').hidden=true; document.body.style.overflow=''; }
 document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ closeModal(); closeCal(); } });
+// How-it-works modal tabs (test | metrics | quality | method)
+function setMTab(t){
+  document.querySelectorAll('#mtabs .tab').forEach(b=>b.setAttribute('aria-selected', b.dataset.mt===t));
+  document.querySelectorAll('.mtab').forEach(p=>p.hidden = p.dataset.mtp!==t);
+}
+// deep link: report.html#how (used by the takeaways nav bubble) opens the modal directly
+if(location.hash==='#how'){ openModal(); }
 
 function pillFor(s){
   if(s.success===100) return '<span class="pill p-ok">100% · '+s.successTxt+'</span>';
@@ -38587,7 +38623,7 @@ function renderConv(){
   const shown = CF_ITEMS.filter(passConvFilter);
   const feed=document.getElementById('conv-feed'); if(!feed) return;
   const cnt=document.getElementById('conv-count'); if(cnt) cnt.textContent = shown.length+' of '+CF_ITEMS.length+' conversations';
-  if(!shown.length){ feed.innerHTML='<div class="note" style="padding:16px">No conversations match these filters.</div>'; return; }
+  if(!shown.length){ feed.innerHTML='<div class="note" style="padding:16px">No conversations match the current filters (date window, vendor/website pills, or the feed filters above). <button class="datebtn" onclick="VFILTER.clear();WFILTER.clear();CF_FILTER={lane:\'all\',vendor:\'__all\',outcome:\'all\',lat:\'all\',q:\'\'};presetAll();renderFilterPops();renderAll();">Reset all filters</button></div>'; return; }
   feed.innerHTML = shown.map((it)=>{
     const i = CF_ITEMS.indexOf(it);
     const pill='<span class="pill '+themePillCls(it.success)+'">'+(it.successTxt||'—')+'</span>';
@@ -38681,6 +38717,7 @@ function aggVendors(dataset){
     const r={
       v, us:arr[0].us,
       stores: arr.filter(s=>s.method==='new'||s.method==='legacy').length,
+      convs: arr.reduce((n,s)=>n+((s.themes&&s.themes.length)||((s.turns&&s.turns.length)?1:0)),0),
       autoRate: ag.e? Math.round(100*ag.a/ag.e) : null, autoDetail: ag,
       avgS: sN.length? sN.reduce((a,b)=>a+b,0)/sN.length : null,
       avgL: lN.length? lN.reduce((a,b)=>a+b,0)/lN.length : null,
@@ -38735,7 +38772,7 @@ function renderBestPanel(elId, allRows){
   const w=rows[0];
   let h='<div class="best-winner"><div class="best-medal">#1 · winner</div>'+
     '<div class="best-wmain"><div class="best-name"><span class="vdot" style="background:'+col(w.v)+'"></span>'+w.v+(w.us?'<span class="us-tag">US</span>':'')+iChip(w,1)+'</div>'+
-    '<div class="best-sub">'+(w.autoRate!=null?w.autoRate+'% automation':Math.round(w.avgS)+'% success (legacy)')+' · ~'+s1(w.avgL)+'s'+(w.avgQ!=null?' · quality '+w.avgQ+'/100':'')+' · '+pct(w.cov)+' coverage</div></div>'+
+    '<div class="best-sub">'+(w.autoRate!=null?w.autoRate+'% automation':Math.round(w.avgS)+'% success (legacy)')+' · ~'+s1(w.avgL)+'s'+(w.avgQ!=null?' · quality '+w.avgQ+'/100':'')+' · '+w.convs+' conversation'+(w.convs>1?'s':'')+' · '+pct(w.cov)+' coverage</div></div>'+
     '<div class="best-score">'+w.comp+'<span>/100</span></div></div>';
   if(rows.length>1){
     h+='<div class="best-list">'+rows.slice(1).map((r,i)=>
@@ -38743,7 +38780,7 @@ function renderBestPanel(elId, allRows){
       '<span class="best-rname"><span class="vdot" style="background:'+col(r.v)+'"></span>'+r.v+(r.us?'<span class="us-tag">US</span>':'')+iChip(r,i+2)+'</span>'+
       '<span class="bar best-bar"><i style="width:'+r.comp+'%;background:'+col(r.v)+'"></i></span>'+
       '<span class="best-rnum mono">'+r.comp+'</span>'+
-      '<span class="best-rmeta mono">'+(r.autoRate!=null?r.autoRate+'% auto · ':'')+s1(r.avgL)+'s'+(r.avgQ!=null?' · q'+r.avgQ:'')+'</span>'+
+      '<span class="best-rmeta mono">'+(r.autoRate!=null?r.autoRate+'% auto · ':'')+s1(r.avgL)+'s'+(r.avgQ!=null?' · q'+r.avgQ:'')+' · '+r.convs+' conv</span>'+
       '<span class="best-cov mono">'+pct(r.cov)+' cov</span></div>').join('')+'</div>';
   }
   const gi=rows.findIndex(r=>r.v==='Gorgias');
@@ -38923,7 +38960,9 @@ const WIDGET_LABEL = { gorgias:"Gorgias Chat", spiffy:"Envive (Spiffy) shadow-DO
 function renderCoverage(){
   const el=document.getElementById('coverage-body'); if(!el) return;
   const inv={};   // vendor -> site -> {store,url,widget,locale, shop:{convs,engaged,captured}, sup:{...}}
-  const feed=(arr,lane)=>arr.forEach(s=>{
+  // Coverage ignores the DATE window (whole program view) but respects the vendor/website
+  // pills — filtering on a vendor must filter every section of the page.
+  const feed=(arr,lane)=>arr.filter(vwPass).forEach(s=>{
     const v=(inv[s.vendor]=inv[s.vendor]||{});
     const r=(v[s.site]=v[s.site]||{store:s.store,url:s.url,widget:s.widget,locale:s.locale, shop:{c:0,e:0,cap:false,pend:false}, sup:{c:0,e:0,cap:false,pend:false}});
     if(s.widget) r.widget=s.widget;
