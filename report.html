@@ -12154,37 +12154,38 @@ const STORES = [
   "us": false,
   "lat": "~17.7s",
   "latPct": 71,
-  "latP75": 19.3,
+  "latP75": 22.9,
   "ttft": 15,
   "delivery": "atomic",
-  "success": 95,
-  "successTxt": "95%",
+  "success": 96,
+  "successTxt": "96%",
   "avgTurns": 10,
-  "timed": 38,
-  "attempted": 40,
+  "timed": 48,
+  "attempted": 50,
   "auto": {
-   "automated": 4,
+   "automated": 5,
    "handover": 0,
    "deflected": 0,
    "no_answer": 0,
-   "engaged": 4,
+   "engaged": 5,
    "rate": 100
   },
   "evalq": {
-   "n": 4,
-   "total": 88,
+   "n": 5,
+   "total": 87,
    "dims": {
-    "answer": 28,
+    "answer": 27,
     "discovery": 20,
     "recommendation": 22,
-    "rich": 11,
+    "rich": 12,
     "close": 6
    },
    "cls": {
-    "partial": 3,
+    "partial": 4,
     "resolved": 1
    },
    "learnings": [
+    "Strong product-card mechanics and a concrete starter pick, but policy consistency and explicit cart execution remain weak.",
     "Solid value comparison and warranty/payment answers, but the explicit add-to-cart and total requests were deflected to an email-collecting specialist loop rather than facilitated.",
     "Strong end-to-end value-buyer flow with priced product cards, add-to-cart button, shipping estimates, and honest no-returns disclosure at the close.",
     "Rich gift-focused discovery with priced cards and gift-message/receipt detail, but the add-to-cart-with-total and second-item discount asks were deflected to a specialist rather than actioned.",
@@ -12193,8 +12194,8 @@ const STORES = [
   },
   "guard": null,
   "ticket": null,
-  "what": "4 cold private conversations (shopping themes). No handover in any theme. Avg end-to-end latency ~17.7s across 38 AI-timed turns.",
-  "datetime": "2026-07-06T08:06:04.071Z",
+  "what": "5 cold private conversations (shopping themes). No handover in any theme. Avg end-to-end latency ~17.7s across 48 AI-timed turns.",
+  "datetime": "2026-07-06T14:43:32.141Z",
   "themes": [
    {
     "key": "everyday-value",
@@ -12708,6 +12709,134 @@ const STORES = [
        }
       ],
       "cov": 20
+     }
+    ]
+   },
+   {
+    "key": "beginner",
+    "label": "Total beginner",
+    "datetime": "2026-07-06T14:43:32.141Z",
+    "lat": "~17.5s",
+    "success": 100,
+    "successTxt": "100%",
+    "handoverTurn": null,
+    "ticket": null,
+    "productRecs": {
+     "count": 1,
+     "names": [
+      "Mystery Jewelry Item"
+     ]
+    },
+    "turns": [
+     {
+      "q": "Hi! I'm completely new to this and don't know where to start — can you guide me?",
+      "a": "Bestie! Thanks for getting in touch. Welcome to the family! We are so happy to have you here. 🤩 Since you're new, I'd love to help you get started! Are you looking for information on our latest collections, or perhaps you have questions…",
+      "by": "ai",
+      "lat": 4.8,
+      "cov": 40
+     },
+     {
+      "q": "Can you explain the main options in simple terms?",
+      "a": "future orders! Become an Ambassador: If you love sharing your style, you can join our Customer Ambassador Program. You'll get your own discount code to share with friends and earn a commission on sales made using your code. Peace of Mind:…",
+      "by": "ai",
+      "lat": 14.7,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "For a first-timer like me, what's the safest, easiest choice?",
+      "a": "Extras: Every order comes with a free reusable jewelry pouch and some cute stickers to brighten your day. 🎉 Starting with a best-seller is a great way to see what the hype is all about! Would you like to check them out or do you have any…",
+      "by": "ai",
+      "lat": 18.6,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 17
+     },
+     {
+      "q": "I don't want to overpay while I'm still learning — what's a good starter pick?",
+      "a": "priced much higher. Plus, it still comes with all the perks: Surprise Element: It’s like a little gift to yourself! Skin-Friendly: Even though it's a mystery, we guarantee it's lead-free, nickel-free, and hypoallergenic. Freebies Included:…",
+      "by": "ai",
+      "lat": 23.2,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 11
+     },
+     {
+      "q": "What do beginners usually say about it in reviews?",
+      "a": "low price point. Skin Comfort: Beginners with sensitive skin often highlight how comfortable the pieces are to wear all day without any irritation, thanks to them being hypoallergenic and nickel-free. The Extras: People always mention how…",
+      "by": "ai",
+      "lat": 14.1,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 20
+     },
+     {
+      "q": "Is there anything else a beginner needs to get started?",
+      "a": "t way to keep all your orders organized in one place! Plus, it makes checking out in the future super fast and easy. ⭐️ Join the Evry Club: Once your account is set up, you can join our rewards program! You will earn points for every…",
+      "by": "ai",
+      "lat": 14.1,
+      "cov": 43
+     },
+     {
+      "q": "Okay, add your beginner recommendation to my cart — what's the total?",
+      "a": "t started. Our Mystery Jewelry Item is currently just $4.44 (originally $31.99)! 🤩 To get your starter pick, just follow these simple steps: Click on the product link below. Select \"Add to cart.\" Head to your checkout page to see your…",
+      "by": "ai",
+      "lat": 27.8,
+      "cov": 50
+     },
+     {
+      "q": "How do I use it properly the very first time?",
+      "a": "osure to chemicals that could affect its shine. Proper Storage: When you're not wearing your pieces, store them in a clean, dry place. The original pouch your jewelry comes in is perfect for protecting it from the elements! 🤩 Keep it…",
+      "by": "ai",
+      "lat": 18.2,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "What's the return policy if it turns out not to be right for me?",
+      "a": "As stated on our website, we do not offer any refunds, exchanges, or returns. You can find more details about our policy right here: https://evryjewels.com/policies/refund-policy. 🙂 We want you to be completely happy with your choice, so…",
+      "by": "ai",
+      "lat": 22.9,
+      "cov": 67
+     },
+     {
+      "q": "Confirm my total and the delivery estimate?",
+      "a": "for delivery, once your order is placed, it typically takes 2-3 business days to fulfill. Here are the estimated delivery times once it ships: USA: Between 3 to 7 business days, depending on your region. Canada: Between 2 to 7 business…",
+      "by": "ai",
+      "lat": 16.3,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       },
+       {
+        "t": "purchase request unfulfilled",
+        "k": "warn"
+       }
+      ],
+      "cov": 25
      }
     ]
    }
@@ -19796,6 +19925,323 @@ const STORES = [
     "by": "ai",
     "lat": 14.4,
     "cov": 86
+   }
+  ]
+ },
+ {
+  "id": "yuma-tediber-shopping-2026-07-06",
+  "date": "2026-07-06",
+  "vendor": "Yuma",
+  "store": "Tediber",
+  "site": "tediber.com",
+  "url": "https://www.tediber.com/",
+  "widget": "yuma",
+  "locale": "fr-FR",
+  "method": "new",
+  "us": false,
+  "lat": "~21.2s",
+  "latPct": 85,
+  "latP75": 22.8,
+  "ttft": 19.3,
+  "delivery": "atomic",
+  "success": 100,
+  "successTxt": "100%",
+  "avgTurns": 10,
+  "timed": 10,
+  "attempted": 10,
+  "auto": {
+   "automated": 1,
+   "handover": 0,
+   "deflected": 0,
+   "no_answer": 0,
+   "engaged": 1,
+   "rate": 100
+  },
+  "evalq": {
+   "n": 1,
+   "total": 65,
+   "dims": {
+    "answer": 16,
+    "discovery": 20,
+    "recommendation": 22,
+    "rich": 0,
+    "close": 7
+   },
+   "cls": {
+    "partial": 1
+   },
+   "learnings": [
+    "Good guided mattress recommendation and policy details, but no price/link rich elements and it mishandles cart or total requests as account lookups."
+   ]
+  },
+  "guard": null,
+  "ticket": null,
+  "what": "1 cold private conversations (shopping themes). No handover in any theme. Avg end-to-end latency ~21.2s across 10 AI-timed turns.",
+  "datetime": "2026-07-06T14:38:29.058Z",
+  "themes": [
+   {
+    "key": "beginner",
+    "label": "Total beginner",
+    "datetime": "2026-07-06T14:38:29.058Z",
+    "lat": "~21.2s",
+    "success": 100,
+    "successTxt": "100%",
+    "handoverTurn": null,
+    "ticket": null,
+    "productRecs": {
+     "count": 1,
+     "names": [
+      "I'm here to guide you"
+     ]
+    },
+    "turns": [
+     {
+      "q": "Hi! I'm completely new to this and don't know where to start — can you guide me?",
+      "a": "Thanks for reaching out to us. Welcome to Tediber! I would be delighted to help you discover our universe. Whether you're looking for information on our mattresses, bedding, or even where to find our stores to try our products, I'm here to…",
+      "by": "ai",
+      "lat": 11.3,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 20
+     },
+     {
+      "q": "Can you explain the main options in simple terms?",
+      "a": "s 38 cm thickness for an exceptional feel. Common features: 100-night trial: You can test them at home at your leisure. Fast delivery: Generally within 48 hours. Easy payment: Possibility to pay in 3 or 4 installments at no extra cost. To…",
+      "by": "ai",
+      "lat": 22.8,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "For a first-timer like me, what's the safest, easiest choice?",
+      "a": "llent choice. It is our most affordable option and provides a medium-firm comfort level that suits a wide variety of sleep preferences. The safest part of choosing Tediber is our 100-night trial. This allows you to test the mattress in the…",
+      "by": "ai",
+      "lat": 11.9,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 33
+     },
+     {
+      "q": "I don't want to overpay while I'm still learning — what's a good starter pick?",
+      "a": "still offering high-end quality. With its 25 cm thickness and medium-firm support, it is designed to please the greatest number of sleepers. It is a very safe choice because you get the full Tediber experience, including the 100-night…",
+      "by": "ai",
+      "lat": 18,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 11
+     },
+     {
+      "q": "What do beginners usually say about it in reviews?",
+      "a": "Value: Customers appreciate getting high-end quality and durability at a very fair price. Sleep Independence: Those who sleep with a partner often mention how well it absorbs movements, ensuring a peaceful night for both. It is often…",
+      "by": "ai",
+      "lat": 19.6,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "Is there anything else a beginner needs to get started?",
+      "a": "ess protector is a great way to keep your investment clean and fresh for years to come. The full setup: If you are looking for a complete bedroom refresh, we also offer bed frames, headboards, and high-quality bed linen. We even offer Bed…",
+      "by": "ai",
+      "lat": 17.7,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 29
+     },
+     {
+      "q": "Okay, add your beginner recommendation to my cart — what's the total?",
+      "a": "I would be happy to help you with that! 🙂 To get started, could you please provide me with the email address you used for your account or your order number? This will allow me to find your information and help you further. Propulsé par…",
+      "by": "ai",
+      "lat": 35,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       },
+       {
+        "t": "purchase request unfulfilled",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "How do I use it properly the very first time?",
+      "a": "p on your mattress as soon as it is unboxed. While it takes a few minutes to expand, it will reach its final dimensions and optimal comfort within 6 to 8 hours. This won't prevent you from using it from the very first night. Important tip:…",
+      "by": "ai",
+      "lat": 38.7,
+      "cov": 40
+     },
+     {
+      "q": "What's the return policy if it turns out not to be right for me?",
+      "a": "ou during this period, the return is entirely free. Easy process: Simply contact us, and we will schedule an appointment to pick up the mattress directly from your home. Full refund: Once the mattress is back at our warehouse, you will…",
+      "by": "ai",
+      "lat": 21.3,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 17
+     },
+     {
+      "q": "Confirm my total and the delivery estimate?",
+      "a": "To confirm your total and delivery estimate, I need to find your account or order information. Could you please share the email address you used or your order number? Once I have that, I will be able to give you all the details! 🙂…",
+      "by": "ai",
+      "lat": 15.3,
+      "cov": 100
+     }
+    ]
+   }
+  ],
+  "turns": [
+   {
+    "q": "Hi! I'm completely new to this and don't know where to start — can you guide me?",
+    "a": "Thanks for reaching out to us. Welcome to Tediber! I would be delighted to help you discover our universe. Whether you're looking for information on our mattresses, bedding, or even where to find our stores to try our products, I'm here to…",
+    "by": "ai",
+    "lat": 11.3,
+    "fl": [
+     {
+      "t": "missed part of the ask",
+      "k": "warn"
+     }
+    ],
+    "cov": 20
+   },
+   {
+    "q": "Can you explain the main options in simple terms?",
+    "a": "s 38 cm thickness for an exceptional feel. Common features: 100-night trial: You can test them at home at your leisure. Fast delivery: Generally within 48 hours. Easy payment: Possibility to pay in 3 or 4 installments at no extra cost. To…",
+    "by": "ai",
+    "lat": 22.8,
+    "fl": [
+     {
+      "t": "missed part of the ask",
+      "k": "warn"
+     }
+    ],
+    "cov": 0
+   },
+   {
+    "q": "For a first-timer like me, what's the safest, easiest choice?",
+    "a": "llent choice. It is our most affordable option and provides a medium-firm comfort level that suits a wide variety of sleep preferences. The safest part of choosing Tediber is our 100-night trial. This allows you to test the mattress in the…",
+    "by": "ai",
+    "lat": 11.9,
+    "fl": [
+     {
+      "t": "missed part of the ask",
+      "k": "warn"
+     }
+    ],
+    "cov": 33
+   },
+   {
+    "q": "I don't want to overpay while I'm still learning — what's a good starter pick?",
+    "a": "still offering high-end quality. With its 25 cm thickness and medium-firm support, it is designed to please the greatest number of sleepers. It is a very safe choice because you get the full Tediber experience, including the 100-night…",
+    "by": "ai",
+    "lat": 18,
+    "fl": [
+     {
+      "t": "missed part of the ask",
+      "k": "warn"
+     }
+    ],
+    "cov": 11
+   },
+   {
+    "q": "What do beginners usually say about it in reviews?",
+    "a": "Value: Customers appreciate getting high-end quality and durability at a very fair price. Sleep Independence: Those who sleep with a partner often mention how well it absorbs movements, ensuring a peaceful night for both. It is often…",
+    "by": "ai",
+    "lat": 19.6,
+    "fl": [
+     {
+      "t": "missed part of the ask",
+      "k": "warn"
+     }
+    ],
+    "cov": 0
+   },
+   {
+    "q": "Is there anything else a beginner needs to get started?",
+    "a": "ess protector is a great way to keep your investment clean and fresh for years to come. The full setup: If you are looking for a complete bedroom refresh, we also offer bed frames, headboards, and high-quality bed linen. We even offer Bed…",
+    "by": "ai",
+    "lat": 17.7,
+    "fl": [
+     {
+      "t": "missed part of the ask",
+      "k": "warn"
+     }
+    ],
+    "cov": 29
+   },
+   {
+    "q": "Okay, add your beginner recommendation to my cart — what's the total?",
+    "a": "I would be happy to help you with that! 🙂 To get started, could you please provide me with the email address you used for your account or your order number? This will allow me to find your information and help you further. Propulsé par…",
+    "by": "ai",
+    "lat": 35,
+    "fl": [
+     {
+      "t": "missed part of the ask",
+      "k": "warn"
+     },
+     {
+      "t": "purchase request unfulfilled",
+      "k": "warn"
+     }
+    ],
+    "cov": 0
+   },
+   {
+    "q": "How do I use it properly the very first time?",
+    "a": "p on your mattress as soon as it is unboxed. While it takes a few minutes to expand, it will reach its final dimensions and optimal comfort within 6 to 8 hours. This won't prevent you from using it from the very first night. Important tip:…",
+    "by": "ai",
+    "lat": 38.7,
+    "cov": 40
+   },
+   {
+    "q": "What's the return policy if it turns out not to be right for me?",
+    "a": "ou during this period, the return is entirely free. Easy process: Simply contact us, and we will schedule an appointment to pick up the mattress directly from your home. Full refund: Once the mattress is back at our warehouse, you will…",
+    "by": "ai",
+    "lat": 21.3,
+    "fl": [
+     {
+      "t": "missed part of the ask",
+      "k": "warn"
+     }
+    ],
+    "cov": 17
+   },
+   {
+    "q": "Confirm my total and the delivery estimate?",
+    "a": "To confirm your total and delivery estimate, I need to find your account or order information. Could you please share the email address you used or your order number? Once I have that, I will be able to give you all the details! 🙂…",
+    "by": "ai",
+    "lat": 15.3,
+    "cov": 100
    }
   ]
  },
@@ -29255,44 +29701,46 @@ const STORES = [
   "locale": "en-US",
   "method": "new",
   "us": false,
-  "lat": "~29.1s",
+  "lat": "~25.4s",
   "latPct": 100,
-  "latP75": 33,
-  "ttft": 26.2,
+  "latP75": 32,
+  "ttft": 24.8,
   "delivery": "atomic",
-  "success": 90,
-  "successTxt": "90%",
+  "success": 87,
+  "successTxt": "87%",
   "avgTurns": 10,
-  "timed": 9,
-  "attempted": 10,
+  "timed": 26,
+  "attempted": 30,
   "auto": {
-   "automated": 1,
+   "automated": 3,
    "handover": 0,
    "deflected": 0,
    "no_answer": 0,
-   "engaged": 1,
+   "engaged": 3,
    "rate": 100
   },
   "evalq": {
-   "n": 1,
-   "total": 67,
+   "n": 3,
+   "total": 41,
    "dims": {
     "answer": 9,
-    "discovery": 20,
-    "recommendation": 22,
-    "rich": 11,
-    "close": 5
+    "discovery": 15,
+    "recommendation": 7,
+    "rich": 4,
+    "close": 6
    },
    "cls": {
-    "partial": 1
+    "partial": 3
    },
    "learnings": [
-    "Strong catalog guidance and social proof, but it fails purchase mechanics and escalates warranty/discount details to email."
+    "The assistant collects some useful constraints, but never makes the requested comparison or names value-for-money products.",
+    "Strong catalog guidance and social proof, but it fails purchase mechanics and escalates warranty/discount details to email.",
+    "Useful policy answers appear, but the gift-shopping flow never turns into a named recommendation and drops the final discount ask."
    ]
   },
   "guard": null,
   "ticket": null,
-  "what": "1 cold private conversations (shopping themes). No handover in any theme. Avg end-to-end latency ~29.1s across 9 AI-timed turns.",
+  "what": "3 cold private conversations (shopping themes). No handover in any theme. Avg end-to-end latency ~25.4s across 26 AI-timed turns.",
   "datetime": "2026-07-06T15:29:23.065Z",
   "themes": [
    {
@@ -29446,6 +29894,298 @@ const STORES = [
        }
       ],
       "cov": 25
+     }
+    ]
+   },
+   {
+    "key": "gift",
+    "label": "Gift shopper",
+    "datetime": "2026-07-06T15:09:34.218Z",
+    "lat": "~23.1s",
+    "success": 90,
+    "successTxt": "90%",
+    "handoverTurn": null,
+    "ticket": null,
+    "productRecs": {
+     "count": 0,
+     "names": []
+    },
+    "turns": [
+     {
+      "q": "Hi! I'm looking for a gift for someone and I'm not sure what to pick — can you help?",
+      "a": "ng on the right dimensions, our Rug Size Guide is a great resource to help visualize how different sizes fit in various rooms. Feel free to share any details you have, and we can go from there! Thank you for being with us as a customer.…",
+      "by": "ai",
+      "lat": 20.9,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "It's for someone who likes quality but isn't fussy; I want something they'll actually use.",
+      "a": "hioned, non-slip pad, so it's a complete, ready-to-use gift. To help me point you toward the right design, do you happen to know which room this might be for, or perhaps a general size you were thinking of? If you're unsure, I'd also…",
+      "by": "ai",
+      "lat": 15.8,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 10
+     },
+     {
+      "q": "My budget is moderate — what would make a good gift in that range?",
+      "a": "r Ask-a-Designer form. Our expert design team will look at your requirements and get back to you with personalized options within one business day! In the meantime, if you can share the approximate size or the type of room you are shopping…",
+      "by": "ai",
+      "lat": 19.8,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "Between your top two gift ideas, which feels more special?",
+      "a": "et a tailored recommendation is to fill out our Ask-a-Designer form. Our design team can help you weigh those options based on the recipient's style and the room's decor to ensure it feels truly special for them. If you have a specific…",
+      "by": "ai",
+      "lat": 26.4,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 22
+     },
+     {
+      "q": "Is there a gift set or bundle that looks nicer than a single item?",
+      "a": "ly save 10% when you purchase two or more items! You might consider pairing a larger rug for a living space with a matching runner or a 3x5' rug for an entryway or kitchen. If you're not sure which combination would look best, I highly…",
+      "by": "ai",
+      "lat": 31.4,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 20
+     },
+     {
+      "q": "Can it arrive gift-ready, and how fast can it ship?",
+      "a": "the contiguous United States usually takes between 1 and 5 business days. If you happen to be in Canada, delivery may take a little longer. To be safe, we always recommend ordering about 2 weeks before you need the gift to arrive! Please…",
+      "by": "ai",
+      "lat": 37.3,
+      "cov": 60
+     },
+     {
+      "q": "Great — add your top gift pick to my cart and tell me the total.",
+      "a": "ause we have so many beautiful designs and sizes available, I want to make sure I pick the exact one you have in mind. Could you please let me know which design and size you've decided on? Once you provide those details, I can give you the…",
+      "by": "ai",
+      "lat": 25.8,
+      "cov": 43
+     },
+     {
+      "q": "Can you include a gift message or a gift receipt?",
+      "a": "le to include them with orders for physical products like our rugs or pad sets. Additionally, because we do not offer gift receipts, the standard packing slip that includes pricing information will be included in the shipment. Many of our…",
+      "by": "ai",
+      "lat": 24.6,
+      "cov": 50
+     },
+     {
+      "q": "If they want to exchange it, how would that work?",
+      "a": "AI replied (streamed past timing window)",
+      "by": "ai",
+      "lat": null,
+      "fl": [
+       {
+        "t": "no timed answer",
+        "k": "bad"
+       },
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "Any discount if I add a second smaller item?",
+      "a": "AI answered",
+      "by": "ai",
+      "lat": 6.3,
+      "fl": [
+       {
+        "t": "thin answer",
+        "k": "warn"
+       },
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     }
+    ]
+   },
+   {
+    "key": "compare-budget",
+    "label": "Comparison, budget-tight",
+    "datetime": "2026-07-06T15:09:34.218Z",
+    "lat": "~23.8s",
+    "success": 80,
+    "successTxt": "80%",
+    "handoverTurn": null,
+    "ticket": null,
+    "productRecs": {
+     "count": 0,
+     "names": []
+    },
+    "turns": [
+     {
+      "q": "Hi! I'm deciding between a few options and money's a bit tight — can you help me choose?",
+      "a": "d! 🙂 To give you the best recommendations, could you let me know which designs or sizes you are currently considering? Also, if you have a specific room or style in mind, that would be great to know as well. Once you have those details, I…",
+      "by": "ai",
+      "lat": 21.1,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "I want the best bang for the buck, not the cheapest or the most expensive.",
+      "a": "nalized recommendation is to fill out our Ask-a-Designer form. Our design team can look at your specific space and style to help you pick the rug that gives you the most impact for your budget. To help me give you some initial ideas, do…",
+      "by": "ai",
+      "lat": 15.8,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 13
+     },
+     {
+      "q": "Show me your two best value-for-money options and compare them.",
+      "a": "team can look at your room and provide a personalized recommendation for the designs that offer the best impact for your needs. If you have a couple of specific designs or a rug size in mind, please let me know! I would be happy to provide…",
+      "by": "ai",
+      "lat": 27.4,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 14
+     },
+     {
+      "q": "Honestly, is the pricier one worth the extra, or is the cheaper one fine?",
+      "a": "es of comparisons and can help you decide if the features of a certain style are worth the extra investment for your particular space. If you have two specific rugs you are currently looking at, please let me know! I can provide the…",
+      "by": "ai",
+      "lat": 21.7,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 29
+     },
+     {
+      "q": "Are there any current promos, bundles, or ways to save?",
+      "a": "AI replied (streamed past timing window)",
+      "by": "ai",
+      "lat": null,
+      "fl": [
+       {
+        "t": "no timed answer",
+        "k": "bad"
+       },
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "Which would you personally pick on my budget?",
+      "a": "AI answered",
+      "by": "ai",
+      "lat": 6.4,
+      "fl": [
+       {
+        "t": "thin answer",
+        "k": "warn"
+       },
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "Add that one to my cart and tell me the total with any discount.",
+      "a": "get the best value possible. To check if I can provide a first-time purchaser discount code for you, could you please share the email address you'd like to use? Also, since we were exploring a few different options, could you let me know…",
+      "by": "ai",
+      "lat": 33.8,
+      "cov": 43
+     },
+     {
+      "q": "Does the cheaper one have the same warranty as the pricier one?",
+      "a": "(streamed past timing window) tection for your budget. It is important to know exactly what is covered when you are making a choice like this. 🙂 To ensure you receive the most accurate information regarding our warranty coverage, I will need to have my manager look…",
+      "by": "ai",
+      "lat": null,
+      "fl": [
+       {
+        "t": "no timed answer",
+        "k": "bad"
+       },
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 20
+     },
+     {
+      "q": "Can I pay in installments or split payment?",
+      "a": "make sure I provide you with the most accurate and up-to-date information. To do this, I need to escalate these details to my manager for a thorough review. Could you please share your email address with me? Having your email is required…",
+      "by": "ai",
+      "lat": 35.3,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "Confirm my total and the fastest shipping option?",
+      "a": "dress to check if you are eligible for our first-time purchaser discount. Also, could you please specify which rug design and size you have decided on? This information is necessary for me to calculate the final price for you. Once you…",
+      "by": "ai",
+      "lat": 29.2,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       },
+       {
+        "t": "purchase request unfulfilled",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
      }
     ]
    }
