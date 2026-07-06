@@ -105109,87 +105109,78 @@
   "v": 2,
   "mode": "shopping",
   "rubric": {
-   "answer": 30,
-   "discovery": 20,
+   "answer": 9,
+   "discovery": 15,
    "recommendation": 22,
-   "rich": 13,
+   "rich": 15,
    "close": 7
   },
-  "total": 92,
+  "total": 68,
   "checks": {
    "a_direct": {
-    "pass": true,
-    "evidence": "the store T20 Empty $99.95 Black / Empty Add to cart the store T30 Empty $119.95"
+    "pass": false,
+    "evidence": "Searching the catalog"
    },
    "a_consistent": {
     "pass": true,
-    "evidence": "Overall, my gift recommendation between the two is the T30"
+    "evidence": "top gift pick I recommended was the the store T30 Empty"
    },
    "a_no_ignored": {
-    "pass": true,
-    "evidence": "there is no information confirming gift messages or gift receipts... I can connect you with a team member to confirm this information"
+    "pass": false,
+    "evidence": "Searching the catalog"
    },
    "d_clarify": {
     "pass": true,
-    "evidence": "please provide information about the recipient’s interests, such as whether they use camera gear, drones, tools, firearms, electronics, or outdoor equipment"
+    "evidence": "recipient's interests-such as photography, drones, firearms, tools, outdoor gear"
    },
    "d_progressive": {
     "pass": true,
-    "evidence": "If you are seeking a more impressive gift, the T30 is recommended. For a safer, more everyday-value option, the T20 would be suitable"
+    "evidence": "More special / more impressive: the store T30 Empty"
    },
    "d_not_dump": {
-    "pass": true,
-    "evidence": "please provide information about the recipient’s interests, such as whether they use camera gear, drones, tools"
+    "pass": false,
+    "evidence": "915 for DJI Mini 3 & 4 Pro ... 935 Pro Photo Kit ... Padded Dividers ... Foam Inserts"
    },
    "r_named": {
     "pass": true,
-    "evidence": "My top gift recommendation is the the store T30 Empty"
+    "evidence": "the store T30 Empty"
    },
    "r_fit": {
     "pass": true,
-    "evidence": "likes quality but isn't fussy... For a safer, more everyday-value option, the T20 would be suitable... the T30 offers similar benefits with increased capacity"
+    "evidence": "more special / more impressive"
    },
    "r_plausible": {
     "pass": true,
-    "evidence": "the store T20 Empty $99.95... the store T30 Empty $119.95... 641 Mini-Kitcase $16.95"
+    "evidence": "the store T20 Empty"
    },
    "e_price": {
     "pass": true,
-    "evidence": "the store T30 Empty $119.95 Black / Empty"
+    "evidence": "$119.95"
    },
    "e_link": {
     "pass": true,
-    "evidence": "If you add this item on the website, your total will depend on the current price, shipping, taxes"
+    "evidence": "Add to cart"
    },
    "e_reviews": {
     "pass": false,
     "evidence": ""
    },
    "e_options": {
-    "pass": false,
-    "evidence": ""
+    "pass": true,
+    "evidence": "T30 Empty ... T20 Empty"
    },
    "c_cta": {
     "pass": true,
-    "evidence": "If you add this item on the website, your total will depend on the current price, shipping, taxes, and any discounts"
+    "evidence": "exact total will be displayed at checkout"
    },
    "c_cart": {
     "pass": false,
-    "evidence": "I am unable to add items to your cart or view your checkout total from here. My top gift recommendation is the the store T30 Empty"
+    "evidence": "You may add the the store T30 Empty on the website"
    },
    "c_clean": {
     "pass": true,
-    "evidence": "If you would like, I can connect you with a team member to confirm this information before you place your order"
+    "evidence": "I can connect you with a team member"
    }
-  },
-  "resolution_class": "resolved",
-  "learning": "Consistent gift pick (T30) with priced options and honest limits on cart-adding and gift receipts; couldn't complete the explicit cart total but was transparent about it.",
-  "judged_at": null,
-  "judge": {
-   "origin": "claude",
-   "origin_explicit": false,
-   "runner": "eval-merge.js",
-   "schema": 1
   },
   "turn_quality": {
    "schema": 1,
@@ -105198,8 +105189,8 @@
      "turn": 1,
      "measured": true,
      "by": "ai",
-     "complete_ms": 22665,
-     "answer_chars": 489,
+     "complete_ms": 29308,
+     "answer_chars": 482,
      "keyword_coverage": {
       "asked": 6,
       "matched": 1,
@@ -105221,7 +105212,7 @@
      "turn": 2,
      "measured": true,
      "by": "ai",
-     "complete_ms": 3926,
+     "complete_ms": 6630,
      "answer_chars": 24,
      "keyword_coverage": {
       "asked": 10,
@@ -105248,17 +105239,16 @@
      "turn": 3,
      "measured": true,
      "by": "ai",
-     "complete_ms": 4513,
+     "complete_ms": 4466,
      "answer_chars": 492,
      "keyword_coverage": {
       "asked": 8,
-      "matched": 3,
-      "ratio": 0.38,
+      "matched": 4,
+      "ratio": 0.5,
       "missing": [
        "moderate",
        "make",
        "good",
-       "that",
        "range"
       ]
      },
@@ -105269,7 +105259,7 @@
      "turn": 4,
      "measured": true,
      "by": "ai",
-     "complete_ms": 3580,
+     "complete_ms": 8148,
      "answer_chars": 24,
      "keyword_coverage": {
       "asked": 9,
@@ -105296,26 +105286,25 @@
      "turn": 5,
      "measured": true,
      "by": "ai",
-     "complete_ms": 5355,
-     "answer_chars": 24,
+     "complete_ms": 2697,
+     "answer_chars": 492,
      "keyword_coverage": {
       "asked": 10,
-      "matched": 0,
-      "ratio": 0,
+      "matched": 2,
+      "ratio": 0.2,
       "missing": [
        "there",
-       "gift",
        "set",
        "bundle",
-       "that",
        "looks",
        "nicer",
-       "than"
+       "than",
+       "single",
+       "item"
       ]
      },
-     "substantive": false,
+     "substantive": true,
      "flags": [
-      "thin_answer",
       "low_question_coverage"
      ]
     },
@@ -105323,14 +105312,15 @@
      "turn": 6,
      "measured": true,
      "by": "ai",
-     "complete_ms": 5953,
-     "answer_chars": 492,
+     "complete_ms": 11309,
+     "answer_chars": 499,
      "keyword_coverage": {
       "asked": 5,
-      "matched": 1,
-      "ratio": 0.2,
+      "matched": 0,
+      "ratio": 0,
       "missing": [
        "arrive",
+       "gift",
        "ready",
        "fast",
        "ship"
@@ -105345,14 +105335,15 @@
      "turn": 7,
      "measured": true,
      "by": "ai",
-     "complete_ms": 8679,
+     "complete_ms": 12741,
      "answer_chars": 500,
      "keyword_coverage": {
       "asked": 7,
-      "matched": 6,
-      "ratio": 0.86,
+      "matched": 5,
+      "ratio": 0.71,
       "missing": [
-       "great"
+       "great",
+       "cart"
       ]
      },
      "substantive": true,
@@ -105362,19 +105353,22 @@
      "turn": 8,
      "measured": false,
      "by": "human",
-     "complete_ms": 10744,
-     "answer_chars": 410,
+     "complete_ms": 9243,
+     "answer_chars": 303,
      "keyword_coverage": {
       "asked": 4,
-      "matched": 2,
-      "ratio": 0.5,
+      "matched": 1,
+      "ratio": 0.25,
       "missing": [
+       "include",
        "message",
        "receipt"
       ]
      },
      "substantive": false,
-     "flags": []
+     "flags": [
+      "low_question_coverage"
+     ]
     },
     {
      "turn": 9,
@@ -105430,10 +105424,19 @@
    "summary": {
     "total_turns": 10,
     "measured_turns": 7,
-    "substantive_turns": 4,
-    "issue_turns": 7,
-    "issue_rate": 0.7
+    "substantive_turns": 5,
+    "issue_turns": 8,
+    "issue_rate": 0.8
    }
+  },
+  "resolution_class": "partial",
+  "learning": "It finds plausible gift products, but several turns stall on catalog search or repeat prior content and it cannot complete cart or total.",
+  "judged_at": null,
+  "judge": {
+   "origin": "codex",
+   "origin_explicit": true,
+   "runner": "eval-merge.js",
+   "schema": 1
   }
  },
  "2026-07-06/kodif-dsc-shopping-everyday-value.json": {
@@ -112739,6 +112742,1318 @@
     "issue_turns": 8,
     "issue_rate": 0.8
    }
+  }
+ },
+ "2026-07-06/klaviyo-k9ballistics-shopping-everyday-value.json": {
+  "v": 2,
+  "mode": "shopping",
+  "rubric": {
+   "answer": 9,
+   "discovery": 8,
+   "recommendation": 22,
+   "rich": 13,
+   "close": 10
+  },
+  "total": 62,
+  "checks": {
+   "a_direct": {
+    "pass": false,
+    "evidence": "I tried searching our product catalog to compare our two most popular options, but I couldn't find specific details"
+   },
+   "a_consistent": {
+    "pass": true,
+    "evidence": "Chew Proof Armored Vinyl Dog Bed - Open Box for unbeatable durability and value"
+   },
+   "a_no_ignored": {
+    "pass": false,
+    "evidence": "I couldn't find specific details to share right now"
+   },
+   "d_clarify": {
+    "pass": true,
+    "evidence": "pet size, or style in mind-I can narrow it down even further for you"
+   },
+   "d_progressive": {
+    "pass": false,
+    "evidence": "If you'd like more details or want to see other options, just let me know your pet's size"
+   },
+   "d_not_dump": {
+    "pass": false,
+    "evidence": "Dog Harness ... Treat Pouch ... Dog Leash ... Dog Collar ... Classic Trucker Hat"
+   },
+   "r_named": {
+    "pass": true,
+    "evidence": "K9 Everyday Dog Harness"
+   },
+   "r_fit": {
+    "pass": true,
+    "evidence": "unbeatable durability and value"
+   },
+   "r_plausible": {
+    "pass": true,
+    "evidence": "K9 Everyday Dog Leash"
+   },
+   "e_price": {
+    "pass": true,
+    "evidence": "$45.00"
+   },
+   "e_link": {
+    "pass": true,
+    "evidence": "Add to cart"
+   },
+   "e_reviews": {
+    "pass": false,
+    "evidence": ""
+   },
+   "e_options": {
+    "pass": false,
+    "evidence": ""
+   },
+   "c_cta": {
+    "pass": true,
+    "evidence": "Add to cart"
+   },
+   "c_cart": {
+    "pass": true,
+    "evidence": "Checkout"
+   },
+   "c_clean": {
+    "pass": true,
+    "evidence": "I can connect you with someone from our team"
+   }
+  },
+  "turn_quality": {
+   "schema": 1,
+   "turns": [
+    {
+     "turn": 1,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 22668,
+     "answer_chars": 479,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "shopping",
+       "not",
+       "sure",
+       "right",
+       "choose"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 2,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 35483,
+     "answer_chars": 492,
+     "keyword_coverage": {
+      "asked": 10,
+      "matched": 5,
+      "ratio": 0.5,
+      "missing": [
+       "use",
+       "good",
+       "care",
+       "about",
+       "money"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 3,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 8094,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 2,
+      "ratio": 0.29,
+      "missing": [
+       "stay",
+       "within",
+       "sensible",
+       "budget",
+       "best"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 4,
+     "measured": false,
+     "by": "human",
+     "complete_ms": 38963,
+     "answer_chars": 377,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 5,
+      "ratio": 0.71,
+      "missing": [
+       "which",
+       "better"
+      ]
+     },
+     "substantive": false,
+     "flags": []
+    },
+    {
+     "turn": 5,
+     "measured": false,
+     "by": "human",
+     "complete_ms": null,
+     "answer_chars": 47,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "which",
+       "one",
+       "overall",
+       "best",
+       "seller",
+       "well",
+       "reviewed"
+      ]
+     },
+     "substantive": false,
+     "flags": [
+      "not_sent_after_handover",
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 6,
+     "measured": false,
+     "by": "human",
+     "complete_ms": null,
+     "answer_chars": 47,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "okay",
+       "add",
+       "top",
+       "recommendation",
+       "cart"
+      ]
+     },
+     "substantive": false,
+     "flags": [
+      "not_sent_after_handover",
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 7,
+     "measured": false,
+     "by": "human",
+     "complete_ms": null,
+     "answer_chars": 47,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "total",
+       "offer",
+       "free",
+       "shipping",
+       "first",
+       "order",
+       "discount"
+      ]
+     },
+     "substantive": false,
+     "flags": [
+      "not_sent_after_handover",
+      "low_question_coverage",
+      "purchase_request_unfulfilled"
+     ]
+    },
+    {
+     "turn": 8,
+     "measured": false,
+     "by": "human",
+     "complete_ms": null,
+     "answer_chars": 47,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "there",
+       "warranty",
+       "guarantee",
+       "something",
+       "goes",
+       "wrong"
+      ]
+     },
+     "substantive": false,
+     "flags": [
+      "not_sent_after_handover",
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 9,
+     "measured": false,
+     "by": "human",
+     "complete_ms": null,
+     "answer_chars": 47,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "long",
+       "will",
+       "delivery",
+       "take",
+       "roughly"
+      ]
+     },
+     "substantive": false,
+     "flags": [
+      "not_sent_after_handover",
+      "low_question_coverage",
+      "missing_timeframe"
+     ]
+    },
+    {
+     "turn": 10,
+     "measured": false,
+     "by": "human",
+     "complete_ms": null,
+     "answer_chars": 47,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "change",
+       "mind",
+       "easy",
+       "return"
+      ]
+     },
+     "substantive": false,
+     "flags": [
+      "not_sent_after_handover",
+      "low_question_coverage"
+     ]
+    }
+   ],
+   "summary": {
+    "total_turns": 10,
+    "measured_turns": 3,
+    "substantive_turns": 3,
+    "issue_turns": 8,
+    "issue_rate": 0.8
+   }
+  },
+  "resolution_class": "partial",
+  "learning": "It surfaces products with prices and cart affordances, but loses the thread on comparison and dumps options before narrowing the shopper profile.",
+  "judged_at": null,
+  "judge": {
+   "origin": "codex",
+   "origin_explicit": true,
+   "runner": "eval-merge.js",
+   "schema": 1
+  }
+ },
+ "2026-07-06/klaviyo-naked-shopping-everyday-value.json": {
+  "v": 2,
+  "mode": "shopping",
+  "rubric": {
+   "answer": 30,
+   "discovery": 15,
+   "recommendation": 22,
+   "rich": 15,
+   "close": 10
+  },
+  "total": 92,
+  "checks": {
+   "a_direct": {
+    "pass": true,
+    "evidence": "best match for EVERYDAY WEAR + GOOD QUALITY FEEL + VALUE"
+   },
+   "a_consistent": {
+    "pass": true,
+    "evidence": "I'd recommend the TWEED HEADBAND"
+   },
+   "a_no_ignored": {
+    "pass": true,
+    "evidence": "I don't have confirmed info showing which is our OVERALL BEST SELLER"
+   },
+   "d_clarify": {
+    "pass": true,
+    "evidence": "EVERYDAY/BASIC, GOING-OUT, SEXY, MINIMALIST, OR TRENDY"
+   },
+   "d_progressive": {
+    "pass": true,
+    "evidence": "EVERYDAY WEARABILITY - GOOD STYLE IMPACT FOR A LOW SPEND - BEST VALUE FOR MONEY"
+   },
+   "d_not_dump": {
+    "pass": false,
+    "evidence": "FAUX FEATHER MINI HANDBAG ... FAUX FUR PLUSH SHOULDER BAG ... ROSES MINI HANDBAG"
+   },
+   "r_named": {
+    "pass": true,
+    "evidence": "TWEED HEADBAND"
+   },
+   "r_fit": {
+    "pass": true,
+    "evidence": "best value for money"
+   },
+   "r_plausible": {
+    "pass": true,
+    "evidence": "LINEN HEADBAND"
+   },
+   "e_price": {
+    "pass": true,
+    "evidence": "€14.95"
+   },
+   "e_link": {
+    "pass": true,
+    "evidence": "ADD TO CART"
+   },
+   "e_reviews": {
+    "pass": false,
+    "evidence": ""
+   },
+   "e_options": {
+    "pass": true,
+    "evidence": "TWEED HEADBAND ... LINEN HEADBAND"
+   },
+   "c_cta": {
+    "pass": true,
+    "evidence": "I can narrow it down even more by TYPE"
+   },
+   "c_cart": {
+    "pass": true,
+    "evidence": "ADD TO CART"
+   },
+   "c_clean": {
+    "pass": true,
+    "evidence": "I can connect you with a team member"
+   }
+  },
+  "turn_quality": {
+   "schema": 1,
+   "turns": [
+    {
+     "turn": 1,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 15963,
+     "answer_chars": 481,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "shopping",
+       "not",
+       "sure",
+       "right",
+       "choose"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 2,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 14643,
+     "answer_chars": 486,
+     "keyword_coverage": {
+      "asked": 10,
+      "matched": 5,
+      "ratio": 0.5,
+      "missing": [
+       "something",
+       "use",
+       "care",
+       "about",
+       "money"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 3,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 13790,
+     "answer_chars": 488,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 1,
+      "ratio": 0.14,
+      "missing": [
+       "like",
+       "stay",
+       "within",
+       "sensible",
+       "best",
+       "options"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 4,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 20093,
+     "answer_chars": 492,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "compare",
+       "two",
+       "most",
+       "popular",
+       "options",
+       "which",
+       "better"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 5,
+     "measured": false,
+     "by": "human",
+     "complete_ms": 8938,
+     "answer_chars": 428,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 6,
+      "ratio": 0.86,
+      "missing": [
+       "one"
+      ]
+     },
+     "substantive": false,
+     "flags": []
+    },
+    {
+     "turn": 6,
+     "measured": false,
+     "by": "human",
+     "complete_ms": null,
+     "answer_chars": 47,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "okay",
+       "add",
+       "top",
+       "recommendation",
+       "cart"
+      ]
+     },
+     "substantive": false,
+     "flags": [
+      "not_sent_after_handover",
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 7,
+     "measured": false,
+     "by": "human",
+     "complete_ms": null,
+     "answer_chars": 47,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "total",
+       "offer",
+       "free",
+       "shipping",
+       "first",
+       "order",
+       "discount"
+      ]
+     },
+     "substantive": false,
+     "flags": [
+      "not_sent_after_handover",
+      "low_question_coverage",
+      "purchase_request_unfulfilled"
+     ]
+    },
+    {
+     "turn": 8,
+     "measured": false,
+     "by": "human",
+     "complete_ms": null,
+     "answer_chars": 47,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "there",
+       "warranty",
+       "guarantee",
+       "something",
+       "goes",
+       "wrong"
+      ]
+     },
+     "substantive": false,
+     "flags": [
+      "not_sent_after_handover",
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 9,
+     "measured": false,
+     "by": "human",
+     "complete_ms": null,
+     "answer_chars": 47,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "long",
+       "will",
+       "delivery",
+       "take",
+       "roughly"
+      ]
+     },
+     "substantive": false,
+     "flags": [
+      "not_sent_after_handover",
+      "low_question_coverage",
+      "missing_timeframe"
+     ]
+    },
+    {
+     "turn": 10,
+     "measured": false,
+     "by": "human",
+     "complete_ms": null,
+     "answer_chars": 47,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "change",
+       "mind",
+       "easy",
+       "return"
+      ]
+     },
+     "substantive": false,
+     "flags": [
+      "not_sent_after_handover",
+      "low_question_coverage"
+     ]
+    }
+   ],
+   "summary": {
+    "total_turns": 10,
+    "measured_turns": 4,
+    "substantive_turns": 4,
+    "issue_turns": 8,
+    "issue_rate": 0.8
+   }
+  },
+  "resolution_class": "partial",
+  "learning": "Strong value-oriented narrowing and honest uncertainty on reviews, with the main miss being an early product dump before discovery.",
+  "judged_at": null,
+  "judge": {
+   "origin": "codex",
+   "origin_explicit": true,
+   "runner": "eval-merge.js",
+   "schema": 1
+  }
+ },
+ "2026-07-06/klaviyo-naked-shopping-gift.json": {
+  "v": 2,
+  "mode": "shopping",
+  "rubric": {
+   "answer": 30,
+   "discovery": 15,
+   "recommendation": 22,
+   "rich": 13,
+   "close": 7
+  },
+  "total": 87,
+  "checks": {
+   "a_direct": {
+    "pass": true,
+    "evidence": "ROSES MINI HANDBAG is probably the best balance of USEFUL, GIFTABLE, AND MODERATELY PRICED"
+   },
+   "a_consistent": {
+    "pass": true,
+    "evidence": "We don't list a gift-wrap or gift-ready service in our shipping policy"
+   },
+   "a_no_ignored": {
+    "pass": true,
+    "evidence": "I'm NOT SEEING ANY INFORMATION confirming a GIFT MESSAGE option or a GIFT RECEIPT option"
+   },
+   "d_clarify": {
+    "pass": true,
+    "evidence": "THEIR STYLE (minimal, dressy, trendy), or WHAT OCCASION the gift is for"
+   },
+   "d_progressive": {
+    "pass": true,
+    "evidence": "quality without being fussy"
+   },
+   "d_not_dump": {
+    "pass": false,
+    "evidence": "ROSES MINI HANDBAG ... FAUX FUR PLUSH SHOULDER BAG ... SEQUIN MINI PURSE ... GIFT CARD"
+   },
+   "r_named": {
+    "pass": true,
+    "evidence": "ROSES MINI HANDBAG"
+   },
+   "r_fit": {
+    "pass": true,
+    "evidence": "best balance of USEFUL, GIFTABLE, AND MODERATELY PRICED"
+   },
+   "r_plausible": {
+    "pass": true,
+    "evidence": "the store GIFT CARD"
+   },
+   "e_price": {
+    "pass": true,
+    "evidence": "€42.95"
+   },
+   "e_link": {
+    "pass": true,
+    "evidence": "ADD TO CART"
+   },
+   "e_reviews": {
+    "pass": false,
+    "evidence": ""
+   },
+   "e_options": {
+    "pass": false,
+    "evidence": ""
+   },
+   "c_cta": {
+    "pass": true,
+    "evidence": "add it on the site"
+   },
+   "c_cart": {
+    "pass": false,
+    "evidence": "I can't add items to your cart or calculate a live checkout total from here"
+   },
+   "c_clean": {
+    "pass": true,
+    "evidence": "I can connect you with our team"
+   }
+  },
+  "turn_quality": {
+   "schema": 1,
+   "turns": [
+    {
+     "turn": 1,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 14559,
+     "answer_chars": 481,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 1,
+      "ratio": 0.17,
+      "missing": [
+       "looking",
+       "someone",
+       "not",
+       "sure",
+       "pick"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 2,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 13743,
+     "answer_chars": 492,
+     "keyword_coverage": {
+      "asked": 10,
+      "matched": 5,
+      "ratio": 0.5,
+      "missing": [
+       "likes",
+       "quality",
+       "isn",
+       "they",
+       "use"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 3,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 16681,
+     "answer_chars": 481,
+     "keyword_coverage": {
+      "asked": 8,
+      "matched": 1,
+      "ratio": 0.13,
+      "missing": [
+       "budget",
+       "moderate",
+       "would",
+       "make",
+       "good",
+       "that",
+       "range"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 4,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 16181,
+     "answer_chars": 496,
+     "keyword_coverage": {
+      "asked": 9,
+      "matched": 4,
+      "ratio": 0.44,
+      "missing": [
+       "between",
+       "top",
+       "two",
+       "ideas",
+       "special"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 5,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 12227,
+     "answer_chars": 493,
+     "keyword_coverage": {
+      "asked": 10,
+      "matched": 5,
+      "ratio": 0.5,
+      "missing": [
+       "there",
+       "set",
+       "bundle",
+       "nicer",
+       "single"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 6,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 6074,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 4,
+      "ratio": 0.8,
+      "missing": [
+       "arrive"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 7,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 7932,
+     "answer_chars": 318,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 6,
+      "ratio": 0.86,
+      "missing": [
+       "great"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 8,
+     "measured": false,
+     "by": "human",
+     "complete_ms": 11490,
+     "answer_chars": 340,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 3,
+      "ratio": 0.75,
+      "missing": [
+       "include"
+      ]
+     },
+     "substantive": false,
+     "flags": []
+    },
+    {
+     "turn": 9,
+     "measured": false,
+     "by": "human",
+     "complete_ms": null,
+     "answer_chars": 47,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "they",
+       "want",
+       "exchange",
+       "would",
+       "that",
+       "work"
+      ]
+     },
+     "substantive": false,
+     "flags": [
+      "not_sent_after_handover",
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 10,
+     "measured": false,
+     "by": "human",
+     "complete_ms": null,
+     "answer_chars": 47,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "any",
+       "discount",
+       "add",
+       "second",
+       "smaller",
+       "item"
+      ]
+     },
+     "substantive": false,
+     "flags": [
+      "not_sent_after_handover",
+      "low_question_coverage"
+     ]
+    }
+   ],
+   "summary": {
+    "total_turns": 10,
+    "measured_turns": 7,
+    "substantive_turns": 7,
+    "issue_turns": 4,
+    "issue_rate": 0.4
+   }
+  },
+  "resolution_class": "partial",
+  "learning": "Good gift reasoning and shipping specifics, but it cannot complete the explicit add-to-cart and total request.",
+  "judged_at": null,
+  "judge": {
+   "origin": "codex",
+   "origin_explicit": true,
+   "runner": "eval-merge.js",
+   "schema": 1
+  }
+ },
+ "2026-07-06/klaviyo-naked-shopping-problem-solver.json": {
+  "v": 2,
+  "mode": "shopping",
+  "rubric": {
+   "answer": 30,
+   "discovery": 20,
+   "recommendation": 22,
+   "rich": 13,
+   "close": 10
+  },
+  "total": 95,
+  "checks": {
+   "a_direct": {
+    "pass": true,
+    "evidence": "I don't have actual customer review text or ratings here"
+   },
+   "a_consistent": {
+    "pass": true,
+    "evidence": "durable stitching, quality construction, and pieces designed to hold their shape"
+   },
+   "a_no_ignored": {
+    "pass": true,
+    "evidence": "Once you share the details, I'll narrow it down"
+   },
+   "d_clarify": {
+    "pass": true,
+    "evidence": "Any MUST-HAVES like color, size, fit, fabric, or price range"
+   },
+   "d_progressive": {
+    "pass": true,
+    "evidence": "looking for something elevated rather than basic"
+   },
+   "d_not_dump": {
+    "pass": true,
+    "evidence": "Once you share the details, I'll narrow it down and recommend the best option"
+   },
+   "r_named": {
+    "pass": true,
+    "evidence": "SMOOTH SCOOP TANK BODYSUIT"
+   },
+   "r_fit": {
+    "pass": true,
+    "evidence": "polished, versatile, and dependable instead of flimsy or fussy"
+   },
+   "r_plausible": {
+    "pass": true,
+    "evidence": "SMOOTH TUBE TOP"
+   },
+   "e_price": {
+    "pass": true,
+    "evidence": "€46.95"
+   },
+   "e_link": {
+    "pass": true,
+    "evidence": "ADD TO CART"
+   },
+   "e_reviews": {
+    "pass": false,
+    "evidence": ""
+   },
+   "e_options": {
+    "pass": false,
+    "evidence": ""
+   },
+   "c_cta": {
+    "pass": true,
+    "evidence": "help you choose between the two based on FIT, COVERAGE, AND HOW YOU PLAN TO WEAR IT"
+   },
+   "c_cart": {
+    "pass": true,
+    "evidence": "ADD TO CART"
+   },
+   "c_clean": {
+    "pass": true,
+    "evidence": "I can connect you with someone who can check that for you"
+   }
+  },
+  "turn_quality": {
+   "schema": 1,
+   "turns": [
+    {
+     "turn": 1,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 11760,
+     "answer_chars": 497,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "specific",
+       "need",
+       "worried",
+       "about",
+       "picking",
+       "wrong",
+       "thing"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 2,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 12096,
+     "answer_chars": 496,
+     "keyword_coverage": {
+      "asked": 8,
+      "matched": 4,
+      "ratio": 0.5,
+      "missing": [
+       "been",
+       "disappointed",
+       "really",
+       "matters"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 3,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 12634,
+     "answer_chars": 492,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 2,
+      "ratio": 0.29,
+      "missing": [
+       "which",
+       "products",
+       "best",
+       "why",
+       "good"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 4,
+     "measured": false,
+     "by": "human",
+     "complete_ms": 7398,
+     "answer_chars": 410,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 3,
+      "ratio": 0.43,
+      "missing": [
+       "other",
+       "customers",
+       "reviews",
+       "actually"
+      ]
+     },
+     "substantive": false,
+     "flags": []
+    },
+    {
+     "turn": 5,
+     "measured": false,
+     "by": "human",
+     "complete_ms": null,
+     "answer_chars": 47,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "there",
+       "anything",
+       "should",
+       "pair",
+       "get",
+       "best",
+       "result"
+      ]
+     },
+     "substantive": false,
+     "flags": [
+      "not_sent_after_handover",
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 6,
+     "measured": false,
+     "by": "human",
+     "complete_ms": null,
+     "answer_chars": 47,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "doesn",
+       "work",
+       "out",
+       "options"
+      ]
+     },
+     "substantive": false,
+     "flags": [
+      "not_sent_after_handover",
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 7,
+     "measured": false,
+     "by": "human",
+     "complete_ms": null,
+     "answer_chars": 47,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "okay",
+       "convinced",
+       "add",
+       "recommendation",
+       "give",
+       "total"
+      ]
+     },
+     "substantive": false,
+     "flags": [
+      "not_sent_after_handover",
+      "low_question_coverage",
+      "purchase_request_unfulfilled"
+     ]
+    },
+    {
+     "turn": 8,
+     "measured": false,
+     "by": "human",
+     "complete_ms": null,
+     "answer_chars": 47,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "use",
+       "correctly",
+       "get",
+       "best",
+       "result"
+      ]
+     },
+     "substantive": false,
+     "flags": [
+      "not_sent_after_handover",
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 9,
+     "measured": false,
+     "by": "human",
+     "complete_ms": null,
+     "answer_chars": 47,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "there",
+       "subscription",
+       "refill",
+       "option"
+      ]
+     },
+     "substantive": false,
+     "flags": [
+      "not_sent_after_handover",
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 10,
+     "measured": false,
+     "by": "human",
+     "complete_ms": null,
+     "answer_chars": 47,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "confirm",
+       "total",
+       "will",
+       "arrive"
+      ]
+     },
+     "substantive": false,
+     "flags": [
+      "not_sent_after_handover",
+      "low_question_coverage",
+      "missing_timeframe",
+      "purchase_request_unfulfilled"
+     ]
+    }
+   ],
+   "summary": {
+    "total_turns": 10,
+    "measured_turns": 3,
+    "substantive_turns": 3,
+    "issue_turns": 8,
+    "issue_rate": 0.8
+   }
+  },
+  "resolution_class": "partial",
+  "learning": "Careful discovery and honest review limitations make this strong, though review and comparison rich signals are absent.",
+  "judged_at": null,
+  "judge": {
+   "origin": "codex",
+   "origin_explicit": true,
+   "runner": "eval-merge.js",
+   "schema": 1
   }
  }
 }
