@@ -21,7 +21,7 @@
 import { chromium } from "playwright";
 import { mkdir, writeFile } from "node:fs/promises";
 import { existsSync, readFileSync } from "node:fs";
-import { WIDGETS, STORES, readTranscript } from "./vendors.js";
+import { WIDGETS, STORES, readLatestAssistantReply, readTranscript } from "./vendors.js";
 import { SHOPPING_THEMES, SUPPORT_THEMES } from "./pools.js";
 import { isGen, isAck, isNoAnswer, detectHandover, convoValidity } from "./classify.js";
 
@@ -302,24 +302,27 @@ async function runStoreMode(browser, store, mode, theme) {
         console.log(`  [${store.key}/${mode}/${theme.key}] T${i + 1} (not sent — handed to human)`);
         continue;
       }
-      let r, tail;
+      let r, handoverTail, replyTail;
       if (useNet) {
         try { r = await withTimeout(timeTurnNet(page, net, () => w.send(page, q)), TURN_TIMEOUT_MS + 15000, "turn-net"); }
         catch (e) { r = { ttft_ms: null, complete_ms: null, error: String(e).slice(0, 120) }; }
-        tail = net.replies.slice(-3).map(x => x.text).join("  ").slice(-700);
+        handoverTail = replyTail = net.replies.slice(-3).map(x => x.text).join("  ").slice(-700);
       } else {
         try { r = await withTimeout(timeTurn(page, w.scope, () => w.send(page, q), q), TURN_TIMEOUT_MS + 15000, "turn"); }
         catch (e) { r = { ttft_ms: null, complete_ms: null, error: String(e).slice(0, 120) }; }
-        tail = (await readTranscript(page, w.scope)).text.slice(-700);
+        const transcript = (await readTranscript(page, w.scope)).text;
+        handoverTail = transcript.slice(-700);
+        const latestAssistant = store.widget === "yuma" ? await readLatestAssistantReply(page, w.scope) : "";
+        replyTail = (latestAssistant || handoverTail).slice(-700);
       }
       // Pass the store/vendor name so the bot's own brand label ("Tediber says:") isn't
       // misread as a human agent named "Tediber".
-      const handover = detectHandover(tail, w.handover, [store.store, store.vendor]);
+      const handover = detectHandover(handoverTail, w.handover, [store.store, store.vendor]);
       if (handover) handedOver = true;
       // Once a human owns the thread, every later turn is human too. We NEVER
       // count a human reply's latency — only the AI's own responses are timed.
       const by = handedOver ? "human" : "ai";
-      out.turns.push({ turn: i + 1, q, by, ...r, ai_latency_ms: by === "ai" ? r.complete_ms : null, handover: !!handover, handover_hit: handover, replyTail: tail.slice(-500) });
+      out.turns.push({ turn: i + 1, q, by, ...r, ai_latency_ms: by === "ai" ? r.complete_ms : null, handover: !!handover, handover_hit: handover, replyTail: replyTail.slice(-500) });
       console.log(`  [${store.key}/${mode}/${theme.key}] T${i + 1} ${by === "ai" ? (r.complete_ms ?? "—") + "ms" : "(human)"}${handover ? "  ⛔ HANDOVER: " + handover : ""}`);
       await sleep(SETTLE_MS);
     }
