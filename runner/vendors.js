@@ -754,7 +754,7 @@ export const STORES = [
   { key: "yuma-meshki-au",    vendor: "Yuma",   store: "MESHKI AU",   url: "https://meshki.com.au/",      widget: "yuma", locale: "en-AU" }, // app.yuma.ai/w/df03b930
   { key: "yuma-meshki-uk",    vendor: "Yuma",   store: "MESHKI UK",   url: "https://meshki.co.uk/",       widget: "yuma", locale: "en-GB" }, // app.yuma.ai/w/5d646ace
   // yuma-bombayhair removed 2026-07-06 — no live AI agent / on-site chat on this store (verified, Max)
-  { key: "yuma-tumble",       vendor: "Yuma",   store: "Tumble",      url: "https://www.tumbleliving.com/", widget: "yuma" }, // app.yuma.ai/w/fbb8eeda; asks email before chat
+  // yuma-tumble removed 2026-07-06 — email-gated/irrelevant cold conversations; excluded from future captures and historical data.
 
   // Headed-only vendors (widget loads only in real Chrome). candidate=excluded from headless runs.
   { key: "humind-900care",    vendor: "Humind", store: "900.care",    url: "https://www.900.care/",       widget: "humind", candidate: true, locale: "fr-FR" },
