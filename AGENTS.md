@@ -98,6 +98,11 @@ runner/
   .eval-wip/       Durable scratch for judging (batches/scored/maps). Gitignored. USE THIS, not /tmp (system temp gets wiped).
 ```
 
+Each raw conversation may include `capture.origin` so future readers can tell what launched it:
+`codex`, `claude`, `automation`, `manual`, or `unknown`. `run.js` auto-detects Codex/Claude when
+possible; wrappers set `automation`/`manual`. Override explicitly with
+`BENCHMARK_CAPTURE_ORIGIN=codex|claude|automation|manual`.
+
 ---
 
 ## 3. The pipeline, end to end
@@ -121,6 +126,7 @@ cd runner
 RUN_DATE=$(date +%F) TURN_TIMEOUT_MS=60000 node run.js --headed --concurrency 2 --store <key1> <key2> …
 #   --store   SPACE-separated keys (commas also accepted). A zero-match filter now exits 1 (loud).
 #   --vendor "Rep AI"   one vendor   |   --mode shopping|support   one lane   |   --no-resume   re-capture all
+#   BENCHMARK_CAPTURE_ORIGIN=codex|claude|automation|manual tags raw conversation provenance
 ```
 - **Resumable**: a valid conversation on disk is skipped; a kill loses at most the one in flight.
 - **One driver only** (rule 7). Check `pgrep -fl "node run.js"` before launching.
@@ -157,6 +163,8 @@ escalation is correct support behavior — don't double-penalize; containment is
 hindsight guard (only what the assistant could see in a cold session), lane standards (proactive
 selling is GOOD in shopping), ignore widget chrome (cookie banners / chip labels / timestamps).
 For big jobs you may spawn your own parallel sub-agents, one per batch — but keep the batches BLIND.
+`eval-merge.js` tags new score entries with `judge.origin`; override with
+`BENCHMARK_EVAL_ORIGIN=codex|claude` when auto-detection is not enough.
 
 ```bash
 # merge: eval-merge reads scored-*.json + the matching map-*.json from the SAME dir.

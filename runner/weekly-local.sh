@@ -18,6 +18,7 @@ if pgrep -f "node run.js" >/dev/null; then echo "driver already running — skip
 
 export RUN_DATE=$(date +%F)
 export TURN_TIMEOUT_MS=60000
+export BENCHMARK_CAPTURE_ORIGIN=${BENCHMARK_CAPTURE_ORIGIN:-automation}
 
 caffeinate -i node run.js --headed --concurrency 2 || true
 

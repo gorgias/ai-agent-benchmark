@@ -12,6 +12,7 @@
 # ============================================================================
 cd "$(dirname "$0")"
 DATE=${RUN_DATE:-2026-07-01}
+export BENCHMARK_CAPTURE_ORIGIN=${BENCHMARK_CAPTURE_ORIGIN:-manual}
 MODE_ARG="--skip-candidates"; LABEL="headless — Gorgias + Gorgias/Zendesk-shell vendors (fast)"
 if [ "$1" = "headed" ]; then MODE_ARG='--headed'; LABEL="HEADED — ALL vendors (real browser; Envive/Sierra/Siena/Ada/Meta/Rep/Kodif/Humind). Resume skips done."; fi
 

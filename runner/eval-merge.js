@@ -21,6 +21,25 @@ const RESULTS = path.join(HERE, "results");
 const dir = process.argv[2];
 if (!dir) { console.error("usage: node eval-merge.js <scoredDir>"); process.exit(1); }
 
+function normalizeOrigin(raw) {
+  const v = String(raw || "").trim().toLowerCase();
+  if (!v) return null;
+  if (["codex", "openai-codex", "codex-desktop"].includes(v)) return "codex";
+  if (["claude", "claude-code", "anthropic-claude"].includes(v)) return "claude";
+  if (["automation", "cron", "launchd"].includes(v)) return "automation";
+  return v.replace(/[^a-z0-9._-]+/g, "-").replace(/^-+|-+$/g, "") || "unknown";
+}
+
+function detectEvalOrigin() {
+  const explicit = normalizeOrigin(process.env.BENCHMARK_EVAL_ORIGIN || process.env.BENCHMARK_CAPTURE_ORIGIN || process.env.AGENT_ORIGIN);
+  if (explicit) return { origin: explicit, explicit: true };
+  if (process.env.CODEX_SHELL || process.env.CODEX_CI || /codex/i.test(process.env.__CFBundleIdentifier || "")) return { origin: "codex", explicit: false };
+  if (process.env.CLAUDECODE || process.env.CLAUDE_CODE || /claude/i.test(process.env.__CFBundleIdentifier || "")) return { origin: "claude", explicit: false };
+  return { origin: "unknown", explicit: false };
+}
+
+const EVAL_ORIGIN = detectEvalOrigin();
+
 // ---- the fixed check → points mapping (mirrors eval-rubric.md; the single source of scoring) ----
 const CHECKS = {
   shopping: {
@@ -85,9 +104,10 @@ for (const f of fs.readdirSync(dir).filter((x) => /^scored-.*\.json$/.test(x)).s
     gatedTotal += derived.gated.length;
     all[id] = { v: 2, mode: e.mode, rubric: derived.rubric, total: derived.total,
       checks: Object.fromEntries(Object.entries(e.checks).map(([k, c]) => [k, { pass: !!c.pass, evidence: String(c.evidence || "").slice(0, 160) }])),
-      resolution_class: e.resolution_class, learning: e.learning.slice(0, 300), judged_at: e.judged_at || null };
+      resolution_class: e.resolution_class, learning: e.learning.slice(0, 300), judged_at: e.judged_at || null,
+      judge: { origin: EVAL_ORIGIN.origin, origin_explicit: EVAL_ORIGIN.explicit, runner: "eval-merge.js", schema: 1 } };
     merged++;
   }
 }
 fs.writeFileSync(SCORES, JSON.stringify(all, null, 1));
-console.log(`merged ${merged} scores (${bad} rejected, ${gatedTotal} checks signal-gated) → ${SCORES} now has ${Object.keys(all).length} conversations`);
+console.log(`merged ${merged} scores (${bad} rejected, ${gatedTotal} checks signal-gated, judge origin ${EVAL_ORIGIN.origin}) → ${SCORES} now has ${Object.keys(all).length} conversations`);
