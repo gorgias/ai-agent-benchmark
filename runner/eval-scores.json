@@ -32746,5 +32746,1310 @@
    "runner": "eval-merge.js",
    "schema": 1
   }
+ },
+ "2026-07-06/ada-loop-shopping-compare-budget.json": {
+  "v": 2,
+  "mode": "shopping",
+  "rubric": {
+   "answer": 9,
+   "discovery": 13,
+   "recommendation": 0,
+   "rich": 0,
+   "close": 0
+  },
+  "total": 22,
+  "checks": {
+   "a_direct": {
+    "pass": false,
+    "evidence": ""
+   },
+   "a_consistent": {
+    "pass": true,
+    "evidence": "every pair of the store has the same 2-year warranty"
+   },
+   "a_no_ignored": {
+    "pass": false,
+    "evidence": ""
+   },
+   "d_clarify": {
+    "pass": true,
+    "evidence": "what’s your main reason for considering the store"
+   },
+   "d_progressive": {
+    "pass": false,
+    "evidence": ""
+   },
+   "d_not_dump": {
+    "pass": true,
+    "evidence": "could you share your main reason"
+   },
+   "r_named": {
+    "pass": false,
+    "evidence": ""
+   },
+   "r_fit": {
+    "pass": false,
+    "evidence": ""
+   },
+   "r_plausible": {
+    "pass": false,
+    "evidence": ""
+   },
+   "e_price": {
+    "pass": false,
+    "evidence": ""
+   },
+   "e_link": {
+    "pass": false,
+    "evidence": ""
+   },
+   "e_reviews": {
+    "pass": false,
+    "evidence": ""
+   },
+   "e_options": {
+    "pass": false,
+    "evidence": ""
+   },
+   "c_cta": {
+    "pass": false,
+    "evidence": ""
+   },
+   "c_cart": {
+    "pass": false,
+    "evidence": ""
+   },
+   "c_clean": {
+    "pass": false,
+    "evidence": ""
+   }
+  },
+  "resolution_class": "partial",
+  "learning": "Repeated clarifying questions prevent a real value comparison or product pick, though warranty and payment policy answers are coherent.",
+  "judged_at": null,
+  "judge": {
+   "origin": "codex",
+   "origin_explicit": true,
+   "runner": "eval-merge.js",
+   "schema": 1
+  }
+ },
+ "2026-07-06/ada-loop-shopping-problem-solver.json": {
+  "v": 2,
+  "mode": "shopping",
+  "rubric": {
+   "answer": 9,
+   "discovery": 13,
+   "recommendation": 0,
+   "rich": 5,
+   "close": 0
+  },
+  "total": 27,
+  "checks": {
+   "a_direct": {
+    "pass": false,
+    "evidence": ""
+   },
+   "a_consistent": {
+    "pass": true,
+    "evidence": "We don’t currently offer a subscription/auto-refill"
+   },
+   "a_no_ignored": {
+    "pass": false,
+    "evidence": ""
+   },
+   "d_clarify": {
+    "pass": true,
+    "evidence": "tell me what you’ll use the store for"
+   },
+   "d_progressive": {
+    "pass": false,
+    "evidence": ""
+   },
+   "d_not_dump": {
+    "pass": true,
+    "evidence": "what’s your main reason for considering the store"
+   },
+   "r_named": {
+    "pass": false,
+    "evidence": ""
+   },
+   "r_fit": {
+    "pass": false,
+    "evidence": ""
+   },
+   "r_plausible": {
+    "pass": false,
+    "evidence": ""
+   },
+   "e_price": {
+    "pass": false,
+    "evidence": ""
+   },
+   "e_link": {
+    "pass": false,
+    "evidence": ""
+   },
+   "e_reviews": {
+    "pass": true,
+    "evidence": "the store Dream Earplugs: 3.8/5 from ~12.5k reviews"
+   },
+   "e_options": {
+    "pass": true,
+    "evidence": "sleep vs concerts vs focus/social"
+   },
+   "c_cta": {
+    "pass": false,
+    "evidence": ""
+   },
+   "c_cart": {
+    "pass": false,
+    "evidence": ""
+   },
+   "c_clean": {
+    "pass": false,
+    "evidence": ""
+   }
+  },
+  "resolution_class": "partial",
+  "learning": "Collects use-case information and shares review/product context, but never commits to a recommendation and falls into email/order-detail asks.",
+  "judged_at": null,
+  "judge": {
+   "origin": "codex",
+   "origin_explicit": true,
+   "runner": "eval-merge.js",
+   "schema": 1
+  }
+ },
+ "2026-07-06/decagon-oura-shopping-compare-budget.json": {
+  "v": 2,
+  "mode": "shopping",
+  "rubric": {
+   "answer": 30,
+   "discovery": 20,
+   "recommendation": 22,
+   "rich": 2,
+   "close": 7
+  },
+  "total": 81,
+  "checks": {
+   "a_direct": {
+    "pass": true,
+    "evidence": "the cheaper one is absolutely fine for most members"
+   },
+   "a_consistent": {
+    "pass": true,
+    "evidence": "discounts cannot be combined"
+   },
+   "a_no_ignored": {
+    "pass": true,
+    "evidence": "expedited orders are processed and delivered within 2 days"
+   },
+   "d_clarify": {
+    "pass": true,
+    "evidence": "If you want, I can narrow this down further based on whether you care more about lower upfront cost"
+   },
+   "d_progressive": {
+    "pass": true,
+    "evidence": "I would choose the store Ring 4"
+   },
+   "d_not_dump": {
+    "pass": true,
+    "evidence": "Best balanced value: the store Ring 4"
+   },
+   "r_named": {
+    "pass": true,
+    "evidence": "the store Ring 4"
+   },
+   "r_fit": {
+    "pass": true,
+    "evidence": "best balance of value, features, and long-term usefulness"
+   },
+   "r_plausible": {
+    "pass": true,
+    "evidence": "the store Ring 5"
+   },
+   "e_price": {
+    "pass": false,
+    "evidence": ""
+   },
+   "e_link": {
+    "pass": false,
+    "evidence": ""
+   },
+   "e_reviews": {
+    "pass": false,
+    "evidence": ""
+   },
+   "e_options": {
+    "pass": true,
+    "evidence": "Ring 4 and Ring 5"
+   },
+   "c_cta": {
+    "pass": true,
+    "evidence": "current prices, finishes, sizes, and availability are listed"
+   },
+   "c_cart": {
+    "pass": false,
+    "evidence": ""
+   },
+   "c_clean": {
+    "pass": true,
+    "evidence": "expedited orders are processed and delivered within 2 days"
+   }
+  },
+  "resolution_class": "partial",
+  "learning": "Strong value recommendation and policy detail, but it never adds to cart or provides the live product total.",
+  "judged_at": null,
+  "judge": {
+   "origin": "codex",
+   "origin_explicit": true,
+   "runner": "eval-merge.js",
+   "schema": 1
+  }
+ },
+ "2026-07-06/decagon-oura-shopping-gift.json": {
+  "v": 2,
+  "mode": "shopping",
+  "rubric": {
+   "answer": 9,
+   "discovery": 20,
+   "recommendation": 22,
+   "rich": 8,
+   "close": 5
+  },
+  "total": 64,
+  "checks": {
+   "a_direct": {
+    "pass": false,
+    "evidence": ""
+   },
+   "a_consistent": {
+    "pass": true,
+    "evidence": "A gift card is more flexible, but it tends to feel less personal"
+   },
+   "a_no_ignored": {
+    "pass": false,
+    "evidence": ""
+   },
+   "d_clarify": {
+    "pass": true,
+    "evidence": "Would you like the simplest option, the most flexible option, or the most complete gift?"
+   },
+   "d_progressive": {
+    "pass": true,
+    "evidence": "If you want the most flexible option instead, a US-only gift card"
+   },
+   "d_not_dump": {
+    "pass": true,
+    "evidence": "Would you like the simplest option"
+   },
+   "r_named": {
+    "pass": true,
+    "evidence": "the store Ring gift order"
+   },
+   "r_fit": {
+    "pass": true,
+    "evidence": "feels more special, because it is a complete gift you chose for them"
+   },
+   "r_plausible": {
+    "pass": true,
+    "evidence": "the store gift cards are available in amounts from $25 to $1,000"
+   },
+   "e_price": {
+    "pass": true,
+    "evidence": "$25 to $1,000"
+   },
+   "e_link": {
+    "pass": false,
+    "evidence": ""
+   },
+   "e_reviews": {
+    "pass": false,
+    "evidence": ""
+   },
+   "e_options": {
+    "pass": true,
+    "evidence": "a gift card is more flexible"
+   },
+   "c_cta": {
+    "pass": true,
+    "evidence": "choose “This is a gift” at checkout"
+   },
+   "c_cart": {
+    "pass": false,
+    "evidence": ""
+   },
+   "c_clean": {
+    "pass": false,
+    "evidence": ""
+   }
+  },
+  "resolution_class": "partial",
+  "learning": "Good gift framing and shipping detail, but cart/total and later exchange/discount questions fall into a menu dead end.",
+  "judged_at": null,
+  "judge": {
+   "origin": "codex",
+   "origin_explicit": true,
+   "runner": "eval-merge.js",
+   "schema": 1
+  }
+ },
+ "2026-07-06/decagon-oura-shopping-problem-solver.json": {
+  "v": 2,
+  "mode": "shopping",
+  "rubric": {
+   "answer": 9,
+   "discovery": 20,
+   "recommendation": 22,
+   "rich": 0,
+   "close": 0
+  },
+  "total": 51,
+  "checks": {
+   "a_direct": {
+    "pass": false,
+    "evidence": ""
+   },
+   "a_consistent": {
+    "pass": true,
+    "evidence": "wear it on your non-dominant hand"
+   },
+   "a_no_ignored": {
+    "pass": false,
+    "evidence": ""
+   },
+   "d_clarify": {
+    "pass": true,
+    "evidence": "tell me whether you care most about durability, finish, or fit"
+   },
+   "d_progressive": {
+    "pass": true,
+    "evidence": "If you want a ceramic look and feel specifically, the store Ring 4 Ceramic"
+   },
+   "d_not_dump": {
+    "pass": true,
+    "evidence": "tell me the specific need"
+   },
+   "r_named": {
+    "pass": true,
+    "evidence": "the store Ring 4 Ceramic"
+   },
+   "r_fit": {
+    "pass": true,
+    "evidence": "high-performance zirconia ceramic chosen for scratch resistance"
+   },
+   "r_plausible": {
+    "pass": true,
+    "evidence": "the store Ring 5"
+   },
+   "e_price": {
+    "pass": false,
+    "evidence": ""
+   },
+   "e_link": {
+    "pass": false,
+    "evidence": ""
+   },
+   "e_reviews": {
+    "pass": false,
+    "evidence": ""
+   },
+   "e_options": {
+    "pass": false,
+    "evidence": ""
+   },
+   "c_cta": {
+    "pass": false,
+    "evidence": ""
+   },
+   "c_cart": {
+    "pass": false,
+    "evidence": ""
+   },
+   "c_clean": {
+    "pass": false,
+    "evidence": ""
+   }
+  },
+  "resolution_class": "partial",
+  "learning": "Useful quality-focused product direction early, then the flow stalls behind a clarification menu and stops answering later asks.",
+  "judged_at": null,
+  "judge": {
+   "origin": "codex",
+   "origin_explicit": true,
+   "runner": "eval-merge.js",
+   "schema": 1
+  }
+ },
+ "2026-07-06/dg-bloomwild-shopping-compare-budget.json": {
+  "v": 2,
+  "mode": "shopping",
+  "rubric": {
+   "answer": 9,
+   "discovery": 20,
+   "recommendation": 22,
+   "rich": 7,
+   "close": 5
+  },
+  "total": 63,
+  "checks": {
+   "a_direct": {
+    "pass": false,
+    "evidence": ""
+   },
+   "a_consistent": {
+    "pass": true,
+    "evidence": "Subscriptions offer consistent the stores, while Clubcard rewards maximise savings"
+   },
+   "a_no_ignored": {
+    "pass": false,
+    "evidence": ""
+   },
+   "d_clarify": {
+    "pass": true,
+    "evidence": "Could you share your budget or preferences"
+   },
+   "d_progressive": {
+    "pass": true,
+    "evidence": "For great value, consider our flower subscriptions"
+   },
+   "d_not_dump": {
+    "pass": true,
+    "evidence": "Could you share your budget or preferences"
+   },
+   "r_named": {
+    "pass": true,
+    "evidence": "Flower Subscriptions"
+   },
+   "r_fit": {
+    "pass": true,
+    "evidence": "Subscriptions offer consistent the stores, while Clubcard rewards maximise savings"
+   },
+   "r_plausible": {
+    "pass": true,
+    "evidence": "Tesco Clubcard Rewards"
+   },
+   "e_price": {
+    "pass": false,
+    "evidence": ""
+   },
+   "e_link": {
+    "pass": true,
+    "evidence": "https://www.the storeandwild.com/flower-subscriptions"
+   },
+   "e_reviews": {
+    "pass": false,
+    "evidence": ""
+   },
+   "e_options": {
+    "pass": false,
+    "evidence": ""
+   },
+   "c_cta": {
+    "pass": true,
+    "evidence": "Learn more here"
+   },
+   "c_cart": {
+    "pass": false,
+    "evidence": ""
+   },
+   "c_clean": {
+    "pass": false,
+    "evidence": ""
+   }
+  },
+  "resolution_class": "partial",
+  "learning": "Provides value options and savings links, but starts with non-answering chrome and hands off at the cart request.",
+  "judged_at": null,
+  "judge": {
+   "origin": "codex",
+   "origin_explicit": true,
+   "runner": "eval-merge.js",
+   "schema": 1
+  }
+ },
+ "2026-07-06/dg-bloomwild-shopping-problem-solver.json": {
+  "v": 2,
+  "mode": "shopping",
+  "rubric": {
+   "answer": 23,
+   "discovery": 20,
+   "recommendation": 5,
+   "rich": 0,
+   "close": 0
+  },
+  "total": 48,
+  "checks": {
+   "a_direct": {
+    "pass": true,
+    "evidence": "For long-lasting quality, our bouquets are sent in bud form"
+   },
+   "a_consistent": {
+    "pass": true,
+    "evidence": "Most flowers last 7+ days with care"
+   },
+   "a_no_ignored": {
+    "pass": false,
+    "evidence": ""
+   },
+   "d_clarify": {
+    "pass": true,
+    "evidence": "Let me know what you're looking for or what your specific need is"
+   },
+   "d_progressive": {
+    "pass": true,
+    "evidence": "If longevity is key, consider bouquets with hardy the stores like roses or lilies"
+   },
+   "d_not_dump": {
+    "pass": true,
+    "evidence": "Let me know what you're looking for"
+   },
+   "r_named": {
+    "pass": false,
+    "evidence": ""
+   },
+   "r_fit": {
+    "pass": false,
+    "evidence": ""
+   },
+   "r_plausible": {
+    "pass": true,
+    "evidence": "roses or lilies"
+   },
+   "e_price": {
+    "pass": false,
+    "evidence": ""
+   },
+   "e_link": {
+    "pass": false,
+    "evidence": ""
+   },
+   "e_reviews": {
+    "pass": false,
+    "evidence": ""
+   },
+   "e_options": {
+    "pass": false,
+    "evidence": ""
+   },
+   "c_cta": {
+    "pass": false,
+    "evidence": ""
+   },
+   "c_cart": {
+    "pass": false,
+    "evidence": ""
+   },
+   "c_clean": {
+    "pass": false,
+    "evidence": ""
+   }
+  },
+  "resolution_class": "partial",
+  "learning": "Gives useful quality and care guidance, but no specific bouquet recommendation and cart request escalates immediately.",
+  "judged_at": null,
+  "judge": {
+   "origin": "codex",
+   "origin_explicit": true,
+   "runner": "eval-merge.js",
+   "schema": 1
+  }
+ },
+ "2026-07-06/klaviyo-nanuk-shopping-compare-budget.json": {
+  "v": 2,
+  "mode": "shopping",
+  "rubric": {
+   "answer": 9,
+   "discovery": 20,
+   "recommendation": 22,
+   "rich": 13,
+   "close": 5
+  },
+  "total": 69,
+  "checks": {
+   "a_direct": {
+    "pass": false,
+    "evidence": ""
+   },
+   "a_consistent": {
+    "pass": true,
+    "evidence": "the 925 offers better value"
+   },
+   "a_no_ignored": {
+    "pass": false,
+    "evidence": ""
+   },
+   "d_clarify": {
+    "pass": true,
+    "evidence": "please let me know what gear you are protecting"
+   },
+   "d_progressive": {
+    "pass": true,
+    "evidence": "on a tighter budget, I would choose the 925"
+   },
+   "d_not_dump": {
+    "pass": true,
+    "evidence": "what gear you are protecting"
+   },
+   "r_named": {
+    "pass": true,
+    "evidence": "the store 925"
+   },
+   "r_fit": {
+    "pass": true,
+    "evidence": "Offers the best balance of price, flexibility, and long-term usefulness"
+   },
+   "r_plausible": {
+    "pass": true,
+    "evidence": "the store 918"
+   },
+   "e_price": {
+    "pass": true,
+    "evidence": "$194.95"
+   },
+   "e_link": {
+    "pass": true,
+    "evidence": "Add to cart"
+   },
+   "e_reviews": {
+    "pass": false,
+    "evidence": ""
+   },
+   "e_options": {
+    "pass": false,
+    "evidence": ""
+   },
+   "c_cta": {
+    "pass": true,
+    "evidence": "Add to cart"
+   },
+   "c_cart": {
+    "pass": false,
+    "evidence": ""
+   },
+   "c_clean": {
+    "pass": false,
+    "evidence": ""
+   }
+  },
+  "resolution_class": "partial",
+  "learning": "Strong value comparison with prices and product cards, but the explicit cart/total ask is not fulfilled and the flow ends before final shipping confirmation.",
+  "judged_at": null,
+  "judge": {
+   "origin": "codex",
+   "origin_explicit": true,
+   "runner": "eval-merge.js",
+   "schema": 1
+  }
+ },
+ "2026-07-06/klaviyo-nanuk-shopping-problem-solver.json": {
+  "v": 2,
+  "mode": "shopping",
+  "rubric": {
+   "answer": 9,
+   "discovery": 8,
+   "recommendation": 14,
+   "rich": 13,
+   "close": 5
+  },
+  "total": 49,
+  "checks": {
+   "a_direct": {
+    "pass": false,
+    "evidence": ""
+   },
+   "a_consistent": {
+    "pass": true,
+    "evidence": "There does not appear to be any information indicating that the store offers a product subscription"
+   },
+   "a_no_ignored": {
+    "pass": false,
+    "evidence": ""
+   },
+   "d_clarify": {
+    "pass": true,
+    "evidence": "provide the item you are packing and its approximate measurements"
+   },
+   "d_progressive": {
+    "pass": false,
+    "evidence": ""
+   },
+   "d_not_dump": {
+    "pass": false,
+    "evidence": ""
+   },
+   "r_named": {
+    "pass": true,
+    "evidence": "the store-R 915 Pro Photo Kit"
+   },
+   "r_fit": {
+    "pass": false,
+    "evidence": ""
+   },
+   "r_plausible": {
+    "pass": true,
+    "evidence": "Padded Dividers"
+   },
+   "e_price": {
+    "pass": true,
+    "evidence": "$179.95"
+   },
+   "e_link": {
+    "pass": true,
+    "evidence": "Add to cart"
+   },
+   "e_reviews": {
+    "pass": false,
+    "evidence": ""
+   },
+   "e_options": {
+    "pass": false,
+    "evidence": ""
+   },
+   "c_cta": {
+    "pass": true,
+    "evidence": "you can add the case and accessory directly on the site"
+   },
+   "c_cart": {
+    "pass": false,
+    "evidence": ""
+   },
+   "c_clean": {
+    "pass": false,
+    "evidence": ""
+   }
+  },
+  "resolution_class": "partial",
+  "learning": "Names plausible cases and accessories with prices, but recommendations are not tied to a stated need and several later asks are missed or gated.",
+  "judged_at": null,
+  "judge": {
+   "origin": "codex",
+   "origin_explicit": true,
+   "runner": "eval-merge.js",
+   "schema": 1
+  }
+ },
+ "2026-07-06/siena-simplemodern-shopping-compare-budget.json": {
+  "v": 2,
+  "mode": "shopping",
+  "rubric": {
+   "answer": 30,
+   "discovery": 20,
+   "recommendation": 22,
+   "rich": 15,
+   "close": 7
+  },
+  "total": 94,
+  "checks": {
+   "a_direct": {
+    "pass": true,
+    "evidence": "I’d go with the Summit Water Bottle 32oz"
+   },
+   "a_consistent": {
+    "pass": true,
+    "evidence": "both the Summit Water Bottle 32oz and the Mesa Loop 30oz Tumbler come with the same Limited Lifetime Warranty"
+   },
+   "a_no_ignored": {
+    "pass": true,
+    "evidence": "Standard shipping is our fastest (and only) option right now"
+   },
+   "d_clarify": {
+    "pass": true,
+    "evidence": "what kind of product you’re looking for"
+   },
+   "d_progressive": {
+    "pass": true,
+    "evidence": "for pure value, the Summit is hard to beat"
+   },
+   "d_not_dump": {
+    "pass": true,
+    "evidence": "could you tell me what kind of product"
+   },
+   "r_named": {
+    "pass": true,
+    "evidence": "Summit Water Bottle 32oz"
+   },
+   "r_fit": {
+    "pass": true,
+    "evidence": "best value for my money"
+   },
+   "r_plausible": {
+    "pass": true,
+    "evidence": "Mesa Loop with Covered Straw"
+   },
+   "e_price": {
+    "pass": true,
+    "evidence": "$36.99"
+   },
+   "e_link": {
+    "pass": true,
+    "evidence": "View Product"
+   },
+   "e_reviews": {
+    "pass": false,
+    "evidence": ""
+   },
+   "e_options": {
+    "pass": true,
+    "evidence": "Mesa Loop is a tumbler style"
+   },
+   "c_cta": {
+    "pass": true,
+    "evidence": "heading to that link and clicking “Add to Cart.”"
+   },
+   "c_cart": {
+    "pass": false,
+    "evidence": ""
+   },
+   "c_clean": {
+    "pass": true,
+    "evidence": "Orders are fulfilled in 1-3 business days"
+   }
+  },
+  "resolution_class": "partial",
+  "learning": "Excellent value comparison with price, link and shipping detail, but it still cannot actually add the item or confirm a live total.",
+  "judged_at": null,
+  "judge": {
+   "origin": "codex",
+   "origin_explicit": true,
+   "runner": "eval-merge.js",
+   "schema": 1
+  }
+ },
+ "2026-07-06/sierra-casper-shopping-beginner.json": {
+  "v": 2,
+  "mode": "shopping",
+  "rubric": {
+   "answer": 30,
+   "discovery": 20,
+   "recommendation": 22,
+   "rich": 13,
+   "close": 7
+  },
+  "total": 92,
+  "checks": {
+   "a_direct": {
+    "pass": true,
+    "evidence": "The One mattress is a great starting point"
+   },
+   "a_consistent": {
+    "pass": true,
+    "evidence": "Try your mattress at home for up to 100 nights"
+   },
+   "a_no_ignored": {
+    "pass": true,
+    "evidence": "Most items ship within one to four business days"
+   },
+   "d_clarify": {
+    "pass": true,
+    "evidence": "how you sleep (side, back, hot sleeper, etc.)"
+   },
+   "d_progressive": {
+    "pass": true,
+    "evidence": "The One mattress (beginner recommendation)"
+   },
+   "d_not_dump": {
+    "pass": true,
+    "evidence": "If you tell me a bit about how you sleep"
+   },
+   "r_named": {
+    "pass": true,
+    "evidence": "The One mattress"
+   },
+   "r_fit": {
+    "pass": true,
+    "evidence": "doesn’t have extra features you might not need as a beginner"
+   },
+   "r_plausible": {
+    "pass": true,
+    "evidence": "Dream Hybrid or Snow Hybrid"
+   },
+   "e_price": {
+    "pass": true,
+    "evidence": "Queen: $899, down from $1,149"
+   },
+   "e_link": {
+    "pass": true,
+    "evidence": "The One Mattress"
+   },
+   "e_reviews": {
+    "pass": false,
+    "evidence": ""
+   },
+   "e_options": {
+    "pass": false,
+    "evidence": ""
+   },
+   "c_cta": {
+    "pass": true,
+    "evidence": "which size you’re interested in"
+   },
+   "c_cart": {
+    "pass": false,
+    "evidence": ""
+   },
+   "c_clean": {
+    "pass": true,
+    "evidence": "Which size would you like to confirm for your order?"
+   }
+  },
+  "resolution_class": "partial",
+  "learning": "Strong beginner recommendation with price and setup/return details, but cart and total remain advisory rather than executed.",
+  "judged_at": null,
+  "judge": {
+   "origin": "codex",
+   "origin_explicit": true,
+   "runner": "eval-merge.js",
+   "schema": 1
+  }
+ },
+ "2026-07-06/sierra-casper-shopping-compare-budget.json": {
+  "v": 2,
+  "mode": "shopping",
+  "rubric": {
+   "answer": 9,
+   "discovery": 20,
+   "recommendation": 22,
+   "rich": 15,
+   "close": 5
+  },
+  "total": 71,
+  "checks": {
+   "a_direct": {
+    "pass": false,
+    "evidence": ""
+   },
+   "a_consistent": {
+    "pass": true,
+    "evidence": "I’d go with The One"
+   },
+   "a_no_ignored": {
+    "pass": false,
+    "evidence": ""
+   },
+   "d_clarify": {
+    "pass": true,
+    "evidence": "Are you mainly interested in mattresses"
+   },
+   "d_progressive": {
+    "pass": true,
+    "evidence": "The One is a smart, budget-friendly choice"
+   },
+   "d_not_dump": {
+    "pass": true,
+    "evidence": "could you let me know"
+   },
+   "r_named": {
+    "pass": true,
+    "evidence": "The One"
+   },
+   "r_fit": {
+    "pass": true,
+    "evidence": "great comfort for the price"
+   },
+   "r_plausible": {
+    "pass": true,
+    "evidence": "Dream Max"
+   },
+   "e_price": {
+    "pass": true,
+    "evidence": "Queen: $899, down from $1,149"
+   },
+   "e_link": {
+    "pass": true,
+    "evidence": "The One mattress directly on the the store website"
+   },
+   "e_reviews": {
+    "pass": false,
+    "evidence": ""
+   },
+   "e_options": {
+    "pass": true,
+    "evidence": "The OneFirm"
+   },
+   "c_cta": {
+    "pass": true,
+    "evidence": "Let me know which size you want"
+   },
+   "c_cart": {
+    "pass": false,
+    "evidence": ""
+   },
+   "c_clean": {
+    "pass": false,
+    "evidence": ""
+   }
+  },
+  "resolution_class": "partial",
+  "learning": "Good value comparison and pricing, but the warranty answer is incomplete and the conversation ends before payment/shipping closure.",
+  "judged_at": null,
+  "judge": {
+   "origin": "codex",
+   "origin_explicit": true,
+   "runner": "eval-merge.js",
+   "schema": 1
+  }
+ },
+ "2026-07-06/sierra-casper-shopping-problem-solver.json": {
+  "v": 2,
+  "mode": "shopping",
+  "rubric": {
+   "answer": 30,
+   "discovery": 20,
+   "recommendation": 22,
+   "rich": 6,
+   "close": 7
+  },
+  "total": 85,
+  "checks": {
+   "a_direct": {
+    "pass": true,
+    "evidence": "Dream Best-Selling Bundle"
+   },
+   "a_consistent": {
+    "pass": true,
+    "evidence": "Most items ship within one to four business days"
+   },
+   "a_no_ignored": {
+    "pass": true,
+    "evidence": "we don’t currently offer a subscription or refill option"
+   },
+   "d_clarify": {
+    "pass": true,
+    "evidence": "what’s most important to you—comfort, support, temperature"
+   },
+   "d_progressive": {
+    "pass": true,
+    "evidence": "Dream Best-Selling Bundle"
+   },
+   "d_not_dump": {
+    "pass": true,
+    "evidence": "Could you share a bit more about your specific need"
+   },
+   "r_named": {
+    "pass": true,
+    "evidence": "Dream Best-Selling Bundle"
+   },
+   "r_fit": {
+    "pass": true,
+    "evidence": "official Foundation for optimal support and longevity"
+   },
+   "r_plausible": {
+    "pass": true,
+    "evidence": "waterproof mattress protector"
+   },
+   "e_price": {
+    "pass": true,
+    "evidence": "Queen: $1,535.95"
+   },
+   "e_link": {
+    "pass": false,
+    "evidence": ""
+   },
+   "e_reviews": {
+    "pass": false,
+    "evidence": ""
+   },
+   "e_options": {
+    "pass": false,
+    "evidence": ""
+   },
+   "c_cta": {
+    "pass": true,
+    "evidence": "let me know your preferred size"
+   },
+   "c_cart": {
+    "pass": false,
+    "evidence": ""
+   },
+   "c_clean": {
+    "pass": true,
+    "evidence": "Is there anything else I can help you with today?"
+   }
+  },
+  "resolution_class": "partial",
+  "learning": "Solid quality-focused mattress bundle recommendation with prices and care steps, but it cannot add to cart or provide a tax/shipping total.",
+  "judged_at": null,
+  "judge": {
+   "origin": "codex",
+   "origin_explicit": true,
+   "runner": "eval-merge.js",
+   "schema": 1
+  }
+ },
+ "2026-07-06/yuma-evryjewels-shopping-compare-budget.json": {
+  "v": 2,
+  "mode": "shopping",
+  "rubric": {
+   "answer": 23,
+   "discovery": 20,
+   "recommendation": 22,
+   "rich": 2,
+   "close": 0
+  },
+  "total": 67,
+  "checks": {
+   "a_direct": {
+    "pass": true,
+    "evidence": "I’d personally pick the Evryday Hoop Set"
+   },
+   "a_consistent": {
+    "pass": true,
+    "evidence": "same protection regardless of which pair you choose"
+   },
+   "a_no_ignored": {
+    "pass": false,
+    "evidence": ""
+   },
+   "d_clarify": {
+    "pass": true,
+    "evidence": "which items you are currently deciding between"
+   },
+   "d_progressive": {
+    "pass": true,
+    "evidence": "you’re technically getting two pairs of earrings for one price"
+   },
+   "d_not_dump": {
+    "pass": true,
+    "evidence": "Could you let me know which items"
+   },
+   "r_named": {
+    "pass": true,
+    "evidence": "Evryday Hoop Set"
+   },
+   "r_fit": {
+    "pass": true,
+    "evidence": "waterproof and tarnish-free"
+   },
+   "r_plausible": {
+    "pass": true,
+    "evidence": "Best Seller Earrings"
+   },
+   "e_price": {
+    "pass": false,
+    "evidence": ""
+   },
+   "e_link": {
+    "pass": false,
+    "evidence": ""
+   },
+   "e_reviews": {
+    "pass": false,
+    "evidence": ""
+   },
+   "e_options": {
+    "pass": true,
+    "evidence": "Comparison at a glance"
+   },
+   "c_cta": {
+    "pass": false,
+    "evidence": ""
+   },
+   "c_cart": {
+    "pass": false,
+    "evidence": ""
+   },
+   "c_clean": {
+    "pass": false,
+    "evidence": ""
+   }
+  },
+  "resolution_class": "partial",
+  "learning": "Good budget rationale and option comparison, but checkout, total, and shipping questions repeatedly become email escalations.",
+  "judged_at": null,
+  "judge": {
+   "origin": "codex",
+   "origin_explicit": true,
+   "runner": "eval-merge.js",
+   "schema": 1
+  }
+ },
+ "2026-07-06/yuma-evryjewels-shopping-problem-solver.json": {
+  "v": 2,
+  "mode": "shopping",
+  "rubric": {
+   "answer": 9,
+   "discovery": 20,
+   "recommendation": 22,
+   "rich": 13,
+   "close": 5
+  },
+  "total": 69,
+  "checks": {
+   "a_direct": {
+    "pass": false,
+    "evidence": ""
+   },
+   "a_consistent": {
+    "pass": true,
+    "evidence": "standard delivery usually takes 3 to 7 business days"
+   },
+   "a_no_ignored": {
+    "pass": false,
+    "evidence": ""
+   },
+   "d_clarify": {
+    "pass": true,
+    "evidence": "What specific item or collection are you interested in"
+   },
+   "d_progressive": {
+    "pass": true,
+    "evidence": "18K Gold Waterproof line"
+   },
+   "d_not_dump": {
+    "pass": true,
+    "evidence": "What specific item or collection"
+   },
+   "r_named": {
+    "pass": true,
+    "evidence": "Cross Necklaces"
+   },
+   "r_fit": {
+    "pass": true,
+    "evidence": "tarnish-resistant"
+   },
+   "r_plausible": {
+    "pass": true,
+    "evidence": "Evry Best Seller Earrings"
+   },
+   "e_price": {
+    "pass": true,
+    "evidence": "11.99€"
+   },
+   "e_link": {
+    "pass": true,
+    "evidence": "Add to cart"
+   },
+   "e_reviews": {
+    "pass": false,
+    "evidence": ""
+   },
+   "e_options": {
+    "pass": false,
+    "evidence": ""
+   },
+   "c_cta": {
+    "pass": true,
+    "evidence": "Add to cart"
+   },
+   "c_cart": {
+    "pass": false,
+    "evidence": ""
+   },
+   "c_clean": {
+    "pass": false,
+    "evidence": ""
+   }
+  },
+  "resolution_class": "partial",
+  "learning": "Rich product cards and quality messaging are useful, but returns/subscription/total questions are left to a specialist handoff.",
+  "judged_at": null,
+  "judge": {
+   "origin": "codex",
+   "origin_explicit": true,
+   "runner": "eval-merge.js",
+   "schema": 1
+  }
  }
 }

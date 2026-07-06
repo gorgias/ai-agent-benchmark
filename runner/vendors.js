@@ -389,12 +389,12 @@ export const WIDGETS = {
     },
   },
   // Humind — boostWidgetIntegration (FR). Widget tech TBD; best-effort.
-  // Humind — HEADED only. Renders in an OPEN shadow on a <humind-gift-finder> custom
-  // element; the assistant REPLY streams from api.thehumind.com/chat-service/chat/stream.
+  // Humind — HEADED only. Renders in an OPEN shadow on a <humind-gift-finder> or
+  // <humind-widget> custom element; the assistant REPLY streams from api.thehumind.com/chat-service/chat/stream.
   // transport:"net" (timing = stream completion; text reconstructed from SSE data lines).
   humind: {
     transport: "net",
-    scope: { kind: "shadowId", sel: "humind-gift-finder" },
+    scope: { kind: "shadowId", sel: "humind-gift-finder, humind-widget" },
     net: {
       match: /api\.thehumind\.com\/chat-service\/chat\/stream/i,
       parse(body) {
@@ -411,11 +411,11 @@ export const WIDGETS = {
     },
     async open(page) {
       await page.waitForTimeout(4000); await dismiss(page);
-      await page.evaluate(() => (document.querySelector("humind-gift-finder, [class*='humind' i], [aria-label*='chat' i]"))?.click?.()).catch(() => {});
-      await shadowClickLauncher(page, "humind-gift-finder");
+      await page.evaluate(() => (document.querySelector("humind-gift-finder, humind-widget, [class*='humind' i], [aria-label*='chat' i]"))?.click?.()).catch(() => {});
+      await shadowClickLauncher(page, "humind-gift-finder, humind-widget");
       await page.waitForTimeout(4000);
     },
-    async send(page, text) { await shadowSend(page, "humind-gift-finder", text); },
+    async send(page, text) { await shadowSend(page, "humind-gift-finder, humind-widget", text); },
   },
 
   // --- Vendors added 2026-07-03 (from Roman's benchmark coverage) --------------
@@ -662,6 +662,9 @@ export const STORES = [
   { key: "humind-stormrock",  vendor: "Humind", store: "Stormrock",   url: "https://stormrock.fr/",       widget: "humind", candidate: true, locale: "fr-FR" },
   { key: "humind-weedy",      vendor: "Humind", store: "Weedy",       url: "https://weedy.fr/",           widget: "humind", candidate: true, locale: "fr-FR" }, // signature-verified: humind
   { key: "humind-solsemilla", vendor: "Humind", store: "Sol Semilla", url: "https://sol-semilla.fr/",     widget: "humind", candidate: true, locale: "fr-FR" }, // signature-verified: humind
+  { key: "humind-supersmart", vendor: "Humind", store: "SuperSmart",  url: "https://www.supersmart.com/en", widget: "humind", candidate: true, locale: "en-GB" }, // widgets.thehumind.com + humind-widget
+  { key: "humind-cbdfr",      vendor: "Humind", store: "CBD.fr",      url: "https://cbd.fr/",             widget: "humind", candidate: true, locale: "fr-FR" }, // embed.thehumind.com + humind-widget
+  { key: "humind-hemphash",   vendor: "Humind", store: "Hemphash",    url: "https://hemphash.co.uk/",     widget: "humind", candidate: true, locale: "en-GB" }, // humind-gift-finder + humind-widget
   // NOTE: lamaisonconvertible.fr requested for Humind but is actually iAdvize (no humind signature) — skipped to avoid mislabeling.
   // Rep AI — headed-only (concierge injects ~12-15s after load). candidate=excluded from headless runs.
   { key: "repai-olly",        vendor: "Rep AI", store: "OLLY",            url: "https://www.olly.com/",          widget: "repai", candidate: true },
@@ -688,15 +691,28 @@ export const STORES = [
   { key: "klaviyo-naked",     vendor: "Klaviyo", store: "Naked Wardrobe",  url: "https://www.nakedwardrobe.com/", widget: "klaviyo", candidate: true },
   { key: "klaviyo-happywax",  vendor: "Klaviyo", store: "HappyWax",        url: "https://happywax.com/",          widget: "klaviyo", candidate: true },
   { key: "klaviyo-harney",    vendor: "Klaviyo", store: "Harney & Sons",   url: "https://www.harney.com/",        widget: "klaviyo", candidate: true }, // signature-verified: klaviyo-onsite
+  // Klaviyo public case study says K9 Ballistics adopted Customer Hub + K:AI Customer Agent across
+  // both brand sites; raw served HTML verifies customer-hub-data + window.customerHub. Both also carry
+  // a Gorgias live-chat block, so keep them candidate:true until a focused Klaviyo run confirms routing.
+  { key: "klaviyo-k9ballistics", vendor: "Klaviyo", store: "K9 Ballistics", url: "https://k9ballistics.com/",       widget: "klaviyo", candidate: true },
+  { key: "klaviyo-onefastcat",   vendor: "Klaviyo", store: "One Fast Cat",  url: "https://onefastcat.com/",        widget: "klaviyo", candidate: true },
   // Shopify Inbox (native) — expected gated/single-shot ticket form (Roman); the finding IS the result.
   { key: "shopify-schott",    vendor: "Shopify Inbox", store: "Schott NYC", url: "https://www.schottnyc.com/",    widget: "shopify_inbox", candidate: true },
   { key: "shopify-jnco",      vendor: "Shopify Inbox", store: "JNCO",       url: "https://www.jnco.com/",          widget: "shopify_inbox", candidate: true },
+  // Native Shopify Inbox app block in raw served HTML (`shopify://apps/inbox/blocks/chat` +
+  // shopify-chat-bundle-selector / inbox-chat-loader). Added to lift Shopify Inbox above the
+  // >=5-store floor; all are independent storefronts.
+  { key: "shopify-bluebohemian", vendor: "Shopify Inbox", store: "Blue Bohemian", url: "https://bluebohemian.com/", widget: "shopify_inbox", candidate: true },
+  { key: "shopify-swimcore",     vendor: "Shopify Inbox", store: "Swimcore",      url: "https://www.swimcore.com/en-fr/products/active-yoga-toes-spreaders-durable-therapeutic-toe-separators", widget: "shopify_inbox", candidate: true },
+  { key: "shopify-thegivenget",  vendor: "Shopify Inbox", store: "The Given Get", url: "https://thegivenget.com/", widget: "shopify_inbox", candidate: true },
+  { key: "shopify-globosyfiesta",vendor: "Shopify Inbox", store: "Globos y Fiesta", url: "https://globosyfiesta.mx/", widget: "shopify_inbox", candidate: true, locale: "es-MX" },
   // ---- sourcing pass 2 (2026-07-03) — signature-verified, to raise statistical significance ----
   { key: "spiffy-clove",      vendor: "Envive", store: "Clove",         url: "https://goclove.com/",            widget: "spiffy" },          // cdn.spiffy.ai (2026-07-07: verified served-HTML signature on goclove.com, not clovebrand.com)
   { key: "repai-gosun",       vendor: "Rep AI", store: "GoSun",         url: "https://gosun.co/",               widget: "repai" },           // hellorep-lazyload.js (verified 2026-07-07)
   { key: "spiffy-fur",        vendor: "Envive", store: "Fur",           url: "https://www.furyou.com/",         widget: "spiffy" },          // cdn.spiffy.ai
   { key: "dg-kukoon",         vendor: "DigitalGenius", store: "Kukoon", url: "https://kukoon.com/",             widget: "dg", locale: "en-GB" }, // chat.digitalgenius.com
   { key: "dg-blakely",        vendor: "DigitalGenius", store: "Blakely Clothing", url: "https://www.blakelyclothing.com/", widget: "dg", locale: "en-GB" }, // chat.digitalgenius.com/init.js (verified 2026-07-07)
+  { key: "dg-drift",          vendor: "DigitalGenius", store: "Drift", url: "https://drift.co/",                widget: "dg" }, // DG_CHAT_WIDGET_CONFIG + chat.digitalgenius.com/init.js
   // Cotton On Group siblings (typo/factorie/supre + cottonon) share ONE Zendesk deployment — correlated
   // samples, not independent stores; keep for coverage but read as one deployment family.
   { key: "meta-typo",         vendor: "Meta AI", store: "Typo",         url: "https://www.typo.com.au/",        widget: "zendesk", locale: "en-AU" }, // verified messenger (ekr compose)
