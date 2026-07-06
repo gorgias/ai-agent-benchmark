@@ -308,12 +308,20 @@ async function runStoreMode(browser, store, mode, theme) {
         catch (e) { r = { ttft_ms: null, complete_ms: null, error: String(e).slice(0, 120) }; }
         handoverTail = replyTail = net.replies.slice(-3).map(x => x.text).join("  ").slice(-700);
       } else {
+        const beforeAssistant = store.widget === "yuma"
+          ? await readLatestAssistantReply(page, w.scope).catch(() => "")
+          : "";
         try { r = await withTimeout(timeTurn(page, w.scope, () => w.send(page, q), q), TURN_TIMEOUT_MS + 15000, "turn"); }
         catch (e) { r = { ttft_ms: null, complete_ms: null, error: String(e).slice(0, 120) }; }
         const transcript = (await readTranscript(page, w.scope)).text;
         handoverTail = transcript.slice(-700);
         const latestAssistant = store.widget === "yuma" ? await readLatestAssistantReply(page, w.scope) : "";
-        replyTail = (latestAssistant || handoverTail).slice(-700);
+        // Yuma keeps the previous assistant bubble in the DOM after an unanswered/timeout
+        // turn. Only attach a Yuma reply snippet when a new bubble appeared for this turn.
+        replyTail = store.widget === "yuma"
+          ? (latestAssistant && latestAssistant !== beforeAssistant ? latestAssistant : "")
+          : handoverTail;
+        replyTail = replyTail.slice(-700);
       }
       // Pass the store/vendor name so the bot's own brand label ("Tediber says:") isn't
       // misread as a human agent named "Tediber".
