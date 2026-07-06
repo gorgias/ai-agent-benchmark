@@ -16,6 +16,27 @@
 
 const DUMMY = { name: "Benchmark Test", email: "benchmark.test@example.com" }; // reserved example.com — never a real inbox
 
+// Realistic throwaway identity for chat email-gates. Some widgets (e.g. Yuma on Tumble,
+// Bombay Hair, Rouje…) refuse to start a conversation until an email is entered, and they
+// silently DROP a conversation opened with an obvious test address (@example.com) — which
+// is why those stores looked "bot-guarded" (0 timed answers) when really the gate was never
+// satisfied. We generate a plausible-looking, unique address each call so the gate lets us
+// in. We never send mail to it — it only unlocks the chat. Dummy PII, not a real person
+// (uncommon surname + digits ⇒ vanishingly unlikely to collide with a real inbox).
+const FIRST = ["john", "claire", "lucas", "emma", "marc", "julie", "alex", "sofia", "liam", "chloe",
+               "noah", "ines", "hugo", "sara", "leo", "mia", "paul", "anna", "tom", "lea", "ryan", "nina"];
+const LAST = ["minser", "desmarais", "varley", "holt", "braud", "kessler", "navarro", "fenwick", "aldridge",
+              "romano", "hollis", "garnier", "prewitt", "salter", "bianchi", "vasseur", "mercer", "harmon", "dubois", "kellerman"];
+const MAILHOST = ["gmail.com", "gmail.com", "gmail.com", "outlook.com", "icloud.com", "hotmail.com"];
+const pick = (a) => a[Math.floor(Math.random() * a.length)];
+const cap = (s) => s.charAt(0).toUpperCase() + s.slice(1);
+function randomIdentity() {
+  const f = pick(FIRST), l = pick(LAST);
+  const sep = Math.random() < 0.6 ? "." : "";
+  const num = Math.random() < 0.5 ? String(10 + Math.floor(Math.random() * 89)) : "";
+  return { name: `${cap(f)} ${cap(l)}`, email: `${f}${sep}${l}${num}@${pick(MAILHOST)}` };
+}
+
 async function dismiss(page) {
   for (const sel of [
     'button:has-text("Reject")', 'button:has-text("Decline")', 'button:has-text("No thanks")',
@@ -65,18 +86,27 @@ async function shadowClickLauncher(page, hostSel) {
   }, hostSel).catch(() => {});
 }
 
-// Some chats gate behind an email prechat form. Fill a dummy (reserved
-// example.com) address and submit so the conversation can start.
+// Some chats gate behind a name/email pre-chat form and will not start (or will
+// silently drop messages) until it's filled. Fill a fresh realistic identity — obvious
+// test addresses (@example.com) get rejected by stricter gates (e.g. Yuma). Returns true
+// if a gate was found+filled. We only type the address to unlock the chat; nothing is sent.
 async function fillEmailGate(page, frame) {
   try {
-    const email = frame.locator('input[type="email"], input[placeholder*="@"], input[placeholder*="mail" i], input[name*="mail" i], input[aria-label*="mail" i]').first();
+    const email = frame.locator('input[type="email"], input[placeholder*="@"], input[placeholder*="mail" i], input[name*="mail" i], input[aria-label*="mail" i], input[id*="mail" i]').first();
     if (!(await email.count().catch(() => 0))) return false;
     if (!(await email.isVisible().catch(() => false))) return false;
+    const who = randomIdentity();
+    // name field first if the gate has one (some gates require it before enabling submit)
+    const nameI = frame.locator('input[name*="name" i], input[placeholder*="name" i], input[aria-label*="name" i], input[id*="name" i]').first();
+    if ((await nameI.count().catch(() => 0)) && (await nameI.isVisible().catch(() => false))) {
+      await nameI.click({ timeout: 2000 }).catch(() => {});
+      await nameI.fill(who.name).catch(async () => { await nameI.type(who.name, { delay: 12 }).catch(() => {}); });
+    }
     await email.click({ timeout: 3000 }).catch(() => {});
-    await email.fill(DUMMY.email).catch(async () => { await email.type(DUMMY.email).catch(() => {}); });
-    const btn = frame.locator('button:has-text("Start"), button:has-text("Submit"), button:has-text("Continue"), button:has-text("Chat"), button:has-text("Send"), button[type="submit"]').first();
+    await email.fill(who.email).catch(async () => { await email.type(who.email, { delay: 12 }).catch(() => {}); });
+    const btn = frame.locator('button:has-text("Start"), button:has-text("Submit"), button:has-text("Continue"), button:has-text("Commencer"), button:has-text("Chat"), button:has-text("Send"), button[type="submit"]').first();
     if (await btn.count().catch(() => 0)) await btn.click({ timeout: 3000 }).catch(() => {});
-    else await page.keyboard.press("Enter").catch(() => {});
+    else await email.press("Enter").catch(() => { page.keyboard.press("Enter").catch(() => {}); });
     await page.waitForTimeout(2500);
     return true;
   } catch { return false; }
@@ -482,15 +512,27 @@ export const WIDGETS = {
       // launcher lives INSIDE the iframe
       const launcher = f.locator('[aria-label="Open chat widget"], .widgetTrigger').first();
       await launcher.click({ timeout: 8000 }).catch(() => {});
-      // WAIT for the composer to actually exist before returning (verified selector:
-      // textarea.chatPage__textarea, aria-label="Ask your question"). No email gate on Yuma.
-      await f.locator('.chatPage__textarea, [aria-label="Ask your question"], textarea').first()
-        .waitFor({ state: "visible", timeout: 15000 }).catch(() => {});
+      await page.waitForTimeout(900);
+      // FLOW (verified on Tumble 2026-07-06): open → "Send us a message" → EMAIL GATE → composer.
+      // Many Yuma stores (Tumble, Bombay Hair, Rouje, Le Domaine, CABAIA…) route through a home
+      // screen: you must click "Send us a message", then enter an email before the chat responds —
+      // messages sent before that are silently dropped (what looked like "bot-guard"/0-answers).
+      // Only click through when the composer isn't already present (EvryJewels opens straight to it).
+      const COMPOSER = '.chatPage__textarea, [aria-label="Ask your question"], textarea';
+      if (!(await f.locator(COMPOSER).first().isVisible().catch(() => false))) {
+        const start = f.locator('button:has-text("Send us a message"), button:has-text("Send a message"), button:has-text("Send us"), button:has-text("Message us"), button:has-text("New conversation"), button:has-text("Start a conversation"), button:has-text("Ask a question"), button:has-text("Chat with us"), button:has-text("Envoyer un message"), [role="button"]:has-text("Send us a message")').first();
+        if (await start.count().catch(() => 0)) { await start.click({ timeout: 6000 }).catch(() => {}); await page.waitForTimeout(1000); }
+        await fillEmailGate(page, f);   // fresh realistic identity — unlocks the conversation
+      }
+      // WAIT for the composer to actually exist before returning
+      await f.locator(COMPOSER).first().waitFor({ state: "visible", timeout: 15000 }).catch(() => {});
       await page.waitForTimeout(600);
     },
     async send(page, text) {
       const f = await findFrame(page, "app.yuma.ai");
       if (!f) return;
+      // if a late email gate appeared (some stores gate on first send), satisfy it first
+      await fillEmailGate(page, f).catch(() => {});
       const inp = f.locator('.chatPage__textarea, [aria-label="Ask your question"], textarea').first();
       await inp.click({ timeout: 6000 }).catch(() => {});
       await inp.fill(text).catch(async () => { await inp.type(text, { delay: 12 }).catch(() => {}); });
@@ -654,6 +696,27 @@ export const STORES = [
   { key: "yuma-meshki",       vendor: "Yuma",   store: "MESHKI",      url: "https://meshki.com/",         widget: "yuma", locale: "en-AU" }, // app.yuma.ai/w/4f7a9401
   { key: "yuma-meshki-au",    vendor: "Yuma",   store: "MESHKI AU",   url: "https://meshki.com.au/",      widget: "yuma", locale: "en-AU" }, // app.yuma.ai/w/df03b930
   { key: "yuma-meshki-uk",    vendor: "Yuma",   store: "MESHKI UK",   url: "https://meshki.co.uk/",       widget: "yuma", locale: "en-GB" }, // app.yuma.ai/w/5d646ace
+  // rouje, le-domaine, cabaia, meshki(×3): widget PRESENT but bot-guard drops messages (0 timed answers 2026-07-06).
+  // Sourced 2026-07-06 via builtwith website-list (js.yuma.ai + app.yuma.ai/w/<uuid> confirmed in raw HTML) —
+  // widget is live; CAPTURABILITY TBD (may bot-guard like rouje). Verify VALID timed answers before trusting.
+  { key: "yuma-bombayhair",   vendor: "Yuma",   store: "Bombay Hair",  url: "https://www.bombayhair.com/",     widget: "yuma" },              // CA hair/beauty · app.yuma.ai/w/b3ae0b45
+  { key: "yuma-tumble",       vendor: "Yuma",   store: "Tumble",       url: "https://www.tumbleliving.com/",   widget: "yuma" },              // US home/rugs · app.yuma.ai/w/fbb8eeda
+  { key: "yuma-atma",         vendor: "Yuma",   store: "Atma Kitchenware", url: "https://www.atmakitchenware.fr/", widget: "yuma", locale: "fr-FR" }, // FR kitchenware · app.yuma.ai/w/c4de8095
+  { key: "yuma-fitnessboutique", vendor: "Yuma", store: "FitnessBoutique", url: "https://www.fitnessboutique.fr/", widget: "yuma", locale: "fr-FR" }, // FR fitness · app.yuma.ai/w/bade23e1
+  { key: "yuma-raceface",     vendor: "Yuma",   store: "Race Face",    url: "https://www.raceface.com/",       widget: "yuma" },              // CA MTB · app.yuma.ai/w/e05a7bcc
+  { key: "yuma-susanshaw",    vendor: "Yuma",   store: "Susan Shaw",   url: "https://susanshaw.com/",          widget: "yuma" },              // US jewelry · app.yuma.ai/w/e8ad7558
+  { key: "yuma-90degree",     vendor: "Yuma",   store: "90 Degree by Reflex", url: "https://www.90degreebyreflex.com/", widget: "yuma" },     // US activewear · app.yuma.ai/w/d63be532
+  // Sourced 2026-07-06 from Gorgias competition-benchmark data (dim_companies.storeleads_live_chat='Yuma') — the
+  // DEFINITIVE Yuma on-site-chat roster (~27 brands). GMV from dim_companies. Widget confirmed live; capturability TBD (bot-guard).
+  { key: "yuma-thebradery",   vendor: "Yuma",   store: "The Bradery",  url: "https://www.thebradery.com/",     widget: "yuma", locale: "fr-FR" }, // FR flash-sale · $116M GMV · GTM-lazy widget
+  { key: "yuma-manucurist",   vendor: "Yuma",   store: "Manucurist",   url: "https://manucurist.com/",         widget: "yuma", locale: "fr-FR" }, // FR nail/beauty · $62M · GTM-lazy
+  { key: "yuma-saalt",        vendor: "Yuma",   store: "Saalt",        url: "https://saalt.com/",              widget: "yuma" },              // US period care · $8.7M · widget in raw HTML
+  { key: "yuma-amnutrition",  vendor: "Yuma",   store: "AM Nutrition", url: "https://amnutrition.fr/",         widget: "yuma", locale: "fr-FR" }, // FR nutrition · $6.2M · widget in raw HTML
+  { key: "yuma-villagecraft", vendor: "Yuma",   store: "Village Craft & Candle", url: "https://villagecraftandcandle.com/", widget: "yuma" }, // CA candle-making · $5.8M · widget in raw HTML
+  { key: "yuma-hannun",       vendor: "Yuma",   store: "Hannun",       url: "https://hannun.com/",             widget: "yuma", locale: "es-ES" }, // ES furniture · $5.7M · GTM-lazy
+  { key: "yuma-novoma",       vendor: "Yuma",   store: "Novoma",       url: "https://novoma.com/",             widget: "yuma", locale: "fr-FR" }, // FR supplements · $5.0M · GTM-lazy
+  { key: "yuma-beaudomaine",  vendor: "Yuma",   store: "Beau Domaine", url: "https://beau-domaine.com/",       widget: "yuma", locale: "fr-FR" }, // FR skincare · $2.7M · widget in raw HTML
+  { key: "yuma-mool",         vendor: "Yuma",   store: "Mool",         url: "https://mool.fr/",                widget: "yuma", locale: "fr-FR" }, // FR · $2.9M · widget in raw HTML
 
   // Headed-only vendors (widget loads only in real Chrome). candidate=excluded from headless runs.
   { key: "humind-900care",    vendor: "Humind", store: "900.care",    url: "https://www.900.care/",       widget: "humind", candidate: true, locale: "fr-FR" },
