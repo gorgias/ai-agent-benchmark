@@ -87,33 +87,18 @@ a{color:inherit;text-decoration:none}
 /* =========================================================================
    TOP NAV — first-party product-header pattern (sticky, hairline on scroll)
    ========================================================================= */
-.appbar{
-  position:sticky;top:0;z-index:60;
-  display:flex;align-items:center;gap:var(--lg);
-  padding:0 var(--lg);height:56px;
-  background:color-mix(in srgb,var(--white) 88%,transparent);
-  backdrop-filter:blur(16px) saturate(1.4);
-  border-bottom:1px solid transparent;
-  transition:border-color .18s ease, box-shadow .18s ease;
-}
-.appbar.scrolled{border-bottom-color:var(--border-neutral-default);box-shadow:var(--shadow-container)}
-.brand{display:flex;align-items:center;gap:var(--xs);font-weight:600;font-size:14px;letter-spacing:-.01em;color:var(--content-neutral-default)}
-.brand .mark{width:22px;height:22px;border-radius:var(--xxs);background:var(--surface-inverted-default);display:grid;place-items:center;flex:none}
-.brand .mark::before{content:"";width:9px;height:9px;border-radius:2px;background:var(--purple-500);transform:rotate(45deg)}
-.brand .sep{width:1px;height:16px;background:var(--border-neutral-default);margin:0 var(--xxs)}
-.brand .sub{color:var(--content-neutral-secondary);font-weight:500}
-.navlinks{display:flex;align-items:center;gap:var(--xxxs);margin-left:auto}
-.navlinks a{
-  font-size:13px;font-weight:500;color:var(--content-neutral-secondary);
-  padding:var(--xxs) var(--sm);border-radius:var(--r-sm);
-  transition:background .14s ease,color .14s ease;white-space:nowrap;
-}
-.navlinks a:hover{background:var(--surface-neutral-secondary);color:var(--content-neutral-default)}
-.navlinks a.active{background:var(--surface-accent-default);color:var(--content-accent-default);font-weight:600}
-@media(max-width:820px){
-  .navlinks a{padding:var(--xxs) var(--xs);font-size:12px}
-  .brand .sub{display:none}
-}
+/* UNIFIED site nav — IDENTICAL markup + CSS across takeaways.html, report.html, run-status.html (self-contained hex so it never diverges) */
+.sitenav{position:sticky;top:0;z-index:60;display:flex;align-items:center;gap:14px;padding:0 24px;height:54px;
+  background:rgba(250,250,250,.85);backdrop-filter:blur(16px) saturate(1.4);-webkit-backdrop-filter:blur(16px) saturate(1.4);border-bottom:1px solid rgba(30,36,46,.08)}
+.sitenav .brand{display:flex;align-items:center;gap:8px;font-family:'Inter Tight','Inter',sans-serif;font-weight:800;font-size:14px;letter-spacing:-.01em;color:#1e242e;text-decoration:none;white-space:nowrap}
+.sitenav .brand .mark{width:22px;height:22px;border-radius:6px;background:#1e242e;display:grid;place-items:center;flex:none}
+.sitenav .brand .mark::before{content:"";width:9px;height:9px;border-radius:2px;background:#7e55f6;transform:rotate(45deg)}
+.sitenav .brand .sub{color:#5c6370;font-weight:600}
+.sitenav .links{display:flex;align-items:center;gap:4px;margin-left:auto;flex-wrap:wrap}
+.sitenav .links a{font-size:13px;font-weight:600;color:#5c6370;text-decoration:none;padding:7px 13px;border-radius:8px;transition:background .14s,color .14s;white-space:nowrap;cursor:pointer;background:none;border:none;font-family:inherit}
+.sitenav .links a:hover{background:#f0eefa;color:#1e242e}
+.sitenav .links a.active{background:#efe9fe;color:#683fcf;font-weight:700}
+@media(max-width:820px){.sitenav .links a{padding:6px 9px;font-size:12px}.sitenav .brand .sub{display:none}}
 
 /* =========================================================================
    LAYOUT
@@ -235,8 +220,8 @@ tbody td{padding:var(--sm) var(--md);border-bottom:1px solid var(--border-neutra
 tbody tr:last-child td{border-bottom:none}
 tbody tr{transition:background .12s ease}
 tbody tr:hover{background:var(--surface-neutral-primary)}
-tbody tr.us{background:var(--surface-accent-default)}
-tbody tr.us:hover{background:var(--purple-50)}
+/* US-HQ row highlight removed — it flagged country (Gorgias+Ada+Meta), not relevance, and read as noise */
+tbody tr.us:hover{background:var(--surface-neutral-primary)}
 td.n{text-align:right}
 .vdot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:var(--xs);vertical-align:middle;flex:none}
 .vname{font-weight:600;color:var(--content-neutral-default)}
@@ -245,10 +230,9 @@ td.n{text-align:right}
   border-radius:var(--xxs);background:var(--surface-neutral-secondary);
   color:var(--content-neutral-secondary);font-weight:600;font-size:12px;
 }
-tr.us .rankbadge{background:var(--surface-inverted-default);color:var(--content-inverted-default)}
 .comp{font-weight:600;color:var(--content-neutral-default)}
 .rk{font-size:10.5px;font-weight:600;color:var(--content-neutral-tertiary);margin-left:var(--xxs)}
-.us-tag{font-size:9.5px;font-weight:600;letter-spacing:.02em;background:var(--surface-inverted-default);color:var(--content-inverted-default);border-radius:var(--xxxs);padding:1px var(--xxs);margin-left:var(--xs);vertical-align:middle}
+.us-tag{display:none}   /* US-HQ flag removed — flagged country, not relevance */
 .p75{font-size:10.5px;color:var(--content-neutral-tertiary);margin-top:2px}
 /* Axiom Tag component — status pills */
 .pill{display:inline-block;font-size:11.5px;font-weight:600;padding:2px var(--xs);border-radius:var(--xxs);line-height:1.4}
@@ -419,13 +403,11 @@ tr.us .rankbadge{background:var(--surface-inverted-default);color:var(--content-
 <body>
 
 <!-- ============================== APP BAR ============================== -->
-<nav class="appbar" id="appbar">
-  <a class="brand" href="report.html">
-    <span class="mark"></span>Gorgias<span class="sep"></span><span class="sub">AI Agent Benchmark</span>
-  </a>
-  <div class="navlinks">
+<nav class="sitenav" id="appbar">
+  <a class="brand" href="takeaways.html"><span class="mark"></span>Gorgias<span class="sub">· AI Agent Benchmark</span></a>
+  <div class="links">
     <a href="takeaways.html" class="active" aria-current="page">Summary</a>
-    <a href="report.html">Detailed report</a>
+    <a href="report.html">Best AI Agent</a>
     <a href="report.html?view=conversations">Conversations</a>
     <a href="run-status.html">Run status</a>
     <a href="report.html#how">How it works</a>
@@ -439,12 +421,12 @@ tr.us .rankbadge{background:var(--surface-inverted-default);color:var(--content-
     <h1 class="rv">We benchmarked every<br><span class="accent">on-site AI agent.</span></h1>
     <p class="sub rv">Real merchants, cold sessions, free-typed questions — measured, judged and repeated weekly. <a href="report.html">Explore the full interactive report →</a></p>
     <div class="statstrip rv-stagger">
-      <div class="statcell"><div class="num tnum" data-count="423" data-stat="convs">0</div><div class="lbl">Conversations captured</div></div>
-      <div class="statcell"><div class="num tnum" data-count="410" data-stat="judged">0</div><div class="lbl">LLM-judged</div></div>
+      <div class="statcell"><div class="num tnum" data-count="425" data-stat="convs">0</div><div class="lbl">Conversations captured</div></div>
+      <div class="statcell"><div class="num tnum" data-count="425" data-stat="judged">0</div><div class="lbl">LLM-judged</div></div>
       <div class="statcell"><div class="num tnum" data-count="15" data-stat="vendors">0</div><div class="lbl">Vendors</div></div>
       <div class="statcell"><div class="num tnum" data-count="43" data-suffix="+" data-stat="stores">0</div><div class="lbl">Live stores measured</div></div>
     </div>
-    <!-- STATS_JSON:{"convs":423,"judged":410,"vendors":15,"stores":43,"runs":4} -->
+    <!-- STATS_JSON:{"convs":425,"judged":425,"vendors":15,"stores":43,"runs":4} -->
   </div>
 </header>
 
@@ -493,7 +475,7 @@ tr.us .rankbadge{background:var(--surface-inverted-default);color:var(--content-
 <section id="scoreboard" style="padding-top:0">
   <div class="wrap">
     <span class="kicker rv"><span class="dot"></span>The numbers</span>
-    <h2 class="sec rv">Scoreboard.</h2>
+    <h2 class="sec rv">Scoreboard — Shopping Assistant &amp; Support Agent.</h2>
     <p class="sec-lead rv">Automation = share of engaged conversations the AI handled end-to-end in-channel (handovers and email/phone deflections count against; early bails included). Quality = LLM-judge rubric /100. All free-text, cold sessions, no quick-reply chips. Hover any header for the exact definition.</p>
 
     <div class="tablecard rv">
@@ -760,7 +742,7 @@ tr.us .rankbadge{background:var(--surface-inverted-default);color:var(--content-
 
 <script>
 /* ---------- scoreboard data — copied verbatim from takeaways.html ---------- */
-/*SCORES_START*/ const D = {"Gorgias":{"us":1,"col":"#f0603f","s":{"a":94,"q":83,"l":18.4,"l75":21.3,"n":34},"p":{"a":83,"q":94,"l":15,"l75":15.9,"n":27}},"Envive":{"col":"#22c55e","s":{"a":93,"q":80,"l":12.5,"l75":16,"n":14},"p":{"a":90,"q":88,"l":11.6,"l75":15.1,"n":10}},"Sierra":{"col":"#0ea5e9","s":{"a":84,"q":57,"l":10,"l75":13.1,"n":37},"p":{"a":57,"q":85,"l":9.2,"l75":11.4,"n":20}},"Siena":{"col":"#a855f7","s":{"a":93,"q":67,"l":12.6,"l75":15.6,"n":27},"p":{"a":73,"q":72,"l":11.7,"l75":14.1,"n":22}},"Yuma":{"col":"#14b8a6","s":{"a":93,"q":89,"l":18,"l75":20.7,"n":14},"p":{"a":67,"q":73,"l":17,"l75":17,"n":9}},"DigitalGenius":{"col":"#8b5cf6","s":{"a":24,"q":49,"l":19.2,"l75":25.4,"n":18},"p":{"a":62,"q":65,"l":13.8,"l75":22.3,"n":12}},"Meta AI":{"us":1,"col":"#3b82f6","s":{"a":67,"q":14,"l":3.7,"l75":2.9,"n":5},"p":{"a":89,"q":45,"l":7.2,"l75":10.2,"n":9}},"Ada":{"us":1,"col":"#64748b","s":{"a":83,"q":62,"l":11.3,"l75":14.9,"n":41},"p":{"a":76,"q":58,"l":10.9,"l75":13.9,"n":31}},"Rep AI":{"col":"#ef4444","s":{"a":100,"q":14,"l":40.6,"l75":57.4,"n":9},"p":{"a":100,"q":15,"l":42.4,"l75":57.5,"n":7}},"Kodif":{"col":"#eab308","s":{"a":85,"q":64,"l":15.2,"l75":21.5,"n":39},"p":{"a":66,"q":67,"l":11.4,"l75":15.8,"n":31}}};/*SCORES_END*/
+/*SCORES_START*/ const D = {"Gorgias":{"us":1,"col":"#f0603f","s":{"a":94,"q":83,"l":18.4,"l75":21.3,"n":34},"p":{"a":83,"q":94,"l":15,"l75":15.9,"n":27}},"Envive":{"col":"#22c55e","s":{"a":93,"q":80,"l":12.5,"l75":16,"n":14},"p":{"a":90,"q":88,"l":11.6,"l75":15.1,"n":10}},"Sierra":{"col":"#0ea5e9","s":{"a":85,"q":57,"l":10,"l75":13.2,"n":38},"p":{"a":57,"q":85,"l":9.2,"l75":11.4,"n":20}},"Siena":{"col":"#a855f7","s":{"a":93,"q":67,"l":12.6,"l75":15.6,"n":27},"p":{"a":73,"q":72,"l":11.7,"l75":14.1,"n":22}},"Yuma":{"col":"#14b8a6","s":{"a":93,"q":85,"l":18,"l75":20.7,"n":14},"p":{"a":67,"q":73,"l":17,"l75":17,"n":9}},"DigitalGenius":{"col":"#8b5cf6","s":{"a":24,"q":46,"l":19.2,"l75":25.4,"n":18},"p":{"a":62,"q":65,"l":13.8,"l75":22.3,"n":12}},"Meta AI":{"us":1,"col":"#3b82f6","s":{"a":67,"q":14,"l":3.7,"l75":2.9,"n":5},"p":{"a":89,"q":45,"l":7.2,"l75":10.2,"n":9}},"Ada":{"us":1,"col":"#64748b","s":{"a":83,"q":62,"l":11.3,"l75":14.9,"n":41},"p":{"a":76,"q":58,"l":10.9,"l75":13.9,"n":31}},"Rep AI":{"col":"#ef4444","s":{"a":100,"q":14,"l":40.6,"l75":57.4,"n":9},"p":{"a":100,"q":15,"l":42.4,"l75":57.5,"n":7}},"Kodif":{"col":"#eab308","s":{"a":85,"q":64,"l":15.2,"l75":21.5,"n":39},"p":{"a":66,"q":67,"l":11.4,"l75":15.8,"n":31}}};/*SCORES_END*/
 const speed=l=>Math.max(0,Math.min(100,(22-l)/19*100));
 function comp(m){ if(!m) return null; const parts=[[.4,m.a],[.4,m.q],[.2,m.l!=null?speed(m.l):null]].filter(p=>p[1]!=null); const w=parts.reduce((a,p)=>a+p[0],0); return w?Math.round(parts.reduce((a,p)=>a+p[0]*p[1],0)/w):null; }
 const rows=Object.entries(D).map(([v,d])=>({v,...d,cs:comp(d.s),cp:comp(d.p)}))
