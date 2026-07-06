@@ -107,7 +107,10 @@ function aText(turn) {
   if (turn.by === "human") return "🚩 human took over";
   // cleanAnswer strips widget chrome / suggested-reply chips / product-card fragments
   // (see reply-clean.js) and shows the START of the real answer — not the chip tail.
-  const clean = cleanAnswer(turn.replyTail, turn.q, 240);
+  // Cap at 700 chars = the exact window the LLM-judge scored (eval-pack.js), so the reader
+  // sees the same answer text the quality score was based on. (Was 240, which cut most
+  // substantive answers mid-thought.)
+  const clean = cleanAnswer(turn.replyTail, turn.q, 700);
   if (turn.complete_ms == null) {
     return clean ? "(streamed past timing window) " + clean : "AI replied (streamed past timing window)";
   }
