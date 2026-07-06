@@ -114,3 +114,24 @@ Interpretation: the clean rerun is directionally negative for Yuma on latency an
 completion, while the rounded quality aggregate stays flat. The strongest Tumble/EvryJewels turns
 can narrow to plausible products, but repeated cart/total failures, email/invoice escalation, and
 several no-answer timing windows reduce automation and push p75 latency up sharply.
+
+## 2026-07-06 stale-bubble quarantine
+
+Max re-flagged the Tumble rerun as suspicious. Codex audited every
+`codex-yuma-bubble-01/02` Tumble capture and found a remaining issue: when a turn timed out or did
+not produce a new answer, the runner could still attach the previous Yuma assistant bubble as that
+turn's `replyTail`. The latency was not fabricated (`complete_ms` stayed null), but the visible
+transcript and judge input could be contaminated by stale answer text.
+
+Remediation:
+
+- `run.js` now snapshots the latest Yuma assistant bubble before sending the user message and only
+  stores a Yuma `replyTail` if a new assistant bubble appears afterward.
+- `eval-pack.js` now blanks `reply` for any uncompleted turn (`complete_ms === null`), so stale DOM
+  text cannot reach the quality judge.
+- The pre-fix `codex-yuma-bubble-01/02` batch for Tumble and EvryJewels is quarantined from
+  scoreboard/report/eval-pack, and the 10 already-merged scores for that batch were removed from
+  `eval-scores.json`.
+
+Until a new post-fix headed run is captured, treat the Tumble/Evry bubble rerun as evidence for the
+bug audit only, not as rankable Yuma Shopping Assistant evidence.

@@ -13225,227 +13225,51 @@ const STORES = [
   "locale": "en-US",
   "method": "new",
   "us": false,
-  "lat": "~21.5s",
-  "latPct": 86,
-  "latP75": 30.4,
-  "ttft": 17.1,
+  "lat": "~17.7s",
+  "latPct": 71,
+  "latP75": 22.9,
+  "ttft": 15,
   "delivery": "atomic",
-  "success": 90,
-  "successTxt": "90%",
+  "success": 96,
+  "successTxt": "96%",
   "avgTurns": 10,
-  "timed": 72,
-  "attempted": 80,
+  "timed": 48,
+  "attempted": 50,
   "auto": {
-   "automated": 8,
+   "automated": 5,
    "handover": 0,
    "deflected": 0,
-   "no_answer": 2,
-   "engaged": 8,
+   "no_answer": 0,
+   "engaged": 5,
    "rate": 100
   },
   "evalq": {
-   "n": 8,
-   "total": 79,
+   "n": 5,
+   "total": 87,
    "dims": {
-    "answer": 21,
+    "answer": 27,
     "discovery": 20,
     "recommendation": 22,
-    "rich": 9,
+    "rich": 12,
     "close": 6
    },
    "cls": {
-    "partial": 7,
+    "partial": 4,
     "resolved": 1
    },
    "learnings": [
     "Strong product-card mechanics and a concrete starter pick, but policy consistency and explicit cart execution remain weak.",
-    "Good value comparison and rationale, but explicit cart and total requests are routed to email/specialist instead of completed.",
     "Solid value comparison and warranty/payment answers, but the explicit add-to-cart and total requests were deflected to an email-collecting specialist loop rather than facilitated.",
-    "Strong early recommendation quality, but the conversation collapses after the add-to-cart step with unanswered follow-ups.",
     "Strong end-to-end value-buyer flow with priced product cards, add-to-cart button, shipping estimates, and honest no-returns disclosure at the close.",
-    "Good gift recommendation flow, but the assistant does not complete total/cart work and ends by requesting email escalation.",
     "Rich gift-focused discovery with priced cards and gift-message/receipt detail, but the add-to-cart-with-total and second-item discount asks were deflected to a specialist rather than actioned.",
     "Good reassurance via review anecdotes and durability facts, but one return-options turn returned an empty reply and the total/add-to-cart request collapsed into a repeated email-escalation loop."
    ]
   },
   "guard": null,
   "ticket": null,
-  "what": "8 cold private conversations (shopping themes). No handover in any theme. Avg end-to-end latency ~21.5s across 72 AI-timed turns.",
-  "datetime": "2026-07-06T16:39:55.154Z",
+  "what": "5 cold private conversations (shopping themes). No handover in any theme. Avg end-to-end latency ~17.7s across 48 AI-timed turns.",
+  "datetime": "2026-07-06T14:43:32.141Z",
   "themes": [
-   {
-    "key": "everyday-value",
-    "label": "Everyday value buyer",
-    "datetime": "2026-07-06T16:13:01.188Z",
-    "lat": "~41.4s",
-    "success": 60,
-    "successTxt": "60%",
-    "handoverTurn": null,
-    "ticket": null,
-    "productRecs": {
-     "count": 2,
-     "names": [
-      "I also suggest checking out the Daydream Necklace,",
-      "Mystery Jewelry Item"
-     ]
-    },
-    "ev": {
-     "total": 62,
-     "cls": "partial",
-     "dims": {
-      "answer": 9,
-      "discovery": 20,
-      "recommendation": 22,
-      "rich": 6,
-      "close": 5
-     },
-     "note": "Strong early recommendation quality, but the conversation collapses after the add-to-cart step with unanswered follow-ups."
-    },
-    "turns": [
-     {
-      "q": "Hi! I'm shopping but not sure what's right for me — can you help me choose?",
-      "a": "I would love to help you find the perfect pieces! 🤩 To get us started, what kind of jewelry are you usually drawn to? Are you looking for necklaces, earrings, rings, or maybe a little bit of everything? Also, do you prefer a more classic look or something super trendy? ❤️⭐️ Evry Customer Specialist",
-      "by": "ai",
-      "lat": 41.7,
-      "fl": [
-       {
-        "t": "missed part of the ask",
-        "k": "warn"
-       }
-      ],
-      "cov": 0
-     },
-     {
-      "q": "I want something for everyday use, good quality, and I care about value for money.",
-      "a": "crafted with durable 14-karat gold or silver plating. They are super comfy for sensitive ears too. For the ultimate value, you definitely have to check out our Mystery Jewelry Item. It’s such a fun surprise and a great way to get high-quality pieces at an unbeatable price. ❤️⭐️ All our jewelry is lead and nickel-free, so it's super safe for sensitive skin and built to last. Do any of these catch your eye, or would you like to see more options in a specific category? Evry Customer Specialist",
-      "by": "ai",
-      "lat": 32.7,
-      "fl": [
-       {
-        "t": "missed part of the ask",
-        "k": "warn"
-       }
-      ],
-      "cov": 20
-     },
-     {
-      "q": "I'd like to stay within a sensible budget — what are my best options?",
-      "a": "If you're looking for a complete look, our Evry Bundles are amazing. They range from about $13.99 to $30.99 and include three curated pieces, giving you a pre-made stack for a fraction of the cost. I also suggest checking out the Daydream Necklace, which is currently on sale for $4.44. It's perfect for that everyday minimalist vibe you're looking for! 🙂 All of these are hypoallergenic and designed to last. Does one of these sound like a good fit for your budget? ⭐️❤️ Evry Customer Specialist",
-      "by": "ai",
-      "lat": 33.3,
-      "fl": [
-       {
-        "t": "missed part of the ask",
-        "k": "warn"
-       }
-      ],
-      "cov": 29
-     },
-     {
-      "q": "Can you compare your two most popular options and tell me which is better for me?",
-      "a": "matches your personal aesthetic. Quality: These are plated in 14-karat gold or silver and are designed specifically for comfort and sensitive skin. If you want a full transformation and the best value for multiple pieces, I would definitely recommend the Viral Best Sellers Bundle. However, if you are looking to start small with some super trendy and reliable earrings, the Best Seller Earrings are a fantastic choice! 🙂 Which one feels more like your style today? ❤️⭐️ Evry Customer Specialist",
-      "by": "ai",
-      "lat": 53.1,
-      "fl": [
-       {
-        "t": "missed part of the ask",
-        "k": "warn"
-       }
-      ],
-      "cov": 14
-     },
-     {
-      "q": "Which one is your overall best seller, and is it well reviewed?",
-      "a": "is incredible for the price and how well the pieces hold up even with daily wear. Another highly-rated option is the Mystery Jewelry Item, which has a fantastic 4.62-star rating. It's a huge hit because of the excitement of the surprise and the beautiful pieces included for such a great price. 🙂 Since you value quality and a good deal, the Viral Bundle is a safe and well-loved choice. Would you like to add one to your cart, or can I help you with anything else? ❤️⭐️ Evry Customer Specialist",
-      "by": "ai",
-      "lat": 51.8,
-      "cov": 43
-     },
-     {
-      "q": "Okay, can you add your top recommendation to my cart?",
-      "a": "I would love to help you with that! 🤩 The Viral Best Sellers 5 Piece Bundle in 18K Gold is my top pick for you. It gives you a complete, waterproof, and hypoallergenic look that’s perfect for everyday wear. You can add it directly to your cart using the button below! ❤️⭐️ Evry Customer Specialist",
-      "by": "ai",
-      "lat": 35.6,
-      "cov": 60
-     },
-     {
-      "q": "What's my total, and do you offer free shipping or a first-order discount?",
-      "a": "AI replied (streamed past timing window)",
-      "by": "ai",
-      "lat": null,
-      "fl": [
-       {
-        "t": "no timed answer",
-        "k": "bad"
-       },
-       {
-        "t": "missed part of the ask",
-        "k": "warn"
-       },
-       {
-        "t": "purchase request unfulfilled",
-        "k": "warn"
-       }
-      ],
-      "cov": 0
-     },
-     {
-      "q": "Is there a warranty or guarantee if something goes wrong?",
-      "a": "AI replied (streamed past timing window)",
-      "by": "ai",
-      "lat": null,
-      "fl": [
-       {
-        "t": "no timed answer",
-        "k": "bad"
-       },
-       {
-        "t": "missed part of the ask",
-        "k": "warn"
-       }
-      ],
-      "cov": 0
-     },
-     {
-      "q": "How long will delivery take, roughly?",
-      "a": "AI replied (streamed past timing window)",
-      "by": "ai",
-      "lat": null,
-      "fl": [
-       {
-        "t": "no timed answer",
-        "k": "bad"
-       },
-       {
-        "t": "missed part of the ask",
-        "k": "warn"
-       },
-       {
-        "t": "no timeframe given",
-        "k": "warn"
-       }
-      ],
-      "cov": 0
-     },
-     {
-      "q": "And if I change my mind, how easy is it to return?",
-      "a": "AI replied (streamed past timing window)",
-      "by": "ai",
-      "lat": null,
-      "fl": [
-       {
-        "t": "no timed answer",
-        "k": "bad"
-       },
-       {
-        "t": "missed part of the ask",
-        "k": "warn"
-       }
-      ],
-      "cov": 0
-     }
-    ]
-   },
    {
     "key": "everyday-value",
     "label": "Everyday value buyer",
@@ -13579,136 +13403,6 @@ const STORES = [
       "by": "ai",
       "lat": 30.5,
       "fl": [
-       {
-        "t": "missed part of the ask",
-        "k": "warn"
-       }
-      ],
-      "cov": 0
-     }
-    ]
-   },
-   {
-    "key": "gift",
-    "label": "Gift shopper",
-    "datetime": "2026-07-06T16:22:21.287Z",
-    "lat": "~27.8s",
-    "success": 80,
-    "successTxt": "80%",
-    "handoverTurn": null,
-    "ticket": null,
-    "productRecs": {
-     "count": 0,
-     "names": []
-    },
-    "ev": {
-     "total": 65,
-     "cls": "partial",
-     "dims": {
-      "answer": 9,
-      "discovery": 20,
-      "recommendation": 22,
-      "rich": 9,
-      "close": 5
-     },
-     "note": "Good gift recommendation flow, but the assistant does not complete total/cart work and ends by requesting email escalation."
-    },
-    "turns": [
-     {
-      "q": "Hi! I'm looking for a gift for someone and I'm not sure what to pick — can you help?",
-      "a": "(streamed past timing window) Hey Bestie! Thanks for reaching out to us. Let me check that out for you.",
-      "by": "ai",
-      "lat": null,
-      "fl": [
-       {
-        "t": "no timed answer",
-        "k": "bad"
-       },
-       {
-        "t": "missed part of the ask",
-        "k": "warn"
-       }
-      ],
-      "cov": 0
-     },
-     {
-      "q": "It's for someone who likes quality but isn't fussy; I want something they'll actually use.",
-      "a": "for everyday wear, I highly recommend checking out our 18K Gold Waterproof line. These pieces are amazing because they are: Tarnish-free and built to last Waterproof (perfect for the shower or pool) Hypoallergenic, nickel-free, and lead-free (great for sensitive skin) Since they are designed for everyday use, they're the perfect \"non-fussy\" gift that will actually get worn! To help me narrow it down, does this person usually prefer necklaces, earrings, or rings? ⭐️ Evry Customer Specialist",
-      "by": "ai",
-      "lat": 35,
-      "cov": 40
-     },
-     {
-      "q": "My budget is moderate — what would make a good gift in that range?",
-      "a": "ion is a fantastic choice for gifts because it offers the look of fine jewelry but is designed for real life. They are built to last and won't tarnish, even with daily wear in the shower or during workouts. Most of our popular necklaces and earrings fall into a great moderate price range while still feeling super special. To give you the best recommendation, do you think they would prefer a classic necklace, a pair of everyday earrings, or perhaps a stackable ring? 🙂 Evry Customer Specialist",
-      "by": "ai",
-      "lat": 14.7,
-      "cov": 38
-     },
-     {
-      "q": "Between your top two gift ideas, which feels more special?",
-      "a": ", or at the beach without it ever tarnishing or turning green. Customizable: It comes with an adjustable extender, so they can find their perfect fit or layer it with other pieces easily. Ready to Gift: Every order comes with a cute reusable pouch and stickers, making the unboxing experience feel like a real treat! ❤️ It’s a statement piece that they don’t have to be fussy with, they can just put it on and never take it off! Evry Customer Specialist",
-      "by": "ai",
-      "lat": 44.4,
-      "fl": [
-       {
-        "t": "missed part of the ask",
-        "k": "warn"
-       }
-      ],
-      "cov": 11
-     },
-     {
-      "q": "Is there a gift set or bundle that looks nicer than a single item?",
-      "a": "hing a bit more sentimental, this 3-piece necklace bundle is adorable. It includes: Lover Girl Necklace Sent with Love Necklace (with a cute red heart detail) Don't Get It Twisted Necklace It’s pre-styled for that perfect layered look that everyone is loving right now. Both come with our signature reusable pouch and stickers, so the presentation is already taken care of for you! 🤩 Do either of these bundles catch your eye, or would you like to see something else? ❤️ Evry Customer Specialist",
-      "by": "ai",
-      "lat": 33.8,
-      "fl": [
-       {
-        "t": "missed part of the ask",
-        "k": "warn"
-       }
-      ],
-      "cov": 20
-     },
-     {
-      "q": "Can it arrive gift-ready, and how fast can it ship?",
-      "a": "sage and choose our signature gift packaging. It adds such a sweet, personalized touch when the box arrives! ⭐️ As for shipping, we work hard to get your gifts out quickly: Processing: Most orders ship from our Toronto warehouse within 1 to 2 business days. Delivery: Standard delivery typically takes 3 to 7 business days for orders within the US and Canada. You will receive a tracking link via email as soon as your order is on its way so you can keep an eye on it. 🤩 Evry Customer Specialist",
-      "by": "ai",
-      "lat": 14.1,
-      "cov": 40
-     },
-     {
-      "q": "Great — add your top gift pick to my cart and tell me the total.",
-      "a": "g your top pick is super easy! You can simply click the product link I shared earlier for the Double Cross Me Necklace and select \"Add to Cart.\" Regarding the total, it can vary slightly based on: Any active promotions or discount codes you apply Taxes based on your location Your chosen shipping method at checkout To see your exact total including shipping and taxes, just head to your cart once you've added your favorites and proceed to the first step of checkout! ⭐️ Evry Customer Specialist",
-      "by": "ai",
-      "lat": 17.6,
-      "cov": 71
-     },
-     {
-      "q": "Can you include a gift message or a gift receipt?",
-      "a": "You can absolutely include a personal gift message! You will see the option to add your note right before you pay during the checkout process. ⭐️ As for the receipt, we already have you covered for a surprise! Our packing slips only list the items being shipped. They do not display any pricing, billing addresses, or payment methods. This makes the standard packing slip act just like a gift receipt so your recipient won't see how much you spent. 🤩 Evry Customer Specialist",
-      "by": "ai",
-      "lat": 15.8,
-      "cov": 100
-     },
-     {
-      "q": "If they want to exchange it, how would that work?",
-      "a": "I totally understand wanting to make sure the gift is perfect! As stated on our website (https://evryjewels.com/policies/refund-policy), we do not offer any refunds, exchanges, or returns. Could you let me know why you are inquiring about a potential exchange? I want to make sure I help you pick out something they will never want to take off! ⭐️ Evry Customer Specialist",
-      "by": "ai",
-      "lat": 46.9,
-      "cov": 50
-     },
-     {
-      "q": "Any discount if I add a second smaller item?",
-      "a": "(streamed past timing window) I'd love to look into that for you! To make sure I get you the right information and pass this over to a specialist, could you please provide your email address? 🙂 Evry Customer Specialist",
-      "by": "ai",
-      "lat": null,
-      "fl": [
-       {
-        "t": "no timed answer",
-        "k": "bad"
-       },
        {
         "t": "missed part of the ask",
         "k": "warn"
@@ -14004,130 +13698,6 @@ const STORES = [
    {
     "key": "compare-budget",
     "label": "Comparison, budget-tight",
-    "datetime": "2026-07-06T16:39:55.154Z",
-    "lat": "~23s",
-    "success": 100,
-    "successTxt": "100%",
-    "handoverTurn": null,
-    "ticket": null,
-    "productRecs": {
-     "count": 1,
-     "names": [
-      "Seller Earrings"
-     ]
-    },
-    "ev": {
-     "total": 67,
-     "cls": "partial",
-     "dims": {
-      "answer": 16,
-      "discovery": 20,
-      "recommendation": 22,
-      "rich": 2,
-      "close": 7
-     },
-     "note": "Good value comparison and rationale, but explicit cart and total requests are routed to email/specialist instead of completed."
-    },
-    "turns": [
-     {
-      "q": "Hi! I'm deciding between a few options and money's a bit tight — can you help me choose?",
-      "a": "I would love to help you find the perfect pieces! 🤩 Since you're deciding between a few options, could you let me know which items you are looking at? Once I know what you're eyeing, I can give you some more details to help you make your final choice. ❤️ Evry Customer Specialist",
-      "by": "ai",
-      "lat": 34.1,
-      "cov": 50
-     },
-     {
-      "q": "I want the best bang for the buck, not the cheapest or the most expensive.",
-      "a": "ighly recommend checking out our 18K Gold Waterproof line. These pieces are amazing because they are tarnish-free and built to last, so you can wear them every day (even in the shower!) without worrying about them losing their shine. It is definitely the best way to get high-quality jewelry that lasts a long time without the luxury price tag! ⭐️ To help you narrow it down, are you looking for anything specific like necklaces, rings, or maybe a cute pair of earrings? ❤️ Evry Customer Specialist",
-      "by": "ai",
-      "lat": 17.4,
-      "fl": [
-       {
-        "t": "missed part of the ask",
-        "k": "warn"
-       }
-      ],
-      "cov": 13
-     },
-     {
-      "q": "Show me your two best value-for-money options and compare them.",
-      "a": "nts for a super feminine feel. Extras: Just like the earrings, this also comes with a free pouch and stickers. The Comparison: If you are looking for variety and versatility for your ears, the Best Seller Earrings are the winner since you get six different pairs to mix and match! 🤩 However, if you want a full jewelry look that is perfectly matched from head to hand, the Lover Girl Bundle is the better choice for your budget. Which one feels more like your style? 🙂 Evry Customer Specialist",
-      "by": "ai",
-      "lat": 24.5,
-      "fl": [
-       {
-        "t": "missed part of the ask",
-        "k": "warn"
-       }
-      ],
-      "cov": 14
-     },
-     {
-      "q": "Honestly, is the pricier one worth the extra, or is the cheaper one fine?",
-      "a": "high-quality set that you don't have to think about styling. Since it includes a necklace, bracelet, and hand chain, you're paying for a full \"look\" rather than just individual pieces. ❤️ If money is tight, I'd say go with the Best Seller Earrings! You get six pairs for a lower total price than the 3-piece bundle, which gives you the most options to play with. ⭐️ Does that help you make a decision, or would you like to see some other options in a specific category? ❤️ Evry Customer Specialist",
-      "by": "ai",
-      "lat": 26.5,
-      "fl": [
-       {
-        "t": "missed part of the ask",
-        "k": "warn"
-       }
-      ],
-      "cov": 0
-     },
-     {
-      "q": "Are there any current promos, bundles, or ways to save?",
-      "a": "r price than buying items individually. 🤩 Also, did you know about our Evry Insider ambassador program? It is a super fun way to earn free jewelry! Once you sign up, you get your own discount code to share with friends. When they use your code, you earn commissions that you can redeem for free pieces. ⭐️ Don’t forget to follow us on social @evryjewels too, we’re always sharing fun updates, giveaways, and special offers! Thanks again for being part of the Evry fam 💖 Evry Customer Specialist",
-      "by": "ai",
-      "lat": 30.4,
-      "fl": [
-       {
-        "t": "missed part of the ask",
-        "k": "warn"
-       }
-      ],
-      "cov": 0
-     },
-     {
-      "q": "Which would you personally pick on my budget?",
-      "a": "ersonally pick the Evry Best Seller Earrings Collection! 🤩 Getting six different pairs of earrings for such a low price is honestly unbeatable. It gives you so much variety to play with, and you can change your look every single day of the week. Plus, since they are hypoallergenic and high quality, you know they'll last you a long time. ⭐️ It's the perfect way to build up your jewelry collection without breaking the bank! 🙂 Which one are you leaning towards now? ❤️ Evry Customer Specialist",
-      "by": "ai",
-      "lat": 41.5,
-      "cov": 40
-     },
-     {
-      "q": "Add that one to my cart and tell me the total with any discount.",
-      "a": "I would love to get that all set up for you! 🤩 To make sure a specialist can help you with adding the collection to your cart and calculating the total with any discounts, could you please provide your email address? Once I have that, I can get this moved over for you! ❤️ Evry Customer Specialist",
-      "by": "ai",
-      "lat": 16.3,
-      "cov": 57
-     },
-     {
-      "q": "Does the cheaper one have the same warranty as the pricier one?",
-      "a": "That is a great question! 🤩 Both the Best Seller Earrings and the Lover Girl Bundle are covered by the same standard 30-day warranty for manufacturing defects. Also, just a friendly reminder that orders placed starting January 30, 2026, automatically include a free 1-year warranty! ⭐️ I'm still here and ready to escalate your request so a specialist can help with your cart and total. Could you please share your email address with me? ❤️ Evry Customer Specialist",
-      "by": "ai",
-      "lat": 10.3,
-      "cov": 40
-     },
-     {
-      "q": "Can I pay in installments or split payment?",
-      "a": "absolutely can! 🤩 We offer several flexible payment options including Shop Pay and Klarna, which allow you to split your purchase into smaller, interest-free installments. This is a great way to get the pieces you love while keeping things within your budget! ⭐️ To help you with your earlier request to add the items to your cart and see your total, I still need your email address. Could you please share it with me so I can get a specialist to assist you further? ❤️ Evry Customer Specialist",
-      "by": "ai",
-      "lat": 14.5,
-      "cov": 100
-     },
-     {
-      "q": "Confirm my total and the fastest shipping option?",
-      "a": "I would love to help you with the final total and finding the fastest shipping option! 🤩 To get you the most accurate information and have a specialist assist with your cart, could you please provide your email address? Once you share that, I can move this forward for you right away! ❤️ Evry Customer Specialist",
-      "by": "ai",
-      "lat": 14.6,
-      "cov": 80
-     }
-    ]
-   },
-   {
-    "key": "compare-budget",
-    "label": "Comparison, budget-tight",
     "datetime": "2026-07-06T08:06:04.071Z",
     "lat": "~12.5s",
     "success": 100,
@@ -14413,9 +13983,9 @@ const STORES = [
   "turns": [
    {
     "q": "Hi! I'm shopping but not sure what's right for me — can you help me choose?",
-    "a": "I would love to help you find the perfect pieces! 🤩 To get us started, what kind of jewelry are you usually drawn to? Are you looking for necklaces, earrings, rings, or maybe a little bit of everything? Also, do you prefer a more classic look or something super trendy? ❤️⭐️ Evry Customer Specialist",
+    "a": "rs to all styles, and our pieces are designed for everyone and for everyday wear. 🙂 To give you the best recommendations, could you tell me a bit more about what you're looking for? For example: Are you looking for something for a special occasion or everyday wear? Do you have a favorite type of jewelry, like necklaces, earrings, or rings? ⭐️ Should you need any further assistance, please don't hesitate to reach out. Evry Customer Specialist",
     "by": "ai",
-    "lat": 41.7,
+    "lat": 6.3,
     "fl": [
      {
       "t": "missed part of the ask",
@@ -14426,35 +13996,29 @@ const STORES = [
    },
    {
     "q": "I want something for everyday use, good quality, and I care about value for money.",
-    "a": "crafted with durable 14-karat gold or silver plating. They are super comfy for sensitive ears too. For the ultimate value, you definitely have to check out our Mystery Jewelry Item. It’s such a fun surprise and a great way to get high-quality pieces at an unbeatable price. ❤️⭐️ All our jewelry is lead and nickel-free, so it's super safe for sensitive skin and built to last. Do any of these catch your eye, or would you like to see more options in a specific category? Evry Customer Specialist",
+    "a": "e super durable and come with a free reusable pouch and cute stickers! 🤩 Do either of these catch your eye, or would you like to see some rings or bracelets as well?❤️ Evry Customer Specialist Evry Best Seller Earrings 7.99€ 47.49€ Metal Color Gold Silver Size Flashy Earrings Small By the Sea Earrings Hibiscus Earrings London Hoops + Add to cart Evryday Sparkle Necklace 4.44€ 39.99€ Color Gold Silver Stone Color Clear Red Green Add to cart",
     "by": "ai",
-    "lat": 32.7,
+    "lat": 29,
     "fl": [
      {
       "t": "missed part of the ask",
       "k": "warn"
      }
     ],
-    "cov": 20
+    "cov": 0
    },
    {
     "q": "I'd like to stay within a sensible budget — what are my best options?",
-    "a": "If you're looking for a complete look, our Evry Bundles are amazing. They range from about $13.99 to $30.99 and include three curated pieces, giving you a pre-made stack for a fraction of the cost. I also suggest checking out the Daydream Necklace, which is currently on sale for $4.44. It's perfect for that everyday minimalist vibe you're looking for! 🙂 All of these are hypoallergenic and designed to last. Does one of these sound like a good fit for your budget? ⭐️❤️ Evry Customer Specialist",
+    "a": "Both of these options give you that \"luxe\" look for a fraction of the cost, and they even come with a free reusable pouch and stickers. ⭐️ Would you like to look at some budget-friendly rings or bracelets next to complete your look? Evry Customer Specialist Evryday Sparkle Necklace 4.44€ 39.99€ Color Gold Silver Stone Color Clear Red Green Add to cart Fresh AF Earrings 4.44€ 44.99€ Color Gold Silver 18K Gold Waterproof Silver Waterproof Sold out",
     "by": "ai",
-    "lat": 33.3,
-    "fl": [
-     {
-      "t": "missed part of the ask",
-      "k": "warn"
-     }
-    ],
-    "cov": 29
+    "lat": 15.3,
+    "cov": 43
    },
    {
     "q": "Can you compare your two most popular options and tell me which is better for me?",
-    "a": "matches your personal aesthetic. Quality: These are plated in 14-karat gold or silver and are designed specifically for comfort and sensitive skin. If you want a full transformation and the best value for multiple pieces, I would definitely recommend the Viral Best Sellers Bundle. However, if you are looking to start small with some super trendy and reliable earrings, the Best Seller Earrings are a fantastic choice! 🙂 Which one feels more like your style today? ❤️⭐️ Evry Customer Specialist",
+    "a": "you're looking for that one perfect piece to wear every single day without taking it off, the Sparkle Necklace is your best bet! 🙂 Which one feels more like you?❤️ Evry Customer Specialist, Evry Best Seller Earrings 7.99€ 47.49€ Metal Color Gold Silver Size Flashy Earrings Small By the Sea Earrings Hibiscus Earrings London Hoops + Add to cart Evryday Sparkle Necklace 4.44€ 39.99€ Color Gold Silver Stone Color Clear Red Green Add to cart Earring Bundle Sparkle Necklace",
     "by": "ai",
-    "lat": 53.1,
+    "lat": 24.5,
     "fl": [
      {
       "t": "missed part of the ask",
@@ -14465,72 +14029,52 @@ const STORES = [
    },
    {
     "q": "Which one is your overall best seller, and is it well reviewed?",
-    "a": "is incredible for the price and how well the pieces hold up even with daily wear. Another highly-rated option is the Mystery Jewelry Item, which has a fantastic 4.62-star rating. It's a huge hit because of the excitement of the surprise and the beautiful pieces included for such a great price. 🙂 Since you value quality and a good deal, the Viral Bundle is a safe and well-loved choice. Would you like to add one to your cart, or can I help you with anything else? ❤️⭐️ Evry Customer Specialist",
+    "a": "r 124,000 verified reviews from our amazing community! ❤️ Our customers often rave about how our jewelry looks brand new even after wearing it every day in the shower or pool. We've shipped millions of orders and are trusted by over 500,000 customers, so you're in great company! ⭐️ Does that help you feel more confident in choosing the Best Seller Earrings, or is there anything else I can clarify for you?🤩 Evry Customer Specialist",
     "by": "ai",
-    "lat": 51.8,
-    "cov": 43
+    "lat": 18.1,
+    "fl": [
+     {
+      "t": "missed part of the ask",
+      "k": "warn"
+     }
+    ],
+    "cov": 29
    },
    {
     "q": "Okay, can you add your top recommendation to my cart?",
-    "a": "I would love to help you with that! 🤩 The Viral Best Sellers 5 Piece Bundle in 18K Gold is my top pick for you. It gives you a complete, waterproof, and hypoallergenic look that’s perfect for everyday wear. You can add it directly to your cart using the button below! ❤️⭐️ Evry Customer Specialist",
+    "a": "I would love to help you with that! 🤩 While I can't directly add items to your cart for you, I've made it super easy for you to do it yourself. You can click the button below to add the Evry Best Seller Earrings right to your cart! ⭐️ Please let me know if you need help with anything else or if you'd like to see more recommendations! ❤️ Evry Customer Specialist",
     "by": "ai",
-    "lat": 35.6,
-    "cov": 60
+    "lat": 12.2,
+    "cov": 40
    },
    {
     "q": "What's my total, and do you offer free shipping or a first-order discount?",
-    "a": "AI replied (streamed past timing window)",
+    "a": "our Evry Insider ambassador program, you'll receive a $10 discount to apply toward your first order! 🤩 You can also earn commissions and free jewelry by sharing your own code. Keep in mind that digital items like Package Protection and our 1 Year Warranty don't count toward the $35 free shipping threshold. Would you like to add a few more pieces to reach that free shipping goal, or are you ready to head to checkout? ❤️ Evry Customer Specialist Check out now",
     "by": "ai",
-    "lat": null,
-    "fl": [
-     {
-      "t": "no timed answer",
-      "k": "bad"
-     },
-     {
-      "t": "missed part of the ask",
-      "k": "warn"
-     },
-     {
-      "t": "purchase request unfulfilled",
-      "k": "warn"
-     }
-    ],
-    "cov": 0
+    "lat": 17.6,
+    "cov": 71
    },
    {
     "q": "Is there a warranty or guarantee if something goes wrong?",
-    "a": "AI replied (streamed past timing window)",
+    "a": "your package is lost, stolen, or damaged during its journey to you. 🤩 It’s the best way to make sure your new favorites stay protected! ❤️ Would you like to go ahead with the Best Seller Earrings, or can I help you find something else to reach that free shipping goal? Evry Customer Specialist Evry Best Seller Earrings 7.99€ 47.49€ Metal Color Gold Silver Size Flashy Earrings Small By the Sea Earrings Hibiscus Earrings London Hoops + Add to cart Yes, add it!",
     "by": "ai",
-    "lat": null,
+    "lat": 17,
     "fl": [
-     {
-      "t": "no timed answer",
-      "k": "bad"
-     },
      {
       "t": "missed part of the ask",
       "k": "warn"
      }
     ],
-    "cov": 0
+    "cov": 17
    },
    {
     "q": "How long will delivery take, roughly?",
-    "a": "AI replied (streamed past timing window)",
+    "a": "our region (most areas see it in 3-5 business days). Canada: Between 2-7 business days (Quebec and Ontario are usually the fastest at 2-4 business days). 🙂 International: Typically 14-20 business days. Just a little heads up that these are estimates and can be affected by high order volumes or carrier delays. We’ll send you a tracking link the moment it ships so you can follow its journey! ❤️ Does that help you plan your shopping?🤩 Evry Customer Specialist Track my order",
     "by": "ai",
-    "lat": null,
+    "lat": 16.5,
     "fl": [
      {
-      "t": "no timed answer",
-      "k": "bad"
-     },
-     {
       "t": "missed part of the ask",
-      "k": "warn"
-     },
-     {
-      "t": "no timeframe given",
       "k": "warn"
      }
     ],
@@ -14538,14 +14082,10 @@ const STORES = [
    },
    {
     "q": "And if I change my mind, how easy is it to return?",
-    "a": "AI replied (streamed past timing window)",
+    "a": "As stated on our website (https://evryjewels.com/policies/refund-policy), we do not offer any refunds, exchanges, or returns. Because of this, we always recommend double-checking your choices to ensure you absolutely love the pieces you're getting! 🙂 Evry Customer Specialist",
     "by": "ai",
-    "lat": null,
+    "lat": 30.5,
     "fl": [
-     {
-      "t": "no timed answer",
-      "k": "bad"
-     },
      {
       "t": "missed part of the ask",
       "k": "warn"
@@ -32626,386 +32166,48 @@ const STORES = [
   "locale": "en-US",
   "method": "new",
   "us": false,
-  "lat": "~29.6s",
+  "lat": "~25.4s",
   "latPct": 100,
-  "latP75": 36.4,
-  "ttft": 29.2,
+  "latP75": 32,
+  "ttft": 24.8,
   "delivery": "atomic",
-  "success": 82,
-  "successTxt": "82%",
+  "success": 87,
+  "successTxt": "87%",
   "avgTurns": 10,
-  "timed": 82,
-  "attempted": 100,
+  "timed": 26,
+  "attempted": 30,
   "auto": {
-   "automated": 8,
-   "handover": 1,
-   "deflected": 1,
+   "automated": 3,
+   "handover": 0,
+   "deflected": 0,
    "no_answer": 0,
-   "engaged": 10,
-   "rate": 80
+   "engaged": 3,
+   "rate": 100
   },
   "evalq": {
-   "n": 10,
-   "total": 46,
+   "n": 3,
+   "total": 41,
    "dims": {
-    "answer": 10,
-    "discovery": 17,
-    "recommendation": 10,
+    "answer": 9,
+    "discovery": 15,
+    "recommendation": 7,
     "rich": 4,
     "close": 6
    },
    "cls": {
-    "partial": 9,
-    "deflected": 1
+    "partial": 3
    },
    "learnings": [
-    "Useful beginner education and price facts, but it loops on room/size and never produces the requested cart total.",
-    "The assistant clarifies but never compares concrete products, then hands off when asked for cart/total.",
     "The assistant collects some useful constraints, but never makes the requested comparison or names value-for-money products.",
-    "It reaches a plausible Amara recommendation, but then fails the remaining policy, total, and shipping turns.",
-    "Good product narrowing and policy answers, but checkout is still an email/invoice flow instead of in-chat cart completion.",
     "Strong catalog guidance and social proof, but it fails purchase mechanics and escalates warranty/discount details to email.",
-    "It handles gift policies and bundles, but never names a concrete gift product or completes the cart/total request.",
-    "The assistant eventually names Petra and gives prices, but misses the explicit add-to-cart turn and still relies on emailed checkout links."
+    "Useful policy answers appear, but the gift-shopping flow never turns into a named recommendation and drops the final discount ask."
    ]
   },
   "guard": null,
   "ticket": null,
-  "what": "10 cold private conversations (shopping themes). Handover in 1/10 themes. Avg end-to-end latency ~29.6s across 82 AI-timed turns.",
-  "datetime": "2026-07-06T17:03:01.262Z",
+  "what": "3 cold private conversations (shopping themes). No handover in any theme. Avg end-to-end latency ~25.4s across 26 AI-timed turns.",
+  "datetime": "2026-07-06T15:29:23.065Z",
   "themes": [
-   {
-    "key": "everyday-value",
-    "label": "Everyday value buyer",
-    "datetime": "2026-07-06T16:13:01.188Z",
-    "lat": "~31.7s",
-    "success": 50,
-    "successTxt": "50%",
-    "handoverTurn": null,
-    "ticket": null,
-    "productRecs": {
-     "count": 0,
-     "names": []
-    },
-    "ev": {
-     "total": 62,
-     "cls": "partial",
-     "dims": {
-      "answer": 9,
-      "discovery": 20,
-      "recommendation": 22,
-      "rich": 6,
-      "close": 5
-     },
-     "note": "It reaches a plausible Amara recommendation, but then fails the remaining policy, total, and shipping turns."
-    },
-    "turns": [
-     {
-      "q": "Hi! I'm shopping but not sure what's right for me — can you help me choose?",
-      "a": "If you are looking for more personalized guidance, we also offer a complimentary Ask a Designer service. You can fill out a quick form with details about your space, and our design team will get back to you with tailored recommendations within one business day. I also recommend checking out our Size Guide if you are unsure about which dimensions would work best for your room. Thank you for choosing Tumble! Please let me know how you would like to proceed or if you have any other questions. 🙂",
-      "by": "ai",
-      "lat": 19.4,
-      "fl": [
-       {
-        "t": "missed part of the ask",
-        "k": "warn"
-       }
-      ],
-      "cov": 0
-     },
-     {
-      "q": "I want something for everyday use, good quality, and I care about value for money.",
-      "a": "or your space, could you let me know which room you are shopping for? Also, if you have a specific size or any colors you love, that would be so helpful! If you'd like a more expert touch, you can also use our Ask a Designer service. You'll fill out a short questionnaire about your style and space, and one of our designers will send you personalized recommendations. You can find that form here: Ask a Designer. Thank you for being a Tumble customer, and let me know if you have any questions! 🙂",
-      "by": "ai",
-      "lat": 16.1,
-      "fl": [
-       {
-        "t": "missed part of the ask",
-        "k": "warn"
-       }
-      ],
-      "cov": 20
-     },
-     {
-      "q": "I'd like to stay within a sensible budget — what are my best options?",
-      "a": "r what size you might be looking for? Knowing your preferred colors or style (like Modern, Persian, or Boho) would also help me narrow it down for you. If you are looking for multiple products or would like a curated selection based on your specific space, I highly recommend filling out our Ask-a-Designer form. Our design team can provide personalized recommendations that match your style and budget perfectly. Thank you for being a customer, and please let me know if you have any questions! 🙂",
-      "by": "ai",
-      "lat": 39.4,
-      "fl": [
-       {
-        "t": "missed part of the ask",
-        "k": "warn"
-       }
-      ],
-      "cov": 29
-     },
-     {
-      "q": "Can you compare your two most popular options and tell me which is better for me?",
-      "a": "er form. Our design team can take a look at your space and provide a personalized comparison of our top designs to help you decide which one offers the best look and value for your home. If you have a specific size or a couple of designs in mind already, please let me know! I'd be happy to provide the pricing and details for those, or even send over an invoice to make your purchase as smooth as possible. Thank you for being a customer, and please let me know if you have any other questions! 🙂",
-      "by": "ai",
-      "lat": 31.5,
-      "fl": [
-       {
-        "t": "missed part of the ask",
-        "k": "warn"
-       }
-      ],
-      "cov": 14
-     },
-     {
-      "q": "Which one is your overall best seller, and is it well reviewed?",
-      "a": "(streamed past timing window) Like all our rugs, it is machine washable, 100% spillproof, and includes our cushioned, non-slip rug pad. The pricing for the Amara collection ranges from $119 USD / $159 CAD to $549 USD / $749 CAD, depending on the size you need. Would you like me to check if a specific size or color in the Amara collection is available for you? If you're ready to proceed, I can also send over an invoice to streamline your purchase! Thank you for being a customer and let me know if you have any questions. ⭐️",
-      "by": "ai",
-      "lat": null,
-      "fl": [
-       {
-        "t": "no timed answer",
-        "k": "bad"
-       },
-       {
-        "t": "missed part of the ask",
-        "k": "warn"
-       }
-      ],
-      "cov": 0
-     },
-     {
-      "q": "Okay, can you add your top recommendation to my cart?",
-      "a": "with that! The Amara is a fantastic choice. 🙂 To make sure I get the right one for you, could you let me know which size and color variant you would like? For example, the Amara comes in Light Blue & Ivory, Indigo & Beige, and Coral & Blue. Once you let me know the size and design, I can send over an invoice to streamline the purchase for you! If you are unsure about the size, our Size Guide is a great place to start. Thank you for being a customer and let me know which one you'd prefer! ⭐️",
-      "by": "ai",
-      "lat": 51.9,
-      "fl": [
-       {
-        "t": "missed part of the ask",
-        "k": "warn"
-       }
-      ],
-      "cov": 0
-     },
-     {
-      "q": "What's my total, and do you offer free shipping or a first-order discount?",
-      "a": "AI replied (streamed past timing window)",
-      "by": "ai",
-      "lat": null,
-      "fl": [
-       {
-        "t": "no timed answer",
-        "k": "bad"
-       },
-       {
-        "t": "missed part of the ask",
-        "k": "warn"
-       },
-       {
-        "t": "purchase request unfulfilled",
-        "k": "warn"
-       }
-      ],
-      "cov": 0
-     },
-     {
-      "q": "Is there a warranty or guarantee if something goes wrong?",
-      "a": "AI replied (streamed past timing window)",
-      "by": "ai",
-      "lat": null,
-      "fl": [
-       {
-        "t": "no timed answer",
-        "k": "bad"
-       },
-       {
-        "t": "missed part of the ask",
-        "k": "warn"
-       }
-      ],
-      "cov": 0
-     },
-     {
-      "q": "How long will delivery take, roughly?",
-      "a": "AI replied (streamed past timing window)",
-      "by": "ai",
-      "lat": null,
-      "fl": [
-       {
-        "t": "no timed answer",
-        "k": "bad"
-       },
-       {
-        "t": "missed part of the ask",
-        "k": "warn"
-       },
-       {
-        "t": "no timeframe given",
-        "k": "warn"
-       }
-      ],
-      "cov": 0
-     },
-     {
-      "q": "And if I change my mind, how easy is it to return?",
-      "a": "AI replied (streamed past timing window)",
-      "by": "ai",
-      "lat": null,
-      "fl": [
-       {
-        "t": "no timed answer",
-        "k": "bad"
-       },
-       {
-        "t": "missed part of the ask",
-        "k": "warn"
-       }
-      ],
-      "cov": 0
-     }
-    ]
-   },
-   {
-    "key": "everyday-value",
-    "label": "Everyday value buyer",
-    "datetime": "2026-07-06T16:56:15.855Z",
-    "lat": "~31.5s",
-    "success": 100,
-    "successTxt": "100%",
-    "handoverTurn": null,
-    "ticket": null,
-    "productRecs": {
-     "count": 0,
-     "names": []
-    },
-    "ev": {
-     "total": 73,
-     "cls": "partial",
-     "dims": {
-      "answer": 16,
-      "discovery": 20,
-      "recommendation": 22,
-      "rich": 8,
-      "close": 7
-     },
-     "note": "Good product narrowing and policy answers, but checkout is still an email/invoice flow instead of in-chat cart completion."
-    },
-    "turns": [
-     {
-      "q": "Hi! I'm shopping but not sure what's right for me — can you help me choose?",
-      "a": "an find the form here: https://form.typeform.com/to/nNQvxTwP?typeform-medium=embed-snippet&_kx=LFRyUmEvb-aDIbfM3vzjDGXXIx-kDj_xDoJ0qZBer0O2RByJbtz3JN8j4Qz5rqUs.Yz6npf. If you are on your mobile phone, you can also use our View it in your room tool on each product page to see how a specific design looks in your space! Do you have any specific colors or styles in mind that you'd like help narrowing down? Thank you for being with us as a customer. Feel free to reach out with any other questions.",
-      "by": "ai",
-      "lat": 20.3,
-      "fl": [
-       {
-        "t": "missed part of the ask",
-        "k": "warn"
-       }
-      ],
-      "cov": 0
-     },
-     {
-      "q": "I want something for everyday use, good quality, and I care about value for money.",
-      "a": "ld washer and dryer. Pet and Kid Friendly: They are OEKO-TEX certified and hypoallergenic, meaning they are free from harmful chemicals. Since we offer free shipping and returns, you can feel confident in the quality and value of your purchase. ⭐️ Would you like to see some of our popular styles, or would you prefer to use our Ask a Designer service to get a professional recommendation for your specific space? Thank you for being a customer! Please let me know if you have any other questions.",
-      "by": "ai",
-      "lat": 21.7,
-      "fl": [
-       {
-        "t": "missed part of the ask",
-        "k": "warn"
-       }
-      ],
-      "cov": 30
-     },
-     {
-      "q": "I'd like to stay within a sensible budget — what are my best options?",
-      "a": ": Smaller sizes like our 3x5' rugs (perfect for entryways or kitchens) or Runners generally start around $119. A versatile 5x7' rug is usually around $199. Our popular 8x10' size is priced at $399, which is quite a value since it includes the 1/4\" cushioned pad! If you'd like, I can send you an invoice for a specific size or design once you find one you love. Do you have a particular room or rug size in mind? Thank you for being a customer, and please let me know if you have any questions! 🙂",
-      "by": "ai",
-      "lat": 31.7,
-      "fl": [
-       {
-        "t": "missed part of the ask",
-        "k": "warn"
-       }
-      ],
-      "cov": 14
-     },
-     {
-      "q": "Can you compare your two most popular options and tell me which is better for me?",
-      "a": "lessly with a modern or neutral decor, the Lisa might be the perfect fit. Since both collections have the same high-quality features and price range ($119 - $549), the \"better\" choice really depends on your personal style preference! Do either of these styles sound like they would fit well in your space? If you'd like, I can even send you an invoice for your favorite design to make the purchase process super easy. 🙂 Thank you for being a customer! Let me know if you have any other questions.",
-      "by": "ai",
-      "lat": 43.4,
-      "fl": [
-       {
-        "t": "missed part of the ask",
-        "k": "warn"
-       }
-      ],
-      "cov": 14
-     },
-     {
-      "q": "Which one is your overall best seller, and is it well reviewed?",
-      "a": "t Blue & Ivory, Indigo & Beige, and Ash & Natural. Since you are looking for quality and value for money, the Amara is a fantastic choice because it combines a designer look with our practical spillproof and machine-washable technology. Would you like to take a look at the different colors available in the Amara collection? I can also send you an invoice for a specific size if you've already decided on one! Thank you for being a customer, and please let me know if you have any more questions.",
-      "by": "ai",
-      "lat": 31.9,
-      "fl": [
-       {
-        "t": "missed part of the ask",
-        "k": "warn"
-       }
-      ],
-      "cov": 14
-     },
-     {
-      "q": "Okay, can you add your top recommendation to my cart?",
-      "a": "it is a fantastic choice for your home. 🙂 To make sure I get the right item ready for you, could you please let me know which size and color you would prefer? Our most popular colors in the Amara collection include: Light Blue / Ivory Indigo / Beige Ash / Natural Once you let me know the size and color, I can certainly help you move forward with getting an invoice sent over to streamline your purchase! Thank you for being a Tumble customer, and let me know if you have any other questions.",
-      "by": "ai",
-      "lat": 30.4,
-      "fl": [
-       {
-        "t": "missed part of the ask",
-        "k": "warn"
-       }
-      ],
-      "cov": 0
-     },
-     {
-      "q": "What's my total, and do you offer free shipping or a first-order discount?",
-      "a": "tal and check on that discount! To provide an accurate total and see if we can apply a first-order discount for you, could you please share your email address? I also still need to know which size and color from the Amara collection you've got your eye on. As for shipping, we offer free shipping on all washable rugs and rug pads within the Contiguous U.S.! ⭐️ I look forward to getting this sorted for you! Thank you for being a customer, and please let me know if you have any other questions.",
-      "by": "ai",
-      "lat": 47.9,
-      "cov": 100
-     },
-     {
-      "q": "Is there a warranty or guarantee if something goes wrong?",
-      "a": "is in new and sellable condition. We even cover 100% of the return shipping costs for our customers in the Contiguous U.S. and Canada. 👍 To help you with that total price and to see if I can get a first-order discount code ready for you, could you please share your email address? I also still need to know which size and color from the Amara collection you are interested in so I can give you an accurate quote. Thank you for being a customer! Please let me know if you have any other questions.",
-      "by": "ai",
-      "lat": 35.4,
-      "fl": [
-       {
-        "t": "missed part of the ask",
-        "k": "warn"
-       }
-      ],
-      "cov": 0
-     },
-     {
-      "q": "How long will delivery take, roughly?",
-      "a": "ther \"In Stock\" items, please allow up to 3 business days for processing. After your order has shipped, delivery to the contiguous United States generally takes 1 to 5 business days. You will receive a tracking number as soon as it's on the way! 🤩 To help me get that total and check for a first-order discount, could you please share your email address and the specific color and size you'd like for the Amara rug? Thank you for being a customer, and let me know if you have any other questions.",
-      "by": "ai",
-      "lat": 20.2,
-      "cov": 40
-     },
-     {
-      "q": "And if I change my mind, how easy is it to return?",
-      "a": "00% of the return shipping costs for our customers in the Contiguous U.S. and Canada, and we never charge restocking fees. ⭐️ To make sure your return is successful, just ensure the item is kept in its new, sellable condition. I'm still here to help you with that first-order discount and your total! Could you please share your email address and the specific size and color from the Amara collection you're considering? Thank you for being a customer! Let me know if you have any other questions.",
-      "by": "ai",
-      "lat": 31.8,
-      "fl": [
-       {
-        "t": "missed part of the ask",
-        "k": "warn"
-       }
-      ],
-      "cov": 25
-     }
-    ]
-   },
    {
     "key": "everyday-value",
     "label": "Everyday value buyer",
@@ -33175,292 +32377,6 @@ const STORES = [
    {
     "key": "gift",
     "label": "Gift shopper",
-    "datetime": "2026-07-06T16:21:49.579Z",
-    "lat": "~30.2s",
-    "success": 90,
-    "successTxt": "90%",
-    "handoverTurn": null,
-    "ticket": null,
-    "productRecs": {
-     "count": 0,
-     "names": []
-    },
-    "ev": {
-     "total": 36,
-     "cls": "partial",
-     "dims": {
-      "answer": 9,
-      "discovery": 20,
-      "recommendation": 0,
-      "rich": 0,
-      "close": 7
-     },
-     "note": "It handles gift policies and bundles, but never names a concrete gift product or completes the cart/total request."
-    },
-    "turns": [
-     {
-      "q": "Hi! I'm looking for a gift for someone and I'm not sure what to pick — can you help?",
-      "a": "esigner service. You can fill out a quick form, and our design team will provide expert suggestions tailored to your needs. Once we narrow down a choice, I can even send you an invoice to make the purchase process nice and easy for you. 🙂 Thank you for being with us as a customer. Feel free to reach out for with any other questions. Note: You're chatting with Casey, Tumble's AI assistant. If you'd like to connect with our team, just let me know anytime. Team replies may take a little longer.",
-      "by": "ai",
-      "lat": 19.6,
-      "fl": [
-       {
-        "t": "missed part of the ask",
-        "k": "warn"
-       }
-      ],
-      "cov": 0
-     },
-     {
-      "q": "It's for someone who likes quality but isn't fussy; I want something they'll actually use.",
-      "a": "a gift that really adapts to how people actually live, especially if they have pets or a busy household. 🙂 To help me narrow down some specific recommendations for you, do you happen to know what room this might be for, or if they have a preferred color palette? If you're unsure, our Ask-a-Designer service is a fantastic free resource where a professional designer can give you personalized suggestions. Thank you for being a Tumble customer! Please let me know if you have any other questions.",
-      "by": "ai",
-      "lat": 24.9,
-      "fl": [
-       {
-        "t": "missed part of the ask",
-        "k": "warn"
-       }
-      ],
-      "cov": 20
-     },
-     {
-      "q": "My budget is moderate — what would make a good gift in that range?",
-      "a": "(streamed past timing window) a gift that really adapts to how people actually live, especially if they have pets or a busy household. 🙂 To help me narrow down some specific recommendations for you, do you happen to know what room this might be for, or if they have a preferred color palette? If you're unsure, our Ask-a-Designer service is a fantastic free resource where a professional designer can give you personalized suggestions. Thank you for being a Tumble customer! Please let me know if you have any other questions.",
-      "by": "ai",
-      "lat": null,
-      "fl": [
-       {
-        "t": "no timed answer",
-        "k": "bad"
-       },
-       {
-        "t": "missed part of the ask",
-        "k": "warn"
-       }
-      ],
-      "cov": 25
-     },
-     {
-      "q": "Between your top two gift ideas, which feels more special?",
-      "a": "g that makes a statement in a specific area, the runner is a fantastic choice. If you want to give them something that is incredibly flexible and practical, you cannot go wrong with the 3x5'. To help narrow it down even further, do you have a specific room in mind, or perhaps a favorite color of theirs? You can also use our Ask-a-Designer service for a personalized recommendation from our design experts! ⭐️ Thank you for being a Tumble customer, and let me know if you have any other questions!",
-      "by": "ai",
-      "lat": 26,
-      "fl": [
-       {
-        "t": "missed part of the ask",
-        "k": "warn"
-       }
-      ],
-      "cov": 0
-     },
-     {
-      "q": "Is there a gift set or bundle that looks nicer than a single item?",
-      "a": "together. When you buy two or more items, you'll actually save 10% on your order! You could pair a 3x5' entryway rug with a matching runner for a cohesive look, which makes for a very generous and thoughtful gift. To help you find the perfect pair, do you have a specific style or color in mind that they would love? Once you've decided, I can even send over an invoice to make everything quick and easy for you. Thank you for being a Tumble customer! Let me know if you have any other questions.",
-      "by": "ai",
-      "lat": 27.6,
-      "fl": [
-       {
-        "t": "missed part of the ask",
-        "k": "warn"
-       }
-      ],
-      "cov": 20
-     },
-     {
-      "q": "Can it arrive gift-ready, and how fast can it ship?",
-      "a": "r in-stock items, please allow up to 3 business days for processing. Once shipped, delivery within the contiguous United States generally takes between 1 to 5 business days. To ensure you get the best design for your recipient, do you have a specific color or style in mind? I would be happy to provide some specific recommendations or even send you an invoice once you have made your choice! Thank you so much for being a Tumble customer, and please let me know if you have any other questions. 🙂",
-      "by": "ai",
-      "lat": 39.8,
-      "fl": [
-       {
-        "t": "missed part of the ask",
-        "k": "warn"
-       }
-      ],
-      "cov": 0
-     },
-     {
-      "q": "Great — add your top gift pick to my cart and tell me the total.",
-      "a": "I'd be absolutely happy to help you with that! To make sure I'm giving you the most accurate price and the perfect recommendation, do you have a specific design or color in mind for the runner? Once you let me know which style you're leaning toward, I can give you the total in both USD and CAD and even send over an invoice to streamline everything for you. I'm excited to help you get this gift sorted! 🙂 Thank you for being a Tumble customer and let me know if you have any questions.",
-      "by": "ai",
-      "lat": 20.4,
-      "fl": [
-       {
-        "t": "missed part of the ask",
-        "k": "warn"
-       }
-      ],
-      "cov": 29
-     },
-     {
-      "q": "Can you include a gift message or a gift receipt?",
-      "a": "otes are exclusively available for our E-gift card purchases. Since the rug will arrive in our standard sustainable packaging, many of our customers choose to send a separate card or digital message to the recipient to let them know a special delivery is on its way! To help you move forward, would you like me to recommend a specific design for the runner so I can provide you with the total price? Thank you for being a Tumble customer, and please let me know if you have any other questions. 🙂",
-      "by": "ai",
-      "lat": 26.2,
-      "cov": 50
-     },
-     {
-      "q": "If they want to exchange it, how would that work?",
-      "a": "tted, they will receive a prepaid FedEx shipping label or a QR code for easy drop-off. Just a quick note: our policy allows for one exchange per item. If they are exchanging for a different rug of the same size, they would typically keep their original rug pad and just swap out the rug cover. Do you have a particular design in mind that you think they would love, or would you like some help picking one out? 🙂 Thank you for being a Tumble customer! Let me know if you have any other questions.",
-      "by": "ai",
-      "lat": 47.4,
-      "cov": 67
-     },
-     {
-      "q": "Any discount if I add a second smaller item?",
-      "a": "to create a \"bundle\" gift, such as pairing a runner for the kitchen with a 3x5' rug for the entryway. The discount is automatically applied at checkout, so there is no need for a code. It is a wonderful way to get more value while giving a truly complete gift! 🙂 Do you have a second item or another room in mind that you would like to find a rug for? I would be happy to help you coordinate some designs! Thank you for being a Tumble customer. Please let me know if you have any other questions.",
-      "by": "ai",
-      "lat": 39.5,
-      "cov": 67
-     }
-    ]
-   },
-   {
-    "key": "gift",
-    "label": "Gift shopper",
-    "datetime": "2026-07-06T17:03:01.262Z",
-    "lat": "~32.5s",
-    "success": 90,
-    "successTxt": "90%",
-    "handoverTurn": null,
-    "ticket": null,
-    "productRecs": {
-     "count": 0,
-     "names": []
-    },
-    "ev": {
-     "total": 66,
-     "cls": "partial",
-     "dims": {
-      "answer": 9,
-      "discovery": 20,
-      "recommendation": 22,
-      "rich": 8,
-      "close": 7
-     },
-     "note": "The assistant eventually names Petra and gives prices, but misses the explicit add-to-cart turn and still relies on emailed checkout links."
-    },
-    "turns": [
-     {
-      "q": "Hi! I'm looking for a gift for someone and I'm not sure what to pick — can you help?",
-      "a": "design team for tailored recommendations based on the recipient's style and space. You can find the form right here: https://form.typeform.com/to/nNQvxTwP?typeform-medium=embed-snippet&_kx=LFRyUmEvb-aDIbfM3vzjDGXXIx-kDj_xDoJ0qZBer0O2RByJbtz3JN8j4Qz5rqUs.Yz6npf. I can also send you an invoice directly once we've narrowed down the perfect choice to make the checkout process even smoother for you. Thank you for choosing Tumble for your gift, and please let me know if you have any other questions!",
-      "by": "ai",
-      "lat": 25.8,
-      "fl": [
-       {
-        "t": "missed part of the ask",
-        "k": "warn"
-       }
-      ],
-      "cov": 17
-     },
-     {
-      "q": "It's for someone who likes quality but isn't fussy; I want something they'll actually use.",
-      "a": "non-slip rug pad, making it a complete and very practical gift they will definitely use every day. To help me narrow down the best recommendation for them, do you happen to know the size of the space they might use it in, or perhaps a bit about their style (like modern, traditional, or bohemian)? Once we find the right one, I can even send you an invoice to make the purchase quick and easy for you. Thank you so much for being a Tumble customer, and let me know if you have any other questions!",
-      "by": "ai",
-      "lat": 19.6,
-      "fl": [
-       {
-        "t": "missed part of the ask",
-        "k": "warn"
-       }
-      ],
-      "cov": 20
-     },
-     {
-      "q": "My budget is moderate — what would make a good gift in that range?",
-      "a": "ned, non-slip rug pad. If you're looking for something that makes a statement but still fits a moderate budget, the 5x7' is a versatile favorite for many homes! If you have a particular style in mind, such as something more neutral or a pop of color, I'd be happy to suggest some specific designs. I can also send an invoice your way once you've decided, to make your gift-giving as simple as possible. Thank you so much for being a Tumble customer, and let me know if you have any other questions!",
-      "by": "ai",
-      "lat": 30.4,
-      "cov": 63
-     },
-     {
-      "q": "Between your top two gift ideas, which feels more special?",
-      "a": "perfectly it balances high quality with a relaxed, lived-in feel. Since both are hand-drawn by our designers and feature our signature spillproof, washable technology, you really can't go wrong with either! If you've found the one you like, I'd be happy to send over an invoice to get everything started for you. Or, if you're still deciding, let me know if you have a specific style or color in mind! Thank you so much for being a Tumble customer, and let me know if you have any other questions!",
-      "by": "ai",
-      "lat": 44.9,
-      "fl": [
-       {
-        "t": "missed part of the ask",
-        "k": "warn"
-       }
-      ],
-      "cov": 0
-     },
-     {
-      "q": "Is there a gift set or bundle that looks nicer than a single item?",
-      "a": "wo 3x5' Rugs: approximately $214 USD / $295 CAD (after 10% discount) One 5x7' and one 3x5' Rug: approximately $286 USD / $395 CAD (after 10% discount) Gifting a pair of rugs really emphasizes that \"quality without the fuss\" feel throughout their home. If you'd like to proceed with a specific pair, just let me know the designs and sizes, and I can send over an invoice to make it easy for you! Thank you for being such a wonderful Tumble customer, and let me know if you have any other questions!",
-      "by": "ai",
-      "lat": 33.9,
-      "fl": [
-       {
-        "t": "missed part of the ask",
-        "k": "warn"
-       }
-      ],
-      "cov": 10
-     },
-     {
-      "q": "Can it arrive gift-ready, and how fast can it ship?",
-      "a": "Ready to Ship\" typically leave our warehouse in California within 1-2 business days. Once they're on their way, delivery within the contiguous United States usually takes between 1-5 business days. You can always check the specific product page for the most up-to-date estimated ship date! If you'd like to move forward with a design, just let me know and I can send over an invoice to make things even easier. ⭐️ Thank you for being a Tumble customer! Let me know if you have any other questions.",
-      "by": "ai",
-      "lat": 42.1,
-      "cov": 40
-     },
-     {
-      "q": "Great — add your top gift pick to my cart and tell me the total.",
-      "a": "(streamed past timing window) Ready to Ship\" typically leave our warehouse in California within 1-2 business days. Once they're on their way, delivery within the contiguous United States usually takes between 1-5 business days. You can always check the specific product page for the most up-to-date estimated ship date! If you'd like to move forward with a design, just let me know and I can send over an invoice to make things even easier. ⭐️ Thank you for being a Tumble customer! Let me know if you have any other questions.",
-      "by": "ai",
-      "lat": null,
-      "fl": [
-       {
-        "t": "no timed answer",
-        "k": "bad"
-       },
-       {
-        "t": "missed part of the ask",
-        "k": "warn"
-       },
-       {
-        "t": "purchase request unfulfilled",
-        "k": "warn"
-       }
-      ],
-      "cov": 0
-     },
-     {
-      "q": "Can you include a gift message or a gift receipt?",
-      "a": "the 5x7' Petra rug, the total would be $199 USD (plus any applicable taxes). This includes both the beautiful, machine-washable rug cover and the cushioned, non-slip pad. If you’d like to move forward with the Petra 5x7', or if you've decided on the Canyon design instead, just let me know! I can then send a checkout link directly to your email to make the process quick and easy for you. Thank you so much for choosing Tumble for your gift, and please let me know if you have any other questions!",
-      "by": "ai",
-      "lat": 28.3,
-      "fl": [
-       {
-        "t": "missed part of the ask",
-        "k": "warn"
-       }
-      ],
-      "cov": 25
-     },
-     {
-      "q": "If they want to exchange it, how would that work?",
-      "a": "ns & Exchange Center. Once they initiate the exchange, we’ll provide a prepaid FedEx shipping label or a QR code for easy drop-off. As long as the rug is in its original, sellable condition (free of damage, stains, or pet hair), we will ship out their new selection free of charge! Would you like me to go ahead and send the checkout link for the 5x7' Petra rug to your email now? Thank you for being such a thoughtful gift-giver and a Tumble customer! Let me know if you have any other questions.",
-      "by": "ai",
-      "lat": 38.9,
-      "cov": 50
-     },
-     {
-      "q": "Any discount if I add a second smaller item?",
-      "a": "t, which gives you 10% off your entire order. 🤩 For example, if you were to add a smaller 3x5' rug to the 5x7' Petra, your total would be approximately $286 USD / $395 CAD (after the 10% discount is applied). It’s a great way to get even more value while giving a truly complete gift! Would you like me to add a 3x5' rug in a matching or complementary design to your order and send you the checkout link? Thank you so much for being a Tumble customer, and I’m here if you have any more questions!",
-      "by": "ai",
-      "lat": 28.1,
-      "cov": 67
-     }
-    ]
-   },
-   {
-    "key": "gift",
-    "label": "Gift shopper",
     "datetime": "2026-07-06T15:09:34.218Z",
     "lat": "~23.1s",
     "success": 90,
@@ -33603,270 +32519,6 @@ const STORES = [
        }
       ],
       "cov": 0
-     }
-    ]
-   },
-   {
-    "key": "problem-solver",
-    "label": "Specific need / reassurance",
-    "datetime": "2026-07-06T16:28:49.688Z",
-    "lat": "~33.3s",
-    "success": 90,
-    "successTxt": "90%",
-    "handoverTurn": null,
-    "ticket": null,
-    "productRecs": {
-     "count": 0,
-     "names": []
-    },
-    "ev": {
-     "total": 27,
-     "cls": "partial",
-     "dims": {
-      "answer": 9,
-      "discovery": 13,
-      "recommendation": 0,
-      "rich": 0,
-      "close": 5
-     },
-     "note": "Helpful policy and quality reassurance, but it never converts the shopper's need into a named product recommendation."
-    },
-    "turns": [
-     {
-      "q": "Hi — I have a specific need and I'm worried about picking the wrong thing. Can you help?",
-      "a": "Hi there, Thanks for reaching out to us. I completely understand wanting to make sure you find the perfect fit for your home! I would be more than happy to help you narrow down your options. Could you tell me a little more about the specific need you have or the space you're looking to fill? 🙂 Note: You're chatting with Casey, Tumble's AI assistant. If you'd like to connect with our team, just let me know anytime. Team replies may take a little longer.",
-      "by": "ai",
-      "lat": 14.8,
-      "cov": 43
-     },
-     {
-      "q": "I've been disappointed by similar products before, so quality really matters to me.",
-      "a": "ssembly system with corner pockets to prevent that frustrating corner curling. To help you feel even more confident in your choice, we offer a Swatch program where you can order 10” x 10” swatches to see the quality and colors in person before committing to a full-sized rug. We also provide Free Design Consultations if you'd like a professional's input on what would work best for your space. What kind of room are you looking to update? I'd love to help you find something you'll truly enjoy! 🙂",
-      "by": "ai",
-      "lat": 22.6,
-      "fl": [
-       {
-        "t": "missed part of the ask",
-        "k": "warn"
-       }
-      ],
-      "cov": 25
-     },
-     {
-      "q": "Which of your products is best for that, and why is it a good fit?",
-      "a": "in a standard household washing machine. Whether you are looking for something Persian & Traditional, Bohemian, or even a Solid & Textured look, we have a variety of collections to choose from. To give you the best recommendation, could you tell me a bit more about the room you are designing? For example, is it a high-traffic entryway, a cozy nursery for kids, or a living room where pets love to nap? 🙂 Thank you for being a Tumble customer! Please let me know if you have any other questions.",
-      "by": "ai",
-      "lat": 37.1,
-      "fl": [
-       {
-        "t": "missed part of the ask",
-        "k": "warn"
-       }
-      ],
-      "cov": 14
-     },
-     {
-      "q": "What do other customers say in their reviews — does it actually hold up?",
-      "a": "en named Tumble the \"Best Overall Washable Rug\" for durability and comfort. Whether you are dealing with spilled wine, muddy paws, or busy kids, these rugs are specifically engineered to maintain their look and feel even after multiple washes. ⭐️ To help me give you a more tailored recommendation on a specific design that would hold up best for your needs, do you have a particular style or room in mind? Thank you for being a Tumble customer! Please let me know if you have any other questions.",
-      "by": "ai",
-      "lat": 48.4,
-      "cov": 43
-     },
-     {
-      "q": "Is there anything I should pair it with to get the best result?",
-      "a": "ecommend starting with our Swatch Program. You can order 10” x 10” swatches to see exactly how the colors and textures look in your home's lighting alongside your furniture and flooring. ⭐️ Since you mentioned being worried about picking the wrong thing, I'd love to help you find the perfect match! What kind of room are you currently working on? Knowing the space will help me recommend the best size and style for you. ❤️ Thank you for being a customer and let us know if you have any questions.",
-      "by": "ai",
-      "lat": 31.7,
-      "fl": [
-       {
-        "t": "missed part of the ask",
-        "k": "warn"
-       }
-      ],
-      "cov": 14
-     },
-     {
-      "q": "If it doesn't work out for me, what are my options?",
-      "a": "re not eligible for return or exchange. To initiate a return or exchange, you can visit our Returns/Exchange Center at https://www.tumbleliving.com/pages/returns-and-exchanges. You will just need your order number and the email address used at checkout. Once you complete the request, you'll receive a prepaid FedEx label via email. You can print the label or simply use the provided QR code at a FedEx drop-off location. Thank you for being a customer and let us know if you have any questions! ⭐️",
-      "by": "ai",
-      "lat": 36.4,
-      "fl": [
-       {
-        "t": "missed part of the ask",
-        "k": "warn"
-       }
-      ],
-      "cov": 0
-     },
-     {
-      "q": "Okay, I'm convinced — add your recommendation and give me the total.",
-      "a": "and accurate pricing, could you please let me know: Which design or color palette are you leaning towards? (e.g., Persian, Bohemian, Modern, or specific colors like Blue, Sage, or Neutral?) What size are you looking for? (Common sizes include 3x5', 5x7', 8x10', and 9x12'.) Once I have those details, I can provide you with the total cost and even send over an invoice to make the purchase process super easy for you. 🙂 Thank you for being a customer and let me know if you have any questions! ❤️",
-      "by": "ai",
-      "lat": 34.4,
-      "fl": [
-       {
-        "t": "missed part of the ask",
-        "k": "warn"
-       }
-      ],
-      "cov": 17
-     },
-     {
-      "q": "How do I use it correctly to get the best result?",
-      "a": "the rug off the pad and toss it in your household washer. To keep it in the best shape, always use the coldest water setting and an extra rinse cycle. For drying, we recommend laying it as flat as possible in a cool, shaded area to allow the fibers to relax uniformly. I would love to help you pick the right one so we can get that invoice ready for you! Do you have a specific room size or a color you are looking for? 🙂 Thank you for being a customer and let me know if you have any questions!❤️",
-      "by": "ai",
-      "lat": 38.8,
-      "cov": 60
-     },
-     {
-      "q": "Is there a subscription or refill option?",
-      "a": "Thank you for reaching out with your question. For help with subscription or refill options, please contact our team directly through our contact form at: https://www.tumbleliving.com/pages/contact-us. They can better assist with your request, and you can typically expect a response within one business day. Thank you for being a Tumble customer! If you have any other questions, feel free to ask.",
-      "by": "ai",
-      "lat": 35.8,
-      "cov": 50
-     },
-     {
-      "q": "Confirm my total and when it will arrive?",
-      "a": "(streamed past timing window) Thank you for reaching out with your question. For help with subscription or refill options, please contact our team directly through our contact form at: https://www.tumbleliving.com/pages/contact-us. They can better assist with your request, and you can typically expect a response within one business day. Thank you for being a Tumble customer! If you have any other questions, feel free to ask.",
-      "by": "ai",
-      "lat": null,
-      "fl": [
-       {
-        "t": "no timed answer",
-        "k": "bad"
-       },
-       {
-        "t": "missed part of the ask",
-        "k": "warn"
-       },
-       {
-        "t": "no timeframe given",
-        "k": "warn"
-       },
-       {
-        "t": "purchase request unfulfilled",
-        "k": "warn"
-       }
-      ],
-      "cov": 0
-     }
-    ]
-   },
-   {
-    "key": "compare-budget",
-    "label": "Comparison, budget-tight",
-    "datetime": "2026-07-06T16:36:17.175Z",
-    "lat": "~27.4s",
-    "success": 60,
-    "successTxt": "60%",
-    "handoverTurn": 8,
-    "ticket": null,
-    "productRecs": {
-     "count": 0,
-     "names": []
-    },
-    "ev": {
-     "total": 27,
-     "cls": "deflected",
-     "dims": {
-      "answer": 9,
-      "discovery": 13,
-      "recommendation": 0,
-      "rich": 0,
-      "close": 5
-     },
-     "note": "The assistant clarifies but never compares concrete products, then hands off when asked for cart/total."
-    },
-    "turns": [
-     {
-      "q": "Hi! I'm deciding between a few options and money's a bit tight — can you help me choose?",
-      "a": "nippet&_kx=LFRyUmEvb-aDIbfM3vzjDGXXIx-kDj_xDoJ0qZBer0O2RByJbtz3JN8j4Qz5rqUs.Yz6npf Alternatively, if you'd like to share the designs or sizes you're currently looking at, I can help you compare them and narrow down your options right here. Thank you for being with us as a customer. Feel free to reach out for with any other questions. Note: You're chatting with Casey, Tumble's AI assistant. If you'd like to connect with our team, just let me know anytime. Team replies may take a little longer.",
-      "by": "ai",
-      "lat": 19.3,
-      "fl": [
-       {
-        "t": "missed part of the ask",
-        "k": "warn"
-       }
-      ],
-      "cov": 13
-     },
-     {
-      "q": "I want the best bang for the buck, not the cheapest or the most expensive.",
-      "a": "t balance between style, size, and price is so important. 🙂 To give you the best recommendation, could you let me know which room you are shopping for or if you have a specific size in mind? In the meantime, the best way to get a tailored recommendation is to fill out our Ask-a-Designer form. Our design team can look at your specific space and budget to help you find that perfect \"middle ground\" option. Thank you for being a customer, and please let me know if you have any other questions!⭐️",
-      "by": "ai",
-      "lat": 20.5,
-      "fl": [
-       {
-        "t": "missed part of the ask",
-        "k": "warn"
-       }
-      ],
-      "cov": 13
-     },
-     {
-      "q": "Show me your two best value-for-money options and compare them.",
-      "a": "ou plan to use the rug, the best way to get a detailed comparison of our top options is to fill out our Ask-a-Designer form. Our expert design team can provide personalized recommendations and a comparison based on your unique needs within one business day. If you have a specific size or design style in mind already, please let me know and I can certainly help you look into those details! Thank you for being a Tumble customer, and don't hesitate to reach out if you have any other questions. 🙂",
-      "by": "ai",
-      "lat": 29.6,
-      "fl": [
-       {
-        "t": "missed part of the ask",
-        "k": "warn"
-       }
-      ],
-      "cov": 29
-     },
-     {
-      "q": "Honestly, is the pricier one worth the extra, or is the cheaper one fine?",
-      "a": "of the materials. A larger rug provides more coverage and can really ground a room, which many customers find adds significant value to their space. If you are debating between two specific designs or sizes, our expert design team can help you weigh the pros and cons through our Ask-a-Designer service. They can help you determine which option will give you the best long term satisfaction for your specific home. Thank you for being a customer, and let me know if you have any other questions! 🙂",
-      "by": "ai",
-      "lat": 22,
-      "fl": [
-       {
-        "t": "missed part of the ask",
-        "k": "warn"
-       }
-      ],
-      "cov": 0
-     },
-     {
-      "q": "Are there any current promos, bundles, or ways to save?",
-      "a": "(streamed past timing window) of the materials. A larger rug provides more coverage and can really ground a room, which many customers find adds significant value to their space. If you are debating between two specific designs or sizes, our expert design team can help you weigh the pros and cons through our Ask-a-Designer service. They can help you determine which option will give you the best long term satisfaction for your specific home. Thank you for being a customer, and let me know if you have any other questions! 🙂",
-      "by": "ai",
-      "lat": null,
-      "fl": [
-       {
-        "t": "no timed answer",
-        "k": "bad"
-       },
-       {
-        "t": "missed part of the ask",
-        "k": "warn"
-       }
-      ],
-      "cov": 14
-     },
-     {
-      "q": "Which would you personally pick on my budget?",
-      "a": "thin your budget. Since all of our rugs feature the same machine-washable technology and come with our cushioned rug pad, you are getting the highest quality and functionality no matter which design you choose. To help you save even more, could you please provide your email address? I would love to check if I can set you up with a first-time purchaser discount to have ready for your order. Thank you for being a Tumble customer! We are excited to help you find the perfect rug for your home. 🙂",
-      "by": "ai",
-      "lat": 37.5,
-      "cov": 60
-     },
-     {
-      "q": "Add that one to my cart and tell me the total with any discount.",
-      "a": "I completely understand wanting to see that final total! I'm so sorry, but I don't have the ability to add items to your cart or calculate a total for you directly. I would like to pass this over to one of our managers who can help you with your order and pricing. Could you please provide your email address so they can follow up with you directly? Thank you for being a customer, and I look forward to getting this sorted out for you! 🙂",
-      "by": "ai",
-      "lat": 35.2,
-      "cov": 71
-     },
-     {
-      "q": "Does the cheaper one have the same warranty as the pricier one?",
-      "a": "🚩 human took over",
-      "by": "human",
-      "lat": null,
-      "cov": 40
      }
     ]
    },
@@ -34037,178 +32689,14 @@ const STORES = [
       "cov": 0
      }
     ]
-   },
-   {
-    "key": "beginner",
-    "label": "Total beginner",
-    "datetime": "2026-07-06T16:41:49.374Z",
-    "lat": "~32.8s",
-    "success": 80,
-    "successTxt": "80%",
-    "handoverTurn": null,
-    "ticket": null,
-    "productRecs": {
-     "count": 0,
-     "names": []
-    },
-    "ev": {
-     "total": 47,
-     "cls": "partial",
-     "dims": {
-      "answer": 9,
-      "discovery": 13,
-      "recommendation": 14,
-      "rich": 6,
-      "close": 5
-     },
-     "note": "Useful beginner education and price facts, but it loops on room/size and never produces the requested cart total."
-    },
-    "turns": [
-     {
-      "q": "Hi! I'm completely new to this and don't know where to start — can you guide me?",
-      "a": "AI replied (streamed past timing window)",
-      "by": "ai",
-      "lat": null,
-      "fl": [
-       {
-        "t": "no timed answer",
-        "k": "bad"
-       },
-       {
-        "t": "missed part of the ask",
-        "k": "warn"
-       }
-      ],
-      "cov": 0
-     },
-     {
-      "q": "Can you explain the main options in simple terms?",
-      "a": "AI answered",
-      "by": "ai",
-      "lat": 45.7,
-      "fl": [
-       {
-        "t": "thin answer",
-        "k": "warn"
-       },
-       {
-        "t": "missed part of the ask",
-        "k": "warn"
-       }
-      ],
-      "cov": 0
-     },
-     {
-      "q": "For a first-timer like me, what's the safest, easiest choice?",
-      "a": "your first Tumble rug! To help you find the safest and easiest choice for your space, could you let me know a bit more about what you're looking for? Specifically, knowing the room you're shopping for, your preferred rug size, or any colors and styles you love would be a great start. I'd also be happy to send you an invoice once we find the perfect match to make your purchase as smooth as possible. Thank you for being with us as a customer. Feel free to reach out for with any other questions.",
-      "by": "ai",
-      "lat": 18.7,
-      "cov": 67
-     },
-     {
-      "q": "I don't want to overpay while I'm still learning — what's a good starter pick?",
-      "a": "or something tried and true. Our standard rugs generally range from $119 USD / $169 CAD to $579 USD / $819 CAD, depending on the size you need. To give you a more specific price and help you find the best fit, could you let me know which room you're looking to furnish or what size you might be interested in? Once you have a design and size in mind, I can even send over an invoice to make checking out a breeze! Thank you for being a customer, and please let me know if you have any questions!❤️",
-      "by": "ai",
-      "lat": 24.5,
-      "fl": [
-       {
-        "t": "missed part of the ask",
-        "k": "warn"
-       }
-      ],
-      "cov": 0
-     },
-     {
-      "q": "What do beginners usually say about it in reviews?",
-      "a": "standard household washer. Many people also comment that they love not having to sacrifice style for functionality. They find the designs beautiful and the included cushioned pad makes the rug feel very comfortable and secure underfoot. Do any of the designs I mentioned, like the Amara or Lisa, catch your eye? If you can let me know which room you're thinking of, I can also help you figure out the best size! Thank you for being a customer, and don't hesitate to reach out with any questions.❤️",
-      "by": "ai",
-      "lat": 36.1,
-      "fl": [
-       {
-        "t": "missed part of the ask",
-        "k": "warn"
-       }
-      ],
-      "cov": 0
-     },
-     {
-      "q": "Is there anything else a beginner needs to get started?",
-      "a": "rials are also top-notch for safety. Both the rug and the pad are OEKO-TEX® Standard 100 certified, meaning they've been tested for over 1,000 harmful substances. The rug cover is made of 100% polyester, and the pad is a latex-free and rubber-free EVA foam. To make sure you get the right fit, which room are you planning to put your new rug in? Knowing the space will help me recommend the perfect size and style! Thank you for being a customer, and let me know if you have any other questions. ❤️",
-      "by": "ai",
-      "lat": 43.5,
-      "fl": [
-       {
-        "t": "missed part of the ask",
-        "k": "warn"
-       }
-      ],
-      "cov": 14
-     },
-     {
-      "q": "Okay, add your beginner recommendation to my cart — what's the total?",
-      "a": "that recommendation ready for you! 🙂 To give you an accurate total and help you finalize your choice, could you let me know which size you're looking for or which room this will be going in? Our rugs come in several standard sizes, such as 3'x5', 5'x7', 8'x10', and 9'x12'. Once I have those details, I can quote the price for you in both USD and CAD and get an invoice sent right over to streamline everything! 🤩 Thank you for being a customer, and I'm here to help with any other questions!❤️",
-      "by": "ai",
-      "lat": 43.4,
-      "fl": [
-       {
-        "t": "missed part of the ask",
-        "k": "warn"
-       }
-      ],
-      "cov": 33
-     },
-     {
-      "q": "How do I use it properly the very first time?",
-      "a": "is clean and dry. Once the pad is connected, it can be a bit tricky to move, so it's best to assemble it right where you want it to go! To give you the total price for a great starter set like the Amara or Lisa, could you let me know which room you're shopping for or what size you're interested in? For example, an 8x10' set is $399 USD / $539 CAD, and we have many other sizes to fit your space perfectly. Thank you for being a customer, and please let me know if you have any other questions!❤️",
-      "by": "ai",
-      "lat": 43.7,
-      "fl": [
-       {
-        "t": "missed part of the ask",
-        "k": "warn"
-       }
-      ],
-      "cov": 0
-     },
-     {
-      "q": "What's the return policy if it turns out not to be right for me?",
-      "a": "(streamed past timing window) is clean and dry. Once the pad is connected, it can be a bit tricky to move, so it's best to assemble it right where you want it to go! To give you the total price for a great starter set like the Amara or Lisa, could you let me know which room you're shopping for or what size you're interested in? For example, an 8x10' set is $399 USD / $539 CAD, and we have many other sizes to fit your space perfectly. Thank you for being a customer, and please let me know if you have any other questions!❤️",
-      "by": "ai",
-      "lat": null,
-      "fl": [
-       {
-        "t": "no timed answer",
-        "k": "bad"
-       },
-       {
-        "t": "missed part of the ask",
-        "k": "warn"
-       }
-      ],
-      "cov": 17
-     },
-     {
-      "q": "Confirm my total and the delivery estimate?",
-      "a": "s US and Canada, and there are absolutely no restocking fees. To be eligible for a refund, we just ask that the item is returned in new, sellable condition, which means it should be free of any visible damage, stains, or pet hair. I'd still love to help you find that perfect starter rug and give you a total price! To do that, could you let me know which room you're shopping for or if you have a specific size in mind? Thank you for being a customer, and let me know if you have any questions!❤️",
-      "by": "ai",
-      "lat": 6.4,
-      "fl": [
-       {
-        "t": "missed part of the ask",
-        "k": "warn"
-       }
-      ],
-      "cov": 25
-     }
-    ]
    }
   ],
   "turns": [
    {
     "q": "Hi! I'm shopping but not sure what's right for me — can you help me choose?",
-    "a": "If you are looking for more personalized guidance, we also offer a complimentary Ask a Designer service. You can fill out a quick form with details about your space, and our design team will get back to you with tailored recommendations within one business day. I also recommend checking out our Size Guide if you are unsure about which dimensions would work best for your room. Thank you for choosing Tumble! Please let me know how you would like to proceed or if you have any other questions. 🙂",
+    "a": "r own space using augmented reality. ⭐️ If you have a specific design or size in mind already, feel free to let me know and I can even send you an invoice to make the checkout process even easier for you! Thank you for being with us as a customer. Feel free to reach out for with any other questions. Note: You're chatting with Casey, Tumble's AI assistant. If you'd like to connect with our team, just let me know anytime. Team replies may take a little longer. Ask a Designer",
     "by": "ai",
-    "lat": 19.4,
+    "lat": 18.6,
     "fl": [
      {
       "t": "missed part of the ask",
@@ -34219,35 +32707,35 @@ const STORES = [
    },
    {
     "q": "I want something for everyday use, good quality, and I care about value for money.",
-    "a": "or your space, could you let me know which room you are shopping for? Also, if you have a specific size or any colors you love, that would be so helpful! If you'd like a more expert touch, you can also use our Ask a Designer service. You'll fill out a short questionnaire about your style and space, and one of our designers will send you personalized recommendations. You can find that form here: Ask a Designer. Thank you for being a Tumble customer, and let me know if you have any questions! 🙂",
+    "a": "ately. ⭐️ Family and Pet Friendly: Our rugs are OEKO-TEX certified and hypoallergenic, meaning they are safe for everyone in your home. If you have a particular room in mind, I'd be happy to suggest some sizes or styles! If you find a design you love, I can also send an invoice directly to you to make things even simpler. 🤩 Thank you for being a customer! Let me know if you have any questions or if there's a specific size you're looking for. Ask a Designer",
     "by": "ai",
-    "lat": 16.1,
+    "lat": 26.3,
     "fl": [
      {
       "t": "missed part of the ask",
       "k": "warn"
      }
     ],
-    "cov": 20
+    "cov": 0
    },
    {
     "q": "I'd like to stay within a sensible budget — what are my best options?",
-    "a": "r what size you might be looking for? Knowing your preferred colors or style (like Modern, Persian, or Boho) would also help me narrow it down for you. If you are looking for multiple products or would like a curated selection based on your specific space, I highly recommend filling out our Ask-a-Designer form. Our design team can provide personalized recommendations that match your style and budget perfectly. Thank you for being a customer, and please let me know if you have any questions! 🙂",
+    "a": "value for your space, could you tell me which room you are shopping for or what size you are looking for? For example, our 3x5' rugs are great for entryways or kitchens, while our larger 8x10' rugs are perfect for living rooms or bedrooms. Once you have a size or design in mind, I can even send over an invoice to make your purchase as smooth as possible! Thank you for being a customer, and please let me know if you have any other questions. 🙂 3x5' rugs 5x7' rugs 8x10' rugs",
     "by": "ai",
-    "lat": 39.4,
+    "lat": 35.9,
     "fl": [
      {
       "t": "missed part of the ask",
       "k": "warn"
      }
     ],
-    "cov": 29
+    "cov": 0
    },
    {
     "q": "Can you compare your two most popular options and tell me which is better for me?",
-    "a": "er form. Our design team can take a look at your space and provide a personalized comparison of our top designs to help you decide which one offers the best look and value for your home. If you have a specific size or a couple of designs in mind already, please let me know! I'd be happy to provide the pricing and details for those, or even send over an invoice to make your purchase as smooth as possible. Thank you for being a customer, and please let me know if you have any other questions! 🙂",
+    "a": "ng. Price: Ranges from $119 - $549 depending on size. Both are excellent for high-traffic areas and everyday use. The best choice really comes down to which color palette matches your home's decor best! ⭐️ If you have a preferred size or design in mind, let me know! I can also send you an invoice directly if you're ready to move forward with one of these. Thank you for being a customer! Please let me know if you have any other questions. 🙂 Amara collection Lisa collection",
     "by": "ai",
-    "lat": 31.5,
+    "lat": 33,
     "fl": [
      {
       "t": "missed part of the ask",
@@ -34258,26 +32746,22 @@ const STORES = [
    },
    {
     "q": "Which one is your overall best seller, and is it well reviewed?",
-    "a": "(streamed past timing window) Like all our rugs, it is machine washable, 100% spillproof, and includes our cushioned, non-slip rug pad. The pricing for the Amara collection ranges from $119 USD / $159 CAD to $549 USD / $749 CAD, depending on the size you need. Would you like me to check if a specific size or color in the Amara collection is available for you? If you're ready to proceed, I can also send over an invoice to streamline your purchase! Thank you for being a customer and let me know if you have any questions. ⭐️",
+    "a": "second, also boasting over 5,000 reviews and a 4.9-star rating. You really can't go wrong with either choice in terms of quality and popularity! Do you have a specific size in mind for your space, or would you like to see some of the different color options for the Amara or Lisa collections? I can also send you an invoice if you've already found the perfect one. Thank you for being a customer! Let me know if you have any other questions. 🙂 Amara collection Lisa collection",
     "by": "ai",
-    "lat": null,
+    "lat": 25.3,
     "fl": [
-     {
-      "t": "no timed answer",
-      "k": "bad"
-     },
      {
       "t": "missed part of the ask",
       "k": "warn"
      }
     ],
-    "cov": 0
+    "cov": 14
    },
    {
     "q": "Okay, can you add your top recommendation to my cart?",
-    "a": "with that! The Amara is a fantastic choice. 🙂 To make sure I get the right one for you, could you let me know which size and color variant you would like? For example, the Amara comes in Light Blue & Ivory, Indigo & Beige, and Coral & Blue. Once you let me know the size and design, I can send over an invoice to streamline the purchase for you! If you are unsure about the size, our Size Guide is a great place to start. Thank you for being a customer and let me know which one you'd prefer! ⭐️",
+    "a": "help you with that! The Amara collection is a fantastic choice. 🤩 To make sure I get the right one for you, could you please let me know which size and color variant you are interested in? We have several beautiful options in the Amara collection, such as Light Blue/Ivory, Indigo/Beige, and Coral/Blue. Once you let me know your preferences, I can send an invoice directly to your email to make the checkout process quick and easy for you! 🙂 Yes, please!",
     "by": "ai",
-    "lat": 51.9,
+    "lat": 24,
     "fl": [
      {
       "t": "missed part of the ask",
@@ -34309,58 +32793,42 @@ const STORES = [
    },
    {
     "q": "Is there a warranty or guarantee if something goes wrong?",
-    "a": "AI replied (streamed past timing window)",
+    "a": "stand that having peace of mind about your purchase is very important. To ensure you receive the most detailed and accurate information regarding our warranty and guarantee policies, I would like to escalate your request to my manager. Could you please provide your email address? This will also allow me to look into that first-order discount for you and send over any information you need. Thank you for being a customer! Please let me know if you have any other questions. 🙂",
     "by": "ai",
-    "lat": null,
+    "lat": 40.1,
     "fl": [
-     {
-      "t": "no timed answer",
-      "k": "bad"
-     },
      {
       "t": "missed part of the ask",
       "k": "warn"
      }
     ],
-    "cov": 0
+    "cov": 33
    },
    {
     "q": "How long will delivery take, roughly?",
-    "a": "AI replied (streamed past timing window)",
+    "a": "days. For other 'In Stock' items, please allow up to 3 business days for processing. Once shipped, delivery to the contiguous United States usually takes about 1 to 5 business days. 🙂 I'm still here to help with your questions about the warranty and that first-order discount! Could you please share your email address so I can look into those details and escalate your request to my manager? Thank you for being a customer and let us know if you have any other questions. ⭐️",
     "by": "ai",
-    "lat": null,
+    "lat": 26.5,
     "fl": [
-     {
-      "t": "no timed answer",
-      "k": "bad"
-     },
      {
       "t": "missed part of the ask",
       "k": "warn"
-     },
-     {
-      "t": "no timeframe given",
-      "k": "warn"
      }
     ],
-    "cov": 0
+    "cov": 20
    },
    {
     "q": "And if I change my mind, how easy is it to return?",
-    "a": "AI replied (streamed past timing window)",
+    "a": "e Contiguous US and Canada, we cover 100% of the return shipping costs, and we never charge restocking fees. ⭐️ To help you with your questions about the warranty and to get that first-order discount set up for you, I do need your email address. This will allow me to escalate your request to my manager so they can provide you with all the specific details you need. Thank you for being a customer! Please let me know your email, and I'll get this moving for you right away. 🙂",
     "by": "ai",
-    "lat": null,
+    "lat": 32,
     "fl": [
-     {
-      "t": "no timed answer",
-      "k": "bad"
-     },
      {
       "t": "missed part of the ask",
       "k": "warn"
      }
     ],
-    "cov": 0
+    "cov": 25
    }
   ]
  },
