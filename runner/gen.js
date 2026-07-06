@@ -15,6 +15,7 @@ import { existsSync } from "node:fs";
 import { STORES as SITES } from "./vendors.js";
 import { SHOPPING_THEMES, SUPPORT_THEMES } from "./pools.js";
 import { convoValidity, convoOutcome, guardrailLeak, connectivityFail } from "./classify.js";
+import { cleanAnswer } from "./reply-clean.js";
 import { isQuarantinedConversation } from "./conversation-quarantine.js";
 import { extractRecommendedProducts } from "./product-recommendation-bars.js";
 
@@ -103,19 +104,43 @@ function cleanReply(s) {
 function aText(turn) {
   if (turn.unsent) return "⏹ not sent — conversation was handed to a human";
   if (turn.by === "human") return "🚩 human took over";
+  // cleanAnswer strips widget chrome / suggested-reply chips / product-card fragments
+  // (see reply-clean.js) and shows the START of the real answer — not the chip tail.
+  const clean = cleanAnswer(turn.replyTail, turn.q, 240);
   if (turn.complete_ms == null) {
-    const tail = cleanReply(turn.replyTail);
-    return tail ? "(streamed past timing window) " + tail : "AI replied (streamed past timing window)";
+    return clean ? "(streamed past timing window) " + clean : "AI replied (streamed past timing window)";
   }
-  return cleanReply(turn.replyTail) || "AI answered";
+  return clean || "AI answered";
 }
+// Human-readable label + tone for a per-turn quality flag (from turn_quality.js).
+const TQ_FLAG = {
+  low_question_coverage:      ["missed part of the ask", "warn"],
+  sales_prompt_on_support_ask:["sales prompt on a support question", "warn"],
+  missing_responsible_party:  ["didn't say who's responsible", "warn"],
+  missing_timeframe:          ["no timeframe given", "warn"],
+  missing_contact_path:       ["no contact path given", "warn"],
+  no_measured_answer:         ["no timed answer", "bad"],
+  not_substantive:            ["thin / non-substantive", "bad"],
+  echoed_question:            ["echoed the question back", "warn"],
+};
 // Truncate the transcript at the first handover turn — once a human takes over the
 // conversation is over; we never show turns past that point.
 const themeTurns = (t) => {
   let turns = t.turns || [];
   const ho = turns.findIndex(x => x.handover);
   if (ho >= 0) turns = turns.slice(0, ho + 1);
-  return turns.map(x => ({ q: x.q, a: aText(x), by: x.by, lat: x.ai_latency_ms != null ? round1(x.ai_latency_ms / 1000) : null }));
+  const tq = (t.tq && t.tq.turns) || [];   // deterministic per-turn quality signals (turn-quality.js)
+  return turns.map((x, i) => {
+    const s = tq[i] || null;
+    const flags = ((s && s.flags) || []).map(f => TQ_FLAG[f] ? { t: TQ_FLAG[f][0], k: TQ_FLAG[f][1] } : { t: f.replace(/_/g, " "), k: "warn" });
+    const cov = s && s.keyword_coverage && s.keyword_coverage.asked ? Math.round(s.keyword_coverage.ratio * 100) : null;
+    return {
+      q: x.q, a: aText(x), by: x.by,
+      lat: x.ai_latency_ms != null ? round1(x.ai_latency_ms / 1000) : null,
+      ...(flags.length ? { fl: flags } : {}),
+      ...(cov != null ? { cov } : {}),
+    };
+  });
 };
 const tk = (ticket) => ticket && ticket.subdomain ? { sub: ticket.subdomain, acct: ticket.account_id || null, conv: ticket.conversation_id || null } : null;
 
@@ -155,6 +180,7 @@ async function loadAgg(key, mode, date) {
       if (connectivityFail(obj.turns || [])) continue;
       auto[convoOutcome(obj.turns || []).outcome]++;
       const ev = EVALS[id];
+      obj._eval = ev || null;   // carry the eval (incl. per-turn turn_quality) onto the theme
       if (ev && ev.total != null) {
         evalAgg.n++; evalAgg.total += ev.total;
         for (const [k, v] of Object.entries(ev.rubric || {})) evalAgg.dims[k] = (evalAgg.dims[k] || 0) + v;
@@ -214,7 +240,7 @@ async function loadAgg(key, mode, date) {
   const medGrowth = median(growth);
   return {
     auto: autoOut, evalq: evalOut, guard: guardOut,
-    themes: themes.map(t => ({ theme: t.theme, label: t.themeLabel, turns: t.turns, stats: t.stats, ticket: t.ticket || null, error: t.error || null, datetime: t._datetime || null, capture: t.capture || null })),
+    themes: themes.map(t => ({ theme: t.theme, label: t.themeLabel, turns: t.turns, stats: t.stats, ticket: t.ticket || null, error: t.error || null, datetime: t._datetime || null, capture: t.capture || null, tq: (t._eval && t._eval.turn_quality) || null })),
     stats: {
       n_themes: themes.length, turns_total: totalTurns,
       avg_turns: themes.length ? Math.round((totalTurns / themes.length) * 10) / 10 : null,

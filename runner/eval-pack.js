@@ -18,6 +18,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { convoValidity, convoOutcome } from "./classify.js";
 import { convoSignals } from "./eval-signals.js";
+import { stripWidgetChrome } from "./reply-clean.js";
 import { isQuarantinedConversation } from "./conversation-quarantine.js";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
@@ -66,7 +67,10 @@ for (const date of fs.readdirSync(RESULTS).filter((d) => /^\d{4}-\d{2}-\d{2}$/.t
     const names = [j.store, j.vendor, (j.store || "").split(/\s+/)[0]];
     const turns = (j.turns || []).filter((t) => !t.unsent).map((t) => ({
       q: maskText(t.q, names), by: t.by, answered: t.complete_ms != null,
-      reply: maskText((t.replyTail || "").slice(-450), names),
+      // strip widget chrome / suggested-reply chips / product-card fragments before the judge
+      // sees it (reply-clean.js) so chips can't be mis-credited as discovery/rich elements.
+      // Price/link/review presence is captured separately via convoSignals, so no signal is lost.
+      reply: maskText(stripWidgetChrome(t.replyTail, t.q).slice(0, 700), names),
     }));
     packets.push({ id, mode: j.mode, theme: j.themeLabel || j.theme, outcome: o.outcome, signals: convoSignals(j.turns), turns });
   }
