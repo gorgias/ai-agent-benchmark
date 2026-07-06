@@ -122,6 +122,7 @@ const SHELL = `<!doctype html><html lang="en"><head><meta charset="utf-8">
 .mono{font-family:'JetBrains Mono',ui-monospace,monospace;font-variant-numeric:tabular-nums}.n{text-align:right}.note{color:var(--mut);font-size:12.5px}.warn{color:var(--amber);font-weight:700}
 .wrap{max-width:900px;margin:0 auto}h1{font-family:'Inter Tight';font-size:30px;font-weight:900;letter-spacing:-.02em;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
 a.back{color:var(--coral);text-decoration:none;font-weight:700;font-size:13px}
+.topbar{margin:0 0 16px}.tsep{color:var(--faint);margin:0 9px}
 .badge{font-size:12px;font-weight:800;padding:4px 11px;border-radius:999px;letter-spacing:.02em}
 .badge.live{background:#FDEAEA;color:var(--red)}.badge.ok{background:#E2F4EA;color:var(--mint)}.badge.idle{background:#EEE9E4;color:var(--faint)}
 .sub{color:var(--mut);font-size:13px;margin-top:6px}
@@ -140,6 +141,7 @@ td{padding:9px 12px;border-bottom:1px solid rgba(27,23,18,.05);vertical-align:mi
 .live-dot{width:8px;height:8px;border-radius:50%;background:var(--red);display:inline-block;animation:pulse 1.4s infinite}@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
 #upd{font-size:11px;color:var(--faint);margin-left:auto}
 </style></head><body><div class="wrap">
+<div class="topbar"><a class="back" href="report.html">← Back to report</a><span class="tsep">·</span><a class="back" href="takeaways.html">Summary</a><span class="tsep">·</span><a class="back" href="report.html?view=conversations">Conversations</a></div>
 <h1>Capture run status <span id="badge"></span><span id="upd"></span></h1>
 <div class="sub" id="meta"></div>
 <div id="root"><div class="note" style="margin-top:24px">Loading run status…</div></div>
@@ -151,7 +153,7 @@ const bar=(v,max,col)=>'<div class="bar"><span style="width:'+(max?Math.round(10
 function render(d){
   const badge={running:'<span class="badge live"><span class="live-dot"></span> LIVE — capturing</span>',done:'<span class="badge ok">✓ run complete</span>',idle:'<span class="badge idle">idle — last run</span>'}[d.state]||'';
   document.getElementById('badge').innerHTML=badge;
-  document.getElementById('meta').innerHTML='Run date <b>'+esc(d.date)+'</b> · snapshot '+esc((d.generatedAt||'').replace('T',' ').slice(0,19))+' UTC · <a class="back" href="report.html">← report</a> · <a class="back" href="takeaways.html">summary</a> · <a class="back" href="report.html?view=conversations">conversations</a>';
+  document.getElementById('meta').innerHTML='Run date <b>'+esc(d.date)+'</b> · snapshot '+esc((d.generatedAt||'').replace('T',' ').slice(0,19))+' UTC';
   const rows=(d.rows||[]).map(r=>'<tr><td><span class="dot" style="background:'+r.col+'"></span><b>'+esc(r.vendor)+'</b> · '+esc(r.store)+'</td><td class="mono n">'+r.valid+'/'+r.expected+'</td><td style="min-width:150px">'+bar(r.valid,r.expected,r.col)+'</td><td class="mono n">'+(r.invalid?'<span class="warn">'+r.invalid+'</span>':'·')+'</td><td class="mono n">'+(r.pending||'·')+'</td></tr>').join('')||'<tr><td colspan="5" class="note">No stores in this run.</td></tr>';
   const fails=(d.failures||[]).map(f=>'<tr><td class="mono">'+esc(f.id)+'</td><td class="note">'+esc(f.why)+'</td></tr>').join('')||'<tr><td colspan="2" class="note">No failed/invalid conversations.</td></tr>';
   const lt=ts=>{ if(!ts) return ''; try{ const d=new Date(ts); return '<span class="ev-ts">'+d.toLocaleDateString([],{month:'short',day:'numeric'})+' '+d.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit',second:'2-digit'})+'</span> '; }catch(e){ return ''; } };

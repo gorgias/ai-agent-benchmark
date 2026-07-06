@@ -38311,8 +38311,7 @@ const fmtNice = s => parse(s).toLocaleDateString('en-US',{month:'short',day:'num
 let CAL=null, SEL_START=null;                          // CAL = {y,m} shown month
 function dateNote(){
   const n=document.getElementById('date-note'); if(!n) return;
-  const runs=ALL_DATES.length, sel=ALL_DATES.filter(inRange).length;
-  n.textContent = runs ? (sel+' of '+runs+' run'+(runs>1?'s':'')+' in window') : 'no runs yet';
+  n.textContent = '';   // runs-in-window count removed (not useful); the picker trigger already shows the selected date range
 }
 function dpLabel(){
   const el=document.getElementById('dp-label'); if(!el) return;

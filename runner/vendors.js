@@ -603,7 +603,7 @@ export const STORES = [
   { key: "envive-bandolier",  vendor: "Envive", store: "Bandolier",   url: "https://bandolierstyle.com/", widget: "spiffy" },
   { key: "envive-tushbaby",   vendor: "Envive", store: "Tushbaby",    url: "https://tushbaby.com/",       widget: "spiffy" },
   { key: "envive-greenpan",   vendor: "Envive", store: "GreenPan",    url: "https://www.greenpan.us/",    widget: "spiffy" },
-  { key: "envive-fracture",   vendor: "Envive", store: "Fracture",    url: "https://fracture.me/",        widget: "spiffy" },
+  { key: "envive-fracture",   vendor: "Envive", store: "Fracture",    url: "https://fractureme.com/",     widget: "spiffy" }, // verified envive-injection on fractureme.com (2026-07-07)
   { key: "envive-nanit",      vendor: "Envive", store: "Nanit",       url: "https://nanit.com/",          widget: "spiffy" },
   // Sierra (widget loads from sierra.chat; sierraConfig global)
   { key: "sierra-bark",       vendor: "Sierra", store: "BARK",        url: "https://bark.co/",            widget: "sierra" },
@@ -663,7 +663,7 @@ export const STORES = [
   { key: "repai-higherdose",  vendor: "Rep AI", store: "HigherDOSE",      url: "https://higherdose.com/",        widget: "repai", candidate: true },
   { key: "repai-nutrabio",    vendor: "Rep AI", store: "NutraBio",        url: "https://nutrabio.com/",          widget: "repai", candidate: true },
   { key: "repai-satya",       vendor: "Rep AI", store: "Satya Jewelry",   url: "https://www.satyajewelry.com/",  widget: "repai", candidate: true },
-  { key: "repai-bikesonline", vendor: "Rep AI", store: "BikesOnline",     url: "https://bikesonline.com.au/",    widget: "repai", candidate: true },
+  { key: "repai-bikesonline", vendor: "Rep AI", store: "BikesOnline",     url: "https://bikesonline.com/",       widget: "repai" }, // verified rep-connector chat-embed.js on bikesonline.com (2026-07-07)
   { key: "repai-kinn",        vendor: "Rep AI", store: "Kinn Studio",     url: "https://kinnstudio.com/",        widget: "repai", candidate: true },
   { key: "repai-cwspirits",   vendor: "Rep AI", store: "Country Wine & Spirits", url: "https://cwspirits.com/",  widget: "repai", candidate: true },
   // Kodif — headed-only (kodif-chat-widget iframe). DSC + JustFoodForDogs + Neuro independent; Babyletto/daVinci/Namesake share one parent (Million Dollar Baby Co.).
@@ -687,7 +687,8 @@ export const STORES = [
   { key: "shopify-schott",    vendor: "Shopify Inbox", store: "Schott NYC", url: "https://www.schottnyc.com/",    widget: "shopify_inbox", candidate: true },
   { key: "shopify-jnco",      vendor: "Shopify Inbox", store: "JNCO",       url: "https://www.jnco.com/",          widget: "shopify_inbox", candidate: true },
   // ---- sourcing pass 2 (2026-07-03) — signature-verified, to raise statistical significance ----
-  { key: "spiffy-clove",      vendor: "Envive", store: "Clove",         url: "https://www.clovebrand.com/",     widget: "spiffy" },          // cdn.spiffy.ai
+  { key: "spiffy-clove",      vendor: "Envive", store: "Clove",         url: "https://goclove.com/",            widget: "spiffy" },          // cdn.spiffy.ai (2026-07-07: verified served-HTML signature on goclove.com, not clovebrand.com)
+  { key: "repai-gosun",       vendor: "Rep AI", store: "GoSun",         url: "https://gosun.co/",               widget: "repai" },           // hellorep-lazyload.js (verified 2026-07-07)
   { key: "spiffy-fur",        vendor: "Envive", store: "Fur",           url: "https://www.furyou.com/",         widget: "spiffy" },          // cdn.spiffy.ai
   { key: "dg-kukoon",         vendor: "DigitalGenius", store: "Kukoon", url: "https://kukoon.com/",             widget: "dg", locale: "en-GB" }, // chat.digitalgenius.com
   // Cotton On Group siblings (typo/factorie/supre + cottonon) share ONE Zendesk deployment — correlated
