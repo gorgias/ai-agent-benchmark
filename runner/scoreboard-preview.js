@@ -14,6 +14,7 @@ import { readFile, readdir, stat, mkdir, writeFile } from "node:fs/promises";
 import { STORES as SITES } from "./vendors.js";
 import { SHOPPING_THEMES, SUPPORT_THEMES } from "./pools.js";
 import { convoValidity, convoOutcome, connectivityFail } from "./classify.js";
+import { QUARANTINE_IDS } from "./conversation-quarantine.js";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.dirname(HERE);
@@ -48,6 +49,7 @@ Options:
   --exclude ID                Quarantine one conversation id from the recompute.
                               ID format: YYYY-MM-DD/filename.json. Repeatable.
   --exclude-file PATH         Read quarantined ids from JSON array or newline file.
+  --include-quarantined       Include runner/conversation-quarantine.json entries.
   --window-days N             Ranking window in days. Default: ${DEFAULT_WINDOW_DAYS}.
   --json PATH                 Write the full preview payload as JSON.
   --no-baked                  Do not compare against takeaways.html's baked D object.
@@ -64,6 +66,7 @@ function parseArgs(argv) {
     json: null,
     windowDays: DEFAULT_WINDOW_DAYS,
     baked: true,
+    includeQuarantined: false,
   };
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
@@ -82,6 +85,8 @@ function parseArgs(argv) {
       out.windowDays = Number(argv[++i]);
     } else if (a === "--no-baked") {
       out.baked = false;
+    } else if (a === "--include-quarantined") {
+      out.includeQuarantined = true;
     } else {
       throw new Error(`Unknown option: ${a}`);
     }
@@ -484,45 +489,47 @@ function renderDiff(title, changes) {
 async function main() {
   const args = parseArgs(process.argv.slice(2));
   const fileExcludes = await loadExcludedFiles(args.excludeFiles);
-  const excluded = new Set([...args.excludes, ...fileExcludes]);
+  const builtInExcludes = args.includeQuarantined ? [] : [...QUARANTINE_IDS];
+  const manualExcludes = [...args.excludes, ...fileExcludes];
+  const excluded = new Set([...builtInExcludes, ...manualExcludes]);
   const dates = args.date ? [args.date] : await allDates();
   if (!dates.length) throw new Error("No results/<date>/conv directories found");
   const latest = dates[dates.length - 1];
   const evals = await readJson(SCORES, {});
 
-  const baseline = await compute({ dates, latest, windowDays: args.windowDays, evals, excluded: new Set() });
-  const proposal = excluded.size
-    ? await compute({ dates, latest, windowDays: args.windowDays, evals, excluded })
+  const active = await compute({ dates, latest, windowDays: args.windowDays, evals, excluded });
+  const unquarantined = builtInExcludes.length
+    ? await compute({ dates, latest, windowDays: args.windowDays, evals, excluded: new Set(manualExcludes) })
     : null;
   const baked = args.baked ? await readBakedScoreboard().catch(() => null) : null;
 
   console.log("Scoreboard dry-run recompute");
   console.log(`Runs: ${dates.join(", ")}`);
-  console.log(`Trailing window: ${args.windowDays} days (${baseline.cutoff} -> ${baseline.latest})`);
+  console.log(`Trailing window: ${args.windowDays} days (${active.cutoff} -> ${active.latest})`);
+  console.log(`Built-in quarantine: ${builtInExcludes.length ? builtInExcludes.join(", ") : "disabled"}`);
   console.log(`Conversation quarantine: ${excluded.size ? [...excluded].join(", ") : "none"}`);
   console.log("No files were modified.");
 
   if (baked) {
-    renderDiff("Baked takeaways.html vs current source recompute", diffScoreboards(baked, baseline.D));
+    renderDiff("Baked takeaways.html vs active source recompute", diffScoreboards(baked, active.D));
   }
-  renderTable("Current source recompute", baseline.D);
-  if (proposal) {
-    renderTable("Proposed recompute after quarantine", proposal.D);
-    renderDiff("Proposal delta vs current source recompute", diffScoreboards(baseline.D, proposal.D));
+  if (unquarantined) {
+    renderDiff("Built-in quarantine delta vs unquarantined source", diffScoreboards(unquarantined.D, active.D));
   }
+  renderTable("Active source recompute", active.D);
 
   const payload = {
     generated_at: new Date().toISOString(),
     dates,
     latest,
     window_days: args.windowDays,
-    cutoff: baseline.cutoff,
+    cutoff: active.cutoff,
     excluded: [...excluded],
     baked,
-    baseline,
-    proposal,
-    baked_vs_baseline: baked ? diffScoreboards(baked, baseline.D) : null,
-    proposal_vs_baseline: proposal ? diffScoreboards(baseline.D, proposal.D) : null,
+    active,
+    unquarantined,
+    baked_vs_active: baked ? diffScoreboards(baked, active.D) : null,
+    quarantine_vs_unquarantined: unquarantined ? diffScoreboards(unquarantined.D, active.D) : null,
   };
   if (args.json) {
     await mkdir(path.dirname(args.json), { recursive: true });

@@ -18,6 +18,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { convoValidity, convoOutcome } from "./classify.js";
 import { convoSignals } from "./eval-signals.js";
+import { isQuarantinedConversation } from "./conversation-quarantine.js";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const RESULTS = path.join(HERE, "results");
@@ -57,6 +58,7 @@ for (const date of fs.readdirSync(RESULTS).filter((d) => /^\d{4}-\d{2}-\d{2}$/.t
   if (!fs.existsSync(dir)) continue;
   for (const f of fs.readdirSync(dir).filter((x) => x.endsWith(".json")).sort()) {
     const id = `${date}/${f}`;
+    if (isQuarantinedConversation(id)) continue;
     if (rejudge ? !rejudge.has(id) : scored[id]) continue;   // incremental, or pinned re-judge
     let j; try { j = JSON.parse(fs.readFileSync(path.join(dir, f), "utf8")); } catch { continue; }
     if (!convoValidity(j.turns).valid) continue;
