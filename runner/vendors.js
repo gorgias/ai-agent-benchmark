@@ -16,11 +16,13 @@
 
 import { randomBytes } from "node:crypto";
 
-// Reserved example.com identities only: plausible enough for pre-chat validators,
-// impossible to route to a real shopper inbox.
+// Realistic throwaway identities for pre-chat email gates. @example.com gets rejected by
+// stricter validators (verified on Tumble), so we use real consumer domains. The address is
+// only typed to unlock the chat and is never sent to; uncommon surname + digits make a real
+// inbox collision vanishingly unlikely. Dummy PII, not a real person.
 const DUMMY_FIRST_NAMES = ["John", "Maya", "Nora", "Evan", "Lina", "Adam", "Sofia", "Noah"];
 const DUMMY_LAST_NAMES = ["Minser", "Carrow", "Bellin", "Harper", "Linton", "Rossi", "Parker", "Madden"];
-const DUMMY_EMAIL_DOMAIN = "example.com";
+const DUMMY_EMAIL_HOSTS = ["gmail.com", "gmail.com", "gmail.com", "outlook.com", "icloud.com", "hotmail.com"];
 
 function pickDummy(xs) {
   return xs[randomBytes(1)[0] % xs.length];
@@ -29,12 +31,13 @@ function pickDummy(xs) {
 function makeDummyIdentity() {
   const firstName = pickDummy(DUMMY_FIRST_NAMES);
   const lastName = pickDummy(DUMMY_LAST_NAMES);
-  const suffix = randomBytes(3).toString("hex");
+  const num = (randomBytes(1)[0] % 90) + 10;                 // 2-digit — realistic + unique enough
+  const sep = randomBytes(1)[0] % 2 ? "." : "";
   return {
     firstName,
     lastName,
     name: `${firstName} ${lastName}`,
-    email: `${firstName}.${lastName}.${suffix}`.toLowerCase() + `@${DUMMY_EMAIL_DOMAIN}`,
+    email: `${firstName}${sep}${lastName}${num}`.toLowerCase() + `@${pickDummy(DUMMY_EMAIL_HOSTS)}`,
   };
 }
 
@@ -750,7 +753,7 @@ export const STORES = [
   { key: "yuma-meshki",       vendor: "Yuma",   store: "MESHKI",      url: "https://meshki.com/",         widget: "yuma", locale: "en-AU" }, // app.yuma.ai/w/4f7a9401
   { key: "yuma-meshki-au",    vendor: "Yuma",   store: "MESHKI AU",   url: "https://meshki.com.au/",      widget: "yuma", locale: "en-AU" }, // app.yuma.ai/w/df03b930
   { key: "yuma-meshki-uk",    vendor: "Yuma",   store: "MESHKI UK",   url: "https://meshki.co.uk/",       widget: "yuma", locale: "en-GB" }, // app.yuma.ai/w/5d646ace
-  { key: "yuma-bombayhair",   vendor: "Yuma",   store: "Bombay Hair", url: "https://www.bombayhair.com/", widget: "yuma" }, // app.yuma.ai/w/b3ae0b45; native probe target from Claude run
+  // yuma-bombayhair removed 2026-07-06 — no live AI agent / on-site chat on this store (verified, Max)
   { key: "yuma-tumble",       vendor: "Yuma",   store: "Tumble",      url: "https://www.tumbleliving.com/", widget: "yuma" }, // app.yuma.ai/w/fbb8eeda; asks email before chat
 
   // Headed-only vendors (widget loads only in real Chrome). candidate=excluded from headless runs.

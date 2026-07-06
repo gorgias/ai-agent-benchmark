@@ -4,6 +4,8 @@
 // failures visible in the score cache so a conversation can be audited turn by
 // turn instead of only through aggregate checks.
 
+import { stripWidgetChrome } from "./reply-clean.js";
+
 const STOP = new Set([
   "a", "an", "and", "are", "as", "at", "be", "but", "by", "can", "do", "does", "for", "from", "have",
   "how", "i", "if", "in", "is", "it", "me", "my", "of", "on", "or", "our", "the", "them", "this",
@@ -19,15 +21,9 @@ function tokens(s) {
 }
 
 function answerWindow(turn) {
-  let text = String(turn.replyText || turn.replyTail || "");
-  const q = String(turn.q || "");
-  if (q && text.toLowerCase().includes(q.toLowerCase())) {
-    text = text.slice(text.toLowerCase().lastIndexOf(q.toLowerCase()) + q.length);
-  }
-  return text
-    .replace(/\b(ask maggie|message from [^:\n]+:|ai agent powered by|privacy|cancel|give us feedback)\b/gi, "\n")
-    .replace(/\s+/g, " ")
-    .trim();
+  // shared cleaner: slices the echoed question and strips widget chrome / chips /
+  // product-card fragments so keyword-coverage is measured on the real prose only.
+  return stripWidgetChrome(turn.replyText || turn.replyTail, turn.q);
 }
 
 function lineStats(text) {
