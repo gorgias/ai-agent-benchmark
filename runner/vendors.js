@@ -14,7 +14,29 @@
 //   send(page,txt) post a user message
 //   handover       extra handover regexes specific to this widget (optional)
 
-const DUMMY = { name: "Benchmark Test", email: "benchmark.test@example.com" }; // reserved example.com — never a real inbox
+import { randomBytes } from "node:crypto";
+
+// Reserved example.com identities only: plausible enough for pre-chat validators,
+// impossible to route to a real shopper inbox.
+const DUMMY_FIRST_NAMES = ["John", "Maya", "Nora", "Evan", "Lina", "Adam", "Sofia", "Noah"];
+const DUMMY_LAST_NAMES = ["Minser", "Carrow", "Bellin", "Harper", "Linton", "Rossi", "Parker", "Madden"];
+const DUMMY_EMAIL_DOMAIN = "example.com";
+
+function pickDummy(xs) {
+  return xs[randomBytes(1)[0] % xs.length];
+}
+
+function makeDummyIdentity() {
+  const firstName = pickDummy(DUMMY_FIRST_NAMES);
+  const lastName = pickDummy(DUMMY_LAST_NAMES);
+  const suffix = randomBytes(3).toString("hex");
+  return {
+    firstName,
+    lastName,
+    name: `${firstName} ${lastName}`,
+    email: `${firstName}.${lastName}.${suffix}`.toLowerCase() + `@${DUMMY_EMAIL_DOMAIN}`,
+  };
+}
 
 async function dismiss(page) {
   for (const sel of [
@@ -65,21 +87,81 @@ async function shadowClickLauncher(page, hostSel) {
   }, hostSel).catch(() => {});
 }
 
-// Some chats gate behind an email prechat form. Fill a dummy (reserved
-// example.com) address and submit so the conversation can start.
+async function fillVisibleInput(frame, selector, value, timeout = 3000) {
+  const input = frame.locator(selector).first();
+  if (!(await input.count().catch(() => 0))) return false;
+  if (!(await input.isVisible().catch(() => false))) return false;
+  await input.click({ timeout }).catch(() => {});
+  await input.fill(value).catch(async () => { await input.type(value, { delay: 12 }).catch(() => {}); });
+  return true;
+}
+
+// Some chats gate behind a pre-chat identity form. Fill a fresh dummy identity
+// from reserved example.com and submit so the conversation can start.
 async function fillEmailGate(page, frame) {
   try {
-    const email = frame.locator('input[type="email"], input[placeholder*="@"], input[placeholder*="mail" i], input[name*="mail" i], input[aria-label*="mail" i]').first();
+    const emailSel = 'input[type="email"], input[placeholder*="@"], input[placeholder*="mail" i], input[name*="mail" i], input[aria-label*="mail" i]';
+    const email = frame.locator(emailSel).first();
     if (!(await email.count().catch(() => 0))) return false;
     if (!(await email.isVisible().catch(() => false))) return false;
-    await email.click({ timeout: 3000 }).catch(() => {});
-    await email.fill(DUMMY.email).catch(async () => { await email.type(DUMMY.email).catch(() => {}); });
-    const btn = frame.locator('button:has-text("Start"), button:has-text("Submit"), button:has-text("Continue"), button:has-text("Chat"), button:has-text("Send"), button[type="submit"]').first();
-    if (await btn.count().catch(() => 0)) await btn.click({ timeout: 3000 }).catch(() => {});
-    else await page.keyboard.press("Enter").catch(() => {});
+
+    const identity = makeDummyIdentity();
+    await fillVisibleInput(frame, 'input[placeholder*="first" i], input[name*="first" i], input[aria-label*="first" i]', identity.firstName);
+    await fillVisibleInput(frame, 'input[placeholder*="last" i], input[name*="last" i], input[aria-label*="last" i]', identity.lastName);
+    await fillVisibleInput(frame, 'input[placeholder*="name" i], input[name*="name" i], input[aria-label*="name" i]', identity.name);
+    await fillVisibleInput(frame, emailSel, identity.email);
+
+    const btn = frame.locator([
+      'button:has-text("Start chat")',
+      'button:has-text("Start Chat")',
+      'button:has-text("Start conversation")',
+      'button:has-text("Start")',
+      'button:has-text("Submit")',
+      'button:has-text("Continue")',
+      'button:has-text("Chat")',
+      'button:has-text("Send")',
+      'button:has-text("Commencer")',
+      'button:has-text("Demarrer")',
+      'button:has-text("Démarrer")',
+      'button:has-text("Continuer")',
+      'button:has-text("Envoyer")',
+      'button[type="submit"]',
+      'input[type="submit"]',
+    ].join(", ")).first();
+    let submitted = false;
+    if (await btn.count().catch(() => 0)) {
+      await btn.click({ timeout: 3000 }).catch(() => {});
+      submitted = true;
+    }
+    if (!submitted) {
+      submitted = await frame.evaluate(() => {
+        const rx = /start|submit|continue|chat|send|commencer|démarrer|demarrer|continuer|envoyer/i;
+        const buttons = [...document.querySelectorAll('button,[role="button"],input[type="submit"]')];
+        const btn = buttons.find((el) => rx.test(el.innerText || el.value || el.getAttribute("aria-label") || ""));
+        if (btn) { btn.click(); return true; }
+        return false;
+      }).catch(() => false);
+    }
+    if (!submitted) await page.keyboard.press("Enter").catch(() => {});
     await page.waitForTimeout(2500);
     return true;
   } catch { return false; }
+}
+
+async function fillAnyChatEmailGate(page) {
+  let filled = false;
+  for (const frame of page.frames()) {
+    try {
+      if (frame === page.mainFrame()) continue;
+      const meta = `${frame.name()} ${frame.url()}`;
+      const body = await frame.locator("body").innerText({ timeout: 700 }).catch(() => "");
+      const haystack = `${meta} ${body}`;
+      if (!/chat|message|support|help|assistant|conversation|inbox|siena|gorgias|yuma|dg-chat|shopify/i.test(haystack)) continue;
+      if (/newsletter|subscribe|discount|coupon/i.test(body) && !/chat|message|support|assistant|conversation/i.test(body)) continue;
+      if (await fillEmailGate(page, frame)) filled = true;
+    } catch {}
+  }
+  return filled;
 }
 
 // ---------------------------------------------------------------------------
@@ -230,10 +312,11 @@ export const WIDGETS = {
       if (f) {
         const composerReady = () => f.evaluate(() => !!document.querySelector('textarea,[contenteditable="true"]')).catch(() => false);
         for (let attempt = 0; attempt < 4 && !(await composerReady()); attempt++) {
+          const identity = makeDummyIdentity();
           const nameI = f.locator('input[placeholder*="name" i], input[aria-label*="name" i]').first();
-          if (await nameI.count().catch(() => 0)) { await nameI.click({ timeout: 2000 }).catch(() => {}); await nameI.fill(DUMMY.name).catch(() => {}); }
+          if (await nameI.count().catch(() => 0)) { await nameI.click({ timeout: 2000 }).catch(() => {}); await nameI.fill(identity.name).catch(() => {}); }
           const mailI = f.locator('input[type="email"], input[placeholder*="@" i], input[placeholder*="mail" i], input[aria-label*="mail" i]').first();
-          if (await mailI.count().catch(() => 0)) { await mailI.click({ timeout: 2000 }).catch(() => {}); await mailI.fill(DUMMY.email).catch(async () => { await mailI.type(DUMMY.email, { delay: 15 }).catch(() => {}); }); }
+          if (await mailI.count().catch(() => 0)) { await mailI.click({ timeout: 2000 }).catch(() => {}); await mailI.fill(identity.email).catch(async () => { await mailI.type(identity.email, { delay: 15 }).catch(() => {}); }); }
           const startBtn = f.locator('button:has-text("Start chat"), button:has-text("Start"), button:has-text("Continue")').first();
           if (await startBtn.count().catch(() => 0)) await startBtn.click({ timeout: 3000 }).catch(() => {});
           else { const skip = f.locator('button:has-text("Skip for now"), button:has-text("Skip")').first(); if (await skip.count().catch(() => 0)) await skip.click({ timeout: 3000 }).catch(() => {}); else await page.keyboard.press("Enter").catch(() => {}); }
@@ -271,10 +354,11 @@ export const WIDGETS = {
       for (let i = 0; i < 40 && !wf; i++) { wf = await findFrame(page, "dg-chat-widget-iframe"); if (!wf) await page.waitForTimeout(500); }
       if (!wf) return;
       await page.waitForTimeout(1000);
+      const identity = makeDummyIdentity();
       const nameI = wf.locator('input[placeholder*="name" i], input[name="name"], input[aria-label*="name" i]').first();
       const mailI = wf.locator('input[type="email"], input[placeholder*="email" i], input[name*="email" i], input[aria-label*="email" i]').first();
-      if (await nameI.count().catch(() => 0)) { await nameI.click({ timeout: 3000 }).catch(() => {}); await nameI.fill(DUMMY.name).catch(async () => { await nameI.type(DUMMY.name, { delay: 15 }).catch(() => {}); }); }
-      if (await mailI.count().catch(() => 0)) { await mailI.click({ timeout: 3000 }).catch(() => {}); await mailI.fill(DUMMY.email).catch(async () => { await mailI.type(DUMMY.email, { delay: 15 }).catch(() => {}); }); }
+      if (await nameI.count().catch(() => 0)) { await nameI.click({ timeout: 3000 }).catch(() => {}); await nameI.fill(identity.name).catch(async () => { await nameI.type(identity.name, { delay: 15 }).catch(() => {}); }); }
+      if (await mailI.count().catch(() => 0)) { await mailI.click({ timeout: 3000 }).catch(() => {}); await mailI.fill(identity.email).catch(async () => { await mailI.type(identity.email, { delay: 15 }).catch(() => {}); }); }
       const start = wf.locator('button:has-text("Start Chat"), button:has-text("Start chat"), button[type="submit"]').first();
       if (await start.count().catch(() => 0)) await start.click({ timeout: 6000 }).catch(() => {});
       const composer = wf.locator('textarea[aria-label*="message" i], textarea[placeholder*="message" i], textarea[placeholder*="type" i], [contenteditable="true"]').first();
@@ -483,15 +567,25 @@ export const WIDGETS = {
       const launcher = f.locator('[aria-label="Open chat widget"], .widgetTrigger').first();
       await launcher.click({ timeout: 8000 }).catch(() => {});
       // WAIT for the composer to actually exist before returning (verified selector:
-      // textarea.chatPage__textarea, aria-label="Ask your question"). No email gate on Yuma.
-      await f.locator('.chatPage__textarea, [aria-label="Ask your question"], textarea').first()
-        .waitFor({ state: "visible", timeout: 15000 }).catch(() => {});
+      // textarea.chatPage__textarea, aria-label="Ask your question"). Some native Yuma
+      // installs now gate cold chats on email first (e.g. Tumble Living), so fill the
+      // pre-chat identity form with reserved dummy PII if it appears.
+      const composer = f.locator('.chatPage__textarea, [aria-label="Ask your question"], textarea').first();
+      for (let i = 0; i < 5 && !(await composer.isVisible().catch(() => false)); i++) {
+        await fillEmailGate(page, f);
+        await page.waitForTimeout(1000);
+      }
+      await composer.waitFor({ state: "visible", timeout: 15000 }).catch(() => {});
       await page.waitForTimeout(600);
     },
     async send(page, text) {
       const f = await findFrame(page, "app.yuma.ai");
       if (!f) return;
       const inp = f.locator('.chatPage__textarea, [aria-label="Ask your question"], textarea').first();
+      if (!(await inp.isVisible().catch(() => false))) {
+        await fillEmailGate(page, f);
+        await inp.waitFor({ state: "visible", timeout: 10000 }).catch(() => {});
+      }
       await inp.click({ timeout: 6000 }).catch(() => {});
       await inp.fill(text).catch(async () => { await inp.type(text, { delay: 12 }).catch(() => {}); });
       await inp.press("Enter").catch(async () => {
@@ -514,11 +608,13 @@ async function genericOpenChat(page) {
     return false;
   }).catch(() => false);
   await page.waitForTimeout(4000);
+  await fillAnyChatEmailGate(page).catch(() => {});
   return clicked;
 }
 
 // Generic send: find the most chat-like text input (in page or any iframe) + Enter.
 async function genericSendChat(page, text) {
+  await fillAnyChatEmailGate(page).catch(() => {});
   // try iframes first (widgets are usually cross-origin frames)
   for (const f of page.frames()) {
     try {
@@ -654,6 +750,8 @@ export const STORES = [
   { key: "yuma-meshki",       vendor: "Yuma",   store: "MESHKI",      url: "https://meshki.com/",         widget: "yuma", locale: "en-AU" }, // app.yuma.ai/w/4f7a9401
   { key: "yuma-meshki-au",    vendor: "Yuma",   store: "MESHKI AU",   url: "https://meshki.com.au/",      widget: "yuma", locale: "en-AU" }, // app.yuma.ai/w/df03b930
   { key: "yuma-meshki-uk",    vendor: "Yuma",   store: "MESHKI UK",   url: "https://meshki.co.uk/",       widget: "yuma", locale: "en-GB" }, // app.yuma.ai/w/5d646ace
+  { key: "yuma-bombayhair",   vendor: "Yuma",   store: "Bombay Hair", url: "https://www.bombayhair.com/", widget: "yuma" }, // app.yuma.ai/w/b3ae0b45; native probe target from Claude run
+  { key: "yuma-tumble",       vendor: "Yuma",   store: "Tumble",      url: "https://www.tumbleliving.com/", widget: "yuma" }, // app.yuma.ai/w/fbb8eeda; asks email before chat
 
   // Headed-only vendors (widget loads only in real Chrome). candidate=excluded from headless runs.
   { key: "humind-900care",    vendor: "Humind", store: "900.care",    url: "https://www.900.care/",       widget: "humind", candidate: true, locale: "fr-FR" },
