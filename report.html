@@ -8958,36 +8958,37 @@ const STORES = [
   "us": false,
   "lat": "~17.7s",
   "latPct": 71,
-  "latP75": 19.3,
+  "latP75": 22.9,
   "ttft": 15,
   "delivery": "atomic",
-  "success": 95,
-  "successTxt": "95%",
+  "success": 96,
+  "successTxt": "96%",
   "avgTurns": 10,
-  "timed": 38,
-  "attempted": 40,
+  "timed": 48,
+  "attempted": 50,
   "auto": {
-   "automated": 4,
+   "automated": 5,
    "handover": 0,
    "deflected": 0,
    "no_answer": 0,
-   "engaged": 4,
+   "engaged": 5,
    "rate": 100
   },
   "evalq": {
-   "n": 4,
-   "total": 79,
+   "n": 5,
+   "total": 80,
    "dims": {
     "answer": 21,
     "discovery": 20,
     "recommendation": 22,
-    "rich": 11,
+    "rich": 12,
     "close": 5
    },
    "cls": {
-    "partial": 4
+    "partial": 5
    },
    "learnings": [
+    "Strong product-card mechanics and a concrete starter pick, but policy consistency and explicit cart execution remain weak.",
     "Good budget rationale and option comparison, but checkout, total, and shipping questions repeatedly become email escalations.",
     "Priced everyday-value earrings with add-to-cart controls and detailed shipping, but contradicted itself by touting easy returns tone while the policy is no-returns, and never added to cart.",
     "Strong gift discovery with a wow-vs-everyday framing, priced option cards and honest gift-receipt/return facts, but re-asked which item to add rather than completing the explicit cart total.",
@@ -8996,8 +8997,8 @@ const STORES = [
   },
   "guard": null,
   "ticket": null,
-  "what": "4 cold private conversations (shopping themes). No handover in any theme. Avg end-to-end latency ~17.7s across 38 AI-timed turns.",
-  "datetime": "2026-07-06T08:06:04.071Z",
+  "what": "5 cold private conversations (shopping themes). No handover in any theme. Avg end-to-end latency ~17.7s across 48 AI-timed turns.",
+  "datetime": "2026-07-06T14:43:32.141Z",
   "themes": [
    {
     "key": "everyday-value",
@@ -9305,6 +9306,84 @@ const STORES = [
       "a": "…you out. Could you please share your email address? Once I have that, I can escalate this and get you the info you need! 🙂 Evry Customer Specialist Powered by Yuma.ai",
       "by": "ai",
       "lat": 11.5
+     }
+    ]
+   },
+   {
+    "key": "beginner",
+    "label": "Total beginner",
+    "datetime": "2026-07-06T14:43:32.141Z",
+    "lat": "~17.5s",
+    "success": 100,
+    "successTxt": "100%",
+    "handoverTurn": null,
+    "ticket": null,
+    "productRecs": {
+     "count": 1,
+     "names": [
+      "Mystery Jewelry Item"
+     ]
+    },
+    "turns": [
+     {
+      "q": "Hi! I'm completely new to this and don't know where to start — can you guide me?",
+      "a": "…I'll be happy to guide you! If you have any more questions, feel free to ask. ❤️ Evry Customer Specialist Product Care Returns & Refunds Shipping info Powered by Yuma.ai",
+      "by": "ai",
+      "lat": 4.8
+     },
+     {
+      "q": "Can you explain the main options in simple terms?",
+      "a": "…isn't quite right. Which one sounds like the best place for you to start? ❤️ Evry Customer Specialist Ambassador Info Rewards Program Shop Jewelry Powered by Yuma.ai",
+      "by": "ai",
+      "lat": 14.7
+     },
+     {
+      "q": "For a first-timer like me, what's the safest, easiest choice?",
+      "a": "…Color Gold Silver Size Flashy Earrings Small By the Sea Earrings Hibiscus Earrings London Hoops + Add to cart How to join Rewards View Best Sellers Powered by Yuma.ai",
+      "by": "ai",
+      "lat": 18.6
+     },
+     {
+      "q": "I don't want to overpay while I'm still learning — what's a good starter pick?",
+      "a": "…to try our quality without spending much at all. Does a little surprise sound fun to you? ❤️ Evry Customer Specialist Add to cart 🛒 Other options? 🤩 Powered by Yuma.ai",
+      "by": "ai",
+      "lat": 23.2
+     },
+     {
+      "q": "What do beginners usually say about it in reviews?",
+      "a": "…🤩 It’s definitely a community favorite for anyone just starting their Evry Jewels collection. Evry Customer Specialist Add to cart 🤩 Tell me more! Powered by Yuma.ai",
+      "by": "ai",
+      "lat": 14.1
+     },
+     {
+      "q": "Is there anything else a beginner needs to get started?",
+      "a": "…win-win! 🤩 With those set up, you're all ready to start your jewelry journey! Is there anything else you'd like to know? ❤️ Evry Customer Specialist Powered by Yuma.ai",
+      "by": "ai",
+      "lat": 14.1
+     },
+     {
+      "q": "Okay, add your beginner recommendation to my cart — what's the total?",
+      "a": "…the product right here for you to make it super easy! ⭐️ Let me know if you need help with anything else! ❤️ Evry Customer Specialist Go to checkout Powered by Yuma.ai",
+      "by": "ai",
+      "lat": 27.8
+     },
+     {
+      "q": "How do I use it properly the very first time?",
+      "a": "…with a soft cloth after wearing it will help maintain its luster. Enjoy your new sparkle, you're going to look amazing! ❤️ Evry Customer Specialist Powered by Yuma.ai",
+      "by": "ai",
+      "lat": 18.2
+     },
+     {
+      "q": "What's the return policy if it turns out not to be right for me?",
+      "a": "…🙂 We want you to be completely happy with your choice, so definitely take your time to pick out something you'll love! ⭐️ Evry Customer Specialist Powered by Yuma.ai",
+      "by": "ai",
+      "lat": 22.9
+     },
+     {
+      "q": "Confirm my total and the delivery estimate?",
+      "a": "…days. Please keep in mind these are estimates, but you'll get a tracking link via email the moment it's on the way! ⭐️ Evry Customer Specialist Powered by Yuma.ai",
+      "by": "ai",
+      "lat": 16.3
      }
     ]
    }
@@ -13922,6 +14001,199 @@ const STORES = [
     "a": "…of our products. To finalize your cart, could you please confirm the size you need and provide your email address? I'll be ready to assist you! Propulsé par Yuma.ai",
     "by": "ai",
     "lat": 14.4
+   }
+  ]
+ },
+ {
+  "id": "yuma-tediber-shopping-2026-07-06",
+  "date": "2026-07-06",
+  "vendor": "Yuma",
+  "store": "Tediber",
+  "site": "tediber.com",
+  "url": "https://www.tediber.com/",
+  "widget": "yuma",
+  "locale": "fr-FR",
+  "method": "new",
+  "us": false,
+  "lat": "~21.2s",
+  "latPct": 85,
+  "latP75": 22.8,
+  "ttft": 19.3,
+  "delivery": "atomic",
+  "success": 100,
+  "successTxt": "100%",
+  "avgTurns": 10,
+  "timed": 10,
+  "attempted": 10,
+  "auto": {
+   "automated": 1,
+   "handover": 0,
+   "deflected": 0,
+   "no_answer": 0,
+   "engaged": 1,
+   "rate": 100
+  },
+  "evalq": {
+   "n": 1,
+   "total": 65,
+   "dims": {
+    "answer": 16,
+    "discovery": 20,
+    "recommendation": 22,
+    "rich": 0,
+    "close": 7
+   },
+   "cls": {
+    "partial": 1
+   },
+   "learnings": [
+    "Good guided mattress recommendation and policy details, but no price/link rich elements and it mishandles cart or total requests as account lookups."
+   ]
+  },
+  "guard": null,
+  "ticket": null,
+  "what": "1 cold private conversations (shopping themes). No handover in any theme. Avg end-to-end latency ~21.2s across 10 AI-timed turns.",
+  "datetime": "2026-07-06T14:38:29.058Z",
+  "themes": [
+   {
+    "key": "beginner",
+    "label": "Total beginner",
+    "datetime": "2026-07-06T14:38:29.058Z",
+    "lat": "~21.2s",
+    "success": 100,
+    "successTxt": "100%",
+    "handoverTurn": null,
+    "ticket": null,
+    "productRecs": {
+     "count": 1,
+     "names": [
+      "I'm here to guide you"
+     ]
+    },
+    "turns": [
+     {
+      "q": "Hi! I'm completely new to this and don't know where to start — can you guide me?",
+      "a": "…to present our flagship products to you? Once again, thank you for reaching out to us. Have a fantastic day. Nos boutiques Nos matelas Nos oreillers Propulsé par Yuma.ai",
+      "by": "ai",
+      "lat": 11.3
+     },
+     {
+      "q": "Can you explain the main options in simple terms?",
+      "a": "…to 20 cm longer than your height. Does one of these models already catch your attention? Le Hybride Premium Le Matelas Hybride Le Matelas Infinite Propulsé par Yuma.ai",
+      "by": "ai",
+      "lat": 22.8
+     },
+     {
+      "q": "For a first-timer like me, what's the safest, easiest choice?",
+      "a": "…for free and provide a full refund. It is a simple and risk-free way to find out if it is the right fit for you. 🙂 Tell me more View the mattress Propulsé par Yuma.ai",
+      "by": "ai",
+      "lat": 11.9
+     },
+     {
+      "q": "I don't want to overpay while I'm still learning — what's a good starter pick?",
+      "a": "…without any financial risk. 🙂 Would you like me to share more details about this specific model? 100-night trial info Hybrid Mattress details Propulsé par Yuma.ai",
+      "by": "ai",
+      "lat": 18
+     },
+     {
+      "q": "What do beginners usually say about it in reviews?",
+      "a": "…Would you like more specific details on its construction, or perhaps a link to check it out on our site? En savoir plus Voir le matelas Propulsé par Yuma.ai",
+      "by": "ai",
+      "lat": 19.6
+     },
+     {
+      "q": "Is there anything else a beginner needs to get started?",
+      "a": "…a special discount! Would you like me to tell you more about our pillows or perhaps our bed bases? 🙂 About trial night View bed bases View pillows Propulsé par Yuma.ai",
+      "by": "ai",
+      "lat": 17.7
+     },
+     {
+      "q": "Okay, add your beginner recommendation to my cart — what's the total?",
+      "a": "…provide me with the email address you used for your account or your order number? This will allow me to find your information and help you further. Propulsé par Yuma.ai",
+      "by": "ai",
+      "lat": 35
+     },
+     {
+      "q": "How do I use it properly the very first time?",
+      "a": "…of delivery. Do you have any other questions about the setup, or would you like to proceed with your information so I can help you with your order? Propulsé par Yuma.ai",
+      "by": "ai",
+      "lat": 38.7
+     },
+     {
+      "q": "What's the return policy if it turns out not to be right for me?",
+      "a": "…a completely risk-free experience for you! Whenever you're ready to proceed, just let me know your email address or if you have any other questions. Propulsé par Yuma.ai",
+      "by": "ai",
+      "lat": 21.3
+     },
+     {
+      "q": "Confirm my total and the delivery estimate?",
+      "a": "…Could you please share the email address you used or your order number? Once I have that, I will be able to give you all the details! 🙂 Propulsé par Yuma.ai",
+      "by": "ai",
+      "lat": 15.3
+     }
+    ]
+   }
+  ],
+  "turns": [
+   {
+    "q": "Hi! I'm completely new to this and don't know where to start — can you guide me?",
+    "a": "…to present our flagship products to you? Once again, thank you for reaching out to us. Have a fantastic day. Nos boutiques Nos matelas Nos oreillers Propulsé par Yuma.ai",
+    "by": "ai",
+    "lat": 11.3
+   },
+   {
+    "q": "Can you explain the main options in simple terms?",
+    "a": "…to 20 cm longer than your height. Does one of these models already catch your attention? Le Hybride Premium Le Matelas Hybride Le Matelas Infinite Propulsé par Yuma.ai",
+    "by": "ai",
+    "lat": 22.8
+   },
+   {
+    "q": "For a first-timer like me, what's the safest, easiest choice?",
+    "a": "…for free and provide a full refund. It is a simple and risk-free way to find out if it is the right fit for you. 🙂 Tell me more View the mattress Propulsé par Yuma.ai",
+    "by": "ai",
+    "lat": 11.9
+   },
+   {
+    "q": "I don't want to overpay while I'm still learning — what's a good starter pick?",
+    "a": "…without any financial risk. 🙂 Would you like me to share more details about this specific model? 100-night trial info Hybrid Mattress details Propulsé par Yuma.ai",
+    "by": "ai",
+    "lat": 18
+   },
+   {
+    "q": "What do beginners usually say about it in reviews?",
+    "a": "…Would you like more specific details on its construction, or perhaps a link to check it out on our site? En savoir plus Voir le matelas Propulsé par Yuma.ai",
+    "by": "ai",
+    "lat": 19.6
+   },
+   {
+    "q": "Is there anything else a beginner needs to get started?",
+    "a": "…a special discount! Would you like me to tell you more about our pillows or perhaps our bed bases? 🙂 About trial night View bed bases View pillows Propulsé par Yuma.ai",
+    "by": "ai",
+    "lat": 17.7
+   },
+   {
+    "q": "Okay, add your beginner recommendation to my cart — what's the total?",
+    "a": "…provide me with the email address you used for your account or your order number? This will allow me to find your information and help you further. Propulsé par Yuma.ai",
+    "by": "ai",
+    "lat": 35
+   },
+   {
+    "q": "How do I use it properly the very first time?",
+    "a": "…of delivery. Do you have any other questions about the setup, or would you like to proceed with your information so I can help you with your order? Propulsé par Yuma.ai",
+    "by": "ai",
+    "lat": 38.7
+   },
+   {
+    "q": "What's the return policy if it turns out not to be right for me?",
+    "a": "…a completely risk-free experience for you! Whenever you're ready to proceed, just let me know your email address or if you have any other questions. Propulsé par Yuma.ai",
+    "by": "ai",
+    "lat": 21.3
+   },
+   {
+    "q": "Confirm my total and the delivery estimate?",
+    "a": "…Could you please share the email address you used or your order number? Once I have that, I will be able to give you all the details! 🙂 Propulsé par Yuma.ai",
+    "by": "ai",
+    "lat": 15.3
    }
   ]
  },
@@ -19999,44 +20271,46 @@ const STORES = [
   "locale": "en-US",
   "method": "new",
   "us": false,
-  "lat": "~29.1s",
+  "lat": "~25.4s",
   "latPct": 100,
-  "latP75": 33,
-  "ttft": 26.2,
+  "latP75": 32,
+  "ttft": 24.8,
   "delivery": "atomic",
-  "success": 90,
-  "successTxt": "90%",
+  "success": 87,
+  "successTxt": "87%",
   "avgTurns": 10,
-  "timed": 9,
-  "attempted": 10,
+  "timed": 26,
+  "attempted": 30,
   "auto": {
-   "automated": 1,
+   "automated": 3,
    "handover": 0,
    "deflected": 0,
    "no_answer": 0,
-   "engaged": 1,
+   "engaged": 3,
    "rate": 100
   },
   "evalq": {
-   "n": 1,
-   "total": 67,
+   "n": 3,
+   "total": 41,
    "dims": {
     "answer": 9,
-    "discovery": 20,
-    "recommendation": 22,
-    "rich": 11,
-    "close": 5
+    "discovery": 15,
+    "recommendation": 7,
+    "rich": 4,
+    "close": 6
    },
    "cls": {
-    "partial": 1
+    "partial": 3
    },
    "learnings": [
-    "Strong catalog guidance and social proof, but it fails purchase mechanics and escalates warranty/discount details to email."
+    "The assistant collects some useful constraints, but never makes the requested comparison or names value-for-money products.",
+    "Strong catalog guidance and social proof, but it fails purchase mechanics and escalates warranty/discount details to email.",
+    "Useful policy answers appear, but the gift-shopping flow never turns into a named recommendation and drops the final discount ask."
    ]
   },
   "guard": null,
   "ticket": null,
-  "what": "1 cold private conversations (shopping themes). No handover in any theme. Avg end-to-end latency ~29.1s across 9 AI-timed turns.",
+  "what": "3 cold private conversations (shopping themes). No handover in any theme. Avg end-to-end latency ~25.4s across 26 AI-timed turns.",
   "datetime": "2026-07-06T15:29:23.065Z",
   "themes": [
    {
@@ -20112,6 +20386,158 @@ const STORES = [
       "a": "…with all the specific details you need. Thank you for being a customer! Please let me know your email, and I'll get this moving for you right away. 🙂 Powered by Yuma.ai",
       "by": "ai",
       "lat": 32
+     }
+    ]
+   },
+   {
+    "key": "gift",
+    "label": "Gift shopper",
+    "datetime": "2026-07-06T15:09:34.218Z",
+    "lat": "~23.1s",
+    "success": 90,
+    "successTxt": "90%",
+    "handoverTurn": null,
+    "ticket": null,
+    "productRecs": {
+     "count": 0,
+     "names": []
+    },
+    "turns": [
+     {
+      "q": "Hi! I'm looking for a gift for someone and I'm not sure what to pick — can you help?",
+      "a": "…AI assistant. If you'd like to connect with our team, just let me know anytime. Team replies may take a little longer. Ask a Designer Rug Size Guide Powered by Yuma.ai",
+      "by": "ai",
+      "lat": 20.9
+     },
+     {
+      "q": "It's for someone who likes quality but isn't fussy; I want something they'll actually use.",
+      "a": "…based on your friend's style! Thank you for being a customer, and please let me know if you have any questions. Ask a Designer View Size Guide Powered by Yuma.ai",
+      "by": "ai",
+      "lat": 15.8
+     },
+     {
+      "q": "My budget is moderate — what would make a good gift in that range?",
+      "a": "…and popular options to consider. Thank you for being a customer, and let me know if you have any other questions! Ask a Designer View Size Guide Powered by Yuma.ai",
+      "by": "ai",
+      "lat": 19.8
+     },
+     {
+      "q": "Between your top two gift ideas, which feels more special?",
+      "a": "…once you've made your choice to help streamline the purchase for you. Thank you for being a customer, and please reach out with any other questions. Powered by Yuma.ai",
+      "by": "ai",
+      "lat": 26.4
+     },
+     {
+      "q": "Is there a gift set or bundle that looks nicer than a single item?",
+      "a": "…of rugs that would make for a truly impressive gift. ⭐️ Thank you for being a customer, and please let me know if I can help you with anything else! Powered by Yuma.ai",
+      "by": "ai",
+      "lat": 31.4
+     },
+     {
+      "q": "Can it arrive gift-ready, and how fast can it ship?",
+      "a": "…future ship dates or put orders on hold. Thank you for being a customer, and please let me know if there is anything else I can help you with! Powered by Yuma.ai",
+      "by": "ai",
+      "lat": 37.3
+     },
+     {
+      "q": "Great — add your top gift pick to my cart and tell me the total.",
+      "a": "…process quick and easy for you. Thank you for being a customer, and I look forward to helping you finish your gift shopping! 🙂 Send me an invoice Powered by Yuma.ai",
+      "by": "ai",
+      "lat": 25.8
+     },
+     {
+      "q": "Can you include a gift message or a gift receipt?",
+      "a": "…and add their own personal note before gifting it. Thank you so much for being a customer, and please let me know if you have any other questions! 🙂 Powered by Yuma.ai",
+      "by": "ai",
+      "lat": 24.6
+     },
+     {
+      "q": "If they want to exchange it, how would that work?",
+      "a": "(streamed past timing window) …Thank you so much for being a customer, and please let me know if you have any other questions! 🙂 If they want to exchange it, how would that work? Powered by Yuma.ai",
+      "by": "ai",
+      "lat": null
+     },
+     {
+      "q": "Any discount if I add a second smaller item?",
+      "a": "…much for being a Tumble customer! We are here if you or your gift recipient have any other questions. ❤️ Any discount if I add a second smaller item? Powered by Yuma.ai",
+      "by": "ai",
+      "lat": 6.3
+     }
+    ]
+   },
+   {
+    "key": "compare-budget",
+    "label": "Comparison, budget-tight",
+    "datetime": "2026-07-06T15:09:34.218Z",
+    "lat": "~23.8s",
+    "success": 80,
+    "successTxt": "80%",
+    "handoverTurn": null,
+    "ticket": null,
+    "productRecs": {
+     "count": 0,
+     "names": []
+    },
+    "turns": [
+     {
+      "q": "Hi! I'm deciding between a few options and money's a bit tight — can you help me choose?",
+      "a": "…Feel free to contact us anytime; we're here to help. Thank you for being with us as a customer. Feel free to reach out for with any other questions. Powered by Yuma.ai",
+      "by": "ai",
+      "lat": 21.1
+     },
+     {
+      "q": "I want the best bang for the buck, not the cheapest or the most expensive.",
+      "a": "…to send over an invoice to streamline everything for you. Thank you for being a customer, and please let me know if you have any other questions! Powered by Yuma.ai",
+      "by": "ai",
+      "lat": 15.8
+     },
+     {
+      "q": "Show me your two best value-for-money options and compare them.",
+      "a": "…purchase quick and easy once you've made your choice. Thank you for being a customer, and let me know if you have any other questions! Ask a Designer Powered by Yuma.ai",
+      "by": "ai",
+      "lat": 27.4
+     },
+     {
+      "q": "Honestly, is the pricier one worth the extra, or is the cheaper one fine?",
+      "a": "…choice, I can also send over an invoice to make everything official. Thank you for being a customer, and let me know if you have any other questions! Powered by Yuma.ai",
+      "by": "ai",
+      "lat": 21.7
+     },
+     {
+      "q": "Are there any current promos, bundles, or ways to save?",
+      "a": "(streamed past timing window) …official. Thank you for being a customer, and let me know if you have any other questions! Are there any current promos, bundles, or ways to save? Powered by Yuma.ai",
+      "by": "ai",
+      "lat": null
+     },
+     {
+      "q": "Which would you personally pick on my budget?",
+      "a": "…what I can do for you. Thank you for being a customer, and let me know if you have any other questions! Which would you personally pick on my budget? Powered by Yuma.ai",
+      "by": "ai",
+      "lat": 6.4
+     },
+     {
+      "q": "Add that one to my cart and tell me the total with any discount.",
+      "a": "…an accurate total and even send over an invoice to make checkout easy. Thank you for being a customer! Let me know if you have any other questions. Powered by Yuma.ai",
+      "by": "ai",
+      "lat": 33.8
+     },
+     {
+      "q": "Does the cheaper one have the same warranty as the pricier one?",
+      "a": "(streamed past timing window) …your request so we can follow up with you directly with all the details. Thank you for being a customer and let us know if you have any questions. Powered by Yuma.ai",
+      "by": "ai",
+      "lat": null
+     },
+     {
+      "q": "Can I pay in installments or split payment?",
+      "a": "…the answers you need. Thank you for being a customer, and I look forward to helping you with this! Please let me know if you have any other questions. Powered by Yuma.ai",
+      "by": "ai",
+      "lat": 35.3
+     },
+     {
+      "q": "Confirm my total and the fastest shipping option?",
+      "a": "…so they can provide you with the most accurate details. Thank you for being a customer, and please let me know if you have any other questions! Powered by Yuma.ai",
+      "by": "ai",
+      "lat": 29.2
      }
     ]
    }

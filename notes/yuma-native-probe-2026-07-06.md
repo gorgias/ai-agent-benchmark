@@ -58,3 +58,27 @@ Default targets are `yuma-meshki-au yuma-meshki-uk`, with 1 Shopping theme, seri
 - Tumble is therefore rankable, but it is slow and has purchase-mechanics gaps: it names products
   and cites prices/reviews/options, but does not add to cart and asks for email/manager escalation
   for warranty/discount questions.
+
+## 2026-07-06 Claude import scored by Codex
+
+After pulling latest, Codex imported four valid, non-duplicate Claude-origin Yuma Shopping
+captures and judged them with `BENCHMARK_EVAL_ORIGIN=codex`:
+
+- `yuma-evryjewels-shopping-beginner.json`: 10/10 timed, 17.5s mean latency, quality 83/100.
+- `yuma-tediber-shopping-beginner.json`: 10/10 timed, 21.2s mean latency, quality 65/100.
+- `yuma-tumble-shopping-compare-budget.json`: 8/10 timed, 23.8s mean latency, quality 29/100.
+- `yuma-tumble-shopping-gift.json`: 9/10 timed, 23.1s mean latency, quality 27/100.
+
+Impact on Yuma Shopping after regeneration:
+
+- Sample size: 15 -> 19 conversations.
+- Automation: 93% -> 95%.
+- Quality: 81 -> 73.
+- Mean latency: 20.8s -> 20.1s.
+- Quality ranking among Shopping vendors: #2 -> #4.
+
+Interpretation: these conversations are mixed for Yuma. EvryJewels is positive and Tediber is
+usable, but the two additional Tumble runs expose a real Shopping Assistant quality gap: repeated
+clarification and escalation, no named value/gift recommendation, and unfulfilled cart or total
+requests. The import increases sample coverage and makes the Yuma score less favorable but more
+representative.
