@@ -438,8 +438,7 @@
 <div class="wrap">
 
 <div class="modebar">
-  <button class="modebtn" data-m="best" aria-selected="true" onclick="setMode('best')">🏆 Best category</button>
-  <button class="modebtn" data-m="shopping" aria-selected="false" onclick="setMode('shopping')">🛍️ Shopping Assistant</button>
+  <button class="modebtn" data-m="shopping" aria-selected="true" onclick="setMode('shopping')">🛍️ Shopping Assistant</button>
   <button class="modebtn" data-m="support" aria-selected="false" onclick="setMode('support')">🎧 Support Agent</button>
 </div>
 <p class="lead" id="mode-note" style="text-align:center;margin:0 auto 6px">Shopping-discovery conversations that must end in a real product recommendation.</p>
@@ -495,7 +494,7 @@
 </section>
 
 <section id="best-sec">
-  <h2 class="sec">Best AI agent — by category</h2>
+  <h2 class="sec" id="best-sec-h">Best AI agent</h2>
   <p class="lead">The single best on-site AI agent for each job, ranked by a composite of <strong>automation</strong> + <strong>quality</strong> + <strong>speed</strong>, gated on measurement coverage. <button class="linklike" onclick="openModal()">How the ranking works ↗</button></p>
   <div class="card best-card" id="best-card-shopping" style="margin-bottom:16px">
     <div class="best-cat">Shopping Assistant — product discovery &amp; recommendation</div>
@@ -42475,32 +42474,34 @@ function renderLeaders(){
     mk('Fastest full answer','⚡',lArr,r=>(Math.round(r.avgL*10)/10)+'s') +
     (sArr.length? mk('Fastest first signal','✨',sArr,r=>(Math.round(r.avgTtft*10)/10)+'s') : '');
 }
-let VIEW='best';                           // top-level tab: best | shopping | support (Best shows first)
+let VIEW='shopping';                       // top-level tab: shopping | support | conversations
 function applyView(){
-  const isBest = VIEW==='best';
   const isConv = VIEW==='conversations';    // dedicated all-conversations tab
-  const isData = !isBest && !isConv;        // the shopping/support detail views
+  const isData = !isConv;                   // shopping | support — "Best category" is gone; each lane shows its own ranking on top
   // A toggled view must NEVER wait on the scroll-reveal IntersectionObserver: a section that is
   // display:none at load has no box, so the observer never fires for it — when later shown it would
   // stay stuck at .rv opacity:0 (the whole subtree paints blank while the DOM looks fine). So when we
   // show a section, force-reveal it and every .rv/.rv-stagger inside it immediately.
   const show=(id,on)=>{ const e=document.getElementById(id); if(!e) return; e.style.display = on?'':'none';
     if(on){ e.classList.add('in'); e.querySelectorAll('.rv,.rv-stagger').forEach(x=>x.classList.add('in')); } };
-  show('best-sec', isBest);                // ranking view = its own page
+  show('best-sec', isData);                // the current lane's Best-agent ranking, headline of each tab
   show('summary-sec', isData);
   show('results-sec', isData);
   show('conv-sec', isConv);                // conversations now live in their OWN top-level tab
   show('trend-sec', isData);               // trends/coverage belong to the detailed views
   show('coverage-sec', isData);
   show('caps-sec', isData && MODE==='shopping');
+  // Best-sec shows ONLY the current lane's ranking card (no more "Best category" tab / sub-toggle)
+  const _bcs=document.getElementById('best-card-shopping'), _bcp=document.getElementById('best-card-support');
+  if(_bcs) _bcs.hidden = MODE!=='shopping';
+  if(_bcp) _bcp.hidden = MODE!=='support';
+  const _bh=document.getElementById('best-sec-h'); if(_bh) _bh.textContent = MODE==='shopping' ? 'Best Shopping Assistant' : 'Best Support Agent';
   // method & caveats stays visible in every view
-  document.getElementById('mode-note').textContent = isBest
-    ? 'The single best on-site AI agent for each job — Shopping Assistant and Support Agent — ranked by a composite of automation, quality and speed, gated on measurement coverage.'
-    : isConv
+  document.getElementById('mode-note').textContent = isConv
       ? 'Every captured conversation across both lanes — filter, search, and open the full transcript. Gorgias conversations link to their ticket.'
       : (MODE==='shopping'
-          ? 'Shopping-discovery conversations that must end in a real product recommendation.'
-          : 'Support conversations — shipping, delivery, returns & policy. Success = answered without a spontaneous human handover.');
+          ? 'The best on-site Shopping Assistant, then the full shopping breakdown — discovery conversations that must end in a real product recommendation.'
+          : 'The best on-site Support Agent, then the full support breakdown — shipping, delivery, returns & policy; success = answered without a spontaneous human handover.');
   // Conversations is now a TOP-NAV destination, not a modebar tab: hide the mode toggle
   // (Best/Shopping/Support) + its subtitle when in the Conversations view, and sync the
   // sitenav active state between "Detailed report" and "Conversations".
@@ -42585,7 +42586,7 @@ function setMode(m){
 function saveState(){ try{ localStorage.setItem('sb.v2', JSON.stringify({view:VIEW, mode:MODE, ss:SSORT, rs:RSORT, from:DATE_FROM, to:DATE_TO, vf:[...VFILTER], wf:[...WFILTER]})); }catch(e){} }
 // key bumped to v2 so the new "Best AI Agent first" default lands for everyone (a stale
 // saved tab from v1 can't pin an old landing view).
-function loadState(){ try{ const s=JSON.parse(localStorage.getItem('sb.v2')||'null'); if(!s) return null; if(s.mode) MODE=s.mode; VIEW = s.view || s.mode || 'best'; if(s.ss) SSORT=s.ss; if(s.rs) RSORT=s.rs; if(Array.isArray(s.vf)) VFILTER=new Set(s.vf); if(Array.isArray(s.wf)) WFILTER=new Set(s.wf); return s; }catch(e){ return null; } }
+function loadState(){ try{ const s=JSON.parse(localStorage.getItem('sb.v2')||'null'); if(!s) return null; if(s.mode) MODE=s.mode; VIEW = s.view || s.mode || 'shopping'; if(VIEW==='best') VIEW='shopping'; if(s.ss) SSORT=s.ss; if(s.rs) RSORT=s.rs; if(Array.isArray(s.vf)) VFILTER=new Set(s.vf); if(Array.isArray(s.wf)) WFILTER=new Set(s.wf); return s; }catch(e){ return null; } }
 const _saved = loadState();
 // Conversations is reached as a top-nav destination (report.html?view=conversations).
 // Resilience: the view must SURVIVE reloads in the same tab (hot-reloading previews, manual
@@ -42595,8 +42596,12 @@ const _saved = loadState();
 try {
   const _pv = new URLSearchParams(location.search).get('view');
   if(_pv==='conversations' || sessionStorage.getItem('sb.conv')==='1') VIEW='conversations';
-  else if(VIEW==='conversations') VIEW='best';
-} catch(e){ if(VIEW==='conversations') VIEW='best'; }
+  else if(VIEW==='conversations') VIEW='shopping';
+} catch(e){ if(VIEW==='conversations') VIEW='shopping'; }
+if(VIEW==='best') VIEW='shopping';                          // "Best category" tab retired
+if(VIEW==='shopping'||VIEW==='support') MODE=VIEW;          // keep the data-lane MODE in sync with the tab
+// Move each lane's Best-agent ranking to the TOP of its tab (above the summary table).
+(function(){ const bs=document.getElementById('best-sec'), ss=document.getElementById('summary-sec'); if(bs&&ss&&ss.previousElementSibling!==bs) ss.parentNode.insertBefore(bs, ss); })();
 document.querySelectorAll('.modebtn[data-m]').forEach(b=>b.setAttribute('aria-selected', b.dataset.m===VIEW));
 // Restore a saved window ONLY if it still covers the newest capture; a stale end-date
 // (from a previous day) would silently hide new conversations, so fall back to the default.
@@ -42663,8 +42668,8 @@ renderAll();
       [[total,'conversations'],[vendors,'vendors'],[stores,'live stores measured'],[dates,'runs']].map(([n,l])=>
         '<div class="hs"><div class="n" data-count="'+n+'">0</div><div class="l">'+l+'</div></div>').join('');
   }catch(e){}
-  // deep-link: report.html#best still opens the Best AI Agent view directly (in-page tab)
-  const applyHashMode=()=>{ if(location.hash==='#best'){ try{ setMode('best'); }catch(e){} } };
+  // deep-link: legacy report.html#best now lands on the Shopping Assistant tab ("Best category" retired)
+  const applyHashMode=()=>{ if(location.hash==='#best'){ try{ setMode('shopping'); }catch(e){} } };
   applyHashMode(); window.addEventListener('hashchange', applyHashMode);
   // universal fixed-position tooltip — CSS ::after tooltips get CLIPPED inside
   // overflow:auto cards; this one lives on <body> and clamps to the viewport.
