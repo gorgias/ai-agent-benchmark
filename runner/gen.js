@@ -40,6 +40,11 @@ const LATEST = DATES[DATES.length - 1];
 // Trailing 14-day window (inclusive) for RANKINGS — the point is that older runs matter less
 // as new ones accumulate. ISO date strings compare lexically, so a string cutoff is enough.
 const CUTOFF_14D = (() => { const d = new Date(LATEST + "T00:00:00Z"); d.setUTCDate(d.getUTCDate() - 13); return d.toISOString().slice(0, 10); })();
+// Rankability floor: a vendor needs at least this many judged conversations in the window
+// (one full store's run = 5 themes) to enter the scoreboard/provider ranking. A 1–2 conversation
+// sample (e.g. a freshly-sourced Klaviyo/Decagon store) is statistically meaningless and must
+// never rank — it stays in the prose profiles as "capture in progress" until it has real volume.
+const MIN_RANK_CONVS = 5;
 console.log(`Generating report data from ${DATES.length} run(s): ${DATES.join(", ")}`);
 
 // Per-CONVERSATION LLM-judge eval scores (eval-scores.json, built by eval-pack/eval-merge +
@@ -138,7 +143,7 @@ async function loadAgg(key, mode, date) {
       if (isGuard) {
         const ev = EVALS[`${date}/${f}`];
         guard.n++;
-        guard.convs.push({ theme: obj.theme, turns: obj.turns, datetime: obj.capturedAt || null, eval: ev || null });
+        guard.convs.push({ theme: obj.theme, turns: obj.turns, datetime: obj.capturedAt || null, capture: obj.capture || null, eval: ev || null });
         continue;   // never in latency/automation/quality aggregates
       }
       // CONNECTIVITY FAILURE: widget dropped mid-session (offline/reconnecting) — measures the
@@ -205,7 +210,7 @@ async function loadAgg(key, mode, date) {
   const medGrowth = median(growth);
   return {
     auto: autoOut, evalq: evalOut, guard: guardOut,
-    themes: themes.map(t => ({ theme: t.theme, label: t.themeLabel, turns: t.turns, stats: t.stats, ticket: t.ticket || null, error: t.error || null, datetime: t._datetime || null })),
+    themes: themes.map(t => ({ theme: t.theme, label: t.themeLabel, turns: t.turns, stats: t.stats, ticket: t.ticket || null, error: t.error || null, datetime: t._datetime || null, capture: t.capture || null })),
     stats: {
       n_themes: themes.length, turns_total: totalTurns,
       avg_turns: themes.length ? Math.round((totalTurns / themes.length) * 10) / 10 : null,
@@ -395,8 +400,9 @@ function laneScores(arr) {
     // vendor with automation+latency but no judged quality (e.g. Klaviyo/Decagon — thin/unjudged
     // capture) must NOT get a composite (it renormalizes to automation+speed and ranks spuriously).
     // Those vendors live in the prose profiles as "not measurable / capture in progress", not the scoreboard.
-    if (q == null) continue;
-    out[v] = { a, q, l, l75 };
+    const convN = es.reduce((n, s) => n + ((s.themes && s.themes.length) || 0), 0);
+    if (q == null || convN < MIN_RANK_CONVS) continue;   // no judged quality, or thin sample → not rankable
+    out[v] = { a, q, l, l75, n: convN };
   }
   return out;
 }
