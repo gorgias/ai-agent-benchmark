@@ -38294,8 +38294,9 @@ function renderFilterPops(){
   const vCount=v=>new Set(all.filter(s=>s.vendor===v&&s.site).map(s=>s.site)).size;
   const vl=document.getElementById('vf-list');
   if(vl) vl.innerHTML=vendors.map(v=>'<label><input type="checkbox" '+(VFILTER.has(v)?'checked':'')+' onchange="fToggle(\'vf\',\''+esc(v)+'\')"> '+esc(v)+'<span class="fcount">'+vCount(v)+' site'+(vCount(v)>1?'s':'')+'</span></label>').join('');
+  const siteVendor={}; all.forEach(s=>{ if(s.site) siteVendor[s.site]=s.vendor; });
   const wl=document.getElementById('wf-list');
-  if(wl) wl.innerHTML=fSites().map(w=>'<label><input type="checkbox" '+(WFILTER.has(w)?'checked':'')+' onchange="fToggle(\'wf\',\''+esc(w)+'\')"> '+esc(w.replace(/^www\./,''))+'</label>').join('');
+  if(wl) wl.innerHTML=fSites().map(w=>'<label><input type="checkbox" '+(WFILTER.has(w)?'checked':'')+' onchange="fToggle(\'wf\',\''+esc(w)+'\')"> '+esc(w.replace(/^www\./,''))+'<span class="fcount">'+esc(siteVendor[w]||'')+'</span></label>').join('');
   const lab=(id,set,word)=>{ const el=document.getElementById(id); if(!el) return; el.textContent=!set.size?('All '+word+'s'):set.size===1?[...set][0]:set.size+' '+word+'s'; el.parentElement.classList.toggle('active',!!set.size); };
   lab('vf-label',VFILTER,'vendor'); lab('wf-label',WFILTER,'website');
 }
