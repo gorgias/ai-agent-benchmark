@@ -160,6 +160,7 @@
   .tn{font-size:10px;font-weight:800;color:#fff;background:var(--on);border-radius:5px;padding:2px 6px}
   .tq{font-size:12.5px;color:var(--on-muted);flex:1}
   .lat{font-size:11px;font-weight:700;font-family:'JetBrains Mono',monospace;padding:2px 7px;border-radius:5px;background:var(--surface-2);color:var(--on-muted)}
+  .ss-tag{display:inline-block;font-size:9.5px;font-weight:800;text-transform:uppercase;letter-spacing:.03em;color:#a94f13;background:#fef3e7;border:1px solid rgba(169,79,19,.18);padding:1px 7px;border-radius:999px;margin-left:8px;vertical-align:2px;white-space:nowrap;cursor:help}
   .msg{display:flex;gap:10px;margin:6px 0}
   .av{width:26px;height:26px;border-radius:50%;flex:none;display:grid;place-items:center;font-size:10px;font-weight:800;color:#fff}
   .av.u{background:#94a3b8}.av.b{background:var(--primary)}.av.h{background:var(--danger)}
@@ -458,8 +459,8 @@
 <div class="wrap">
 
 <div class="modebar">
-  <button class="modebtn" data-m="shopping" aria-selected="true" onclick="setMode('shopping')">🛍️ Shopping Assistant</button>
-  <button class="modebtn" data-m="support" aria-selected="false" onclick="setMode('support')">🎧 Support Agent</button>
+  <button class="modebtn" data-m="support" aria-selected="true" onclick="setMode('support')">🎧 Support Agent</button>
+  <button class="modebtn" data-m="shopping" aria-selected="false" onclick="setMode('shopping')">🛍️ Shopping Assistant</button>
 </div>
 <p class="lead" id="mode-note" style="text-align:center;margin:0 auto 6px">Shopping-discovery conversations that must end in a real product recommendation.</p>
 
@@ -69794,9 +69795,11 @@ function renderBestPanel(elId, allRows){
   const compTip=(r)=>{ const a=r.autoRate!=null?r.autoRate:(r.avgS!=null?Math.round(r.avgS):null); const sp=r.avgL!=null?Math.round(speedScore(r.avgL)):null;
     return 'Composite = 40% automation + 40% quality + 20% speed. This vendor: 0.4×'+(a??'—')+' (automation) + 0.4×'+(r.avgQ??'—')+' (LLM-judge quality) + 0.2×'+(sp??'—')+' (speed score: 100 at ≤3s, 0 at ≥22s — measured '+(r.avgL!=null?s1(r.avgL)+'s':'—')+') = '+r.comp+'/100. Renormalized if a dimension is missing.'; };
   const covTip=(r)=>'Coverage = timed answers ÷ attempted turns for this vendor in the window ('+r.timed+'/'+r.attempted+' = '+pct(r.cov)+'). It measures how reliably we could MEASURE this vendor (widget loads, answers arrive) — not answer quality. Ranking requires ≥8 timed turns and ≥30% coverage.';
+  // small-sample flag: ranked (≥5 convs) but under the statistical-confidence bar (20)
+  const ssTag=(c)=>(c!=null && c<20)?'<span class="ss-tag" data-tip="Only '+c+' conversations in this window (<20) — directional, not yet statistically significant. Widening store coverage raises it.">not stat-sig yet</span>':'';
   const w=rows[0];
   let h='<div class="best-winner"><div class="best-medal">#1 · winner</div>'+
-    '<div class="best-wmain"><div class="best-name"><span class="vdot" style="background:'+col(w.v)+'"></span>'+w.v+(w.us?'<span class="us-tag">US</span>':'')+iChip(w,1)+'</div>'+
+    '<div class="best-wmain"><div class="best-name"><span class="vdot" style="background:'+col(w.v)+'"></span>'+w.v+(w.us?'<span class="us-tag">US</span>':'')+iChip(w,1)+ssTag(w.convs)+'</div>'+
     '<div class="best-sub">'+(w.autoRate!=null?w.autoRate+'% automation':Math.round(w.avgS)+'% success (legacy)')+' · ~'+s1(w.avgL)+'s'+(w.avgQ!=null?' · quality '+w.avgQ+'/100':'')+' · '+w.convs+' conversation'+(w.convs>1?'s':'')+' · <span data-tip="'+covTip(w)+'">'+pct(w.cov)+' coverage</span></div>'+dnaLine(w.v)+'</div>'+
     '<div class="best-score" data-tip="'+compTip(w)+'">'+w.comp+'<span>/100</span></div></div>';
   if(rows.length>1){
@@ -69804,7 +69807,7 @@ function renderBestPanel(elId, allRows){
       '<div class="best-row">'+
         '<div class="br-top">'+
           '<span class="best-rank">#'+(i+2)+'</span>'+
-          '<span class="best-rname"><span class="vdot" style="background:'+col(r.v)+'"></span>'+r.v+(r.us?'<span class="us-tag">US</span>':'')+iChip(r,i+2)+'</span>'+
+          '<span class="best-rname"><span class="vdot" style="background:'+col(r.v)+'"></span>'+r.v+(r.us?'<span class="us-tag">US</span>':'')+iChip(r,i+2)+ssTag(r.convs)+'</span>'+
           '<span class="bar best-bar"><i style="width:'+r.comp+'%;background:'+col(r.v)+'"></i></span>'+
           '<span class="best-rnum mono" data-tip="'+compTip(r)+'">'+r.comp+'</span>'+
         '</div>'+
@@ -70061,10 +70064,10 @@ function setMode(m){
   renderAll();
 }
 // --- persist tab / mode / sort / date window ---
-function saveState(){ try{ localStorage.setItem('sb.v2', JSON.stringify({view:VIEW, mode:MODE, ss:SSORT, rs:RSORT, from:DATE_FROM, to:DATE_TO, vf:[...VFILTER], wf:[...WFILTER]})); }catch(e){} }
+function saveState(){ try{ localStorage.setItem('sb.v3', JSON.stringify({view:VIEW, mode:MODE, ss:SSORT, rs:RSORT, from:DATE_FROM, to:DATE_TO, vf:[...VFILTER], wf:[...WFILTER]})); }catch(e){} }
 // key bumped to v2 so the new "Best AI Agent first" default lands for everyone (a stale
 // saved tab from v1 can't pin an old landing view).
-function loadState(){ try{ const s=JSON.parse(localStorage.getItem('sb.v2')||'null'); if(!s) return null; if(s.mode) MODE=s.mode; VIEW = s.view || s.mode || 'shopping'; if(VIEW==='best') VIEW='shopping'; if(s.ss) SSORT=s.ss; if(s.rs) RSORT=s.rs; if(Array.isArray(s.vf)) VFILTER=new Set(s.vf); if(Array.isArray(s.wf)) WFILTER=new Set(s.wf); return s; }catch(e){ return null; } }
+function loadState(){ try{ const s=JSON.parse(localStorage.getItem('sb.v3')||'null'); if(!s) return null; if(s.mode) MODE=s.mode; VIEW = s.view || s.mode || 'shopping'; if(VIEW==='best') VIEW='shopping'; if(s.ss) SSORT=s.ss; if(s.rs) RSORT=s.rs; if(Array.isArray(s.vf)) VFILTER=new Set(s.vf); if(Array.isArray(s.wf)) WFILTER=new Set(s.wf); return s; }catch(e){ return null; } }
 const _saved = loadState();
 // Conversations is reached as a top-nav destination (report.html?view=conversations).
 // Resilience: the view must SURVIVE reloads in the same tab (hot-reloading previews, manual
@@ -70076,7 +70079,9 @@ try {
   if(_pv==='conversations') VIEW='conversations';
   else if(VIEW==='conversations') VIEW='shopping';
 } catch(e){ if(VIEW==='conversations') VIEW='shopping'; }
-if(VIEW==='best') VIEW='shopping';                          // "Best category" tab retired
+// Default landing lane = Support Agent (Support is the first tab in Best AI Agent).
+if(!_saved && VIEW!=='conversations'){ VIEW='support'; }
+if(VIEW==='best') VIEW='support';                          // "Best category" tab retired → default lane
 if(VIEW==='shopping'||VIEW==='support') MODE=VIEW;          // keep the data-lane MODE in sync with the tab
 // Move each lane's Best-agent ranking to the TOP of its tab (above the summary table).
 (function(){ const bs=document.getElementById('best-sec'), ss=document.getElementById('summary-sec'); if(bs&&ss&&ss.previousElementSibling!==bs) ss.parentNode.insertBefore(bs, ss); })();
@@ -70146,7 +70151,7 @@ renderAll();
         '<div class="hs"><div class="n" data-count="'+n+'">0</div><div class="l">'+l+'</div></div>').join('');
   }catch(e){}
   // deep-link: legacy report.html#best now lands on the Shopping Assistant tab ("Best category" retired)
-  const applyHashMode=()=>{ if(location.hash==='#best'){ try{ setMode('shopping'); }catch(e){} } if(location.hash==='#how'){ try{ openModal(); }catch(e){} } };
+  const applyHashMode=()=>{ if(location.hash==='#best'){ try{ setMode('support'); }catch(e){} } if(location.hash==='#how'){ try{ openModal(); }catch(e){} } };
   applyHashMode(); window.addEventListener('hashchange', applyHashMode);
   // universal fixed-position tooltip — CSS ::after tooltips get CLIPPED inside
   // overflow:auto cards; this one lives on <body> and clamps to the viewport.
