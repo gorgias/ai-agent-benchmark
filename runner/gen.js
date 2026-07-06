@@ -16,6 +16,7 @@ import { STORES as SITES } from "./vendors.js";
 import { SHOPPING_THEMES, SUPPORT_THEMES } from "./pools.js";
 import { convoValidity, convoOutcome, guardrailLeak, connectivityFail } from "./classify.js";
 import { cleanAnswer } from "./reply-clean.js";
+import { conversationTurnQuality } from "./turn-quality.js";
 import { isQuarantinedConversation } from "./conversation-quarantine.js";
 import { extractRecommendedProducts } from "./product-recommendation-bars.js";
 
@@ -125,11 +126,20 @@ const TQ_FLAG = {
 };
 // Truncate the transcript at the first handover turn — once a human takes over the
 // conversation is over; we never show turns past that point.
-const themeTurns = (t) => {
+const themeTurns = (t, mode = "") => {
   let turns = t.turns || [];
   const ho = turns.findIndex(x => x.handover);
   if (ho >= 0) turns = turns.slice(0, ho + 1);
-  const tq = (t.tq && t.tq.turns) || [];   // deterministic per-turn quality signals (turn-quality.js)
+  // Per-turn quality signals (turn-quality.js). Prefer the copy the LLM-judge attached
+  // (t.tq), but these signals are 100% DETERMINISTIC — coverage + flags derived from the
+  // transcript text, no model. So when a conversation was never judged (e.g. a fresh
+  // capture, or a vendor the judge skipped), compute them on the fly here. This keeps the
+  // Conversations tab's per-message quality chips present on EVERY conversation, not just
+  // the judged subset. (Was the "lost metadata on the conversation tab" gap.)
+  let tq = (t.tq && t.tq.turns) || [];
+  if (!tq.length && turns.length) {
+    try { tq = conversationTurnQuality(turns, mode).turns || []; } catch { tq = []; }
+  }
   return turns.map((x, i) => {
     const s = tq[i] || null;
     const flags = ((s && s.flags) || []).map(f => TQ_FLAG[f] ? { t: TQ_FLAG[f][0], k: TQ_FLAG[f][1] } : { t: f.replace(/_/g, " "), k: "warn" });
@@ -240,7 +250,10 @@ async function loadAgg(key, mode, date) {
   const medGrowth = median(growth);
   return {
     auto: autoOut, evalq: evalOut, guard: guardOut,
-    themes: themes.map(t => ({ theme: t.theme, label: t.themeLabel, turns: t.turns, stats: t.stats, ticket: t.ticket || null, error: t.error || null, datetime: t._datetime || null, capture: t.capture || null, tq: (t._eval && t._eval.turn_quality) || null })),
+    themes: themes.map(t => ({ theme: t.theme, label: t.themeLabel, turns: t.turns, stats: t.stats, ticket: t.ticket || null, error: t.error || null, datetime: t._datetime || null, capture: t.capture || null, tq: (t._eval && t._eval.turn_quality) || null,
+      // Compact per-conversation LLM-judge eval so the Conversations tab can show the
+      // quality score + dimension breakdown per conversation (not just the aggregate).
+      ev: (t._eval && t._eval.total != null) ? { total: t._eval.total, cls: t._eval.resolution_class || null, dims: t._eval.rubric || {}, note: t._eval.learning || null } : null })),
     stats: {
       n_themes: themes.length, turns_total: totalTurns,
       avg_turns: themes.length ? Math.round((totalTurns / themes.length) * 10) / 10 : null,
@@ -310,7 +323,8 @@ function measuredEntry(site, mode, agg, date) {
         handoverTurn: t.stats.handover_turn,
         ticket: tk(t.ticket),
         ...(mode === "shopping" ? { productRecs: { count: products.length, names: products.map(p => p.name) } } : {}),
-        turns: themeTurns(t),
+        ...(t.ev ? { ev: t.ev } : {}),   // per-conversation judge eval (score + dims + note)
+        turns: themeTurns(t, mode),
       };
     }),
   };
