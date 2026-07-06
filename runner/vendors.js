@@ -919,3 +919,33 @@ export async function readTranscript(page, scope) {
     return { len: text.length, text };
   } catch { return { len: 0, text: "" }; }
 }
+
+// Best-effort extraction of the latest assistant bubble. This is deliberately narrower than
+// readTranscript(): timing and handover detection still use the full transcript, but report
+// snippets should not include Yuma quick replies, footers, or old user echoes from body.innerText.
+export async function readLatestAssistantReply(page, scope) {
+  if (scope.kind !== "frame") return "";
+  const f = await findFrame(page, scope.match);
+  if (!f) return "";
+  try {
+    return await f.evaluate(() => {
+      const roots = [
+        ...document.querySelectorAll('[aria-label="Chat messages"], .messages__list'),
+      ];
+      for (const root of roots) {
+        const rows = [...root.querySelectorAll(".message")];
+        for (const row of rows.reverse()) {
+          if (row.classList.contains("message--user")) continue;
+          const parts = [...row.querySelectorAll(".message__text")]
+            .map((el) => (el.innerText || el.textContent || "").trim())
+            .filter(Boolean);
+          const text = (parts.join("\n") || "").trim();
+          if (text) return text;
+        }
+      }
+      return "";
+    });
+  } catch {
+    return "";
+  }
+}

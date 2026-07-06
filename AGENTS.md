@@ -131,6 +131,8 @@ RUN_DATE=$(date +%F) TURN_TIMEOUT_MS=60000 node run.js --headed --concurrency 2 
 #   --vendor "Rep AI"   one vendor   |   --mode shopping|support   one lane   |   --no-resume   re-capture all
 #   --max-conversations N   cap pending conversations after filters/resume (use for focused/fast passes).
 #   BENCHMARK_CAPTURE_ORIGIN=codex|claude|automation|manual tags raw conversation provenance
+#   BENCHMARK_CAPTURE_BATCH=<slug> appends a same-day batch suffix to output files, so a focused
+#     re-run can collect more source-of-truth conversations without overwriting earlier captures.
 ```
 - **Resumable**: a valid conversation on disk is skipped; a kill loses at most the one in flight.
 - **One driver only** (rule 7). Check `pgrep -fl "node run.js"` before launching.

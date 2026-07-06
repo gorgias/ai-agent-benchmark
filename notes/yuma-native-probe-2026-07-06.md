@@ -82,3 +82,35 @@ usable, but the two additional Tumble runs expose a real Shopping Assistant qual
 clarification and escalation, no named value/gift recommendation, and unfulfilled cart or total
 requests. The import increases sample coverage and makes the Yuma score less favorable but more
 representative.
+
+## 2026-07-06 Codex clean bubble rerun
+
+Max flagged a Tumble transcript as suspicious because the displayed reply looked too broad for the
+question. Codex paused the run before scoring and audited the source:
+
+- The text was present in the live Yuma DOM, but the capture snippet used `document.body.innerText`,
+  which mixed assistant bubbles with quick replies, widget footer text, and occasionally prior text.
+- The suspect `codex-yuma-more-01` raw files were moved out of `runner/results` and not scored.
+- `run.js` now stores Yuma snippets from the latest assistant `.message__text` bubble while keeping
+  the full transcript only for timing/handover detection.
+
+After the fix, Codex captured 12 fresh Yuma Shopping conversations with
+`BENCHMARK_CAPTURE_ORIGIN=codex`:
+
+- 10 valid/scored conversations, 2 invalid EvryJewels conversations with 0/10 timed turns.
+- Clean snippet audit: 0/12 files include `Powered by Yuma.ai` in `replyTail`.
+- New judged quality scores: 67, 62, 65, 47, 27, 62, 73, 36, 66, 27.
+
+Impact on Yuma Shopping after regeneration:
+
+- Sample size: 19 -> 29 conversations.
+- Automation: 95% -> 90%.
+- Quality: 74 -> 74.
+- Mean latency: 20.1s -> 21.7s.
+- p75 latency: 24.6s -> 31.5s.
+- Quality ranking among Shopping vendors: #3 -> #3.
+
+Interpretation: the clean rerun is directionally negative for Yuma on latency and shopping
+completion, while the rounded quality aggregate stays flat. The strongest Tumble/EvryJewels turns
+can narrow to plausible products, but repeated cart/total failures, email/invoice escalation, and
+several no-answer timing windows reduce automation and push p75 latency up sharply.
