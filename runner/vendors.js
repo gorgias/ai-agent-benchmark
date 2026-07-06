@@ -592,6 +592,11 @@ export const STORES = [
   // ---- Added on request (refresh). Detected chat tech in comments. ----
   { key: "sierra-scotts",  vendor: "Sierra",  store: "Scotts Miracle-Gro", url: "https://scottsmiraclegro.com/", widget: "sierra" },
   { key: "yuma-tediber",   vendor: "Yuma",    store: "Tediber",            url: "https://www.tediber.com/",      widget: "yuma", locale: "fr-FR" }, // DUAL-widget store: Gorgias + Yuma-native (app.yuma.ai/w/8ea15f6c) — we target the Yuma iframe (Roman measured ~18.9s here)
+  // Sourced from Gorgias backend (dim_integrations app 'Yuma AI' = active) 2026-07-07, then verified to carry the
+  // NATIVE yuma-widget on-page (same dual pattern as Tediber). The Yuma handler targets the app.yuma.ai iframe, so
+  // if only the Gorgias widget is live these yield no data & drop out — no Gorgias-as-Yuma mis-attribution.
+  { key: "yuma-rouje",     vendor: "Yuma",    store: "Rouje",              url: "https://www.rouje.com/",        widget: "yuma", locale: "fr-FR" }, // native yuma-widget + Gorgias
+  { key: "yuma-ledomaine", vendor: "Yuma",    store: "Le Domaine",         url: "https://le-domaine.com/",       widget: "yuma", locale: "fr-FR" }, // native yuma-widget + Gorgias
   { key: "envive-kut",     vendor: "Envive",  store: "Kut from the Kloth", url: "https://www.kutfromthekloth.com/", widget: "gorgias" }, // chat shell is Gorgias
   { key: "repai-fresh",    vendor: "Rep AI",  store: "Fresh Roasted Coffee", url: "https://www.freshroastedcoffee.com/", widget: "repai", candidate: true },
   { key: "kodif-dsc",      vendor: "Kodif",   store: "Dollar Shave Club",  url: "https://us.dollarshaveclub.com/", widget: "kodif", candidate: true },
