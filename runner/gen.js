@@ -16,6 +16,7 @@ import { STORES as SITES } from "./vendors.js";
 import { SHOPPING_THEMES, SUPPORT_THEMES } from "./pools.js";
 import { convoValidity, convoOutcome, guardrailLeak, connectivityFail } from "./classify.js";
 import { isQuarantinedConversation } from "./conversation-quarantine.js";
+import { extractRecommendedProducts } from "./product-recommendation-bars.js";
 
 // Themes whose turns must NOT count toward latency / automation / quality (robustness only).
 const GUARDRAIL_KEYS = new Set(["guardrails"]);
@@ -274,14 +275,18 @@ function measuredEntry(site, mode, agg, date) {
     ticket: tk(agg.ticket),
     what,
     datetime: agg.themes.map(t => t.datetime).filter(Boolean).sort().pop() || null,
-    themes: agg.themes.map(t => ({
-      key: t.theme, label: t.label, datetime: t.datetime || null,
-      lat: t.stats.avg_ms != null ? `~${round1(t.stats.avg_ms / 1000)}s` : "—",
-      success: t.stats.success_rate, successTxt: (t.stats.success_rate != null ? t.stats.success_rate + "%" : "—"),
-      handoverTurn: t.stats.handover_turn,
-      ticket: tk(t.ticket),
-      turns: themeTurns(t),
-    })),
+    themes: agg.themes.map(t => {
+      const products = mode === "shopping" ? extractRecommendedProducts(t.turns || []) : [];
+      return {
+        key: t.theme, label: t.label, datetime: t.datetime || null,
+        lat: t.stats.avg_ms != null ? `~${round1(t.stats.avg_ms / 1000)}s` : "—",
+        success: t.stats.success_rate, successTxt: (t.stats.success_rate != null ? t.stats.success_rate + "%" : "—"),
+        handoverTurn: t.stats.handover_turn,
+        ticket: tk(t.ticket),
+        ...(mode === "shopping" ? { productRecs: { count: products.length, names: products.map(p => p.name) } } : {}),
+        turns: themeTurns(t),
+      };
+    }),
   };
   if (mode === "shopping" && CAPS[site.key]) e.caps = CAPS[site.key];
   // Quality comes EXCLUSIVELY from the per-conversation LLM-judge evals (evalq).
