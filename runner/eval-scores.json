@@ -114970,5 +114970,1149 @@
    "runner": "eval-merge.js",
    "schema": 1
   }
+ },
+ "2026-07-06/klaviyo-naked-support-damaged.json": {
+  "v": 2,
+  "mode": "support",
+  "rubric": {
+   "resolution": 40,
+   "accuracy": 25,
+   "actionability": 20,
+   "close": 7
+  },
+  "total": 92,
+  "checks": {
+   "s_answered": {
+    "pass": true,
+    "evidence": "damaged, defective, or incorrect items should still be started through the return portal, but they follow a review process instead of a standard return flow"
+   },
+   "s_outcome": {
+    "pass": true,
+    "evidence": "I'm not seeing a replacement timeframe in the policy I found... If you want, I can connect you with a team member for help with the expected timing for your spe"
+   },
+   "s_no_deflect": {
+    "pass": true,
+    "evidence": "Please upload them through the return portal here: https://the storewardrobe.com/apps/aftership-returns-center — that's where the team reviews damaged-item requ"
+   },
+   "g_specific": {
+    "pass": true,
+    "evidence": "you'll need to submit A PHOTO OF THE ITEM and A PHOTO OF THE CARE TAG INSIDE THE GARMENT, plus a brief description"
+   },
+   "g_consistent": {
+    "pass": true,
+    "evidence": "for damaged items, you should submit the request through the return portal and provide photos/details as requested"
+   },
+   "g_grounded": {
+    "pass": true,
+    "evidence": "only items received DAMAGED OR INCORRECT are eligible for an EXCHANGE - exchanges are for the SAME STYLE ONLY"
+   },
+   "t_steps": {
+    "pass": true,
+    "evidence": "Use https://the storewardrobe.com/apps/aftership-returns-center, select the appropriate reason, and include a brief description, a photo of the item, and a phot"
+   },
+   "t_complete": {
+    "pass": true,
+    "evidence": "if approved, our team will email a prepaid label"
+   },
+   "k_expectations": {
+    "pass": false,
+    "evidence": "if approved, they'll email a prepaid label — I can't promise a replacement or refund outcome beyond what the review and portal provide"
+   },
+   "k_clean": {
+    "pass": true,
+    "evidence": "I can connect you with a team member for help with the expected timing for your specific situation. TALK TO A PERSON"
+   }
+  },
+  "turn_quality": {
+   "schema": 1,
+   "turns": [
+    {
+     "turn": 1,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 7699,
+     "answer_chars": 466,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 2,
+      "ratio": 0.4,
+      "missing": [
+       "order",
+       "arrived",
+       "one"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 2,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 4396,
+     "answer_chars": 435,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 3,
+      "ratio": 0.5,
+      "missing": [
+       "handled",
+       "differently",
+       "normal"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 3,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 4877,
+     "answer_chars": 358,
+     "keyword_coverage": {
+      "asked": 3,
+      "matched": 1,
+      "ratio": 0.33,
+      "missing": [
+       "photos",
+       "send"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 4,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 4604,
+     "answer_chars": 334,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 3,
+      "ratio": 0.75,
+      "missing": [
+       "get"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 5,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 5640,
+     "answer_chars": 357,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 3,
+      "ratio": 0.6,
+      "missing": [
+       "pay",
+       "anything"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 6,
+     "measured": false,
+     "by": "human",
+     "complete_ms": 8455,
+     "answer_chars": 490,
+     "keyword_coverage": {
+      "asked": 3,
+      "matched": 1,
+      "ratio": 0.33,
+      "missing": [
+       "long",
+       "take"
+      ]
+     },
+     "substantive": false,
+     "flags": [
+      "low_question_coverage",
+      "missing_timeframe"
+     ]
+    },
+    {
+     "turn": 7,
+     "measured": false,
+     "by": "human",
+     "complete_ms": null,
+     "answer_chars": 47,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "more",
+       "than",
+       "one",
+       "item",
+       "order",
+       "affected"
+      ]
+     },
+     "substantive": false,
+     "flags": [
+      "not_sent_after_handover",
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 8,
+     "measured": false,
+     "by": "human",
+     "complete_ms": null,
+     "answer_chars": 47,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "keep",
+       "damaged",
+       "item",
+       "must",
+       "ship",
+       "back"
+      ]
+     },
+     "substantive": false,
+     "flags": [
+      "not_sent_after_handover",
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 9,
+     "measured": false,
+     "by": "human",
+     "complete_ms": null,
+     "answer_chars": 47,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "will",
+       "replacement",
+       "ship",
+       "priority"
+      ]
+     },
+     "substantive": false,
+     "flags": [
+      "not_sent_after_handover",
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 10,
+     "measured": false,
+     "by": "human",
+     "complete_ms": null,
+     "answer_chars": 47,
+     "keyword_coverage": {
+      "asked": 3,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "replacement",
+       "also",
+       "damaged"
+      ]
+     },
+     "substantive": false,
+     "flags": [
+      "not_sent_after_handover",
+      "low_question_coverage"
+     ]
+    }
+   ],
+   "summary": {
+    "total_turns": 10,
+    "measured_turns": 5,
+    "substantive_turns": 5,
+    "issue_turns": 6,
+    "issue_rate": 0.6
+   }
+  },
+  "resolution_class": "resolved",
+  "learning": "Gave a store-specific damaged-item procedure (portal, photos, care-tag, prepaid label) and honestly escalated only the one fact it lacked (replacement timing) instead of inventing it.",
+  "judged_at": null,
+  "judge": {
+   "origin": "claude",
+   "origin_explicit": true,
+   "runner": "eval-merge.js",
+   "schema": 1
+  }
+ },
+ "2026-07-06/klaviyo-naked-support-returns.json": {
+  "v": 2,
+  "mode": "support",
+  "rubric": {
+   "resolution": 40,
+   "accuracy": 20,
+   "actionability": 12,
+   "close": 15
+  },
+  "total": 87,
+  "checks": {
+   "s_answered": {
+    "pass": true,
+    "evidence": "A flat $9.99 RESTOCKING FEE is deducted from each refund for processing and restocking."
+   },
+   "s_outcome": {
+    "pass": true,
+    "evidence": "Once we receive and inspect your return, your refund is issued to your original payment method within 10 BUSINESS DAYS."
+   },
+   "s_no_deflect": {
+    "pass": true,
+    "evidence": "To start a return or exchange, use our return portal here: https://the storewardrobe.com/apps/aftership-returns-center"
+   },
+   "g_specific": {
+    "pass": true,
+    "evidence": "if it's been MORE THAN 14 BUSINESS DAYS SINCE WE RECEIVED YOUR RETURN, please contact NW@the storeWARDROBE.COM"
+   },
+   "g_consistent": {
+    "pass": false,
+    "evidence": "your refund is issued to your original payment method within 10 BUSINESS DAYS ... refunds are reflected to the ORIGINAL FORM OF PAYMENT WITHIN 2–10 BUSINESS DAY"
+   },
+   "g_grounded": {
+    "pass": true,
+    "evidence": "enter your NW ORDER NUMBER exactly as shown in your confirmation email, select \"ITEM DID NOT FIT,\" then choose \"REPLACE WITH SAME ITEM\""
+   },
+   "t_steps": {
+    "pass": true,
+    "evidence": "Enter your NW ORDER NUMBER exactly as shown in your confirmation email, select \"ITEM DID NOT FIT,\" then choose \"REPLACE WITH SAME ITEM\" to see available size or"
+   },
+   "t_complete": {
+    "pass": false,
+    "evidence": "\"How many days do I have to return something?\" ... reply: \"\""
+   },
+   "k_expectations": {
+    "pass": true,
+    "evidence": "returns are processed in 7–10 BUSINESS DAYS FROM THE DAY THEY'RE RECEIVED, and refunds are reflected to the ORIGINAL FORM OF PAYMENT WITHIN 2–10 BUSINESS DAYS A"
+   },
+   "k_clean": {
+    "pass": true,
+    "evidence": "you can email your RETURN TRACKING NUMBER (RMA#) to INFO@the storeWARDROBE.COM for assistance with return status"
+   }
+  },
+  "turn_quality": {
+   "schema": 1,
+   "turns": [
+    {
+     "turn": 1,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 10526,
+     "answer_chars": 459,
+     "keyword_coverage": {
+      "asked": 2,
+      "matched": 1,
+      "ratio": 0.5,
+      "missing": [
+       "policy"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 2,
+     "measured": false,
+     "by": "ai",
+     "complete_ms": null,
+     "answer_chars": 108,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 2,
+      "ratio": 0.5,
+      "missing": [
+       "many",
+       "something"
+      ]
+     },
+     "substantive": false,
+     "flags": [
+      "no_measured_answer"
+     ]
+    },
+    {
+     "turn": 3,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 4097,
+     "answer_chars": 421,
+     "keyword_coverage": {
+      "asked": 3,
+      "matched": 3,
+      "ratio": 1,
+      "missing": []
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 4,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 4376,
+     "answer_chars": 286,
+     "keyword_coverage": {
+      "asked": 3,
+      "matched": 1,
+      "ratio": 0.33,
+      "missing": [
+       "pay",
+       "shipping"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 5,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 6403,
+     "answer_chars": 349,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 3,
+      "ratio": 0.5,
+      "missing": [
+       "long",
+       "until",
+       "get"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 6,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 4628,
+     "answer_chars": 403,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 3,
+      "ratio": 0.5,
+      "missing": [
+       "different",
+       "instead",
+       "refund"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 7,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 4357,
+     "answer_chars": 346,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 5,
+      "ratio": 0.83,
+      "missing": [
+       "any"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "sales_prompt_on_support_ask"
+     ]
+    },
+    {
+     "turn": 8,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 3838,
+     "answer_chars": 214,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 4,
+      "ratio": 0.8,
+      "missing": [
+       "something"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 9,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 4343,
+     "answer_chars": 238,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 2,
+      "ratio": 0.4,
+      "missing": [
+       "online",
+       "order",
+       "physical"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 10,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 7143,
+     "answer_chars": 499,
+     "keyword_coverage": {
+      "asked": 3,
+      "matched": 1,
+      "ratio": 0.33,
+      "missing": [
+       "track",
+       "refund"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    }
+   ],
+   "summary": {
+    "total_turns": 10,
+    "measured_turns": 9,
+    "substantive_turns": 9,
+    "issue_turns": 4,
+    "issue_rate": 0.4
+   }
+  },
+  "resolution_class": "partial",
+  "learning": "Rich, store-specific policy facts ($9.99 restocking fee, non-returnable list, exact portal steps), but it silently dropped the return-window question entirely and gave two different refund-timing figures.",
+  "judged_at": null,
+  "judge": {
+   "origin": "claude",
+   "origin_explicit": true,
+   "runner": "eval-merge.js",
+   "schema": 1
+  }
+ },
+ "2026-07-06/klaviyo-naked-support-tracking.json": {
+  "v": 2,
+  "mode": "support",
+  "rubric": {
+   "resolution": 40,
+   "accuracy": 25,
+   "actionability": 20,
+   "close": 15
+  },
+  "total": 100,
+  "checks": {
+   "s_answered": {
+    "pass": true,
+    "evidence": "Orders typically ship within 2–4 BUSINESS DAYS. Once your order ships, you'll receive a SHIPPING CONFIRMATION EMAIL WITH YOUR TRACKING NUMBER, and tracking upda"
+   },
+   "s_outcome": {
+    "pass": true,
+    "evidence": "If you already received tracking and your package does NOT ARRIVE WITHIN THE ESTIMATED DELIVERY TIMEFRAME, I can connect you with a team member for further help"
+   },
+   "s_no_deflect": {
+    "pass": true,
+    "evidence": "log in to your the store account and check your order history to access your order details and tracking information"
+   },
+   "g_specific": {
+    "pass": true,
+    "evidence": "PRIORITY SHIPPING is typically fulfilled in 2–3 BUSINESS DAYS, and STANDARD SHIPPING is typically fulfilled in 4–7 BUSINESS DAYS"
+   },
+   "g_consistent": {
+    "pass": true,
+    "evidence": "Our fastest option is PRIORITY SHIPPING, which has 2–3 BUSINESS DAY FULFILLMENT."
+   },
+   "g_grounded": {
+    "pass": true,
+    "evidence": "If your order is international, delivery usually takes AROUND 25 BUSINESS DAYS due to customs processing."
+   },
+   "t_steps": {
+    "pass": true,
+    "evidence": "please allow 24–48 HOURS after the shipping confirmation email for the carrier to post updates. Please also check your SPAM/JUNK FOLDER for the shipping confirm"
+   },
+   "t_complete": {
+    "pass": true,
+    "evidence": "Unfortunately, we don't offer next-day or expedited shipping at this time. Our fastest option is PRIORITY SHIPPING, which has 2–3 BUSINESS DAY FULFILLMENT."
+   },
+   "k_expectations": {
+    "pass": true,
+    "evidence": "Orders typically ship within 2–4 BUSINESS DAYS ... tracking updates can take 24–48 HOURS to appear with the carrier"
+   },
+   "k_clean": {
+    "pass": true,
+    "evidence": "if your package does NOT ARRIVE WITHIN THE ESTIMATED DELIVERY TIMEFRAME, I can connect you with a team member for further help locating the order. TALK TO A PER"
+   }
+  },
+  "turn_quality": {
+   "schema": 1,
+   "turns": [
+    {
+     "turn": 1,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 15042,
+     "answer_chars": 463,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 3,
+      "ratio": 0.43,
+      "missing": [
+       "placed",
+       "few",
+       "days",
+       "ago"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 2,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 4883,
+     "answer_chars": 376,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 4,
+      "ratio": 0.57,
+      "missing": [
+       "long",
+       "normally",
+       "send"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 3,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 4372,
+     "answer_chars": 360,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 1,
+      "ratio": 0.25,
+      "missing": [
+       "once",
+       "ships",
+       "long"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 4,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 5646,
+     "answer_chars": 202,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "there",
+       "any",
+       "way",
+       "speed",
+       "need",
+       "sooner"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 5,
+     "measured": false,
+     "by": "human",
+     "complete_ms": 9948,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 2,
+      "ratio": 0.5,
+      "missing": [
+       "should",
+       "never"
+      ]
+     },
+     "substantive": false,
+     "flags": []
+    },
+    {
+     "turn": 6,
+     "measured": false,
+     "by": "human",
+     "complete_ms": null,
+     "answer_chars": 47,
+     "keyword_coverage": {
+      "asked": 3,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "find",
+       "tracking",
+       "link"
+      ]
+     },
+     "substantive": false,
+     "flags": [
+      "not_sent_after_handover",
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 7,
+     "measured": false,
+     "by": "human",
+     "complete_ms": null,
+     "answer_chars": 47,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "check",
+       "status",
+       "latest",
+       "order"
+      ]
+     },
+     "substantive": false,
+     "flags": [
+      "not_sent_after_handover",
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 8,
+     "measured": false,
+     "by": "human",
+     "complete_ms": null,
+     "answer_chars": 47,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "tracking",
+       "says",
+       "delivered",
+       "didn",
+       "receive",
+       "now"
+      ]
+     },
+     "substantive": false,
+     "flags": [
+      "not_sent_after_handover",
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 9,
+     "measured": false,
+     "by": "human",
+     "complete_ms": null,
+     "answer_chars": 47,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "reroute",
+       "package",
+       "different",
+       "address"
+      ]
+     },
+     "substantive": false,
+     "flags": [
+      "not_sent_after_handover",
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 10,
+     "measured": false,
+     "by": "human",
+     "complete_ms": null,
+     "answer_chars": 47,
+     "keyword_coverage": {
+      "asked": 3,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "compensate",
+       "long",
+       "delay"
+      ]
+     },
+     "substantive": false,
+     "flags": [
+      "not_sent_after_handover",
+      "low_question_coverage"
+     ]
+    }
+   ],
+   "summary": {
+    "total_turns": 10,
+    "measured_turns": 4,
+    "substantive_turns": 4,
+    "issue_turns": 7,
+    "issue_rate": 0.7
+   }
+  },
+  "resolution_class": "resolved",
+  "learning": "Answered every tracking/shipping question with concrete store-specific windows and correctly offered a human only for the one thing needing account access (locating a lost package).",
+  "judged_at": null,
+  "judge": {
+   "origin": "claude",
+   "origin_explicit": true,
+   "runner": "eval-merge.js",
+   "schema": 1
+  }
+ },
+ "2026-07-06/meta-butcherbox-shopping-everyday-value.json": {
+  "v": 2,
+  "mode": "shopping",
+  "rubric": {
+   "answer": 30,
+   "discovery": 12,
+   "recommendation": 22,
+   "rich": 6,
+   "close": 7
+  },
+  "total": 77,
+  "checks": {
+   "a_direct": {
+    "pass": true,
+    "evidence": "our Essentials Plan is a fantastic fit. You get premium, humanely raised meat and seafood—up to 21 lbs. for $159—plus free shipping and exclusive member deals."
+   },
+   "a_consistent": {
+    "pass": true,
+    "evidence": "The Essentials plan is $159, with 6 cuts from core options only."
+   },
+   "a_no_ignored": {
+    "pass": true,
+    "evidence": "Our overall best seller is the Signature Medium box ... there's no info in the sources about specific reviews or ratings for this box."
+   },
+   "d_clarify": {
+    "pass": false,
+    "evidence": "box and customize your cuts, try a one-time or gift box, or shop à la carte in our Market. Each product has detailed info online"
+   },
+   "d_progressive": {
+    "pass": true,
+    "evidence": "If you're looking to keep things budget-friendly, our Essentials Medium box is your best bet at $159 for up to 21 lbs of meat."
+   },
+   "d_not_dump": {
+    "pass": true,
+    "evidence": "our Essentials Plan is a fantastic fit. You get premium, humanely raised meat and seafood—up to 21 lbs. for $159"
+   },
+   "r_named": {
+    "pass": true,
+    "evidence": "our Essentials Medium box is your best bet at $159 for up to 21 lbs of meat"
+   },
+   "r_fit": {
+    "pass": true,
+    "evidence": "If you want great basics at a lower price, Essentials is the way to go."
+   },
+   "r_plausible": {
+    "pass": true,
+    "evidence": "us 30+ specialty cuts like ribeye and scallops, starting at $179. The Essentials plan is $159, with 6 cuts from core options only."
+   },
+   "e_price": {
+    "pass": true,
+    "evidence": "our Essentials Medium box is your best bet at $159 for up to 21 lbs of meat"
+   },
+   "e_link": {
+    "pass": false,
+    "evidence": "signal has_link=false; no openable product link/card presented — reply says 'check ingredients and nutrition before adding to your box' with no link"
+   },
+   "e_reviews": {
+    "pass": false,
+    "evidence": "there's no info in the sources about specific reviews or ratings for this box"
+   },
+   "e_options": {
+    "pass": false,
+    "evidence": "signal has_options=false; options mentioned narratively (Signature vs Essentials) but not laid out as distinct comparison cards"
+   },
+   "c_cta": {
+    "pass": true,
+    "evidence": "head to the Add-Ons or Member Deals section, and pick your favorites. It's as simple as stacking your plate at a buffet—just click to add what you want!"
+   },
+   "c_cart": {
+    "pass": false,
+    "evidence": "\"Okay, can you add your top recommendation to my cart?\" -> \"We can't add items to your cart for you, but you can easily do it yourself!\""
+   },
+   "c_clean": {
+    "pass": true,
+    "evidence": "Returning your the store order isn't possible because we ship perishable products that can't be restocked or resold."
+   }
+  },
+  "turn_quality": {
+   "schema": 1,
+   "turns": [
+    {
+     "turn": 1,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 10136,
+     "answer_chars": 411,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "shopping",
+       "not",
+       "sure",
+       "right",
+       "choose"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 2,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 8581,
+     "answer_chars": 338,
+     "keyword_coverage": {
+      "asked": 10,
+      "matched": 3,
+      "ratio": 0.3,
+      "missing": [
+       "want",
+       "something",
+       "everyday",
+       "use",
+       "care",
+       "about",
+       "money"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 3,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 9259,
+     "answer_chars": 380,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 2,
+      "ratio": 0.29,
+      "missing": [
+       "like",
+       "stay",
+       "within",
+       "sensible",
+       "options"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 4,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 8758,
+     "answer_chars": 335,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 1,
+      "ratio": 0.14,
+      "missing": [
+       "compare",
+       "two",
+       "most",
+       "popular",
+       "which",
+       "better"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 5,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 8327,
+     "answer_chars": 356,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 3,
+      "ratio": 0.43,
+      "missing": [
+       "which",
+       "one",
+       "well",
+       "reviewed"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 6,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 8846,
+     "answer_chars": 369,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 2,
+      "ratio": 0.4,
+      "missing": [
+       "okay",
+       "top",
+       "recommendation"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 7,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 8333,
+     "answer_chars": 433,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 6,
+      "ratio": 0.86,
+      "missing": [
+       "discount"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 8,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 8498,
+     "answer_chars": 421,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 4,
+      "ratio": 0.67,
+      "missing": [
+       "there",
+       "warranty"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 9,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 8058,
+     "answer_chars": 441,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 1,
+      "ratio": 0.2,
+      "missing": [
+       "long",
+       "will",
+       "take",
+       "roughly"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 10,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 8644,
+     "answer_chars": 376,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 1,
+      "ratio": 0.25,
+      "missing": [
+       "change",
+       "easy",
+       "return"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    }
+   ],
+   "summary": {
+    "total_turns": 10,
+    "measured_turns": 10,
+    "substantive_turns": 10,
+    "issue_turns": 6,
+    "issue_rate": 0.6
+   }
+  },
+  "resolution_class": "partial",
+  "learning": "Solid budget-tied recommendation with named boxes and prices ($159 Essentials vs $179 Signature), but skipped clarifying on the vague opener and failed the explicit add-to-cart request.",
+  "judged_at": null,
+  "judge": {
+   "origin": "claude",
+   "origin_explicit": true,
+   "runner": "eval-merge.js",
+   "schema": 1
+  }
  }
 }

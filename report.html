@@ -29826,7 +29826,7 @@ const STORES = [
   "turns": []
  },
  {
-  "id": "meta-butcherbox-shopping-pending",
+  "id": "meta-butcherbox-shopping-2026-07-06",
   "date": "2026-07-06",
   "vendor": "Meta AI",
   "store": "ButcherBox",
@@ -29834,14 +29834,291 @@ const STORES = [
   "url": "https://www.butcherbox.com/",
   "widget": "zendesk",
   "locale": "en-US",
-  "method": "pending",
+  "method": "new",
   "us": false,
-  "lat": "—",
-  "success": null,
-  "successTxt": "pending",
-  "successCls": "p-na",
-  "what": "Not captured in a cold run yet — pending.",
-  "turns": []
+  "lat": "~8.7s",
+  "latPct": 35,
+  "latP75": 8.8,
+  "ttft": 6.3,
+  "delivery": "streaming",
+  "success": 100,
+  "successTxt": "100%",
+  "avgTurns": 10,
+  "timed": 10,
+  "attempted": 10,
+  "auto": {
+   "automated": 1,
+   "handover": 0,
+   "deflected": 0,
+   "no_answer": 2,
+   "engaged": 1,
+   "rate": 100
+  },
+  "evalq": {
+   "n": 1,
+   "total": 77,
+   "dims": {
+    "answer": 30,
+    "discovery": 12,
+    "recommendation": 22,
+    "rich": 6,
+    "close": 7
+   },
+   "cls": {
+    "partial": 1
+   },
+   "learnings": [
+    "Solid budget-tied recommendation with named boxes and prices ($159 Essentials vs $179 Signature), but skipped clarifying on the vague opener and failed the explicit add-to-cart request."
+   ]
+  },
+  "guard": null,
+  "ticket": null,
+  "what": "1 cold private conversations (shopping themes). No handover in any theme. Avg end-to-end latency ~8.7s across 10 AI-timed turns.",
+  "datetime": "2026-07-06T17:09:40.778Z",
+  "themes": [
+   {
+    "key": "everyday-value",
+    "label": "Everyday value buyer",
+    "datetime": "2026-07-06T17:09:40.778Z",
+    "lat": "~8.7s",
+    "success": 100,
+    "successTxt": "100%",
+    "handoverTurn": null,
+    "ticket": null,
+    "productRecs": {
+     "count": 0,
+     "names": []
+    },
+    "ev": {
+     "total": 77,
+     "cls": "partial",
+     "dims": {
+      "answer": 30,
+      "discovery": 12,
+      "recommendation": 22,
+      "rich": 6,
+      "close": 7
+     },
+     "note": "Solid budget-tied recommendation with named boxes and prices ($159 Essentials vs $179 Signature), but skipped clarifying on the vague opener and failed the explicit add-to-cart request."
+    },
+    "turns": [
+     {
+      "q": "Hi! I'm shopping but not sure what's right for me — can you help me choose?",
+      "a": "box and customize your cuts, try a one-time or gift box, or shop à la carte in our Market. Each product has detailed info online, so you can check ingredients and nutrition before adding to your box. It’s like building your own dream meat box! Next item Can you tell me about your specialty food items? Next item Do you offer gift boxes or gift certificates? ButcherBot · AI says: Just now Yes No Type a message",
+      "by": "ai",
+      "lat": 10.1,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "I want something for everyday use, good quality, and I care about value for money.",
+      "a": "t quality, and solid value, our Essentials Plan is a fantastic fit. You get premium, humanely raised meat and seafood—up to 21 lbs. for $159—plus free shipping and exclusive member deals. It’s like stocking your fridge with the good stuff without breaking the bank! Next item Next item ButcherBot · AI says: Just now Yes No Type a message",
+      "by": "ai",
+      "lat": 8.6,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 30
+     },
+     {
+      "q": "I'd like to stay within a sensible budget — what are my best options?",
+      "a": "ButcherBot · AI ButcherBot · AI says: If you’re looking to keep things budget-friendly, our Essentials Medium box is your best bet at $159 for up to 21 lbs of meat. It gives you a solid variety of premium cuts without the higher price tag. You can also adjust your box size and frequency to fit your needs and wallet. Next item ButcherBot · AI says: Just now Yes No Type a message",
+      "by": "ai",
+      "lat": 9.3,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 29
+     },
+     {
+      "q": "Can you compare your two most popular options and tell me which is better for me?",
+      "a": "us 30+ specialty cuts like ribeye and scallops, starting at $179. The Essentials plan is $159, with 6 cuts from core options only. If you love variety and premium cuts, Signature’s your jam. If you want great basics at a lower price, Essentials is the way to go. Next item Next item ButcherBot · AI says: Just now Yes No Type a message",
+      "by": "ai",
+      "lat": 8.8,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 14
+     },
+     {
+      "q": "Which one is your overall best seller, and is it well reviewed?",
+      "a": "Sent · Just now ButcherBot · AI ButcherBot · AI says: Our overall best seller is the Signature Medium box, where you can pick 6 cuts from a huge selection of premium meats and seafood. While we know it’s a customer favorite, there’s no info in the sources about specific reviews or ratings for this box. ButcherBot · AI says: Just now Yes No Type a message",
+      "by": "ai",
+      "lat": 8.3,
+      "cov": 43
+     },
+     {
+      "q": "Okay, can you add your top recommendation to my cart?",
+      "a": "ButcherBot · AI ButcherBot · AI says: We can't add items to your cart for you, but you can easily do it yourself! Just log in to your ButcherBox account, head to the Add-Ons or Member Deals section, and pick your favorites. It’s as simple as stacking your plate at a buffet—just click to add what you want! Next item ButcherBot · AI says: Just now Yes No Type a message",
+      "by": "ai",
+      "lat": 8.8,
+      "cov": 40
+     },
+     {
+      "q": "What's my total, and do you offer free shipping or a first-order discount?",
+      "a": "· AI ButcherBot · AI says: We always offer free shipping on all subscription plans—no hidden fees there! For first-order discounts, check our homepage or the order summary before checkout to see any available promotions. Your total will depend on your box selection and any promo applied, which you’ll see before you pay. Next item Where can I find a list of available promotions? ButcherBot · AI says: Just now Yes No Type a message",
+      "by": "ai",
+      "lat": 8.3,
+      "cov": 86
+     },
+     {
+      "q": "Is there a warranty or guarantee if something goes wrong?",
+      "a": "Sent · Just now ButcherBot · AI ButcherBot · AI says: We guarantee delivery to your home address and cover issues like damaged items, late delivery, or missing items. If something goes wrong for a reason covered under our policy, we’ll review your order and may offer a replacement, credit, or refund. Just let us know within 7 days of receipt so we can make it right. ButcherBot · AI says: Just now Yes No Type a message",
+      "by": "ai",
+      "lat": 8.5,
+      "cov": 67
+     },
+     {
+      "q": "How long will delivery take, roughly?",
+      "a": "Sent · Just now ButcherBot · AI ButcherBot · AI says: Delivery usually takes about 2-5 business days from when your order bills or when you sign up. Once your order ships, you’ll get tracking info so you can keep an eye on its journey to your door. Think of it like waiting for a package of deliciousness to show up within the week! Can I specify what day of the week my box is delivered? ButcherBot · AI says: Just now Yes No Type a message",
+      "by": "ai",
+      "lat": 8.1,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 20
+     },
+     {
+      "q": "And if I change my mind, how easy is it to return?",
+      "a": "Sent · Just now ButcherBot · AI ButcherBot · AI says: Returning your ButcherBox order isn’t possible because we ship perishable products that can’t be restocked or resold. If there’s an issue with your order, like damage or missing items, we’re happy to help, but we can’t accept returns just because you changed your mind. ButcherBot · AI says: Just now Yes No Type a message",
+      "by": "ai",
+      "lat": 8.6,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 25
+     }
+    ]
+   }
+  ],
+  "turns": [
+   {
+    "q": "Hi! I'm shopping but not sure what's right for me — can you help me choose?",
+    "a": "box and customize your cuts, try a one-time or gift box, or shop à la carte in our Market. Each product has detailed info online, so you can check ingredients and nutrition before adding to your box. It’s like building your own dream meat box! Next item Can you tell me about your specialty food items? Next item Do you offer gift boxes or gift certificates? ButcherBot · AI says: Just now Yes No Type a message",
+    "by": "ai",
+    "lat": 10.1,
+    "fl": [
+     {
+      "t": "missed part of the ask",
+      "k": "warn"
+     }
+    ],
+    "cov": 0
+   },
+   {
+    "q": "I want something for everyday use, good quality, and I care about value for money.",
+    "a": "t quality, and solid value, our Essentials Plan is a fantastic fit. You get premium, humanely raised meat and seafood—up to 21 lbs. for $159—plus free shipping and exclusive member deals. It’s like stocking your fridge with the good stuff without breaking the bank! Next item Next item ButcherBot · AI says: Just now Yes No Type a message",
+    "by": "ai",
+    "lat": 8.6,
+    "fl": [
+     {
+      "t": "missed part of the ask",
+      "k": "warn"
+     }
+    ],
+    "cov": 30
+   },
+   {
+    "q": "I'd like to stay within a sensible budget — what are my best options?",
+    "a": "ButcherBot · AI ButcherBot · AI says: If you’re looking to keep things budget-friendly, our Essentials Medium box is your best bet at $159 for up to 21 lbs of meat. It gives you a solid variety of premium cuts without the higher price tag. You can also adjust your box size and frequency to fit your needs and wallet. Next item ButcherBot · AI says: Just now Yes No Type a message",
+    "by": "ai",
+    "lat": 9.3,
+    "fl": [
+     {
+      "t": "missed part of the ask",
+      "k": "warn"
+     }
+    ],
+    "cov": 29
+   },
+   {
+    "q": "Can you compare your two most popular options and tell me which is better for me?",
+    "a": "us 30+ specialty cuts like ribeye and scallops, starting at $179. The Essentials plan is $159, with 6 cuts from core options only. If you love variety and premium cuts, Signature’s your jam. If you want great basics at a lower price, Essentials is the way to go. Next item Next item ButcherBot · AI says: Just now Yes No Type a message",
+    "by": "ai",
+    "lat": 8.8,
+    "fl": [
+     {
+      "t": "missed part of the ask",
+      "k": "warn"
+     }
+    ],
+    "cov": 14
+   },
+   {
+    "q": "Which one is your overall best seller, and is it well reviewed?",
+    "a": "Sent · Just now ButcherBot · AI ButcherBot · AI says: Our overall best seller is the Signature Medium box, where you can pick 6 cuts from a huge selection of premium meats and seafood. While we know it’s a customer favorite, there’s no info in the sources about specific reviews or ratings for this box. ButcherBot · AI says: Just now Yes No Type a message",
+    "by": "ai",
+    "lat": 8.3,
+    "cov": 43
+   },
+   {
+    "q": "Okay, can you add your top recommendation to my cart?",
+    "a": "ButcherBot · AI ButcherBot · AI says: We can't add items to your cart for you, but you can easily do it yourself! Just log in to your ButcherBox account, head to the Add-Ons or Member Deals section, and pick your favorites. It’s as simple as stacking your plate at a buffet—just click to add what you want! Next item ButcherBot · AI says: Just now Yes No Type a message",
+    "by": "ai",
+    "lat": 8.8,
+    "cov": 40
+   },
+   {
+    "q": "What's my total, and do you offer free shipping or a first-order discount?",
+    "a": "· AI ButcherBot · AI says: We always offer free shipping on all subscription plans—no hidden fees there! For first-order discounts, check our homepage or the order summary before checkout to see any available promotions. Your total will depend on your box selection and any promo applied, which you’ll see before you pay. Next item Where can I find a list of available promotions? ButcherBot · AI says: Just now Yes No Type a message",
+    "by": "ai",
+    "lat": 8.3,
+    "cov": 86
+   },
+   {
+    "q": "Is there a warranty or guarantee if something goes wrong?",
+    "a": "Sent · Just now ButcherBot · AI ButcherBot · AI says: We guarantee delivery to your home address and cover issues like damaged items, late delivery, or missing items. If something goes wrong for a reason covered under our policy, we’ll review your order and may offer a replacement, credit, or refund. Just let us know within 7 days of receipt so we can make it right. ButcherBot · AI says: Just now Yes No Type a message",
+    "by": "ai",
+    "lat": 8.5,
+    "cov": 67
+   },
+   {
+    "q": "How long will delivery take, roughly?",
+    "a": "Sent · Just now ButcherBot · AI ButcherBot · AI says: Delivery usually takes about 2-5 business days from when your order bills or when you sign up. Once your order ships, you’ll get tracking info so you can keep an eye on its journey to your door. Think of it like waiting for a package of deliciousness to show up within the week! Can I specify what day of the week my box is delivered? ButcherBot · AI says: Just now Yes No Type a message",
+    "by": "ai",
+    "lat": 8.1,
+    "fl": [
+     {
+      "t": "missed part of the ask",
+      "k": "warn"
+     }
+    ],
+    "cov": 20
+   },
+   {
+    "q": "And if I change my mind, how easy is it to return?",
+    "a": "Sent · Just now ButcherBot · AI ButcherBot · AI says: Returning your ButcherBox order isn’t possible because we ship perishable products that can’t be restocked or resold. If there’s an issue with your order, like damage or missing items, we’re happy to help, but we can’t accept returns just because you changed your mind. ButcherBot · AI says: Just now Yes No Type a message",
+    "by": "ai",
+    "lat": 8.6,
+    "fl": [
+     {
+      "t": "missed part of the ask",
+      "k": "warn"
+     }
+    ],
+    "cov": 25
+   }
+  ]
  },
  {
   "id": "siena-mudwtr-shopping-2026-07-02",
@@ -36493,22 +36770,22 @@ const STORES = [
   "locale": "en-US",
   "method": "new",
   "us": false,
-  "lat": "~13.5s",
-  "latPct": 54,
-  "latP75": 16,
-  "ttft": 13.3,
+  "lat": "~14.9s",
+  "latPct": 60,
+  "latP75": 16.8,
+  "ttft": 15.3,
   "delivery": "streaming",
-  "success": 47,
-  "successTxt": "47%",
+  "success": 40,
+  "successTxt": "40%",
   "avgTurns": 10,
-  "timed": 14,
-  "attempted": 30,
+  "timed": 4,
+  "attempted": 10,
   "auto": {
    "automated": 0,
-   "handover": 3,
+   "handover": 1,
    "deflected": 0,
-   "no_answer": 0,
-   "engaged": 3,
+   "no_answer": 2,
+   "engaged": 1,
    "rate": 0
   },
   "evalq": {
@@ -36532,33 +36809,26 @@ const STORES = [
   },
   "guard": null,
   "ticket": null,
-  "what": "3 cold private conversations (shopping themes). Handover in 3/3 themes. Avg end-to-end latency ~13.5s across 14 AI-timed turns.",
-  "datetime": "2026-07-06T13:21:29.860Z",
+  "what": "1 cold private conversations (shopping themes). Handover in 1/1 themes. Avg end-to-end latency ~14.9s across 4 AI-timed turns.",
+  "datetime": "2026-07-06T17:17:34.172Z",
   "themes": [
    {
     "key": "everyday-value",
     "label": "Everyday value buyer",
-    "datetime": "2026-07-06T13:14:11.842Z",
-    "lat": "~16.1s",
+    "datetime": "2026-07-06T17:17:34.172Z",
+    "lat": "~14.9s",
     "success": 40,
     "successTxt": "40%",
     "handoverTurn": 5,
     "ticket": null,
     "productRecs": {
-     "count": 12,
+     "count": 5,
      "names": [
       "FAUX FEATHER MINI HANDBAG",
-      "FAUX FUR PLUSH LEG WARMERS",
       "FAUX FUR PLUSH SHOULDER BAG",
-      "JEWELRY, BAG, OR HEADWEAR",
-      "LINEN HEADBAND instead only",
       "RESIN STONE BRACELET",
-      "ROSE PETAL CUFFS",
       "ROSES MINI HANDBAG",
-      "SEQUIN MINI PURSE",
-      "SUITED PRINT BERET",
-      "TWEED HEADBAND",
-      "VEGAN LEATHER CHAIN HANDBAG"
+      "SATIN SCULPTURE MINI BAG"
      ]
     },
     "ev": {
@@ -36576,9 +36846,9 @@ const STORES = [
     "turns": [
      {
       "q": "Hi! I'm shopping but not sure what's right for me — can you help me choose?",
-      "a": "f you want, I can also narrow it down based on your vibe — EVERYDAY/BASIC, GOING-OUT, SEXY, MINIMALIST, OR TRENDY. FAUX FEATHER MINI HANDBAG €76.95 LAVENDER / OS ADD TO CART FAUX FUR PLUSH SHOULDER BAG €42.95 IVORY / OS ADD TO CART ROSES MINI HANDBAG €42.95 MAGENTA / OS ADD TO CART SEQUIN MINI PURSE €24.95 WHITE / OS ADD TO CART FOR YOU ORDERS CHAT PROFILE Subscribe to our newsletter for important updates and exclusive offers. Birthday SIGN ME UP",
+      "a": "e, so these are nice options if you want an easy place to start. If you want, I can narrow it down based on your vibe — EVERYDAY, GOING-OUT, MINIMALIST, or STATEMENT. FAUX FEATHER MINI HANDBAG £66.00 LAVENDER / OS ADD TO CART FAUX FUR PLUSH SHOULDER BAG £36.00 IVORY / OS ADD TO CART ROSES MINI HANDBAG £37.00 MAGENTA / OS ADD TO CART FOR YOU ORDERS CHAT PROFILE Subscribe to our newsletter for important updates and exclusive offers. Birthday SIGN ME UP",
       "by": "ai",
-      "lat": 16,
+      "lat": 15.6,
       "fl": [
        {
         "t": "missed part of the ask",
@@ -36589,16 +36859,16 @@ const STORES = [
      },
      {
       "q": "I want something for everyday use, good quality, and I care about value for money.",
-      "a": "ES YOU A MORE DURABLE, STRUCTURED EVERYDAY BAG FEEL WHILE STILL LOOKING ELEVATED. Of these, OUR RESIN STONE BRACELET looks like the best match for EVERYDAY WEAR + GOOD QUALITY FEEL + VALUE. If you want, I can also narrow it down further based on whether you prefer JEWELRY, A BAG, OR HEADWEAR. RESIN STONE BRACELET €60.95 DARK CHOCOLATE / OS ADD TO CART SUITED PRINT BERET €60.95 TAUPE CHEVRON / OS ADD TO CART VEGAN LEATHER CHAIN HANDBAG €131.95 ADD TO CART FOR YOU ORDERS CHAT PROFILE",
+      "a": "VATED ESSENTIALS designed to mix, match, and work with your closet If you’d prefer a bag instead, the SATIN SCULPTURE MINI BAG is another option at $68, but for pure everyday value, the bracelet feels like the stronger pick since it’s easier to style often. If you want, I can also narrow this down further by MINIMALIST, WORK-FRIENDLY, or MOST VERSATILE COLOR. RESIN STONE BRACELET £52.00 DARK CHOCOLATE / OS ADD TO CART SATIN SCULPTURE MINI BAG £52.00 ADD TO CART FOR YOU ORDERS CHAT PROFILE",
       "by": "ai",
-      "lat": 14.6,
+      "lat": 13.5,
       "cov": 50
      },
      {
       "q": "I'd like to stay within a sensible budget — what are my best options?",
-      "a": ", I’d put our TWEED HEADBAND first. Our accessories collection also highlights elevated essentials and everyday-impact pieces, so this one feels the most practical and budget-friendly of the matches I found. If you want, I can narrow it down even more by TYPE — for example: JEWELRY, BAG, OR HEADWEAR. TWEED HEADBAND €14.95 BLACK/WHITE / OS ADD TO CART ROSE PETAL CUFFS €51.95 WHITE / OS ADD TO CART FAUX FUR PLUSH LEG WARMERS €56.95 DARK PLUM / OS ADD TO CART FOR YOU ORDERS CHAT PROFILE",
+      "a": "D EVERYDAY USE, I’D RANK IT BEHIND THE BRACELET. If you want my honest best pick, I’d go with the RESIN STONE BRACELET — it feels the most versatile, wearable, and worthwhile for an everyday budget purchase. If you'd like, I can also narrow it to the MOST VERSATILE COLOR for daily wear. RESIN STONE BRACELET £52.00 DARK CHOCOLATE / OS ADD TO CART ROSES MINI HANDBAG £37.00 MAGENTA / OS ADD TO CART FAUX FEATHER MINI HANDBAG £66.00 LAVENDER / OS ADD TO CART FOR YOU ORDERS CHAT PROFILE",
       "by": "ai",
-      "lat": 13.8,
+      "lat": 13.5,
       "fl": [
        {
         "t": "missed part of the ask",
@@ -36609,9 +36879,9 @@ const STORES = [
      },
      {
       "q": "Can you compare your two most popular options and tell me which is better for me?",
-      "a": "ND. For your priorities, it gives you the best balance of: - EVERYDAY WEARABILITY - GOOD STYLE IMPACT FOR A LOW SPEND - BEST VALUE FOR MONEY I’d choose the LINEN HEADBAND instead only if you want a more minimal, softer-looking everyday accessory and don’t mind spending a little more. So if you want the smartest buy overall, I’d recommend the TWEED HEADBAND. TWEED HEADBAND €14.95 BLACK/WHITE / OS ADD TO CART LINEN HEADBAND €24.95 DARK CHOCOLATE / OS ADD TO CART FOR YOU ORDERS CHAT PROFILE",
+      "a": "FOR MONEY + EVERYDAY USE, I’d choose the RESIN STONE BRACELET. Even though the ROSES MINI HANDBAG is less expensive, the BRACELET feels like the better buy for your priorities because you’re more likely to wear it often and get more everyday mileage out of it. If you want, I can also tell you WHICH BRACELET COLOR IS THE MOST VERSATILE FOR DAILY WEAR. ROSES MINI HANDBAG £37.00 MAGENTA / OS ADD TO CART RESIN STONE BRACELET £52.00 DARK CHOCOLATE / OS ADD TO CART FOR YOU ORDERS CHAT PROFILE",
       "by": "ai",
-      "lat": 20.1,
+      "lat": 16.8,
       "fl": [
        {
         "t": "missed part of the ask",
@@ -36628,192 +36898,14 @@ const STORES = [
       "cov": 86
      }
     ]
-   },
-   {
-    "key": "gift",
-    "label": "Gift shopper",
-    "datetime": "2026-07-06T13:21:29.860Z",
-    "lat": "~12.5s",
-    "success": 70,
-    "successTxt": "70%",
-    "handoverTurn": 8,
-    "ticket": null,
-    "productRecs": {
-     "count": 9,
-     "names": [
-      "FAUX FUR PLUSH MINI BAG",
-      "FAUX FUR PLUSH SHOULDER BAG",
-      "NAKED WARDROBE GIFT CARD",
-      "ROSES MINI HANDBAG",
-      "SATIN SCULPTURE MINI BAG",
-      "SEQUIN MINI PURSE",
-      "SMOOTH TURTLENECK SCULPT TOP",
-      "SUITED PRINT BERET, but",
-      "THEIR STYLE"
-     ]
-    },
-    "ev": {
-     "total": 87,
-     "cls": "partial",
-     "dims": {
-      "answer": 30,
-      "discovery": 15,
-      "recommendation": 22,
-      "rich": 13,
-      "close": 7
-     },
-     "note": "Good gift reasoning and shipping specifics, but it cannot complete the explicit add-to-cart and total request."
-    },
-    "turns": [
-     {
-      "q": "Hi! I'm looking for a gift for someone and I'm not sure what to pick — can you help?",
-      "a": "want, I can also help you choose based on BUDGET, THEIR STYLE (minimal, dressy, trendy), or WHAT OCCASION the gift is for. ROSES MINI HANDBAG €42.95 MAGENTA / OS ADD TO CART FAUX FUR PLUSH SHOULDER BAG €42.95 IVORY / OS ADD TO CART SEQUIN MINI PURSE €24.95 WHITE / OS ADD TO CART NAKED WARDROBE GIFT CARD €44.46 ADD TO CART FOR YOU ORDERS CHAT PROFILE Subscribe to our newsletter for important updates and exclusive offers. Birthday SIGN ME UP",
-      "by": "ai",
-      "lat": 14.6,
-      "fl": [
-       {
-        "t": "missed part of the ask",
-        "k": "warn"
-       }
-      ],
-      "cov": 17
-     },
-     {
-      "q": "It's for someone who likes quality but isn't fussy; I want something they'll actually use.",
-      "a": "ity, but it’s still easy to wear — the kind of piece someone can actually reach for regularly rather than save for a special occasion. If you want something useful without being too fussy, this is the strongest pick. Another option is the SUITED PRINT BERET, but if your goal is MOST LIKELY TO BE USED OFTEN, I’d lean toward the top over the beret. SMOOTH TURTLENECK SCULPT TOP €42.95 WHITE / XL ADD TO CART SUITED PRINT BERET €60.95 TAUPE CHEVRON / OS ADD TO CART FOR YOU ORDERS CHAT PROFILE",
-      "by": "ai",
-      "lat": 13.7,
-      "cov": 50
-     },
-     {
-      "q": "My budget is moderate — what would make a good gift in that range?",
-      "a": "USE, THIS IS THE SAFEST PICK. If your goal is QUALITY WITHOUT BEING FUSSY, I’d say the ROSES MINI HANDBAG is probably the best balance of USEFUL, GIFTABLE, AND MODERATELY PRICED. If you want, I can also narrow it down to MOST PRACTICAL vs. MOST ELEVATED. ROSES MINI HANDBAG €42.95 MAGENTA / OS ADD TO CART SATIN SCULPTURE MINI BAG €60.95 ADD TO CART FAUX FUR PLUSH MINI BAG €60.95 BONE / OS ADD TO CART NAKED WARDROBE GIFT CARD €44.46 ADD TO CART FOR YOU ORDERS CHAT PROFILE",
-      "by": "ai",
-      "lat": 16.7,
-      "fl": [
-       {
-        "t": "missed part of the ask",
-        "k": "warn"
-       }
-      ],
-      "cov": 13
-     },
-     {
-      "q": "Between your top two gift ideas, which feels more special?",
-      "a": "s something for DINNER PLANS TO WEDDING GUEST PLANS, so it feels a little more elevated and occasion-worthy. - It still stays practical enough to use, especially since it’s a ONE-SIZE ACCESSORY and easier to gift than apparel. If you want the pick that feels MORE MEMORABLE AND PRESENT-LIKE, I’d go with the ROSES MINI HANDBAG. If you want, I can also tell you which option feels MORE PRACTICAL versus MORE LUXURIOUS. ROSES MINI HANDBAG €42.95 MAGENTA / OS ADD TO CART FOR YOU ORDERS CHAT PROFILE",
-      "by": "ai",
-      "lat": 16.2,
-      "cov": 44
-     },
-     {
-      "q": "Is there a gift set or bundle that looks nicer than a single item?",
-      "a": "F BY CHOOSING ONE STANDOUT ACCESSORY OR APPAREL PIECE AND ADDING A GIFT CARD ALONGSIDE IT FOR A MORE ELEVATED FEEL. If you want something that looks especially polished without being overly fussy, the GIFT CARD is the only true gift-specific option I can confirm right now. If you’d like, I can also help you build a 2-ITEM GIFT COMBO from our current collection that feels more special than giving just one piece. NAKED WARDROBE GIFT CARD €22.23 ADD TO CART FOR YOU ORDERS CHAT PROFILE",
-      "by": "ai",
-      "lat": 12.2,
-      "cov": 50
-     },
-     {
-      "q": "Can it arrive gift-ready, and how fast can it ship?",
-      "a": "KAI • AI ASSISTANT We don’t list a gift-wrap or gift-ready service in our shipping policy, so I can’t confirm that. If you need gift packaging, please email INFO@NAKEDWARDROBE.COM and our team can confirm what’s possible. For shipping speed, PRIORITY SHIPPING is our fastest option with 2–3 BUSINESS DAY FULFILLMENT, and STANDARD SHIPPING takes 4–7 BUSINESS DAYS FULFILLMENT. We don’t offer next-day or expedited shipping at this time. FOR YOU ORDERS CHAT PROFILE",
-      "by": "ai",
-      "lat": 6.1,
-      "cov": 80
-     },
-     {
-      "q": "Great — add your top gift pick to my cart and tell me the total.",
-      "a": "KAI • AI ASSISTANT I can’t add items to your cart or calculate a live checkout total from here. My top gift pick is the ROSES MINI HANDBAG. If you add it on the site, the item price I shared earlier was $48. The final total will depend on any shipping charges and taxes applied at checkout. FOR YOU ORDERS CHAT PROFILE",
-      "by": "ai",
-      "lat": 7.9,
-      "cov": 86
-     },
-     {
-      "q": "Can you include a gift message or a gift receipt?",
-      "a": "🚩 human took over",
-      "by": "human",
-      "lat": null,
-      "cov": 75
-     }
-    ]
-   },
-   {
-    "key": "problem-solver",
-    "label": "Specific need / reassurance",
-    "datetime": "2026-07-06T13:21:29.860Z",
-    "lat": "~12.2s",
-    "success": 30,
-    "successTxt": "30%",
-    "handoverTurn": 4,
-    "ticket": null,
-    "productRecs": {
-     "count": 3,
-     "names": [
-      "SMOOTH SCOOP TANK BODYSUIT",
-      "SMOOTH TUBE TOP",
-      "VEGAN LEATHER TRENCH ROMPER"
-     ]
-    },
-    "ev": {
-     "total": 95,
-     "cls": "partial",
-     "dims": {
-      "answer": 30,
-      "discovery": 20,
-      "recommendation": 22,
-      "rich": 13,
-      "close": 10
-     },
-     "note": "Careful discovery and honest review limitations make this strong, though review and comparison rich signals are absent."
-    },
-    "turns": [
-     {
-      "q": "Hi — I have a specific need and I'm worried about picking the wrong thing. Can you help?",
-      "a": "r: - Any MUST-HAVES like color, size, fit, fabric, or price range? - If fit matters, we can also help with SIZING GUIDANCE — we do have a size chart, and some items are noted as TRUE TO SIZE. Once you share the details, I’ll narrow it down and recommend the best option from our store. FOR YOU ORDERS CHAT PROFILE Subscribe to our newsletter for important updates and exclusive offers. Birthday SIGN ME UP",
-      "by": "ai",
-      "lat": 11.8,
-      "fl": [
-       {
-        "t": "missed part of the ask",
-        "k": "warn"
-       }
-      ],
-      "cov": 0
-     },
-     {
-      "q": "I've been disappointed by similar products before, so quality really matters to me.",
-      "a": "s or romper - a top - outerwear - accessories or jewelry If it helps, a standout quality-focused option we carry is our VEGAN LEATHER TRENCH ROMPER — it’s a more premium piece and a stronger fit if you’re looking for something elevated rather than basic. If you tell us the item type, your usual size, and anything you’ve disliked in similar products before, I can narrow it down much more carefully. VEGAN LEATHER TRENCH ROMPER €220.95 DARK CHOCOLATE / XS ADD TO CART FOR YOU ORDERS CHAT PROFILE",
-      "by": "ai",
-      "lat": 12.1,
-      "cov": 50
-     },
-     {
-      "q": "Which of your products is best for that, and why is it a good fit?",
-      "a": "dysuit like this is also especially useful if you want something that feels POLISHED, VERSATILE, AND DEPENDABLE instead of flimsy or fussy. A second strong option is our SMOOTH TUBE TOP if you want the same clean, elevated feel in a simpler silhouette. If you want, I can also help you choose between the two based on FIT, COVERAGE, AND HOW YOU PLAN TO WEAR IT. SMOOTH SCOOP TANK BODYSUIT €46.95 WHITE / XS ADD TO CART SMOOTH TUBE TOP €42.95 WHITE / XL ADD TO CART FOR YOU ORDERS CHAT PROFILE",
-      "by": "ai",
-      "lat": 12.6,
-      "fl": [
-       {
-        "t": "missed part of the ask",
-        "k": "warn"
-       }
-      ],
-      "cov": 29
-     },
-     {
-      "q": "What do other customers say in their reviews — does it actually hold up?",
-      "a": "🚩 human took over",
-      "by": "human",
-      "lat": null,
-      "cov": 43
-     }
-    ]
    }
   ],
   "turns": [
    {
     "q": "Hi! I'm shopping but not sure what's right for me — can you help me choose?",
-    "a": "f you want, I can also narrow it down based on your vibe — EVERYDAY/BASIC, GOING-OUT, SEXY, MINIMALIST, OR TRENDY. FAUX FEATHER MINI HANDBAG €76.95 LAVENDER / OS ADD TO CART FAUX FUR PLUSH SHOULDER BAG €42.95 IVORY / OS ADD TO CART ROSES MINI HANDBAG €42.95 MAGENTA / OS ADD TO CART SEQUIN MINI PURSE €24.95 WHITE / OS ADD TO CART FOR YOU ORDERS CHAT PROFILE Subscribe to our newsletter for important updates and exclusive offers. Birthday SIGN ME UP",
+    "a": "e, so these are nice options if you want an easy place to start. If you want, I can narrow it down based on your vibe — EVERYDAY, GOING-OUT, MINIMALIST, or STATEMENT. FAUX FEATHER MINI HANDBAG £66.00 LAVENDER / OS ADD TO CART FAUX FUR PLUSH SHOULDER BAG £36.00 IVORY / OS ADD TO CART ROSES MINI HANDBAG £37.00 MAGENTA / OS ADD TO CART FOR YOU ORDERS CHAT PROFILE Subscribe to our newsletter for important updates and exclusive offers. Birthday SIGN ME UP",
     "by": "ai",
-    "lat": 16,
+    "lat": 15.6,
     "fl": [
      {
       "t": "missed part of the ask",
@@ -36824,16 +36916,16 @@ const STORES = [
    },
    {
     "q": "I want something for everyday use, good quality, and I care about value for money.",
-    "a": "ES YOU A MORE DURABLE, STRUCTURED EVERYDAY BAG FEEL WHILE STILL LOOKING ELEVATED. Of these, OUR RESIN STONE BRACELET looks like the best match for EVERYDAY WEAR + GOOD QUALITY FEEL + VALUE. If you want, I can also narrow it down further based on whether you prefer JEWELRY, A BAG, OR HEADWEAR. RESIN STONE BRACELET €60.95 DARK CHOCOLATE / OS ADD TO CART SUITED PRINT BERET €60.95 TAUPE CHEVRON / OS ADD TO CART VEGAN LEATHER CHAIN HANDBAG €131.95 ADD TO CART FOR YOU ORDERS CHAT PROFILE",
+    "a": "VATED ESSENTIALS designed to mix, match, and work with your closet If you’d prefer a bag instead, the SATIN SCULPTURE MINI BAG is another option at $68, but for pure everyday value, the bracelet feels like the stronger pick since it’s easier to style often. If you want, I can also narrow this down further by MINIMALIST, WORK-FRIENDLY, or MOST VERSATILE COLOR. RESIN STONE BRACELET £52.00 DARK CHOCOLATE / OS ADD TO CART SATIN SCULPTURE MINI BAG £52.00 ADD TO CART FOR YOU ORDERS CHAT PROFILE",
     "by": "ai",
-    "lat": 14.6,
+    "lat": 13.5,
     "cov": 50
    },
    {
     "q": "I'd like to stay within a sensible budget — what are my best options?",
-    "a": ", I’d put our TWEED HEADBAND first. Our accessories collection also highlights elevated essentials and everyday-impact pieces, so this one feels the most practical and budget-friendly of the matches I found. If you want, I can narrow it down even more by TYPE — for example: JEWELRY, BAG, OR HEADWEAR. TWEED HEADBAND €14.95 BLACK/WHITE / OS ADD TO CART ROSE PETAL CUFFS €51.95 WHITE / OS ADD TO CART FAUX FUR PLUSH LEG WARMERS €56.95 DARK PLUM / OS ADD TO CART FOR YOU ORDERS CHAT PROFILE",
+    "a": "D EVERYDAY USE, I’D RANK IT BEHIND THE BRACELET. If you want my honest best pick, I’d go with the RESIN STONE BRACELET — it feels the most versatile, wearable, and worthwhile for an everyday budget purchase. If you'd like, I can also narrow it to the MOST VERSATILE COLOR for daily wear. RESIN STONE BRACELET £52.00 DARK CHOCOLATE / OS ADD TO CART ROSES MINI HANDBAG £37.00 MAGENTA / OS ADD TO CART FAUX FEATHER MINI HANDBAG £66.00 LAVENDER / OS ADD TO CART FOR YOU ORDERS CHAT PROFILE",
     "by": "ai",
-    "lat": 13.8,
+    "lat": 13.5,
     "fl": [
      {
       "t": "missed part of the ask",
@@ -36844,9 +36936,9 @@ const STORES = [
    },
    {
     "q": "Can you compare your two most popular options and tell me which is better for me?",
-    "a": "ND. For your priorities, it gives you the best balance of: - EVERYDAY WEARABILITY - GOOD STYLE IMPACT FOR A LOW SPEND - BEST VALUE FOR MONEY I’d choose the LINEN HEADBAND instead only if you want a more minimal, softer-looking everyday accessory and don’t mind spending a little more. So if you want the smartest buy overall, I’d recommend the TWEED HEADBAND. TWEED HEADBAND €14.95 BLACK/WHITE / OS ADD TO CART LINEN HEADBAND €24.95 DARK CHOCOLATE / OS ADD TO CART FOR YOU ORDERS CHAT PROFILE",
+    "a": "FOR MONEY + EVERYDAY USE, I’d choose the RESIN STONE BRACELET. Even though the ROSES MINI HANDBAG is less expensive, the BRACELET feels like the better buy for your priorities because you’re more likely to wear it often and get more everyday mileage out of it. If you want, I can also tell you WHICH BRACELET COLOR IS THE MOST VERSATILE FOR DAILY WEAR. ROSES MINI HANDBAG £37.00 MAGENTA / OS ADD TO CART RESIN STONE BRACELET £52.00 DARK CHOCOLATE / OS ADD TO CART FOR YOU ORDERS CHAT PROFILE",
     "by": "ai",
-    "lat": 20.1,
+    "lat": 16.8,
     "fl": [
      {
       "t": "missed part of the ask",
@@ -36901,7 +36993,7 @@ const STORES = [
   "turns": []
  },
  {
-  "id": "klaviyo-k9ballistics-shopping-2026-07-06",
+  "id": "klaviyo-k9ballistics-shopping-pending",
   "date": "2026-07-06",
   "vendor": "Klaviyo",
   "store": "K9 Ballistics",
@@ -36909,165 +37001,14 @@ const STORES = [
   "url": "https://k9ballistics.com/",
   "widget": "klaviyo",
   "locale": "en-US",
-  "method": "new",
+  "method": "pending",
   "us": false,
-  "lat": "~22.1s",
-  "latPct": 88,
-  "latP75": 35.5,
-  "ttft": 22.2,
-  "delivery": "streaming",
-  "success": 30,
-  "successTxt": "30%",
-  "avgTurns": 10,
-  "timed": 3,
-  "attempted": 10,
-  "auto": {
-   "automated": 0,
-   "handover": 1,
-   "deflected": 0,
-   "no_answer": 0,
-   "engaged": 1,
-   "rate": 0
-  },
-  "evalq": {
-   "n": 1,
-   "total": 62,
-   "dims": {
-    "answer": 9,
-    "discovery": 8,
-    "recommendation": 22,
-    "rich": 13,
-    "close": 10
-   },
-   "cls": {
-    "partial": 1
-   },
-   "learnings": [
-    "It surfaces products with prices and cart affordances, but loses the thread on comparison and dumps options before narrowing the shopper profile."
-   ]
-  },
-  "guard": null,
-  "ticket": null,
-  "what": "1 cold private conversations (shopping themes). Handover in 1/1 themes. Avg end-to-end latency ~22.1s across 3 AI-timed turns.",
-  "datetime": "2026-07-06T13:29:20.883Z",
-  "themes": [
-   {
-    "key": "everyday-value",
-    "label": "Everyday value buyer",
-    "datetime": "2026-07-06T13:29:20.883Z",
-    "lat": "~22.1s",
-    "success": 30,
-    "successTxt": "30%",
-    "handoverTurn": 4,
-    "ticket": null,
-    "productRecs": {
-     "count": 5,
-     "names": [
-      "K9 Ballistics Classic Trucker Hat",
-      "K9 Everyday™ Dog Collar",
-      "K9 Everyday™ Dog Harness",
-      "K9 Everyday™ Dog Leash",
-      "K9 Training™ Treat Pouch"
-     ]
-    },
-    "ev": {
-     "total": 62,
-     "cls": "partial",
-     "dims": {
-      "answer": 9,
-      "discovery": 8,
-      "recommendation": 22,
-      "rich": 13,
-      "close": 10
-     },
-     "note": "It surfaces products with prices and cart affordances, but loses the thread on comparison and dumps options before narrowing the shopper profile."
-    },
-    "turns": [
-     {
-      "q": "Hi! I'm shopping but not sure what's right for me — can you help me choose?",
-      "a": "Hat! Let me know if you have a specific need, pet size, or style in mind—I can narrow it down even further for you! K9 Everyday™ Dog Harness S / Obsidian Black Add to cart K9 Training™ Treat Pouch Add to cart K9 Everyday™ Dog Leash 6ft (L) x 1in (W) / Obsidian Black Add to cart K9 Everyday™ Dog Collar S / Obsidian Black Add to cart K9 Ballistics Classic Trucker Hat Add to cart For You Orders Chat Profile Select Select Select Apply Checkout →",
-      "by": "ai",
-      "lat": 22.7,
-      "fl": [
-       {
-        "t": "missed part of the ask",
-        "k": "warn"
-       }
-      ],
-      "cov": 0
-     },
-     {
-      "q": "I want something for everyday use, good quality, and I care about value for money.",
-      "a": "e these as top choices for quality and affordability! If you want something even tougher, check out our Chew Proof Armored™ Vinyl Dog Bed - Open Box for unbeatable durability and value. Let me know if you have a specific pet size or color preference—I'm happy to help you narrow it down! K9 Everyday™ Dog Collar S / Obsidian Black Add to cart K9 Everyday™ Dog Leash 6ft (L) x 1in (W) / Obsidian Black Add to cart For You Orders Chat Profile Select Select Select Apply Checkout →",
-      "by": "ai",
-      "lat": 35.5,
-      "cov": 50
-     },
-     {
-      "q": "I'd like to stay within a sensible budget — what are my best options?",
-      "a": "last—so you won’t need to replace them often. Our products are also tested in real-world conditions and designed to outperform standard options, giving you long-term value. We focus on quality and sustainability, using recycled materials wherever possible, so you get a product that’s both affordable and eco-friendly. If you’d like more details or want to see other options, just let me know your pet’s size or any color preferences! For You Orders Chat Profile Select Select Select Apply Checkout →",
-      "by": "ai",
-      "lat": 8.1,
-      "fl": [
-       {
-        "t": "missed part of the ask",
-        "k": "warn"
-       }
-      ],
-      "cov": 29
-     },
-     {
-      "q": "Can you compare your two most popular options and tell me which is better for me?",
-      "a": "🚩 human took over",
-      "by": "human",
-      "lat": null,
-      "cov": 71
-     }
-    ]
-   }
-  ],
-  "turns": [
-   {
-    "q": "Hi! I'm shopping but not sure what's right for me — can you help me choose?",
-    "a": "Hat! Let me know if you have a specific need, pet size, or style in mind—I can narrow it down even further for you! K9 Everyday™ Dog Harness S / Obsidian Black Add to cart K9 Training™ Treat Pouch Add to cart K9 Everyday™ Dog Leash 6ft (L) x 1in (W) / Obsidian Black Add to cart K9 Everyday™ Dog Collar S / Obsidian Black Add to cart K9 Ballistics Classic Trucker Hat Add to cart For You Orders Chat Profile Select Select Select Apply Checkout →",
-    "by": "ai",
-    "lat": 22.7,
-    "fl": [
-     {
-      "t": "missed part of the ask",
-      "k": "warn"
-     }
-    ],
-    "cov": 0
-   },
-   {
-    "q": "I want something for everyday use, good quality, and I care about value for money.",
-    "a": "e these as top choices for quality and affordability! If you want something even tougher, check out our Chew Proof Armored™ Vinyl Dog Bed - Open Box for unbeatable durability and value. Let me know if you have a specific pet size or color preference—I'm happy to help you narrow it down! K9 Everyday™ Dog Collar S / Obsidian Black Add to cart K9 Everyday™ Dog Leash 6ft (L) x 1in (W) / Obsidian Black Add to cart For You Orders Chat Profile Select Select Select Apply Checkout →",
-    "by": "ai",
-    "lat": 35.5,
-    "cov": 50
-   },
-   {
-    "q": "I'd like to stay within a sensible budget — what are my best options?",
-    "a": "last—so you won’t need to replace them often. Our products are also tested in real-world conditions and designed to outperform standard options, giving you long-term value. We focus on quality and sustainability, using recycled materials wherever possible, so you get a product that’s both affordable and eco-friendly. If you’d like more details or want to see other options, just let me know your pet’s size or any color preferences! For You Orders Chat Profile Select Select Select Apply Checkout →",
-    "by": "ai",
-    "lat": 8.1,
-    "fl": [
-     {
-      "t": "missed part of the ask",
-      "k": "warn"
-     }
-    ],
-    "cov": 29
-   },
-   {
-    "q": "Can you compare your two most popular options and tell me which is better for me?",
-    "a": "🚩 human took over",
-    "by": "human",
-    "lat": null,
-    "cov": 71
-   }
-  ]
+  "lat": "—",
+  "success": null,
+  "successTxt": "pending",
+  "successCls": "p-na",
+  "what": "Not captured in a cold run yet — pending.",
+  "turns": []
  },
  {
   "id": "klaviyo-onefastcat-shopping-pending",
@@ -66508,7 +66449,7 @@ const SUPPORT = [
   "turns": []
  },
  {
-  "id": "klaviyo-naked-support-pending",
+  "id": "klaviyo-naked-support-2026-07-06",
   "date": "2026-07-06",
   "vendor": "Klaviyo",
   "store": "Naked Wardrobe",
@@ -66516,14 +66457,368 @@ const SUPPORT = [
   "url": "https://www.nakedwardrobe.com/",
   "widget": "klaviyo",
   "locale": "en-US",
-  "method": "pending",
+  "method": "new",
   "us": false,
-  "lat": "—",
-  "success": null,
-  "successTxt": "pending",
-  "successCls": "p-na",
-  "what": "Not captured in a cold run yet — pending.",
-  "turns": []
+  "lat": "~5.9s",
+  "latPct": 24,
+  "latP75": 6.4,
+  "ttft": 4.9,
+  "delivery": "atomic",
+  "success": 60,
+  "successTxt": "60%",
+  "avgTurns": 10,
+  "timed": 18,
+  "attempted": 30,
+  "auto": {
+   "automated": 1,
+   "handover": 2,
+   "deflected": 0,
+   "no_answer": 0,
+   "engaged": 3,
+   "rate": 33
+  },
+  "evalq": {
+   "n": 3,
+   "total": 93,
+   "dims": {
+    "resolution": 40,
+    "accuracy": 23,
+    "actionability": 17,
+    "close": 12
+   },
+   "cls": {
+    "resolved": 2,
+    "partial": 1
+   },
+   "learnings": [
+    "Gave a store-specific damaged-item procedure (portal, photos, care-tag, prepaid label) and honestly escalated only the one fact it lacked (replacement timing) instead of inventing it.",
+    "Rich, store-specific policy facts ($9.99 restocking fee, non-returnable list, exact portal steps), but it silently dropped the return-window question entirely and gave two different refund-timing figures.",
+    "Answered every tracking/shipping question with concrete store-specific windows and correctly offered a human only for the one thing needing account access (locating a lost package)."
+   ]
+  },
+  "guard": null,
+  "ticket": null,
+  "what": "3 cold private conversations (support themes). Handover in 2/3 themes. Avg end-to-end latency ~5.9s across 18 AI-timed turns.",
+  "datetime": "2026-07-06T17:36:25.279Z",
+  "themes": [
+   {
+    "key": "tracking",
+    "label": "Order tracking / delay",
+    "datetime": "2026-07-06T17:31:52.963Z",
+    "lat": "~7.5s",
+    "success": 40,
+    "successTxt": "40%",
+    "handoverTurn": 5,
+    "ticket": null,
+    "ev": {
+     "total": 100,
+     "cls": "resolved",
+     "dims": {
+      "resolution": 40,
+      "accuracy": 25,
+      "actionability": 20,
+      "close": 15
+     },
+     "note": "Answered every tracking/shipping question with concrete store-specific windows and correctly offered a human only for the one thing needing account access (locating a lost package)."
+    },
+    "turns": [
+     {
+      "q": "I placed an order a few days ago and still have no tracking — where is it?",
+      "a": "updating. Please check your spam/junk folder for the shipping confirmation email. If you still don’t see it, log in to your Naked Wardrobe account and check your order history to access your order details and tracking information. SIGN IN SO WE CAN BETTER ASSIST YOU SIGN IN BY SIGNING IN, YOU AGREE TO OUR PRIVACY POLICY AND TERMS OF SERVICE. FOR YOU ORDERS CHAT PROFILE Subscribe to our newsletter for important updates and exclusive offers. Birthday SIGN ME UP",
+      "by": "ai",
+      "lat": 15,
+      "cov": 43
+     },
+     {
+      "q": "How long does it normally take to ship and send a tracking number?",
+      "a": "KAI • AI ASSISTANT Orders typically ship within 2–4 BUSINESS DAYS. Once your order ships, you’ll receive a SHIPPING CONFIRMATION EMAIL WITH YOUR TRACKING NUMBER, and tracking updates can take 24–48 HOURS to appear with the carrier. If you placed your order a few days ago and still haven’t received tracking, it may still be within processing time. FOR YOU ORDERS CHAT PROFILE",
+      "by": "ai",
+      "lat": 4.9,
+      "cov": 57
+     },
+     {
+      "q": "Once it ships, how long is delivery?",
+      "a": "KAI • AI ASSISTANT For U.S. orders, delivery timing depends on the shipping method you selected: PRIORITY SHIPPING is typically fulfilled in 2–3 BUSINESS DAYS, and STANDARD SHIPPING is typically fulfilled in 4–7 BUSINESS DAYS. If your order is international, delivery usually takes AROUND 25 BUSINESS DAYS due to customs processing. FOR YOU ORDERS CHAT PROFILE",
+      "by": "ai",
+      "lat": 4.4,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 25
+     },
+     {
+      "q": "Is there any way to speed it up if I need it sooner?",
+      "a": "KAI • AI ASSISTANT Unfortunately, we don’t offer next-day or expedited shipping at this time. Our fastest option is PRIORITY SHIPPING, which has 2–3 BUSINESS DAY FULFILLMENT. FOR YOU ORDERS CHAT PROFILE",
+      "by": "ai",
+      "lat": 5.6,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "What should I do if the tracking never updates?",
+      "a": "🚩 human took over",
+      "by": "human",
+      "lat": null,
+      "cov": 50
+     }
+    ]
+   },
+   {
+    "key": "returns",
+    "label": "Returns & exchanges",
+    "datetime": "2026-07-06T17:33:42.507Z",
+    "lat": "~5.5s",
+    "success": 90,
+    "successTxt": "90%",
+    "handoverTurn": null,
+    "ticket": null,
+    "ev": {
+     "total": 87,
+     "cls": "partial",
+     "dims": {
+      "resolution": 40,
+      "accuracy": 20,
+      "actionability": 12,
+      "close": 15
+     },
+     "note": "Rich, store-specific policy facts ($9.99 restocking fee, non-returnable list, exact portal steps), but it silently dropped the return-window question entirely and gave two different refund-timing figures."
+    },
+    "turns": [
+     {
+      "q": "What is your return policy?",
+      "a": "ITEMS RETURNED WITH STAINS AND FINAL SALE ITEMS WILL BE PROCESSED FOR STORE CREDIT. CERTAIN ITEMS CANNOT BE RETURNED, INCLUDING INTERNATIONAL ORDERS (EXCEPT ORDERS SHIPPED TO CANADA), INTIMATES & BODYSUITS, JEWELRY, AND ALL MARKDOWN ITEMS PURCHASED. If you want, I can also help with the return portal link or next steps to start a return. FOR YOU ORDERS CHAT PROFILE Subscribe to our newsletter for important updates and exclusive offers. Birthday SIGN ME UP",
+      "by": "ai",
+      "lat": 10.5,
+      "cov": 50
+     },
+     {
+      "q": "How many days do I have to return something?",
+      "a": "(streamed past timing window) KAI • AI ASSISTANT You have 14 DAYS AFTER RECEIVING YOUR ITEM to start a return. FOR YOU ORDERS CHAT PROFILE",
+      "by": "ai",
+      "lat": null,
+      "fl": [
+       {
+        "t": "no timed answer",
+        "k": "bad"
+       }
+      ],
+      "cov": 50
+     },
+     {
+      "q": "How do I start a return or an exchange?",
+      "a": "KAI • AI ASSISTANT To start a return or exchange, use our return portal here: https://nakedwardrobe.com/apps/aftership-returns-center For a size or color exchange, enter your NW ORDER NUMBER exactly as shown in your confirmation email, select \"ITEM DID NOT FIT,\" then choose \"REPLACE WITH SAME ITEM\" to pick a new size or color. If the option you want does not appear, it’s no longer in stock. FOR YOU ORDERS CHAT PROFILE",
+      "by": "ai",
+      "lat": 4.1,
+      "cov": 100
+     },
+     {
+      "q": "Do I have to pay for return shipping?",
+      "a": "KAI • AI ASSISTANT A flat $9.99 RESTOCKING FEE is deducted from each refund for processing and restocking. To start the return and access any approved return label details, please use the return portal: https://nakedwardrobe.com/apps/aftership-returns-center FOR YOU ORDERS CHAT PROFILE",
+      "by": "ai",
+      "lat": 4.4,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 33
+     },
+     {
+      "q": "How long until I get my refund once you receive it?",
+      "a": "KAI • AI ASSISTANT Once we receive and inspect your return, your refund is issued to your original payment method within 10 BUSINESS DAYS. After that, your bank or card company may need additional time to post it; if it’s been MORE THAN 14 BUSINESS DAYS SINCE WE RECEIVED YOUR RETURN, please contact NW@NAKEDWARDROBE.COM. FOR YOU ORDERS CHAT PROFILE",
+      "by": "ai",
+      "lat": 6.4,
+      "cov": 50
+     },
+     {
+      "q": "Can I exchange for a different size or option instead of a refund?",
+      "a": "KAI • AI ASSISTANT Yes — for a size or color exchange, please use the return portal: https://nakedwardrobe.com/apps/aftership-returns-center. Enter your NW ORDER NUMBER exactly as shown in your confirmation email, select \"ITEM DID NOT FIT,\" then choose \"REPLACE WITH SAME ITEM\" to see available size or color options; if the option you want doesn’t appear, it’s out of stock. FOR YOU ORDERS CHAT PROFILE",
+      "by": "ai",
+      "lat": 4.6,
+      "cov": 50
+     },
+     {
+      "q": "Are any items final sale / non-returnable?",
+      "a": "KAI • AI ASSISTANT Yes — the following are non-returnable per policy: INTERNATIONAL ORDERS (EXCEPT CANADA), INTIMATES, BODYSUITS, JEWELRY, ALL MARKDOWN OR SALE ITEMS, AND GIFT CARDS. Also, FINAL-SALE ITEMS and items returned with MAKEUP, SELF-TANNER, DEODORANT, PET HAIR, OR STAINS are PROCESSED FOR STORE CREDIT ONLY. FOR YOU ORDERS CHAT PROFILE",
+      "by": "ai",
+      "lat": 4.4,
+      "fl": [
+       {
+        "t": "sales prompt on a support question",
+        "k": "warn"
+       }
+      ],
+      "cov": 83
+     },
+     {
+      "q": "Do I need the original packaging to return something?",
+      "a": "KAI • AI ASSISTANT Yes — to be eligible for a return, the item must be in ORIGINAL CONDITION, with TAGS ATTACHED, in its ORIGINAL PACKAGING, and you’ll need RECEIPT OR PROOF OF PURCHASE. FOR YOU ORDERS CHAT PROFILE",
+      "by": "ai",
+      "lat": 3.8,
+      "cov": 80
+     },
+     {
+      "q": "Can I return an online order in a physical store?",
+      "a": "KAI • AI ASSISTANT Our return policy only provides for returns through the return portal, not in-store returns. To start a return or exchange, please use: https://nakedwardrobe.com/apps/aftership-returns-center FOR YOU ORDERS CHAT PROFILE",
+      "by": "ai",
+      "lat": 4.3,
+      "cov": 40
+     },
+     {
+      "q": "How do I track the status of my refund?",
+      "a": "shipment in the return portal: https://nakedwardrobe.com/apps/aftership-returns-center Per policy, returns are processed in 7–10 BUSINESS DAYS FROM THE DAY THEY’RE RECEIVED, and refunds are reflected to the ORIGINAL FORM OF PAYMENT WITHIN 2–10 BUSINESS DAYS AFTER PROCESSING, depending on your financial institution. If you need additional help, the policy says you can email your RETURN TRACKING NUMBER (RMA#) to INFO@NAKEDWARDROBE.COM for assistance with return status. FOR YOU ORDERS CHAT PROFILE",
+      "by": "ai",
+      "lat": 7.1,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 33
+     }
+    ]
+   },
+   {
+    "key": "damaged",
+    "label": "Damaged / faulty item",
+    "datetime": "2026-07-06T17:36:25.279Z",
+    "lat": "~5.4s",
+    "success": 50,
+    "successTxt": "50%",
+    "handoverTurn": 6,
+    "ticket": null,
+    "ev": {
+     "total": 92,
+     "cls": "resolved",
+     "dims": {
+      "resolution": 40,
+      "accuracy": 25,
+      "actionability": 20,
+      "close": 7
+     },
+     "note": "Gave a store-specific damaged-item procedure (portal, photos, care-tag, prepaid label) and honestly escalated only the one fact it lacked (replacement timing) instead of inventing it."
+    },
+    "turns": [
+     {
+      "q": "My order arrived and one item is damaged — what do I do?",
+      "a": "TURN PORTAL, selecting the appropriate return reason. You’ll be asked to provide: - a brief description of the issue - an image of the damaged item - an image of the care tag located on the inside of the garment If your request is approved, you’ll receive an email with a PREPAID LABEL. I can also help with the return portal link if you want it. FOR YOU ORDERS CHAT PROFILE Subscribe to our newsletter for important updates and exclusive offers. Birthday SIGN ME UP",
+      "by": "ai",
+      "lat": 7.7,
+      "cov": 40
+     },
+     {
+      "q": "Is a damaged item handled differently from a normal return?",
+      "a": "KAI • AI ASSISTANT Yes — damaged, defective, or incorrect items should still be started through the return portal, but they follow a review process instead of a standard return flow. Use https://nakedwardrobe.com/apps/aftership-returns-center, select the appropriate reason, and include a brief description, a photo of the item, and a photo of the care tag; if approved, our team will email a prepaid label. FOR YOU ORDERS CHAT PROFILE",
+      "by": "ai",
+      "lat": 4.4,
+      "cov": 50
+     },
+     {
+      "q": "Do you need photos, and where do I send them?",
+      "a": "KAI • AI ASSISTANT Yes — for a damaged item request, you’ll need to submit A PHOTO OF THE ITEM and A PHOTO OF THE CARE TAG INSIDE THE GARMENT, plus a brief description. Please upload them through the return portal here: https://nakedwardrobe.com/apps/aftership-returns-center — that’s where the team reviews damaged-item requests. FOR YOU ORDERS CHAT PROFILE",
+      "by": "ai",
+      "lat": 4.9,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 33
+     },
+     {
+      "q": "Will I get a replacement or a refund?",
+      "a": "KAI • AI ASSISTANT Please submit the damaged item request through the return portal: https://nakedwardrobe.com/apps/aftership-returns-center. Our team will review it, and if approved, they’ll email a prepaid label — I can’t promise a replacement or refund outcome beyond what the review and portal provide. FOR YOU ORDERS CHAT PROFILE",
+      "by": "ai",
+      "lat": 4.6,
+      "cov": 75
+     },
+     {
+      "q": "Do I have to pay anything to return the damaged item?",
+      "a": "KAI • AI ASSISTANT For a damaged item, please start the request through the return portal: https://nakedwardrobe.com/apps/aftership-returns-center. If the request is approved, our team will email you a PREPAID LABEL — you’ll need to submit a brief description, a photo of the item, and a photo of the care tag inside the garment. FOR YOU ORDERS CHAT PROFILE",
+      "by": "ai",
+      "lat": 5.6,
+      "cov": 60
+     },
+     {
+      "q": "How long does the replacement take?",
+      "a": "🚩 human took over",
+      "by": "human",
+      "lat": null,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       },
+       {
+        "t": "no timeframe given",
+        "k": "warn"
+       }
+      ],
+      "cov": 33
+     }
+    ]
+   }
+  ],
+  "turns": [
+   {
+    "q": "I placed an order a few days ago and still have no tracking — where is it?",
+    "a": "updating. Please check your spam/junk folder for the shipping confirmation email. If you still don’t see it, log in to your Naked Wardrobe account and check your order history to access your order details and tracking information. SIGN IN SO WE CAN BETTER ASSIST YOU SIGN IN BY SIGNING IN, YOU AGREE TO OUR PRIVACY POLICY AND TERMS OF SERVICE. FOR YOU ORDERS CHAT PROFILE Subscribe to our newsletter for important updates and exclusive offers. Birthday SIGN ME UP",
+    "by": "ai",
+    "lat": 15,
+    "cov": 43
+   },
+   {
+    "q": "How long does it normally take to ship and send a tracking number?",
+    "a": "KAI • AI ASSISTANT Orders typically ship within 2–4 BUSINESS DAYS. Once your order ships, you’ll receive a SHIPPING CONFIRMATION EMAIL WITH YOUR TRACKING NUMBER, and tracking updates can take 24–48 HOURS to appear with the carrier. If you placed your order a few days ago and still haven’t received tracking, it may still be within processing time. FOR YOU ORDERS CHAT PROFILE",
+    "by": "ai",
+    "lat": 4.9,
+    "cov": 57
+   },
+   {
+    "q": "Once it ships, how long is delivery?",
+    "a": "KAI • AI ASSISTANT For U.S. orders, delivery timing depends on the shipping method you selected: PRIORITY SHIPPING is typically fulfilled in 2–3 BUSINESS DAYS, and STANDARD SHIPPING is typically fulfilled in 4–7 BUSINESS DAYS. If your order is international, delivery usually takes AROUND 25 BUSINESS DAYS due to customs processing. FOR YOU ORDERS CHAT PROFILE",
+    "by": "ai",
+    "lat": 4.4,
+    "fl": [
+     {
+      "t": "missed part of the ask",
+      "k": "warn"
+     }
+    ],
+    "cov": 25
+   },
+   {
+    "q": "Is there any way to speed it up if I need it sooner?",
+    "a": "KAI • AI ASSISTANT Unfortunately, we don’t offer next-day or expedited shipping at this time. Our fastest option is PRIORITY SHIPPING, which has 2–3 BUSINESS DAY FULFILLMENT. FOR YOU ORDERS CHAT PROFILE",
+    "by": "ai",
+    "lat": 5.6,
+    "fl": [
+     {
+      "t": "missed part of the ask",
+      "k": "warn"
+     }
+    ],
+    "cov": 0
+   },
+   {
+    "q": "What should I do if the tracking never updates?",
+    "a": "🚩 human took over",
+    "by": "human",
+    "lat": null,
+    "cov": 50
+   }
+  ]
  },
  {
   "id": "klaviyo-happywax-support-pending",
@@ -71266,19 +71561,19 @@ function renderBestPanel(elId, allRows){
   const ssTag=(c)=>(c!=null && c<20)?'<span class="ss-tag" data-tip="Only '+c+' conversations in this window (<20) — directional, not yet statistically significant. Widening store coverage raises it.">not stat-sig yet</span>':'';
   const w=rows[0];
   let h='<div class="best-winner"><div class="best-medal">#1 · winner</div>'+
-    '<div class="best-wmain"><div class="best-name"><span class="vdot" style="background:'+col(w.v)+'"></span>'+w.v+(w.us?'<span class="us-tag">US</span>':'')+iChip(w,1)+ssTag(w.convs)+'</div>'+
-    '<div class="best-sub">'+(w.autoRate!=null?w.autoRate+'% automation':Math.round(w.avgS)+'% success (legacy)')+' · ~'+s1(w.avgL)+'s'+(w.avgQ!=null?' · quality '+w.avgQ+'/100':'')+' · '+w.convs+' conversation'+(w.convs>1?'s':'')+' · <span data-tip="'+covTip(w)+'">'+pct(w.cov)+' coverage</span></div>'+dnaLine(w.v)+'</div>'+
+    '<div class="best-wmain"><div class="best-name"><span class="vdot" style="background:'+col(w.v)+'"></span>'+w.v+(w.us?'<span class="us-tag">US</span>':'')+iChip(w,1)+'</div>'+
+    '<div class="best-sub">'+(w.autoRate!=null?w.autoRate+'% automation':Math.round(w.avgS)+'% success (legacy)')+' · ~'+s1(w.avgL)+'s'+(w.avgQ!=null?' · quality '+w.avgQ+'/100':'')+' · '+w.convs+' conversation'+(w.convs>1?'s':'')+' · <span data-tip="'+covTip(w)+'">'+pct(w.cov)+' coverage</span>'+ssTag(w.convs)+'</div>'+dnaLine(w.v)+'</div>'+
     '<div class="best-score" data-tip="'+compTip(w)+'">'+w.comp+'<span>/100</span></div></div>';
   if(rows.length>1){
     h+='<div class="best-list">'+rows.slice(1).map((r,i)=>
       '<div class="best-row">'+
         '<div class="br-top">'+
           '<span class="best-rank">#'+(i+2)+'</span>'+
-          '<span class="best-rname"><span class="vdot" style="background:'+col(r.v)+'"></span>'+r.v+(r.us?'<span class="us-tag">US</span>':'')+iChip(r,i+2)+ssTag(r.convs)+'</span>'+
+          '<span class="best-rname"><span class="vdot" style="background:'+col(r.v)+'"></span>'+r.v+(r.us?'<span class="us-tag">US</span>':'')+iChip(r,i+2)+'</span>'+
           '<span class="bar best-bar"><i style="width:'+r.comp+'%;background:'+col(r.v)+'"></i></span>'+
           '<span class="best-rnum mono" data-tip="'+compTip(r)+'">'+r.comp+'</span>'+
         '</div>'+
-        '<div class="br-meta mono">'+(r.autoRate!=null?'<b>'+r.autoRate+'%</b> auto':'')+' · <b>'+s1(r.avgL)+'s</b>'+(r.avgQ!=null?' · <b>q'+r.avgQ+'</b>':'')+' · '+r.convs+' conv · <span data-tip="'+covTip(r)+'">'+pct(r.cov)+' cov</span></div>'+
+        '<div class="br-meta mono">'+(r.autoRate!=null?'<b>'+r.autoRate+'%</b> auto':'')+' · <b>'+s1(r.avgL)+'s</b>'+(r.avgQ!=null?' · <b>q'+r.avgQ+'</b>':'')+' · '+r.convs+' conv · <span data-tip="'+covTip(r)+'">'+pct(r.cov)+' cov</span>'+ssTag(r.convs)+'</div>'+
         dnaLine(r.v)+
       '</div>').join('')+'</div>';
   }
