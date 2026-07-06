@@ -89,6 +89,25 @@ const THEME_LIMIT = Number((pick("--themes") || [])[0]) || 0;   // 0 = all theme
 const MODES = (modeFilter || ["shopping", "support"]);
 const STAMP = (process.env.RUN_DATE || new Date().toISOString().slice(0, 10));
 
+function normalizeCaptureOrigin(raw) {
+  const v = String(raw || "").trim().toLowerCase();
+  if (!v) return null;
+  if (["codex", "openai-codex", "codex-desktop"].includes(v)) return "codex";
+  if (["claude", "claude-code", "anthropic-claude"].includes(v)) return "claude";
+  if (["automation", "cron", "launchd", "weekly-local", "daily-local"].includes(v)) return "automation";
+  return v.replace(/[^a-z0-9._-]+/g, "-").replace(/^-+|-+$/g, "") || "unknown";
+}
+
+function detectCaptureOrigin() {
+  const explicit = normalizeCaptureOrigin(process.env.BENCHMARK_CAPTURE_ORIGIN || process.env.CAPTURE_ORIGIN || process.env.AGENT_ORIGIN);
+  if (explicit) return { origin: explicit, explicit: true };
+  if (process.env.CODEX_SHELL || process.env.CODEX_CI || /codex/i.test(process.env.__CFBundleIdentifier || "")) return { origin: "codex", explicit: false };
+  if (process.env.CLAUDECODE || process.env.CLAUDE_CODE || /claude/i.test(process.env.__CFBundleIdentifier || "")) return { origin: "claude", explicit: false };
+  return { origin: "unknown", explicit: false };
+}
+
+const CAPTURE_ORIGIN = detectCaptureOrigin();
+
 let targets = STORES.filter(s => s.url);
 // --store accepts space- OR comma-separated keys (`--store a b` or `--store a,b`). pick()
 // returns the space-split tokens; we also split on commas so a comma-list doesn't silently
@@ -175,7 +194,18 @@ function withTimeout(promise, ms, label) {
 async function runStoreMode(browser, store, mode, theme) {
   const w = WIDGETS[store.widget];
   const pool = theme.turns;
-  const out = { key: store.key, vendor: store.vendor, store: store.store, url: store.url, us: !!store.us, widget: store.widget, mode, theme: theme.key, themeLabel: theme.label, date: STAMP, capturedAt: new Date().toISOString(), turns: [] };
+  const out = {
+    key: store.key, vendor: store.vendor, store: store.store, url: store.url, us: !!store.us, widget: store.widget,
+    mode, theme: theme.key, themeLabel: theme.label, date: STAMP, capturedAt: new Date().toISOString(),
+    capture: {
+      origin: CAPTURE_ORIGIN.origin,
+      origin_explicit: CAPTURE_ORIGIN.explicit,
+      runner: "run.js",
+      browser: HEADED ? "headed" : "headless",
+      schema: 1,
+    },
+    turns: [],
+  };
   // INCOGNITO/COLD: a brand-new Playwright context has zero cookies/localStorage/
   // IndexedDB/cache for ANY origin (the widget's cross-origin storage included),
   // so there is never a pre-existing conversation. storageState is left undefined
@@ -347,6 +377,7 @@ async function runStoreMode(browser, store, mode, theme) {
   try { browser = await chromium.launch({ ...launchOpts, channel: HEADED ? "chrome" : undefined }); }
   catch (e) { browser = await chromium.launch(launchOpts); }
   console.log(HEADED ? "Running HEADED (visible Chrome) — bot-blocked widgets load here." : "Running headless.");
+  console.log(`Capture origin: ${CAPTURE_ORIGIN.origin}${CAPTURE_ORIGIN.explicit ? " (explicit)" : " (auto-detected; override with BENCHMARK_CAPTURE_ORIGIN=codex|claude|automation)"}`);
   const CONV_DIR = `results/${STAMP}/conv`;
   await mkdir(CONV_DIR, { recursive: true });   // one file PER CONVERSATION (theme)
 

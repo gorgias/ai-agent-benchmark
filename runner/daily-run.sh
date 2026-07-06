@@ -22,6 +22,7 @@ if pgrep -f "node run.js" >/dev/null; then echo "driver already running — skip
 
 export RUN_DATE=$(date +%F)
 export TURN_TIMEOUT_MS=45000
+export BENCHMARK_CAPTURE_ORIGIN=${BENCHMARK_CAPTURE_ORIGIN:-automation}
 
 # pick today's ~30-conversation plan (writes ../run-next.json + prints STORE_ARGS=)
 PLAN_OUT=$(node daily-plan.js 30 "$RUN_DATE")

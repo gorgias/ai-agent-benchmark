@@ -14,6 +14,7 @@
 # ============================================================================
 cd "$(dirname "$0")"
 DATE=${RUN_DATE:-2026-07-01}
+export BENCHMARK_CAPTURE_ORIGIN=${BENCHMARK_CAPTURE_ORIGIN:-manual}
 MODE_ARG="--skip-candidates"
 if [ "$1" = "headed" ]; then MODE_ARG='--headed'; fi
 echo "▶ CAPTURE-ONLY ($MODE_ARG) — run-date $DATE — static report (no auto-refresh)"
