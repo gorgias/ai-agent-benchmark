@@ -319,7 +319,7 @@
   <a class="brand" href="report.html"><i></i>GORGIAS · AI AGENT BENCHMARK</a>
   <div class="links">
     <a href="takeaways.html">Summary</a>
-    <a href="report.html" id="nav-report" class="active" aria-current="page" onclick="try{sessionStorage.removeItem('sb.conv')}catch(e){}">Detailed report</a>
+    <a href="report.html" id="nav-report" class="active" aria-current="page" onclick="try{sessionStorage.removeItem('sb.conv')}catch(e){}">Best AI Agent</a>
     <a href="report.html?view=conversations" id="nav-conversations">Conversations</a>
     <a href="run-status.html">Run status</a>
     <a href="#how" onclick="event.preventDefault();openModal();" title="How this benchmark works — method, metrics, quality judging, honesty notes">ⓘ How it works</a>
@@ -434,9 +434,9 @@
 <div class="wrap">
 
 <div class="modebar">
-  <button class="modebtn" data-m="best" aria-selected="true" onclick="setMode('best')">🏆 Best AI Agent</button>
+  <button class="modebtn" data-m="best" aria-selected="true" onclick="setMode('best')">🏆 Best category</button>
   <button class="modebtn" data-m="shopping" aria-selected="false" onclick="setMode('shopping')">🛍️ Shopping Assistant</button>
-  <button class="modebtn" data-m="support" aria-selected="false" onclick="setMode('support')">🎧 Support</button>
+  <button class="modebtn" data-m="support" aria-selected="false" onclick="setMode('support')">🎧 Support Agent</button>
 </div>
 <p class="lead" id="mode-note" style="text-align:center;margin:0 auto 6px">Shopping-discovery conversations that must end in a real product recommendation.</p>
 
@@ -470,7 +470,6 @@
     </div>
   </div>
   <span class="datebar-note" id="date-note"></span>
-  <span class="snap" id="live-badge" title="Static snapshot of the captured conversations">snapshot</span>
 </div>
 
 <section id="summary-sec">
@@ -494,15 +493,11 @@
 <section id="best-sec">
   <h2 class="sec">Best AI agent — by category</h2>
   <p class="lead">The single best on-site AI agent for each job, ranked by a composite of <strong>automation</strong> + <strong>quality</strong> + <strong>speed</strong>, gated on measurement coverage. <button class="linklike" onclick="openModal()">How the ranking works ↗</button></p>
-  <div class="modebar bestbar">
-    <button class="modebtn bestbtn" data-b="shopping" aria-selected="true" onclick="setBest('shopping')">Shopping Assistant</button>
-    <button class="modebtn bestbtn" data-b="support" aria-selected="false" onclick="setBest('support')">Support AI Agent</button>
-  </div>
-  <div class="card best-card" id="best-card-shopping">
+  <div class="card best-card" id="best-card-shopping" style="margin-bottom:16px">
     <div class="best-cat">Shopping Assistant — product discovery &amp; recommendation</div>
     <div id="best-shopping"></div>
   </div>
-  <div class="card best-card" id="best-card-support" hidden>
+  <div class="card best-card" id="best-card-support">
     <div class="best-cat">Support AI Agent — shipping, returns &amp; policy</div>
     <div id="best-support"></div>
   </div>
@@ -42492,7 +42487,7 @@ function applyView(){
   show('caps-sec', isData && MODE==='shopping');
   // method & caveats stays visible in every view
   document.getElementById('mode-note').textContent = isBest
-    ? 'The single best on-site AI agent for each job — ranked by success + speed, gated on measurement coverage. Use the sub-toggle to switch job.'
+    ? 'The single best on-site AI agent for each job — Shopping Assistant and Support Agent — ranked by a composite of automation, quality and speed, gated on measurement coverage.'
     : isConv
       ? 'Every captured conversation across both lanes — filter, search, and open the full transcript. Gorgias conversations link to their ticket.'
       : (MODE==='shopping'
@@ -42515,7 +42510,7 @@ function applyView(){
     if(isConv) u.searchParams.set('view','conversations'); else u.searchParams.delete('view');
     history.replaceState(null,'',u);
   } catch(e){}
-  if(isBest) setBest(BESTMODE);            // make sure the right sub-panel is showing
+  // Best category now shows both lane rankings stacked — no sub-toggle.
   if(isConv){ renderConv(); pollLive(); }  // rebuild the unified feed + check for a live run
 }
 // --- Coverage: the full vendor × website test inventory (date-window independent) ---
@@ -42603,12 +42598,6 @@ if (_saved && ('from' in _saved) && (!_saved.to || !_latestDate || _saved.to >= 
 } else { initDates(); }
 pruneWF(); renderFilterPops();   // vendor/website filter pills (restored from saved state)
 renderAll();
-// --- Static snapshot: stamp the badge with the latest capture date (no auto-reload) ---
-(function(){
-  const all=[...STORES,...SUPPORT].flatMap(s=>(s.themes&&s.themes.length?s.themes.map(t=>convDate(s,t)):[convDate(s,null)])).filter(Boolean).sort();
-  const b=document.getElementById('live-badge');
-  if(b && all.length) b.textContent='snapshot · data through '+all[all.length-1];
-})();
 </script>
 <footer class="sitefoot">
   <div style="font-family:'Inter Tight';font-weight:800;font-size:14px;margin-bottom:8px">GORGIAS · AI AGENT BENCHMARK</div>
