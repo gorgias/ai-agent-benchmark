@@ -24,6 +24,7 @@ import { existsSync, readFileSync } from "node:fs";
 import { WIDGETS, STORES, readLatestAssistantReply, readTranscript } from "./vendors.js";
 import { SHOPPING_THEMES, SUPPORT_THEMES } from "./pools.js";
 import { isGen, isAck, isNoAnswer, detectHandover, convoValidity } from "./classify.js";
+import { normalizeUserMessage } from "./message-style.js";
 
 // Prefix every log line with an ISO timestamp so run-status can render each activity event
 // in the viewer's local time. runstatus.parseLog strips/keeps the prefix.
@@ -289,7 +290,7 @@ async function runStoreMode(browser, store, mode, theme) {
     let handedOver = false;
     const useNet = w.transport === "net" && w.net;
     for (let i = 0; i < pool.length; i++) {
-      const q = pool[i];
+      const q = normalizeUserMessage(pool[i]);
       // Handed to a human on an earlier turn → STOP talking to the human. We do NOT
       // keep sending scripted shopper messages to a live agent. The remaining turns
       // are recorded as "not sent" (by:human) so the full-journey denominator — and

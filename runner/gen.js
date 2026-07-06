@@ -19,6 +19,7 @@ import { cleanAnswer } from "./reply-clean.js";
 import { conversationTurnQuality } from "./turn-quality.js";
 import { isQuarantinedConversation } from "./conversation-quarantine.js";
 import { extractRecommendedProducts } from "./product-recommendation-bars.js";
+import { normalizeUserMessage } from "./message-style.js";
 
 // Themes whose turns must NOT count toward latency / automation / quality (robustness only).
 const GUARDRAIL_KEYS = new Set(["guardrails"]);
@@ -127,6 +128,10 @@ const TQ_FLAG = {
   not_substantive:            ["thin / non-substantive", "bad"],
   echoed_question:            ["echoed the question back", "warn"],
 };
+const normalizeDisplayTurns = (turns) => (turns || []).map((turn) => ({
+  ...turn,
+  q: normalizeUserMessage(turn.q),
+}));
 // Truncate the transcript at the first handover turn — once a human takes over the
 // conversation is over; we never show turns past that point.
 const themeTurns = (t, mode = "") => {
@@ -148,7 +153,7 @@ const themeTurns = (t, mode = "") => {
     const flags = ((s && s.flags) || []).map(f => TQ_FLAG[f] ? { t: TQ_FLAG[f][0], k: TQ_FLAG[f][1] } : { t: f.replace(/_/g, " "), k: "warn" });
     const cov = s && s.keyword_coverage && s.keyword_coverage.asked ? Math.round(s.keyword_coverage.ratio * 100) : null;
     return {
-      q: x.q, a: aText(x), by: x.by,
+      q: normalizeUserMessage(x.q), a: aText(x), by: x.by,
       lat: x.ai_latency_ms != null ? round1(x.ai_latency_ms / 1000) : null,
       ...(flags.length ? { fl: flags } : {}),
       ...(cov != null ? { cov } : {}),
@@ -185,7 +190,7 @@ async function loadAgg(key, mode, date) {
       if (isGuard) {
         const ev = EVALS[id];
         guard.n++;
-        guard.convs.push({ theme: obj.theme, turns: obj.turns, datetime: obj.capturedAt || null, capture: obj.capture || null, eval: ev || null });
+        guard.convs.push({ theme: obj.theme, turns: normalizeDisplayTurns(obj.turns), datetime: obj.capturedAt || null, capture: obj.capture || null, eval: ev || null });
         continue;   // never in latency/automation/quality aggregates
       }
       // CONNECTIVITY FAILURE: widget dropped mid-session (offline/reconnecting) — measures the
