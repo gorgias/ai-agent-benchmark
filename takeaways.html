@@ -8,409 +8,799 @@
 <title>Industry Takeaways — Gorgias AI Agent Competitive Benchmark</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Inter+Tight:wght@600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --ink:#16120D; --ink-2:#241E16; --paper:#F6F2EC; --paper-2:#EFE9E0;
-    --on:#1B1712; --on-muted:#6B6259; --on-faint:#A89D92;
-    --coral:#F0603F; --coral-2:#FF8B5D; --violet:#6E56CF;
-    --mint:#1E9E6A; --amber:#D98A00; --red:#D64545;
-    --line:rgba(27,23,18,.09);
-  }
-  *{box-sizing:border-box;margin:0;padding:0}
-  html{scroll-behavior:smooth}
-  body{font-family:'Inter',-apple-system,sans-serif;background:var(--paper);color:var(--on);-webkit-font-smoothing:antialiased;line-height:1.55;overflow-x:hidden}
-  .mono{font-family:'JetBrains Mono',ui-monospace,monospace;font-variant-numeric:tabular-nums}
-  .p75mut{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:10.5px;color:var(--on-faint);font-weight:600;margin-top:2px}
-  .prank{display:inline-flex;align-items:center;justify-content:center;min-width:24px;height:22px;padding:0 6px;margin-right:9px;border-radius:6px;background:var(--ink);color:#fff;font-family:'Inter Tight';font-weight:800;font-size:12px;flex:none;vertical-align:middle}
-  .rk{font-size:10px;font-weight:800;color:var(--on-faint);font-variant-numeric:tabular-nums}
-  /* visible ⓘ affordance on every tooltip carrier — hover targets must be discoverable */
-  .tt::after,[data-tip]::after{content:"ⓘ";font-size:.68em;color:var(--coral);opacity:.6;margin-left:3px;vertical-align:super}
-  .tt:hover::after,[data-tip]:hover::after{opacity:1}
-  a{color:var(--coral)}
-  ::selection{background:var(--coral);color:#fff}
-  :focus-visible{outline:2px solid var(--coral);outline-offset:2px;border-radius:4px}
+/* =========================================================================
+   AXIOM DESIGN TOKENS — light theme, verbatim from Gorgias color-tokens.json
+   ========================================================================= */
+:root{
+  /* core primitives */
+  --white:#ffffff; --black:#1e242e;
+  --grey-50:#fafafa; --grey-100:#ebecef; --grey-200:#d5d7dd; --grey-300:#c7cad1;
+  --grey-400:#b3b8c1; --grey-500:#6e7686; --grey-600:#5c6370; --grey-700:#4c525d;
+  --coral-50:#fef4f3; --coral-100:#ffeae6; --coral-500:#ff9780; --coral-800:#984939;
+  --green-50:#e9fbf5; --green-300:#74dcba; --green-500:#32c898; --green-800:#147656;
+  --red-50:#ffecef; --red-500:#ff425d; --red-600:#e8304b; --red-700:#d90b28;
+  --orange-50:#fff5ee; --orange-300:#ffbb8e; --orange-500:#ff9a57; --orange-800:#a94f13;
+  --purple-50:#f1ecff; --purple-100:#dad0ff; --purple-200:#c4b7ff; --purple-500:#7e55f6;
+  --purple-600:#754dec; --purple-700:#683fcf; --purple-800:#4c3c9d;
+  --blue-50:#f5f9ff; --blue-100:#d8e9fd; --blue-600:#0d6cf2; --blue-900:#073c85;
+  --teal-50:#e8f5f8; --teal-500:#149db8; --teal-800:#0b5665;
+  --fuchsia-50:#fee1f9; --fuchsia-400:#ef6cd9; --fuchsia-800:#92247f;
+  --yellow-50:#fef8e7; --yellow-100:#fdf1cd; --yellow-500:#f7d15f; --yellow-800:#887334;
 
-  /* ---------- sticky nav ---------- */
-  /* shared site nav — identical metrics to report.html's .sitenav so both pages read as ONE site */
-  .nav{position:sticky;top:0;z-index:60;display:flex;align-items:center;gap:20px;padding:13px 26px;
-       background:color-mix(in srgb,var(--paper) 82%,transparent);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
-  .nav .brand{display:flex;align-items:center;gap:9px;font-family:'Inter Tight';font-weight:800;font-size:13.5px;letter-spacing:-.01em;color:var(--on);text-decoration:none;white-space:nowrap}
-  .nav .brand i{width:10px;height:10px;border-radius:50%;background:linear-gradient(135deg,var(--coral),var(--coral-2));display:inline-block;flex:none}
-  .nav .links{display:flex;gap:6px;margin-left:auto;flex-wrap:wrap}
-  .nav .links a{font-size:13.5px;font-weight:700;color:var(--on-muted);text-decoration:none;padding:8px 16px;border-radius:999px;transition:color .15s,background .15s}
-  .nav .links a:hover{color:var(--on);background:rgba(240,96,63,.10)}
-  .nav .links a.active{color:#fff;background:var(--ink)}
-  @media(max-width:820px){.nav .links a{padding:7px 10px;font-size:12px}}
+  /* semantic — content */
+  --content-neutral-default:var(--black);
+  --content-neutral-secondary:var(--grey-600);
+  --content-neutral-tertiary:var(--grey-500);
+  --content-accent-default:var(--purple-700);
+  --content-success-default:var(--green-800);
+  --content-error-default:var(--red-700);
+  --content-warning-default:var(--orange-800);
+  --content-inverted-default:var(--white);
+  /* semantic — surface */
+  --surface-neutral-primary:var(--grey-50);
+  --surface-neutral-secondary:var(--grey-100);
+  --surface-accent-default:var(--purple-50);
+  --surface-accent-primary:var(--purple-500);
+  --surface-success-default:var(--green-50);
+  --surface-error-default:var(--red-50);
+  --surface-warning-default:var(--orange-50);
+  --surface-inverted-default:var(--black);
+  /* semantic — border */
+  --border-neutral-default:rgba(0,0,0,.08);
+  --border-neutral-tertiary:rgba(103,113,131,.5);
+  --border-accent-default:var(--purple-500);
+  /* semantic — elevation */
+  --elevation-neutral-bg:var(--grey-50);
+  --elevation-neutral-default:var(--white);
+  /* effects */
+  --shadow-component:0px 2px 3px 0px #0000000d;
+  --shadow-container:0px 2px 20px 0px #0000000a;
+  --shadow-lift:0px 12px 32px -8px rgba(30,36,46,.14);
+  /* spacing scale (4/8) */
+  --xxxxs:2px; --xxxs:4px; --xxs:6px; --xs:8px; --sm:12px; --md:16px;
+  --lg:24px; --xl:32px; --xxl:48px; --xxxl:64px;
+  /* radii */
+  --r-sm:8px; --r-md:12px; --r-lg:16px; --r-xl:20px;
+}
 
-  /* ---------- hero ---------- */
-  .hero{position:relative;padding:96px 28px 72px;text-align:center;overflow:hidden}
-  /* living mesh-gradient hero canvas (ink-in-water on paper) — same engine as report.html */
-  .hero-canvas{position:absolute;inset:0;z-index:0;width:100%;height:100%;filter:blur(52px) saturate(1.12);
-    -webkit-mask-image:radial-gradient(145% 135% at 50% 32%,#000 14%,rgba(0,0,0,.55) 44%,rgba(0,0,0,.18) 68%,transparent 88%);
-            mask-image:radial-gradient(145% 135% at 50% 32%,#000 14%,rgba(0,0,0,.55) 44%,rgba(0,0,0,.18) 68%,transparent 88%)}
-  .hero>*:not(.hero-canvas){position:relative;z-index:1}   /* the generic rule was overriding the canvas's absolute positioning → floating 150px band */
-  .eyebrow-chip{display:inline-flex;align-items:center;gap:8px;font-size:11.5px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
-    color:var(--coral);background:#fff;border:1px solid var(--line);padding:8px 16px;border-radius:999px;box-shadow:0 2px 10px rgba(27,23,18,.05)}
-  .eyebrow-chip i{width:7px;height:7px;border-radius:50%;background:var(--coral);animation:pulse 2.2s infinite}
-  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
-  h1{font-family:'Inter Tight';font-size:clamp(44px,7.2vw,92px);font-weight:900;letter-spacing:-.035em;line-height:1.02;margin:26px auto 18px;max-width:13ch;text-wrap:balance}
-  h1 .grad{background:linear-gradient(92deg,var(--coral) 10%,var(--coral-2) 55%,var(--violet) 110%);-webkit-background-clip:text;background-clip:text;color:transparent}
-  .hero .sub{color:var(--on-muted);font-size:16px;max-width:56ch;margin:0 auto}
-  .hero .sub a{font-weight:700;text-decoration:none}
-  .statstrip{display:flex;justify-content:center;gap:clamp(22px,5vw,64px);flex-wrap:wrap;margin-top:52px}
-  .stat .num{font-family:'Inter Tight';font-size:clamp(34px,4.4vw,56px);font-weight:800;letter-spacing:-.03em;line-height:1;font-variant-numeric:tabular-nums}
-  .stat .lbl{font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--on-muted);margin-top:6px}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+  background:var(--elevation-neutral-bg);
+  color:var(--content-neutral-default);
+  -webkit-font-smoothing:antialiased;
+  line-height:1.5;
+  letter-spacing:-.006em;
+  overflow-x:hidden;
+}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--purple-100);color:var(--content-neutral-default)}
+:focus-visible{outline:2px solid var(--purple-500);outline-offset:2px;border-radius:var(--xxxs)}
 
+/* tabular numerals for every metric */
+.tnum{font-variant-numeric:tabular-nums;font-feature-settings:"tnum" 1,"cv01" 1}
+.mono{font-family:ui-monospace,'SFMono-Regular',Menlo,monospace;font-size:.92em;color:var(--content-neutral-secondary)}
 
-  /* ---------- sections ---------- */
-  .wrap{max-width:1120px;margin:0 auto;padding:0 26px}
-  section{padding:84px 0}
-  .kicker{display:flex;align-items:center;gap:12px;font-size:11.5px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--coral);margin-bottom:14px}
-  .kicker::after{content:"";height:1px;flex:0 0 44px;background:var(--coral);opacity:.5}
-  h2{font-family:'Inter Tight';font-size:clamp(28px,3.6vw,44px);font-weight:800;letter-spacing:-.025em;line-height:1.08;text-wrap:balance;margin-bottom:10px}
-  .lead{color:var(--on-muted);font-size:14.5px;max-width:72ch;margin-bottom:26px}
+/* =========================================================================
+   TOP NAV — first-party product-header pattern (sticky, hairline on scroll)
+   ========================================================================= */
+.appbar{
+  position:sticky;top:0;z-index:60;
+  display:flex;align-items:center;gap:var(--lg);
+  padding:0 var(--lg);height:56px;
+  background:color-mix(in srgb,var(--white) 88%,transparent);
+  backdrop-filter:blur(16px) saturate(1.4);
+  border-bottom:1px solid transparent;
+  transition:border-color .18s ease, box-shadow .18s ease;
+}
+.appbar.scrolled{border-bottom-color:var(--border-neutral-default);box-shadow:var(--shadow-container)}
+.brand{display:flex;align-items:center;gap:var(--xs);font-weight:600;font-size:14px;letter-spacing:-.01em;color:var(--content-neutral-default)}
+.brand .mark{width:22px;height:22px;border-radius:var(--xxs);background:var(--surface-inverted-default);display:grid;place-items:center;flex:none}
+.brand .mark::before{content:"";width:9px;height:9px;border-radius:2px;background:var(--purple-500);transform:rotate(45deg)}
+.brand .sep{width:1px;height:16px;background:var(--border-neutral-default);margin:0 var(--xxs)}
+.brand .sub{color:var(--content-neutral-secondary);font-weight:500}
+.navlinks{display:flex;align-items:center;gap:var(--xxxs);margin-left:auto}
+.navlinks a{
+  font-size:13px;font-weight:500;color:var(--content-neutral-secondary);
+  padding:var(--xxs) var(--sm);border-radius:var(--r-sm);
+  transition:background .14s ease,color .14s ease;white-space:nowrap;
+}
+.navlinks a:hover{background:var(--surface-neutral-secondary);color:var(--content-neutral-default)}
+.navlinks a.active{background:var(--surface-accent-default);color:var(--content-accent-default);font-weight:600}
+@media(max-width:820px){
+  .navlinks a{padding:var(--xxs) var(--xs);font-size:12px}
+  .brand .sub{display:none}
+}
 
-  /* ---------- dark verdict band ---------- */
-  .band{background:var(--ink);color:#F4EFE8;position:relative;overflow:hidden}
-  .band .kicker{color:var(--coral-2)}
-  .band h2{color:#fff}
-  .band .lead{color:rgba(244,239,232,.6)}
-  .band::before{content:"";position:absolute;width:60vw;height:60vw;right:-24vw;top:-30vw;border-radius:50%;
-    background:radial-gradient(circle,rgba(240,96,63,.22) 0%,transparent 60%);pointer-events:none}
-  .verdict{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1px;background:rgba(244,239,232,.12);border:1px solid rgba(244,239,232,.12);border-radius:18px;overflow:hidden;margin-top:34px}
-  .v-card{background:var(--ink-2);padding:30px 26px;transition:background .2s}
-  .v-card:hover{background:#2B241A}
-  .v-kpi{font-family:'Inter Tight';font-size:clamp(38px,4.6vw,58px);font-weight:900;letter-spacing:-.03em;line-height:1;font-variant-numeric:tabular-nums}
-  .v-good .v-kpi{color:#43D598} .v-mid .v-kpi{color:#FFB84D} .v-bad .v-kpi{color:#FF7A5C}
-  .v-lbl{font-size:12.5px;color:rgba(244,239,232,.62);margin-top:12px;line-height:1.55}
-  .v-lbl b{color:#fff;font-weight:700}
-  .band .tt{border-bottom-color:rgba(244,239,232,.4)}
-  .band .comp-note{margin-top:26px;font-size:14px;color:rgba(244,239,232,.72);max-width:78ch}
-  .band .comp-note b{color:#fff}
+/* =========================================================================
+   LAYOUT
+   ========================================================================= */
+.wrap{max-width:1080px;margin:0 auto;padding:0 var(--lg)}
+section{padding:var(--xxxl) 0}
+.kicker{
+  display:inline-flex;align-items:center;gap:var(--xs);
+  font-size:12px;font-weight:600;letter-spacing:.02em;
+  color:var(--content-accent-default);
+  background:var(--surface-accent-default);
+  padding:var(--xxs) var(--sm);border-radius:999px;margin-bottom:var(--md);
+}
+.kicker .dot{width:6px;height:6px;border-radius:50%;background:var(--purple-500)}
+h2.sec{font-size:clamp(26px,3.4vw,34px);font-weight:600;letter-spacing:-.028em;line-height:1.12;margin-bottom:var(--xs);max-width:22ch}
+.sec-lead{color:var(--content-neutral-secondary);font-size:15px;max-width:70ch;line-height:1.6}
 
-  /* ---------- cards ---------- */
-  .card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px 22px;transition:transform .22s cubic-bezier(.2,.7,.3,1.2),box-shadow .22s}
-  .card:hover{transform:translateY(-3px);box-shadow:0 14px 34px rgba(27,23,18,.10)}
-  table{width:100%;border-collapse:collapse;font-size:13px}
-  th{font-size:10.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--on-faint);text-align:left;padding:8px 10px;border-bottom:1px solid var(--line)}
-  td{padding:9px 10px;border-bottom:1px solid rgba(27,23,18,.05);vertical-align:top}
-  td.n,th.n{text-align:right}
-  tbody tr{transition:background .12s}
-  tbody tr:hover{background:var(--paper)}
-  .table-scroll{overflow-x:auto}
-  .pill{display:inline-block;font-size:11.5px;font-weight:700;padding:2px 9px;border-radius:999px}
-  .p-ok{background:#E2F4EA;color:var(--mint)} .p-mid{background:#FDF1DD;color:var(--amber)} .p-bad{background:#FDEAEA;color:var(--red)} .p-na{background:#EEE9E4;color:var(--on-faint)}
-  .vdot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:7px;vertical-align:baseline}
-  .us-tag{font-size:9.5px;font-weight:800;background:var(--coral);color:#fff;border-radius:5px;padding:1px 5px;margin-left:7px;vertical-align:middle}
+/* =========================================================================
+   HERO
+   ========================================================================= */
+.hero{padding:var(--xxxl) 0 var(--xxl);text-align:center;position:relative}
+.hero-inner{max-width:900px;margin:0 auto}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:var(--xs);
+  font-size:12px;font-weight:600;color:var(--content-neutral-secondary);
+  background:var(--elevation-neutral-default);
+  border:1px solid var(--border-neutral-default);
+  padding:var(--xxs) var(--sm) var(--xxs) var(--xs);
+  border-radius:999px;box-shadow:var(--shadow-component);margin-bottom:var(--lg);
+}
+.eyebrow .live{position:relative;width:16px;height:16px;display:grid;place-items:center}
+.eyebrow .live::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--green-500)}
+.eyebrow .live::after{content:"";position:absolute;width:16px;height:16px;border-radius:50%;background:var(--green-500);opacity:.28;animation:ping 2.4s cubic-bezier(0,0,.2,1) infinite}
+@keyframes ping{0%{transform:scale(.4);opacity:.5}80%,100%{transform:scale(1);opacity:0}}
+.eyebrow b{color:var(--content-neutral-default);font-weight:600}
+h1{
+  font-size:clamp(40px,6.4vw,68px);font-weight:600;letter-spacing:-.04em;
+  line-height:1.04;margin-bottom:var(--md);text-wrap:balance;
+}
+h1 .accent{color:var(--content-accent-default)}
+.hero .sub{color:var(--content-neutral-secondary);font-size:17px;max-width:60ch;margin:0 auto var(--xl);line-height:1.55}
+.hero .sub a{color:var(--content-accent-default);font-weight:600}
+.hero .sub a:hover{text-decoration:underline}
 
-  /* ---------- win / lose ---------- */
-  .winlose{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:18px;margin-top:8px}
-  .winlose .card{padding:26px 26px 20px;border-top:4px solid var(--mint)}
-  .winlose .card.lose{border-top-color:var(--red)}
-  .winlose h3{font-family:'Inter Tight';font-size:19px;font-weight:800;letter-spacing:-.01em;margin-bottom:14px}
-  .winlose li{font-size:13.5px;margin:11px 0 11px 18px}
-  .winlose li b{font-weight:700}
+/* hero stat strip — clean numeric row */
+.statstrip{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:var(--md);max-width:760px;margin:0 auto;
+}
+.statcell{
+  background:var(--elevation-neutral-default);
+  border:1px solid var(--border-neutral-default);
+  border-radius:var(--r-md);padding:var(--lg) var(--md);
+  box-shadow:var(--shadow-container);
+  display:flex;flex-direction:column;gap:var(--xxxs);align-items:center;
+}
+.statcell .num{font-size:clamp(30px,4vw,40px);font-weight:600;letter-spacing:-.03em;line-height:1}
+.statcell .lbl{font-size:11px;font-weight:500;letter-spacing:.02em;color:var(--content-neutral-secondary);text-align:center}
+@media(max-width:640px){.statstrip{grid-template-columns:repeat(2,1fr)}}
 
-  /* ---------- provider profiles ---------- */
-  .prof{display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:16px}
-  .prof .card{padding:20px 22px;border-top:3px solid var(--pcol,var(--line))}
-  .pv{font-family:'Inter Tight';font-weight:800;font-size:16.5px;letter-spacing:-.01em;margin-bottom:2px}
-  .pm{font-size:11.5px;color:var(--on-faint);margin-bottom:10px}
-  .pp{font-size:12.5px;margin:6px 0}
-  .pp.plus b{color:var(--mint)} .pp.minus b{color:var(--red)}
-  .quote{font-size:11.5px;color:var(--on-muted);border-left:3px solid var(--coral);padding:3px 0 3px 11px;margin:9px 0;font-style:italic}
+/* =========================================================================
+   VERDICT — Axiom "hero card" content container with 4 KPI cells
+   ========================================================================= */
+.verdict-shell{
+  background:var(--elevation-neutral-default);
+  border:1px solid var(--border-neutral-default);
+  border-radius:var(--r-xl);
+  box-shadow:var(--shadow-container);
+  overflow:hidden;margin-top:var(--lg);
+}
+.verdict-top{padding:var(--lg) var(--lg) var(--md);display:flex;align-items:flex-start;justify-content:space-between;gap:var(--md);flex-wrap:wrap}
+.verdict-top .h{font-size:20px;font-weight:600;letter-spacing:-.02em;line-height:1.25;max-width:52ch}
+.badge-rank{
+  display:inline-flex;align-items:center;gap:var(--xs);flex:none;
+  font-size:12px;font-weight:600;color:var(--content-accent-default);
+  background:var(--surface-accent-default);border:1px solid var(--purple-100);
+  padding:var(--xxs) var(--sm);border-radius:999px;white-space:nowrap;
+}
+.verdict-grid{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--border-neutral-default)}
+.vcell{padding:var(--lg);border-right:1px solid var(--border-neutral-default);position:relative}
+.vcell:last-child{border-right:none}
+.vcell .kpi{font-size:clamp(28px,3.6vw,38px);font-weight:600;letter-spacing:-.03em;line-height:1;display:flex;align-items:baseline;gap:var(--xxs)}
+.vcell.good .kpi{color:var(--content-success-default)}
+.vcell.mid  .kpi{color:var(--content-accent-default)}
+.vcell.warn .kpi{color:var(--content-warning-default)}
+.vcell .tag{
+  display:inline-block;font-size:10px;font-weight:600;letter-spacing:.02em;text-transform:uppercase;
+  padding:2px var(--xs);border-radius:var(--xxs);margin:var(--sm) 0 var(--xs);
+}
+.vcell.good .tag{background:var(--surface-success-default);color:var(--content-success-default)}
+.vcell.mid  .tag{background:var(--surface-accent-default);color:var(--content-accent-default)}
+.vcell.warn .tag{background:var(--surface-warning-default);color:var(--content-warning-default)}
+.vcell .desc{font-size:12.5px;color:var(--content-neutral-secondary);line-height:1.5}
+.vcell .desc b{color:var(--content-neutral-default);font-weight:600}
+.verdict-note{padding:var(--md) var(--lg) var(--lg);border-top:1px solid var(--border-neutral-default);font-size:13.5px;color:var(--content-neutral-secondary);line-height:1.6}
+.verdict-note b{color:var(--content-neutral-default);font-weight:600}
+@media(max-width:860px){.verdict-grid{grid-template-columns:repeat(2,1fr)}.vcell:nth-child(2){border-right:none}.vcell:nth-child(1),.vcell:nth-child(2){border-bottom:1px solid var(--border-neutral-default)}}
+@media(max-width:520px){.verdict-grid{grid-template-columns:1fr}.vcell{border-right:none;border-bottom:1px solid var(--border-neutral-default)}.vcell:last-child{border-bottom:none}}
 
-  /* ---------- lists ---------- */
-  ol.recs{margin:6px 0 0 20px}
-  ol.recs>li{margin:15px 0;font-size:14px}
-  ol.recs b{font-weight:700}
-  ol.recs li::marker{font-family:'Inter Tight';font-weight:800;color:var(--coral)}
-  .why{display:block;font-size:12.5px;color:var(--on-muted);margin-top:3px}
-  .twocol{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:32px}
-  .twocol h3{font-family:'Inter Tight';font-size:18px;font-weight:800;margin-bottom:4px}
-  .note{font-size:12.5px;color:var(--on-muted);line-height:1.7}
-  .footer{padding:44px 26px 60px;font-size:12px;color:var(--on-faint);text-align:center;border-top:1px solid var(--line)}
+/* =========================================================================
+   SCOREBOARD — Axiom DataTable styling
+   ========================================================================= */
+.tablecard{
+  background:var(--elevation-neutral-default);
+  border:1px solid var(--border-neutral-default);
+  border-radius:var(--r-lg);box-shadow:var(--shadow-container);
+  overflow:hidden;margin-top:var(--lg);
+}
+.table-scroll{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:13px}
+thead th{
+  font-size:11px;font-weight:600;letter-spacing:.02em;text-transform:uppercase;
+  color:var(--content-neutral-tertiary);text-align:left;
+  padding:var(--sm) var(--md);background:var(--surface-neutral-primary);
+  border-bottom:1px solid var(--border-neutral-default);white-space:nowrap;position:sticky;top:0;
+}
+thead th.n{text-align:right}
+tbody td{padding:var(--sm) var(--md);border-bottom:1px solid var(--border-neutral-default);vertical-align:middle;white-space:nowrap}
+tbody tr:last-child td{border-bottom:none}
+tbody tr{transition:background .12s ease}
+tbody tr:hover{background:var(--surface-neutral-primary)}
+tbody tr.us{background:var(--surface-accent-default)}
+tbody tr.us:hover{background:var(--purple-50)}
+td.n{text-align:right}
+.vdot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:var(--xs);vertical-align:middle;flex:none}
+.vname{font-weight:600;color:var(--content-neutral-default)}
+.rankbadge{
+  display:inline-grid;place-items:center;min-width:24px;height:22px;padding:0 var(--xxs);
+  border-radius:var(--xxs);background:var(--surface-neutral-secondary);
+  color:var(--content-neutral-secondary);font-weight:600;font-size:12px;
+}
+tr.us .rankbadge{background:var(--surface-inverted-default);color:var(--content-inverted-default)}
+.comp{font-weight:600;color:var(--content-neutral-default)}
+.rk{font-size:10.5px;font-weight:600;color:var(--content-neutral-tertiary);margin-left:var(--xxs)}
+.us-tag{font-size:9.5px;font-weight:600;letter-spacing:.02em;background:var(--surface-inverted-default);color:var(--content-inverted-default);border-radius:var(--xxxs);padding:1px var(--xxs);margin-left:var(--xs);vertical-align:middle}
+.p75{font-size:10.5px;color:var(--content-neutral-tertiary);margin-top:2px}
+/* Axiom Tag component — status pills */
+.pill{display:inline-block;font-size:11.5px;font-weight:600;padding:2px var(--xs);border-radius:var(--xxs);line-height:1.4}
+.p-ok{background:var(--surface-success-default);color:var(--content-success-default)}
+.p-mid{background:var(--surface-warning-default);color:var(--content-warning-default)}
+.p-bad{background:var(--surface-error-default);color:var(--content-error-default)}
+.p-na{background:var(--surface-neutral-secondary);color:var(--content-neutral-tertiary)}
+.table-note{font-size:12.5px;color:var(--content-neutral-secondary);margin-top:var(--sm);line-height:1.6}
+.table-note b{color:var(--content-neutral-default);font-weight:600}
 
-  /* ---------- tooltips (JS, fixed-position — CSS ::after got clipped by overflow cards) ---------- */
-  .tt{border-bottom:1.5px dotted var(--on-faint);cursor:help}
-  #jstip{position:fixed;z-index:999;max-width:320px;background:var(--ink);color:#fff;font-size:12px;font-weight:500;line-height:1.5;
-    padding:10px 13px;border-radius:10px;box-shadow:0 10px 30px rgba(0,0,0,.3);pointer-events:none;opacity:0;transition:opacity .12s;
-    text-transform:none;letter-spacing:0}
-  #jstip.on{opacity:1}
+/* =========================================================================
+   WIN / LOSE — two Axiom cards per lane
+   ========================================================================= */
+.lane-head{display:flex;align-items:center;gap:var(--sm);margin:var(--xl) 0 var(--md);flex-wrap:wrap}
+.lane-head .icon{width:32px;height:32px;border-radius:var(--r-sm);display:grid;place-items:center;flex:none;background:var(--surface-accent-default);color:var(--content-accent-default)}
+.lane-head h3{font-size:18px;font-weight:600;letter-spacing:-.02em}
+.lane-head .meta{font-size:13px;color:var(--content-neutral-secondary);font-weight:500}
+.wl-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--md)}
+@media(max-width:720px){.wl-grid{grid-template-columns:1fr}}
+.wl-card{
+  background:var(--elevation-neutral-default);
+  border:1px solid var(--border-neutral-default);
+  border-radius:var(--r-lg);padding:var(--lg);
+  box-shadow:var(--shadow-container);
+  transition:transform .2s cubic-bezier(.2,.7,.2,1),box-shadow .2s ease;
+}
+.wl-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-lift)}
+.wl-card .head{display:flex;align-items:center;gap:var(--xs);font-size:14px;font-weight:600;margin-bottom:var(--sm)}
+.wl-card .head .chip{width:22px;height:22px;border-radius:var(--xxs);display:grid;place-items:center;flex:none;font-size:13px}
+.wl-card.win .head .chip{background:var(--surface-success-default);color:var(--content-success-default)}
+.wl-card.lose .head .chip{background:var(--surface-error-default);color:var(--content-error-default)}
+.wl-card ul{list-style:none;display:flex;flex-direction:column;gap:var(--sm)}
+.wl-card li{font-size:13px;line-height:1.55;color:var(--content-neutral-secondary);padding-left:var(--md);position:relative}
+.wl-card li::before{content:"";position:absolute;left:0;top:7px;width:5px;height:5px;border-radius:50%}
+.wl-card.win li::before{background:var(--green-500)}
+.wl-card.lose li::before{background:var(--red-500)}
+.wl-card li b{color:var(--content-neutral-default);font-weight:600}
 
-  /* ---------- reveal on scroll ---------- */
-  .rv{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1)}
-  .rv.in{opacity:1;transform:none}
-  .rv-stagger>*{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s cubic-bezier(.2,.7,.2,1)}
-  .rv-stagger.in>*{opacity:1;transform:none}
-  .rv-stagger.in>*:nth-child(1){transition-delay:.05s}.rv-stagger.in>*:nth-child(2){transition-delay:.13s}
-  .rv-stagger.in>*:nth-child(3){transition-delay:.21s}.rv-stagger.in>*:nth-child(4){transition-delay:.29s}
-  .rv-stagger.in>*:nth-child(5){transition-delay:.37s}.rv-stagger.in>*:nth-child(6){transition-delay:.45s}
-  .rv-stagger.in>*:nth-child(7){transition-delay:.53s}.rv-stagger.in>*:nth-child(8){transition-delay:.61s}
-  .rv-stagger.in>*:nth-child(9){transition-delay:.69s}
-  /* ambient moving background across the whole page (matches report.html) */
-  @media (prefers-reduced-motion: reduce){
-    .rv,.rv-stagger>*{opacity:1!important;transform:none!important;transition:none!important}
-    .eyebrow-chip i{animation:none!important}
-    html{scroll-behavior:auto}
-  }
+/* =========================================================================
+   PROVIDER PROFILES — Axiom cards, ranked
+   ========================================================================= */
+.prof-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:var(--md);margin-top:var(--lg)}
+.prof-card{
+  background:var(--elevation-neutral-default);
+  border:1px solid var(--border-neutral-default);
+  border-radius:var(--r-lg);padding:var(--lg);
+  box-shadow:var(--shadow-container);
+  display:flex;flex-direction:column;gap:var(--xs);
+  transition:transform .2s cubic-bezier(.2,.7,.2,1),box-shadow .2s ease;
+}
+.prof-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-lift)}
+.prof-head{display:flex;align-items:center;gap:var(--xs)}
+.prof-head .vname{font-size:15px;font-weight:600;display:flex;align-items:center}
+.prof-head .tail{margin-left:auto}
+.tag-soft{font-size:10px;font-weight:600;letter-spacing:.02em;text-transform:uppercase;padding:2px var(--xs);border-radius:var(--xxs);background:var(--surface-neutral-secondary);color:var(--content-neutral-secondary)}
+.tag-new{background:var(--surface-accent-default);color:var(--content-accent-default)}
+.prof-metrics{font-size:11.5px;color:var(--content-neutral-secondary);font-weight:500;padding-bottom:var(--xs);border-bottom:1px solid var(--border-neutral-default);margin-bottom:var(--xxs)}
+.prof-metrics b{color:var(--content-neutral-default);font-weight:600}
+.pp{font-size:12.5px;line-height:1.5;color:var(--content-neutral-secondary)}
+.pp b{font-weight:600}
+.pp.plus b{color:var(--content-success-default)}
+.pp.minus b{color:var(--content-error-default)}
+.quote{
+  font-size:11.5px;color:var(--content-neutral-secondary);line-height:1.5;
+  border-left:2px solid var(--border-accent-default);padding:var(--xxs) 0 var(--xxs) var(--sm);
+  background:var(--surface-neutral-primary);border-radius:0 var(--xxs) var(--xxs) 0;
+}
+.prank-inline{
+  display:inline-grid;place-items:center;min-width:22px;height:20px;padding:0 var(--xxs);
+  border-radius:var(--xxs);background:var(--surface-inverted-default);color:var(--content-inverted-default);
+  font-weight:600;font-size:11px;margin-right:var(--xs);flex:none;
+}
+
+/* =========================================================================
+   LEARNINGS — numbered, Axiom list rows
+   ========================================================================= */
+.learn-list{display:flex;flex-direction:column;gap:var(--sm);margin-top:var(--lg)}
+.learn-row{
+  display:flex;gap:var(--md);
+  background:var(--elevation-neutral-default);
+  border:1px solid var(--border-neutral-default);
+  border-radius:var(--r-lg);padding:var(--lg);
+  box-shadow:var(--shadow-container);
+}
+.learn-num{
+  flex:none;width:32px;height:32px;border-radius:var(--r-sm);
+  display:grid;place-items:center;font-weight:600;font-size:14px;
+  background:var(--surface-accent-default);color:var(--content-accent-default);
+}
+.learn-body .t{font-size:14px;font-weight:600;letter-spacing:-.01em;margin-bottom:var(--xxxs)}
+.learn-body .why{font-size:12.5px;color:var(--content-neutral-secondary);line-height:1.55}
+
+/* =========================================================================
+   METHOD + FOOTER
+   ========================================================================= */
+.method{
+  background:var(--surface-neutral-primary);
+  border:1px solid var(--border-neutral-default);
+  border-radius:var(--r-lg);padding:var(--lg);margin-top:var(--lg);
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:var(--lg);
+}
+.method .col h4{font-size:12px;font-weight:600;letter-spacing:.02em;text-transform:uppercase;color:var(--content-neutral-tertiary);margin-bottom:var(--xs)}
+.method .col p{font-size:12.5px;color:var(--content-neutral-secondary);line-height:1.6}
+.method .col b{color:var(--content-neutral-default);font-weight:600}
+.footer{
+  padding:var(--xl) var(--lg) var(--xxl);text-align:center;
+  border-top:1px solid var(--border-neutral-default);margin-top:var(--xxl);
+}
+.footer .fbrand{font-size:14px;font-weight:600;margin-bottom:var(--xs)}
+.footer .flinks{font-size:13px;color:var(--content-neutral-secondary);display:flex;gap:var(--sm);justify-content:center;flex-wrap:wrap;margin-bottom:var(--xs)}
+.footer .flinks a{color:var(--content-accent-default);font-weight:500}
+.footer .fmeta{font-size:12px;color:var(--content-neutral-tertiary)}
+
+/* =========================================================================
+   TOOLTIP (JS, fixed) — Axiom tooltip = inverted surface
+   ========================================================================= */
+.tt{border-bottom:1px dotted var(--content-neutral-tertiary);cursor:help}
+.tt::after{content:"";display:inline-block;width:12px;height:12px;margin-left:3px;vertical-align:middle;
+  background:currentColor;-webkit-mask:center/contain no-repeat url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='7' fill='none' stroke='black' stroke-width='1.4'/%3E%3Ccircle cx='8' cy='5' r='.9' fill='black'/%3E%3Crect x='7.2' y='7' width='1.6' height='5' rx='.8' fill='black'/%3E%3C/svg%3E");
+  mask:center/contain no-repeat url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='7' fill='none' stroke='black' stroke-width='1.4'/%3E%3Ccircle cx='8' cy='5' r='.9' fill='black'/%3E%3Crect x='7.2' y='7' width='1.6' height='5' rx='.8' fill='black'/%3E%3C/svg%3E");
+  opacity:.4;color:var(--content-accent-default)}
+.tt:hover::after{opacity:.9}
+#jstip{
+  position:fixed;z-index:999;max-width:320px;
+  background:var(--surface-inverted-default);color:var(--content-inverted-default);
+  font-size:12px;font-weight:400;line-height:1.5;
+  padding:var(--xs) var(--sm);border-radius:var(--r-sm);
+  box-shadow:var(--shadow-lift);pointer-events:none;opacity:0;transition:opacity .12s ease;
+  text-transform:none;letter-spacing:0;
+}
+#jstip.on{opacity:1}
+
+/* =========================================================================
+   REVEAL / MOTION
+   ========================================================================= */
+.rv{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s cubic-bezier(.2,.7,.2,1)}
+.rv.in{opacity:1;transform:none}
+.rv-stagger>*{opacity:0;transform:translateY(14px);transition:opacity .5s ease,transform .5s cubic-bezier(.2,.7,.2,1)}
+.rv-stagger.in>*{opacity:1;transform:none}
+.rv-stagger.in>*:nth-child(1){transition-delay:.04s}.rv-stagger.in>*:nth-child(2){transition-delay:.10s}
+.rv-stagger.in>*:nth-child(3){transition-delay:.16s}.rv-stagger.in>*:nth-child(4){transition-delay:.22s}
+.rv-stagger.in>*:nth-child(5){transition-delay:.28s}.rv-stagger.in>*:nth-child(6){transition-delay:.34s}
+.rv-stagger.in>*:nth-child(7){transition-delay:.40s}.rv-stagger.in>*:nth-child(8){transition-delay:.46s}
+.rv-stagger.in>*:nth-child(9){transition-delay:.52s}.rv-stagger.in>*:nth-child(10){transition-delay:.58s}
+.rv-stagger.in>*:nth-child(11){transition-delay:.64s}.rv-stagger.in>*:nth-child(12){transition-delay:.70s}
+
+/* =========================================================================
+   FLOATING DESIGN-LAB BADGE
+   ========================================================================= */
+.lab-badge{
+  position:fixed;right:var(--lg);bottom:var(--lg);z-index:80;
+  display:inline-flex;align-items:center;gap:var(--xs);
+  font-size:12px;font-weight:600;color:var(--content-inverted-default);
+  background:var(--surface-inverted-default);
+  padding:var(--xs) var(--sm);border-radius:999px;
+  box-shadow:var(--shadow-lift);transition:transform .18s ease;
+}
+.lab-badge:hover{transform:translateY(-2px)}
+.lab-badge .d{width:7px;height:7px;border-radius:50%;background:var(--purple-500)}
+
+@media (prefers-reduced-motion: reduce){
+  .rv,.rv-stagger>*{opacity:1!important;transform:none!important;transition:none!important}
+  .eyebrow .live::after{animation:none!important}
+  html{scroll-behavior:auto}
+}
 </style>
 </head>
 <body>
 
-<nav class="nav">
-  <a class="brand" href="report.html"><i></i>GORGIAS · AI AGENT BENCHMARK</a>
-  <div class="links">
+<!-- ============================== APP BAR ============================== -->
+<nav class="appbar" id="appbar">
+  <a class="brand" href="report.html">
+    <span class="mark"></span>Gorgias<span class="sep"></span><span class="sub">AI Agent Benchmark</span>
+  </a>
+  <div class="navlinks">
     <a href="takeaways.html" class="active" aria-current="page">Summary</a>
     <a href="report.html">Detailed report</a>
     <a href="report.html?view=conversations">Conversations</a>
     <a href="run-status.html">Run status</a>
-    <a href="report.html#how" title="How this benchmark works — method, metrics, honesty notes">ⓘ How it works</a>
+    <a href="report.html#how">How it works</a>
   </div>
 </nav>
 
-<header class="hero">
-  <canvas class="hero-canvas" id="heroCanvas" aria-hidden="true"></canvas>
-  <span class="eyebrow-chip"><i></i>Industry takeaways · July 2026</span>
-  <h1>We benchmarked <span class="grad">every on&#8209;site AI&nbsp;agent.</span></h1>
-  <p class="sub">Real merchants, cold sessions, free-typed questions — measured, judged and repeated weekly. <a href="report.html">Explore the full interactive report →</a></p>
-  <div class="statstrip">
-    <div class="stat"><div class="num" data-count="409" data-stat="convs">0</div><div class="lbl">conversations captured</div></div>
-    <div class="stat"><div class="num" data-count="356" data-stat="judged">0</div><div class="lbl">LLM-judged</div></div>
-    <div class="stat"><div class="num" data-count="15" data-stat="vendors">0</div><div class="lbl">Vendors</div></div>
-    <div class="stat"><div class="num" data-count="43" data-suffix="+" data-stat="stores">0</div><div class="lbl">live stores measured</div></div>
+<!-- ============================== HERO ============================== -->
+<header class="hero wrap">
+  <div class="hero-inner">
+    <span class="eyebrow rv"><span class="live"></span>Industry benchmark&nbsp;·&nbsp;<b>Refreshed July 2026</b></span>
+    <h1 class="rv">We benchmarked every<br><span class="accent">on-site AI agent.</span></h1>
+    <p class="sub rv">Real merchants, cold sessions, free-typed questions — measured, judged and repeated weekly. <a href="report.html">Explore the full interactive report →</a></p>
+    <div class="statstrip rv-stagger">
+      <div class="statcell"><div class="num tnum" data-count="411" data-stat="convs">0</div><div class="lbl">Conversations captured</div></div>
+      <div class="statcell"><div class="num tnum" data-count="410" data-stat="judged">0</div><div class="lbl">LLM-judged</div></div>
+      <div class="statcell"><div class="num tnum" data-count="15" data-stat="vendors">0</div><div class="lbl">Vendors</div></div>
+      <div class="statcell"><div class="num tnum" data-count="43" data-suffix="+" data-stat="stores">0</div><div class="lbl">Live stores measured</div></div>
+    </div>
+    <!-- STATS_JSON:{"convs":411,"judged":410,"vendors":15,"stores":43,"runs":4} -->
   </div>
-  <!-- STATS_JSON:{"convs":409,"judged":356,"vendors":15,"stores":43,"runs":4} -->
 </header>
 
-
-<section class="band" id="verdict">
+<!-- ============================== VERDICT ============================== -->
+<section id="verdict">
   <div class="wrap">
-    <div class="kicker rv">The verdict — Gorgias</div>
-    <h2 class="rv">Gorgias: #2 overall — best-in-class support, and one shopping gap.</h2>
-    <div class="verdict rv-stagger">
-      <div class="v-card v-good"><div class="v-kpi">94</div><div class="v-lbl"><b><span class="tt" data-tip="Support quality /100 (blind, evidence-forced LLM judge): in-channel resolution /40, accuracy & grounding /25, actionability /20, clean close /15. Derived from binary checks, never picked by the judge.">Support quality</span></b> — essentially the <b>best answer quality measured</b> (Envive 88, field median ~65). Specific, grounded, actionable resolutions. <b>This is our strongest claim.</b></div></div>
-      <div class="v-card v-good"><div class="v-kpi">94%</div><div class="v-lbl"><b><span class="tt" data-tip="Automation rate = % of engaged conversations the AI handled with ZERO human touch: no human handover AND no out-of-channel deflection ('email us' / 'call us'). Early bails count against it.">Automation — elite</span></b>. 94% shopping · 83% support across live V3 stores. Only Ada/Rep go higher (100%) — both at near-zero answer quality. <b>Among vendors that actually answer, containment is top-tier.</b></div></div>
-      <div class="v-card v-mid"><div class="v-kpi">#2</div><div class="v-lbl"><b><span class="tt" data-tip="Overall = mean of the two lane composites. Composite = 40% automation + 40% quality + 20% speed (speed 100 at ≤3s, 0 at ≥22s) — automation and quality are equal pillars; speed separates close vendors.">#2 overall</span></b> — #2 support (78), #3 shopping (76), behind only Envive (#1 both lanes). Shopping quality (86) <b>beats Envive (78)</b>; Yuma edges us to #3 on raw quality (92) — on a thin 12-conversation, 2-store sample.</div></div>
-      <div class="v-card v-bad"><div class="v-kpi">~18s</div><div class="v-lbl"><b><span class="tt" data-tip="Latency = mean time to the COMPLETE final answer in a cold session; p75 = 75th-percentile across all timed turns (Gorgias's own benchmark metric). Never stopped on a stall, never on chips.">The shopping gap: speed</span></b>. Shopping mean ~18.4s, <b>p75 21.3s</b>, delivered atomically — slowest of the top tier (Sierra 9.6s, Envive 12.5s). Support speed is fine (15s). <b>Speed is the shopping lever.</b></div></div>
+    <span class="kicker rv"><span class="dot"></span>The verdict — Gorgias</span>
+    <h2 class="sec rv">Gorgias: #2 overall — best-in-class support, and one shopping gap.</h2>
+    <p class="sec-lead rv">A single read on where Gorgias stands across the field, on the same rubric applied blind to every vendor.</p>
+
+    <div class="verdict-shell rv">
+      <div class="verdict-top">
+        <div class="h">Gorgias sits #2 overall — best-in-class support answer quality and elite automation; the one remaining gap is shopping speed.</div>
+        <span class="badge-rank">#2 overall · #2 support · #3 shopping</span>
+      </div>
+      <div class="verdict-grid">
+        <div class="vcell good">
+          <div class="kpi tnum">94</div>
+          <span class="tag">Support quality</span>
+          <div class="desc"><span class="tt" data-tip="Support quality /100 (blind, evidence-forced LLM judge): in-channel resolution /40, accuracy &amp; grounding /25, actionability /20, clean close /15. Derived from binary checks, never picked by the judge.">Essentially the best answer quality measured</span> (Envive 88, field median ~65). Specific, grounded, actionable resolutions. <b>This is our strongest claim.</b></div>
+        </div>
+        <div class="vcell good">
+          <div class="kpi tnum">94<span style="font-size:.5em;font-weight:600">%</span></div>
+          <span class="tag">Automation — elite</span>
+          <div class="desc"><span class="tt" data-tip="Automation rate = % of engaged conversations the AI handled with ZERO human touch: no human handover AND no out-of-channel deflection ('email us' / 'call us'). Early bails count against it. In helpdesk terms: the share of tickets a human never touches.">94% shopping · 83% support</span> across live V3 stores. Only Ada/Rep score higher (100%) — both at near-zero answer quality. <b>Among vendors that actually answer, containment is top-tier.</b></div>
+        </div>
+        <div class="vcell mid">
+          <div class="kpi tnum">#2</div>
+          <span class="tag">Overall position</span>
+          <div class="desc"><span class="tt" data-tip="Overall = mean of the two lane composites. Composite = 40% automation + 40% quality + 20% speed (speed 100 at ≤3s, 0 at ≥22s) — automation and quality are equal pillars; speed separates close vendors.">#2 support (78), #3 shopping (76)</span>, behind only Envive. Shopping quality (86) beats Envive (78); Yuma edges us to #3 on raw quality (92) — on a thin 12-conversation sample. <b>We win the quality argument.</b></div>
+        </div>
+        <div class="vcell warn">
+          <div class="kpi tnum">~18<span style="font-size:.5em;font-weight:600">s</span></div>
+          <span class="tag">The shopping gap — speed</span>
+          <div class="desc"><span class="tt" data-tip="Latency = mean time to the COMPLETE final answer in a cold session; p75 = 75th-percentile across all timed turns. Never stopped on a stall, never on chips.">Shopping mean ~18.4s, p75 21.3s</span>, delivered atomically — slowest of the top tier (Sierra 9.9s, Envive 12.5s). Support speed is fine (15s). <b>Speed is the shopping lever.</b></div>
+        </div>
+      </div>
+      <div class="verdict-note">
+        <b>Bottom line:</b> under the blind, evidence-forced re-judge, Gorgias is <b>#2 overall, behind only Envive</b>. Support is the standout — quality <b>94/100</b>, effectively best-in-field, at 83% automation. Shopping quality (86) beats Envive (78) but sits <b>#3</b> because Yuma scores 92 (on a thin 12-conversation sample) and we're the slowest of the top tier (~18s vs ~12s). Two clean levers: shopping speed, and lifting the weakest-configured stores. Composite = 40% automation · 40% quality · 20% speed.
+      </div>
     </div>
-    <p class="comp-note rv"><b>Bottom line:</b> under the blind, evidence-forced re-judge, Gorgias is <b>#2 overall, behind only Envive</b>. Support is the standout — quality <b>94/100</b>, effectively best-in-field, at 83% automation. Shopping quality (86) beats Envive (78) but sits <b>#3</b> because Yuma scores 92 (on a thin 12-conversation sample) and we're the slowest of the top tier (~18s vs ~12s). Two clean levers: shopping speed, and lifting the weakest-configured stores. Composite = 40% automation · 40% quality · 20% speed.</p>
   </div>
 </section>
 
+<!-- ============================== SCOREBOARD ============================== -->
 <section id="scoreboard" style="padding-top:0">
   <div class="wrap">
-    <div class="kicker rv">The numbers</div>
-    <h2 class="rv">Scoreboard.</h2>
-    <p class="lead rv">Automation = share of engaged conversations the AI handled end-to-end in-channel (handovers and email/phone deflections count against; early bails included). Quality = LLM-judge rubric /100. All free-text, cold sessions, no quick-reply chips. Hover any header for the exact definition.</p>
-    <div class="card table-scroll rv" style="padding:10px 14px">
-    <table id="score-table">
-      <thead><tr><th class="n"><span class="tt" data-tip="Overall position — vendors ordered by the sum of their two lane composites. The small #n next to each composite is the rank within that lane.">#</span></th><th>Vendor</th><th class="n"><span class="tt" data-tip="Composite = 40% automation rate + 40% quality + 20% speed — automation and quality are equal pillars (a fast deflection must not outrank substance); speed separates close vendors (speed scored 100 at ≤3s, 0 at ≥22s). One number per lane so vendors can be ranked.">Composite</span> 🛍️</th><th class="n"><span class="tt" data-tip="Composite = 40% automation rate + 40% quality + 20% speed — automation and quality are equal pillars (a fast deflection must not outrank substance); speed separates close vendors (speed scored 100 at ≤3s, 0 at ≥22s). One number per lane so vendors can be ranked.">Composite</span> 🎧</th><th><span class="tt" data-tip="Automation rate = % of engaged conversations the AI handled with ZERO human touch: no human handover AND no deflection out of the channel (no 'email us' / 'call us'). Early bails count against it. This is the ticket-containment metric — the share of conversations a human never has to touch.">Automation</span> 🛍️/🎧</th><th><span class="tt" data-tip="Quality = an LLM judge scores every captured conversation /100 on a per-lane rubric, judged BLIND (vendor identity stripped) via binary evidence-forced checks — the score is derived from the checks, never picked by the judge. Shopping: answer relevance /30, discovery (smart clarifying questions on broad asks) /20, recommendation quality /22, rich commerce elements /18, close attempt /10. Support: in-channel resolution /40, accuracy &amp; grounding /25, actionability /20, clean close /15. Spec: runner/eval-rubric.md.">Quality</span> 🛍️/🎧</th><th class="n"><span class="tt" data-tip="Latency = mean time from sending a free-typed message to the assistant's COMPLETE final answer (never stopped on a 'let me check…' stall, never on quick-reply chips), cold session. p75 = 75th-percentile latency across all timed turns — Gorgias's own benchmark metric, less flattered by a few fast replies.">Latency + p75</span> 🛍️/🎧</th></tr></thead>
-      <tbody></tbody>
-    </table>
+    <span class="kicker rv"><span class="dot"></span>The numbers</span>
+    <h2 class="sec rv">Scoreboard.</h2>
+    <p class="sec-lead rv">Automation = share of engaged conversations the AI handled end-to-end in-channel (handovers and email/phone deflections count against; early bails included). Quality = LLM-judge rubric /100. All free-text, cold sessions, no quick-reply chips. Hover any header for the exact definition.</p>
+
+    <div class="tablecard rv">
+      <div class="table-scroll">
+        <table id="score-table">
+          <thead>
+            <tr>
+              <th class="n"><span class="tt" data-tip="Overall position — vendors ordered by the sum of their two lane composites. The small #n next to each composite is the rank within that lane.">#</span></th>
+              <th>Vendor</th>
+              <th class="n"><span class="tt" data-tip="Composite = 40% automation rate + 40% quality + 20% speed — automation and quality are equal pillars (a fast deflection must not outrank substance); speed separates close vendors (100 at ≤3s, 0 at ≥22s).">Composite · Shopping</span></th>
+              <th class="n"><span class="tt" data-tip="Composite = 40% automation rate + 40% quality + 20% speed — automation and quality are equal pillars; speed separates close vendors (100 at ≤3s, 0 at ≥22s).">Composite · Support</span></th>
+              <th><span class="tt" data-tip="Automation rate = % of engaged conversations the AI handled with ZERO human touch: no human handover AND no deflection out of the channel. Early bails count against it. This is the ticket-containment metric.">Automation · S/Su</span></th>
+              <th><span class="tt" data-tip="Quality = an LLM judge scores every captured conversation /100 on a per-lane rubric, judged BLIND via binary evidence-forced checks — the score is derived from the checks, never picked by the judge. Shopping: answer relevance /30, discovery (smart clarifying questions on broad asks) /20, recommendation /22, rich elements /18, close /10. Support: resolution /40, accuracy /25, actionability /20, close /15. Spec: runner/eval-rubric.md.">Quality · S/Su</span></th>
+              <th class="n"><span class="tt" data-tip="Latency = mean time from a free-typed message to the assistant's COMPLETE final answer (never stopped on a stall, never on chips), cold session. p75 = 75th-percentile latency across all timed turns.">Latency + p75</span></th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
     </div>
-    <p class="note rv" style="margin-top:12px">Not rankable: <b>Yuma</b> (ticket/email automation behind Gorgias/Zendesk — no free-text on-site concierge to measure: its chat surfaces are chip-gated menus) and <b>Humind</b> (widget only initializes for real human sessions; blocked our capture in every environment).</p>
+    <p class="table-note rv">Not rankable: <b>Yuma</b> (ticket/email automation behind Gorgias/Zendesk — no free-text on-site concierge to measure; its chat surfaces are chip-gated menus) and <b>Humind</b> (widget only initializes for real human sessions; blocked our capture in every environment).</p>
   </div>
 </section>
 
-<section id="winlose">
+<!-- ============================== WIN / LOSE ============================== -->
+<section id="winlose" style="padding-top:0">
   <div class="wrap">
-    <div class="kicker rv">Head to head</div>
-    <h2 class="rv">Where Gorgias wins — and where it doesn't.</h2>
+    <span class="kicker rv"><span class="dot"></span>Head to head</span>
+    <h2 class="sec rv">Where Gorgias wins — and where it doesn't.</h2>
 
-    <h3 class="rv" style="font-family:'Inter Tight';font-size:19px;font-weight:800;margin:18px 0 12px">🛍️ Shopping Assistant — <span style="color:var(--on-muted);font-weight:600">composite #3 of 10 · Envive &amp; Yuma ahead · we beat Envive on quality, trail on speed</span></h3>
-    <div class="winlose rv-stagger">
-      <div class="card">
-        <h3>✅ Wins</h3>
+    <div class="lane-head rv">
+      <span class="icon" aria-hidden="true">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+      </span>
+      <h3>Shopping Assistant</h3>
+      <span class="meta">composite #3 of 10 · Envive &amp; Yuma ahead · we beat Envive on quality, trail on speed</span>
+    </div>
+    <div class="wl-grid rv-stagger">
+      <div class="wl-card win">
+        <div class="head"><span class="chip">✓</span>Wins</div>
         <ul>
           <li><b>Automation 94% — top-tier.</b> Across 6 live V3 stores; only Ada/Rep go higher (100%) and both at near-zero answer quality. Sierra loses 15% of shopping conversations to humans, DigitalGenius 72%.</li>
           <li><b>It actually sells — quality (86) beats Envive (78).</b> Head-to-head comparisons, promo terms cited correctly, consistent purchase nudges. Most support-first vendors refuse to recommend at all (DG). Only Yuma scores higher (92) — on a thin 12-conversation, 2-store sample.</li>
           <li><b>Zero out-of-channel deflections</b> — never punts the shopper to email/phone (Kodif and Siena both do).</li>
         </ul>
       </div>
-      <div class="card lose">
-        <h3>❌ Gaps</h3>
+      <div class="wl-card lose">
+        <div class="head"><span class="chip">✕</span>Gaps</div>
         <ul>
-          <li><b>Speed — 8th of 9 (~18.3s).</b> Sierra 9.5s, Envive 12.6s. Delivery is <b>atomic</b>: the shopper stares at a typing indicator while streaming vendors show substance in 1–5s. The credible bar is 10–12s.</li>
-          <li><b>Perceived speed, not substance.</b> The V3 Shopping Assistant renders product cards + prices and answer quality now beats Envive (86 vs 78) — but delivery is <b>atomic</b>, so the shopper waits ~18s at a typing indicator while streaming rivals paint substance in 1–5s.</li>
-          <li><b>Result: the sale is won on merit, lost on speed.</b> Right answer and rich cards — just delivered too slowly.</li>
+          <li><b>Speed — 8th of 9 (~18.3s).</b> Sierra 9.5s, Envive 12.6s. Delivery is atomic: the shopper stares at a typing indicator while streaming vendors show substance in 1–5s. The credible bar is 10–12s.</li>
+          <li><b>Perceived speed, not substance.</b> The V3 Shopping Assistant renders product cards + prices and answer quality now beats Envive (86 vs 78) — but delivery is atomic, so the shopper waits ~18s at a typing indicator while streaming rivals paint substance in 1–5s.</li>
+          <li><b>The sale is won on merit, lost on speed.</b> Right answer and rich cards — just delivered too slowly.</li>
         </ul>
       </div>
     </div>
 
-    <h3 class="rv" style="font-family:'Inter Tight';font-size:19px;font-weight:800;margin:26px 0 12px">🎧 Support — <span style="color:var(--mint);font-weight:700">composite #2 of 10 · 78 · best answer quality in field (94)</span></h3>
-    <div class="winlose rv-stagger">
-      <div class="card">
-        <h3>✅ Wins</h3>
+    <div class="lane-head rv">
+      <span class="icon" aria-hidden="true">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11a9 9 0 0 1 18 0"/><path d="M21 15v2a3 3 0 0 1-3 3h-4"/><rect x="1" y="11" width="4" height="7" rx="1.5"/><rect x="19" y="11" width="4" height="7" rx="1.5"/></svg>
+      </span>
+      <h3>Support</h3>
+      <span class="meta">composite #2 of 10 · 78 · best answer quality in field (94)</span>
+    </div>
+    <div class="wl-grid rv-stagger">
+      <div class="wl-card win">
+        <div class="head"><span class="chip">✓</span>Wins</div>
         <ul>
           <li><b>Answer quality 94/100 — best in the field.</b> Under blind, evidence-forced judging it's the highest support quality measured (Envive 88, field median ~65): exact policy terms, concrete timeframes, executable next steps — not warm boilerplate.</li>
           <li><b>Automation 83% — top-tier among vendors that actually answer.</b> Sierra hands over ~37% of support conversations; the field ranges 55–92%. Ada/Rep contain more but resolve almost nothing.</li>
           <li><b>Latency fine here (15s)</b> — mid-pack vs a 7–43s field, and faster than our own shopping lane. Support is not where the speed problem lives.</li>
         </ul>
       </div>
-      <div class="card lose">
-        <h3>❌ Gaps</h3>
+      <div class="wl-card lose">
+        <div class="head"><span class="chip">✕</span>Gaps</div>
         <ul>
-          <li><b>Store-to-store consistency, not capability.</b> Beekman scores 77 but Jade/Shoebacca sit ~41-47 — the ceiling is top-tier, the floor is uneven. Onboarding QA (Config Health Score, move #2) closes it.</li>
+          <li><b>Store-to-store consistency, not capability.</b> Beekman scores 77 but Jade/Shoebacca sit ~41–47 — the ceiling is top-tier, the floor is uneven. Onboarding QA (Config Health Score) closes it.</li>
           <li><b>Quality must stay matched to automation.</b> 100% automation only stays a strength if answer quality is uniformly high — Rep AI proves containment alone can hide bad answers.</li>
         </ul>
       </div>
     </div>
-
   </div>
 </section>
 
-
+<!-- ============================== PROVIDER PROFILES ============================== -->
 <section id="providers" style="padding-top:0">
   <div class="wrap">
-    <div class="kicker rv">Provider profiles</div>
-    <h2 class="rv">What each provider does differently.</h2>
-    <p class="lead rv">Ranked <b>#1–#N by overall composite</b> (mean of both lanes) over the <b>trailing 14 days</b> — recent runs count, older ones age out. "Not measurable" providers (no drivable free-text agent) are unranked.</p>
-    <div class="prof rv-stagger" style="margin-top:22px">
-      <div class="card" style="--pcol:#f0603f"><div class="pv"><span class="vdot" style="background:#f0603f"></span>Gorgias <span class="us-tag">US</span></div><div class="pm">94/83% auto · q86/94 · 18.4s/15s · p75 21.3s/15.9s</div>
-        <div class="pp plus"><b>+ Best-in-class support, never lets go.</b> Support answer quality <b>94/100 — highest in the field</b>; elite automation (94% shopping, 83% support). Sales instinct is real: head-to-head comparisons, promo terms, purchase nudges, product cards; shopping quality (86) <b>beats Envive (78)</b>.</div>
+    <span class="kicker rv"><span class="dot"></span>Provider profiles</span>
+    <h2 class="sec rv">What each provider does differently.</h2>
+    <p class="sec-lead rv">Ranked #1–#N by overall composite (mean of both lanes) over the trailing 14 days — recent runs count, older ones age out. "Not measurable" providers (no drivable free-text agent) are unranked.</p>
+
+    <div class="prof-grid rv-stagger">
+
+      <div class="prof-card">
+        <div class="prof-head"><span class="vdot" style="background:#f0603f"></span><span class="vname">Gorgias<span class="us-tag">US</span></span></div>
+        <div class="prof-metrics">94/83% auto · <b>q86/94</b> · 18.4s/15s · p75 21.3s/15.9s</div>
+        <div class="pp plus"><b>+ Best-in-class support, never lets go.</b> Support answer quality 94/100 — highest in the field; elite automation (94% shopping, 83% support). Sales instinct is real: head-to-head comparisons, promo terms, purchase nudges, product cards; shopping quality (86) <b>beats Envive (78)</b>.</div>
         <div class="quote">"Cited specific clinical stats (94% firmer) and the exact return policy (30-day, €8 fee vs free store credit) to reassure a skeptical shopper" — judge, 84/100</div>
         <div class="pp minus"><b>− Slow on shopping.</b> 18.4s to a full shopping answer (p75 21.3s) — slowest of the top tier, delivered atomically (no streaming). Quality is uneven store-to-store (Addison Bay 77 / Beekman 78 vs Madura 36).</div>
-        <div class="quote">"All seven turns return support-hours boilerplate with no policy details" — judge, 15/100</div></div>
-      <div class="card" style="--pcol:#22c55e"><div class="pv"><span class="vdot" style="background:#22c55e"></span>Envive (ex-Spiffy)</div><div class="pm">93/90% auto · q78/88 · 12.5s/11.6s — <b>composite winner, both lanes</b></div>
+        <div class="quote">"All seven turns return support-hours boilerplate with no policy details" — judge, 15/100</div>
+      </div>
+
+      <div class="prof-card">
+        <div class="prof-head"><span class="vdot" style="background:#22c55e"></span><span class="vname">Envive (ex-Spiffy)</span></div>
+        <div class="prof-metrics">93/90% auto · q78/88 · 12.5s/11.6s — <b>composite winner, both lanes</b></div>
         <div class="pp plus"><b>+ The commerce bar.</b> Named head-to-heads with computed discounted prices, bundles, a "final personal pick", exact refund timelines. The only vendor strong on BOTH lanes.</div>
         <div class="quote">"Kut gave a named head-to-head (Meg vs Catherine at $119), reasoned verdict, confirmed 15% first-order discount, and computed discounted prices" — judge, 81/100</div>
-        <div class="pp minus"><b>− No order-system access.</b> On live order actions it admits it has no data and redirects — automation without resolution depth.</div></div>
-      <div class="card" style="--pcol:#0ea5e9"><div class="pv"><span class="vdot" style="background:#0ea5e9"></span>Sierra</div><div class="pm">86/57% auto · q58/85 · ~9.9s — fastest credible vendor</div>
-        <div class="pp plus"><b>+ Support machine.</b> Photo uploads in chat, product-differentiated return windows, direct policy links. Casper support scored 85-86.</div>
-        <div class="pp minus"><b>− Can't sell, and bails.</b> Shopping collapses into category-clarification loops (Scotts: 7 identical "what category?" turns, 10/100), and ~1 in 3 support conversations ends in human handover.</div></div>
-      <div class="card" style="--pcol:#a855f7"><div class="pv"><span class="vdot" style="background:#a855f7"></span>Siena</div><div class="pm">92/73% auto · q65/72 · ~12s</div>
-        <div class="pp plus"><b>+ Excellent when configured.</b> Simple Modern: named products with prices, tiered options, complete returns picture (83-84/100).</div>
-        <div class="pp minus"><b>− Merchant variance.</b> FIGS deflected 100% of questions to email and even demanded a 6-digit verification code mid-conversation (0/100).</div></div>
-      <div class="card" style="--pcol:#eab308"><div class="pv"><span class="vdot" style="background:#eab308"></span>Kodif</div><div class="pm">85/66% auto · q65/67 · ~15s</div>
-        <div class="pp plus"><b>+ Deep policy plumbing.</b> Distinguished standard 30-day vs Checkout+ 60-day return windows, named portals, per-product delivery timelines (82-86/100).</div>
-        <div class="pp minus"><b>− Loops and walls.</b> Babyletto tracking repeated the same order-number demand 7 times (13-19/100); demands order lookup even for generic FAQ.</div></div>
-      <div class="card" style="--pcol:#64748b"><div class="pv"><span class="vdot" style="background:#64748b"></span>Ada</div><div class="pm">83/76% auto · q59/52 · ~11s</div>
+        <div class="pp minus"><b>− No order-system access.</b> On live order actions it admits it has no data and redirects — automation without resolution depth.</div>
+      </div>
+
+      <div class="prof-card">
+        <div class="prof-head"><span class="vdot" style="background:#0ea5e9"></span><span class="vname">Sierra</span></div>
+        <div class="prof-metrics">86/57% auto · q58/85 · ~9.9s — fastest credible vendor</div>
+        <div class="pp plus"><b>+ Support machine.</b> Photo uploads in chat, product-differentiated return windows, direct policy links. Casper support scored 85–86.</div>
+        <div class="pp minus"><b>− Can't sell, and bails.</b> Shopping collapses into category-clarification loops (Scotts: 7 identical "what category?" turns, 10/100), and ~1 in 3 support conversations ends in human handover.</div>
+      </div>
+
+      <div class="prof-card">
+        <div class="prof-head"><span class="vdot" style="background:#a855f7"></span><span class="vname">Siena</span></div>
+        <div class="prof-metrics">92/73% auto · q65/72 · ~12s</div>
+        <div class="pp plus"><b>+ Excellent when configured.</b> Simple Modern: named products with prices, tiered options, complete returns picture (83–84/100).</div>
+        <div class="pp minus"><b>− Merchant variance.</b> FIGS deflected 100% of questions to email and even demanded a 6-digit verification code mid-conversation (0/100).</div>
+      </div>
+
+      <div class="prof-card">
+        <div class="prof-head"><span class="vdot" style="background:#eab308"></span><span class="vname">Kodif</span></div>
+        <div class="prof-metrics">85/66% auto · q65/67 · ~15s</div>
+        <div class="pp plus"><b>+ Deep policy plumbing.</b> Distinguished standard 30-day vs Checkout+ 60-day return windows, named portals, per-product delivery timelines (82–86/100).</div>
+        <div class="pp minus"><b>− Loops and walls.</b> Babyletto tracking repeated the same order-number demand 7 times (13–19/100); demands order lookup even for generic FAQ.</div>
+      </div>
+
+      <div class="prof-card">
+        <div class="prof-head"><span class="vdot" style="background:#64748b"></span><span class="vname">Ada</span></div>
+        <div class="prof-metrics">83/76% auto · q59/52 · ~11s</div>
         <div class="pp plus"><b>+ Sharpest single answers.</b> "0 days — we don't accept returns" with the 45-day replacement window: the crispest policy answer in the dataset (82/100).</div>
-        <div class="pp minus"><b>− The authentication wall.</b> Entire conversations blocked on "first and last name please" — including for generic policy questions (three conversations at 6/100).</div></div>
-      <div class="card" style="--pcol:#3b82f6"><div class="pv"><span class="vdot" style="background:#3b82f6"></span>Meta AI (Zendesk)</div><div class="pm">63/89% auto · q12/45 · fastest: 3.7–7s</div>
+        <div class="pp minus"><b>− The authentication wall.</b> Entire conversations blocked on "first and last name please" — including for generic policy questions (three conversations at 6/100).</div>
+      </div>
+
+      <div class="prof-card">
+        <div class="prof-head"><span class="vdot" style="background:#3b82f6"></span><span class="vname">Meta AI (Zendesk)</span></div>
+        <div class="prof-metrics">63/89% auto · q12/45 · fastest: 3.7–7s</div>
         <div class="pp plus"><b>+ Instant.</b> Fastest replies measured, decent procedural answers when configured (quip 66/100).</div>
-        <div class="pp minus"><b>− Speed without substance.</b> Grove: identical human-transfer prompt for every single question — 0/100 across three conversations. The definitive proof latency alone is a vanity metric.</div></div>
-      <div class="card" style="--pcol:#ef4444"><div class="pv"><span class="vdot" style="background:#ef4444"></span>Rep AI</div><div class="pm">100/100% auto · q14/15 · 40-43s — the automation-quality trap</div>
-        <div class="pp minus"><b>− A subscription upsell in a trench coat.</b> 100% automation because it never escalates — it answers every question, including "where is my order", with the same "30% off Auto Deliver" pitch (0/100 on all support). Automation without quality is worse than escalation.</div></div>
-      <div class="card" style="--pcol:#8b5cf6"><div class="pv"><span class="vdot" style="background:#8b5cf6"></span>DigitalGenius</div><div class="pm">26/62% auto · q49/65 · ~15-19s</div>
-        <div class="pp minus"><b>− Refuses to sell, quick to escalate.</b> Explicitly declined product recommendations every shopping turn (12/100); repeats "share order number and postcode" verbatim. Built for ticket deflection, not conversation.</div></div>
-      <div class="card" style="--pcol:#14b8a6"><div class="pv"><span class="vdot" style="background:#14b8a6"></span>Yuma</div><div class="pm">91/67% auto · q92/73 · ~18s</div>
+        <div class="pp minus"><b>− Speed without substance.</b> Grove: identical human-transfer prompt for every single question — 0/100 across three conversations. The definitive proof latency alone is a vanity metric.</div>
+      </div>
+
+      <div class="prof-card">
+        <div class="prof-head"><span class="vdot" style="background:#ef4444"></span><span class="vname">Rep AI</span></div>
+        <div class="prof-metrics">100/100% auto · q14/15 · 40–43s — the automation-quality trap</div>
+        <div class="pp minus"><b>− A subscription upsell in a trench coat.</b> 100% automation because it never escalates — it answers every question, including "where is my order", with the same "30% off Auto Deliver" pitch (0/100 on all support). Automation without quality is worse than escalation.</div>
+      </div>
+
+      <div class="prof-card">
+        <div class="prof-head"><span class="vdot" style="background:#8b5cf6"></span><span class="vname">DigitalGenius</span></div>
+        <div class="prof-metrics">26/62% auto · q49/65 · ~15–19s</div>
+        <div class="pp minus"><b>− Refuses to sell, quick to escalate.</b> Explicitly declined product recommendations every shopping turn (12/100); repeats "share order number and postcode" verbatim. Built for ticket deflection, not conversation.</div>
+      </div>
+
+      <div class="prof-card">
+        <div class="prof-head"><span class="vdot" style="background:#14b8a6"></span><span class="vname">Yuma</span></div>
+        <div class="prof-metrics">91/67% auto · q92/73 · ~18s</div>
         <div class="pp plus"><b>+ A real on-site Chat AI that sells.</b> Yuma's own app.yuma.ai widget answers free-text (cracked on EvryJewels &amp; Tediber) with the highest raw shopping quality in the field (92) — named products, prices, styling guidance, and real clarifying questions before recommending. But on just <b>12 conversations from 2 drivable stores</b>: a thin sample, so read the #2 shopping slot with caution.</div>
-        <div class="pp minus"><b>− Hidden behind menus on most stores.</b> On many merchants the chat surfaces are chip-gated menus, not free-text, and the core product is ticket/email automation behind Gorgias or Zendesk. Slow (~18s) and deployment-dependent.</div></div>
-      <div class="card" style="--pcol:#f59e0b"><div class="pv"><span class="vdot" style="background:#f59e0b"></span>Klaviyo <span class="note" style="font-weight:600">· not measurable</span></div><div class="pm">K:AI Customer Agent — no cold concierge</div>
-        <div class="pp minus"><b>− Accepts questions, returns nothing.</b> On Naked Wardrobe and Harney &amp; Sons the on-site K:AI took our free-typed messages but produced no answer in cold, un-identified sessions — it appears gated on login/identity. Detected on-site, but not a drivable free-text concierge in our harness.</div></div>
-      <div class="card" style="--pcol:#06b6d4"><div class="pv"><span class="vdot" style="background:#06b6d4"></span>Humind <span class="note" style="font-weight:600">· not measurable</span></div><div class="pm">Gift-finder that won't load for bots</div>
-        <div class="pp minus"><b>− Blocks automated sessions.</b> The French gift-finder (Weedy, Sol Semilla, La Chaise Longue) only initializes for real human sessions; every automated turn returned no timed answer, consistent across environments. No measurable concierge.</div></div>
-      <div class="card" style="--pcol:#7c3aed"><div class="pv"><span class="vdot" style="background:#7c3aed"></span>Decagon <span class="note" style="font-weight:600">· newly added</span></div><div class="pm">Enterprise AI support agent — capture in progress</div>
-        <div class="pp plus"><b>+ Added to the benchmark this cycle.</b> Purpose-built AI support agent used by Oura, Curology, Bilt, Quince, Substack and Hertz — six live widgets verified by signature. First head-to-head capture is in progress; scores land in the next refresh.</div></div>
+        <div class="pp minus"><b>− Hidden behind menus on most stores.</b> On many merchants the chat surfaces are chip-gated menus, not free-text, and the core product is ticket/email automation behind Gorgias or Zendesk. Slow (~18s) and deployment-dependent.</div>
+      </div>
+
+      <div class="prof-card">
+        <div class="prof-head"><span class="vdot" style="background:#f59e0b"></span><span class="vname">Klaviyo</span><span class="tail"><span class="tag-soft">Not measurable</span></span></div>
+        <div class="prof-metrics">K:AI Customer Agent — no cold concierge</div>
+        <div class="pp minus"><b>− Accepts questions, returns nothing.</b> On Naked Wardrobe and Harney &amp; Sons the on-site K:AI took our free-typed messages but produced no answer in cold, un-identified sessions — it appears gated on login/identity. Detected on-site, but not a drivable free-text concierge in our harness.</div>
+      </div>
+
+      <div class="prof-card">
+        <div class="prof-head"><span class="vdot" style="background:#06b6d4"></span><span class="vname">Humind</span><span class="tail"><span class="tag-soft">Not measurable</span></span></div>
+        <div class="prof-metrics">Gift-finder that won't load for bots</div>
+        <div class="pp minus"><b>− Blocks automated sessions.</b> The French gift-finder (Weedy, Sol Semilla, La Chaise Longue) only initializes for real human sessions; every automated turn returned no timed answer, consistent across environments. No measurable concierge.</div>
+      </div>
+
+      <div class="prof-card">
+        <div class="prof-head"><span class="vdot" style="background:#7c3aed"></span><span class="vname">Decagon</span><span class="tail"><span class="tag-soft tag-new">Newly added</span></span></div>
+        <div class="prof-metrics">Enterprise AI support agent — capture in progress</div>
+        <div class="pp plus"><b>+ Added to the benchmark this cycle.</b> Purpose-built AI support agent used by Oura, Curology, Bilt, Quince, Substack and Hertz — six live widgets verified by signature. First head-to-head capture is in progress; scores land in the next refresh.</div>
+      </div>
+
     </div>
   </div>
 </section>
 
-<section class="band" id="learnings">
+<!-- ============================== LEARNINGS ============================== -->
+<section id="learnings" style="padding-top:0">
   <div class="wrap">
-    <div class="kicker rv">Market learnings</div>
-    <h2 class="rv">Five things the whole industry should know.</h2>
-    <ol class="recs rv-stagger" style="margin-top:20px">
-      <li><b style="color:#fff">Nobody wins automation × quality × speed — the frontier is open.</b> Envive is closest (win on composite, but no order-system depth). Gorgias owns automation, Sierra owns speed+support quality, nobody owns all three. <span class="why">The vendor that closes its gap first owns the category. Ours is speed; theirs is much harder product work.</span></li>
-      <li><b style="color:#fff">The #1 failure mode is not wrong answers — it's walls and loops.</b> Auth walls (Ada), order-number demands (Kodif, DG), clarification loops (Sierra), upsell loops (Rep AI), handover-everything (Meta/Grove). Judges rarely caught hallucinations; they constantly caught refusal-to-engage. <span class="why">These are engineering guardrail failures, not model failures — cheap to fix, huge quality upside.</span></li>
-      <li><b style="color:#fff">Merchant configuration variance dwarfs vendor model quality.</b> Same vendor, same model: Meta AI scores 66 on quip and 0 on Grove; Siena 84 on Simple Modern and 0 on FIGS. We caught the same in our own set (a non-functional Gorgias store, excluded). <span class="why">The battle is won in onboarding and config QA, not in the model. This is a product opportunity (see below).</span></li>
-      <li><b style="color:#fff">Speed without substance is a vanity metric — but 18s is still too slow.</b> Meta AI is 4x faster than us and 9x worse on quality. Still, the quality leaders (Envive, Sierra support) all answer in 9-13s. <span class="why">~10-12s to a full final answer appears to be the credible bar; we're at 14-18s.</span></li>
-      <li><b style="color:#fff">"AI chat" claims ≠ measurable free-text concierge.</b> Yuma automates tickets behind the scenes (its chat is chip-gated menus); Humind won't load for non-human sessions; 30-40% of widget-detected stores yielded no engageable conversation. <span class="why">Market noise is high — buyers can't tell. An honest, repeated public benchmark is a sales weapon.</span></li>
-    </ol>
+    <span class="kicker rv"><span class="dot"></span>Market learnings</span>
+    <h2 class="sec rv">Five things the whole industry should know.</h2>
+
+    <div class="learn-list rv-stagger">
+      <div class="learn-row">
+        <div class="learn-num tnum">1</div>
+        <div class="learn-body">
+          <div class="t">Nobody wins automation × quality × speed — the frontier is open.</div>
+          <div class="why">Envive is closest (wins on composite, but no order-system depth). Gorgias owns automation, Sierra owns speed + support quality, nobody owns all three. The vendor that closes its gap first owns the category. Ours is speed; theirs is much harder product work.</div>
+        </div>
+      </div>
+      <div class="learn-row">
+        <div class="learn-num tnum">2</div>
+        <div class="learn-body">
+          <div class="t">The #1 failure mode is not wrong answers — it's walls and loops.</div>
+          <div class="why">Auth walls (Ada), order-number demands (Kodif, DG), clarification loops (Sierra), upsell loops (Rep AI), handover-everything (Meta/Grove). Judges rarely caught hallucinations; they constantly caught refusal-to-engage. These are engineering guardrail failures, not model failures — cheap to fix, huge quality upside.</div>
+        </div>
+      </div>
+      <div class="learn-row">
+        <div class="learn-num tnum">3</div>
+        <div class="learn-body">
+          <div class="t">Merchant configuration variance dwarfs vendor model quality.</div>
+          <div class="why">Same vendor, same model: Meta AI scores 66 on quip and 0 on Grove; Siena 84 on Simple Modern and 0 on FIGS. We caught the same in our own set (a non-functional Gorgias store, excluded). The battle is won in onboarding and config QA, not in the model.</div>
+        </div>
+      </div>
+      <div class="learn-row">
+        <div class="learn-num tnum">4</div>
+        <div class="learn-body">
+          <div class="t">Speed without substance is a vanity metric — but 18s is still too slow.</div>
+          <div class="why">Meta AI is 4× faster than us and 9× worse on quality. Still, the quality leaders (Envive, Sierra support) all answer in 9–13s. ~10–12s to a full final answer appears to be the credible bar; we're at 14–18s.</div>
+        </div>
+      </div>
+      <div class="learn-row">
+        <div class="learn-num tnum">5</div>
+        <div class="learn-body">
+          <div class="t">"AI chat" claims ≠ measurable free-text concierge.</div>
+          <div class="why">Yuma automates tickets behind the scenes (its chat is chip-gated menus); Humind won't load for non-human sessions; 30–40% of widget-detected stores yielded no engageable conversation. Market noise is high — buyers can't tell. An honest, repeated public benchmark is a sales weapon.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="method rv">
+      <div class="col">
+        <h4>Method</h4>
+        <p>Real merchants, <b>cold sessions</b>, free-typed questions only — no quick-reply chips. Every conversation captured, then scored <b>blind</b> by an LLM judge via binary, evidence-forced checks — the score is derived from the checks, never picked by the judge.</p>
+      </div>
+      <div class="col">
+        <h4>Quality rubric</h4>
+        <p>Shopping /100: answer <b>30</b> · discovery <b>20</b> · recommendation <b>22</b> · rich elements <b>18</b> · close <b>10</b>. Support /100: resolution <b>40</b> · accuracy <b>25</b> · actionability <b>20</b> · close <b>15</b>. Spec: <span class="mono">runner/eval-rubric.md</span>.</p>
+      </div>
+      <div class="col">
+        <h4>Composite</h4>
+        <p><b>40% automation + 40% quality + 20% speed.</b> Automation and quality are equal pillars; speed separates close vendors (scored 100 at ≤3s, 0 at ≥22s).</p>
+      </div>
+      <div class="col">
+        <h4>Latency</h4>
+        <p>Mean time to the <b>complete final answer</b> — never stopped on a "let me check…" stall, never on chips. <b>p75</b> = 75th-percentile across all timed turns.</p>
+      </div>
+    </div>
   </div>
 </section>
 
-
+<!-- ============================== FOOTER ============================== -->
 <div class="footer">
-  <div style="font-family:'Inter Tight';font-weight:800;font-size:14px;color:var(--on);margin-bottom:8px">GORGIAS · AI AGENT BENCHMARK</div>
-  <a href="report.html">Interactive report</a> · <a href="report.html#trend-sec">Trends</a> · <a href="#scoreboard">Scoreboard</a> · <a href="#verdict">Verdict</a>
-  <div style="margin-top:10px">Generated from the ai-chat-latency-benchmark pipeline · data runs 2026-07-01 → 2026-07-03 · refreshed weekly</div>
+  <div class="wrap">
+    <div class="fbrand">Gorgias · AI Agent Benchmark</div>
+    <div class="flinks">
+      <a href="report.html">Interactive report</a>
+      <a href="report.html#trend-sec">Trends</a>
+      <a href="#scoreboard">Scoreboard</a>
+      <a href="#verdict">Verdict</a>
+    </div>
+    <div class="fmeta">Generated from the ai-chat-latency-benchmark pipeline · data runs 2026-07-01 → 2026-07-06 · refreshed weekly</div>
+  </div>
 </div>
 
 <script>
-// ---------- scoreboard — D is INJECTED by gen.js from the SAME data as the Detailed report ----------
-/*SCORES_START*/ const D = {"Gorgias":{"us":1,"col":"#f0603f","s":{"a":94,"q":86,"l":18.4,"l75":21.3},"p":{"a":83,"q":94,"l":15,"l75":15.9}},"Envive":{"col":"#22c55e","s":{"a":93,"q":78,"l":12.5,"l75":16},"p":{"a":90,"q":88,"l":11.6,"l75":15.1}},"Sierra":{"col":"#0ea5e9","s":{"a":86,"q":58,"l":9.9,"l75":12.8},"p":{"a":57,"q":85,"l":9.2,"l75":11.4}},"Siena":{"col":"#a855f7","s":{"a":92,"q":65,"l":12.4,"l75":15},"p":{"a":73,"q":72,"l":11.7,"l75":14.1}},"Yuma":{"col":"#14b8a6","s":{"a":92,"q":92,"l":17.8,"l75":20.7},"p":{"a":67,"q":73,"l":17,"l75":17}},"DigitalGenius":{"col":"#8b5cf6","s":{"a":26,"q":49,"l":19.3,"l75":25.3},"p":{"a":62,"q":65,"l":13.8,"l75":22.3}},"Meta AI":{"us":1,"col":"#3b82f6","s":{"a":63,"q":12,"l":3.7,"l75":2.9},"p":{"a":89,"q":45,"l":7.2,"l75":10.2}},"Ada":{"us":1,"col":"#64748b","s":{"a":83,"q":59,"l":11.1,"l75":14.7},"p":{"a":76,"q":52,"l":10.9,"l75":13.9}},"Rep AI":{"col":"#ef4444","s":{"a":100,"q":14,"l":40.6,"l75":57.4},"p":{"a":100,"q":15,"l":42.4,"l75":57.5}},"Kodif":{"col":"#eab308","s":{"a":85,"q":65,"l":15.2,"l75":21.5},"p":{"a":66,"q":67,"l":11.4,"l75":15.8}}};/*SCORES_END*/
+/* ---------- scoreboard data — copied verbatim from takeaways.html ---------- */
+/*SCORES_START*/ const D = {"Gorgias":{"us":1,"col":"#f0603f","s":{"a":94,"q":86,"l":18.4,"l75":21.3},"p":{"a":83,"q":94,"l":15,"l75":15.9}},"Envive":{"col":"#22c55e","s":{"a":93,"q":78,"l":12.5,"l75":16},"p":{"a":90,"q":88,"l":11.6,"l75":15.1}},"Sierra":{"col":"#0ea5e9","s":{"a":86,"q":62,"l":9.9,"l75":12.8},"p":{"a":57,"q":85,"l":9.2,"l75":11.4}},"Siena":{"col":"#a855f7","s":{"a":92,"q":69,"l":12.4,"l75":15},"p":{"a":73,"q":72,"l":11.7,"l75":14.1}},"Yuma":{"col":"#14b8a6","s":{"a":92,"q":93,"l":17.8,"l75":20.7},"p":{"a":67,"q":73,"l":17,"l75":17}},"DigitalGenius":{"col":"#8b5cf6","s":{"a":26,"q":53,"l":19.3,"l75":25.3},"p":{"a":62,"q":65,"l":13.8,"l75":22.3}},"Meta AI":{"us":1,"col":"#3b82f6","s":{"a":63,"q":12,"l":3.7,"l75":2.9},"p":{"a":89,"q":45,"l":7.2,"l75":10.2}},"Ada":{"us":1,"col":"#64748b","s":{"a":83,"q":54,"l":11.1,"l75":14.7},"p":{"a":76,"q":58,"l":10.9,"l75":13.9}},"Rep AI":{"col":"#ef4444","s":{"a":100,"q":14,"l":40.6,"l75":57.4},"p":{"a":100,"q":15,"l":42.4,"l75":57.5}},"Kodif":{"col":"#eab308","s":{"a":85,"q":66,"l":15.2,"l75":21.5},"p":{"a":66,"q":67,"l":11.4,"l75":15.8}},"Klaviyo":{"col":"#111","s":{"a":50,"q":89,"l":8.6,"l75":9.7},"p":null},"Decagon":{"us":1,"col":"#888","s":{"a":100,"q":73,"l":42.1,"l75":42.4},"p":null}};/*SCORES_END*/
 const speed=l=>Math.max(0,Math.min(100,(22-l)/19*100));
 function comp(m){ if(!m) return null; const parts=[[.4,m.a],[.4,m.q],[.2,m.l!=null?speed(m.l):null]].filter(p=>p[1]!=null); const w=parts.reduce((a,p)=>a+p[0],0); return w?Math.round(parts.reduce((a,p)=>a+p[0]*p[1],0)/w):null; }
 const rows=Object.entries(D).map(([v,d])=>({v,...d,cs:comp(d.s),cp:comp(d.p)}))
   .sort((a,b)=>((b.cs||0)+(b.cp||0))-((a.cs||0)+(a.cp||0)));
-// per-lane ranks (dense, by that lane's composite) + overall position (the sort order)
 const rankIn=key=>{ const order=[...rows].filter(r=>r[key]!=null).sort((a,b)=>b[key]-a[key]); const m={}; order.forEach((r,i)=>m[r.v]=i+1); return m; };
 const RS=rankIn('cs'), RP=rankIn('cp');
 const rk=n=> n?'<span class="rk">#'+n+'</span>':'';
 const pill=(x,hi,mid)=> x==null?'<span class="pill p-na">—</span>':'<span class="pill '+(x>=hi?'p-ok':x>=mid?'p-mid':'p-bad')+'">'+x+'</span>';
 const cell=(m,f)=> m&&m[f]!=null? m[f] : '—';
+function latCell(m){ return (m&&m.l!=null)? m.l+'s' : '—'; }
 document.querySelector('#score-table tbody').innerHTML=rows.map((r,i)=>
- '<tr><td class="n mono" style="width:34px"><span class="prank">#'+(i+1)+'</span></td>'+
- '<td><span class="vdot" style="background:'+r.col+'"></span><b>'+r.v+'</b>'+(r.us?'<span class="us-tag">US</span>':'')+'</td>'+
- '<td class="n mono"><b>'+(r.cs!=null?r.cs:'—')+'</b> '+rk(RS[r.v])+'</td><td class="n mono"><b>'+(r.cp!=null?r.cp:'—')+'</b> '+rk(RP[r.v])+'</td>'+
+ '<tr'+(r.us?' class="us"':'')+'><td class="n" style="width:34px"><span class="rankbadge tnum">#'+(i+1)+'</span></td>'+
+ '<td><span class="vdot" style="background:'+r.col+'"></span><span class="vname">'+r.v+'</span>'+(r.us?'<span class="us-tag">US</span>':'')+'</td>'+
+ '<td class="n tnum"><span class="comp">'+(r.cs!=null?r.cs:'—')+'</span>'+rk(RS[r.v])+'</td>'+
+ '<td class="n tnum"><span class="comp">'+(r.cp!=null?r.cp:'—')+'</span>'+rk(RP[r.v])+'</td>'+
  '<td>'+pill(r.s&&r.s.a,90,70)+' / '+pill(r.p&&r.p.a,90,70)+'</td>'+
  '<td>'+pill(r.s&&r.s.q,60,40)+' / '+pill(r.p&&r.p.q,60,40)+'</td>'+
- '<td class="n mono">'+latCell(r.s)+' / '+latCell(r.p)+'<div class="p75mut">p75 '+cell(r.s,'l75')+(r.s&&r.s.l75!=null?'s':'')+' / '+cell(r.p,'l75')+(r.p&&r.p.l75!=null?'s':'')+'</div></td></tr>').join('');
-function latCell(m){ return (m&&m.l!=null)? m.l+'s' : '—'; }
+ '<td class="n tnum">'+latCell(r.s)+' / '+latCell(r.p)+'<div class="p75">p75 '+cell(r.s,'l75')+(r.s&&r.s.l75!=null?'s':'')+' / '+cell(r.p,'l75')+(r.p&&r.p.l75!=null?'s':'')+'</div></td></tr>').join('');
 
-// Provider-profile ranking: rank vendors by overall composite (mean of shopping+support,
-// over the trailing-14-day D) and inject a #N badge into each profile card. Data-driven so
-// it never drifts from the scoreboard.
+/* ---------- provider-profile ranking: inject #N badge + reorder by overall composite ---------- */
 (function(){
   const ranked = Object.entries(D).map(([v,d])=>{ const vals=[comp(d.s),comp(d.p)].filter(x=>x!=null); return {v, overall: vals.length?Math.round(vals.reduce((a,b)=>a+b,0)/vals.length):null}; })
     .filter(x=>x.overall!=null).sort((a,b)=>b.overall-a.overall);
   const rankOf={}; ranked.forEach((x,i)=>rankOf[x.v]=i+1);
   const keys=Object.keys(rankOf).sort((a,b)=>b.length-a.length);
-  document.querySelectorAll('#providers .prof .card .pv').forEach(pv=>{
+  document.querySelectorAll('#providers .prof-card .vname').forEach(pv=>{
     const txt=(pv.textContent||'').trim().toLowerCase();
     const key=keys.find(k=> txt.startsWith(k.toLowerCase()) || txt.includes(k.toLowerCase()));
-    if(key && rankOf[key]){ const b=document.createElement('span'); b.className='prank'; b.textContent='#'+rankOf[key]; pv.insertBefore(b, pv.firstChild); pv.closest('.card').dataset.rank=rankOf[key]; }
+    if(key && rankOf[key]){ const b=document.createElement('span'); b.className='prank-inline tnum'; b.textContent='#'+rankOf[key]; pv.insertBefore(b, pv.firstChild); pv.closest('.prof-card').dataset.rank=rankOf[key]; }
   });
-  // REORDER the profile cards by rank (1 → N); unranked ("not measurable") cards keep
-  // their relative order at the bottom.
-  const prof=document.querySelector('#providers .prof');
-  if(prof){ [...prof.children].map((el,i)=>({el, r: el.dataset.rank? +el.dataset.rank : 900+i}))
-    .sort((a,b)=>a.r-b.r).forEach(x=>prof.appendChild(x.el)); }
+  const grid=document.querySelector('#providers .prof-grid');
+  if(grid){ [...grid.children].map((el,i)=>({el, r: el.dataset.rank? +el.dataset.rank : 900+i}))
+    .sort((a,b)=>a.r-b.r).forEach(x=>grid.appendChild(x.el)); }
 })();
 
+/* ---------- sticky appbar hairline on scroll ---------- */
+const appbar=document.getElementById('appbar');
+addEventListener('scroll',()=>{ appbar.classList.toggle('scrolled', scrollY>4); },{passive:true});
 
-// ---------- living, POINTER-REACTIVE mesh-gradient hero (ink-in-water on paper) ----------
-(function(){
-  const cv=document.getElementById('heroCanvas'); if(!cv) return;
-  const hero=cv.closest('.hero')||cv.parentElement;
-  const h1=hero.querySelector('h1');
-  const ctx=cv.getContext('2d'); const dpr=Math.min(2,window.devicePixelRatio||1);
-  const orbs=[   // restrained palette: coral / peach / violet only. m = parallax depth (how much it follows the mouse)
-    {c:[240,96,63],  x:.24,y:.42,ax:.15,ay:.10,sx:0.050,sy:0.040,ph:0.0,r:.55,a:.44,m:0.12},
-    {c:[255,139,93], x:.72,y:.38,ax:.13,ay:.11,sx:0.044,sy:0.052,ph:2.1,r:.50,a:.38,m:0.22},
-    {c:[110,86,207], x:.50,y:.70,ax:.16,ay:.12,sx:0.037,sy:0.046,ph:4.0,r:.52,a:.28,m:0.32},
-  ];
-  let W,H, tx=.5,ty=.42, mx=.5,my=.42;   // t = pointer target, m = eased follow
-  function size(){ W=cv.width=Math.max(1,cv.offsetWidth*dpr); H=cv.height=Math.max(1,cv.offsetHeight*dpr); }
-  size(); addEventListener('resize', size);
-  addEventListener('pointermove',(e)=>{ const r=hero.getBoundingClientRect();
-    tx=Math.max(0,Math.min(1,(e.clientX-r.left)/r.width));
-    ty=Math.max(-.4,Math.min(1.4,(e.clientY-r.top)/r.height)); }, {passive:true});
-  function draw(t){
-    mx+=(tx-mx)*0.05; my+=(ty-my)*0.05;          // silky pointer follow
-    const px=mx-.5, py=my-.42;
-    ctx.globalCompositeOperation='source-over'; ctx.fillStyle='#F6F2EC'; ctx.fillRect(0,0,W,H);
-    ctx.globalCompositeOperation='multiply';
-    for(const o of orbs){
-      const cx=(o.x + Math.sin(t*o.sx+o.ph)*o.ax + px*o.m)*W;   // drift + mouse parallax
-      const cy=(o.y + Math.cos(t*o.sy+o.ph)*o.ay + py*o.m)*H;
-      const rad=o.r*Math.max(W,H);
-      const g=ctx.createRadialGradient(cx,cy,0,cx,cy,rad);
-      g.addColorStop(0,`rgba(${o.c[0]},${o.c[1]},${o.c[2]},${o.a})`);
-      g.addColorStop(1,`rgba(${o.c[0]},${o.c[1]},${o.c[2]},0)`);
-      ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
-    }
-    if(h1) h1.style.transform=`translate(${(-px*14).toFixed(1)}px,${(-py*8).toFixed(1)}px)`;   // headline parallax
-  }
-  if(matchMedia('(prefers-reduced-motion: reduce)').matches){ draw(0); }
-  else { let s=0; (function loop(){ s+=0.016; draw(s); requestAnimationFrame(loop); })(); }
-})();
-
-// ---------- universal fixed-position tooltip (same as report.html) ----------
+/* ---------- fixed-position tooltip (Axiom inverted surface) ---------- */
 const tip=document.createElement('div'); tip.id='jstip'; document.body.appendChild(tip);
 document.body.addEventListener('mouseover',(e)=>{
   let el=e.target.closest('[data-tip],[title]');
@@ -425,7 +815,7 @@ document.body.addEventListener('mouseover',(e)=>{
 });
 document.addEventListener('scroll',()=>tip.classList.remove('on'),{passive:true});
 
-// ---------- reveal on scroll ----------
+/* ---------- reveal on scroll ---------- */
 const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
 if(!reduced){
   const io=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} }),{threshold:.12});
@@ -434,11 +824,11 @@ if(!reduced){
   document.querySelectorAll('.rv,.rv-stagger').forEach(el=>el.classList.add('in'));
 }
 
-// ---------- count-up KPIs ----------
+/* ---------- count-up KPIs ---------- */
 if(!reduced){
   const cio=new IntersectionObserver(es=>es.forEach(e=>{
     if(!e.isIntersecting) return; cio.unobserve(e.target);
-    const el=e.target, target=+el.dataset.count, suf=el.dataset.suffix||'', t0=performance.now(), dur=1100;
+    const el=e.target, target=+el.dataset.count, suf=el.dataset.suffix||'', t0=performance.now(), dur=1000;
     const step=(t)=>{ const p=Math.min(1,(t-t0)/dur), ease=1-Math.pow(1-p,3);
       el.textContent=Math.round(target*ease)+suf; if(p<1) requestAnimationFrame(step); };
     requestAnimationFrame(step);
