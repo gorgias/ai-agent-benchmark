@@ -20,6 +20,7 @@ import { convoValidity, convoOutcome } from "./classify.js";
 import { convoSignals } from "./eval-signals.js";
 import { stripWidgetChrome } from "./reply-clean.js";
 import { isQuarantinedConversation } from "./conversation-quarantine.js";
+import { normalizeUserMessage } from "./message-style.js";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const RESULTS = path.join(HERE, "results");
@@ -68,7 +69,7 @@ for (const date of fs.readdirSync(RESULTS).filter((d) => /^\d{4}-\d{2}-\d{2}$/.t
     const turns = (j.turns || []).filter((t) => !t.unsent).map((t) => {
       const answered = t.complete_ms != null;
       return {
-        q: maskText(t.q, names), by: t.by, answered,
+        q: maskText(normalizeUserMessage(t.q), names), by: t.by, answered,
         // strip widget chrome / suggested-reply chips / product-card fragments before the judge
         // sees it (reply-clean.js) so chips can't be mis-credited as discovery/rich elements.
         // Price/link/review presence is captured separately via convoSignals, so no signal is lost.

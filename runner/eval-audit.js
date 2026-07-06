@@ -15,6 +15,7 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import { convoSignals } from "./eval-signals.js";
+import { normalizeUserMessage } from "./message-style.js";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const SCORES = path.join(HERE, "eval-scores.json");
@@ -60,7 +61,7 @@ if (cmd === "pack") {
   const items = pick.map(([id, e]) => {
     const turns = convTurns(id);
     return { id, mode: e.mode, verdicts: e.checks, resolution_class: e.resolution_class,
-      turns: turns.filter((t) => !t.unsent).map((t) => ({ q: t.q, by: t.by, reply: (t.replyTail || "").slice(-450) })) };
+      turns: turns.filter((t) => !t.unsent).map((t) => ({ q: normalizeUserMessage(t.q), by: t.by, reply: (t.replyTail || "").slice(-450) })) };
   });
   const per = 8;
   let n = 0;
