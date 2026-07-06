@@ -135,3 +135,12 @@ Remediation:
 
 Until a new post-fix headed run is captured, treat the Tumble/Evry bubble rerun as evidence for the
 bug audit only, not as rankable Yuma Shopping Assistant evidence.
+
+## 2026-07-06 Tumble removal
+
+After reviewing the full Tumble transcript set, Max decided the Tumble conversations are too
+irrelevant/noisy to keep fighting. Tumble is no longer a Yuma target in `vendors.js`, all
+`yuma-tumble-*` captures were removed from `runner/results`, the 3 active Tumble eval scores were
+deleted from `eval-scores.json`, and the now-obsolete Tumble quarantine entries were removed.
+
+EvryJewels remains in the corpus; only Tumble was deleted.
