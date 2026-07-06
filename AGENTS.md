@@ -126,6 +126,7 @@ cd runner
 RUN_DATE=$(date +%F) TURN_TIMEOUT_MS=60000 node run.js --headed --concurrency 2 --store <key1> <key2> …
 #   --store   SPACE-separated keys (commas also accepted). A zero-match filter now exits 1 (loud).
 #   --vendor "Rep AI"   one vendor   |   --mode shopping|support   one lane   |   --no-resume   re-capture all
+#   --max-conversations N   cap pending conversations after filters/resume (use for focused/fast passes).
 #   BENCHMARK_CAPTURE_ORIGIN=codex|claude|automation|manual tags raw conversation provenance
 ```
 - **Resumable**: a valid conversation on disk is skipped; a kill loses at most the one in flight.
