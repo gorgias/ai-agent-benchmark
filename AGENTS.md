@@ -63,6 +63,9 @@ in field), #3 Shopping (Yuma edges on richer answers), speed is the shopping gap
    stay **private**; the Pages site stays **noindex** (robots meta + robots.txt + `.nojekyll`).
 10. **Canonical remote = `origin` (gorgias/ai-agent-benchmark, private).** Mirror to `personal`
     (max-pruv/ai-chat-latency-benchmark). Pages deploys from `origin` master.
+11. **Sync before touching code.** Start each work session with `git pull --ff-only origin master`
+    so Codex/Claude work stays linear. If another local checkout has unpushed Claude changes, inspect
+    it and port only the relevant committed or clearly scoped changes; never sweep in a dirty run tree.
 
 ---
 
@@ -133,6 +136,9 @@ RUN_DATE=$(date +%F) TURN_TIMEOUT_MS=60000 node run.js --headed --concurrency 2 
 - **One driver only** (rule 7). Check `pgrep -fl "node run.js"` before launching.
 - **If you have no display** (headless box): `run.js --headed` needs a real Chrome. Use `xvfb-run -a`
   around it, or run on a machine with a display. Competitor widgets bot-block plain headless.
+- **Pre-chat identity gates**: if a widget asks for name/email before opening the composer, fill it
+  with generated dummy `example.com` PII via `fillEmailGate`. Never use random Gmail/personal inboxes;
+  the goal is to start the chat, not to contact a real mailbox.
 - Many competitors are drive-hard (Ada iframe ~70s to open; DigitalGenius lazy-loads; Rep AI slow).
   A conversation that yields `—ms` on every turn is INVALID (no measurable answer) and correctly
   excluded — do not count it against the vendor; it's our tooling limit, not their performance.
