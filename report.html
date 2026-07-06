@@ -99,8 +99,7 @@
   .product-rec-note{font-size:12px;color:var(--on-muted);line-height:1.55;margin-top:12px;border-top:1px solid var(--line);padding-top:11px}
   .prec-bar{width:100%;min-width:120px;height:12px}
   .prec-vendor{display:flex;align-items:center;gap:8px;font-weight:800;white-space:nowrap}
-  .prec-products{max-width:420px;color:var(--on-faint);font-size:11.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  @media(max-width:760px){.product-rec-head{align-items:flex-start;flex-direction:column}.product-rec-meta{text-align:left}.prec-products{max-width:220px}}
+  @media(max-width:760px){.product-rec-head{align-items:flex-start;flex-direction:column}.product-rec-meta{text-align:left}}
   .grp-row td{background:#fafbfc;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--on-muted);padding:8px 14px}
   .legacy{opacity:.86}
   .matrix td .y{color:var(--success);font-weight:700}
@@ -534,7 +533,6 @@
           <th>Bar</th>
           <th class="n">Conv with products</th>
           <th class="n">Max</th>
-          <th class="hide-sm">Examples detected</th>
         </tr></thead>
         <tbody id="product-rec-body"></tbody>
       </table>
@@ -43704,34 +43702,30 @@ function productRecRows(){
     (s.themes||[]).forEach(th=>{
       if(!inRange(convDate(s,th))) return;
       const pr=th.productRecs || {count:0,names:[]};
-      const r=byV[s.vendor] || (byV[s.vendor]={v:s.vendor, us:s.us, convs:0, total:0, withProducts:0, max:0, examples:new Set()});
+      const r=byV[s.vendor] || (byV[s.vendor]={v:s.vendor, us:s.us, convs:0, total:0, withProducts:0, max:0});
       r.convs++;
       r.total += pr.count || 0;
       if((pr.count||0)>0) r.withProducts++;
       r.max = Math.max(r.max, pr.count || 0);
-      (pr.names||[]).slice(0,4).forEach(n=>{ if(r.examples.size<8) r.examples.add(n); });
     });
   });
   return Object.values(byV).map(r=>({
     ...r,
     avg: r.convs ? Math.round((r.total/r.convs)*100)/100 : 0,
     rate: r.convs ? Math.round((r.withProducts/r.convs)*100) : 0,
-    examples: [...r.examples],
   })).sort((a,b)=> b.avg-a.avg || b.rate-a.rate || a.v.localeCompare(b.v));
 }
 function renderProductRecChart(){
   const sec=document.getElementById('product-rec-sec'), body=document.getElementById('product-rec-body'), meta=document.getElementById('product-rec-meta');
   if(!sec || !body) return;
-  const esc=s=>String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const rows=productRecRows();
   const totalConvs=rows.reduce((a,r)=>a+r.convs,0), totalProducts=rows.reduce((a,r)=>a+r.total,0);
   if(meta) meta.textContent = rows.length ? totalConvs+' conversations · '+totalProducts+' products detected' : 'No Shopping conversations in this window';
-  if(!rows.length){ body.innerHTML='<tr><td colspan="7" class="note">No Shopping conversations match the current filters.</td></tr>'; return; }
+  if(!rows.length){ body.innerHTML='<tr><td colspan="6" class="note">No Shopping conversations match the current filters.</td></tr>'; return; }
   const maxAvg=Math.max(1,...rows.map(r=>r.avg));
   body.innerHTML=rows.map(r=>{
     const pct=r.avg ? Math.max(2,Math.round((r.avg/maxAvg)*100)) : 0;
     const color=COL[r.v]||'#888';
-    const examples=r.examples.map(esc).join('; ');
     return '<tr>'+
       '<td><span class="prec-vendor"><span class="vdot" style="background:'+color+'"></span>'+r.v+(r.us?'<span class="us-tag">US</span>':'')+'</span></td>'+
       '<td class="n mono">'+r.convs+'</td>'+
@@ -43739,7 +43733,6 @@ function renderProductRecChart(){
       '<td><div class="bar prec-bar"><i style="width:'+pct+'%;background:'+color+'"></i></div></td>'+
       '<td class="n mono">'+r.rate+'%</td>'+
       '<td class="n mono">'+r.max+'</td>'+
-      '<td class="hide-sm"><div class="prec-products" title="'+examples+'">'+(examples||'—')+'</div></td>'+
       '</tr>';
   }).join('');
 }
