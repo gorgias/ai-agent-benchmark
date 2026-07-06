@@ -89,6 +89,11 @@ const THEME_LIMIT = Number((pick("--themes") || [])[0]) || 0;   // 0 = all theme
 const MAX_CONVERSATIONS = Number((pick("--max-conversations") || [])[0]) || Number(process.env.MAX_CONVERSATIONS) || 0;   // 0 = unbounded
 const MODES = (modeFilter || ["shopping", "support"]);
 const STAMP = (process.env.RUN_DATE || new Date().toISOString().slice(0, 10));
+const CAPTURE_BATCH = String(process.env.BENCHMARK_CAPTURE_BATCH || process.env.CAPTURE_BATCH || "")
+  .trim()
+  .toLowerCase()
+  .replace(/[^a-z0-9._-]+/g, "-")
+  .replace(/^-+|-+$/g, "");
 
 function normalizeCaptureOrigin(raw) {
   const v = String(raw || "").trim().toLowerCase();
@@ -201,6 +206,7 @@ async function runStoreMode(browser, store, mode, theme) {
     capture: {
       origin: CAPTURE_ORIGIN.origin,
       origin_explicit: CAPTURE_ORIGIN.explicit,
+      batch: CAPTURE_BATCH || null,
       runner: "run.js",
       browser: HEADED ? "headed" : "headless",
       schema: 1,
@@ -386,7 +392,7 @@ async function runStoreMode(browser, store, mode, theme) {
   // conversation in its own cold context. RESUME is THEME-level: we skip any
   // conversation already on disk, so a kill loses at most the one in flight —
   // relaunch continues exactly where it stopped. Aggregation happens on READ (gen.js).
-  const convFile = (k, mode, theme) => `${CONV_DIR}/${k}-${mode}-${theme}.json`;
+  const convFile = (k, mode, theme) => `${CONV_DIR}/${k}-${mode}-${theme}${CAPTURE_BATCH ? `-${CAPTURE_BATCH}` : ""}.json`;
   const tasks = [];
   let skipped = 0;
   for (const store of targets) for (const mode of MODES.filter(m => !store.modes || store.modes.includes(m))) {
