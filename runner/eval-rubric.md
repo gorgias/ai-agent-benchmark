@@ -36,37 +36,49 @@ checks** and *derives* the numbers — the judge never picks a number.)
    contain widget chrome (cookie banners, quick-reply chip labels, timestamps): judge the
    substance and ignore the chrome.
 
-## Shopping lane — 4 dimensions, /100
+## Shopping lane — 5 dimensions, /100 (v2.2)
 
-**answer** (max 35)
+**answer** (max 30)
 | check | pts | passes when |
 |---|---|---|
 | `a_direct` | 14 | each shopper question gets a direct, on-topic response (not generic boilerplate) |
 | `a_consistent` | 9 | no contradiction across turns; no invented policies/specs |
 | `a_no_ignored` | 7 | no shopper turn is left unanswered or answered with an unrelated reply |
-| `a_clarify` | 5 | asks a clarifying question when the request is ambiguous (or none was needed) |
 
-**recommendation** (max 25)
+**discovery** (max 20) — the PMF core of a shopping assistant: does it *understand the shopper* before selling? Judge relative to how broad the ask is (our `beginner`/`gift`/`problem-solver` themes open vague; `everyday-value`/`compare-budget` open specific).
 | check | pts | passes when |
 |---|---|---|
-| `r_named` | 10 | recommends at least one specific, named product |
-| `r_fit` | 8 | ties the recommendation to the shopper's stated needs (rationale, not a list dump) |
-| `r_plausible` | 7 | recommendations are appropriate to the store's catalog and the request |
+| `d_clarify` | 8 | on a BROAD/ambiguous opener ("a gift", "where do I start", "something for X") it asks a **relevant** clarifying question (budget, recipient, use-case, skin type, size, preference) before recommending. On an already-specific ask, going straight to a targeted answer also passes — the fail is *guessing blind on a vague ask*. |
+| `d_progressive` | 7 | it **uses the shopper's answers** to narrow/refine across turns (builds a profile) — a later recommendation reflects earlier stated constraints, not a generic pick repeated. |
+| `d_not_dump` | 5 | it does **not** dump a generic best-seller list on a vague opener before understanding needs (a wall of unqualified products fails). |
 
-**rich** (max 25) — every check is **capped by deterministic signals** (see `signals`)
+**recommendation** (max 22)
+| check | pts | passes when |
+|---|---|---|
+| `r_named` | 9 | recommends at least one specific, named product |
+| `r_fit` | 8 | ties the recommendation to the shopper's stated needs (rationale, not a list dump) |
+| `r_plausible` | 5 | recommendations are appropriate to the store's catalog and the request |
+
+**rich** (max 18) — every check is **capped by deterministic signals** (see `signals`)
 | check | pts | signal gate | passes when |
 |---|---|---|---|
-| `e_price` | 8 | `has_price` | a concrete price is attached to a recommended product |
-| `e_link` | 9 | `has_link` | a product link/card the shopper can open is presented |
-| `e_reviews` | 4 | `has_reviews` | review counts/ratings (or images) support the recommendation |
-| `e_options` | 4 | `has_options` | multiple distinct options are laid out for comparison |
+| `e_price` | 6 | `has_price` | a concrete price is attached to a recommended product |
+| `e_link` | 7 | `has_link` | a product link/card the shopper can open is presented |
+| `e_reviews` | 3 | `has_reviews` | review counts/ratings (or images) support the recommendation |
+| `e_options` | 2 | `has_options` | multiple distinct options are laid out for comparison |
 
-**close** (max 15)
+**close** (max 10)
 | check | pts | passes when |
 |---|---|---|
-| `c_cta` | 7 | ends with a concrete next step (open the product, pick a size, apply code…) |
-| `c_cart` | 5 | facilitates purchase mechanics (add-to-cart, checkout guidance, shipping to buy) |
-| `c_clean` | 3 | conversation closes cleanly (no dangling question, no mid-thought stop) |
+| `c_cta` | 5 | ends with a concrete next step (open the product, pick a size, apply code…) |
+| `c_cart` | 3 | facilitates purchase mechanics (add-to-cart, checkout guidance, shipping to buy) |
+| `c_clean` | 2 | conversation closes cleanly (no dangling question, no mid-thought stop) |
+
+> Calibration note (v2.2): added the **discovery** dimension (20 pts) — asking smart clarifying
+> questions on broad asks and building a profile is a core Shopping-Assistant PMF signal the v2.1
+> rubric under-weighted (a lone 5-pt `a_clarify`). Points came from rich (25→18, product-card
+> spraying was over-rewarded), recommendation (25→22), close (15→10), and folding `a_clarify` into
+> `d_clarify`. Support lane unchanged.
 
 ## Support lane — 4 dimensions, /100
 

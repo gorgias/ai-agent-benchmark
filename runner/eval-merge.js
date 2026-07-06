@@ -24,10 +24,11 @@ if (!dir) { console.error("usage: node eval-merge.js <scoredDir>"); process.exit
 // ---- the fixed check → points mapping (mirrors eval-rubric.md; the single source of scoring) ----
 const CHECKS = {
   shopping: {
-    answer: { a_direct: 14, a_consistent: 9, a_no_ignored: 7, a_clarify: 5 },
-    recommendation: { r_named: 10, r_fit: 8, r_plausible: 7 },
-    rich: { e_price: 8, e_link: 9, e_reviews: 4, e_options: 4 },
-    close: { c_cta: 7, c_cart: 5, c_clean: 3 },
+    answer: { a_direct: 14, a_consistent: 9, a_no_ignored: 7 },
+    discovery: { d_clarify: 8, d_progressive: 7, d_not_dump: 5 },   // v2.2 — PMF core
+    recommendation: { r_named: 9, r_fit: 8, r_plausible: 5 },
+    rich: { e_price: 6, e_link: 7, e_reviews: 3, e_options: 2 },
+    close: { c_cta: 5, c_cart: 3, c_clean: 2 },
   },
   support: {
     resolution: { s_answered: 18, s_outcome: 12, s_no_deflect: 10 },
