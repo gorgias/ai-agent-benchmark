@@ -86,6 +86,7 @@ const SERIAL = args.includes("--serial");        // per-store serialize (cleaner
 // concurrency doesn't skew timing. Default 4; tune with --concurrency N.
 const CONC = Math.max(1, Number((pick("--concurrency") || [])[0]) || Number(process.env.CONCURRENCY) || 4);
 const THEME_LIMIT = Number((pick("--themes") || [])[0]) || 0;   // 0 = all themes
+const MAX_CONVERSATIONS = Number((pick("--max-conversations") || [])[0]) || Number(process.env.MAX_CONVERSATIONS) || 0;   // 0 = unbounded
 const MODES = (modeFilter || ["shopping", "support"]);
 const STAMP = (process.env.RUN_DATE || new Date().toISOString().slice(0, 10));
 
@@ -411,6 +412,11 @@ async function runStoreMode(browser, store, mode, theme) {
     const lists = Object.values(byV); const rr = [];
     for (let i = 0; rr.length < tasks.length; i++) for (const l of lists) if (l[i]) rr.push(l[i]);
     tasks.length = 0; tasks.push(...rr);
+  }
+  if (MAX_CONVERSATIONS > 0 && tasks.length > MAX_CONVERSATIONS) {
+    const original = tasks.length;
+    tasks.length = MAX_CONVERSATIONS;
+    console.log(`↯ MAX_CONVERSATIONS: capped ${original} pending conversations to ${tasks.length}.`);
   }
   if (!tasks.length) { console.log("ALL DONE — every conversation already captured for this run-date."); await browser.close(); return; }
   console.log(`Running ${tasks.length} conversations at concurrency ${CONC}, each in a fresh incognito context.\n`);
