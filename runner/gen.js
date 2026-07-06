@@ -358,7 +358,8 @@ if (args.includes("--print")) {
 }
 const REPORT = new URL("../report.html", import.meta.url).pathname;
 let html = await readFile(REPORT, "utf8");
-const a = html.indexOf("const STORES = [");
+const generatedStart = html.indexOf("// ---- SHOPPING (one entry per store; .themes = 5 apple-to-apple conversations)");
+const a = generatedStart >= 0 ? generatedStart : html.indexOf("const STORES = [");
 const b = html.indexOf("let MODE='shopping';");
 if (a < 0 || b < 0 || b < a) { console.error("Could not find STORES…let MODE markers in report.html"); process.exit(1); }
 html = html.slice(0, a) + block + html.slice(b);
