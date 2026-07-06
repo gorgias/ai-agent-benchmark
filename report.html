@@ -42477,7 +42477,12 @@ function applyView(){
   const isBest = VIEW==='best';
   const isConv = VIEW==='conversations';    // dedicated all-conversations tab
   const isData = !isBest && !isConv;        // the shopping/support detail views
-  const show=(id,on)=>{ const e=document.getElementById(id); if(e) e.style.display = on?'':'none'; };
+  // A toggled view must NEVER wait on the scroll-reveal IntersectionObserver: a section that is
+  // display:none at load has no box, so the observer never fires for it — when later shown it would
+  // stay stuck at .rv opacity:0 (the whole subtree paints blank while the DOM looks fine). So when we
+  // show a section, force-reveal it and every .rv/.rv-stagger inside it immediately.
+  const show=(id,on)=>{ const e=document.getElementById(id); if(!e) return; e.style.display = on?'':'none';
+    if(on){ e.classList.add('in'); e.querySelectorAll('.rv,.rv-stagger').forEach(x=>x.classList.add('in')); } };
   show('best-sec', isBest);                // ranking view = its own page
   show('summary-sec', isData);
   show('results-sec', isData);
