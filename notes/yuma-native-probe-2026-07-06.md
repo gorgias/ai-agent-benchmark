@@ -48,3 +48,13 @@ Default targets are `yuma-meshki-au yuma-meshki-uk`, with 1 Shopping theme, seri
   probes rather than guaranteed rankable data.
 - For near-term Yuma scoreboard stability, rely on existing valid EvryJewels/Tediber data and do
   not count native-widget no-answer probes against Yuma unless they become engaged/timed.
+
+## 2026-07-06 Codex follow-up
+
+- `yuma-bombayhair` was probed after the email-gate fix and still produced `--ms` for T1-T3 on
+  `shopping/everyday-value`; the probe was stopped gracefully to avoid burning the headed slot.
+- `yuma-tumble` was captured with `BENCHMARK_CAPTURE_ORIGIN=codex` on `shopping/everyday-value` and
+  produced a valid conversation: 9/10 timed turns, 29.1s mean complete latency, quality 67/100.
+- Tumble is therefore rankable, but it is slow and has purchase-mechanics gaps: it names products
+  and cites prices/reviews/options, but does not add to cart and asks for email/manager escalation
+  for warranty/discount questions.

@@ -114336,5 +114336,341 @@
    "runner": "eval-merge.js",
    "schema": 1
   }
+ },
+ "2026-07-06/yuma-tumble-shopping-everyday-value.json": {
+  "v": 2,
+  "mode": "shopping",
+  "rubric": {
+   "answer": 9,
+   "discovery": 20,
+   "recommendation": 22,
+   "rich": 11,
+   "close": 5
+  },
+  "total": 67,
+  "checks": {
+   "a_direct": {
+    "pass": false,
+    "evidence": "The total/discount turn was not answered and the warranty answer asked to escalate."
+   },
+   "a_consistent": {
+    "pass": true,
+    "evidence": "Both are excellent for high-traffic areas and everyday use."
+   },
+   "a_no_ignored": {
+    "pass": false,
+    "evidence": "The turn asking for total, free shipping, and discount had no timed answer."
+   },
+   "d_clarify": {
+    "pass": true,
+    "evidence": "could you tell me which room you are shopping for or what size you are looking for?"
+   },
+   "d_progressive": {
+    "pass": true,
+    "evidence": "Both are excellent for high-traffic areas and everyday use."
+   },
+   "d_not_dump": {
+    "pass": true,
+    "evidence": "could you tell me which room you are shopping for or what size you are looking for?"
+   },
+   "r_named": {
+    "pass": true,
+    "evidence": "Amara collection\nLisa collection"
+   },
+   "r_fit": {
+    "pass": true,
+    "evidence": "Both are excellent for high-traffic areas and everyday use."
+   },
+   "r_plausible": {
+    "pass": true,
+    "evidence": "our 3x5' rugs are great for entryways or kitchens"
+   },
+   "e_price": {
+    "pass": true,
+    "evidence": "Price: Ranges from $119 - $549 depending on size."
+   },
+   "e_link": {
+    "pass": false,
+    "evidence": "No product URL or openable product card signal was detected."
+   },
+   "e_reviews": {
+    "pass": true,
+    "evidence": "over 5,000 reviews and a 4.9-star rating"
+   },
+   "e_options": {
+    "pass": true,
+    "evidence": "Light Blue/Ivory, Indigo/Beige, and Coral/Blue"
+   },
+   "c_cta": {
+    "pass": true,
+    "evidence": "let me know which size and color variant you are interested in"
+   },
+   "c_cart": {
+    "pass": false,
+    "evidence": "The assistant did not add the product to cart after the explicit add-to-cart request."
+   },
+   "c_clean": {
+    "pass": false,
+    "evidence": "Please let me know your email, and I'll get this moving for you right away."
+   }
+  },
+  "turn_quality": {
+   "schema": 1,
+   "turns": [
+    {
+     "turn": 1,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 18618,
+     "answer_chars": 496,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "shopping",
+       "not",
+       "sure",
+       "right",
+       "choose"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 2,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 26281,
+     "answer_chars": 497,
+     "keyword_coverage": {
+      "asked": 10,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "want",
+       "something",
+       "everyday",
+       "use",
+       "good",
+       "quality",
+       "care",
+       "about"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 3,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 35888,
+     "answer_chars": 497,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "like",
+       "stay",
+       "within",
+       "sensible",
+       "budget",
+       "best",
+       "options"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 4,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 33030,
+     "answer_chars": 496,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 1,
+      "ratio": 0.14,
+      "missing": [
+       "compare",
+       "two",
+       "most",
+       "popular",
+       "options",
+       "better"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 5,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 25323,
+     "answer_chars": 496,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 1,
+      "ratio": 0.14,
+      "missing": [
+       "which",
+       "overall",
+       "best",
+       "seller",
+       "well",
+       "reviewed"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 6,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 23973,
+     "answer_chars": 496,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "okay",
+       "add",
+       "top",
+       "recommendation",
+       "cart"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 7,
+     "measured": false,
+     "by": "ai",
+     "complete_ms": null,
+     "answer_chars": 18,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "total",
+       "offer",
+       "free",
+       "shipping",
+       "first",
+       "order",
+       "discount"
+      ]
+     },
+     "substantive": false,
+     "flags": [
+      "no_measured_answer",
+      "low_question_coverage",
+      "purchase_request_unfulfilled"
+     ]
+    },
+    {
+     "turn": 8,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 40138,
+     "answer_chars": 497,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 2,
+      "ratio": 0.33,
+      "missing": [
+       "there",
+       "something",
+       "goes",
+       "wrong"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 9,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 26535,
+     "answer_chars": 495,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 1,
+      "ratio": 0.2,
+      "missing": [
+       "long",
+       "will",
+       "take",
+       "roughly"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 10,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 31965,
+     "answer_chars": 497,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 1,
+      "ratio": 0.25,
+      "missing": [
+       "change",
+       "mind",
+       "easy"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    }
+   ],
+   "summary": {
+    "total_turns": 10,
+    "measured_turns": 9,
+    "substantive_turns": 9,
+    "issue_turns": 10,
+    "issue_rate": 1
+   }
+  },
+  "resolution_class": "partial",
+  "learning": "Strong catalog guidance and social proof, but it fails purchase mechanics and escalates warranty/discount details to email.",
+  "judged_at": null,
+  "judge": {
+   "origin": "codex",
+   "origin_explicit": true,
+   "runner": "eval-merge.js",
+   "schema": 1
+  }
  }
 }
