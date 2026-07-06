@@ -316,6 +316,12 @@ async function buildMode(mode) {
     // down abnormally. `v3:false` is set from Cortex dim_accounts.v3_ai_agent_architecture_beta_phase
     // (null = not V3). e.g. Jade (drags support to q41-49), Tommy John, Dr. Bronner's.
     if (site.vendor === "Gorgias" && site.v3 === false) continue;
+    // Madura's SHOPPING lane is misconfigured — the agent treats shopping openers ("guide me")
+    // as payment-method queries (card/PayPal/Alma), a store-specific config gap, NOT the V3 agent's
+    // behavior (other Gorgias stores sell fine: Beekman 88, Addison Bay 86). Excluded from Shopping
+    // as a non-representative shopping deployment per the standing prune-misconfigured-stores rule.
+    // Its SUPPORT is a valid, strong deployment (100/100/100) and is kept.
+    if (site.key === "gorgias-madura" && mode === "shopping") continue;
     // Accumulate: one dated entry per run that actually captured this store.
     let anyMeasured = false;
     for (const date of DATES) {
