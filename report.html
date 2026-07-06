@@ -22055,48 +22055,49 @@ const STORES = [
   "locale": "en-US",
   "method": "new",
   "us": false,
-  "lat": "~9.6s",
-  "latPct": 38,
+  "lat": "~9.9s",
+  "latPct": 40,
   "latP75": 12,
-  "ttft": 8.1,
+  "ttft": 8.3,
   "delivery": "atomic",
-  "success": 93,
-  "successTxt": "93%",
+  "success": 88,
+  "successTxt": "88%",
   "avgTurns": 10,
-  "timed": 28,
-  "attempted": 30,
+  "timed": 35,
+  "attempted": 40,
   "auto": {
    "automated": 2,
-   "handover": 1,
+   "handover": 2,
    "deflected": 0,
    "no_answer": 0,
-   "engaged": 3,
-   "rate": 67
+   "engaged": 4,
+   "rate": 50
   },
   "evalq": {
-   "n": 3,
+   "n": 4,
    "total": 70,
    "dims": {
-    "answer": 16,
+    "answer": 14,
     "discovery": 16,
-    "recommendation": 19,
-    "rich": 13,
+    "recommendation": 20,
+    "rich": 14,
     "close": 6
    },
    "cls": {
-    "partial": 2,
+    "partial": 3,
     "resolved": 1
    },
    "learnings": [
     "Strong value comparison with prices and product cards, but the explicit cart/total ask is not fulfilled and the flow ends before final shipping confirmation.",
     "Precise, well-priced case comparison tied to everyday carry with a direct product link and thorough shipping/warranty/return facts; only gap is the honest inability to add to cart.",
+    "It finds plausible gift products, but several turns stall on catalog search or repeat prior content and it cannot complete cart or total.",
     "Names plausible cases and accessories with prices, but recommendations are not tied to a stated need and several later asks are missed or gated."
    ]
   },
   "guard": null,
   "ticket": null,
-  "what": "3 cold private conversations (shopping themes). Handover in 1/3 themes. Avg end-to-end latency ~9.6s across 28 AI-timed turns.",
-  "datetime": "2026-07-06T08:39:55.148Z",
+  "what": "4 cold private conversations (shopping themes). Handover in 2/4 themes. Avg end-to-end latency ~9.9s across 35 AI-timed turns.",
+  "datetime": "2026-07-06T13:11:37.818Z",
   "themes": [
    {
     "key": "everyday-value",
@@ -22177,6 +22178,77 @@ const STORES = [
       "a": "…possible if the case is unused and in perfect condition, and you must request authorization before returning it. Please let me know if you require further clarification.",
       "by": "ai",
       "lat": 13
+     }
+    ]
+   },
+   {
+    "key": "gift",
+    "label": "Gift shopper",
+    "datetime": "2026-07-06T13:11:37.818Z",
+    "lat": "~10.8s",
+    "success": 70,
+    "successTxt": "70%",
+    "handoverTurn": 8,
+    "ticket": null,
+    "productRecs": {
+     "count": 6,
+     "names": [
+      "Foam Inserts",
+      "NANUK 915 for DJI Mini 3 & 4 Pro Fly More",
+      "NANUK 935 Pro Photo Kit",
+      "NANUK T20 Empty",
+      "NANUK T30 Empty",
+      "Padded Dividers"
+     ]
+    },
+    "turns": [
+     {
+      "q": "Hi! I'm looking for a gift for someone and I'm not sure what to pick — can you help?",
+      "a": "…NANUK 935 Pro Photo Kit $409.95 Desert Tan Add to cart Padded Dividers $40.95 NANUK T20 Padded Divider Add to cart Foam Inserts $39.95 NANUK T30 Cubed Foam Add to cart",
+      "by": "ai",
+      "lat": 29.3
+     },
+     {
+      "q": "It's for someone who likes quality but isn't fussy; I want something they'll actually use.",
+      "a": "…Foam Inserts $39.95 NANUK T30 Cubed Foam Add to cart It's for someone who likes quality but isn't fussy; I want something they'll actually use. Searching the catalog...",
+      "by": "ai",
+      "lat": 6.6
+     },
+     {
+      "q": "My budget is moderate — what would make a good gift in that range?",
+      "a": "…price. Please let me know if you require further clarification. NANUK T20 Empty $99.95 Black / Empty Add to cart NANUK T30 Empty $119.95 Black / Empty Add to cart",
+      "by": "ai",
+      "lat": 4.5
+     },
+     {
+      "q": "Between your top two gift ideas, which feels more special?",
+      "a": "…$99.95 Black / Empty Add to cart NANUK T30 Empty $119.95 Black / Empty Add to cart Between your top two gift ideas, which feels more special? Searching the catalog...",
+      "by": "ai",
+      "lat": 8.1
+     },
+     {
+      "q": "Is there a gift set or bundle that looks nicer than a single item?",
+      "a": "…gift-worthy. Please let me know if you require further clarification. NANUK T30 Empty $119.95 Black / Empty Add to cart NANUK T20 Empty $99.95 Black / Empty Add to cart",
+      "by": "ai",
+      "lat": 2.7
+     },
+     {
+      "q": "Can it arrive gift-ready, and how fast can it ship?",
+      "a": "…the exact express options and estimated delivery dates will be displayed at checkout for your location. Please let me know if you require further clarification.",
+      "by": "ai",
+      "lat": 11.3
+     },
+     {
+      "q": "Great — add your top gift pick to my cart and tell me the total.",
+      "a": "…website, and the exact total will be displayed at checkout based on your location and selected shipping method. Please let me know if you require further clarification.",
+      "by": "ai",
+      "lat": 12.7
+     },
+     {
+      "q": "Can you include a gift message or a gift receipt?",
+      "a": "🚩 human took over",
+      "by": "human",
+      "lat": null
      }
     ]
    },
@@ -22402,7 +22474,7 @@ const STORES = [
   ]
  },
  {
-  "id": "klaviyo-naked-shopping-pending",
+  "id": "klaviyo-naked-shopping-2026-07-06",
   "date": "2026-07-06",
   "vendor": "Klaviyo",
   "store": "Naked Wardrobe",
@@ -22410,14 +22482,260 @@ const STORES = [
   "url": "https://www.nakedwardrobe.com/",
   "widget": "klaviyo",
   "locale": "en-US",
-  "method": "pending",
+  "method": "new",
   "us": false,
-  "lat": "—",
-  "success": null,
-  "successTxt": "pending",
-  "successCls": "p-na",
-  "what": "Not captured in a cold run yet — pending.",
-  "turns": []
+  "lat": "~13.5s",
+  "latPct": 54,
+  "latP75": 16,
+  "ttft": 13.3,
+  "delivery": "streaming",
+  "success": 47,
+  "successTxt": "47%",
+  "avgTurns": 10,
+  "timed": 14,
+  "attempted": 30,
+  "auto": {
+   "automated": 0,
+   "handover": 3,
+   "deflected": 0,
+   "no_answer": 0,
+   "engaged": 3,
+   "rate": 0
+  },
+  "evalq": {
+   "n": 3,
+   "total": 91,
+   "dims": {
+    "answer": 30,
+    "discovery": 17,
+    "recommendation": 22,
+    "rich": 14,
+    "close": 9
+   },
+   "cls": {
+    "partial": 3
+   },
+   "learnings": [
+    "Strong value-oriented narrowing and honest uncertainty on reviews, with the main miss being an early product dump before discovery.",
+    "Good gift reasoning and shipping specifics, but it cannot complete the explicit add-to-cart and total request.",
+    "Careful discovery and honest review limitations make this strong, though review and comparison rich signals are absent."
+   ]
+  },
+  "guard": null,
+  "ticket": null,
+  "what": "3 cold private conversations (shopping themes). Handover in 3/3 themes. Avg end-to-end latency ~13.5s across 14 AI-timed turns.",
+  "datetime": "2026-07-06T13:21:29.860Z",
+  "themes": [
+   {
+    "key": "everyday-value",
+    "label": "Everyday value buyer",
+    "datetime": "2026-07-06T13:14:11.842Z",
+    "lat": "~16.1s",
+    "success": 40,
+    "successTxt": "40%",
+    "handoverTurn": 5,
+    "ticket": null,
+    "productRecs": {
+     "count": 12,
+     "names": [
+      "FAUX FEATHER MINI HANDBAG",
+      "FAUX FUR PLUSH LEG WARMERS",
+      "FAUX FUR PLUSH SHOULDER BAG",
+      "JEWELRY, BAG, OR HEADWEAR",
+      "LINEN HEADBAND instead only",
+      "RESIN STONE BRACELET",
+      "ROSE PETAL CUFFS",
+      "ROSES MINI HANDBAG",
+      "SEQUIN MINI PURSE",
+      "SUITED PRINT BERET",
+      "TWEED HEADBAND",
+      "VEGAN LEATHER CHAIN HANDBAG"
+     ]
+    },
+    "turns": [
+     {
+      "q": "Hi! I'm shopping but not sure what's right for me — can you help me choose?",
+      "a": "…/ OS ADD TO CART FOR YOU ORDERS CHAT PROFILE Want 20% off your first order? Subscribe to our newsletter for important updates and exclusive offers. Birthday SIGN ME UP",
+      "by": "ai",
+      "lat": 16
+     },
+     {
+      "q": "I want something for everyday use, good quality, and I care about value for money.",
+      "a": "…DARK CHOCOLATE / OS ADD TO CART SUITED PRINT BERET €60.95 TAUPE CHEVRON / OS ADD TO CART VEGAN LEATHER CHAIN HANDBAG €131.95 ADD TO CART FOR YOU ORDERS CHAT PROFILE",
+      "by": "ai",
+      "lat": 14.6
+     },
+     {
+      "q": "I'd like to stay within a sensible budget — what are my best options?",
+      "a": "…BLACK/WHITE / OS ADD TO CART ROSE PETAL CUFFS €51.95 WHITE / OS ADD TO CART FAUX FUR PLUSH LEG WARMERS €56.95 DARK PLUM / OS ADD TO CART FOR YOU ORDERS CHAT PROFILE",
+      "by": "ai",
+      "lat": 13.8
+     },
+     {
+      "q": "Can you compare your two most popular options and tell me which is better for me?",
+      "a": "…I’d recommend the TWEED HEADBAND. TWEED HEADBAND €14.95 BLACK/WHITE / OS ADD TO CART LINEN HEADBAND €24.95 DARK CHOCOLATE / OS ADD TO CART FOR YOU ORDERS CHAT PROFILE",
+      "by": "ai",
+      "lat": 20.1
+     },
+     {
+      "q": "Which one is your overall best seller, and is it well reviewed?",
+      "a": "🚩 human took over",
+      "by": "human",
+      "lat": null
+     }
+    ]
+   },
+   {
+    "key": "gift",
+    "label": "Gift shopper",
+    "datetime": "2026-07-06T13:21:29.860Z",
+    "lat": "~12.5s",
+    "success": 70,
+    "successTxt": "70%",
+    "handoverTurn": 8,
+    "ticket": null,
+    "productRecs": {
+     "count": 9,
+     "names": [
+      "FAUX FUR PLUSH MINI BAG",
+      "FAUX FUR PLUSH SHOULDER BAG",
+      "NAKED WARDROBE GIFT CARD",
+      "ROSES MINI HANDBAG",
+      "SATIN SCULPTURE MINI BAG",
+      "SEQUIN MINI PURSE",
+      "SMOOTH TURTLENECK SCULPT TOP",
+      "SUITED PRINT BERET, but",
+      "THEIR STYLE"
+     ]
+    },
+    "turns": [
+     {
+      "q": "Hi! I'm looking for a gift for someone and I'm not sure what to pick — can you help?",
+      "a": "…$50.00 ADD TO CART FOR YOU ORDERS CHAT PROFILE Want 20% off your first order? Subscribe to our newsletter for important updates and exclusive offers. Birthday SIGN ME UP",
+      "by": "ai",
+      "lat": 14.6
+     },
+     {
+      "q": "It's for someone who likes quality but isn't fussy; I want something they'll actually use.",
+      "a": "…the top over the beret. SMOOTH TURTLENECK SCULPT TOP €42.95 WHITE / XL ADD TO CART SUITED PRINT BERET €60.95 TAUPE CHEVRON / OS ADD TO CART FOR YOU ORDERS CHAT PROFILE",
+      "by": "ai",
+      "lat": 13.7
+     },
+     {
+      "q": "My budget is moderate — what would make a good gift in that range?",
+      "a": "…SCULPTURE MINI BAG €60.95 ADD TO CART FAUX FUR PLUSH MINI BAG €60.95 BONE / OS ADD TO CART NAKED WARDROBE GIFT CARD €44.46 $50.00 ADD TO CART FOR YOU ORDERS CHAT PROFILE",
+      "by": "ai",
+      "lat": 16.7
+     },
+     {
+      "q": "Between your top two gift ideas, which feels more special?",
+      "a": "…If you want, I can also tell you which option feels MORE PRACTICAL versus MORE LUXURIOUS. ROSES MINI HANDBAG €42.95 MAGENTA / OS ADD TO CART FOR YOU ORDERS CHAT PROFILE",
+      "by": "ai",
+      "lat": 16.2
+     },
+     {
+      "q": "Is there a gift set or bundle that looks nicer than a single item?",
+      "a": "…GIFT COMBO from our current collection that feels more special than giving just one piece. NAKED WARDROBE GIFT CARD €22.23 $25.00 ADD TO CART FOR YOU ORDERS CHAT PROFILE",
+      "by": "ai",
+      "lat": 12.2
+     },
+     {
+      "q": "Can it arrive gift-ready, and how fast can it ship?",
+      "a": "…DAY FULFILLMENT, and STANDARD SHIPPING takes 4–7 BUSINESS DAYS FULFILLMENT. We don’t offer next-day or expedited shipping at this time. FOR YOU ORDERS CHAT PROFILE",
+      "by": "ai",
+      "lat": 6.1
+     },
+     {
+      "q": "Great — add your top gift pick to my cart and tell me the total.",
+      "a": "…it on the site, the item price I shared earlier was $48. The final total will depend on any shipping charges and taxes applied at checkout. FOR YOU ORDERS CHAT PROFILE",
+      "by": "ai",
+      "lat": 7.9
+     },
+     {
+      "q": "Can you include a gift message or a gift receipt?",
+      "a": "🚩 human took over",
+      "by": "human",
+      "lat": null
+     }
+    ]
+   },
+   {
+    "key": "problem-solver",
+    "label": "Specific need / reassurance",
+    "datetime": "2026-07-06T13:21:29.860Z",
+    "lat": "~12.2s",
+    "success": 30,
+    "successTxt": "30%",
+    "handoverTurn": 4,
+    "ticket": null,
+    "productRecs": {
+     "count": 3,
+     "names": [
+      "SMOOTH SCOOP TANK BODYSUIT",
+      "SMOOTH TUBE TOP",
+      "VEGAN LEATHER TRENCH ROMPER"
+     ]
+    },
+    "turns": [
+     {
+      "q": "Hi — I have a specific need and I'm worried about picking the wrong thing. Can you help?",
+      "a": "…from our store. FOR YOU ORDERS CHAT PROFILE Want 20% off your first order? Subscribe to our newsletter for important updates and exclusive offers. Birthday SIGN ME UP",
+      "by": "ai",
+      "lat": 11.8
+     },
+     {
+      "q": "I've been disappointed by similar products before, so quality really matters to me.",
+      "a": "…in similar products before, I can narrow it down much more carefully. VEGAN LEATHER TRENCH ROMPER €220.95 DARK CHOCOLATE / XS ADD TO CART FOR YOU ORDERS CHAT PROFILE",
+      "by": "ai",
+      "lat": 12.1
+     },
+     {
+      "q": "Which of your products is best for that, and why is it a good fit?",
+      "a": "…COVERAGE, AND HOW YOU PLAN TO WEAR IT. SMOOTH SCOOP TANK BODYSUIT €46.95 WHITE / XS ADD TO CART SMOOTH TUBE TOP €42.95 WHITE / XL ADD TO CART FOR YOU ORDERS CHAT PROFILE",
+      "by": "ai",
+      "lat": 12.6
+     },
+     {
+      "q": "What do other customers say in their reviews — does it actually hold up?",
+      "a": "🚩 human took over",
+      "by": "human",
+      "lat": null
+     }
+    ]
+   }
+  ],
+  "turns": [
+   {
+    "q": "Hi! I'm shopping but not sure what's right for me — can you help me choose?",
+    "a": "…/ OS ADD TO CART FOR YOU ORDERS CHAT PROFILE Want 20% off your first order? Subscribe to our newsletter for important updates and exclusive offers. Birthday SIGN ME UP",
+    "by": "ai",
+    "lat": 16
+   },
+   {
+    "q": "I want something for everyday use, good quality, and I care about value for money.",
+    "a": "…DARK CHOCOLATE / OS ADD TO CART SUITED PRINT BERET €60.95 TAUPE CHEVRON / OS ADD TO CART VEGAN LEATHER CHAIN HANDBAG €131.95 ADD TO CART FOR YOU ORDERS CHAT PROFILE",
+    "by": "ai",
+    "lat": 14.6
+   },
+   {
+    "q": "I'd like to stay within a sensible budget — what are my best options?",
+    "a": "…BLACK/WHITE / OS ADD TO CART ROSE PETAL CUFFS €51.95 WHITE / OS ADD TO CART FAUX FUR PLUSH LEG WARMERS €56.95 DARK PLUM / OS ADD TO CART FOR YOU ORDERS CHAT PROFILE",
+    "by": "ai",
+    "lat": 13.8
+   },
+   {
+    "q": "Can you compare your two most popular options and tell me which is better for me?",
+    "a": "…I’d recommend the TWEED HEADBAND. TWEED HEADBAND €14.95 BLACK/WHITE / OS ADD TO CART LINEN HEADBAND €24.95 DARK CHOCOLATE / OS ADD TO CART FOR YOU ORDERS CHAT PROFILE",
+    "by": "ai",
+    "lat": 20.1
+   },
+   {
+    "q": "Which one is your overall best seller, and is it well reviewed?",
+    "a": "🚩 human took over",
+    "by": "human",
+    "lat": null
+   }
+  ]
  },
  {
   "id": "klaviyo-happywax-shopping-pending",
@@ -22456,7 +22774,7 @@ const STORES = [
   "turns": []
  },
  {
-  "id": "klaviyo-k9ballistics-shopping-pending",
+  "id": "klaviyo-k9ballistics-shopping-2026-07-06",
   "date": "2026-07-06",
   "vendor": "Klaviyo",
   "store": "K9 Ballistics",
@@ -22464,14 +22782,121 @@ const STORES = [
   "url": "https://k9ballistics.com/",
   "widget": "klaviyo",
   "locale": "en-US",
-  "method": "pending",
+  "method": "new",
   "us": false,
-  "lat": "—",
-  "success": null,
-  "successTxt": "pending",
-  "successCls": "p-na",
-  "what": "Not captured in a cold run yet — pending.",
-  "turns": []
+  "lat": "~22.1s",
+  "latPct": 88,
+  "latP75": 35.5,
+  "ttft": 22.2,
+  "delivery": "streaming",
+  "success": 30,
+  "successTxt": "30%",
+  "avgTurns": 10,
+  "timed": 3,
+  "attempted": 10,
+  "auto": {
+   "automated": 0,
+   "handover": 1,
+   "deflected": 0,
+   "no_answer": 0,
+   "engaged": 1,
+   "rate": 0
+  },
+  "evalq": {
+   "n": 1,
+   "total": 62,
+   "dims": {
+    "answer": 9,
+    "discovery": 8,
+    "recommendation": 22,
+    "rich": 13,
+    "close": 10
+   },
+   "cls": {
+    "partial": 1
+   },
+   "learnings": [
+    "It surfaces products with prices and cart affordances, but loses the thread on comparison and dumps options before narrowing the shopper profile."
+   ]
+  },
+  "guard": null,
+  "ticket": null,
+  "what": "1 cold private conversations (shopping themes). Handover in 1/1 themes. Avg end-to-end latency ~22.1s across 3 AI-timed turns.",
+  "datetime": "2026-07-06T13:29:20.883Z",
+  "themes": [
+   {
+    "key": "everyday-value",
+    "label": "Everyday value buyer",
+    "datetime": "2026-07-06T13:29:20.883Z",
+    "lat": "~22.1s",
+    "success": 30,
+    "successTxt": "30%",
+    "handoverTurn": 4,
+    "ticket": null,
+    "productRecs": {
+     "count": 5,
+     "names": [
+      "K9 Ballistics Classic Trucker Hat",
+      "K9 Everyday™ Dog Collar",
+      "K9 Everyday™ Dog Harness",
+      "K9 Everyday™ Dog Leash",
+      "K9 Training™ Treat Pouch"
+     ]
+    },
+    "turns": [
+     {
+      "q": "Hi! I'm shopping but not sure what's right for me — can you help me choose?",
+      "a": "…Dog Collar $20.00 S / Obsidian Black Add to cart K9 Ballistics Classic Trucker Hat $5.00 Add to cart For You Orders Chat Profile Select Select Select Apply Checkout →",
+      "by": "ai",
+      "lat": 22.7
+     },
+     {
+      "q": "I want something for everyday use, good quality, and I care about value for money.",
+      "a": "…Obsidian Black Add to cart K9 Everyday™ Dog Leash $25.00 6ft (L) x 1in (W) / Obsidian Black Add to cart For You Orders Chat Profile Select Select Select Apply Checkout →",
+      "by": "ai",
+      "lat": 35.5
+     },
+     {
+      "q": "I'd like to stay within a sensible budget — what are my best options?",
+      "a": "…more details or want to see other options, just let me know your pet’s size or any color preferences! For You Orders Chat Profile Select Select Select Apply Checkout →",
+      "by": "ai",
+      "lat": 8.1
+     },
+     {
+      "q": "Can you compare your two most popular options and tell me which is better for me?",
+      "a": "🚩 human took over",
+      "by": "human",
+      "lat": null
+     }
+    ]
+   }
+  ],
+  "turns": [
+   {
+    "q": "Hi! I'm shopping but not sure what's right for me — can you help me choose?",
+    "a": "…Dog Collar $20.00 S / Obsidian Black Add to cart K9 Ballistics Classic Trucker Hat $5.00 Add to cart For You Orders Chat Profile Select Select Select Apply Checkout →",
+    "by": "ai",
+    "lat": 22.7
+   },
+   {
+    "q": "I want something for everyday use, good quality, and I care about value for money.",
+    "a": "…Obsidian Black Add to cart K9 Everyday™ Dog Leash $25.00 6ft (L) x 1in (W) / Obsidian Black Add to cart For You Orders Chat Profile Select Select Select Apply Checkout →",
+    "by": "ai",
+    "lat": 35.5
+   },
+   {
+    "q": "I'd like to stay within a sensible budget — what are my best options?",
+    "a": "…more details or want to see other options, just let me know your pet’s size or any color preferences! For You Orders Chat Profile Select Select Select Apply Checkout →",
+    "by": "ai",
+    "lat": 8.1
+   },
+   {
+    "q": "Can you compare your two most popular options and tell me which is better for me?",
+    "a": "🚩 human took over",
+    "by": "human",
+    "lat": null
+   }
+  ]
  },
  {
   "id": "klaviyo-onefastcat-shopping-pending",
