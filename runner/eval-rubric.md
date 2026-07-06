@@ -36,12 +36,12 @@ checks** and *derives* the numbers — the judge never picks a number.)
    contain widget chrome (cookie banners, quick-reply chip labels, timestamps): judge the
    substance and ignore the chrome.
 
-## Shopping lane — 5 dimensions, /100 (v2.2)
+## Shopping lane — 5 dimensions, /100 (v2.3)
 
 **answer** (max 30)
 | check | pts | passes when |
 |---|---|---|
-| `a_direct` | 14 | each shopper question gets a direct, on-topic response (not generic boilerplate) |
+| `a_direct` | 14 | each shopper question gets a direct, on-topic, **substantive** response. A generic greeting or brand boilerplate ("Hi! How can I help?", "We're so happy to have you here!") that does not actually answer the question **fails** — warmth, enthusiasm and emojis are not substance. |
 | `a_consistent` | 9 | no contradiction across turns; no invented policies/specs |
 | `a_no_ignored` | 7 | no shopper turn is left unanswered or answered with an unrelated reply |
 
@@ -56,7 +56,7 @@ checks** and *derives* the numbers — the judge never picks a number.)
 | check | pts | passes when |
 |---|---|---|
 | `r_named` | 9 | recommends at least one specific, named product |
-| `r_fit` | 8 | ties the recommendation to the shopper's stated needs (rationale, not a list dump) |
+| `r_fit` | 8 | ties the recommendation to the shopper's **specific stated constraints** (budget, use-case, skin type, recipient…) with real reasoning. A product dropped with generic praise/emojis but no rationale connected to what the shopper actually said **fails**. |
 | `r_plausible` | 5 | recommendations are appropriate to the store's catalog and the request |
 
 **rich** (max 18) — every check is **capped by deterministic signals** (see `signals`)
@@ -71,7 +71,7 @@ checks** and *derives* the numbers — the judge never picks a number.)
 | check | pts | passes when |
 |---|---|---|
 | `c_cta` | 5 | ends with a concrete next step (open the product, pick a size, apply code…) |
-| `c_cart` | 3 | facilitates purchase mechanics (add-to-cart, checkout guidance, shipping to buy) |
+| `c_cart` | 3 | facilitates purchase mechanics (add-to-cart, checkout guidance). If the shopper **explicitly** asks to add to cart or for a total/checkout and the agent does not actually do it (re-asks, deflects, or loops), this **fails** — an unfulfilled explicit purchase request is a hard miss. |
 | `c_clean` | 2 | conversation closes cleanly (no dangling question, no mid-thought stop) |
 
 > Calibration note (v2.2): added the **discovery** dimension (20 pts) — asking smart clarifying
@@ -79,6 +79,14 @@ checks** and *derives* the numbers — the judge never picks a number.)
 > rubric under-weighted (a lone 5-pt `a_clarify`). Points came from rich (25→18, product-card
 > spraying was over-rewarded), recommendation (25→22), close (15→10), and folding `a_clarify` into
 > `d_clarify`. Support lane unchanged.
+>
+> Calibration note (v2.3): tightened three shopping checks after reading transcripts where a
+> fluffy, emoji-heavy agent scored ~90+ by mechanically ticking boxes (a product was named, a
+> price shown) while (a) opening with a generic greeting instead of answering, and (b) never
+> completing an explicitly-requested cart/total. **Substance over style** — judge what the shopper
+> could actually DO with the answer, not how warm it sounds. No point weights changed; the pass
+> bars on `a_direct` (no boilerplate credit), `r_fit` (rationale must tie to stated constraints)
+> and `c_cart` (unfulfilled explicit purchase request = fail) are stricter. Applies to every vendor.
 
 ## Support lane — 4 dimensions, /100
 
