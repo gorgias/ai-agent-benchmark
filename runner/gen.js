@@ -391,7 +391,11 @@ function laneScores(arr) {
     // p75 pooled over EVERY timed AI turn across the vendor's stores (baked turn.lat = seconds)
     const turnLats = es.flatMap(s => (s.themes || []).flatMap(t => (t.turns || []).filter(x => x.by === "ai" && x.lat != null).map(x => x.lat)));
     const l75 = turnLats.length ? Math.round(percentile(turnLats, 75) * 10) / 10 : null;
-    if (a == null && q == null && l == null) continue;
+    // RANKABLE only with a real quality score: quality is a 40% pillar of the composite, so a
+    // vendor with automation+latency but no judged quality (e.g. Klaviyo/Decagon — thin/unjudged
+    // capture) must NOT get a composite (it renormalizes to automation+speed and ranks spuriously).
+    // Those vendors live in the prose profiles as "not measurable / capture in progress", not the scoreboard.
+    if (q == null) continue;
     out[v] = { a, q, l, l75 };
   }
   return out;
