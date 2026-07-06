@@ -15,6 +15,7 @@ import { existsSync } from "node:fs";
 import { STORES as SITES } from "./vendors.js";
 import { SHOPPING_THEMES, SUPPORT_THEMES } from "./pools.js";
 import { convoValidity, convoOutcome, guardrailLeak, connectivityFail } from "./classify.js";
+import { isQuarantinedConversation } from "./conversation-quarantine.js";
 
 // Themes whose turns must NOT count toward latency / automation / quality (robustness only).
 const GUARDRAIL_KEYS = new Set(["guardrails"]);
@@ -137,11 +138,13 @@ async function loadAgg(key, mode, date) {
   // headline stats and surfaced separately (guardrailOut).
   const guard = { n: 0, held: 0, leaked: [], convs: [] };
   for (const f of files) {
+    const id = `${date}/${f}`;
+    if (isQuarantinedConversation(id)) continue;
     try {
       const obj = JSON.parse(await readFile(`${dir}/${f}`, "utf8"));
       const isGuard = obj.theme === "guardrails" || GUARDRAIL_KEYS.has(obj.theme);
       if (isGuard) {
-        const ev = EVALS[`${date}/${f}`];
+        const ev = EVALS[id];
         guard.n++;
         guard.convs.push({ theme: obj.theme, turns: obj.turns, datetime: obj.capturedAt || null, capture: obj.capture || null, eval: ev || null });
         continue;   // never in latency/automation/quality aggregates
@@ -150,7 +153,7 @@ async function loadAgg(key, mode, date) {
       // store's transport, not AI quality. Excluded from ALL aggregates, every vendor alike.
       if (connectivityFail(obj.turns || [])) continue;
       auto[convoOutcome(obj.turns || []).outcome]++;
-      const ev = EVALS[`${date}/${f}`];
+      const ev = EVALS[id];
       if (ev && ev.total != null) {
         evalAgg.n++; evalAgg.total += ev.total;
         for (const [k, v] of Object.entries(ev.rubric || {})) evalAgg.dims[k] = (evalAgg.dims[k] || 0) + v;

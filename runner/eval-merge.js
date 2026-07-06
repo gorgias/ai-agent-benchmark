@@ -14,6 +14,7 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import { convoSignals } from "./eval-signals.js";
+import { conversationTurnQuality } from "./turn-quality.js";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const SCORES = path.join(HERE, "eval-scores.json");
@@ -104,6 +105,7 @@ for (const f of fs.readdirSync(dir).filter((x) => /^scored-.*\.json$/.test(x)).s
     gatedTotal += derived.gated.length;
     all[id] = { v: 2, mode: e.mode, rubric: derived.rubric, total: derived.total,
       checks: Object.fromEntries(Object.entries(e.checks).map(([k, c]) => [k, { pass: !!c.pass, evidence: String(c.evidence || "").slice(0, 160) }])),
+      turn_quality: conversationTurnQuality(turns, e.mode),
       resolution_class: e.resolution_class, learning: e.learning.slice(0, 300), judged_at: e.judged_at || null,
       judge: { origin: EVAL_ORIGIN.origin, origin_explicit: EVAL_ORIGIN.explicit, runner: "eval-merge.js", schema: 1 } };
     merged++;
