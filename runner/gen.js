@@ -18,6 +18,19 @@ import { convoValidity, convoOutcome, guardrailLeak, connectivityFail } from "./
 import { cleanAnswer } from "./reply-clean.js";
 import { conversationTurnQuality } from "./turn-quality.js";
 import { isQuarantinedConversation } from "./conversation-quarantine.js";
+
+// Delivery style is an ENGINE property, not a per-conversation trait, and the
+// growth_events proxy is unreliable at the extremes: it counts EVERY DOM length
+// increase, so a widget's loader ("I'm looking into this…"), appended timestamps
+// and multi-bubble answers inflate the count even when nothing streams (Gorgias
+// medians ~4 = a placeholder loader, NOT tokens). Conversely a fast token stream
+// can coalesce into a single measured jump (Amazon Rufus medians 1 despite really
+// streaming). So we pin the engines we've verified by eye and fall back to the
+// heuristic — with a higher bar (≥6) so loader/chrome churn no longer false-flags.
+const DELIVERY_OVERRIDE = {
+  "Gorgias": "atomic",       // "I'm looking into this…" is a loader, then the answer lands at once — not streaming
+  "Amazon Rufus": "streaming", // genuinely token-streams; capture coalesces it, so the proxy misses it
+};
 import { extractRecommendedProducts } from "./product-recommendation-bars.js";
 import { normalizeUserMessage } from "./message-style.js";
 
@@ -247,7 +260,9 @@ async function loadAgg(key, mode, date) {
   // TTFT ("first signal") + delivery classification — Roman's key insight: a shopper
   // feels the first token / first card, not the full answer. ttft_ms is captured per
   // turn; growth_events distinguishes streaming (many DOM increments) from atomic
-  // (1-2 jumps) delivery. A vendor is "streaming" if the median growth_events ≥ 4.
+  // (1-2 jumps) delivery. Fallback heuristic only (DELIVERY_OVERRIDE wins): a vendor
+  // streams if median growth_events ≥ 6 — the bar is high because loaders, appended
+  // timestamps and multi-bubble answers each add increments (~4) without any streaming.
   const ttfts = aiTurns.map(x => x.ttft_ms).filter(x => x != null);
   const growth = aiTurns.map(x => x.growth_events).filter(x => x != null);
   const median = (a) => a.length ? [...a].sort((x, y) => x - y)[Math.floor(a.length / 2)] : null;
@@ -272,7 +287,7 @@ async function loadAgg(key, mode, date) {
       min_ms: aiMs.length ? Math.min(...aiMs) : null,
       max_ms: aiMs.length ? Math.max(...aiMs) : null,
       ttft_ms: ttfts.length ? Math.round(median(ttfts)) : null,      // median first-signal
-      delivery: medGrowth == null ? null : (medGrowth >= 4 ? "streaming" : "atomic"),
+      delivery: medGrowth == null ? null : (medGrowth >= 6 ? "streaming" : "atomic"),
       med_growth: medGrowth,
       themes_with_handover: themesWithHandover,
     },
@@ -314,7 +329,7 @@ function measuredEntry(site, mode, agg, date) {
     method: "new", us: !!site.us,
     lat: avgS != null ? `~${avgS}s` : "—", latPct: avgS != null ? Math.min(100, Math.round(avgS / 25 * 100)) : 0,
     latP75: st.p75_ms != null ? round1(st.p75_ms / 1000) : null,   // p75 latency (seconds)
-    ttft: st.ttft_ms != null ? round1(st.ttft_ms / 1000) : null, delivery: st.delivery,
+    ttft: st.ttft_ms != null ? round1(st.ttft_ms / 1000) : null, delivery: DELIVERY_OVERRIDE[site.vendor] || st.delivery,
     success, successTxt: success != null ? success + "%" : "—",
     avgTurns: st.avg_turns,
     timed: st.answered_no_handover, attempted: st.turns_total,   // latency-measurement coverage
