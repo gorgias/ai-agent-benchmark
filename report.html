@@ -682,6 +682,7 @@
       <th class="n srt" onclick="sortSummary('ttft')" title="Median time to the first visible signal (typing/first token/first card) + delivery style: streaming (substance appears early) vs atomic (everything lands at once).">First signal<span class="sc"></span></th>
       <th class="n srt qcol qcol-h" onclick="sortSummary('qual')" title="LLM-judge score /100 — per-lane rubric: relevance/recommendation/rich-elements/close (Shopping) · resolution/accuracy/actionability/close (Support)">Quality (LLM judge)<span class="sc"></span></th>
       <th class="n srt" onclick="sortSummary('turns')">Avg turns<span class="sc"></span></th>
+      <th class="n srt" onclick="sortSummary('tturns')" title="Total number of conversation turns (user questions) captured for this vendor across all its conversations in the window — the raw depth of the sample behind the averages.">Total turns<span class="sc"></span></th>
     </tr></thead>
       <tbody id="summary-body"></tbody></table>
   </div>
@@ -90871,6 +90872,8 @@ function renderSummary(){
     const avgL = lN.length? (Math.round(lN.reduce((a,b)=>a+b,0)/lN.length*10)/10) : null;
     const tN=arr.map(s=>s.avgTurns!=null?s.avgTurns:((s.turns&&s.turns.length)?s.turns.length:null)).filter(x=>x!=null);
     const avgT = tN.length? (Math.round(tN.reduce((a,b)=>a+b,0)/tN.length*10)/10) : null;
+    // total turns captured for this vendor: prefer the exact turns_total per store; fall back to avgTurns×themes
+    const totT = arr.reduce((a,s)=> a + (s.attempted!=null ? s.attempted : (s.avgTurns!=null && s.themes ? Math.round(s.avgTurns*s.themes.length) : 0)), 0) || null;
     const qN=arr.map(qNum).filter(x=>x!=null);
     const avgQ = qN.length? Math.round(qN.reduce((a,b)=>a+b,0)/qN.length) : null;
     // total conversations captured for this vendor in this mode (each theme = 1 conversation)
@@ -90883,10 +90886,10 @@ function renderSummary(){
     const avgTtft = ttN.length? (Math.round(ttN.reduce((a,b)=>a+b,0)/ttN.length*10)/10) : null;
     const deliveries = arr.map(s=>s.delivery).filter(Boolean);
     const delivery = deliveries.length ? (deliveries.filter(x=>x==='streaming').length*2>=deliveries.length?'streaming':'atomic') : null;
-    return {v, us:arr[0].us, stores:tested.length, convs, autoRate, autoDetail:ag, avgS, avgL, avgT, avgQ, avgTtft, delivery};
+    return {v, us:arr[0].us, stores:tested.length, convs, autoRate, autoDetail:ag, avgS, avgL, avgT, totT, avgQ, avgTtft, delivery};
   });
   const k=SSORT.key,d=SSORT.dir;
-  const key=r=> k==='vendor'?r.v.toLowerCase() : k==='stores'?r.stores : k==='convs'?r.convs : k==='auto'?(r.autoRate==null?-1:r.autoRate) : k==='success'?(r.avgS==null?-1:r.avgS) : k==='turns'?(r.avgT==null?-1:r.avgT) : k==='qual'?(r.avgQ==null?-1:r.avgQ) : k==='ttft'?(r.avgTtft==null?1e9:r.avgTtft) : (r.avgL==null?1e9:r.avgL);
+  const key=r=> k==='vendor'?r.v.toLowerCase() : k==='stores'?r.stores : k==='convs'?r.convs : k==='auto'?(r.autoRate==null?-1:r.autoRate) : k==='success'?(r.avgS==null?-1:r.avgS) : k==='turns'?(r.avgT==null?-1:r.avgT) : k==='tturns'?(r.totT==null?-1:r.totT) : k==='qual'?(r.avgQ==null?-1:r.avgQ) : k==='ttft'?(r.avgTtft==null?1e9:r.avgTtft) : (r.avgL==null?1e9:r.avgL);
   rows.sort((a,b)=>{const ka=key(a),kb=key(b); return ka<kb?-d:ka>kb?d:0;});
   document.getElementById('summary-body').innerHTML = rows.map(r=>{
     const bar = r.avgL!=null? '<div class="bar" style="display:inline-block;width:70px;vertical-align:middle"><i style="width:'+Math.min(100,r.avgL/20*100)+'%;background:'+(COL[r.v]||'#888')+'"></i></div> ':'';
@@ -90901,7 +90904,8 @@ function renderSummary(){
       '<td class="n mono">'+bar+'<span style="font-weight:700">'+(r.avgL!=null?('~'+r.avgL+'s'):'—')+'</span></td>'+
       '<td class="n mono">'+ttftCell(r.avgTtft,r.delivery)+'</td>'+
       '<td class="n mono qcol">'+qCell(r.avgQ)+'</td>'+
-      '<td class="n mono">'+(r.avgT!=null?r.avgT:'—')+'</td></tr>';
+      '<td class="n mono">'+(r.avgT!=null?r.avgT:'—')+'</td>'+
+      '<td class="n mono">'+(r.totT!=null?r.totT:'—')+'</td></tr>';
   }).join('');
   const _lh=document.getElementById('lat-cards-holder'); if(_lh) _lh.innerHTML = latSummaryHtml(AS());
 }
