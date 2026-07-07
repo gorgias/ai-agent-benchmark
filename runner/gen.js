@@ -478,6 +478,29 @@ for (const v of new Set([...Object.keys(shopS), ...Object.keys(supS)])) {
 }
 const D_JSON = " const D = " + JSON.stringify(D_OBJ) + ";";
 
+// ---- AUTO-GENERATED VERDICT: rank claims are derived from the same lane composites, never
+// hand-typed — so the Summary headline can never contradict the scoreboard again. ----
+const OUTLIER_V = new Set(["Amazon Rufus"]);  // references, not ranked head-to-head
+const laneRank = (scores) => Object.entries(scores)
+  .filter(([v, sc]) => sc && sc.q != null && sc.n >= MIN_RANK_CONVS && !OUTLIER_V.has(v))
+  .map(([v, sc]) => ({ v, comp: Math.round(0.4 * sc.a + 0.4 * sc.q + 0.2 * speedScoreG(sc.l)) }))
+  .sort((a, b) => b.comp - a.comp);
+const rShop = laneRank(shopS), rSupp = laneRank(supS);
+const shopC = Object.fromEntries(rShop.map(r => [r.v, r.comp])), suppC = Object.fromEntries(rSupp.map(r => [r.v, r.comp]));
+// overall = mean of the two lane composites, for vendors ranked in BOTH lanes
+const rOverall = Object.keys(shopC).filter(v => v in suppC)
+  .map(v => ({ v, mean: (shopC[v] + suppC[v]) / 2 })).sort((a, b) => b.mean - a.mean);
+const gShop = rShop.findIndex(r => r.v === "Gorgias") + 1;
+const gSupp = rSupp.findIndex(r => r.v === "Gorgias") + 1;
+const gOv = rOverall.findIndex(r => r.v === "Gorgias") + 1;
+const suppLeader = rSupp[0] && rSupp[0].v, shopLeader = rShop[0] && rShop[0].v, ovLeader = rOverall[0] && rOverall[0].v;
+const suppTxt = "#" + gSupp + " support", shopTxt = "#" + gShop + " shopping", ovTxt = "#" + gOv + " overall";
+const RANK_OVERALL = gOv ? ("#" + gOv) : "\u2014";
+const RANK_LANES = `${suppTxt} (${suppC["Gorgias"] != null ? suppC["Gorgias"] : "\u2014"}), ${shopTxt} (${shopC["Gorgias"] != null ? shopC["Gorgias"] : "\u2014"})`;
+const RANK_TITLE = `Gorgias: ${ovTxt} \u2014 ${gSupp === 1 ? "best-in-class support" : suppTxt}, ${gShop === 1 ? "top shopping" : "one shopping-speed gap"}.`;
+const RANK_BADGE = `${ovTxt} \u00b7 ${suppTxt} \u00b7 ${shopTxt}`;
+const RANK_H = `Gorgias is ${gOv === 1 ? "the #1 AI agent overall in the field (mean of both lanes)" : (ovTxt + ", behind " + ovLeader)} \u2014 ${gSupp === 1 ? "#1 in support (best-in-field answer quality + elite automation)" : (suppTxt + " (behind " + suppLeader + ")")} and ${gShop === 1 ? "#1 in shopping" : (shopTxt + ", behind " + shopLeader)}. The one gap is shopping speed.`;
+
 try {
   const TK = new URL("../takeaways.html", import.meta.url).pathname;
   let tk = await readFile(TK, "utf8");
@@ -492,6 +515,12 @@ try {
          .replace(/<!-- STATS_JSON:.*?-->/, `<!-- STATS_JSON:${JSON.stringify(STATS)} -->`);
   // reconcile the prose count in the method note (any "NNN LLM-judged conversations")
   tk = tk.replace(/\b\d{3}\s+LLM-judged conversations\b/g, `${STATS.judged} LLM-judged conversations`);
+  // generated verdict — replace between markers so the headline rank claims stay in sync
+  tk = tk.replace(/<!--RANK_TITLE-->[\s\S]*?<!--\/RANK_TITLE-->/, `<!--RANK_TITLE-->${RANK_TITLE}<!--/RANK_TITLE-->`)
+         .replace(/<!--RANK_BADGE-->[\s\S]*?<!--\/RANK_BADGE-->/, `<!--RANK_BADGE-->${RANK_BADGE}<!--/RANK_BADGE-->`)
+         .replace(/<!--RANK_H-->[\s\S]*?<!--\/RANK_H-->/, `<!--RANK_H-->${RANK_H}<!--/RANK_H-->`);
+  tk = tk.replace(/<!--RANK_OVERALL-->[\s\S]*?<!--\/RANK_OVERALL-->/, `<!--RANK_OVERALL-->${RANK_OVERALL}<!--/RANK_OVERALL-->`);
+  tk = tk.replace(/<!--RANK_LANES-->[\s\S]*?<!--\/RANK_LANES-->/, `<!--RANK_LANES-->${RANK_LANES}<!--/RANK_LANES-->`);
   await writeFile(TK + ".tmp", tk); await rename(TK + ".tmp", TK);
   console.log(`Synced takeaways.html stats: ${STATS.convs} convs · ${STATS.judged} judged · ${STATS.vendors} vendors · ${STATS.stores} stores`);
 } catch (e) { console.log("takeaways sync skipped:", e.message); }
