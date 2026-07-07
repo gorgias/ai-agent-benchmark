@@ -240,6 +240,12 @@
   .best-rnum{font-weight:800;width:26px;text-align:right}
   .best-rmeta{color:var(--on-faint);flex:0 0 92px;text-align:right;font-size:11px}
   .best-foot{margin-top:12px;font-size:12px;color:var(--on-muted);border-top:1px dashed var(--line);padding-top:10px}
+  .best-lat{display:flex;align-items:center;gap:22px;margin-top:12px;padding:11px 16px;background:var(--surface-2);border:1px solid var(--line);border-radius:12px;flex-wrap:wrap;cursor:help}
+  .bl-cell{display:flex;flex-direction:column;line-height:1.12}
+  .bl-num{font-size:19px;font-weight:800;font-family:'JetBrains Mono',monospace;color:var(--on)}
+  .bl-lab{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--on-faint);margin-top:2px}
+  .bl-hl .bl-num{color:var(--gorgias)}
+  .bl-note{margin-left:auto;font-size:11px;color:var(--on-muted)}
   .best-empty{color:var(--on-muted);font-size:13px;padding:12px 2px}
   .bestbar{margin:0 0 16px;justify-content:flex-start}
   .best-note{font-size:12px;line-height:1.6;color:var(--on-muted);margin-top:12px;background:var(--surface-2);border:1px solid var(--line);border-radius:12px;padding:11px 14px}
@@ -81938,7 +81944,22 @@ const VENDOR_DNA = {
   'Spiffy':        'See Envive — same product, rebranded.',
 };
 const dnaLine = v => VENDOR_DNA[v] ? '<div class="best-dna">'+VENDOR_DNA[v]+'</div>' : '';
-function renderBestPanel(elId, allRows){
+function latSummaryHtml(laneData){
+  if(!laneData || !laneData.length) return '';
+  const lats=[];
+  laneData.forEach(s=>(s.themes||[]).forEach(t=>(t.turns||[]).forEach(x=>{ if(x.by==='ai' && x.lat!=null) lats.push(x.lat); })));
+  if(lats.length<3) return '';
+  const srt=[...lats].sort((a,b)=>a-b);
+  const pctile=(p)=>srt[Math.min(srt.length-1,Math.floor(p/100*srt.length))];  // nearest-rank, matches gen.js
+  const r1=x=>Math.round(x*10)/10;
+  const med=r1(pctile(50)), avg=r1(lats.reduce((a,b)=>a+b,0)/lats.length), p75=r1(pctile(75));
+  return '<div class="best-lat" data-tip="Pooled across every timed AI answer in this lane ('+lats.length+' answers, time to the complete final reply). p75 is Gorgias&#39;s headline latency metric — 75% of answers arrive at or under it.">'+
+    '<div class="bl-cell"><span class="bl-num">'+med+'s</span><span class="bl-lab">median</span></div>'+
+    '<div class="bl-cell"><span class="bl-num">'+avg+'s</span><span class="bl-lab">average</span></div>'+
+    '<div class="bl-cell bl-hl"><span class="bl-num">'+p75+'s</span><span class="bl-lab">p75 · headline</span></div>'+
+    '<div class="bl-note">latency to final answer · '+lats.length+' timed answers</div></div>';
+}
+function renderBestPanel(elId, allRows, laneData){
   const el=document.getElementById(elId); if(!el) return;
   const col=v=>COL[v]||'#888', s1=x=>Math.round(x*10)/10, pct=c=>Math.round(c*100)+'%';
   const rows=allRows.filter(r=>r.eligible), gated=allRows.filter(r=>!r.eligible);
@@ -81969,6 +81990,7 @@ function renderBestPanel(elId, allRows){
         dnaLine(r.v)+
       '</div>').join('')+'</div>';
   }
+  h+=latSummaryHtml(laneData);
   const gi=rows.findIndex(r=>r.v==='Gorgias');
   if(gi>=0) h+='<div class="best-foot">Gorgias (us) ranks <strong>#'+(gi+1)+' of '+rows.length+'</strong> among vendors with enough measured turns to rank on speed.</div>';
   h+=gatedHtml(gated,col,pct);
@@ -81989,8 +82011,8 @@ function setBest(b){
   if(cs) cs.hidden = b!=='shopping'; if(cp) cp.hidden = b!=='support';
 }
 function renderBest(){
-  renderBestPanel('best-shopping', aggVendors(STORES));
-  renderBestPanel('best-support', aggVendors(SUPPORT));
+  renderBestPanel('best-shopping', aggVendors(STORES), STORES);
+  renderBestPanel('best-support', aggVendors(SUPPORT), SUPPORT);
 }
 
 // --- Trends: per-vendor metric evolution across run dates (time series) ---
