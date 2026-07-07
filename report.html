@@ -240,7 +240,7 @@
   .best-rnum{font-weight:800;width:26px;text-align:right}
   .best-rmeta{color:var(--on-faint);flex:0 0 92px;text-align:right;font-size:11px}
   .best-foot{margin-top:12px;font-size:12px;color:var(--on-muted);border-top:1px dashed var(--line);padding-top:10px}
-  .lat-section{margin-top:16px}
+  .lat-section{margin:2px 0 22px}
   .lat-sec-h{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--on-faint);margin-bottom:8px}
   .lat-sec-h span{text-transform:none;letter-spacing:0;font-weight:600;color:var(--on-muted)}
   .lat-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
@@ -633,6 +633,7 @@
 </div>
 
 <section id="summary-sec">
+  <div id="lat-cards-holder"></div>
   <h2 class="sec">Summary — by vendor</h2>
   <p class="lead">One line per vendor, <strong>averaged across the stores tested in this mode</strong>. Drill into individual stores in the table below. Hover any column header for the metric's exact definition — <strong>Automation rate</strong> is the single containment dimension (conversations a human never touches); answer substance is scored separately by the LLM-judge <strong>Quality</strong> column.</p>
   <div class="card table-scroll">
@@ -81508,6 +81509,7 @@ function renderSummary(){
       '<td class="n mono qcol">'+qCell(r.avgQ)+'</td>'+
       '<td class="n mono">'+(r.avgT!=null?r.avgT:'—')+'</td></tr>';
   }).join('');
+  const _lh=document.getElementById('lat-cards-holder'); if(_lh) _lh.innerHTML = latSummaryHtml(AS());
 }
 function productRecRows(){
   if(MODE!=='shopping') return [];
@@ -81998,9 +82000,6 @@ function renderBestPanel(elId, allRows, laneData){
         dnaLine(r.v)+
       '</div>').join('')+'</div>';
   }
-  h+=latSummaryHtml(laneData);
-  const gi=rows.findIndex(r=>r.v==='Gorgias');
-  if(gi>=0) h+='<div class="best-foot">Gorgias (us) ranks <strong>#'+(gi+1)+' of '+rows.length+'</strong> among vendors with enough measured turns to rank on speed.</div>';
   h+=gatedHtml(gated,col,pct);
   el.innerHTML=h;
 }
