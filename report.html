@@ -6178,13 +6178,521 @@ const STORES = [
   ]
  },
  {
-  "id": "spiffy-supergoop-shopping-pending",
+  "id": "spiffy-supergoop-shopping-2026-07-07",
   "date": "2026-07-07",
   "vendor": "Envive",
   "store": "Supergoop",
   "site": "supergoop.com/products/everyday-sunscreen",
   "url": "https://supergoop.com/products/everyday-sunscreen?variant=31189086634082",
   "widget": "spiffy",
+  "locale": "en-US",
+  "method": "new",
+  "us": false,
+  "lat": "~8.9s",
+  "latPct": 36,
+  "latP75": 10.2,
+  "ttft": 7.6,
+  "delivery": "streaming",
+  "success": 75,
+  "successTxt": "75%",
+  "avgTurns": 10,
+  "timed": 15,
+  "attempted": 20,
+  "auto": {
+   "automated": 2,
+   "handover": 0,
+   "deflected": 0,
+   "no_answer": 3,
+   "engaged": 2,
+   "rate": 100
+  },
+  "evalq": {
+   "n": 2,
+   "total": 42,
+   "dims": {
+    "answer": 16,
+    "discovery": 6,
+    "recommendation": 14,
+    "rich": 0,
+    "close": 6
+   },
+   "cls": {
+    "partial": 2
+   },
+   "learnings": [
+    "Surfaces relevant named gift products and adapts to the stated budget, but never asks a clarifying question, gives no rationale or prices, and fails the explicit add-to-cart-and-total request.",
+    "Leans on pasted customer-review anecdotes instead of directly answering, never clarifies the shopper's specific need, gives no prices or rationale, and ignores the explicit add-to-cart-and-total request."
+   ]
+  },
+  "guard": null,
+  "ticket": null,
+  "what": "2 cold private conversations (shopping themes). No handover in any theme. Avg end-to-end latency ~8.9s across 15 AI-timed turns.",
+  "datetime": "2026-07-07T04:33:21.379Z",
+  "themes": [
+   {
+    "key": "gift",
+    "label": "Gift shopper",
+    "datetime": "2026-07-07T04:33:21.379Z",
+    "lat": "~8.8s",
+    "success": 70,
+    "successTxt": "70%",
+    "handoverTurn": null,
+    "ticket": null,
+    "productRecs": {
+     "count": 7,
+     "names": [
+      "City Sunscreen Serum SPF 30",
+      "Glow Oil SPF 50 Body Oil 1 fl oz",
+      "Glow Stick SPF 50",
+      "PLAY All Weekend Bachelorette Bundle SPF Lotion Set",
+      "PLAY Everyday Lotion SPF 50",
+      "Superscreen Hydrating Daily Cream SPF 40",
+      "Unseen Sunscreen SPF 50 - 2 pack"
+     ]
+    },
+    "ev": {
+     "total": 54,
+     "cls": "partial",
+     "dims": {
+      "answer": 23,
+      "discovery": 12,
+      "recommendation": 14,
+      "rich": 0,
+      "close": 5
+     },
+     "note": "Surfaces relevant named gift products and adapts to the stated budget, but never asks a clarifying question, gives no rationale or prices, and fails the explicit add-to-cart-and-total request."
+    },
+    "turns": [
+     {
+      "q": "Hi! I'm looking for a gift for someone and I'm not sure what to pick, can you help?",
+      "a": "(streamed past timing window) Need help? I've got you! Ask me a question or tell me what you're looking for, and I'll get you there in no time. PLAY Everyday Lotion SPF 50",
+      "by": "ai",
+      "lat": null,
+      "fl": [
+       {
+        "t": "no timed answer",
+        "k": "bad"
+       },
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 17
+     },
+     {
+      "q": "It's for someone who likes quality but isn't fussy; I want something they'll actually use.",
+      "a": "and ease, I recommend these options: PLAY Everyday Lotion SPF 50 City Sunscreen Serum SPF 30 Unseen Sunscreen SPF 50 Superscreen Hydrating Daily Cream SPF 40 Would you like to know more about any of these products? I'm interested in City Sunscreen Serum.",
+      "by": "ai",
+      "lat": 10.6,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "My budget is moderate, what would make a good gift in that range?",
+      "a": "For a moderate budget, consider these gift options: Unseen Sunscreen SPF 50 Superscreen Hydrating Daily Cream SPF 40 Glow Stick SPF 50 (GIFT) Glow Oil SPF 50 Body Oil 1 fl oz (GIFT)",
+      "by": "ai",
+      "lat": 8.8,
+      "cov": 38
+     },
+     {
+      "q": "Between your top two gift ideas, which feels more special?",
+      "a": "n - it feels like a luxurious way to start the day. It almost feels like a night cream in texture, which my skin loves, but it never makes my skin look oily - just dewy throughout the day. This is a new staple for me! Thank you Supergoop! Keep it up! Which one do you think would suit your gift recipient best? Unseen Sunscreen sounds perfect! Superscreen feels more luxurious.",
+      "by": "ai",
+      "lat": 10.4,
+      "cov": 44
+     },
+     {
+      "q": "Is there a gift set or bundle that looks nicer than a single item?",
+      "a": "ucts PLAY All Weekend Bachelorette Bundle SPF Lotion Set Unseen Sunscreen SPF 50 - 2 pack Glow Stick SPF 50 (GIFT) Glow Oil SPF 50 Body Oil 1 fl oz (GIFT) Would you like more details on any of these gift sets? I'm interested in the Unseen Sunscreen 2-pack.",
+      "by": "ai",
+      "lat": 10.1,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 30
+     },
+     {
+      "q": "Can it arrive gift-ready, and how fast can it ship?",
+      "a": "Shipping times vary depending on your location, but once your order ships, you'll receive a confirmation email with tracking details. Would you like to know more about our shipping options or gift sets? I'd like more gift set info.",
+      "by": "ai",
+      "lat": 6.1,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 20
+     },
+     {
+      "q": "Great, add your top gift pick to my cart and tell me the total.",
+      "a": "Unseen Sunscreen SPF 50 Would you like to know how to add it to your cart or explore other gift options?",
+      "by": "ai",
+      "lat": 7.6,
+      "cov": 43
+     },
+     {
+      "q": "Can you include a gift message or a gift receipt?",
+      "a": "(streamed past timing window) Would you like to know more about our gift sets or how to add a personal touch to your gift?",
+      "by": "ai",
+      "lat": null,
+      "fl": [
+       {
+        "t": "no timed answer",
+        "k": "bad"
+       },
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 25
+     },
+     {
+      "q": "If they want to exchange it, how would that work?",
+      "a": "(streamed past timing window) Would you like to know more about our exchange process or any other details?",
+      "by": "ai",
+      "lat": null,
+      "fl": [
+       {
+        "t": "no timed answer",
+        "k": "bad"
+       },
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 33
+     },
+     {
+      "q": "Any discount if I add a second smaller item?",
+      "a": "Currently, there isn't a specific discount for adding a second smaller item. However, you can enjoy 20% off sitewide and free shipping on all orders over $50, plus get a FREE Glow Stick with any $70+ order. Would you like to explore more about our current promotions or product options?",
+      "by": "ai",
+      "lat": 7.8,
+      "cov": 83
+     }
+    ]
+   },
+   {
+    "key": "problem-solver",
+    "label": "Specific need / reassurance",
+    "datetime": "2026-07-07T04:33:21.379Z",
+    "lat": "~8.9s",
+    "success": 80,
+    "successTxt": "80%",
+    "handoverTurn": null,
+    "ticket": null,
+    "productRecs": {
+     "count": 5,
+     "names": [
+      "PLAY Everyday Lotion SPF 50",
+      "PLAY Everyday Sunscreen Stick SPF 50",
+      "PLAY Pump & Refill Set",
+      "Unseen Sunscreen SPF 50",
+      "Unseen Sunscreen Stick SPF 40"
+     ]
+    },
+    "ev": {
+     "total": 30,
+     "cls": "partial",
+     "dims": {
+      "answer": 9,
+      "discovery": 0,
+      "recommendation": 14,
+      "rich": 0,
+      "close": 7
+     },
+     "note": "Leans on pasted customer-review anecdotes instead of directly answering, never clarifies the shopper's specific need, gives no prices or rationale, and ignores the explicit add-to-cart-and-total request."
+    },
+    "turns": [
+     {
+      "q": "Hi, I have a specific need and I'm worried about picking the wrong thing. Can you help?",
+      "a": "(streamed past timing window) Need help? I've got you! Ask me a question or tell me what you're looking for, and I'll get you there in no time. PLAY Everyday Lotion SPF 50",
+      "by": "ai",
+      "lat": null,
+      "fl": [
+       {
+        "t": "no timed answer",
+        "k": "bad"
+       },
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 14
+     },
+     {
+      "q": "I've been disappointed by similar products before, so quality really matters to me.",
+      "a": "and loved it. The glow is so pretty and it feels so lightweight. Bought several products during the recent and sale and now I'm a believer! My husband thinks the face products are the best I've ever 'made him try. ' Lol Especially in the higher SPF. After a recent skin cancer diagnosis for him I've convinced him to use the Play Everyday Body and Face. He agreed if I'll keep buying Supergoop.",
+      "by": "ai",
+      "lat": 7.6,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 13
+     },
+     {
+      "q": "Which of your products is best for that, and why is it a good fit?",
+      "a": "the deep South where in the summertime, the days are hot and the sun is bright, I don't dare go outside even for a quick trip to the store without slathering up my body first with sunscreen. I love the option of a pump which is why I always order the large bottle. Would you like to know more about its application or ingredients?",
+      "by": "ai",
+      "lat": 7.3,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 29
+     },
+     {
+      "q": "What do other customers say in their reviews, does it actually hold up?",
+      "a": "and like the glazed donut look so it doesn't bother me much, but it is something to be aware of if you aren't into that look. Highly recommend if you have sensitive skin and want to protect it from the sun. I am very much a pale queen and it keeps my skin that way all summer. I spend my free time at the lake or at the pool and my skin tone does not change from ghastly white all summer.",
+      "by": "ai",
+      "lat": 7.6,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "Is there anything I should pair it with to get the best result?",
+      "a": "PLAY Everyday Lotion SPF 50 Unseen Sunscreen Stick SPF 40 Unseen Sunscreen SPF 50 PLAY Everyday Sunscreen Stick SPF 50 Would you like more details on any of these products?",
+      "by": "ai",
+      "lat": 10.1,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "If it doesn't work out for me, what are my options?",
+      "a": "(streamed past timing window) Would you like more information on the return process? Yes, please guide me through the process!",
+      "by": "ai",
+      "lat": null,
+      "fl": [
+       {
+        "t": "no timed answer",
+        "k": "bad"
+       },
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "Okay, I'm convinced, add your recommendation and give me the total.",
+      "a": "of a mirror and the whole household uses it. Because it’s out in the open everyone sees it and remembers to apply. My husband actually requested it this year because I hadn’t gotten around to making my purchase yet. No complaints from me, my husband, or my kids. Would you like to know about any special offers or discounts available? Free shipping options Discounts on this product Any current promotions available Special offers for new customers Bundle deals with other products",
+      "by": "ai",
+      "lat": 8.1,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "How do I use it correctly to get the best result?",
+      "a": "Apply generously Reapply Layering Would you like tips on how to incorporate it into your daily routine? Any advice for using it with makeup Yes, I'd love some daily routine tips!",
+      "by": "ai",
+      "lat": 10.2,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "Is there a subscription or refill option?",
+      "a": "venient and cost-effective sun protection, consider our subscription or refill options: You can also manage your auto-replenishment settings by logging in with your email to adjust preferences. PLAY Pump & Refill Set Would you like more details on how to set up a subscription? Yes, how do I set up a subscription!",
+      "by": "ai",
+      "lat": 10.9,
+      "cov": 50
+     },
+     {
+      "q": "Confirm my total and when it will arrive?",
+      "a": "Once your order is shipped, you'll receive a confirmation email with tracking details. If you haven't received it yet, it might be on its way soon! Your order will be delivered to the address specified when placing your order. Would you like to know more about the delivery process? Yes, tell me more about delivery!",
+      "by": "ai",
+      "lat": 9.6,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       },
+       {
+        "t": "no timeframe given",
+        "k": "warn"
+       },
+       {
+        "t": "purchase request unfulfilled",
+        "k": "warn"
+       }
+      ],
+      "cov": 25
+     }
+    ]
+   }
+  ],
+  "caps": {
+   "qr": 1,
+   "cards": 1,
+   "reviews": 1,
+   "completes": 1
+  },
+  "turns": [
+   {
+    "q": "Hi! I'm looking for a gift for someone and I'm not sure what to pick, can you help?",
+    "a": "(streamed past timing window) Need help? I've got you! Ask me a question or tell me what you're looking for, and I'll get you there in no time. PLAY Everyday Lotion SPF 50",
+    "by": "ai",
+    "lat": null,
+    "fl": [
+     {
+      "t": "no timed answer",
+      "k": "bad"
+     },
+     {
+      "t": "missed part of the ask",
+      "k": "warn"
+     }
+    ],
+    "cov": 17
+   },
+   {
+    "q": "It's for someone who likes quality but isn't fussy; I want something they'll actually use.",
+    "a": "and ease, I recommend these options: PLAY Everyday Lotion SPF 50 City Sunscreen Serum SPF 30 Unseen Sunscreen SPF 50 Superscreen Hydrating Daily Cream SPF 40 Would you like to know more about any of these products? I'm interested in City Sunscreen Serum.",
+    "by": "ai",
+    "lat": 10.6,
+    "fl": [
+     {
+      "t": "missed part of the ask",
+      "k": "warn"
+     }
+    ],
+    "cov": 0
+   },
+   {
+    "q": "My budget is moderate, what would make a good gift in that range?",
+    "a": "For a moderate budget, consider these gift options: Unseen Sunscreen SPF 50 Superscreen Hydrating Daily Cream SPF 40 Glow Stick SPF 50 (GIFT) Glow Oil SPF 50 Body Oil 1 fl oz (GIFT)",
+    "by": "ai",
+    "lat": 8.8,
+    "cov": 38
+   },
+   {
+    "q": "Between your top two gift ideas, which feels more special?",
+    "a": "n - it feels like a luxurious way to start the day. It almost feels like a night cream in texture, which my skin loves, but it never makes my skin look oily - just dewy throughout the day. This is a new staple for me! Thank you Supergoop! Keep it up! Which one do you think would suit your gift recipient best? Unseen Sunscreen sounds perfect! Superscreen feels more luxurious.",
+    "by": "ai",
+    "lat": 10.4,
+    "cov": 44
+   },
+   {
+    "q": "Is there a gift set or bundle that looks nicer than a single item?",
+    "a": "ucts PLAY All Weekend Bachelorette Bundle SPF Lotion Set Unseen Sunscreen SPF 50 - 2 pack Glow Stick SPF 50 (GIFT) Glow Oil SPF 50 Body Oil 1 fl oz (GIFT) Would you like more details on any of these gift sets? I'm interested in the Unseen Sunscreen 2-pack.",
+    "by": "ai",
+    "lat": 10.1,
+    "fl": [
+     {
+      "t": "missed part of the ask",
+      "k": "warn"
+     }
+    ],
+    "cov": 30
+   },
+   {
+    "q": "Can it arrive gift-ready, and how fast can it ship?",
+    "a": "Shipping times vary depending on your location, but once your order ships, you'll receive a confirmation email with tracking details. Would you like to know more about our shipping options or gift sets? I'd like more gift set info.",
+    "by": "ai",
+    "lat": 6.1,
+    "fl": [
+     {
+      "t": "missed part of the ask",
+      "k": "warn"
+     }
+    ],
+    "cov": 20
+   },
+   {
+    "q": "Great, add your top gift pick to my cart and tell me the total.",
+    "a": "Unseen Sunscreen SPF 50 Would you like to know how to add it to your cart or explore other gift options?",
+    "by": "ai",
+    "lat": 7.6,
+    "cov": 43
+   },
+   {
+    "q": "Can you include a gift message or a gift receipt?",
+    "a": "(streamed past timing window) Would you like to know more about our gift sets or how to add a personal touch to your gift?",
+    "by": "ai",
+    "lat": null,
+    "fl": [
+     {
+      "t": "no timed answer",
+      "k": "bad"
+     },
+     {
+      "t": "missed part of the ask",
+      "k": "warn"
+     }
+    ],
+    "cov": 25
+   },
+   {
+    "q": "If they want to exchange it, how would that work?",
+    "a": "(streamed past timing window) Would you like to know more about our exchange process or any other details?",
+    "by": "ai",
+    "lat": null,
+    "fl": [
+     {
+      "t": "no timed answer",
+      "k": "bad"
+     },
+     {
+      "t": "missed part of the ask",
+      "k": "warn"
+     }
+    ],
+    "cov": 33
+   },
+   {
+    "q": "Any discount if I add a second smaller item?",
+    "a": "Currently, there isn't a specific discount for adding a second smaller item. However, you can enjoy 20% off sitewide and free shipping on all orders over $50, plus get a FREE Glow Stick with any $70+ order. Would you like to explore more about our current promotions or product options?",
+    "by": "ai",
+    "lat": 7.8,
+    "cov": 83
+   }
+  ]
+ },
+ {
+  "id": "rufus-amazon-shopping-pending",
+  "date": "2026-07-07",
+  "vendor": "Amazon Rufus",
+  "store": "Amazon.com",
+  "site": "amazon.com/dp/B0DX391LXK",
+  "url": "https://www.amazon.com/dp/B0DX391LXK",
+  "widget": "rufus",
   "locale": "en-US",
   "method": "pending",
   "us": false,
@@ -6193,13 +6701,7 @@ const STORES = [
   "successTxt": "pending",
   "successCls": "p-na",
   "what": "Not captured in a cold run yet — pending.",
-  "turns": [],
-  "caps": {
-   "qr": 1,
-   "cards": 1,
-   "reviews": 1,
-   "completes": 1
-  }
+  "turns": []
  },
  {
   "id": "sierra-casper-shopping-2026-07-01",
@@ -53593,13 +54095,589 @@ const SUPPORT = [
   ]
  },
  {
-  "id": "spiffy-supergoop-support-pending",
+  "id": "spiffy-supergoop-support-2026-07-07",
   "date": "2026-07-07",
   "vendor": "Envive",
   "store": "Supergoop",
   "site": "supergoop.com/products/everyday-sunscreen",
   "url": "https://supergoop.com/products/everyday-sunscreen?variant=31189086634082",
   "widget": "spiffy",
+  "locale": "en-US",
+  "method": "new",
+  "us": false,
+  "lat": "~5.4s",
+  "latPct": 22,
+  "latP75": 5.6,
+  "ttft": 2.8,
+  "delivery": "streaming",
+  "success": 40,
+  "successTxt": "40%",
+  "avgTurns": 10,
+  "timed": 8,
+  "attempted": 20,
+  "auto": {
+   "automated": 2,
+   "handover": 1,
+   "deflected": 0,
+   "no_answer": 2,
+   "engaged": 3,
+   "rate": 67
+  },
+  "evalq": {
+   "n": 2,
+   "total": 44,
+   "dims": {
+    "resolution": 19,
+    "accuracy": 15,
+    "actionability": 6,
+    "close": 4
+   },
+   "cls": {
+    "partial": 1,
+    "failed": 1
+   },
+   "learnings": [
+    "Gives grounded store-specific facts (US-only shipping, Alaska/Hawaii limits, written defective-item procedure) but leaves the headline shipping-policy, return-policy, payment, and contact asks entirely empty.",
+    "Repeats one vague \"delivery varies by location / check your email\" line for every tracking question and leaves the harder asks empty, so the shopper with a missing tracking number gets no actual help."
+   ]
+  },
+  "guard": null,
+  "ticket": null,
+  "what": "2 cold private conversations (support themes). No handover in any theme. Avg end-to-end latency ~5.4s across 8 AI-timed turns.",
+  "datetime": "2026-07-07T12:20:08.821Z",
+  "themes": [
+   {
+    "key": "tracking",
+    "label": "Order tracking / delay",
+    "datetime": "2026-07-07T12:19:29.052Z",
+    "lat": "~5.7s",
+    "success": 30,
+    "successTxt": "30%",
+    "handoverTurn": null,
+    "ticket": null,
+    "ev": {
+     "total": 15,
+     "cls": "failed",
+     "dims": {
+      "resolution": 10,
+      "accuracy": 5,
+      "actionability": 0,
+      "close": 0
+     },
+     "note": "Repeats one vague \"delivery varies by location / check your email\" line for every tracking question and leaves the harder asks empty, so the shopper with a missing tracking number gets no actual help."
+    },
+    "turns": [
+     {
+      "q": "I placed an order a few days ago and still have no tracking, where is it?",
+      "a": "(streamed past timing window) Need help? I've got you! Ask me a question or tell me what you're looking for, and I'll get you there in no time. PLAY Everyday Lotion SPF 50",
+      "by": "ai",
+      "lat": null,
+      "fl": [
+       {
+        "t": "no timed answer",
+        "k": "bad"
+       },
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "How long does it normally take to ship and send a tracking number?",
+      "a": "The time period from order to delivery varies depending on your location. Once your order ships, we'll send you a confirmation email with tracking details. If you haven't received it yet, it might be on its way soon! Is there anything else you'd like to know about your order or our products?",
+      "by": "ai",
+      "lat": 5.6,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       },
+       {
+        "t": "no timeframe given",
+        "k": "warn"
+       }
+      ],
+      "cov": 29
+     },
+     {
+      "q": "Once it ships, how long is delivery?",
+      "a": "The time period from order to delivery varies depending on your location. Once your order ships, we'll send you a confirmation email with tracking details. If you haven't received it yet, it might be on its way soon!",
+      "by": "ai",
+      "lat": 6.1,
+      "fl": [
+       {
+        "t": "no timeframe given",
+        "k": "warn"
+       }
+      ],
+      "cov": 75
+     },
+     {
+      "q": "Is there any way to speed it up if I need it sooner?",
+      "a": "AI replied (streamed past timing window)",
+      "by": "ai",
+      "lat": null,
+      "fl": [
+       {
+        "t": "no timed answer",
+        "k": "bad"
+       },
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "What should I do if the tracking never updates?",
+      "a": "AI replied (streamed past timing window)",
+      "by": "ai",
+      "lat": null,
+      "fl": [
+       {
+        "t": "no timed answer",
+        "k": "bad"
+       },
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "How do I find my tracking link?",
+      "a": "Once your order ships, we'll send you a confirmation email with tracking details. If you haven't received it yet, it might be on its way soon!",
+      "by": "ai",
+      "lat": 5.5,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 33
+     },
+     {
+      "q": "Can you check the status of my latest order?",
+      "a": "(streamed past timing window) To assist you better, please provide the order number and email address associated with your order. Order Number Email",
+      "by": "ai",
+      "lat": null,
+      "fl": [
+       {
+        "t": "no timed answer",
+        "k": "bad"
+       },
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 25
+     },
+     {
+      "q": "My tracking says delivered but I didn't receive it, what now?",
+      "a": "AI replied (streamed past timing window)",
+      "by": "ai",
+      "lat": null,
+      "fl": [
+       {
+        "t": "no timed answer",
+        "k": "bad"
+       },
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "Can I reroute the package to a different address?",
+      "a": "AI replied (streamed past timing window)",
+      "by": "ai",
+      "lat": null,
+      "fl": [
+       {
+        "t": "no timed answer",
+        "k": "bad"
+       },
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "Do you compensate for a long delay?",
+      "a": "AI replied (streamed past timing window)",
+      "by": "ai",
+      "lat": null,
+      "fl": [
+       {
+        "t": "no timed answer",
+        "k": "bad"
+       },
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     }
+    ]
+   },
+   {
+    "key": "policy",
+    "label": "Shipping & returns policy",
+    "datetime": "2026-07-07T12:20:08.821Z",
+    "lat": "~5.2s",
+    "success": 50,
+    "successTxt": "50%",
+    "handoverTurn": null,
+    "ticket": null,
+    "ev": {
+     "total": 72,
+     "cls": "partial",
+     "dims": {
+      "resolution": 28,
+      "accuracy": 25,
+      "actionability": 12,
+      "close": 7
+     },
+     "note": "Gives grounded store-specific facts (US-only shipping, Alaska/Hawaii limits, written defective-item procedure) but leaves the headline shipping-policy, return-policy, payment, and contact asks entirely empty."
+    },
+    "turns": [
+     {
+      "q": "Where can I find your full shipping policy?",
+      "a": "(streamed past timing window) Need help? I've got you! Ask me a question or tell me what you're looking for, and I'll get you there in no time. PLAY Everyday Lotion SPF 50",
+      "by": "ai",
+      "lat": null,
+      "fl": [
+       {
+        "t": "no timed answer",
+        "k": "bad"
+       },
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "Do you ship internationally, and who covers customs or duties?",
+      "a": "Supergoop! currently ships only to locations within the 50 United States. Some products cannot be shipped to Alaska or Hawaii due to federal regulations. For international shipping, we recommend using a different address if possible. Is there anything else you'd like to know about our products or shipping?",
+      "by": "ai",
+      "lat": 5.4,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       },
+       {
+        "t": "didn't say who's responsible",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "How long does standard shipping take once an order is placed?",
+      "a": "The time period from order to delivery will vary depending on your location. Once your order ships, we'll send you a confirmation email with tracking details. Would you like more information on tracking your order? No, I'm good for now. Yes, how do I track my order",
+      "by": "ai",
+      "lat": 5.6,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       },
+       {
+        "t": "no timeframe given",
+        "k": "warn"
+       }
+      ],
+      "cov": 29
+     },
+     {
+      "q": "What's your return and refund policy?",
+      "a": "AI replied (streamed past timing window)",
+      "by": "ai",
+      "lat": null,
+      "fl": [
+       {
+        "t": "no timed answer",
+        "k": "bad"
+       },
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "Are any items final sale or non-returnable?",
+      "a": "Some products may be marked as final sale and are non-returnable. However, for most purchases, Supergoop! accepts returns if you are not satisfied with a product, except for those marked as final sale. Is there a specific product you're concerned about? No, just general info Yes, the Glowscreen SPF 40",
+      "by": "ai",
+      "lat": 5.3,
+      "cov": 67
+     },
+     {
+      "q": "What payment methods do you accept for an order?",
+      "a": "AI replied (streamed past timing window)",
+      "by": "ai",
+      "lat": null,
+      "fl": [
+       {
+        "t": "no timed answer",
+        "k": "bad"
+       },
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "How do I contact your support team if I have an issue with an order?",
+      "a": "(streamed past timing window) No, that's all for now, thanks! Yes, tell me about your bestsellers!",
+      "by": "ai",
+      "lat": null,
+      "fl": [
+       {
+        "t": "no timed answer",
+        "k": "bad"
+       },
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       },
+       {
+        "t": "no contact path given",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "Do you price match or honor a price drop after purchase?",
+      "a": "AI replied (streamed past timing window)",
+      "by": "ai",
+      "lat": null,
+      "fl": [
+       {
+        "t": "no timed answer",
+        "k": "bad"
+       },
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "What's your warranty policy on defective items?",
+      "a": "If you receive a defective item, please inform Supergoop! as soon as possible, preferably in writing, providing your name, address, and order reference. Our customer support team is here to assist you.",
+      "by": "ai",
+      "lat": 5,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 25
+     },
+     {
+      "q": "Do you have a loyalty or rewards program?",
+      "a": "Yes, we have a loyalty program that allows you to earn points on your purchases. These points can be redeemed for future orders, and if you return an order, the points will be automatically added back to your account. Would you like more information on how to join or use the loyalty program? No, I'm good for now. Yes, how do I join the program",
+      "by": "ai",
+      "lat": 4.8,
+      "cov": 67
+     }
+    ]
+   }
+  ],
+  "turns": [
+   {
+    "q": "I placed an order a few days ago and still have no tracking, where is it?",
+    "a": "(streamed past timing window) Need help? I've got you! Ask me a question or tell me what you're looking for, and I'll get you there in no time. PLAY Everyday Lotion SPF 50",
+    "by": "ai",
+    "lat": null,
+    "fl": [
+     {
+      "t": "no timed answer",
+      "k": "bad"
+     },
+     {
+      "t": "missed part of the ask",
+      "k": "warn"
+     }
+    ],
+    "cov": 0
+   },
+   {
+    "q": "How long does it normally take to ship and send a tracking number?",
+    "a": "The time period from order to delivery varies depending on your location. Once your order ships, we'll send you a confirmation email with tracking details. If you haven't received it yet, it might be on its way soon! Is there anything else you'd like to know about your order or our products?",
+    "by": "ai",
+    "lat": 5.6,
+    "fl": [
+     {
+      "t": "missed part of the ask",
+      "k": "warn"
+     },
+     {
+      "t": "no timeframe given",
+      "k": "warn"
+     }
+    ],
+    "cov": 29
+   },
+   {
+    "q": "Once it ships, how long is delivery?",
+    "a": "The time period from order to delivery varies depending on your location. Once your order ships, we'll send you a confirmation email with tracking details. If you haven't received it yet, it might be on its way soon!",
+    "by": "ai",
+    "lat": 6.1,
+    "fl": [
+     {
+      "t": "no timeframe given",
+      "k": "warn"
+     }
+    ],
+    "cov": 75
+   },
+   {
+    "q": "Is there any way to speed it up if I need it sooner?",
+    "a": "AI replied (streamed past timing window)",
+    "by": "ai",
+    "lat": null,
+    "fl": [
+     {
+      "t": "no timed answer",
+      "k": "bad"
+     },
+     {
+      "t": "missed part of the ask",
+      "k": "warn"
+     }
+    ],
+    "cov": 0
+   },
+   {
+    "q": "What should I do if the tracking never updates?",
+    "a": "AI replied (streamed past timing window)",
+    "by": "ai",
+    "lat": null,
+    "fl": [
+     {
+      "t": "no timed answer",
+      "k": "bad"
+     },
+     {
+      "t": "missed part of the ask",
+      "k": "warn"
+     }
+    ],
+    "cov": 0
+   },
+   {
+    "q": "How do I find my tracking link?",
+    "a": "Once your order ships, we'll send you a confirmation email with tracking details. If you haven't received it yet, it might be on its way soon!",
+    "by": "ai",
+    "lat": 5.5,
+    "fl": [
+     {
+      "t": "missed part of the ask",
+      "k": "warn"
+     }
+    ],
+    "cov": 33
+   },
+   {
+    "q": "Can you check the status of my latest order?",
+    "a": "(streamed past timing window) To assist you better, please provide the order number and email address associated with your order. Order Number Email",
+    "by": "ai",
+    "lat": null,
+    "fl": [
+     {
+      "t": "no timed answer",
+      "k": "bad"
+     },
+     {
+      "t": "missed part of the ask",
+      "k": "warn"
+     }
+    ],
+    "cov": 25
+   },
+   {
+    "q": "My tracking says delivered but I didn't receive it, what now?",
+    "a": "AI replied (streamed past timing window)",
+    "by": "ai",
+    "lat": null,
+    "fl": [
+     {
+      "t": "no timed answer",
+      "k": "bad"
+     },
+     {
+      "t": "missed part of the ask",
+      "k": "warn"
+     }
+    ],
+    "cov": 0
+   },
+   {
+    "q": "Can I reroute the package to a different address?",
+    "a": "AI replied (streamed past timing window)",
+    "by": "ai",
+    "lat": null,
+    "fl": [
+     {
+      "t": "no timed answer",
+      "k": "bad"
+     },
+     {
+      "t": "missed part of the ask",
+      "k": "warn"
+     }
+    ],
+    "cov": 0
+   },
+   {
+    "q": "Do you compensate for a long delay?",
+    "a": "AI replied (streamed past timing window)",
+    "by": "ai",
+    "lat": null,
+    "fl": [
+     {
+      "t": "no timed answer",
+      "k": "bad"
+     },
+     {
+      "t": "missed part of the ask",
+      "k": "warn"
+     }
+    ],
+    "cov": 0
+   }
+  ]
+ },
+ {
+  "id": "rufus-amazon-support-pending",
+  "date": "2026-07-07",
+  "vendor": "Amazon Rufus",
+  "store": "Amazon.com",
+  "site": "amazon.com/dp/B0DX391LXK",
+  "url": "https://www.amazon.com/dp/B0DX391LXK",
+  "widget": "rufus",
   "locale": "en-US",
   "method": "pending",
   "us": false,
@@ -65769,7 +66847,7 @@ const SUPPORT = [
    "automated": 1,
    "handover": 1,
    "deflected": 0,
-   "no_answer": 0,
+   "no_answer": 1,
    "engaged": 2,
    "rate": 50
   },
@@ -66186,6 +67264,615 @@ const SUPPORT = [
      }
     ],
     "cov": 25
+   }
+  ]
+ },
+ {
+  "id": "envive-kut-support-2026-07-07",
+  "date": "2026-07-07",
+  "vendor": "Envive",
+  "store": "Kut from the Kloth",
+  "site": "kutfromthekloth.com",
+  "url": "https://www.kutfromthekloth.com/",
+  "widget": "gorgias",
+  "locale": "en-US",
+  "method": "new",
+  "us": false,
+  "lat": "~13.7s",
+  "latPct": 55,
+  "latP75": 14.6,
+  "ttft": 13.7,
+  "delivery": "streaming",
+  "success": 90,
+  "successTxt": "90%",
+  "avgTurns": 10,
+  "timed": 36,
+  "attempted": 40,
+  "auto": {
+   "automated": 2,
+   "handover": 2,
+   "deflected": 0,
+   "no_answer": 1,
+   "engaged": 4,
+   "rate": 50
+  },
+  "evalq": {
+   "n": 4,
+   "total": 99,
+   "dims": {
+    "resolution": 40,
+    "accuracy": 24,
+    "actionability": 20,
+    "close": 15
+   },
+   "cls": {
+    "resolved": 4
+   },
+   "learnings": [
+    "Consistently explains that placed orders can't be edited, gives the correct workaround (cancel-and-reorder or return via the loop portal), cites the 21-day/5-10-day policies, and appropriately gates order-specific checks behind login.",
+    "Answers every policy question with store-specific facts, real links, and contact channels, and closes the one it can't fully answer with a justified handover that names WHO acts and the one-business-day timeframe.",
+    "Thorough, actionable return answers with real timeframes and portal link, but self-contradicts on the return processing fee ($8.95 in one turn vs $12.95 in another).",
+    "Handles the tracking/delay flow with specific processing windows, names the carrier (FedEx) for transit issues, and closes the lost-package turn with a justified handover stating the one-business-day reply window and hours."
+   ]
+  },
+  "guard": null,
+  "ticket": {
+   "sub": "kutk",
+   "acct": "111435",
+   "conv": "14111081-9d33-47c9-a95a-f88398068e74"
+  },
+  "what": "4 cold private conversations (support themes). Handover in 2/4 themes. Avg end-to-end latency ~13.7s across 36 AI-timed turns.",
+  "datetime": "2026-07-07T12:25:54.503Z",
+  "themes": [
+   {
+    "key": "tracking",
+    "label": "Order tracking / delay",
+    "datetime": "2026-07-07T12:21:01.648Z",
+    "lat": "~14.9s",
+    "success": 70,
+    "successTxt": "70%",
+    "handoverTurn": 8,
+    "ticket": {
+     "sub": "kutk",
+     "acct": "111435",
+     "conv": "51553110-1361-4c52-9214-aed5cabe4112"
+    },
+    "ev": {
+     "total": 100,
+     "cls": "resolved",
+     "dims": {
+      "resolution": 40,
+      "accuracy": 25,
+      "actionability": 20,
+      "close": 15
+     },
+     "note": "Handles the tracking/delay flow with specific processing windows, names the carrier (FedEx) for transit issues, and closes the lost-package turn with a justified handover stating the one-business-day reply window and hours."
+    },
+    "turns": [
+     {
+      "q": "I placed an order a few days ago and still have no tracking, where is it?",
+      "a": "08:21 AM Hi! I’m sorry you’ve been left waiting without tracking. Please log in so we can look up your order details and check its current status for you. 08:21 AM Verify order details",
+      "by": "ai",
+      "lat": 12.4,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 29
+     },
+     {
+      "q": "How long does it normally take to ship and send a tracking number?",
+      "a": "08:21 AM I’m sorry for the wait. Orders usually take 1 to 2 business days to process, though it can be up to 3 to 4 business days, and tracking is sent by email once the order ships. Orders placed after 10 am PST, or over the weekend, can go out the next business day or during the following week. 08:21 AM",
+      "by": "ai",
+      "lat": 16.8,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 29
+     },
+     {
+      "q": "Once it ships, how long is delivery?",
+      "a": "08:22 AM I’m sorry for the delay. After an order ships, delivery timing can still vary, but orders first need 3 to 4 business days for processing, and deliveries can also be delayed by weather or other unavoidable circumstances. Saturday delivery is not available. 08:22 AM",
+      "by": "ai",
+      "lat": 15.6,
+      "cov": 50
+     },
+     {
+      "q": "Is there any way to speed it up if I need it sooner?",
+      "a": "s is time-sensitive. We’re not able to speed up or change shipping once an order has already been placed. Orders move into processing quickly, so the best option, if it is still eligible, would be to cancel it and place a new expedited order. Expedited orders placed before 10 am PST ship the same day. Orders placed after 10 am PST may ship the next business day, and weekend orders ship the following Monday. Let us know if you’d like us to check whether your order can still be canceled. 08:22 AM",
+      "by": "ai",
+      "lat": 14.6,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 17
+     },
+     {
+      "q": "What should I do if the tracking never updates?",
+      "a": "08:22 AM I’m sorry, that’s really frustrating. If the tracking has already shipped but isn’t updating, the best next step is to contact FedEx directly for the most current transit details, since delays in transit are handled by the carrier. We’re not able to offer refunds or credits for carrier delays. 08:23 AM",
+      "by": "ai",
+      "lat": 14.6,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 25
+     },
+     {
+      "q": "How do I find my tracking link?",
+      "a": "08:23 AM I’m sorry this has been hard to track down. Your tracking link is usually in the shipping confirmation email sent once the order goes out. If you cannot find it, please share your order number, the name used on the order, the email address used to place it, and the shipping or billing address so we can help locate it. 08:23 AM",
+      "by": "ai",
+      "lat": 15.6,
+      "cov": 100
+     },
+     {
+      "q": "Can you check the status of my latest order?",
+      "a": "08:23 AM I’m sorry, I can’t check your latest order status just yet because I’m not seeing your order details. Please log in so we can look it up and confirm the current status for you. 08:23 AM Verify order details",
+      "by": "ai",
+      "lat": 14.4,
+      "cov": 100
+     },
+     {
+      "q": "My tracking says delivered but I didn't receive it, what now?",
+      "a": "🚩 human took over",
+      "by": "human",
+      "lat": null,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 17
+     }
+    ]
+   },
+   {
+    "key": "returns",
+    "label": "Returns & exchanges",
+    "datetime": "2026-07-07T12:24:23.536Z",
+    "lat": "~13s",
+    "success": 100,
+    "successTxt": "100%",
+    "handoverTurn": null,
+    "ticket": {
+     "sub": "kutk",
+     "acct": "111435",
+     "conv": "90984405-b9b6-4c91-92a1-16ca2c185693"
+    },
+    "ev": {
+     "total": 95,
+     "cls": "resolved",
+     "dims": {
+      "resolution": 40,
+      "accuracy": 20,
+      "actionability": 20,
+      "close": 15
+     },
+     "note": "Thorough, actionable return answers with real timeframes and portal link, but self-contradicts on the return processing fee ($8.95 in one turn vs $12.95 in another)."
+    },
+    "turns": [
+     {
+      "q": "What is your return policy?",
+      "a": "the original garment tags are still attached. Sale items marked Final Sale and any items purchased from Final Kut are not eligible for return or exchange. Shipping fees are non-refundable. For eligible returns, you can either pay an $8.95 return processing fee per order or choose an Instant Exchange and keep 100% of the purchase price, excluding shipping, as a Kut from the Kloth e-gift card. You can start a return here: https://kutfromthekloth.loopreturns.com/#/ 08:24 AM Verify order details",
+      "by": "ai",
+      "lat": 12,
+      "fl": [
+       {
+        "t": "sales prompt on a support question",
+        "k": "warn"
+       }
+      ],
+      "cov": 50
+     },
+     {
+      "q": "How many days do I have to return something?",
+      "a": "08:24 AM You have 21 days from the purchase date to return eligible items. They must be unwashed, unworn, or defective, with the original garment tags still attached. 08:25 AM",
+      "by": "ai",
+      "lat": 10.9,
+      "cov": 50
+     },
+     {
+      "q": "How do I start a return or an exchange?",
+      "a": "08:25 AM I’m sorry for the hassle. You can start a return or exchange here: https://kutfromthekloth.loopreturns.com/#/ You’ll need your order number plus your ZIP code or email to begin. Eligible items can be returned within 21 days of the purchase date if they’re unwashed, unworn, or defective and still have the original tags attached. If you want, please log in and we can also help pull up your order. 08:25 AM Verify order details",
+      "by": "ai",
+      "lat": 14.2,
+      "cov": 100
+     },
+     {
+      "q": "Do I have to pay for return shipping?",
+      "a": "08:25 AM I know return fees can be frustrating. Returns processed through our portal include a $12.95 return processing fee, which covers return shipping and the inspection process once your item reaches our facility. If you choose the e-gift card return option, that $12.95 fee is waived. Please feel free to let us know if you need help with anything else, we’re here for you. 08:25 AM",
+      "by": "ai",
+      "lat": 13.5,
+      "fl": [
+       {
+        "t": "sales prompt on a support question",
+        "k": "warn"
+       }
+      ],
+      "cov": 67
+     },
+     {
+      "q": "How long until I get my refund once you receive it?",
+      "a": "08:25 AM I know waiting on a refund is frustrating. Once your return is received by our Returns Department, it is generally processed within 3 to 5 business days, and then it can take another 5 to 10 business days for the refund to show on your original payment method, depending on your bank. 08:26 AM",
+      "by": "ai",
+      "lat": 13,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 33
+     },
+     {
+      "q": "Can I exchange for a different size or option instead of a refund?",
+      "a": "08:26 AM Yes, if the item is eligible, you can exchange it for a different size or option instead of getting a refund. Eligible items can be returned or exchanged within 21 days of the purchase date, and they must be unwashed, unworn, or defective with the original tags attached. Final Sale items and Final Kut items are not eligible. You can start the exchange here: https://kutfromthekloth.loopreturns.com/#/ 08:26 AM",
+      "by": "ai",
+      "lat": 14.4,
+      "cov": 100
+     },
+     {
+      "q": "Are any items final sale / non-returnable?",
+      "a": "08:26 AM I know that can be important to check. Items marked Final Sale on the product page cannot be returned or exchanged. Items purchased from Final Kut are also final sale and not eligible for return, exchange, or refund. In addition, items bought during an additional 40% off Sale on Sale promotion are not eligible for return. 08:26 AM",
+      "by": "ai",
+      "lat": 12.6,
+      "cov": 50
+     },
+     {
+      "q": "Do I need the original packaging to return something?",
+      "a": "08:26 AM You do not need the original packaging based on our standard return policy. What is required is that the item is unwashed, unworn, or defective, and that the original garment tags are still attached. 08:27 AM",
+      "by": "ai",
+      "lat": 13.7,
+      "cov": 80
+     },
+     {
+      "q": "Can I return an online order in a physical store?",
+      "a": "08:27 AM I’m sorry for any confusion. We only offer returns through our online return portal, not in a physical store: https://kutfromthekloth.loopreturns.com/#/ 08:27 AM",
+      "by": "ai",
+      "lat": 12.7,
+      "cov": 80
+     },
+     {
+      "q": "How do I track the status of my refund?",
+      "a": "08:27 AM I know waiting on a refund update is frustrating. Once a refund has been issued, it can take 5 to 10 business days to appear on your original payment method, depending on your bank. If it has been more than 10 business days, let us know and we’ll have this reviewed further. 08:27 AM",
+      "by": "ai",
+      "lat": 13,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 33
+     }
+    ]
+   },
+   {
+    "key": "order-mgmt",
+    "label": "Modify / cancel order",
+    "datetime": "2026-07-07T12:25:47.620Z",
+    "lat": "~14.2s",
+    "success": 100,
+    "successTxt": "100%",
+    "handoverTurn": null,
+    "ticket": {
+     "sub": "kutk",
+     "acct": "111435",
+     "conv": "76cfcaca-41c8-4365-9de8-4bedac4d2c26"
+    },
+    "ev": {
+     "total": 100,
+     "cls": "resolved",
+     "dims": {
+      "resolution": 40,
+      "accuracy": 25,
+      "actionability": 20,
+      "close": 15
+     },
+     "note": "Consistently explains that placed orders can't be edited, gives the correct workaround (cancel-and-reorder or return via the loop portal), cites the 21-day/5-10-day policies, and appropriately gates order-specific checks behind login."
+    },
+    "turns": [
+     {
+      "q": "Can I change the shipping address on an order I just placed?",
+      "a": "ompletely understand wanting to update your order quickly. Once an order has been placed, we’re unfortunately not able to change the shipping address. The best option is to cancel the order and place a new one with the correct address. If the order is already on its way, you’ll be able to start a return once it arrives at https://kutfromthekloth.loopreturns.com/#/. If you’d like us to check whether your order is still eligible for cancellation, please log in first. 08:26 AM Verify order details",
+      "by": "ai",
+      "lat": 12.4,
+      "cov": 83
+     },
+     {
+      "q": "Can I cancel an order after placing it, and is there a time window?",
+      "a": "orders move into processing very quickly. If it has already shipped or is already in progress, it can no longer be canceled. In that case, you can start a return once it arrives. For regular items, returns are accepted within 21 days of purchase for unworn, unwashed items with tags attached. Final Sale items and Final Kut orders are not eligible for return or exchange. Please log in so we can check your order status and see whether cancellation is still possible. 08:26 AM Verify order details",
+      "by": "ai",
+      "lat": 15,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 14
+     },
+     {
+      "q": "Can I add an item to an order I already placed?",
+      "a": "08:26 AM We totally get wanting to add something before your order moves along. Once an order has been placed, we’re unfortunately not able to add items or make edits to it. The best option is to place a new order for the additional item. If you want to avoid receiving two separate orders, please log in and we can check whether your original order is still eligible for cancellation. 08:26 AM Verify order details",
+      "by": "ai",
+      "lat": 14.2,
+      "cov": 80
+     },
+     {
+      "q": "What happens if it already shipped, can it still be changed?",
+      "a": "08:27 AM We know that’s frustrating. If the order has already shipped, it can’t be changed anymore, including the shipping address, items, size, or color. In that case, you can refuse the package upon delivery or start a return once it arrives: https://kutfromthekloth.loopreturns.com/#/ If you want, please log in and we can check whether your order is still eligible for cancellation before it ships. 08:27 AM Verify order details",
+      "by": "ai",
+      "lat": 14.5,
+      "cov": 80
+     },
+     {
+      "q": "How do I update my contact or account details?",
+      "a": "08:27 AM We’re happy to clarify this. You can usually update your contact or account details by signing into your account and editing them there. If you mean details tied to an order that was already placed, those usually can’t be changed after checkout. In that case, the best option is to cancel and place a new order with the correct information if it has not shipped yet. 08:27 AM",
+      "by": "ai",
+      "lat": 14,
+      "cov": 100
+     },
+     {
+      "q": "If I cancel, how long until I'm refunded?",
+      "a": "08:27 AM We know waiting on a refund is stressful. If your order is canceled, the refund goes back to your original payment method and usually takes 5 to 10 business days to show up, depending on your bank. If you want us to check a specific order, please log in first. 08:27 AM Verify order details",
+      "by": "ai",
+      "lat": 13.7,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "Can you check whether my latest order can still be modified?",
+      "a": "08:28 AM We totally get wanting to catch it in time. I’m not able to check your latest order yet because you’re not logged in. Please log in and we’ll see whether it can still be canceled, since placed orders can’t be directly modified and the best option is usually canceling and reordering with the updated details. 08:28 AM Verify order details",
+      "by": "ai",
+      "lat": 16.5,
+      "cov": 100
+     },
+     {
+      "q": "Can I combine two separate orders into one shipment?",
+      "a": "not able to combine separate orders into one shipment once they’ve been placed. Orders move into processing quickly, so the best option would be to keep them as placed. If one of the orders has not been processed yet and you’d rather reorder, we can check whether it may still be eligible for cancellation once you log in. If either order has already shipped, it can’t be changed, but you can start a return once it arrives: https://kutfromthekloth.loopreturns.com/#/ 08:28 AM Verify order details",
+      "by": "ai",
+      "lat": 15.1,
+      "cov": 86
+     },
+     {
+      "q": "Can I change the payment method on my order?",
+      "a": "nt details after placing an order. Once an order has been placed, we’re unfortunately not able to change the payment method. The best option is to cancel the order and place a new one with the correct payment method. If the order has already shipped, it can’t be changed anymore, but you can start a return once it arrives: https://kutfromthekloth.loopreturns.com/#/ If you’d like, please log in and we can check whether your order is still eligible for cancellation. 08:29 AM Verify order details",
+      "by": "ai",
+      "lat": 11.1,
+      "cov": 100
+     },
+     {
+      "q": "Will I get an email confirmation once the change is made?",
+      "a": "08:29 AM We understand wanting to know what to expect. If an order is successfully canceled, you should receive an email confirmation once the cancellation is completed. 08:29 AM",
+      "by": "ai",
+      "lat": 15.3,
+      "cov": 43
+     }
+    ]
+   },
+   {
+    "key": "policy",
+    "label": "Shipping & returns policy",
+    "datetime": "2026-07-07T12:25:54.503Z",
+    "lat": "~13.1s",
+    "success": 90,
+    "successTxt": "90%",
+    "handoverTurn": 10,
+    "ticket": {
+     "sub": "kutk",
+     "acct": "111435",
+     "conv": "14111081-9d33-47c9-a95a-f88398068e74"
+    },
+    "ev": {
+     "total": 100,
+     "cls": "resolved",
+     "dims": {
+      "resolution": 40,
+      "accuracy": 25,
+      "actionability": 20,
+      "close": 15
+     },
+     "note": "Answers every policy question with store-specific facts, real links, and contact channels, and closes the one it can't fully answer with a justified handover that names WHO acts and the one-business-day timeframe."
+    },
+    "turns": [
+     {
+      "q": "Where can I find your full shipping policy?",
+      "a": "08:26 AM Hi! You can find our full shipping policy here: https://kutk.myshopify.com/pages/shipping-and-returns For a quick summary, U.S. shipping is free on orders over $150, and orders under $150 have a flat shipping rate of $9.95. 08:26 AM",
+      "by": "ai",
+      "lat": 11.9,
+      "cov": 100
+     },
+     {
+      "q": "Do you ship internationally, and who covers customs or duties?",
+      "a": "e do ship internationally. For Canada, shipping rates vary based on the destination address, and the exact carrier rate is shown at checkout. Customs and duties are included in how the carrier calculates the Canada shipping rate, so those costs are reflected in the quote you see at checkout. You can also view our shipping policy here: https://www.kutfromthekloth.com/pages/shipping-and-returns If you meant a country other than Canada, let us know which one and we’ll help from there 🙂 08:26 AM",
+      "by": "ai",
+      "lat": 13.3,
+      "cov": 80
+     },
+     {
+      "q": "How long does standard shipping take once an order is placed?",
+      "a": "08:26 AM Hi! Once an order is placed, standard orders are typically processed in 3 to 4 business days before they ship. Orders placed after 10 AM PST may not ship until the following 3 to 4 business days, and weekend orders are processed during the week. If you're in Canada, standard shipping typically takes 14 to 21 business days after shipping. 08:27 AM",
+      "by": "ai",
+      "lat": 14,
+      "cov": 71
+     },
+     {
+      "q": "What's your return and refund policy?",
+      "a": "ms within that 21-day window Sale items marked Final Sale cannot be returned or exchanged Items purchased from Final Kut are also final sale and not eligible for return Shipping fees are non-refundable If you return through the portal, there is an $8.95 return processing fee per order, or you can choose an Instant Exchange and keep 100% of the purchase price, excluding shipping, as a Kut From The Kloth e-gift card You can start a return here: https://kutfromthekloth.loopreturns.com/#/ 08:27 AM",
+      "by": "ai",
+      "lat": 13.7,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       },
+       {
+        "t": "sales prompt on a support question",
+        "k": "warn"
+       }
+      ],
+      "cov": 33
+     },
+     {
+      "q": "Are any items final sale or non-returnable?",
+      "a": "08:27 AM Yes. Items marked Final Sale on the product page are not eligible for returns or exchanges. Items purchased during an additional 40% off Sale on Sale promotion are also non-returnable, and anything bought from Final Kut is final sale as well. I know that can be disappointing, but those items are not eligible for returns, exchanges, or refunds. 08:27 AM",
+      "by": "ai",
+      "lat": 13.3,
+      "cov": 83
+     },
+     {
+      "q": "What payment methods do you accept for an order?",
+      "a": "08:27 AM I know you want the checkout options clearly before placing an order. We accept major credit cards and Shop Pay at checkout. 08:28 AM",
+      "by": "ai",
+      "lat": 12.1,
+      "cov": 50
+     },
+     {
+      "q": "How do I contact your support team if I have an issue with an order?",
+      "a": "08:28 AM I know it is important to know how to reach us if something goes wrong with an order. You can use our help page here: https://www.kutfromthekloth.com/pages/get-help If you prefer, you can also contact us by phone at (626) 493-2747 or by email at gethelp@kutfromthekloth.com. 08:28 AM",
+      "by": "ai",
+      "lat": 13.5,
+      "cov": 40
+     },
+     {
+      "q": "Do you price match or honor a price drop after purchase?",
+      "a": "08:28 AM I know it is frustrating when a price changes after you buy. We do not have information available here about price matching or honoring post-purchase price drops. 08:28 AM",
+      "by": "ai",
+      "lat": 12.6,
+      "cov": 50
+     },
+     {
+      "q": "What's your warranty policy on defective items?",
+      "a": "08:28 AM I’m sorry if you received a damaged or defective item. Please contact us right away so we can help review it, and be ready to share photos or any extra details about the issue if needed. 08:29 AM",
+      "by": "ai",
+      "lat": 13.5,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 25
+     },
+     {
+      "q": "Do you have a loyalty or rewards program?",
+      "a": "🚩 human took over",
+      "by": "human",
+      "lat": null,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     }
+    ]
+   }
+  ],
+  "turns": [
+   {
+    "q": "I placed an order a few days ago and still have no tracking, where is it?",
+    "a": "08:21 AM Hi! I’m sorry you’ve been left waiting without tracking. Please log in so we can look up your order details and check its current status for you. 08:21 AM Verify order details",
+    "by": "ai",
+    "lat": 12.4,
+    "fl": [
+     {
+      "t": "missed part of the ask",
+      "k": "warn"
+     }
+    ],
+    "cov": 29
+   },
+   {
+    "q": "How long does it normally take to ship and send a tracking number?",
+    "a": "08:21 AM I’m sorry for the wait. Orders usually take 1 to 2 business days to process, though it can be up to 3 to 4 business days, and tracking is sent by email once the order ships. Orders placed after 10 am PST, or over the weekend, can go out the next business day or during the following week. 08:21 AM",
+    "by": "ai",
+    "lat": 16.8,
+    "fl": [
+     {
+      "t": "missed part of the ask",
+      "k": "warn"
+     }
+    ],
+    "cov": 29
+   },
+   {
+    "q": "Once it ships, how long is delivery?",
+    "a": "08:22 AM I’m sorry for the delay. After an order ships, delivery timing can still vary, but orders first need 3 to 4 business days for processing, and deliveries can also be delayed by weather or other unavoidable circumstances. Saturday delivery is not available. 08:22 AM",
+    "by": "ai",
+    "lat": 15.6,
+    "cov": 50
+   },
+   {
+    "q": "Is there any way to speed it up if I need it sooner?",
+    "a": "s is time-sensitive. We’re not able to speed up or change shipping once an order has already been placed. Orders move into processing quickly, so the best option, if it is still eligible, would be to cancel it and place a new expedited order. Expedited orders placed before 10 am PST ship the same day. Orders placed after 10 am PST may ship the next business day, and weekend orders ship the following Monday. Let us know if you’d like us to check whether your order can still be canceled. 08:22 AM",
+    "by": "ai",
+    "lat": 14.6,
+    "fl": [
+     {
+      "t": "missed part of the ask",
+      "k": "warn"
+     }
+    ],
+    "cov": 17
+   },
+   {
+    "q": "What should I do if the tracking never updates?",
+    "a": "08:22 AM I’m sorry, that’s really frustrating. If the tracking has already shipped but isn’t updating, the best next step is to contact FedEx directly for the most current transit details, since delays in transit are handled by the carrier. We’re not able to offer refunds or credits for carrier delays. 08:23 AM",
+    "by": "ai",
+    "lat": 14.6,
+    "fl": [
+     {
+      "t": "missed part of the ask",
+      "k": "warn"
+     }
+    ],
+    "cov": 25
+   },
+   {
+    "q": "How do I find my tracking link?",
+    "a": "08:23 AM I’m sorry this has been hard to track down. Your tracking link is usually in the shipping confirmation email sent once the order goes out. If you cannot find it, please share your order number, the name used on the order, the email address used to place it, and the shipping or billing address so we can help locate it. 08:23 AM",
+    "by": "ai",
+    "lat": 15.6,
+    "cov": 100
+   },
+   {
+    "q": "Can you check the status of my latest order?",
+    "a": "08:23 AM I’m sorry, I can’t check your latest order status just yet because I’m not seeing your order details. Please log in so we can look it up and confirm the current status for you. 08:23 AM Verify order details",
+    "by": "ai",
+    "lat": 14.4,
+    "cov": 100
+   },
+   {
+    "q": "My tracking says delivered but I didn't receive it, what now?",
+    "a": "🚩 human took over",
+    "by": "human",
+    "lat": null,
+    "fl": [
+     {
+      "t": "missed part of the ask",
+      "k": "warn"
+     }
+    ],
+    "cov": 17
    }
   ]
  },
@@ -70054,6 +71741,811 @@ const SUPPORT = [
   ]
  },
  {
+  "id": "envive-bandolier-support-2026-07-07",
+  "date": "2026-07-07",
+  "vendor": "Envive",
+  "store": "Bandolier",
+  "site": "bandolierstyle.com",
+  "url": "https://bandolierstyle.com/",
+  "widget": "spiffy",
+  "locale": "en-US",
+  "method": "new",
+  "us": false,
+  "lat": "~5.6s",
+  "latPct": 22,
+  "latP75": 6,
+  "ttft": 4.3,
+  "delivery": "streaming",
+  "success": 82,
+  "successTxt": "82%",
+  "avgTurns": 10,
+  "timed": 41,
+  "attempted": 50,
+  "auto": {
+   "automated": 3,
+   "handover": 1,
+   "deflected": 1,
+   "no_answer": 0,
+   "engaged": 5,
+   "rate": 60
+  },
+  "evalq": {
+   "n": 5,
+   "total": 68,
+   "dims": {
+    "resolution": 30,
+    "accuracy": 21,
+    "actionability": 13,
+    "close": 4
+   },
+   "cls": {
+    "resolved": 1,
+    "deflected": 1,
+    "partial": 3
+   },
+   "learnings": [
+    "Answers the damaged-item flow with concrete facts ($8 fee, 2-4 day replacement, warranty conditions) but opens with an irrelevant product greeting and never sets a who-acts-when timeframe for the CS follow-up.",
+    "Repeatedly punts modify/cancel questions to a generic 'contact customer service' with no policy substance, leaves one turn entirely blank, and gives only a vague 'a few business days' refund window.",
+    "Strong store-specific shipping/returns/payment facts, but opens with a product greeting instead of the shipping policy and leaves three later questions (contact, warranty, loyalty) entirely unanswered.",
+    "Good concrete return-window and fee facts, but opens with product boilerplate, leaves the core 'how do I start a return' turn blank, and can't give refund-processing timing.",
+    "Handles the tracking/delay flow with real shipping timeframes and a sensible spam-folder tip, but opens with product boilerplate, can't look up the order, and never sets a WHO/WHEN timeframe for the CS handover."
+   ]
+  },
+  "guard": null,
+  "ticket": null,
+  "what": "5 cold private conversations (support themes). Handover in 1/5 themes. Avg end-to-end latency ~5.6s across 41 AI-timed turns.",
+  "datetime": "2026-07-07T12:32:12.967Z",
+  "themes": [
+   {
+    "key": "tracking",
+    "label": "Order tracking / delay",
+    "datetime": "2026-07-07T12:27:59.791Z",
+    "lat": "~4.9s",
+    "success": 60,
+    "successTxt": "60%",
+    "handoverTurn": 8,
+    "ticket": null,
+    "ev": {
+     "total": 92,
+     "cls": "partial",
+     "dims": {
+      "resolution": 40,
+      "accuracy": 25,
+      "actionability": 20,
+      "close": 7
+     },
+     "note": "Handles the tracking/delay flow with real shipping timeframes and a sensible spam-folder tip, but opens with product boilerplate, can't look up the order, and never sets a WHO/WHEN timeframe for the CS handover."
+    },
+    "turns": [
+     {
+      "q": "I placed an order a few days ago and still have no tracking, where is it?",
+      "a": "e, and ready for wherever life takes you. Welcome to Bandolier, where luxury meets everyday functionality. Our collection of crossbody phone cases, bags, and accessories is designed to elevate your style while keeping you hands-free and organized. Are you looking for something specific, or would you like to explore our best sellers for some inspiration?",
+      "by": "ai",
+      "lat": 3,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       },
+       {
+        "t": "sales prompt on a support question",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "How long does it normally take to ship and send a tracking number?",
+      "a": "Shipping typically takes 2-4 business days (Mon-Fri) for standard orders, and you'll receive your order in 3-4 business days once shipped. For expedited orders, they ship the same day if received by 12pm PST. Do you have any specific questions about tracking or shipping?",
+      "by": "ai",
+      "lat": 6,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 29
+     },
+     {
+      "q": "Once it ships, how long is delivery?",
+      "a": "Delivery typically takes 3-4 business days (Mon-Fri) once your order has shipped. Would you like to know more about tracking your order? Yes, tell me about tracking.",
+      "by": "ai",
+      "lat": 5,
+      "cov": 50
+     },
+     {
+      "q": "Is there any way to speed it up if I need it sooner?",
+      "a": "Yes, you can opt for expedited shipping, which ships the same day if ordered by 12pm PST. This can help you receive your order sooner. Would you like to explore expedited shipping options? Yes, show me expedited options.",
+      "by": "ai",
+      "lat": 6,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 17
+     },
+     {
+      "q": "What should I do if the tracking never updates?",
+      "a": "If your tracking doesn't update, it might just be a delay by the carrier. Sometimes it takes a day or two for the tracking to be updated. If the issue persists, you can reach out to customer service for assistance.",
+      "by": "ai",
+      "lat": 4.3,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 25
+     },
+     {
+      "q": "How do I find my tracking link?",
+      "a": "Your tracking link will be sent in a separate email once your order ships. Sometimes this email might end up in your spam or promotions folder, so be sure to check there if it seems like you've been waiting a bit. Have you checked your spam or promotions folder? No, I'll check now. Yes, I've checked them both.",
+      "by": "ai",
+      "lat": 5,
+      "cov": 67
+     },
+     {
+      "q": "Can you check the status of my latest order?",
+      "a": "(streamed past timing window) To assist you better, please provide the order number and email address associated with your order for verification. Order Number Email",
+      "by": "ai",
+      "lat": null,
+      "fl": [
+       {
+        "t": "no timed answer",
+        "k": "bad"
+       },
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 25
+     },
+     {
+      "q": "My tracking says delivered but I didn't receive it, what now?",
+      "a": "🚩 human took over",
+      "by": "human",
+      "lat": null,
+      "cov": 50
+     }
+    ]
+   },
+   {
+    "key": "returns",
+    "label": "Returns & exchanges",
+    "datetime": "2026-07-07T12:29:36.285Z",
+    "lat": "~5.8s",
+    "success": 90,
+    "successTxt": "90%",
+    "handoverTurn": null,
+    "ticket": null,
+    "ev": {
+     "total": 84,
+     "cls": "partial",
+     "dims": {
+      "resolution": 40,
+      "accuracy": 25,
+      "actionability": 12,
+      "close": 7
+     },
+     "note": "Good concrete return-window and fee facts, but opens with product boilerplate, leaves the core 'how do I start a return' turn blank, and can't give refund-processing timing."
+    },
+    "turns": [
+     {
+      "q": "What is your return policy?",
+      "a": "kes you. Welcome to Bandolier, where luxury meets everyday functionality. Our collection of crossbody phone cases, bags, and accessories is designed to elevate your style while keeping you hands-free and organized. Are you looking for something specific, or would you like to explore our best sellers for some inspiration?",
+      "by": "ai",
+      "lat": 2.5,
+      "fl": [
+       {
+        "t": "sales prompt on a support question",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "How many days do I have to return something?",
+      "a": "Returns and exchanges are accepted within 30 days of receiving your order. Items must be in their original condition, unused, and with all tags attached. Do you have any specific questions about the return process?",
+      "by": "ai",
+      "lat": 5,
+      "cov": 50
+     },
+     {
+      "q": "How do I start a return or an exchange?",
+      "a": "(streamed past timing window) Do you need help with anything else regarding the return process?",
+      "by": "ai",
+      "lat": null,
+      "fl": [
+       {
+        "t": "no timed answer",
+        "k": "bad"
+       },
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 33
+     },
+     {
+      "q": "Do I have to pay for return shipping?",
+      "a": "For US orders, you don't have to pay for return shipping, but there is a flat $8 restocking fee deducted from your refund. For international orders, customers are responsible for shipping costs to return the items. Would you like to know more about the return process?",
+      "by": "ai",
+      "lat": 5.8,
+      "cov": 100
+     },
+     {
+      "q": "How long until I get my refund once you receive it?",
+      "a": "I'm sorry, but I don't have specific information on the processing time for refunds. However, once your return is processed, you can expect your refund to be credited back to your original payment method. Would you like to know more about the return process or is there something else I can help you with?",
+      "by": "ai",
+      "lat": 5.8,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       },
+       {
+        "t": "no timeframe given",
+        "k": "warn"
+       }
+      ],
+      "cov": 33
+     },
+     {
+      "q": "Can I exchange for a different size or option instead of a refund?",
+      "a": "hange for a different size or option instead of a refund? Yes, you can exchange your item for a different size or option within 30 days of receiving your order, free of charge! Just ensure the items are unworn, undamaged, and in their original packaging. Would you like to start the exchange process now? Yes, let's start the exchange process!",
+      "by": "ai",
+      "lat": 6.8,
+      "cov": 100
+     },
+     {
+      "q": "Are any items final sale / non-returnable?",
+      "a": "All items are returnable and exchangeable within 30 days of receiving your order, provided they are in their original condition, unused, and with all tags attached. Do you have any other questions about our return policy?",
+      "by": "ai",
+      "lat": 5.3,
+      "cov": 50
+     },
+     {
+      "q": "Do I need the original packaging to return something?",
+      "a": "Yes, to be eligible for a return or exchange, items must be in their original condition, unused, and with all tags attached, including the original packaging.",
+      "by": "ai",
+      "lat": 5.3,
+      "cov": 60
+     },
+     {
+      "q": "Can I return an online order in a physical store?",
+      "a": "I'm sorry, but I don't have information on returning online orders in physical stores. However, you can start a return or exchange through our easy online return portal. Would you like to proceed with the online return process? Yes, proceed with the online return!",
+      "by": "ai",
+      "lat": 10.2,
+      "cov": 60
+     },
+     {
+      "q": "How do I track the status of my refund?",
+      "a": "I'm sorry, but I don't have specific information on tracking the status of refunds. However, you can contact customer support for assistance with your refund status. Would you like to reach out to customer support now? Yes, I'll contact customer support!",
+      "by": "ai",
+      "lat": 5.5,
+      "cov": 67
+     }
+    ]
+   },
+   {
+    "key": "damaged",
+    "label": "Damaged / faulty item",
+    "datetime": "2026-07-07T12:29:51.220Z",
+    "lat": "~6.1s",
+    "success": 100,
+    "successTxt": "100%",
+    "handoverTurn": null,
+    "ticket": null,
+    "ev": {
+     "total": 92,
+     "cls": "resolved",
+     "dims": {
+      "resolution": 40,
+      "accuracy": 25,
+      "actionability": 20,
+      "close": 7
+     },
+     "note": "Answers the damaged-item flow with concrete facts ($8 fee, 2-4 day replacement, warranty conditions) but opens with an irrelevant product greeting and never sets a who-acts-when timeframe for the CS follow-up."
+    },
+    "turns": [
+     {
+      "q": "My order arrived and one item is damaged, what do I do?",
+      "a": "takes you. Welcome to Bandolier, where luxury meets everyday functionality. Our collection of crossbody phone cases, bags, and accessories is designed to elevate your style while keeping you hands-free and organized. Are you looking for something specific, or would you like to explore our best sellers for some inspiration?",
+      "by": "ai",
+      "lat": 3.5,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       },
+       {
+        "t": "sales prompt on a support question",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "Is a damaged item handled differently from a normal return?",
+      "a": "lar to a normal return, but you should contact customer service immediately with your order number, a description of the issue, and photos if possible. We'll arrange a replacement or repair at no cost if it falls under warranty or was an error on our part. Is there anything else you would like to know about our return policy? No, that's all I needed Yes, can you explain the warranty",
+      "by": "ai",
+      "lat": 5,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 33
+     },
+     {
+      "q": "Do you need photos, and where do I send them?",
+      "a": "Yes, photos are helpful when reporting a damaged item. You can send them to our customer service team along with your order number and a description of the issue. This will assist us in processing your claim efficiently. Would you like to know how to start the return process? No, I'm good for now Yes, please guide me through it",
+      "by": "ai",
+      "lat": 5.8,
+      "cov": 67
+     },
+     {
+      "q": "Will I get a replacement or a refund?",
+      "a": "If the issue falls under warranty or was an error on our part, we'll arrange a replacement or repair at no cost. Otherwise, you can opt for a refund through our return process. Would you like to know more about our return policy? No, I'm ready to proceed Yes, please explain the policy",
+      "by": "ai",
+      "lat": 4.8,
+      "cov": 50
+     },
+     {
+      "q": "Do I have to pay anything to return the damaged item?",
+      "a": "I have to pay anything to return the damaged item? No, you don't have to pay anything to return a damaged item if it falls under warranty or was an error on our part. However, if you're returning an undamaged item, there's a flat $8 restocking fee for US orders. Would you like to proceed with the return process? Yes, guide me through it please! No, I need more information first.",
+      "by": "ai",
+      "lat": 6.8,
+      "cov": 100
+     },
+     {
+      "q": "How long does the replacement take?",
+      "a": "The replacement process typically takes about 2-4 business days for processing and shipping. You'll receive an email with a tracking number once it's on its way. Would you like to know how to track your replacement order? No, I'm all set for now. Yes, please guide me through it!",
+      "by": "ai",
+      "lat": 5.8,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 33
+     },
+     {
+      "q": "What if more than one item in my order is affected?",
+      "a": "order are affected, you can report each issue separately with their respective details. We'll handle each replacement or repair accordingly, ensuring you receive the correct replacements at no cost if they fall under warranty or were errors on our part. Would you like guidance on how to report these issues? Yes, please walk me through it! No, I'm good with the process now.",
+      "by": "ai",
+      "lat": 8.8,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 33
+     },
+     {
+      "q": "Can I keep the damaged item or must I ship it back?",
+      "a": "When returning a damaged item, it's best to ship it back to us so we can assess the issue and ensure it falls under warranty or was an error on our part. This helps us improve our products and service.",
+      "by": "ai",
+      "lat": 5.8,
+      "cov": 67
+     },
+     {
+      "q": "Will the replacement ship with priority?",
+      "a": "ll typically ship via standard shipping, which usually takes 2-4 business days to process and 3-4 business days to receive once shipped. If you prefer expedited shipping, you can opt for that when you arrange the replacement with our customer service team. Would you like to know how to arrange expedited shipping? No, standard shipping is fine. Yes, tell me about expedited shipping!",
+      "by": "ai",
+      "lat": 5.1,
+      "cov": 50
+     },
+     {
+      "q": "What if the replacement is also damaged?",
+      "a": "nt is also damaged, please contact customer service immediately with your order number, a description of the issue, and photos if possible. We'll arrange another replacement or repair at no cost if it falls under warranty or was an error on our part. Would you like to know how to contact customer service for this issue? No, I'll handle it myself. Yes, guide me through the process!",
+      "by": "ai",
+      "lat": 9.1,
+      "cov": 100
+     }
+    ]
+   },
+   {
+    "key": "order-mgmt",
+    "label": "Modify / cancel order",
+    "datetime": "2026-07-07T12:30:26.618Z",
+    "lat": "~6s",
+    "success": 90,
+    "successTxt": "90%",
+    "handoverTurn": null,
+    "ticket": null,
+    "ev": {
+     "total": 5,
+     "cls": "deflected",
+     "dims": {
+      "resolution": 0,
+      "accuracy": 5,
+      "actionability": 0,
+      "close": 0
+     },
+     "note": "Repeatedly punts modify/cancel questions to a generic 'contact customer service' with no policy substance, leaves one turn entirely blank, and gives only a vague 'a few business days' refund window."
+    },
+    "turns": [
+     {
+      "q": "Can I change the shipping address on an order I just placed?",
+      "a": "dy for wherever life takes you. Welcome to Bandolier, where luxury meets everyday functionality. Our collection of crossbody phone cases, bags, and accessories is designed to elevate your style while keeping you hands-free and organized. Are you looking for something specific, or would you like to explore our best sellers for some inspiration?",
+      "by": "ai",
+      "lat": 3.5,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       },
+       {
+        "t": "sales prompt on a support question",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "Can I cancel an order after placing it, and is there a time window?",
+      "a": "I'm sorry, but I don't have specific information on canceling orders. However, you can reach out to our customer service team for assistance. They'll be able to provide guidance on any changes or cancellations you'd like to make. Is there anything else you'd like to know about our products or services?",
+      "by": "ai",
+      "lat": 5.6,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       },
+       {
+        "t": "no timeframe given",
+        "k": "warn"
+       }
+      ],
+      "cov": 14
+     },
+     {
+      "q": "Can I add an item to an order I already placed?",
+      "a": "I'm sorry, but I don't have specific information on adding items to existing orders. However, you can reach out to our customer service team for assistance. They'll be able to provide guidance on any changes or additions you'd like to make.",
+      "by": "ai",
+      "lat": 6.3,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "What happens if it already shipped, can it still be changed?",
+      "a": "If your order has already shipped, it's best to contact our customer service team directly. They can assist with any changes or cancellations, depending on the status of your order. No, I'll contact them myself Yes, please help me contact them",
+      "by": "ai",
+      "lat": 5.3,
+      "cov": 40
+     },
+     {
+      "q": "How do I update my contact or account details?",
+      "a": "(streamed past timing window) Is there anything else you'd like to know about managing your account? No, that's all, thank you!",
+      "by": "ai",
+      "lat": null,
+      "fl": [
+       {
+        "t": "no timed answer",
+        "k": "bad"
+       },
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       },
+       {
+        "t": "no contact path given",
+        "k": "warn"
+       }
+      ],
+      "cov": 25
+     },
+     {
+      "q": "If I cancel, how long until I'm refunded?",
+      "a": "For refunds, once your cancellation is processed, the refund typically takes a few business days to be credited back to your original payment method. However, the exact timeframe may vary depending on your bank's processing speed. Would you like to know more about our return policy? No, that's all I needed Yes, tell me about the return policy",
+      "by": "ai",
+      "lat": 6.1,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       },
+       {
+        "t": "no timeframe given",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "Can you check whether my latest order can still be modified?",
+      "a": "I'm sorry, but I don't have the ability to check the status of your order or make modifications. However, you can contact our customer service team directly, and they'll be able to assist you with any changes or updates you need. Would you like help with reaching out to them? No, I'll contact them myself Yes, please help me contact them",
+      "by": "ai",
+      "lat": 7.9,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 33
+     },
+     {
+      "q": "Can I combine two separate orders into one shipment?",
+      "a": "I'm sorry, but I don't have specific information on combining separate orders into one shipment. However, you can reach out to our customer service team for assistance. They'll be able to provide guidance on any changes or updates you need.",
+      "by": "ai",
+      "lat": 7.8,
+      "cov": 71
+     },
+     {
+      "q": "Can I change the payment method on my order?",
+      "a": "I'm sorry, but I don't have specific information on changing the payment method for an order. However, you can reach out to our customer service team for assistance. They'll be able to provide guidance on any changes or updates you need.",
+      "by": "ai",
+      "lat": 6.6,
+      "cov": 75
+     },
+     {
+      "q": "Will I get an email confirmation once the change is made?",
+      "a": "Yes, you will receive an email confirmation once any changes are made to your order. This ensures you're kept updated on the status of your purchase. Would you like to know more about tracking your order? No, that's all I needed Yes, tell me about tracking my order",
+      "by": "ai",
+      "lat": 4.5,
+      "cov": 71
+     }
+    ]
+   },
+   {
+    "key": "policy",
+    "label": "Shipping & returns policy",
+    "datetime": "2026-07-07T12:32:12.967Z",
+    "lat": "~5s",
+    "success": 70,
+    "successTxt": "70%",
+    "handoverTurn": null,
+    "ticket": null,
+    "ev": {
+     "total": 65,
+     "cls": "partial",
+     "dims": {
+      "resolution": 28,
+      "accuracy": 25,
+      "actionability": 12,
+      "close": 0
+     },
+     "note": "Strong store-specific shipping/returns/payment facts, but opens with a product greeting instead of the shipping policy and leaves three later questions (contact, warranty, loyalty) entirely unanswered."
+    },
+    "turns": [
+     {
+      "q": "Where can I find your full shipping policy?",
+      "a": "wherever life takes you. Welcome to Bandolier, where luxury meets everyday functionality. Our collection of crossbody phone cases, bags, and accessories is designed to elevate your style while keeping you hands-free and organized. Are you looking for something specific, or would you like to explore our best sellers for some inspiration? I want to explore options",
+      "by": "ai",
+      "lat": 4.5,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       },
+       {
+        "t": "sales prompt on a support question",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "Do you ship internationally, and who covers customs or duties?",
+      "a": "Yes, we ship worldwide. However, customs rules and regulations vary by country, so it's essential to be aware of these when ordering. Who covers customs or duties depends on your location and the specific customs regulations in your country. Do you have a specific country in mind for your order? Canada Australia United States United Kingdom",
+      "by": "ai",
+      "lat": 4.3,
+      "cov": 80
+     },
+     {
+      "q": "How long does standard shipping take once an order is placed?",
+      "a": "Standard orders typically ship within 2-4 business days and are delivered in 3-4 business days once shipped.",
+      "by": "ai",
+      "lat": 3.8,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 29
+     },
+     {
+      "q": "What's your return and refund policy?",
+      "a": "l condition, unused, and with all tags attached. For US orders, exchanges are free, while returns incur a flat $8 restocking fee. For international orders, exchanges are not available, but returns are accepted with customers covering shipping costs. Do you have any specific questions about the process?",
+      "by": "ai",
+      "lat": 5.8,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "Are any items final sale or non-returnable?",
+      "a": "All items are returnable within 30 days, provided they are in their original condition, unused, and with all tags attached. There are no final sale or non-returnable items under this policy. Would you like to know more about the return process?",
+      "by": "ai",
+      "lat": 5.8,
+      "cov": 83
+     },
+     {
+      "q": "What payment methods do you accept for an order?",
+      "a": "We accept major credit cards such as Visa, Mastercard, American Express, and Discover, as well as PayPal and Apple Pay for your convenience. Would you like to know about any other payment options?",
+      "by": "ai",
+      "lat": 5.6,
+      "cov": 50
+     },
+     {
+      "q": "How do I contact your support team if I have an issue with an order?",
+      "a": "AI replied (streamed past timing window)",
+      "by": "ai",
+      "lat": null,
+      "fl": [
+       {
+        "t": "no timed answer",
+        "k": "bad"
+       },
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       },
+       {
+        "t": "no contact path given",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "Do you price match or honor a price drop after purchase?",
+      "a": "have a specific price match policy, but we offer competitive pricing and value for our products. If you notice a price drop after your purchase, you might want to reach out to our customer support to discuss possible options. Would you like to know more about our rewards program or any other benefits? What's the best way to stay updated on promotions?",
+      "by": "ai",
+      "lat": 5.3,
+      "cov": 83
+     },
+     {
+      "q": "What's your warranty policy on defective items?",
+      "a": "(streamed past timing window) Do you have a specific issue you'd like to report? No, just exploring warranty options Yes, I have a defective item to report",
+      "by": "ai",
+      "lat": null,
+      "fl": [
+       {
+        "t": "no timed answer",
+        "k": "bad"
+       }
+      ],
+      "cov": 50
+     },
+     {
+      "q": "Do you have a loyalty or rewards program?",
+      "a": "(streamed past timing window) Would you like to know more about how to join or the benefits of the program?",
+      "by": "ai",
+      "lat": null,
+      "fl": [
+       {
+        "t": "no timed answer",
+        "k": "bad"
+       },
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 33
+     }
+    ]
+   }
+  ],
+  "turns": [
+   {
+    "q": "I placed an order a few days ago and still have no tracking, where is it?",
+    "a": "e, and ready for wherever life takes you. Welcome to Bandolier, where luxury meets everyday functionality. Our collection of crossbody phone cases, bags, and accessories is designed to elevate your style while keeping you hands-free and organized. Are you looking for something specific, or would you like to explore our best sellers for some inspiration?",
+    "by": "ai",
+    "lat": 3,
+    "fl": [
+     {
+      "t": "missed part of the ask",
+      "k": "warn"
+     },
+     {
+      "t": "sales prompt on a support question",
+      "k": "warn"
+     }
+    ],
+    "cov": 0
+   },
+   {
+    "q": "How long does it normally take to ship and send a tracking number?",
+    "a": "Shipping typically takes 2-4 business days (Mon-Fri) for standard orders, and you'll receive your order in 3-4 business days once shipped. For expedited orders, they ship the same day if received by 12pm PST. Do you have any specific questions about tracking or shipping?",
+    "by": "ai",
+    "lat": 6,
+    "fl": [
+     {
+      "t": "missed part of the ask",
+      "k": "warn"
+     }
+    ],
+    "cov": 29
+   },
+   {
+    "q": "Once it ships, how long is delivery?",
+    "a": "Delivery typically takes 3-4 business days (Mon-Fri) once your order has shipped. Would you like to know more about tracking your order? Yes, tell me about tracking.",
+    "by": "ai",
+    "lat": 5,
+    "cov": 50
+   },
+   {
+    "q": "Is there any way to speed it up if I need it sooner?",
+    "a": "Yes, you can opt for expedited shipping, which ships the same day if ordered by 12pm PST. This can help you receive your order sooner. Would you like to explore expedited shipping options? Yes, show me expedited options.",
+    "by": "ai",
+    "lat": 6,
+    "fl": [
+     {
+      "t": "missed part of the ask",
+      "k": "warn"
+     }
+    ],
+    "cov": 17
+   },
+   {
+    "q": "What should I do if the tracking never updates?",
+    "a": "If your tracking doesn't update, it might just be a delay by the carrier. Sometimes it takes a day or two for the tracking to be updated. If the issue persists, you can reach out to customer service for assistance.",
+    "by": "ai",
+    "lat": 4.3,
+    "fl": [
+     {
+      "t": "missed part of the ask",
+      "k": "warn"
+     }
+    ],
+    "cov": 25
+   },
+   {
+    "q": "How do I find my tracking link?",
+    "a": "Your tracking link will be sent in a separate email once your order ships. Sometimes this email might end up in your spam or promotions folder, so be sure to check there if it seems like you've been waiting a bit. Have you checked your spam or promotions folder? No, I'll check now. Yes, I've checked them both.",
+    "by": "ai",
+    "lat": 5,
+    "cov": 67
+   },
+   {
+    "q": "Can you check the status of my latest order?",
+    "a": "(streamed past timing window) To assist you better, please provide the order number and email address associated with your order for verification. Order Number Email",
+    "by": "ai",
+    "lat": null,
+    "fl": [
+     {
+      "t": "no timed answer",
+      "k": "bad"
+     },
+     {
+      "t": "missed part of the ask",
+      "k": "warn"
+     }
+    ],
+    "cov": 25
+   },
+   {
+    "q": "My tracking says delivered but I didn't receive it, what now?",
+    "a": "🚩 human took over",
+    "by": "human",
+    "lat": null,
+    "cov": 50
+   }
+  ]
+ },
+ {
   "id": "envive-tushbaby-support-pending",
   "date": "2026-07-07",
   "vendor": "Envive",
@@ -72267,7 +74759,7 @@ const SUPPORT = [
   ]
  },
  {
-  "id": "spiffy-carbahn-support-pending",
+  "id": "spiffy-carbahn-support-2026-07-07",
   "date": "2026-07-07",
   "vendor": "Envive",
   "store": "CarBahn",
@@ -72275,14 +74767,1081 @@ const SUPPORT = [
   "url": "https://carbahn.com/",
   "widget": "spiffy",
   "locale": "en-US",
-  "method": "pending",
+  "method": "new",
   "us": false,
-  "lat": "—",
-  "success": null,
-  "successTxt": "pending",
-  "successCls": "p-na",
-  "what": "Not captured in a cold run yet — pending.",
-  "turns": []
+  "lat": "~14.8s",
+  "latPct": 59,
+  "latP75": 19,
+  "ttft": 13.1,
+  "delivery": "streaming",
+  "success": 52,
+  "successTxt": "52%",
+  "avgTurns": 10,
+  "timed": 26,
+  "attempted": 50,
+  "auto": {
+   "automated": 5,
+   "handover": 0,
+   "deflected": 0,
+   "no_answer": 0,
+   "engaged": 5,
+   "rate": 100
+  },
+  "evalq": {
+   "n": 5,
+   "total": 41,
+   "dims": {
+    "resolution": 21,
+    "accuracy": 17,
+    "actionability": 0,
+    "close": 3
+   },
+   "cls": {
+    "partial": 2,
+    "failed": 2,
+    "resolved": 1
+   },
+   "learnings": [
+    "Gives genuinely store-specific damaged-item policy facts (store covers shipping, refund on receipt) but drops the how-to-start mechanics and leaves the closing question unanswered.",
+    "Almost every modify/cancel ask returns an empty or fragment reply and the one real response deflects to the sales department, so the shopper leaves with essentially no usable answer.",
+    "Strong on grounded, store-specific policy facts (UPS carrier, duties, warranty, no price-match) but leaves payment-method and contact-path asks entirely unanswered and never gives concrete timeframes.",
+    "Delivers a couple of solid store-specific facts (30-day window, refund-to-original-card conditions) but opens with a generic greeting, hits an error, and never provides the how-to-start-a-return or exchange mechanics.",
+    "Every tracking/delay turn returns either an empty reply or a bare \"the store\" fragment, delivering no usable information whatsoever."
+   ]
+  },
+  "guard": null,
+  "ticket": null,
+  "what": "5 cold private conversations (support themes). No handover in any theme. Avg end-to-end latency ~14.8s across 26 AI-timed turns.",
+  "datetime": "2026-07-07T13:36:29.827Z",
+  "themes": [
+   {
+    "key": "tracking",
+    "label": "Order tracking / delay",
+    "datetime": "2026-07-07T13:26:16.478Z",
+    "lat": "~17.1s",
+    "success": 30,
+    "successTxt": "30%",
+    "handoverTurn": null,
+    "ticket": null,
+    "ev": {
+     "total": 15,
+     "cls": "failed",
+     "dims": {
+      "resolution": 10,
+      "accuracy": 5,
+      "actionability": 0,
+      "close": 0
+     },
+     "note": "Every tracking/delay turn returns either an empty reply or a bare \"the store\" fragment, delivering no usable information whatsoever."
+    },
+    "turns": [
+     {
+      "q": "I placed an order a few days ago and still have no tracking, where is it?",
+      "a": "(streamed past timing window) Live Support Welcome to CarBahn AI. Looking to unlock your vehicle's full potential? I'm here to help! Ask me about performance upgrades, product recommendations, or anything you need to enhance your driving experience. CarBahn I'm sorry! I'm having trouble right now. Please refresh the page or try again in a moment.",
+      "by": "ai",
+      "lat": null,
+      "fl": [
+       {
+        "t": "no timed answer",
+        "k": "bad"
+       },
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "How long does it normally take to ship and send a tracking number?",
+      "a": "CarBahn",
+      "by": "ai",
+      "lat": 20.4,
+      "fl": [
+       {
+        "t": "thin answer",
+        "k": "warn"
+       },
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       },
+       {
+        "t": "no timeframe given",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "Once it ships, how long is delivery?",
+      "a": "CarBahn",
+      "by": "ai",
+      "lat": 8.1,
+      "fl": [
+       {
+        "t": "thin answer",
+        "k": "warn"
+       },
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       },
+       {
+        "t": "no timeframe given",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "Is there any way to speed it up if I need it sooner?",
+      "a": "(streamed past timing window) CarBahn",
+      "by": "ai",
+      "lat": null,
+      "fl": [
+       {
+        "t": "no timed answer",
+        "k": "bad"
+       },
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "What should I do if the tracking never updates?",
+      "a": "(streamed past timing window) CarBahn I'm sorry! I'm having trouble right now. Please refresh the page or try again in a moment.",
+      "by": "ai",
+      "lat": null,
+      "fl": [
+       {
+        "t": "no timed answer",
+        "k": "bad"
+       },
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "How do I find my tracking link?",
+      "a": "CarBahn",
+      "by": "ai",
+      "lat": 22.8,
+      "fl": [
+       {
+        "t": "thin answer",
+        "k": "warn"
+       },
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "Can you check the status of my latest order?",
+      "a": "(streamed past timing window) CarBahn",
+      "by": "ai",
+      "lat": null,
+      "fl": [
+       {
+        "t": "no timed answer",
+        "k": "bad"
+       },
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "My tracking says delivered but I didn't receive it, what now?",
+      "a": "(streamed past timing window) CarBahn",
+      "by": "ai",
+      "lat": null,
+      "fl": [
+       {
+        "t": "no timed answer",
+        "k": "bad"
+       },
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "Can I reroute the package to a different address?",
+      "a": "(streamed past timing window) CarBahn",
+      "by": "ai",
+      "lat": null,
+      "fl": [
+       {
+        "t": "no timed answer",
+        "k": "bad"
+       },
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "Do you compensate for a long delay?",
+      "a": "(streamed past timing window) CarBahn",
+      "by": "ai",
+      "lat": null,
+      "fl": [
+       {
+        "t": "no timed answer",
+        "k": "bad"
+       },
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     }
+    ]
+   },
+   {
+    "key": "returns",
+    "label": "Returns & exchanges",
+    "datetime": "2026-07-07T13:30:54.732Z",
+    "lat": "~17.8s",
+    "success": 70,
+    "successTxt": "70%",
+    "handoverTurn": null,
+    "ticket": null,
+    "ev": {
+     "total": 53,
+     "cls": "partial",
+     "dims": {
+      "resolution": 28,
+      "accuracy": 25,
+      "actionability": 0,
+      "close": 0
+     },
+     "note": "Delivers a couple of solid store-specific facts (30-day window, refund-to-original-card conditions) but opens with a generic greeting, hits an error, and never provides the how-to-start-a-return or exchange mechanics."
+    },
+    "turns": [
+     {
+      "q": "What is your return policy?",
+      "a": "Welcome to CarBahn AI. Looking to unlock your vehicle's full potential? I'm here to help! Ask me about performance upgrades, product recommendations, or anything you need to enhance your driving experience. CarBahn How can I start enhancing my car's performance?",
+      "by": "ai",
+      "lat": 1,
+      "cov": 0
+     },
+     {
+      "q": "How many days do I have to return something?",
+      "a": "CarBahn You have 30 days to return a product. If you need more details on the return process, feel free to ask! What specific product are you considering returning? I'm considering returning a controller. I'm thinking about returning a software.",
+      "by": "ai",
+      "lat": 19,
+      "cov": 50
+     },
+     {
+      "q": "How do I start a return or an exchange?",
+      "a": "(streamed past timing window) CarBahn I'm sorry! I'm having trouble right now. Please refresh the page or try again in a moment.",
+      "by": "ai",
+      "lat": null,
+      "fl": [
+       {
+        "t": "no timed answer",
+        "k": "bad"
+       },
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "Do I have to pay for return shipping?",
+      "a": "CarBahn",
+      "by": "ai",
+      "lat": 19,
+      "fl": [
+       {
+        "t": "thin answer",
+        "k": "warn"
+       },
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "How long until I get my refund once you receive it?",
+      "a": "CarBahn After receiving the returned product, CarBahn will issue a refund to the original credit card if the product is confirmed to be new, unused, incorrect, damaged, or defective. This process typically takes place once the product's status is verified. CarBahn I'm sorry! I'm having trouble right now. Please refresh the page or try again in a moment.",
+      "by": "ai",
+      "lat": 14.1,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       },
+       {
+        "t": "no timeframe given",
+        "k": "warn"
+       }
+      ],
+      "cov": 33
+     },
+     {
+      "q": "Can I exchange for a different size or option instead of a refund?",
+      "a": "CarBahn Once CarBahn receives the returned product and confirms its new and unused, incorrect, damaged, or defective status, they will issue a refund to the original credit card. This process typically takes place after the product is received and inspected. Would you like to know more about the shipping options for returns? No, I'm good for now. Yes, tell me about shipping options.",
+      "by": "ai",
+      "lat": 23,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 17
+     },
+     {
+      "q": "Are any items final sale / non-returnable?",
+      "a": "CarBahn Currently, there is no specific mention of final sale or non-returnable items in the available documents. However, it's always best to check the specific product details or contact CarBahn directly for any particular item you are interested in. Would you like assistance with anything else?",
+      "by": "ai",
+      "lat": 29.8,
+      "cov": 100
+     },
+     {
+      "q": "Do I need the original packaging to return something?",
+      "a": "(streamed past timing window) CarBahn Currently, there is no specific mention of final sale or non-returnable items in the available documents. However, it's always best to check the specific product details or contact CarBahn directly for any particular item you are interested in. Would you like assistance with anything else? No, that's all for now. Yes, I need help with something else.",
+      "by": "ai",
+      "lat": null,
+      "fl": [
+       {
+        "t": "no timed answer",
+        "k": "bad"
+       }
+      ],
+      "cov": 40
+     },
+     {
+      "q": "Can I return an online order in a physical store?",
+      "a": "CarBahn Currently, there is no information available on returning an online order in a physical store. It's best to contact CarBahn directly for specific guidance on this matter.",
+      "by": "ai",
+      "lat": 18.4,
+      "cov": 80
+     },
+     {
+      "q": "How do I track the status of my refund?",
+      "a": "(streamed past timing window) CarBahn Would you like to know more about the refund process? No, I'm good for now. Yes, tell me more about refunds.",
+      "by": "ai",
+      "lat": null,
+      "fl": [
+       {
+        "t": "no timed answer",
+        "k": "bad"
+       },
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 33
+     }
+    ]
+   },
+   {
+    "key": "damaged",
+    "label": "Damaged / faulty item",
+    "datetime": "2026-07-07T13:31:51.383Z",
+    "lat": "~16.6s",
+    "success": 50,
+    "successTxt": "50%",
+    "handoverTurn": null,
+    "ticket": null,
+    "ev": {
+     "total": 53,
+     "cls": "partial",
+     "dims": {
+      "resolution": 28,
+      "accuracy": 25,
+      "actionability": 0,
+      "close": 0
+     },
+     "note": "Gives genuinely store-specific damaged-item policy facts (store covers shipping, refund on receipt) but drops the how-to-start mechanics and leaves the closing question unanswered."
+    },
+    "turns": [
+     {
+      "q": "My order arrived and one item is damaged, what do I do?",
+      "a": "(streamed past timing window) Live Support Welcome to CarBahn AI. Looking to unlock your vehicle's full potential? I'm here to help! Ask me about performance upgrades, product recommendations, or anything you need to enhance your driving experience. CarBahn How can I start enhancing my car's performance?",
+      "by": "ai",
+      "lat": null,
+      "fl": [
+       {
+        "t": "no timed answer",
+        "k": "bad"
+       },
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "Is a damaged item handled differently from a normal return?",
+      "a": "CarBahn Damaged items are handled differently than normal returns. CarBahn covers shipping costs for damaged, incorrect, or defective products and offers a refund upon receiving the returned product. What specific concerns do you have about the return process?",
+      "by": "ai",
+      "lat": 19.7,
+      "cov": 83
+     },
+     {
+      "q": "Do you need photos, and where do I send them?",
+      "a": "(streamed past timing window) CarBahn I'm sorry! I'm having trouble right now. Please refresh the page or try again in a moment.",
+      "by": "ai",
+      "lat": null,
+      "fl": [
+       {
+        "t": "no timed answer",
+        "k": "bad"
+       },
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       },
+       {
+        "t": "no contact path given",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "Will I get a replacement or a refund?",
+      "a": "CarBahn Do you have any other questions about the return process?",
+      "by": "ai",
+      "lat": 27,
+      "fl": [
+       {
+        "t": "thin answer",
+        "k": "warn"
+       },
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "Do I have to pay anything to return the damaged item?",
+      "a": "(streamed past timing window) CarBahn I'm sorry! I'm having trouble right now. Please refresh the page or try again in a moment.",
+      "by": "ai",
+      "lat": null,
+      "fl": [
+       {
+        "t": "no timed answer",
+        "k": "bad"
+       },
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "How long does the replacement take?",
+      "a": "CarBahn CarBahn covers the shipping costs for returning damaged items, so you won't have to pay anything for the return process. Would you like to know more about the refund process? No, I'm good for now. Yes, please explain the refund process.",
+      "by": "ai",
+      "lat": 18.2,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       },
+       {
+        "t": "no timeframe given",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "What if more than one item in my order is affected?",
+      "a": "(streamed past timing window) CarBahn Would you like assistance with anything else regarding your order? No, that's all for now. Yes, I need help with my order.",
+      "by": "ai",
+      "lat": null,
+      "fl": [
+       {
+        "t": "no timed answer",
+        "k": "bad"
+       },
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 17
+     },
+     {
+      "q": "Can I keep the damaged item or must I ship it back?",
+      "a": "CarBahn You must ship the damaged item back to CarBahn for a refund or replacement. They cover the shipping costs and will guide you through the return process once you contact them. Would you like assistance with anything else? No, that's all for now. Yes, I need more help with my order.",
+      "by": "ai",
+      "lat": 13.1,
+      "cov": 83
+     },
+     {
+      "q": "Will the replacement ship with priority?",
+      "a": "CarBahn The replacement will typically be shipped via standard shipping, but you can discuss expedited options with CarBahn if needed. Would you like to know more about shipping options? Yes, tell me about shipping options. No, I'm fine with standard shipping.",
+      "by": "ai",
+      "lat": 5.1,
+      "cov": 50
+     },
+     {
+      "q": "What if the replacement is also damaged?",
+      "a": "(streamed past timing window) CarBahn",
+      "by": "ai",
+      "lat": null,
+      "fl": [
+       {
+        "t": "no timed answer",
+        "k": "bad"
+       },
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     }
+    ]
+   },
+   {
+    "key": "order-mgmt",
+    "label": "Modify / cancel order",
+    "datetime": "2026-07-07T13:33:11.540Z",
+    "lat": "~10.3s",
+    "success": 30,
+    "successTxt": "30%",
+    "handoverTurn": null,
+    "ticket": null,
+    "ev": {
+     "total": 12,
+     "cls": "failed",
+     "dims": {
+      "resolution": 0,
+      "accuracy": 5,
+      "actionability": 0,
+      "close": 7
+     },
+     "note": "Almost every modify/cancel ask returns an empty or fragment reply and the one real response deflects to the sales department, so the shopper leaves with essentially no usable answer."
+    },
+    "turns": [
+     {
+      "q": "Can I change the shipping address on an order I just placed?",
+      "a": "(streamed past timing window) CarBahn I'm sorry! I'm having trouble right now. Please refresh the page or try again in a moment.",
+      "by": "ai",
+      "lat": null,
+      "fl": [
+       {
+        "t": "no timed answer",
+        "k": "bad"
+       },
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "Can I cancel an order after placing it, and is there a time window?",
+      "a": "CarBahn Would you like more information on how to contact our sales department?",
+      "by": "ai",
+      "lat": 18.7,
+      "fl": [
+       {
+        "t": "thin answer",
+        "k": "warn"
+       },
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       },
+       {
+        "t": "no timeframe given",
+        "k": "warn"
+       },
+       {
+        "t": "sales prompt on a support question",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "Can I add an item to an order I already placed?",
+      "a": "(streamed past timing window) gain in a moment. Can I change the shipping address on an order I just placed? CarBahn I'm sorry! I'm having trouble right now. Please refresh the page or try again in a moment. Can I cancel an order after placing it, and is there a time window? CarBahn Would you like more information on how to contact our sales department? No, I have all the info I need. Yes, please provide more contact info.",
+      "by": "ai",
+      "lat": null,
+      "fl": [
+       {
+        "t": "no timed answer",
+        "k": "bad"
+       },
+       {
+        "t": "sales prompt on a support question",
+        "k": "warn"
+       }
+      ],
+      "cov": 40
+     },
+     {
+      "q": "What happens if it already shipped, can it still be changed?",
+      "a": "(streamed past timing window) CarBahn Would you like assistance with contacting them? No, I'll handle it myself. Yes, please help me contact them.",
+      "by": "ai",
+      "lat": null,
+      "fl": [
+       {
+        "t": "no timed answer",
+        "k": "bad"
+       },
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "How do I update my contact or account details?",
+      "a": "(streamed past timing window) CarBahn No, that's all for now. Yes, I need more assistance.",
+      "by": "ai",
+      "lat": null,
+      "fl": [
+       {
+        "t": "no timed answer",
+        "k": "bad"
+       },
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       },
+       {
+        "t": "no contact path given",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "If I cancel, how long until I'm refunded?",
+      "a": "(streamed past timing window) CarBahn I'm sorry! I'm having trouble right now. Please refresh the page or try again in a moment.",
+      "by": "ai",
+      "lat": null,
+      "fl": [
+       {
+        "t": "no timed answer",
+        "k": "bad"
+       },
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       },
+       {
+        "t": "no timeframe given",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "Can you check whether my latest order can still be modified?",
+      "a": "CarBahn",
+      "by": "ai",
+      "lat": 3.5,
+      "fl": [
+       {
+        "t": "thin answer",
+        "k": "warn"
+       },
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "Can I combine two separate orders into one shipment?",
+      "a": "(streamed past timing window) CarBahn",
+      "by": "ai",
+      "lat": null,
+      "fl": [
+       {
+        "t": "no timed answer",
+        "k": "bad"
+       },
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "Can I change the payment method on my order?",
+      "a": "(streamed past timing window) CarBahn",
+      "by": "ai",
+      "lat": null,
+      "fl": [
+       {
+        "t": "no timed answer",
+        "k": "bad"
+       },
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "Will I get an email confirmation once the change is made?",
+      "a": "CarBahn Yes, once the change is made, you will receive an email confirmation. This ensures that you are updated on any modifications to your order.",
+      "by": "ai",
+      "lat": 8.6,
+      "cov": 86
+     }
+    ]
+   },
+   {
+    "key": "policy",
+    "label": "Shipping & returns policy",
+    "datetime": "2026-07-07T13:36:29.827Z",
+    "lat": "~11.8s",
+    "success": 80,
+    "successTxt": "80%",
+    "handoverTurn": null,
+    "ticket": null,
+    "ev": {
+     "total": 72,
+     "cls": "resolved",
+     "dims": {
+      "resolution": 40,
+      "accuracy": 25,
+      "actionability": 0,
+      "close": 7
+     },
+     "note": "Strong on grounded, store-specific policy facts (UPS carrier, duties, warranty, no price-match) but leaves payment-method and contact-path asks entirely unanswered and never gives concrete timeframes."
+    },
+    "turns": [
+     {
+      "q": "Where can I find your full shipping policy?",
+      "a": "CarBahn Is there anything specific you would like to know about our shipping process?",
+      "by": "ai",
+      "lat": 13.6,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 25
+     },
+     {
+      "q": "Do you ship internationally, and who covers customs or duties?",
+      "a": "CarBahn Yes, we do ship internationally. However, all applicable fees, duties, and taxes are the customer’s responsibility upon entry into their country. Do you have any other questions about our shipping policies?",
+      "by": "ai",
+      "lat": 7,
+      "cov": 60
+     },
+     {
+      "q": "How long does standard shipping take once an order is placed?",
+      "a": "andard shipping take once an order is placed? CarBahn Standard shipping times can vary depending on your location. We use UPS as our standard carrier, and you can expect your order to arrive within the typical UPS delivery timeframe. Would you like to know more about expedited shipping options? No, I'm good with standard shipping. Yes, tell me about expedited shipping.",
+      "by": "ai",
+      "lat": 16.5,
+      "fl": [
+       {
+        "t": "no timeframe given",
+        "k": "warn"
+       }
+      ],
+      "cov": 86
+     },
+     {
+      "q": "What's your return and refund policy?",
+      "a": "ur return policy covers products that are incorrect, damaged, or defective. CarBahn covers shipping costs for these returns and issues a refund upon receiving the product back and confirming its new and unused, incorrect, damaged, or defective status. Do you need assistance with a specific product return? Yes, I need help with a return. No, just gathering information.",
+      "by": "ai",
+      "lat": 12.3,
+      "cov": 100
+     },
+     {
+      "q": "Are any items final sale or non-returnable?",
+      "a": "CarBahn Products that are used, correctly shipped, undamaged, or not defective are considered final sale and non-returnable. If a product is returned in such a condition, it will be sent back to you without a refund.",
+      "by": "ai",
+      "lat": 13.1,
+      "cov": 67
+     },
+     {
+      "q": "What payment methods do you accept for an order?",
+      "a": "(streamed past timing window) CarBahn We accept major credit cards like Visa, Mastercard, American Express, and Discover for payments.",
+      "by": "ai",
+      "lat": null,
+      "fl": [
+       {
+        "t": "no timed answer",
+        "k": "bad"
+       },
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 25
+     },
+     {
+      "q": "How do I contact your support team if I have an issue with an order?",
+      "a": "(streamed past timing window) CarBahn No, that's all for now. Yes, I need more assistance.",
+      "by": "ai",
+      "lat": null,
+      "fl": [
+       {
+        "t": "no timed answer",
+        "k": "bad"
+       },
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       },
+       {
+        "t": "no contact path given",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "Do you price match or honor a price drop after purchase?",
+      "a": "CarBahn Currently, we do not offer price matching or honor price drops after purchase. Our prices are set to ensure you receive the best value for our high-quality products.",
+      "by": "ai",
+      "lat": 7.3,
+      "cov": 67
+     },
+     {
+      "q": "What's your warranty policy on defective items?",
+      "a": "y warranty for vehicles still under the original warranty, ensuring our products enhance your car without affecting the warranty. Additionally, we provide an extended warranty tailored for modified cars, offering peace of mind for the long run. Would you like more details on our extended warranty options? No, I'm good with current info. Yes, tell me about extended warranty.",
+      "by": "ai",
+      "lat": 14,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 25
+     },
+     {
+      "q": "Do you have a loyalty or rewards program?",
+      "a": "CarBahn Currently, we do not have a loyalty or rewards program in place. However, we offer a matching factory warranty and an extended warranty for modified cars to ensure you get the best value from our products.",
+      "by": "ai",
+      "lat": 10.9,
+      "cov": 100
+     }
+    ]
+   }
+  ],
+  "turns": [
+   {
+    "q": "I placed an order a few days ago and still have no tracking, where is it?",
+    "a": "(streamed past timing window) Live Support Welcome to CarBahn AI. Looking to unlock your vehicle's full potential? I'm here to help! Ask me about performance upgrades, product recommendations, or anything you need to enhance your driving experience. CarBahn I'm sorry! I'm having trouble right now. Please refresh the page or try again in a moment.",
+    "by": "ai",
+    "lat": null,
+    "fl": [
+     {
+      "t": "no timed answer",
+      "k": "bad"
+     },
+     {
+      "t": "missed part of the ask",
+      "k": "warn"
+     }
+    ],
+    "cov": 0
+   },
+   {
+    "q": "How long does it normally take to ship and send a tracking number?",
+    "a": "CarBahn",
+    "by": "ai",
+    "lat": 20.4,
+    "fl": [
+     {
+      "t": "thin answer",
+      "k": "warn"
+     },
+     {
+      "t": "missed part of the ask",
+      "k": "warn"
+     },
+     {
+      "t": "no timeframe given",
+      "k": "warn"
+     }
+    ],
+    "cov": 0
+   },
+   {
+    "q": "Once it ships, how long is delivery?",
+    "a": "CarBahn",
+    "by": "ai",
+    "lat": 8.1,
+    "fl": [
+     {
+      "t": "thin answer",
+      "k": "warn"
+     },
+     {
+      "t": "missed part of the ask",
+      "k": "warn"
+     },
+     {
+      "t": "no timeframe given",
+      "k": "warn"
+     }
+    ],
+    "cov": 0
+   },
+   {
+    "q": "Is there any way to speed it up if I need it sooner?",
+    "a": "(streamed past timing window) CarBahn",
+    "by": "ai",
+    "lat": null,
+    "fl": [
+     {
+      "t": "no timed answer",
+      "k": "bad"
+     },
+     {
+      "t": "missed part of the ask",
+      "k": "warn"
+     }
+    ],
+    "cov": 0
+   },
+   {
+    "q": "What should I do if the tracking never updates?",
+    "a": "(streamed past timing window) CarBahn I'm sorry! I'm having trouble right now. Please refresh the page or try again in a moment.",
+    "by": "ai",
+    "lat": null,
+    "fl": [
+     {
+      "t": "no timed answer",
+      "k": "bad"
+     },
+     {
+      "t": "missed part of the ask",
+      "k": "warn"
+     }
+    ],
+    "cov": 0
+   },
+   {
+    "q": "How do I find my tracking link?",
+    "a": "CarBahn",
+    "by": "ai",
+    "lat": 22.8,
+    "fl": [
+     {
+      "t": "thin answer",
+      "k": "warn"
+     },
+     {
+      "t": "missed part of the ask",
+      "k": "warn"
+     }
+    ],
+    "cov": 0
+   },
+   {
+    "q": "Can you check the status of my latest order?",
+    "a": "(streamed past timing window) CarBahn",
+    "by": "ai",
+    "lat": null,
+    "fl": [
+     {
+      "t": "no timed answer",
+      "k": "bad"
+     },
+     {
+      "t": "missed part of the ask",
+      "k": "warn"
+     }
+    ],
+    "cov": 0
+   },
+   {
+    "q": "My tracking says delivered but I didn't receive it, what now?",
+    "a": "(streamed past timing window) CarBahn",
+    "by": "ai",
+    "lat": null,
+    "fl": [
+     {
+      "t": "no timed answer",
+      "k": "bad"
+     },
+     {
+      "t": "missed part of the ask",
+      "k": "warn"
+     }
+    ],
+    "cov": 0
+   },
+   {
+    "q": "Can I reroute the package to a different address?",
+    "a": "(streamed past timing window) CarBahn",
+    "by": "ai",
+    "lat": null,
+    "fl": [
+     {
+      "t": "no timed answer",
+      "k": "bad"
+     },
+     {
+      "t": "missed part of the ask",
+      "k": "warn"
+     }
+    ],
+    "cov": 0
+   },
+   {
+    "q": "Do you compensate for a long delay?",
+    "a": "(streamed past timing window) CarBahn",
+    "by": "ai",
+    "lat": null,
+    "fl": [
+     {
+      "t": "no timed answer",
+      "k": "bad"
+     },
+     {
+      "t": "missed part of the ask",
+      "k": "warn"
+     }
+    ],
+    "cov": 0
+   }
+  ]
  },
  {
   "id": "siena-superfoods-support-pending",
