@@ -147469,5 +147469,3586 @@
    "runner": "eval-merge.js",
    "schema": 1
   }
+ },
+ "2026-07-07/rufus-amazon-shopping-compare-budget-basics-sheets.json": {
+  "v": 2,
+  "mode": "shopping",
+  "rubric": {
+   "answer": 21,
+   "discovery": 20,
+   "recommendation": 17,
+   "rich": 8,
+   "close": 10
+  },
+  "total": 76,
+  "checks": {
+   "a_direct": {
+    "pass": true,
+    "evidence": "Feel free to list them or describe what you're looking for)•Is there a total budget you're trying to stay within?"
+   },
+   "a_consistent": {
+    "pass": false,
+    "evidence": "reply mixes 'shower steamers', 'face masks' and a 'sheet set' — 'Compare face masks vs shower steamers' then '$14.16 for a 4-piece OEKO-TEX certified set' — inc"
+   },
+   "a_no_ignored": {
+    "pass": true,
+    "evidence": "Add that one to my cart and tell me the total with any discount -> 'at $14.16 for a 4-piece OEKO-TEX certified set' + 'Go to cart'"
+   },
+   "d_clarify": {
+    "pass": true,
+    "evidence": "Is there a total budget you're trying to stay within?•Are these all for yourself, or are any of them gifts?"
+   },
+   "d_progressive": {
+    "pass": true,
+    "evidence": "best value on your budget honored later: 'longer-lasting spend.Want me to go ahead and keep it in your cart?' after 'Which would you personally pick on my budge"
+   },
+   "d_not_dump": {
+    "pass": true,
+    "evidence": "opener answered with clarifying questions, not a product wall: 'Is there a total budget you're trying to stay within?'"
+   },
+   "r_named": {
+    "pass": true,
+    "evidence": "'$14.16 for a 4-piece OEKO-TEX certified set' — a specific sheet set is recommended"
+   },
+   "r_fit": {
+    "pass": true,
+    "evidence": "'or buck — no contest' and 'longer-lasting spend' tie the pick to the shopper's stated best-bang-for-buck / budget constraint"
+   },
+   "r_plausible": {
+    "pass": false,
+    "evidence": "'your full cart total of $364+ should give you installment options' contradicts a budget-tight sheets shopper and mixes unrelated cart items"
+   },
+   "e_price": {
+    "pass": true,
+    "evidence": "'at $14.16 for a 4-piece OEKO-TEX certified set, it's already a strong value'"
+   },
+   "e_link": {
+    "pass": false,
+    "evidence": "signal has_link=false; no openable product link/card in transcript"
+   },
+   "e_reviews": {
+    "pass": false,
+    "evidence": "signal has_reviews=false; no ratings or review counts present"
+   },
+   "e_options": {
+    "pass": true,
+    "evidence": "'Compare face masks vs shower steamers' and 'Show me your two best value-for-money options and compare them' laid out for comparison"
+   },
+   "c_cta": {
+    "pass": true,
+    "evidence": "'Choose \"Fastest delivery\" at checkout' and 'Proceed to checkout' — concrete next step"
+   },
+   "c_cart": {
+    "pass": true,
+    "evidence": "explicit 'Add that one to my cart' fulfilled: '$14.16 ... Go to cart'"
+   },
+   "c_clean": {
+    "pass": true,
+    "evidence": "closes on shipping: 'Prime members typically get the best speeds at no extra chargeGo to cart'"
+   }
+  },
+  "turn_quality": {
+   "schema": 1,
+   "turns": [
+    {
+     "turn": 1,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 9885,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 8,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "deciding",
+       "between",
+       "few",
+       "options",
+       "money",
+       "bit",
+       "tight",
+       "choose"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 2,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 14752,
+     "answer_chars": 499,
+     "keyword_coverage": {
+      "asked": 8,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "want",
+       "best",
+       "bang",
+       "buck",
+       "not",
+       "cheapest",
+       "most",
+       "expensive"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 3,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 15927,
+     "answer_chars": 499,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 3,
+      "ratio": 0.43,
+      "missing": [
+       "two",
+       "best",
+       "money",
+       "options"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 4,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 13959,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "honestly",
+       "pricier",
+       "one",
+       "worth",
+       "extra",
+       "cheaper",
+       "fine"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 5,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 13825,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 1,
+      "ratio": 0.14,
+      "missing": [
+       "there",
+       "current",
+       "promos",
+       "bundles",
+       "ways",
+       "save"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 6,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 12744,
+     "answer_chars": 499,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "which",
+       "would",
+       "personally",
+       "pick",
+       "budget"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 7,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 16775,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 4,
+      "ratio": 0.57,
+      "missing": [
+       "one",
+       "total",
+       "discount"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 8,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 11935,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 1,
+      "ratio": 0.2,
+      "missing": [
+       "cheaper",
+       "one",
+       "same",
+       "pricier"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 9,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 18451,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 1,
+      "ratio": 0.25,
+      "missing": [
+       "pay",
+       "installments",
+       "split"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 10,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 11065,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 2,
+      "ratio": 0.4,
+      "missing": [
+       "confirm",
+       "total",
+       "option"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    }
+   ],
+   "summary": {
+    "total_turns": 10,
+    "measured_turns": 10,
+    "substantive_turns": 10,
+    "issue_turns": 7,
+    "issue_rate": 0.7
+   }
+  },
+  "resolution_class": "partial",
+  "learning": "Clarifies and eventually completes the cart with a priced pick, but the product thread drifts across sheets/steamers/face masks and cites an implausible $364 cart for a budget-tight sheets shopper.",
+  "judged_at": null,
+  "judge": {
+   "origin": "claude",
+   "origin_explicit": true,
+   "runner": "eval-merge.js",
+   "schema": 1
+  }
+ },
+ "2026-07-07/rufus-amazon-shopping-compare-budget-blinkcam.json": {
+  "v": 2,
+  "mode": "shopping",
+  "rubric": {
+   "answer": 30,
+   "discovery": 20,
+   "recommendation": 22,
+   "rich": 6,
+   "close": 10
+  },
+  "total": 88,
+  "checks": {
+   "a_direct": {
+    "pass": true,
+    "evidence": "'t upfront cost, lowest monthly cost, or best overall reliability?' directly frames the choose-between decision"
+   },
+   "a_consistent": {
+    "pass": true,
+    "evidence": "consistently centers the Blink Mini 2K+ at $39.99 across turns: 'At the same $39.99, the 2K+ is the smarter pick'"
+   },
+   "a_no_ignored": {
+    "pass": true,
+    "evidence": "'Confirm my total and the fastest shipping option?' -> 'the Blink Mini 2K+ would arrive as soon as Wednesday, July 8'"
+   },
+   "d_clarify": {
+    "pass": true,
+    "evidence": "'lowest upfront cost, lowest monthly cost, or best overall reliability?' and 'Which room or area are you looking to monitor?'"
+   },
+   "d_progressive": {
+    "pass": true,
+    "evidence": "'given your budget focus, the Basic Plan at $3/mo is the smarter ongoing choice' reflects earlier stated budget priority"
+   },
+   "d_not_dump": {
+    "pass": true,
+    "evidence": "opens with a needs question not a product wall: 'lowest upfront cost, lowest monthly cost, or best overall reliability?'"
+   },
+   "r_named": {
+    "pass": true,
+    "evidence": "'Add the Blink Mini 2K+ to my cart' / 'the 2K+ is the smarter pick for most people'"
+   },
+   "r_fit": {
+    "pass": true,
+    "evidence": "'given your budget focus, the Basic Plan at $3/mo is the smarter ongoing choice' ties pick to stated budget constraint"
+   },
+   "r_plausible": {
+    "pass": true,
+    "evidence": "Blink Mini 2K+ at $39.99 with Basic Plan is appropriate to a budget camera ask"
+   },
+   "e_price": {
+    "pass": true,
+    "evidence": "'At the same $39.99, the 2K+ is the smarter pick'"
+   },
+   "e_link": {
+    "pass": false,
+    "evidence": "signal has_link=false; no openable product link/card present"
+   },
+   "e_reviews": {
+    "pass": false,
+    "evidence": "signal has_reviews=false; no ratings/review counts present"
+   },
+   "e_options": {
+    "pass": false,
+    "evidence": "signal has_options=false; no multi-option comparison surfaced as distinct laid-out choices"
+   },
+   "c_cta": {
+    "pass": true,
+    "evidence": "'Start checkout now' / 'Would you like me to walk you through how to select a payment plan at checkout?'"
+   },
+   "c_cart": {
+    "pass": true,
+    "evidence": "explicit 'Add that one to my cart and tell me the total' fulfilled: 'bringing it down to ~$35.99 ... Go to cart'"
+   },
+   "c_clean": {
+    "pass": true,
+    "evidence": "closes with delivery + tidy-up offer: 'arrive as soon as Wednesday, July 8 ... Would you like me to remove the duplicates'"
+   }
+  },
+  "turn_quality": {
+   "schema": 1,
+   "turns": [
+    {
+     "turn": 1,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 12609,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 8,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "deciding",
+       "between",
+       "few",
+       "options",
+       "money",
+       "bit",
+       "tight",
+       "choose"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 2,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 15732,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 8,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "want",
+       "best",
+       "bang",
+       "buck",
+       "not",
+       "cheapest",
+       "most",
+       "expensive"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 3,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 14009,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "show",
+       "two",
+       "best",
+       "value",
+       "money",
+       "options",
+       "compare"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 4,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 13484,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "honestly",
+       "pricier",
+       "one",
+       "worth",
+       "extra",
+       "cheaper",
+       "fine"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 5,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 12285,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "there",
+       "any",
+       "current",
+       "promos",
+       "bundles",
+       "ways",
+       "save"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 6,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 14793,
+     "answer_chars": 499,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "which",
+       "would",
+       "personally",
+       "pick",
+       "budget"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 7,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 15804,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 3,
+      "ratio": 0.43,
+      "missing": [
+       "add",
+       "one",
+       "total",
+       "discount"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 8,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 6805,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 1,
+      "ratio": 0.2,
+      "missing": [
+       "cheaper",
+       "one",
+       "same",
+       "pricier"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 9,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 14678,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 1,
+      "ratio": 0.25,
+      "missing": [
+       "pay",
+       "installments",
+       "split"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 10,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 14595,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "confirm",
+       "total",
+       "fastest",
+       "shipping",
+       "option"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    }
+   ],
+   "summary": {
+    "total_turns": 10,
+    "measured_turns": 10,
+    "substantive_turns": 10,
+    "issue_turns": 9,
+    "issue_rate": 0.9
+   }
+  },
+  "resolution_class": "resolved",
+  "learning": "Strong budget-anchored discovery and a consistent, price-backed single recommendation that it actually adds to cart and confirms delivery for.",
+  "judged_at": null,
+  "judge": {
+   "origin": "claude",
+   "origin_explicit": true,
+   "runner": "eval-merge.js",
+   "schema": 1
+  }
+ },
+ "2026-07-07/rufus-amazon-shopping-everyday-value-basics-sheets.json": {
+  "v": 2,
+  "mode": "shopping",
+  "rubric": {
+   "answer": 23,
+   "discovery": 20,
+   "recommendation": 22,
+   "rich": 15,
+   "close": 5
+  },
+  "total": 85,
+  "checks": {
+   "a_direct": {
+    "pass": true,
+    "evidence": "'What size bed are you shopping for?•Do you have a preference for color or pattern?' answers the 'help me choose' opener with relevant qualifiers"
+   },
+   "a_consistent": {
+    "pass": true,
+    "evidence": "consistently recommends the California Design Den 400 TC: 'the California Design Den 400 TC (my top recommendation for you)'"
+   },
+   "a_no_ignored": {
+    "pass": false,
+    "evidence": "'Okay, can you add your top recommendation to my cart?' not fulfilled — re-asks 'What size bed are you shopping for?' and never adds it across all remaining tur"
+   },
+   "d_clarify": {
+    "pass": true,
+    "evidence": "'What size bed are you shopping for?•Do you have a preference for color or pattern?•Are these for everyday use or a specific room?'"
+   },
+   "d_progressive": {
+    "pass": true,
+    "evidence": "uses stated value/everyday-use to shape pick: 'a great budget option, but with more mixed durability feedback' vs the 400 TC top pick"
+   },
+   "d_not_dump": {
+    "pass": true,
+    "evidence": "opener met with clarifying questions, not a dump: 'What size bed are you shopping for?'"
+   },
+   "r_named": {
+    "pass": true,
+    "evidence": "'the California Design Den 400 TC (my top pick)'"
+   },
+   "r_fit": {
+    "pass": true,
+    "evidence": "ties to value/everyday: '$14.16 — a great budget option, but with more mixed durability feedback' vs the 400 TC recommended for quality-value"
+   },
+   "r_plausible": {
+    "pass": true,
+    "evidence": "named sheet sets (California Design Den 400 TC, Utopia) are appropriate to a sheets store"
+   },
+   "e_price": {
+    "pass": true,
+    "evidence": "'$14.16 — a great budget option'"
+   },
+   "e_link": {
+    "pass": true,
+    "evidence": "signal has_link=true; 'Prime Benefits Free Shipping Prime About Prime Student Prime Members' card/links presented"
+   },
+   "e_reviews": {
+    "pass": false,
+    "evidence": "signal has_reviews=false; 'is it well reviewed?' answered qualitatively ('mixed durability feedback') with no counts/ratings"
+   },
+   "e_options": {
+    "pass": true,
+    "evidence": "signal has_options=true; 'Compare microfiber vs cotton sheets' and California Design Den vs Utopia laid out"
+   },
+   "c_cta": {
+    "pass": true,
+    "evidence": "'Add the California Design Den 400 TC (my top pick) to your cart? Just let me know your bed size'"
+   },
+   "c_cart": {
+    "pass": false,
+    "evidence": "explicit 'add your top recommendation to my cart' never executed — loops 'just need one quick detail: What size bed' turn after turn without adding"
+   },
+   "c_clean": {
+    "pass": false,
+    "evidence": "ends still dangling on the same unfilled question: 'Ready to add the California Design Den 400 TC to your cart? Just let me know your bed size!'"
+   }
+  },
+  "turn_quality": {
+   "schema": 1,
+   "turns": [
+    {
+     "turn": 1,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 12260,
+     "answer_chars": 499,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 1,
+      "ratio": 0.2,
+      "missing": [
+       "not",
+       "sure",
+       "right",
+       "choose"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 2,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 13343,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 10,
+      "matched": 2,
+      "ratio": 0.2,
+      "missing": [
+       "want",
+       "everyday",
+       "use",
+       "quality",
+       "care",
+       "about",
+       "value",
+       "money"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 3,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 21239,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "like",
+       "stay",
+       "within",
+       "sensible",
+       "budget",
+       "best",
+       "options"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 4,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 19470,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 2,
+      "ratio": 0.29,
+      "missing": [
+       "two",
+       "most",
+       "popular",
+       "which",
+       "better"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 5,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 14123,
+     "answer_chars": 499,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "which",
+       "one",
+       "overall",
+       "best",
+       "seller",
+       "well",
+       "reviewed"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 6,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 7063,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 4,
+      "ratio": 0.8,
+      "missing": [
+       "okay"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 7,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 13466,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 2,
+      "ratio": 0.29,
+      "missing": [
+       "total",
+       "offer",
+       "first",
+       "order",
+       "discount"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 8,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 8007,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 1,
+      "ratio": 0.17,
+      "missing": [
+       "there",
+       "warranty",
+       "guarantee",
+       "goes",
+       "wrong"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 9,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 9930,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 1,
+      "ratio": 0.2,
+      "missing": [
+       "long",
+       "will",
+       "delivery",
+       "roughly"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage",
+      "missing_timeframe"
+     ]
+    },
+    {
+     "turn": 10,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 7145,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "change",
+       "mind",
+       "easy",
+       "return"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    }
+   ],
+   "summary": {
+    "total_turns": 10,
+    "measured_turns": 10,
+    "substantive_turns": 10,
+    "issue_turns": 9,
+    "issue_rate": 0.9
+   }
+  },
+  "resolution_class": "partial",
+  "learning": "Good discovery and a consistent named pick, but it loops on an unanswerable size gate and never completes the explicitly requested add-to-cart, leaving the shopper stuck.",
+  "judged_at": null,
+  "judge": {
+   "origin": "claude",
+   "origin_explicit": true,
+   "runner": "eval-merge.js",
+   "schema": 1
+  }
+ },
+ "2026-07-07/rufus-amazon-shopping-everyday-value-blinkcam.json": {
+  "v": 2,
+  "mode": "shopping",
+  "rubric": {
+   "answer": 23,
+   "discovery": 20,
+   "recommendation": 22,
+   "rich": 6,
+   "close": 7
+  },
+  "total": 78,
+  "checks": {
+   "a_direct": {
+    "pass": true,
+    "evidence": "'re considering and I'll guide you to the best fit!' plus 'Compare Blink Basic vs Plus plans' engages the choose ask"
+   },
+   "a_consistent": {
+    "pass": true,
+    "evidence": "consistently steers to the Blink Plus annual plan: 'the annual plan option (~$100/year) which saves you about 30%'"
+   },
+   "a_no_ignored": {
+    "pass": false,
+    "evidence": "'Okay, can you add your top recommendation to my cart?' answered with a plan pitch, not an add: 'the annual plan option (~$100/year) ... a great choice' — no ca"
+   },
+   "d_clarify": {
+    "pass": true,
+    "evidence": "'looking for monthly flexibility or okay with an annual commitment (which saves more)?' and 'How many Blink cameras do you have?'"
+   },
+   "d_progressive": {
+    "pass": true,
+    "evidence": "'a great choice given your focus on value for money!' reflects the earlier value-for-money statement"
+   },
+   "d_not_dump": {
+    "pass": true,
+    "evidence": "asks needs rather than dumping: 'looking for monthly flexibility or okay with an annual commitment'"
+   },
+   "r_named": {
+    "pass": true,
+    "evidence": "'the annual plan option (~$100/year)' — the Blink Plus annual plan is the named recommendation"
+   },
+   "r_fit": {
+    "pass": true,
+    "evidence": "'saves you about 30% if you're happy to commit — a great choice given your focus on value for money'"
+   },
+   "r_plausible": {
+    "pass": true,
+    "evidence": "recommending Blink Plus annual for a value buyer is appropriate to the catalog"
+   },
+   "e_price": {
+    "pass": true,
+    "evidence": "'the annual plan option (~$100/year) which saves you about 30%'"
+   },
+   "e_link": {
+    "pass": false,
+    "evidence": "signal has_link=false; no openable product link/card present"
+   },
+   "e_reviews": {
+    "pass": false,
+    "evidence": "signal has_reviews=false; 'is it well reviewed?' answered without any rating/review counts"
+   },
+   "e_options": {
+    "pass": false,
+    "evidence": "signal has_options=false; no distinct multi-option comparison laid out"
+   },
+   "c_cta": {
+    "pass": true,
+    "evidence": "'How do I start my free Blink trial?' / 'Would you like help getting subscribed'"
+   },
+   "c_cart": {
+    "pass": false,
+    "evidence": "explicit 'add your top recommendation to my cart' never done — replies 'Would you like help getting subscribed, or do you have any other questions?' instead"
+   },
+   "c_clean": {
+    "pass": true,
+    "evidence": "closes tidily on returns: 'just cancel in your account settings — no hassle, no extra steps.Ready to get started?'"
+   }
+  },
+  "turn_quality": {
+   "schema": 1,
+   "turns": [
+    {
+     "turn": 1,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 6700,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 1,
+      "ratio": 0.2,
+      "missing": [
+       "shopping",
+       "sure",
+       "right",
+       "choose"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 2,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 13139,
+     "answer_chars": 499,
+     "keyword_coverage": {
+      "asked": 10,
+      "matched": 3,
+      "ratio": 0.3,
+      "missing": [
+       "want",
+       "everyday",
+       "use",
+       "quality",
+       "care",
+       "about",
+       "money"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 3,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 15073,
+     "answer_chars": 499,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 1,
+      "ratio": 0.14,
+      "missing": [
+       "like",
+       "stay",
+       "within",
+       "sensible",
+       "budget",
+       "options"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 4,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 14781,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 2,
+      "ratio": 0.29,
+      "missing": [
+       "two",
+       "most",
+       "popular",
+       "options",
+       "better"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 5,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 13777,
+     "answer_chars": 499,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 2,
+      "ratio": 0.29,
+      "missing": [
+       "one",
+       "overall",
+       "seller",
+       "well",
+       "reviewed"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 6,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 10266,
+     "answer_chars": 499,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "okay",
+       "add",
+       "top",
+       "recommendation",
+       "cart"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 7,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 11442,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 1,
+      "ratio": 0.14,
+      "missing": [
+       "total",
+       "offer",
+       "shipping",
+       "first",
+       "order",
+       "discount"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage",
+      "purchase_request_unfulfilled"
+     ]
+    },
+    {
+     "turn": 8,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 6600,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 2,
+      "ratio": 0.33,
+      "missing": [
+       "there",
+       "guarantee",
+       "goes",
+       "wrong"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 9,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 8758,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 1,
+      "ratio": 0.2,
+      "missing": [
+       "long",
+       "will",
+       "take",
+       "roughly"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage",
+      "missing_timeframe"
+     ]
+    },
+    {
+     "turn": 10,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 6055,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "change",
+       "mind",
+       "easy",
+       "return"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    }
+   ],
+   "summary": {
+    "total_turns": 10,
+    "measured_turns": 10,
+    "substantive_turns": 10,
+    "issue_turns": 10,
+    "issue_rate": 1
+   }
+  },
+  "resolution_class": "partial",
+  "learning": "Value-fit plan recommendation is coherent, but it never executes the explicit add-to-cart and keeps pitching subscription instead of acting.",
+  "judged_at": null,
+  "judge": {
+   "origin": "claude",
+   "origin_explicit": true,
+   "runner": "eval-merge.js",
+   "schema": 1
+  }
+ },
+ "2026-07-07/rufus-amazon-shopping-everyday-value-medicube-pads.json": {
+  "v": 2,
+  "mode": "shopping",
+  "rubric": {
+   "answer": 30,
+   "discovery": 20,
+   "recommendation": 22,
+   "rich": 2,
+   "close": 10
+  },
+  "total": 84,
+  "checks": {
+   "a_direct": {
+    "pass": true,
+    "evidence": "'skin concern — pores, texture, oiliness, or something else?•Do you have sensitive skin or any reactions to exfoliating acids' directly probes the choose ask"
+   },
+   "a_consistent": {
+    "pass": true,
+    "evidence": "consistently centers the Medicube Zero Pore Pad: 'Add Medicube Zero Pore Pad to cart' recurring as the top pick"
+   },
+   "a_no_ignored": {
+    "pass": true,
+    "evidence": "'Okay, can you add your top recommendation to my cart?' -> 'do a patch test for 24 hours ... Go to cart'"
+   },
+   "d_clarify": {
+    "pass": true,
+    "evidence": "'What's your main skin concern ... Do you have sensitive skin or any reactions to exfoliating acids (like AHA/BHA)?'"
+   },
+   "d_progressive": {
+    "pass": true,
+    "evidence": "'If you've had reactive experiences with products before ... do a patch test for 24 hours' carries the earlier sensitivity concern forward"
+   },
+   "d_not_dump": {
+    "pass": true,
+    "evidence": "opener met with skin-type questions, not a product wall: 'What's your main skin concern — pores, texture, oiliness'"
+   },
+   "r_named": {
+    "pass": true,
+    "evidence": "'Add Medicube Zero Pore Pad to cart' — specific named product"
+   },
+   "r_fit": {
+    "pass": true,
+    "evidence": "'the Thayers AHA is the safer everyday option at a lower cost' ties to stated everyday-use + value + sensitivity"
+   },
+   "r_plausible": {
+    "pass": true,
+    "evidence": "Medicube Zero Pore Pad and SOME BY MI / Thayers toner pads are appropriate to a pads store"
+   },
+   "e_price": {
+    "pass": false,
+    "evidence": "signal has_price=false; no concrete price attached to the recommended pad in transcript"
+   },
+   "e_link": {
+    "pass": false,
+    "evidence": "signal has_link=false; no openable product link/card present"
+   },
+   "e_reviews": {
+    "pass": false,
+    "evidence": "signal has_reviews=false; no rating/review counts present"
+   },
+   "e_options": {
+    "pass": true,
+    "evidence": "signal has_options=true; 'Compare Medicube vs SOME BY MI pads' / 'Compare all five options side by side'"
+   },
+   "c_cta": {
+    "pass": true,
+    "evidence": "'Place my order now' and 'do a patch test for 24 hours before using it' — concrete next steps"
+   },
+   "c_cart": {
+    "pass": true,
+    "evidence": "explicit add fulfilled: 'Go to cart' with '{} Undo' after 'add your top recommendation to my cart'"
+   },
+   "c_clean": {
+    "pass": true,
+    "evidence": "closes on returns reassurance: 'returns are hassle-free, and with free next-day delivery, there's very little risk in trying it out!'"
+   }
+  },
+  "turn_quality": {
+   "schema": 1,
+   "turns": [
+    {
+     "turn": 1,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 7509,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "shopping",
+       "not",
+       "sure",
+       "right",
+       "choose"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 2,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 15145,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 10,
+      "matched": 2,
+      "ratio": 0.2,
+      "missing": [
+       "want",
+       "everyday",
+       "use",
+       "quality",
+       "care",
+       "about",
+       "value",
+       "money"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 3,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 28041,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 1,
+      "ratio": 0.14,
+      "missing": [
+       "like",
+       "stay",
+       "within",
+       "sensible",
+       "budget",
+       "options"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 4,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 18484,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 3,
+      "ratio": 0.43,
+      "missing": [
+       "two",
+       "most",
+       "popular",
+       "better"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 5,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 17648,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 1,
+      "ratio": 0.14,
+      "missing": [
+       "which",
+       "one",
+       "overall",
+       "best",
+       "seller",
+       "reviewed"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 6,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 12658,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 1,
+      "ratio": 0.2,
+      "missing": [
+       "okay",
+       "add",
+       "top",
+       "recommendation"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 7,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 17052,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 3,
+      "ratio": 0.43,
+      "missing": [
+       "total",
+       "offer",
+       "first",
+       "discount"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 8,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 11153,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 4,
+      "ratio": 0.67,
+      "missing": [
+       "warranty",
+       "guarantee"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 9,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 8967,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "long",
+       "will",
+       "delivery",
+       "take",
+       "roughly"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage",
+      "missing_timeframe"
+     ]
+    },
+    {
+     "turn": 10,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 15102,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 1,
+      "ratio": 0.25,
+      "missing": [
+       "change",
+       "mind",
+       "easy"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    }
+   ],
+   "summary": {
+    "total_turns": 10,
+    "measured_turns": 10,
+    "substantive_turns": 10,
+    "issue_turns": 7,
+    "issue_rate": 0.7
+   }
+  },
+  "resolution_class": "resolved",
+  "learning": "Skin-type discovery drives a fitted, responsibly-caveated pick (patch test) that it actually adds to cart; only gap is no concrete price shown.",
+  "judged_at": null,
+  "judge": {
+   "origin": "claude",
+   "origin_explicit": true,
+   "runner": "eval-merge.js",
+   "schema": 1
+  }
+ },
+ "2026-07-07/rufus-amazon-shopping-gift-basics-sheets.json": {
+  "v": 2,
+  "mode": "shopping",
+  "rubric": {
+   "answer": 30,
+   "discovery": 20,
+   "recommendation": 22,
+   "rich": 8,
+   "close": 10
+  },
+  "total": 90,
+  "checks": {
+   "a_direct": {
+    "pass": true,
+    "evidence": "'Who is the gift for? ... What's the occasion? ... Do you have a budget in mind?' directly engages the gift ask"
+   },
+   "a_consistent": {
+    "pass": true,
+    "evidence": "settles on a spa/gift basket and stays with it: 'the spa basket is already in your cart' consistent with 'the Almond Milk basket'"
+   },
+   "a_no_ignored": {
+    "pass": true,
+    "evidence": "'Great, add your top gift pick to my cart and tell me the total.' -> 'the top pick ... a full curated basket ... Go to cart'"
+   },
+   "d_clarify": {
+    "pass": true,
+    "evidence": "'Who is the gift for? (e.g., friend, parent, partner, colleague)•What's the occasion? ... Do you have a budget in mind?'"
+   },
+   "d_progressive": {
+    "pass": true,
+    "evidence": "'a small item like shower steamers (~$10) brings your total to around $46' builds on the moderate-budget answer given earlier"
+   },
+   "d_not_dump": {
+    "pass": true,
+    "evidence": "opens with recipient/occasion/budget questions rather than a product wall"
+   },
+   "r_named": {
+    "pass": true,
+    "evidence": "'the Almond Milk basket' / 'a full curated basket with bath bombs, scrub, shower gel & more'"
+   },
+   "r_fit": {
+    "pass": true,
+    "evidence": "'It looks the most impressive as a gift ... Great for a wide range of recipients' ties to 'quality but isn't fussy ... something they'll actually use'"
+   },
+   "r_plausible": {
+    "pass": true,
+    "evidence": "a curated spa basket is a plausible gift pick and arrives gift-ready as asked"
+   },
+   "e_price": {
+    "pass": true,
+    "evidence": "'brings your total to around $46 — still a thoughtful, well-rounded gift'"
+   },
+   "e_link": {
+    "pass": false,
+    "evidence": "signal has_link=false; no openable product link/card present"
+   },
+   "e_reviews": {
+    "pass": false,
+    "evidence": "signal has_reviews=false; no rating/review counts present"
+   },
+   "e_options": {
+    "pass": true,
+    "evidence": "signal has_options=true; 'Show similar gift sets for men' / 'Add shower steamers to my cart' offer add-on options"
+   },
+   "c_cta": {
+    "pass": true,
+    "evidence": "'just select the gift option when you check out and you're all set!' and 'How do I check out my cart?'"
+   },
+   "c_cart": {
+    "pass": true,
+    "evidence": "explicit 'add your top gift pick to my cart' fulfilled: 'the top pick ... Go to cart'"
+   },
+   "c_clean": {
+    "pass": true,
+    "evidence": "closes on add-on upsell with a total: 'brings your total to around $46 ... Want me to add any of these to your cart too?'"
+   }
+  },
+  "turn_quality": {
+   "schema": 1,
+   "turns": [
+    {
+     "turn": 1,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 5923,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 1,
+      "ratio": 0.17,
+      "missing": [
+       "looking",
+       "someone",
+       "not",
+       "sure",
+       "pick"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 2,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 8237,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 10,
+      "matched": 4,
+      "ratio": 0.4,
+      "missing": [
+       "someone",
+       "likes",
+       "quality",
+       "isn",
+       "fussy",
+       "want"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 3,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 7752,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 8,
+      "matched": 1,
+      "ratio": 0.13,
+      "missing": [
+       "budget",
+       "moderate",
+       "would",
+       "make",
+       "good",
+       "gift",
+       "range"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 4,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 9002,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 9,
+      "matched": 7,
+      "ratio": 0.78,
+      "missing": [
+       "between",
+       "top"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 5,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 27045,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 10,
+      "matched": 2,
+      "ratio": 0.2,
+      "missing": [
+       "there",
+       "set",
+       "bundle",
+       "looks",
+       "nicer",
+       "than",
+       "single",
+       "item"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 6,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 14772,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 1,
+      "ratio": 0.2,
+      "missing": [
+       "arrive",
+       "ready",
+       "fast",
+       "ship"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 7,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 16157,
+     "answer_chars": 499,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 6,
+      "ratio": 0.86,
+      "missing": [
+       "total"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 8,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 12040,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 2,
+      "ratio": 0.5,
+      "missing": [
+       "message",
+       "receipt"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 9,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 16898,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 1,
+      "ratio": 0.17,
+      "missing": [
+       "they",
+       "want",
+       "exchange",
+       "would",
+       "work"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 10,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 19555,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 3,
+      "ratio": 0.5,
+      "missing": [
+       "discount",
+       "second",
+       "smaller"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    }
+   ],
+   "summary": {
+    "total_turns": 10,
+    "measured_turns": 10,
+    "substantive_turns": 10,
+    "issue_turns": 5,
+    "issue_rate": 0.5
+   }
+  },
+  "resolution_class": "resolved",
+  "learning": "Took several turns of clarifying but ultimately landed a fitting gift-ready basket, added it to cart, and handled gift-message/receipt and exchange follow-ups well.",
+  "judged_at": null,
+  "judge": {
+   "origin": "claude",
+   "origin_explicit": true,
+   "runner": "eval-merge.js",
+   "schema": 1
+  }
+ },
+ "2026-07-07/rufus-amazon-shopping-gift-blinkcam.json": {
+  "v": 2,
+  "mode": "shopping",
+  "rubric": {
+   "answer": 9,
+   "discovery": 13,
+   "recommendation": 0,
+   "rich": 6,
+   "close": 0
+  },
+  "total": 28,
+  "checks": {
+   "a_direct": {
+    "pass": false,
+    "evidence": "same clarifying questions repeated every turn with no answer ever given: even at 'add your top gift pick' it replies 'Who is this for? ... Their interests? ... "
+   },
+   "a_consistent": {
+    "pass": true,
+    "evidence": "no contradictory claim made — it simply never commits: 'Once you share these, I'll find a great option'"
+   },
+   "a_no_ignored": {
+    "pass": false,
+    "evidence": "'Great, add your top gift pick to my cart and tell me the total.' ignored — answered with 'Who is this for? ... Your budget range?' again"
+   },
+   "d_clarify": {
+    "pass": true,
+    "evidence": "'Who is this for? ... What's the occasion? ... Do you have a budget in mind?•Any hobbies or interests' — a relevant clarifying question is asked"
+   },
+   "d_progressive": {
+    "pass": false,
+    "evidence": "never uses answers — re-asks the identical recipient/interests/budget block turn after turn: 'Who is this for? (man or woman? friend, partner, family member?)'"
+   },
+   "d_not_dump": {
+    "pass": true,
+    "evidence": "never dumps a best-seller wall (it never recommends anything at all): 'Once I know a bit more, I can give you some great concrete suggestions'"
+   },
+   "r_named": {
+    "pass": false,
+    "evidence": "no specific product is ever named across all 10 turns; only 'I'll find a great option' promises"
+   },
+   "r_fit": {
+    "pass": false,
+    "evidence": "no recommendation exists to tie to constraints — 'Once I have these, I'll find something'"
+   },
+   "r_plausible": {
+    "pass": false,
+    "evidence": "no recommendation made, so nothing plausible to credit"
+   },
+   "e_price": {
+    "pass": true,
+    "evidence": "signal has_price=true; a price band is surfaced: 'get the 10% discount' and budget bands '$30-$50, $50-$100, up to $150?' — but tied to no product"
+   },
+   "e_link": {
+    "pass": false,
+    "evidence": "signal has_link=false; no openable product link/card present"
+   },
+   "e_reviews": {
+    "pass": false,
+    "evidence": "signal has_reviews=false; no rating/review counts present"
+   },
+   "e_options": {
+    "pass": false,
+    "evidence": "signal has_options=false; no distinct product options laid out"
+   },
+   "c_cta": {
+    "pass": false,
+    "evidence": "no concrete next step on a product — every close is another questionnaire: 'just share a bit about who you're shopping for and your budget'"
+   },
+   "c_cart": {
+    "pass": false,
+    "evidence": "explicit 'add your top gift pick to my cart' never done — loops the intake questions instead"
+   },
+   "c_clean": {
+    "pass": false,
+    "evidence": "ends still asking for the same details: 'just share a bit about who you're shopping for and your budget, and I'll find something great!'"
+   }
+  },
+  "turn_quality": {
+   "schema": 1,
+   "turns": [
+    {
+     "turn": 1,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 5633,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "looking",
+       "gift",
+       "someone",
+       "not",
+       "sure",
+       "pick"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 2,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 7265,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 10,
+      "matched": 1,
+      "ratio": 0.1,
+      "missing": [
+       "someone",
+       "likes",
+       "quality",
+       "isn",
+       "fussy",
+       "want",
+       "they",
+       "actually"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 3,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 8937,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 8,
+      "matched": 2,
+      "ratio": 0.25,
+      "missing": [
+       "budget",
+       "would",
+       "make",
+       "good",
+       "gift",
+       "range"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 4,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 7178,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 9,
+      "matched": 1,
+      "ratio": 0.11,
+      "missing": [
+       "between",
+       "top",
+       "two",
+       "gift",
+       "ideas",
+       "which",
+       "feels",
+       "special"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 5,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 9210,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 10,
+      "matched": 3,
+      "ratio": 0.3,
+      "missing": [
+       "there",
+       "bundle",
+       "looks",
+       "nicer",
+       "than",
+       "single",
+       "item"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 6,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 7930,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 1,
+      "ratio": 0.2,
+      "missing": [
+       "arrive",
+       "gift",
+       "ready",
+       "ship"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 7,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 6911,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 4,
+      "ratio": 0.57,
+      "missing": [
+       "top",
+       "gift",
+       "pick"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 8,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 9729,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "include",
+       "gift",
+       "message",
+       "receipt"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 9,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 12803,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 1,
+      "ratio": 0.17,
+      "missing": [
+       "they",
+       "want",
+       "exchange",
+       "would",
+       "work"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 10,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 10218,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 1,
+      "ratio": 0.17,
+      "missing": [
+       "any",
+       "add",
+       "second",
+       "smaller",
+       "item"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    }
+   ],
+   "summary": {
+    "total_turns": 10,
+    "measured_turns": 10,
+    "substantive_turns": 10,
+    "issue_turns": 9,
+    "issue_rate": 0.9
+   }
+  },
+  "resolution_class": "failed",
+  "learning": "Total clarification loop: it re-asks the same recipient/budget questions on all 10 turns, never names a product or completes the explicit add-to-cart.",
+  "judged_at": null,
+  "judge": {
+   "origin": "claude",
+   "origin_explicit": true,
+   "runner": "eval-merge.js",
+   "schema": 1
+  }
+ },
+ "2026-07-07/rufus-amazon-shopping-gift-medicube-pads.json": {
+  "v": 2,
+  "mode": "shopping",
+  "rubric": {
+   "answer": 30,
+   "discovery": 20,
+   "recommendation": 22,
+   "rich": 6,
+   "close": 10
+  },
+  "total": 88,
+  "checks": {
+   "a_direct": {
+    "pass": true,
+    "evidence": "eventually answers the gift ask concretely: 'Summer Fridays or Laneige (both arrive tomorrow)' and a full curated set at '$34.00'"
+   },
+   "a_consistent": {
+    "pass": true,
+    "evidence": "settles on the Summer Fridays set and stays: 'the Summer Fridays set to my cart' -> 'Jet Lag Mask, Eye Patches, Deep Hydration Serum & Mist ... Order total: $34"
+   },
+   "a_no_ignored": {
+    "pass": true,
+    "evidence": "'Great, add your top gift pick to my cart and tell me the total.' -> 'Order total: $34.00 + applicable tax ... Go to cart'"
+   },
+   "d_clarify": {
+    "pass": true,
+    "evidence": "'Who is the gift for? ... What are their interests or hobbies? ... Do you have a budget in mind?'"
+   },
+   "d_progressive": {
+    "pass": true,
+    "evidence": "'still gift-worthy: Summer Fridays or Laneige (both arrive tomorrow)' reflects the 'quality but isn't fussy / gift-ready fast' asks"
+   },
+   "d_not_dump": {
+    "pass": true,
+    "evidence": "opens with recipient/interest/budget questions, not a product wall"
+   },
+   "r_named": {
+    "pass": true,
+    "evidence": "'the Summer Fridays set' with contents 'Jet Lag Mask, Eye Patches, Deep Hydration Serum & Mist'"
+   },
+   "r_fit": {
+    "pass": true,
+    "evidence": "'beautifully packaged, arrives tomorrow' ties to the gift-ready + fast-ship request"
+   },
+   "r_plausible": {
+    "pass": true,
+    "evidence": "a curated skincare gift set is plausible for a pads/skincare store gift ask"
+   },
+   "e_price": {
+    "pass": true,
+    "evidence": "'Order total: $34.00 + applicable tax (FREE delivery tomorrow, Jul 8)'"
+   },
+   "e_link": {
+    "pass": false,
+    "evidence": "signal has_link=false; no openable product link/card present (only 'More details' text)"
+   },
+   "e_reviews": {
+    "pass": false,
+    "evidence": "signal has_reviews=false; no rating/review counts present"
+   },
+   "e_options": {
+    "pass": false,
+    "evidence": "signal has_options=false; no distinct laid-out multi-option comparison"
+   },
+   "c_cta": {
+    "pass": true,
+    "evidence": "'just select the gift option when you check out' / 'Buy Now'"
+   },
+   "c_cart": {
+    "pass": true,
+    "evidence": "explicit 'add your top gift pick' fulfilled with a total: 'Order total: $34.00 ... Go to cart'"
+   },
+   "c_clean": {
+    "pass": true,
+    "evidence": "closes on add-on with total held under $45: 'keeps your total under $45 for the full gift ... Want me to add one to your cart?'"
+   }
+  },
+  "turn_quality": {
+   "schema": 1,
+   "turns": [
+    {
+     "turn": 1,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 7155,
+     "answer_chars": 499,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "looking",
+       "gift",
+       "someone",
+       "not",
+       "sure",
+       "pick"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 2,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 8539,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 10,
+      "matched": 3,
+      "ratio": 0.3,
+      "missing": [
+       "someone",
+       "likes",
+       "quality",
+       "isn",
+       "fussy",
+       "want",
+       "actually"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 3,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 9122,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 8,
+      "matched": 1,
+      "ratio": 0.13,
+      "missing": [
+       "budget",
+       "moderate",
+       "would",
+       "make",
+       "good",
+       "gift",
+       "range"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 4,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 8553,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 9,
+      "matched": 3,
+      "ratio": 0.33,
+      "missing": [
+       "between",
+       "top",
+       "two",
+       "ideas",
+       "which",
+       "special"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 5,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 30991,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 10,
+      "matched": 4,
+      "ratio": 0.4,
+      "missing": [
+       "there",
+       "bundle",
+       "nicer",
+       "than",
+       "single",
+       "item"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 6,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 22881,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 2,
+      "ratio": 0.4,
+      "missing": [
+       "ready",
+       "fast",
+       "ship"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 7,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 14237,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 4,
+      "ratio": 0.57,
+      "missing": [
+       "great",
+       "top",
+       "pick"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 8,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 13445,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 1,
+      "ratio": 0.25,
+      "missing": [
+       "include",
+       "message",
+       "receipt"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 9,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 13718,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 3,
+      "ratio": 0.5,
+      "missing": [
+       "they",
+       "want",
+       "work"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 10,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 21330,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 2,
+      "ratio": 0.33,
+      "missing": [
+       "any",
+       "second",
+       "smaller",
+       "item"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    }
+   ],
+   "summary": {
+    "total_turns": 10,
+    "measured_turns": 10,
+    "substantive_turns": 10,
+    "issue_turns": 6,
+    "issue_rate": 0.6
+   }
+  },
+  "resolution_class": "resolved",
+  "learning": "After a slow clarifying start it lands a named, priced, gift-ready set, adds it to cart with a total, and cleanly handles gift-message and exchange follow-ups.",
+  "judged_at": null,
+  "judge": {
+   "origin": "claude",
+   "origin_explicit": true,
+   "runner": "eval-merge.js",
+   "schema": 1
+  }
+ },
+ "2026-07-07/rufus-amazon-shopping-problem-solver-basics-sheets.json": {
+  "v": 2,
+  "mode": "shopping",
+  "rubric": {
+   "answer": 30,
+   "discovery": 20,
+   "recommendation": 13,
+   "rich": 8,
+   "close": 10
+  },
+  "total": 81,
+  "checks": {
+   "a_direct": {
+    "pass": true,
+    "evidence": "'ing if it's soft enough or suits your sleep style?•Fit — worried about the fitted sheet staying on?' directly probes the specific-need worry"
+   },
+   "a_consistent": {
+    "pass": true,
+    "evidence": "consistently the $14.16 microfiber set with a durability caveat: 'At just $14.16, the financial risk is low' throughout"
+   },
+   "a_no_ignored": {
+    "pass": true,
+    "evidence": "'What do other customers say in their reviews, does it actually hold up?' -> 'this is a risk worth noting ... higher-durability alternatives that customers cons"
+   },
+   "d_clarify": {
+    "pass": true,
+    "evidence": "'Fit — worried about the fitted sheet staying on?•Something else entirely?Let me know and I'll help you get it right!'"
+   },
+   "d_progressive": {
+    "pass": true,
+    "evidence": "'Since you've had past disappointments' informs the durability-alternative steer across later turns"
+   },
+   "d_not_dump": {
+    "pass": true,
+    "evidence": "opens by narrowing the worry (softness/fit/other), not dumping products"
+   },
+   "r_named": {
+    "pass": false,
+    "evidence": "no specific product is named — only 'more durable sheet alternatives' and a generic '$14.16' set are referenced without a product name"
+   },
+   "r_fit": {
+    "pass": true,
+    "evidence": "'follow the care label closely ... noticeable difference with microfiber specifically' and 'financial risk is low' tie to the quality-worry constraint"
+   },
+   "r_plausible": {
+    "pass": true,
+    "evidence": "recommending care + a durability step-up for a disappointed-before sheets shopper is appropriate"
+   },
+   "e_price": {
+    "pass": true,
+    "evidence": "'At just $14.16, the financial risk is low if you do decide to try them'"
+   },
+   "e_link": {
+    "pass": false,
+    "evidence": "signal has_link=false; no openable product link/card present"
+   },
+   "e_reviews": {
+    "pass": false,
+    "evidence": "signal has_reviews=false; reviews addressed qualitatively ('mixed', 'disappointments') with no counts/ratings"
+   },
+   "e_options": {
+    "pass": true,
+    "evidence": "signal has_options=true; 'Show more durable sheet alternatives' / 'Compare microfiber vs cotton durability' laid out"
+   },
+   "c_cta": {
+    "pass": true,
+    "evidence": "'Wash warm, tumble dry low — this is the #1 factor in longevity' plus 'Go to cart'"
+   },
+   "c_cart": {
+    "pass": true,
+    "evidence": "explicit 'add your recommendation and give me the total' -> 'Go to cart' with '{} Undo'"
+   },
+   "c_clean": {
+    "pass": true,
+    "evidence": "closes on total/tax/arrival: 'checkout will include any applicable taxes ... review the full breakdown before confirming ... Go to cart'"
+   }
+  },
+  "turn_quality": {
+   "schema": 1,
+   "turns": [
+    {
+     "turn": 1,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 7608,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 2,
+      "ratio": 0.29,
+      "missing": [
+       "specific",
+       "need",
+       "picking",
+       "wrong",
+       "thing"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 2,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 13252,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 8,
+      "matched": 1,
+      "ratio": 0.13,
+      "missing": [
+       "disappointed",
+       "similar",
+       "products",
+       "before",
+       "quality",
+       "really",
+       "matters"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 3,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 13812,
+     "answer_chars": 499,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 2,
+      "ratio": 0.29,
+      "missing": [
+       "which",
+       "products",
+       "why",
+       "good",
+       "fit"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 4,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 15186,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 1,
+      "ratio": 0.14,
+      "missing": [
+       "other",
+       "say",
+       "their",
+       "reviews",
+       "actually",
+       "hold"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 5,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 14468,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 2,
+      "ratio": 0.29,
+      "missing": [
+       "there",
+       "anything",
+       "should",
+       "get",
+       "result"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 6,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 14444,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "doesn",
+       "work",
+       "out",
+       "options"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 7,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 15485,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 1,
+      "ratio": 0.17,
+      "missing": [
+       "okay",
+       "convinced",
+       "recommendation",
+       "give",
+       "total"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 8,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 13739,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "use",
+       "correctly",
+       "get",
+       "best",
+       "result"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 9,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 10727,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "there",
+       "subscription",
+       "refill",
+       "option"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 10,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 9194,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 1,
+      "ratio": 0.25,
+      "missing": [
+       "confirm",
+       "total",
+       "arrive"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage",
+      "missing_timeframe"
+     ]
+    }
+   ],
+   "summary": {
+    "total_turns": 10,
+    "measured_turns": 10,
+    "substantive_turns": 10,
+    "issue_turns": 10,
+    "issue_rate": 1
+   }
+  },
+  "resolution_class": "partial",
+  "learning": "Handles the reassurance/quality worry honestly and completes the cart, but never names the actual recommended product, leaving the pick abstract.",
+  "judged_at": null,
+  "judge": {
+   "origin": "claude",
+   "origin_explicit": true,
+   "runner": "eval-merge.js",
+   "schema": 1
+  }
+ },
+ "2026-07-07/rufus-amazon-shopping-problem-solver-blinkcam.json": {
+  "v": 2,
+  "mode": "shopping",
+  "rubric": {
+   "answer": 30,
+   "discovery": 20,
+   "recommendation": 13,
+   "rich": 0,
+   "close": 10
+  },
+  "total": 73,
+  "checks": {
+   "a_direct": {
+    "pass": true,
+    "evidence": "'Concerned about contract terms or cancellation?•Not sure if your Blink devices are compatible?' directly engages the worry"
+   },
+   "a_consistent": {
+    "pass": true,
+    "evidence": "consistently steers to wired/plug-in cameras + local backup for reliability: 'plug-in or wired, which directly addresses the reliability complaints'"
+   },
+   "a_no_ignored": {
+    "pass": true,
+    "evidence": "'What do other customers say in their reviews, does it actually hold up?' -> 'wired cameras (which have better reliability) rather than battery-powered ones'"
+   },
+   "d_clarify": {
+    "pass": true,
+    "evidence": "'Concerned about contract terms or cancellation?•Not sure if your Blink devices are compatible?'"
+   },
+   "d_progressive": {
+    "pass": true,
+    "evidence": "'directly addresses the reliability complaints from other customers' builds on the earlier 'disappointed before / quality matters' constraint"
+   },
+   "d_not_dump": {
+    "pass": true,
+    "evidence": "opens by narrowing the concern rather than dumping products"
+   },
+   "r_named": {
+    "pass": false,
+    "evidence": "no specific model named — only 'most reliable Blink camera models' and 'wired/plug-in' category, never a concrete product name"
+   },
+   "r_fit": {
+    "pass": true,
+    "evidence": "'cameras are plug-in or wired, which directly addresses the reliability complaints ... The local backup means you're not solely dependent on cloud storage' ties"
+   },
+   "r_plausible": {
+    "pass": true,
+    "evidence": "steering a reliability-worried buyer to wired cameras + local backup is appropriate to the catalog"
+   },
+   "e_price": {
+    "pass": false,
+    "evidence": "signal has_price=false; no concrete price on any recommended item"
+   },
+   "e_link": {
+    "pass": false,
+    "evidence": "signal has_link=false; no openable product link/card present"
+   },
+   "e_reviews": {
+    "pass": false,
+    "evidence": "signal has_reviews=false; reviews addressed only as 'reliability complaints' with no counts/ratings"
+   },
+   "e_options": {
+    "pass": false,
+    "evidence": "signal has_options=false; no distinct laid-out multi-option comparison"
+   },
+   "c_cta": {
+    "pass": true,
+    "evidence": "'If a camera goes offline, restart it by unplugging for 10 seconds' and 'Place the order now' / 'I can initiate checkout'"
+   },
+   "c_cart": {
+    "pass": true,
+    "evidence": "explicit 'add your recommendation and give me the total' -> 'Go to cart' with '{} Undo'"
+   },
+   "c_clean": {
+    "pass": true,
+    "evidence": "closes on trial + checkout offer: 'comes with a free 30-day trial ... Ready to place the order? I can initiate checkout for the three hardware items'"
+   }
+  },
+  "turn_quality": {
+   "schema": 1,
+   "turns": [
+    {
+     "turn": 1,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 9556,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 1,
+      "ratio": 0.14,
+      "missing": [
+       "specific",
+       "need",
+       "worried",
+       "picking",
+       "wrong",
+       "thing"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 2,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 14466,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 8,
+      "matched": 1,
+      "ratio": 0.13,
+      "missing": [
+       "disappointed",
+       "similar",
+       "products",
+       "before",
+       "quality",
+       "really",
+       "matters"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 3,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 16111,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 1,
+      "ratio": 0.14,
+      "missing": [
+       "which",
+       "products",
+       "best",
+       "why",
+       "good",
+       "fit"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 4,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 9091,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 2,
+      "ratio": 0.29,
+      "missing": [
+       "say",
+       "their",
+       "reviews",
+       "actually",
+       "hold"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 5,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 23768,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 1,
+      "ratio": 0.14,
+      "missing": [
+       "there",
+       "anything",
+       "should",
+       "pair",
+       "get",
+       "result"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 6,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 19547,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "doesn",
+       "work",
+       "out",
+       "options"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 7,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 22158,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 1,
+      "ratio": 0.17,
+      "missing": [
+       "okay",
+       "convinced",
+       "recommendation",
+       "give",
+       "total"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 8,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 9995,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 1,
+      "ratio": 0.2,
+      "missing": [
+       "use",
+       "correctly",
+       "get",
+       "result"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 9,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 12020,
+     "answer_chars": 499,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "there",
+       "subscription",
+       "refill",
+       "option"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 10,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 17768,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 2,
+      "ratio": 0.5,
+      "missing": [
+       "confirm",
+       "total"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "missing_timeframe"
+     ]
+    }
+   ],
+   "summary": {
+    "total_turns": 10,
+    "measured_turns": 10,
+    "substantive_turns": 10,
+    "issue_turns": 10,
+    "issue_rate": 1
+   }
+  },
+  "resolution_class": "partial",
+  "learning": "Addresses the reliability worry well with wired-camera guidance and adds to cart, but never names a specific model and shows no price, keeping the pick generic.",
+  "judged_at": null,
+  "judge": {
+   "origin": "claude",
+   "origin_explicit": true,
+   "runner": "eval-merge.js",
+   "schema": 1
+  }
+ },
+ "2026-07-07/rufus-amazon-shopping-problem-solver-medicube-pads.json": {
+  "v": 2,
+  "mode": "shopping",
+  "rubric": {
+   "answer": 30,
+   "discovery": 20,
+   "recommendation": 22,
+   "rich": 6,
+   "close": 10
+  },
+  "total": 88,
+  "checks": {
+   "a_direct": {
+    "pass": true,
+    "evidence": "'What's your main skin concern — pores, texture, oiliness, sensitivity ... Do you have any known sensitivities to exfoliating acids (AHA/BHA)?' directly engages"
+   },
+   "a_consistent": {
+    "pass": true,
+    "evidence": "consistently the Medicube Zero Pore Pads with a sticky-residue caveat: 'medicube Affordable Trio (Pads + Serum + Cream)' extends the same pick"
+   },
+   "a_no_ignored": {
+    "pass": true,
+    "evidence": "'Confirm my total and when it will arrive?' -> 'arrives ... July 8Your full cart total ... comes to $436.64'"
+   },
+   "d_clarify": {
+    "pass": true,
+    "evidence": "'What's your main skin concern ... Do you have any known sensitivities to exfoliating acids (AHA/BHA)?•Are you new to chemical exfoliants?'"
+   },
+   "d_progressive": {
+    "pass": true,
+    "evidence": "'Given your concern about being disappointed again, the smallest available size is your lowest-risk entry point' uses the earlier disappointment constraint"
+   },
+   "d_not_dump": {
+    "pass": true,
+    "evidence": "opener met with skin-concern/sensitivity questions, not a product wall: 'What's your main skin concern — pores, texture, oiliness, sensitivity'"
+   },
+   "r_named": {
+    "pass": true,
+    "evidence": "'the medicube Affordable Trio (Pads + Serum + Cream)' and 'Zero Pore Pads' named"
+   },
+   "r_fit": {
+    "pass": true,
+    "evidence": "'the smallest available size is your lowest-risk entry point' ties directly to the stated fear of being disappointed again"
+   },
+   "r_plausible": {
+    "pass": true,
+    "evidence": "Medicube Zero Pore Pads / Trio appropriate to a pads store; Paula's Choice BHA offered as a plausible comparator"
+   },
+   "e_price": {
+    "pass": true,
+    "evidence": "'Your full cart total (including all other items) comes to $436.64' — though inflated by unrelated cart items"
+   },
+   "e_link": {
+    "pass": false,
+    "evidence": "signal has_link=false; no openable product link/card present (only 'More details' text)"
+   },
+   "e_reviews": {
+    "pass": false,
+    "evidence": "signal has_reviews=false; reviews addressed qualitatively (sticky-residue complaints) with no counts/ratings"
+   },
+   "e_options": {
+    "pass": false,
+    "evidence": "signal has_options=false; no distinct laid-out multi-option comparison"
+   },
+   "c_cta": {
+    "pass": true,
+    "evidence": "'Don't overuse early on — build up frequency gradually' and 'Proceed to checkout'"
+   },
+   "c_cart": {
+    "pass": true,
+    "evidence": "explicit 'add your recommendation and give me the total' -> 'Go to cart' with '{} Undo' then '$436.64' total confirmed"
+   },
+   "c_clean": {
+    "pass": true,
+    "evidence": "closes offering adjustment/checkout: 'Would you like to adjust the quantity, add the full Zero Pore Trio set, or go ahead and checkout?'"
+   }
+  },
+  "turn_quality": {
+   "schema": 1,
+   "turns": [
+    {
+     "turn": 1,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 6421,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "specific",
+       "need",
+       "worried",
+       "about",
+       "picking",
+       "wrong",
+       "thing"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 2,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 16236,
+     "answer_chars": 499,
+     "keyword_coverage": {
+      "asked": 8,
+      "matched": 1,
+      "ratio": 0.13,
+      "missing": [
+       "disappointed",
+       "similar",
+       "products",
+       "before",
+       "quality",
+       "really",
+       "matters"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 3,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 18100,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 2,
+      "ratio": 0.29,
+      "missing": [
+       "which",
+       "products",
+       "why",
+       "good",
+       "fit"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 4,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 19095,
+     "answer_chars": 499,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "other",
+       "customers",
+       "say",
+       "their",
+       "reviews",
+       "actually",
+       "hold"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 5,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 17985,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 3,
+      "ratio": 0.43,
+      "missing": [
+       "there",
+       "anything",
+       "get",
+       "result"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 6,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 15520,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "doesn",
+       "work",
+       "out",
+       "options"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 7,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 13534,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 1,
+      "ratio": 0.17,
+      "missing": [
+       "okay",
+       "convinced",
+       "recommendation",
+       "give",
+       "total"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 8,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 15977,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 2,
+      "ratio": 0.4,
+      "missing": [
+       "correctly",
+       "get",
+       "result"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 9,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 10527,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 2,
+      "ratio": 0.5,
+      "missing": [
+       "there",
+       "option"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 10,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 13355,
+     "answer_chars": 500,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 1,
+      "ratio": 0.25,
+      "missing": [
+       "confirm",
+       "will",
+       "arrive"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage",
+      "missing_timeframe"
+     ]
+    }
+   ],
+   "summary": {
+    "total_turns": 10,
+    "measured_turns": 10,
+    "substantive_turns": 10,
+    "issue_turns": 7,
+    "issue_rate": 0.7
+   }
+  },
+  "resolution_class": "resolved",
+  "learning": "Strong sensitivity-aware discovery and a genuinely risk-lowering pick (smallest size) that it adds to cart, though the $436.64 total is polluted by unrelated cart items.",
+  "judged_at": null,
+  "judge": {
+   "origin": "claude",
+   "origin_explicit": true,
+   "runner": "eval-merge.js",
+   "schema": 1
+  }
  }
 }

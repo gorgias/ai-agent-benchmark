@@ -6696,52 +6696,1697 @@ const STORES = [
   "locale": "en-US",
   "method": "new",
   "us": false,
-  "lat": "~12s",
-  "latPct": 48,
-  "latP75": 14,
-  "ttft": 12,
+  "lat": "~12.9s",
+  "latPct": 52,
+  "latP75": 15.1,
+  "ttft": 12.7,
   "delivery": "atomic",
   "success": 100,
   "successTxt": "100%",
   "avgTurns": 10,
-  "timed": 50,
-  "attempted": 50,
+  "timed": 160,
+  "attempted": 160,
   "auto": {
-   "automated": 5,
+   "automated": 16,
    "handover": 0,
    "deflected": 0,
    "no_answer": 0,
-   "engaged": 5,
+   "engaged": 16,
    "rate": 100
   },
   "evalq": {
-   "n": 5,
-   "total": 71,
+   "n": 16,
+   "total": 76,
    "dims": {
-    "answer": 24,
-    "discovery": 17,
+    "answer": 25,
+    "discovery": 19,
     "recommendation": 18,
     "rich": 6,
-    "close": 6
+    "close": 8
    },
    "cls": {
-    "resolved": 3,
-    "partial": 1,
-    "failed": 1
+    "resolved": 8,
+    "partial": 6,
+    "failed": 2
    },
    "learnings": [
     "Guided a beginner to a concrete priced pick and completed the cart, but the final total ($154.75 vs earlier $31.79) is internally inconsistent and left dangling.",
+    "Clarifies and eventually completes the cart with a priced pick, but the product thread drifts across sheets/steamers/face masks and cites an implausible $364 cart for a budget-tight sheets shopper.",
+    "Strong budget-anchored discovery and a consistent, price-backed single recommendation that it actually adds to cart and confirms delivery for.",
     "Strong, consistent value reasoning toward Brothers, but never delivered the explicitly-requested total/discount and closed on an unexplained 3x-quantity cart surprise.",
-    "Clean end-to-end everyday-value flow — clarified needs, compared two options, tied the pick to per-bag value and completed the cart.",
-    "Trapped in an infinite clarifying-question loop — never recommended a single product or added anything to cart despite explicit purchase requests.",
-    "Honestly flagged the pick's thin reviews and matched the quality-reassurance need, but never gave a concrete price and closed on an unresolved duplicate-cart issue."
+    "Good discovery and a consistent named pick, but it loops on an unanswerable size gate and never completes the explicitly requested add-to-cart, leaving the shopper stuck.",
+    "Value-fit plan recommendation is coherent, but it never executes the explicit add-to-cart and keeps pitching subscription instead of acting.",
+    "Skin-type discovery drives a fitted, responsibly-caveated pick (patch test) that it actually adds to cart; only gap is no concrete price shown.",
+    "Clean end-to-end everyday-value flow — clarified needs, compared two options, tied the pick to per-bag value and completed the cart."
    ]
   },
   "guard": null,
   "ticket": null,
-  "what": "5 cold private conversations (shopping themes). No handover in any theme. Avg end-to-end latency ~12s across 50 AI-timed turns.",
-  "datetime": "2026-07-07T16:49:25.419Z",
+  "what": "16 cold private conversations (shopping themes). No handover in any theme. Avg end-to-end latency ~12.9s across 160 AI-timed turns.",
+  "datetime": "2026-07-07T17:34:55.803Z",
   "themes": [
+   {
+    "key": "compare-budget-basics-sheets",
+    "label": "Comparison, budget-tight · basics-sheets",
+    "datetime": "2026-07-07T17:23:06.067Z",
+    "lat": "~13.9s",
+    "success": 100,
+    "successTxt": "100%",
+    "handoverTurn": null,
+    "ticket": null,
+    "productRecs": {
+     "count": 0,
+     "names": []
+    },
+    "ev": {
+     "total": 76,
+     "cls": "partial",
+     "dims": {
+      "answer": 21,
+      "discovery": 20,
+      "recommendation": 17,
+      "rich": 8,
+      "close": 10
+     },
+     "note": "Clarifies and eventually completes the cart with a priced pick, but the product thread drifts across sheets/steamers/face masks and cites an implausible $364 cart for a budget-tight sheets shopper."
+    },
+    "turns": [
+     {
+      "q": "Hi! I'm deciding between a few options and money's a bit tight, can you help me choose?",
+      "a": "? (Feel free to list them or describe what you're looking for)•Is there a total budget you're trying to stay within?•Are these all for yourself, or are any of them gifts?That'll help me give you the most useful guidance! {} Informed by MoneyLion, vogue.com, msn.com, BuzzFeed, The Giving Assistant Blog {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is irrelevant This is inaccurate Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 9.9,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "I want the best bang for the buck, not the cheapest or the most expensive.",
+      "a": "any of these to your cart, or compare two of them more closely? {} Add the shower steamers to my cart Compare face masks vs shower steamers What's my cart total with all items? Show more value picks under $15 {} Informed by businessinsider.com, tomsguide.com, Mashable, refinery29.com, theguardian.com {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is irrelevant This is inaccurate Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 14.8,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "Show me your two best value-for-money options and compare them.",
+      "a": "either (or both) to your cart? {} Add shower steamers to my cart What's my cart total with both items? Show more value picks under $15 Compare face masks vs shower steamers {} Informed by Aromatherapy Naturals, Aromatherapy Naturals, Aromatherapy Naturals, Aromatherapy Naturals, Aromatherapy Naturals {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is inaccurate This is irrelevant Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 15.9,
+      "cov": 43
+     },
+     {
+      "q": "Honestly, is the pricier one worth the extra, or is the cheaper one fine?",
+      "a": "or buck — no contest.Want me to go ahead and confirm your cart with the sheet set? {} Add shower steamers too What's my total with both? Are there more durable sheet alternatives? Set a price alert on the steamers {} Sources businessinsider.com DataSSimilate - Help You Make Better Decisions Bed Guides {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is harmful / unsafe This is inaccurate Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 14,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "Are there any current promos, bundles, or ways to save?",
+      "a": "the steamers (if offered) could knock off 5–15%No major active promotions right now, but these are already strong value prices. Want me to add any of these to your cart? {} Add shower steamers to my cart What's my total with both items? Show more value self-care picks Set a price alert on the steamers {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is irrelevant This is inaccurate Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 13.8,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 14
+     },
+     {
+      "q": "Which would you personally pick on my budget?",
+      "a": "longer-lasting spend.Want me to go ahead and keep it in your cart? {} Keep the sheet set in my cart Are there more durable sheet alternatives? Add shower steamers too What's my cart total right now? {} Informed by Rosenberry Rooms, Burning For Success, goodhousekeeping.com, tomsguide.com, Sleep Pilot {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is harmful / unsafe This is irrelevant Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 12.7,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "Add that one to my cart and tell me the total with any discount.",
+      "a": "E tomorrow, July 8.No additional coupons or promo codes are currently showing on the sheet set, but at $14.16 for a 4-piece OEKO-TEX certified set, it's already a strong value.Go to cart {} Remove any items from my cart What's the best value item in my cart? Add shower steamers too Proceed to checkout {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is inaccurate This is irrelevant Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 16.8,
+      "cov": 57
+     },
+     {
+      "q": "Does the cheaper one have the same warranty as the pricier one?",
+      "a": "g goes wrong.If warranty coverage is important to you, that's typically a feature of higher-priced bedding brands rather than budget options like these. {} Are there better quality sheets with a warranty? How do I initiate a return on Amazon? Show mid-range sheet options What's Amazon's return policy? {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is inaccurate This is harmful / unsafe Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 11.9,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 20
+     },
+     {
+      "q": "Can I pay in installments or split payment?",
+      "a": "ikely won't qualify on its own (below minimums), but your full cart total of $364+ should give you installment options.Want me to walk you through anything else about payment options? {} Proceed to checkout What payment methods do I have saved? Remove items from my cart How does Affirm work on Amazon? {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is harmful / unsafe This is irrelevant Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 18.5,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 25
+     },
+     {
+      "q": "Confirm my total and the fastest shipping option?",
+      "a": "s is up to date•Choose \"Fastest delivery\" at checkout (may have an additional cost for some items vs. free standard)•Prime members typically get the best speeds at no extra chargeGo to cart {} Proceed to checkout What's my default shipping address? Remove an item from my cart Show payment plan options {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is irrelevant This is inaccurate Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 11.1,
+      "cov": 40
+     }
+    ]
+   },
+   {
+    "key": "compare-budget-blinkcam",
+    "label": "Comparison, budget-tight · blinkcam",
+    "datetime": "2026-07-07T17:08:31.227Z",
+    "lat": "~13.5s",
+    "success": 100,
+    "successTxt": "100%",
+    "handoverTurn": null,
+    "ticket": null,
+    "productRecs": {
+     "count": 2,
+     "names": [
+      "At the same",
+      "Blink Mini 2K+ setup"
+     ]
+    },
+    "ev": {
+     "total": 88,
+     "cls": "resolved",
+     "dims": {
+      "answer": 30,
+      "discovery": 20,
+      "recommendation": 22,
+      "rich": 6,
+      "close": 10
+     },
+     "note": "Strong budget-anchored discovery and a consistent, price-backed single recommendation that it actually adds to cart and confirms delivery for."
+    },
+    "turns": [
+     {
+      "q": "Hi! I'm deciding between a few options and money's a bit tight, can you help me choose?",
+      "a": "t upfront cost, lowest monthly cost, or best overall reliability? {} What's included in the Basic Plan? Can I add Sync Module later? Show me the cheapest Blink setup Compare Blink vs other budget cameras {} Informed by Markus Hanger Photography, Security.org, Security.org, SafeHome.org, Amazon Devices {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is harmful / unsafe This is irrelevant Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 12.6,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "I want the best bang for the buck, not the cheapest or the most expensive.",
+      "a": "use.Would you like me to update your cart to reflect this leaner setup? {} Update my cart to this setup What does Basic Plan include? Can I upgrade to Plus Plan later? Compare Basic vs Plus Plan features {} Informed by Security.org, Markus Hanger Photography, Security.org, Security.org, Amazon Devices {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is inaccurate This is harmful / unsafe Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 15.7,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "Show me your two best value-for-money options and compare them.",
+      "a": "if footage quality matters to you.Which room or area are you looking to monitor? {} Which is easier to set up? Can I control the Pan-Tilt remotely? Add the 2K+ to my cart Do both work without a subscription? {} Informed by Amazon Devices, Smart.DHgate – Trusted Buying Guides for Global Shoppers, PCMAG {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is harmful / unsafe This is irrelevant Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 14,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "Honestly, is the pricier one worth the extra, or is the cheaper one fine?",
+      "a": "you more usable footage at the same price.Bottom line: At the same $39.99, the 2K+ is the smarter pick for most people unless room coverage is your #1 need. {} What room are you trying to monitor? Add the Blink Mini 2K+ to my cart Does it work without a subscription? Show me the full recommended setup {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is irrelevant This is inaccurate Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 13.5,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "Are there any current promos, bundles, or ways to save?",
+      "a": "nk Mini 2K+ at checkout•Decide on monthly vs. annual plan after your trialWould you like me to start checkout so you can see the exact promo pricing applied? {} Start checkout to see promo pricing Compare monthly vs yearly plan cost What's included in the free trial? Show me the full recommended setup {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is inaccurate This is harmful / unsafe Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 12.3,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "Which would you personally pick on my budget?",
+      "a": "like me to compare those alternatives, or are you ready to go with the Blink Mini 2K+ setup? {} Compare Blink Mini 2K+ vs Ring Indoor Cam Compare Blink Mini 2K+ vs Wyze Cam v4 Add Blink Mini 2K+ and USB drive to cart Does Blink work without any subscription? {} Sources PCMAG Security.org SafeHome.org {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is irrelevant This is harmful / unsafe Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 14.8,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "Add that one to my cart and tell me the total with any discount.",
+      "a": ".99/mo), you'd automatically get 10% off the camera at checkout, bringing it down to ~$35.99 — saving you $4. But given your budget focus, the Basic Plan at $3/mo is the smarter ongoing choice.Go to cart {} Undo Start checkout now Does it work without any subscription? Compare Blink vs Ring Indoor Cam {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is harmful / unsafe This is inaccurate Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 15.8,
+      "cov": 43
+     },
+     {
+      "q": "Does the cheaper one have the same warranty as the pricier one?",
+      "a": "he standard 1-year coverage on both.Bottom line for your budget: Both cameras have equal warranty protection. The 1-year standard warranty covers manufacturing defects equally on both. {} What does the 1-year warranty cover? Ready to check out? Do I need the Plus Plan? Can I return it if issues arise? {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is inaccurate This is harmful / unsafe Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 6.8,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 20
+     },
+     {
+      "q": "Can I pay in installments or split payment?",
+      "a": "nchrony) would be your best bet if you need to spread it out — they typically work for orders $50+.Would you like me to walk you through how to select a payment plan at checkout? {} How do I select payment plans? What's the approval process like? Can I use Amazon gift cards too? Ready to check out now {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is inaccurate This is irrelevant Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 14.7,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 25
+     },
+     {
+      "q": "Confirm my total and the fastest shipping option?",
+      "a": "very — the Blink Mini 2K+ would arrive as soon as Wednesday, July 8 or Thursday, July 9.Would you like me to remove the duplicates or the Sync Module to clean up your cart? Go to cart {} Remove duplicate Blink items Remove the Sync Module too Keep everything and check out What does the Sync Module do? {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is inaccurate This is irrelevant Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 14.6,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     }
+    ]
+   },
+   {
+    "key": "everyday-value-basics-sheets",
+    "label": "Everyday value buyer · basics-sheets",
+    "datetime": "2026-07-07T17:12:13.107Z",
+    "lat": "~12.6s",
+    "success": 100,
+    "successTxt": "100%",
+    "handoverTurn": null,
+    "ticket": null,
+    "productRecs": {
+     "count": 0,
+     "names": []
+    },
+    "ev": {
+     "total": 85,
+     "cls": "partial",
+     "dims": {
+      "answer": 23,
+      "discovery": 20,
+      "recommendation": 22,
+      "rich": 15,
+      "close": 5
+     },
+     "note": "Good discovery and a consistent named pick, but it loops on an unanswerable size gate and never completes the explicitly requested add-to-cart, leaving the shopper stuck."
+    },
+    "turns": [
+     {
+      "q": "Hi! I'm shopping but not sure what's right for me, can you help me choose?",
+      "a": "further:•What size bed are you shopping for?•Do you have a preference for color or pattern?•Are these for everyday use or a specific room? {} What colors are available? Are these good for hot sleepers? Show me other sheet options {} Informed by Amazon Devices, Security.org, SafeHome.org, Security.org {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is inaccurate This is irrelevant Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 12.3,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 20
+     },
+     {
+      "q": "I want something for everyday use, good quality, and I care about value for money.",
+      "a": "ow you some alternatives that offer better durability while still being budget-friendly? {} Show more durable sheet options What sizes and colors are available? Are these good for hot sleepers? Add these sheets to my cart {} Informed by Security.org, Security.org, Security.org, wired.com, Security.org {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is inaccurate This is irrelevant Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 13.3,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 20
+     },
+     {
+      "q": "I'd like to stay within a sensible budget, what are my best options?",
+      "a": "er to repeated washing.To help narrow it down further — what size bed are you shopping for? {} Compare microfiber vs cotton sheets Are these good for hot sleepers? Show sheets with deeper pockets Add the Utopia set to my cart {} Informed by Security.org, tomsguide.com, Security.org, CNET, SafeHome.org {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is inaccurate This is irrelevant Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 21.2,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "Can you compare your two most popular options and tell me which is better for me?",
+      "a": "e right now.What size bed are you shopping for? I can confirm the right option is in stock. {} Are these good for hot sleepers? Compare microfiber vs cotton sheets Add the California Design Den to my cart Show other top-rated sheet options {} Sources goodhousekeeping.com goodhousekeeping.com GuideSpot {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is irrelevant This is inaccurate Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 19.5,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 29
+     },
+     {
+      "q": "Which one is your overall best seller, and is it well reviewed?",
+      "a": "$14.16 — a great budget option, but with more mixed durability feedback.Would you like to add either set to your cart? {} Add the California Design Den to my cart Are these good for hot sleepers? What sizes are available? Show me other top-rated sheet options {} Sources goodhousekeeping.com GuideSpot {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is inaccurate This is irrelevant Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 14.1,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "Okay, can you add your top recommendation to my cart?",
+      "a": "sizes. Let me check what size would be needed before adding to cart.Before I add the California Design Den 400 TC (my top recommendation for you) to your cart, I just need one quick detail:What size bed are you shopping for?•Twin / Twin XL•Full•Queen•KingThis ensures I add the right size to your cart! {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is irrelevant This is harmful / unsafe Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 7.1,
+      "cov": 80
+     },
+     {
+      "q": "What's my total, and do you offer free shipping or a first-order discount?",
+      "a": "trial available)•Subscribe & Save (not applicable to sheets, but great for household essentials)•Keep an eye out for coupons on the product pageSo just let me know your bed size and I can add the right set to your cart right away! {} Prime Benefits Free Shipping Prime About Prime Student Prime Members {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is irrelevant This is inaccurate Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 13.5,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 29
+     },
+     {
+      "q": "Is there a warranty or guarantee if something goes wrong?",
+      "a": "Amazon will make it right. Beyond that, proper care (gentle wash, low heat dry) keeps them performing longer.Ready to add the California Design Den to your cart? Just let me know your bed size! {} How do I care for these sheets? What's the return process? What bed size do I need? Compare other options {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is inaccurate This is irrelevant Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 8,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 17
+     },
+     {
+      "q": "How long will delivery take, roughly?",
+      "a": "night!Ready to add the California Design Den 400 TC (my top pick) to your cart? Just let me know your bed size — Twin, Full, Queen, or King — and I'll take care of it! {} Add the California Design Den to my cart Are these good for hot sleepers? What sizes are available? How do I care for these sheets? {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is harmful / unsafe This is irrelevant Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 9.9,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       },
+       {
+        "t": "no timeframe given",
+        "k": "warn"
+       }
+      ],
+      "cov": 20
+     },
+     {
+      "q": "And if I change my mind, how easy is it to return?",
+      "a": "ime member, there's zero risk in trying them out. If they're not what you expected, returning is stress-free.Ready to add the California Design Den 400 TC to your cart? Just let me know your bed size! {} What if they arrive damaged? Add to cart now Still deciding between options? Care and washing tips {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is irrelevant This is inaccurate Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 7.1,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     }
+    ]
+   },
+   {
+    "key": "everyday-value-blinkcam",
+    "label": "Everyday value buyer · blinkcam",
+    "datetime": "2026-07-07T16:58:24.154Z",
+    "lat": "~10.7s",
+    "success": 100,
+    "successTxt": "100%",
+    "handoverTurn": null,
+    "ticket": null,
+    "productRecs": {
+     "count": 2,
+     "names": [
+      "Blink free before paying",
+      "Blink free before subscribing"
+     ]
+    },
+    "ev": {
+     "total": 78,
+     "cls": "partial",
+     "dims": {
+      "answer": 23,
+      "discovery": 20,
+      "recommendation": 22,
+      "rich": 6,
+      "close": 7
+     },
+     "note": "Value-fit plan recommendation is coherent, but it never executes the explicit add-to-cart and keeps pitching subscription instead of acting."
+    },
+    "turns": [
+     {
+      "q": "Hi! I'm shopping but not sure what's right for me, can you help me choose?",
+      "a": "re considering and I'll guide you to the best fit! {} Compare Blink Basic vs Plus plans What features does Blink Plus include? Which Blink cameras work with this plan? Is monthly or yearly plan better value? {} Informed by Eat This Not That, One Lovely Life, I'mTheChefToo, I'mTheChefToo, I'mTheChefToo {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is inaccurate This is irrelevant Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 6.7,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 20
+     },
+     {
+      "q": "I want something for everyday use, good quality, and I care about value for money.",
+      "a": "looking for monthly flexibility or okay with an annual commitment (which saves more)? {} Compare Blink Basic vs Plus plans Is the yearly plan better value? Which Blink cameras work best? How does Blink compare to Ring? {} Informed by Good Food, womenshealthmag.com, Healthline, bonappetit.com, PureWow {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is irrelevant This is harmful / unsafe Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 13.1,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 30
+     },
+     {
+      "q": "I'd like to stay within a sensible budget, what are my best options?",
+      "a": "do you have? That'll help me point you to the exact right plan! {} How does Blink Plus compare to Ring? Which Blink cameras work best indoors? Can I try Blink free before paying? What's included in Blink Basic plan? {} Informed by womenshealthmag.com, Yahoo Health, Good Food, SnackNation, stjohns.edu {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is irrelevant This is inaccurate Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 15.1,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 14
+     },
+     {
+      "q": "Can you compare your two most popular options and tell me which is better for me?",
+      "a": "ven vs. Basic at just 3 cameras and get smarter detection featuresHow many Blink cameras do you have? That's the final piece to lock in your best option! {} Which Blink cameras work best indoors? Is the yearly Plus plan worth it? How does Blink compare to Ring? Can I try Blink free before subscribing? {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is harmful / unsafe This is inaccurate Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 14.8,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 29
+     },
+     {
+      "q": "Which one is your overall best seller, and is it well reviewed?",
+      "a": "and subscribe, or do you have any final questions? {} How many cameras do I need Plus Plan for? Compare Blink Plus vs Ring plan Is the annual Plus plan better value? Which Blink cameras work best indoors? {} Informed by ProductReview.com.au, mybest, Eat This Not That, Consumer Reports, bonappetit.com {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is harmful / unsafe This is irrelevant Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 13.8,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 29
+     },
+     {
+      "q": "Okay, can you add your top recommendation to my cart?",
+      "a": "the annual plan option (~$100/year) which saves you about 30% if you're happy to commit — a great choice given your focus on value for money! {} Is the annual Blink Plus plan worth it? How does Blink Plus compare to Ring? Which Blink cameras work best indoors? Can I try Blink free before subscribing? {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is inaccurate This is harmful / unsafe Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 10.3,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "What's my total, and do you offer free shipping or a first-order discount?",
+      "a": "ribing to the Plus Plan actually saves you money on the hardware as well!Would you like help getting subscribed, or do you have any other questions? {} How do I start my free Blink trial? Compare monthly vs annual Plus plan savings Which Blink cameras work best indoors? How does Blink compare to Ring? {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is harmful / unsafe This is inaccurate Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 11.4,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       },
+       {
+        "t": "purchase request unfulfilled",
+        "k": "warn"
+       }
+      ],
+      "cov": 14
+     },
+     {
+      "q": "Is there a warranty or guarantee if something goes wrong?",
+      "a": "e features AND device protection, making it even better value for money — especially since you mentioned affordability matters to you.Any other questions before you subscribe? {} How do I start the subscription? Can I cancel anytime? Which Blink cameras qualify? Does the 30-day trial include warranty? {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is inaccurate This is harmful / unsafe Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 6.6,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 33
+     },
+     {
+      "q": "How long will delivery take, roughly?",
+      "a": "oor cameras, or Video Doorbell)So you'll be up and running immediately after subscribing — no delivery delays to worry about! {} How do I set up my Blink subscription? Which Blink cameras are eligible for the free trial? Can I cancel my subscription anytime? Compare monthly vs annual Plus plan savings {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is inaccurate This is irrelevant Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 8.8,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       },
+       {
+        "t": "no timeframe given",
+        "k": "warn"
+       }
+      ],
+      "cov": 20
+     },
+     {
+      "q": "And if I change my mind, how easy is it to return?",
+      "a": "trol. If you decide it's not for you after trying it, just cancel in your account settings — no hassle, no extra steps.Ready to get started, or do you have any other concerns? {} How do I cancel my subscription? What's the free trial period? Can I pause instead of cancel? Do I lose videos if I cancel? {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is inaccurate This is irrelevant Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 6.1,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     }
+    ]
+   },
+   {
+    "key": "everyday-value-medicube-pads",
+    "label": "Everyday value buyer · medicube-pads",
+    "datetime": "2026-07-07T17:26:53.623Z",
+    "lat": "~15.2s",
+    "success": 100,
+    "successTxt": "100%",
+    "handoverTurn": null,
+    "ticket": null,
+    "productRecs": {
+     "count": 0,
+     "names": []
+    },
+    "ev": {
+     "total": 84,
+     "cls": "resolved",
+     "dims": {
+      "answer": 30,
+      "discovery": 20,
+      "recommendation": 22,
+      "rich": 2,
+      "close": 10
+     },
+     "note": "Skin-type discovery drives a fitted, responsibly-caveated pick (patch test) that it actually adds to cart; only gap is no concrete price shown."
+    },
+    "turns": [
+     {
+      "q": "Hi! I'm shopping but not sure what's right for me, can you help me choose?",
+      "a": "skin concern — pores, texture, oiliness, or something else?•Do you have sensitive skin or any reactions to exfoliating acids (like AHA/BHA)?•Are you looking for something for daily use or a few times a week? {} Informed by forbes.com, goodhousekeeping.com, Mattress Nut, goodhousekeeping.com, GuideSpot {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is inaccurate This is harmful / unsafe Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 7.5,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "I want something for everyday use, good quality, and I care about value for money.",
+      "a": "specially at the current discounted price. Just patch test first if your skin leans sensitive.Would you like to see how this compares to similar options, or are you ready to add it to your cart? {} Compare with similar toner pads Is it good for sensitive skin? Add to my cart What's in my cart already? {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is inaccurate This is irrelevant Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 15.1,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 20
+     },
+     {
+      "q": "I'd like to stay within a sensible budget, what are my best options?",
+      "a": "sue.Want me to add any of these to your cart? {} Compare Medicube vs SOME BY MI pads Which is best for sensitive skin? Add Medicube Zero Pore Pad to cart What moisturizer pairs well with these? {} Informed by Burning For Success, WebComics Weekend, Sleep Advisor, goodhousekeeping.com, Mattress Clarity {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is irrelevant This is inaccurate Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 28,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 14
+     },
+     {
+      "q": "Can you compare your two most popular options and tell me which is better for me?",
+      "a": "ucts before (which your profile suggests), the Thayers AHA is the safer everyday option at a lower cost.Would you like to add either to your cart? {} Add Medicube Zero Pore Pad to my cart Is Medicube safe for sensitive skin? What moisturizer pairs well with these? Compare all five options side by side {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is harmful / unsafe This is inaccurate Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 18.5,
+      "cov": 43
+     },
+     {
+      "q": "Which one is your overall best seller, and is it well reviewed?",
+      "a": "ou like to add it to your cart, or would you prefer the gentler Mild version if you're concerned about irritation? {} Add Medicube Zero Pore Pad to my cart Show me the Mild version instead What moisturizer pairs well with this? Compare Medicube vs SOME BY MI pads {} Sources allure.com cosmopolitan.com {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is irrelevant This is harmful / unsafe Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 17.6,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 14
+     },
+     {
+      "q": "Okay, can you add your top recommendation to my cart?",
+      "a": "ive experiences with products before, do a patch test for 24 hours before using it on your full face — especially as it contains AHA/BHA acids. Follow with a moisturizer after use!Go to cart {} Undo What moisturizer pairs well with this? Show the gentler Mild version How do I use these pads correctly? {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is irrelevant This is harmful / unsafe Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 12.7,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 20
+     },
+     {
+      "q": "What's my total, and do you offer free shipping or a first-order discount?",
+      "a": "dy saving there!Would you like to go ahead and place an order, or is there anything else I can help with? {} How do I start an Amazon Prime trial? Are there any coupons on my cart items? Place my order now Show me more skincare deals {} Prime Costs-benefits Free Shipping Amazon Prime Shipping Benefits {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is irrelevant This is harmful / unsafe Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 17.1,
+      "cov": 43
+     },
+     {
+      "q": "Is there a warranty or guarantee if something goes wrong?",
+      "a": "sk way to try it before committing. And if anything goes wrong, Amazon's return window has you covered.Would you like help placing the order, or do you have any other questions? {} How do I return an item on Amazon? Is there a Subscribe & Save option? Show complementary moisturizers Place my order now {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is irrelevant This is inaccurate Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 11.2,
+      "cov": 67
+     },
+     {
+      "q": "How long will delivery take, roughly?",
+      "a": "ired? Not for this item — it qualifies regardlessSo if you place your order today, you could be using your new pads by tomorrow. Would you like to go ahead and place the order? {} Place my order now What moisturizer pairs well with this? Show the gentler Mild version How do I use these pads correctly? {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is harmful / unsafe This is inaccurate Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 9,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       },
+       {
+        "t": "no timeframe given",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "And if I change my mind, how easy is it to return?",
+      "a": "rk for their skin, so Amazon does honor returns in those casesBottom line — returns are hassle-free, and with free next-day delivery, there's very little risk in trying it out! {} How do I start a return on Amazon? What moisturizer pairs well with this? Show the gentler Mild version Place my order now {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is irrelevant This is harmful / unsafe Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 15.1,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 25
+     }
+    ]
+   },
+   {
+    "key": "gift-basics-sheets",
+    "label": "Gift shopper · basics-sheets",
+    "datetime": "2026-07-07T17:15:46.728Z",
+    "lat": "~13.7s",
+    "success": 100,
+    "successTxt": "100%",
+    "handoverTurn": null,
+    "ticket": null,
+    "productRecs": {
+     "count": 0,
+     "names": []
+    },
+    "ev": {
+     "total": 90,
+     "cls": "resolved",
+     "dims": {
+      "answer": 30,
+      "discovery": 20,
+      "recommendation": 22,
+      "rich": 8,
+      "close": 10
+     },
+     "note": "Took several turns of clarifying but ultimately landed a fitting gift-ready basket, added it to cart, and handled gift-message/receipt and exchange follow-ups well."
+    },
+    "turns": [
+     {
+      "q": "Hi! I'm looking for a gift for someone and I'm not sure what to pick, can you help?",
+      "a": "ct gift! To point you in the right direction, a few quick questions:•Who is the gift for? (e.g., friend, parent, partner, colleague)•What's the occasion? (e.g., birthday, housewarming, just because)•Do you have a budget in mind?Any details you can share will help me find something they'll really love! {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is irrelevant This is inaccurate Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 5.9,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 17
+     },
+     {
+      "q": "It's for someone who likes quality but isn't fussy; I want something they'll actually use.",
+      "a": "ess, home comfort, tech, outdoors)•Who is this for? (e.g., age group, man/woman, colleague/friend/parent)Even rough answers help a lot — I'll find something they'll genuinely love and actually use! {} Informed by Mattress Clarity, sleepadvisor.org, goodhousekeeping.com, GuideSpot, goodhousekeeping.com {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is inaccurate This is irrelevant Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 8.2,
+      "cov": 40
+     },
+     {
+      "q": "My budget is moderate, what would make a good gift in that range?",
+      "a": "g around $30–$50, $50–$100, or somewhere else?•What do they enjoy? (e.g., home comfort, cooking, tech, fitness, outdoors)With just a bit more info I can find something they'll genuinely love and use! {} Informed by Rosenberry Rooms, Burning For Success, goodhousekeeping.com, tomsguide.com, Sleep Pilot {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is inaccurate This is harmful / unsafe Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 7.8,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 13
+     },
+     {
+      "q": "Between your top two gift ideas, which feels more special?",
+      "a": "gue)•What do they enjoy? (e.g., home comforts, cooking, fitness, tech, outdoors)•Rough budget? (e.g., around $30, $50, $100+)With that, I can suggest two great options and tell you which feels more special for your person! {} Gift ideas for a home lover Best gifts under $50 Practical gifts for friends {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is irrelevant This is inaccurate Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 9,
+      "cov": 78
+     },
+     {
+      "q": "Is there a gift set or bundle that looks nicer than a single item?",
+      "a": "or either?•Any sense of their vibe — homebody, foodie, self-care lover, outdoorsy? {} Gifts for someone who loves cooking Best self-care gifts for her Unique housewarming gift ideas Gifts under $50 for him {} Informed by Overstock Sheets, VVN News, www.findingdulcinea.com, Rosenberry Rooms, Brooklinen {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is harmful / unsafe This is inaccurate Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 27,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 20
+     },
+     {
+      "q": "Can it arrive gift-ready, and how fast can it ship?",
+      "a": "s tomorrow — no wrapping required! If you'd like, I can help you pick one and add it to your cart. Would it help to know who this is for (e.g., man or woman) so I can narrow it down further? {} Add the Almond Milk basket to my cart Gift ideas for a man Best spa gift sets for her Show me food gift sets {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is harmful / unsafe This is inaccurate Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 14.8,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 20
+     },
+     {
+      "q": "Great, add your top gift pick to my cart and tell me the total.",
+      "a": "the top pick: It looks the most impressive as a gift — a full curated basket with bath bombs, scrub, shower gel & more, with zero wrapping needed. Great for a wide range of recipients and arrives tomorrow.Go to cart {} Undo Add a gift message Show similar gift sets for men Find a gift bag or wrapping {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is irrelevant This is inaccurate Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 16.2,
+      "cov": 86
+     },
+     {
+      "q": "Can you include a gift message or a gift receipt?",
+      "a": "t•Send it via email, text, or any messaging appSince the spa basket is already in your cart, just select the gift option when you check out and you're all set! {} How do I check out my cart? Can I ship directly to the recipient? Show gift wrapping options Find a greeting card to include {} Your Orders {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is harmful / unsafe This is inaccurate Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 12,
+      "cov": 50
+     },
+     {
+      "q": "If they want to exchange it, how would that work?",
+      "a": "acking slip won't show the price•Sharing a gift receipt (as mentioned earlier) makes the return process even smoother for them {} How do I start a return on Amazon? Can I ship the gift directly to them? Show gift wrapping options Find a greeting card to include {} Your Orders Returns Policy Learn More {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is inaccurate This is harmful / unsafe Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 16.9,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 17
+     },
+     {
+      "q": "Any discount if I add a second smaller item?",
+      "a": "a small item like shower steamers (~$10) brings your total to around $46 — still a thoughtful, well-rounded gift without a big spend. Want me to add any of these to your cart too? {} Add shower steamers to my cart Show me gift wrap or tissue paper What's my current cart total? Find a nicer card option {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is inaccurate This is irrelevant Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 19.6,
+      "cov": 50
+     }
+    ]
+   },
+   {
+    "key": "gift-blinkcam",
+    "label": "Gift shopper · blinkcam",
+    "datetime": "2026-07-07T17:01:36.264Z",
+    "lat": "~8.6s",
+    "success": 100,
+    "successTxt": "100%",
+    "handoverTurn": null,
+    "ticket": null,
+    "productRecs": {
+     "count": 0,
+     "names": []
+    },
+    "ev": {
+     "total": 28,
+     "cls": "failed",
+     "dims": {
+      "answer": 9,
+      "discovery": 13,
+      "recommendation": 0,
+      "rich": 6,
+      "close": 0
+     },
+     "note": "Total clarification loop: it re-asks the same recipient/budget questions on all 10 turns, never names a product or completes the explicit add-to-cart."
+    },
+    "turns": [
+     {
+      "q": "Hi! I'm looking for a gift for someone and I'm not sure what to pick, can you help?",
+      "a": "eague)•What's the occasion? (e.g., birthday, holiday, just because)•Do you have a budget in mind?•Any hobbies or interests you know they enjoy?The more you can share, the better I can tailor suggestions for them! {} Informed by businessinsider.com, businessinsider.com, Yahoo Shopping, Mashable, gq.com {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is inaccurate This is irrelevant Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 5.6,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "It's for someone who likes quality but isn't fussy; I want something they'll actually use.",
+      "a": "or interests? (e.g., cooking, fitness, reading, tech, travel, home)•Is this for a man or woman? (Helps me filter out irrelevant options)Even rough answers will help me zero in on something great! {} Informed by Money Saving Mom®, Money Saving Mom®, realmomnutrition.c…, The Movement Menu, I'mTheChefToo {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is irrelevant This is inaccurate Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 7.3,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 10
+     },
+     {
+      "q": "My budget is moderate, what would make a good gift in that range?",
+      "a": "ts? (e.g., cooking, fitness, tech, travel, reading, home)•How moderate are we talking? (e.g., around $30–$50, $50–$100, or up to $150?)Even a rough answer will help me find something they'll genuinely reach for every day! {} Informed by forbes.com, forbes.com, GeekBitz, businessinsider.com, The Spruce {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is inaccurate This is harmful / unsafe Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 8.9,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 25
+     },
+     {
+      "q": "Between your top two gift ideas, which feels more special?",
+      "a": "is this for? (e.g., friend, partner, parent — and man or woman?)•Any hobbies or interests? (e.g., cooking, fitness, tech, travel, home)Once I know a bit more, I can give you some great concrete suggestions to compare! {} Informed by whattogetmy.com, theguardian.com, Drink4Good!, Propel RC, alibaba.com {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is inaccurate This is harmful / unsafe Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 7.2,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 11
+     },
+     {
+      "q": "Is there a gift set or bundle that looks nicer than a single item?",
+      "a": "t are their interests? (e.g., self-care/spa, food & drink, tech, fitness, home)•What's your budget range? (e.g., $30–$50, $50–$100, or up to $150?)Once I know these details, I can find a gift set they'll genuinely love and use! {} Informed by alibaba.com, TexTale, alibaba.com, alibaba.com, alibaba.com {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is inaccurate This is harmful / unsafe Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 9.2,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 30
+     },
+     {
+      "q": "Can it arrive gift-ready, and how fast can it ship?",
+      "a": "s this for? (man or woman? friend, partner, family member?)•What are their interests? (e.g., self-care, food & drink, tech, fitness, home)•What's your budget? (e.g., $30–$50, $50–$100, up to $150?)Once I know these, I can find you something that ships fast, looks great, and feels genuinely thoughtful! {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is irrelevant This is harmful / unsafe Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 7.9,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 20
+     },
+     {
+      "q": "Great, add your top gift pick to my cart and tell me the total.",
+      "a": "our cart, I just need:•Who is this for? (man or woman? friend, partner, family member?)•Their interests? (e.g., cooking, fitness, self-care, tech, home)•Your budget range? (e.g., $30–$50, $50–$100, up to $150?)Once you share these, I'll find a great option, add it to your cart, and give you the total! {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is inaccurate This is irrelevant Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 6.9,
+      "cov": 57
+     },
+     {
+      "q": "Can you include a gift message or a gift receipt?",
+      "a": "ift-ready option, I just need:•Who is this for? (man or woman? friend, partner, family member?)•Their interests? (e.g., cooking, fitness, self-care, tech, home)•Your budget? (e.g., $30–$50, $50–$100, up to $150?)Once I have these, I'll find something that ships fast, looks great, and is ready to give! {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is irrelevant This is inaccurate Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 9.7,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "If they want to exchange it, how would that work?",
+      "a": "d as store credit to pick a replacementThis makes it really easy for them to swap for a different size, color, or even a completely different item if needed! {} Gift Returns Return A Gift Learn More {} What's Amazon's standard return window? Can I send the gift receipt later? Show me popular gift sets {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is irrelevant This is harmful / unsafe Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 12.8,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 17
+     },
+     {
+      "q": "Any discount if I add a second smaller item?",
+      "a": "own kind of bundle deal!If you're looking for gift sets or bundles for someone else, I'm still happy to help — just share a bit about who you're shopping for and your budget, and I'll find something great! {} What Blink devices get the 10% discount? Show Blink camera bundles Help me find a gift bundle {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is inaccurate This is irrelevant Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 10.2,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 17
+     }
+    ]
+   },
+   {
+    "key": "gift-medicube-pads",
+    "label": "Gift shopper · medicube-pads",
+    "datetime": "2026-07-07T17:30:53.763Z",
+    "lat": "~15s",
+    "success": 100,
+    "successTxt": "100%",
+    "handoverTurn": null,
+    "ticket": null,
+    "productRecs": {
+     "count": 0,
+     "names": []
+    },
+    "ev": {
+     "total": 88,
+     "cls": "resolved",
+     "dims": {
+      "answer": 30,
+      "discovery": 20,
+      "recommendation": 22,
+      "rich": 6,
+      "close": 10
+     },
+     "note": "After a slow clarifying start it lands a named, priced, gift-ready set, adds it to cart with a total, and cleanly handles gift-message and exchange follow-ups."
+    },
+    "turns": [
+     {
+      "q": "Hi! I'm looking for a gift for someone and I'm not sure what to pick, can you help?",
+      "a": "partner, parent, coworker)•What are their interests or hobbies? (e.g., skincare, cooking, fitness, reading, gaming)•Do you have a budget in mind?The more you can share, the better I can tailor the suggestions for you! {} Informed by glamour.com, Glamour UK, GlowRecs, harpersbazaar.com, Wet Shave Club {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is harmful / unsafe This is irrelevant Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 7.2,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "It's for someone who likes quality but isn't fussy; I want something they'll actually use.",
+      "a": "agrance, accessories)•Any categories you're drawn to? (e.g., home, beauty, tech, food & drink, experiences)Even a rough idea helps me find something they'll genuinely love and use — not just a \"nice\" gift that gathers dust! {} Informed by glamour.com, cosmopolitan.com, thecut.com, GlowRecs, allure.com {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is irrelevant This is harmful / unsafe Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 8.5,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 30
+     },
+     {
+      "q": "My budget is moderate, what would make a good gift in that range?",
+      "a": "tner, family member, coworker)•Any interests or hobbies you know of? (e.g., skincare, cooking, fitness, home, tech, reading)Even a rough idea makes a big difference in finding something they'll actually reach for! {} Informed by About Darwin, Bound By Flame, The Weather Channel, GuideSpot, alibaba.com {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is inaccurate This is harmful / unsafe Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 9.1,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 13
+     },
+     {
+      "q": "Between your top two gift ideas, which feels more special?",
+      "a": "ld you tell me:•Who is the gift for? (friend, partner, parent, coworker?)•What are their interests? (skincare, cooking, home, tech, fitness, books?)•Rough budget? (e.g., under $30, $30–$60, $60–$100+)Once I know a bit more, I can suggest something that feels thoughtful and personal — not just generic! {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is harmful / unsafe This is inaccurate Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 8.6,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 33
+     },
+     {
+      "q": "Is there a gift set or bundle that looks nicer than a single item?",
+      "a": "owing down by the recipient's skin type, age, or how well-known they are with skincare? {} Which set is best for sensitive skin? Which looks most impressive as a gift? Add one of these to my cart Show gift sets under $30 {} Informed by Glamour UK, cosmopolitan.com, elle.com, allure.com, Bound By Flame {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is harmful / unsafe This is inaccurate Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 31,
+      "cov": 40
+     },
+     {
+      "q": "Can it arrive gift-ready, and how fast can it ship?",
+      "a": "ill gift-worthy: Summer Fridays or Laneige (both arrive tomorrow)Would you like to add one of these to your cart, or do you want gift wrapping options at checkout? {} Add Summer Fridays set to my cart Which is best for sensitive skin? Compare Sol de Janeiro vs Summer Fridays Show gift wrapping options {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is harmful / unsafe This is inaccurate Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 22.9,
+      "cov": 40
+     },
+     {
+      "q": "Great, add your top gift pick to my cart and tell me the total.",
+      "a": "Jet Lag Mask, Eye Patches, Deep Hydration Serum & Mist) — beautifully packaged, arrives tomorrow Jul 8. Qty: 1More details Order total: $34.00 + applicable tax (FREE delivery tomorrow, Jul 8)Go to cart {} Undo Add a gift message at checkout Is gift wrapping available? Show complementary skincare gifts {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is irrelevant This is harmful / unsafe Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 14.2,
+      "cov": 57
+     },
+     {
+      "q": "Can you include a gift message or a gift receipt?",
+      "a": "are gift receiptGift Wrapping — available for eligible items; you'll see the option at checkout if it applies to this set.Would you like to go ahead and place the order? {} Buy Now Can I ship directly to the recipient? Show complementary skincare gifts What's the return policy on gifts? {} Your Orders {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is harmful / unsafe This is inaccurate Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 13.4,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 25
+     },
+     {
+      "q": "If they want to exchange it, how would that work?",
+      "a": "0-day return window would run through around Aug 7 — plenty of time for them to try it and decide. {} Your Orders Returns Policy Refunds Exchange An Item Replace An Item {} Place the order now Can I ship directly to the recipient? Show complementary skincare gifts What's Amazon's beauty return policy? {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is inaccurate This is irrelevant Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 13.7,
+      "cov": 50
+     },
+     {
+      "q": "Any discount if I add a second smaller item?",
+      "a": "dding one of these keeps your total under $45 for the full gift, and they all ship tomorrow — no discount needed when the value looks this good!Want me to add one to your cart? {} Add the jade roller to my cart Add the sheet mask set to my cart What's my current cart total? Show more gift add-on ideas {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is irrelevant This is inaccurate Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 21.3,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 33
+     }
+    ]
+   },
+   {
+    "key": "problem-solver-basics-sheets",
+    "label": "Specific need / reassurance · basics-sheets",
+    "datetime": "2026-07-07T17:19:31.188Z",
+    "lat": "~12.8s",
+    "success": 100,
+    "successTxt": "100%",
+    "handoverTurn": null,
+    "ticket": null,
+    "productRecs": {
+     "count": 0,
+     "names": []
+    },
+    "ev": {
+     "total": 81,
+     "cls": "partial",
+     "dims": {
+      "answer": 30,
+      "discovery": 20,
+      "recommendation": 13,
+      "rich": 8,
+      "close": 10
+     },
+     "note": "Handles the reassurance/quality worry honestly and completes the cart, but never names the actual recommended product, leaving the pick abstract."
+    },
+    "turns": [
+     {
+      "q": "Hi, I have a specific need and I'm worried about picking the wrong thing. Can you help?",
+      "a": "ing if it's soft enough or suits your sleep style?•Fit — worried about the fitted sheet staying on?•Something else entirely?Let me know and I'll help you get it right! {} Will this fit a deep pocket mattress? Is it good for hot sleepers? How does it compare to cotton sheets? What colors are available? {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is inaccurate This is irrelevant Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 7.6,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 29
+     },
+     {
+      "q": "I've been disappointed by similar products before, so quality really matters to me.",
+      "a": "count options) that might hold up better over time? {} Show more durable sheet alternatives Best sheets for hot sleepers How do I keep fitted sheets from slipping? Compare cotton vs microfiber sheets {} Informed by Timberlake TrussWorks, thecuriousmillenni…, Moon lake Spa, About Darwin, Wet Shave Club {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is irrelevant This is harmful / unsafe Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 13.3,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 13
+     },
+     {
+      "q": "Which of your products is best for that, and why is it a good fit?",
+      "a": "priority, you may want to consider a step-up option.Would you like me to show some higher-durability alternatives in a similar price range or slightly above? {} Show more durable sheet alternatives Compare microfiber vs cotton sheets Best sheets for hot sleepers What thread count is best for quality? {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is inaccurate This is harmful / unsafe Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 13.8,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 29
+     },
+     {
+      "q": "What do other customers say in their reviews, does it actually hold up?",
+      "a": "ppointments, this is a risk worth noting. Would you like me to show some higher-durability alternatives that customers consistently praise for lasting longer? {} Show more durable sheet alternatives Best cotton sheets under $50 How to prevent sheets from pilling Compare microfiber vs cotton durability {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is harmful / unsafe This is inaccurate Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 15.2,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 14
+     },
+     {
+      "q": "Is there anything I should pair it with to get the best result?",
+      "a": "e bleach. That alone makes a noticeable difference in longevity.Would you like me to find sheet straps or a mattress protector to pair with these? {} Show bed sheet straps options Find a mattress protector to pair with this Show more durable sheet alternatives What's the best detergent for microfiber? {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is harmful / unsafe This is irrelevant Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 14.5,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 29
+     },
+     {
+      "q": "If it doesn't work out for me, what are my options?",
+      "a": "packaging until you're sure you're happy with them — it makes returns much smoother.At just $14.16, the financial risk is low if you do decide to try them. Would you like me to also show you some more durable alternatives as a backup option? {} Return Items You Ordered Refunds And Exchanges Learn More {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is inaccurate This is irrelevant Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 14.4,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "Okay, I'm convinced, add your recommendation and give me the total.",
+      "a": "eminders to get the best out of it:•Wash warm, tumble dry low — this is the #1 factor in longevity•Keep the packaging until you're sure you're happy (30-day returns, just in case!)Go to cart {} Undo Add sheet straps to protect fit Show more durable sheet alternatives Find a matching mattress protector {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is irrelevant This is harmful / unsafe Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 15.5,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 17
+     },
+     {
+      "q": "How do I use it correctly to get the best result?",
+      "a": "results all have one thing in common — they follow the care label closely. It makes a noticeable difference with microfiber specifically. {} How often should I wash my sheets? Show bed sheet straps to keep corners secure Find a mattress protector to pair with these Show more durable sheet alternatives {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is irrelevant This is inaccurate Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 13.7,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "Is there a subscription or refill option?",
+      "a": "r — I'll watch for discounts on this sheet set (or higher-quality alternatives) and let you know when a good deal comes upWould either of those be useful? {} Remind me to replace these in a year Watch for deals on sheet sets Show me more durable sheet alternatives Set a price alert if this drops lower {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is irrelevant This is harmful / unsafe Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 10.7,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "Confirm my total and when it will arrive?",
+      "a": "t checkout will include any applicable taxes based on your delivery address. You can review the full breakdown before confirming by visiting your cart.Go to cart {} Add sheet straps to my order Find a mattress protector to pair Show more durable sheet alternatives Set a price alert if this drops lower {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is harmful / unsafe This is irrelevant Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 9.2,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       },
+       {
+        "t": "no timeframe given",
+        "k": "warn"
+       }
+      ],
+      "cov": 25
+     }
+    ]
+   },
+   {
+    "key": "problem-solver-blinkcam",
+    "label": "Specific need / reassurance · blinkcam",
+    "datetime": "2026-07-07T17:04:27.434Z",
+    "lat": "~15.4s",
+    "success": 100,
+    "successTxt": "100%",
+    "handoverTurn": null,
+    "ticket": null,
+    "productRecs": {
+     "count": 0,
+     "names": []
+    },
+    "ev": {
+     "total": 73,
+     "cls": "partial",
+     "dims": {
+      "answer": 30,
+      "discovery": 20,
+      "recommendation": 13,
+      "rich": 0,
+      "close": 10
+     },
+     "note": "Addresses the reliability worry well with wired-camera guidance and adds to cart, but never names a specific model and shows no price, keeping the pick generic."
+    },
+    "turns": [
+     {
+      "q": "Hi, I have a specific need and I'm worried about picking the wrong thing. Can you help?",
+      "a": "?•Concerned about contract terms or cancellation?•Not sure if your Blink devices are compatible?Just let me know what's on your mind and I'll help you make the right call! {} Blink Plus vs Basic Plan differences How many cameras does this cover? Can I cancel anytime? What Blink cameras work with this? {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is harmful / unsafe This is inaccurate Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 9.6,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 14
+     },
+     {
+      "q": "I've been disappointed by similar products before, so quality really matters to me.",
+      "a": "able Blink camera options to pair with this plan? {} Most reliable Blink camera models Blink Plus vs Basic Plan differences How does cloud storage work with this plan? Compare Blink to other security cameras {} Informed by GearJunkie, runnersworld.com, businessinsider.com, runnersworld.com, rtings.com {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is harmful / unsafe This is inaccurate Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 14.5,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 13
+     },
+     {
+      "q": "Which of your products is best for that, and why is it a good fit?",
+      "a": "ackWould you like me to show you the most reliable Blink camera options to pair with this plan? {} Show most reliable Blink cameras Blink Plus vs Basic Plan differences Compare Blink to other security systems What's included in the Plus Plan? {} Informed by Gitnux, Gitnux, BuzzFeed, BuzzFeed, Reviewed {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is irrelevant This is harmful / unsafe Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 16.1,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 14
+     },
+     {
+      "q": "What do other customers say in their reviews, does it actually hold up?",
+      "a": "(which have better reliability) rather than battery-powered ones if you go this route.Would you like to see which Blink camera models customers report as most reliable? {} Most reliable Blink camera models Wired vs battery-powered cameras Compare to other security systems How do I fix offline cameras? {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is inaccurate This is irrelevant Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 9.1,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 29
+     },
+     {
+      "q": "Is there anything I should pair it with to get the best result?",
+      "a": "up so you're not solely dependent on cloud storage.Would you like help picking the right camera based on where you plan to place it (indoors vs. outdoors)? {} Best Blink camera for outdoor use How does local storage vs cloud storage work? Compare Blink Mini vs Wired Floodlight Add Blink camera to cart {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is inaccurate This is harmful / unsafe Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 23.8,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 14
+     },
+     {
+      "q": "If it doesn't work out for me, what are my options?",
+      "a": "stomer complaint), you can cancel before the next billing cycle with no further charges.Would you like help getting started with a low-risk monthly setup? {} How do I cancel a Blink subscription? Monthly vs yearly plan cost comparison Show most reliable Blink cameras What's included in the free trial? {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is irrelevant This is harmful / unsafe Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 19.5,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "Okay, I'm convinced, add your recommendation and give me the total.",
+      "a": "s are plug-in or wired, which directly addresses the reliability complaints from other customers. The local backup means you're not solely dependent on cloud storage — a smart safety net.Go to cart {} Undo Switch to the yearly Blink plan Add an outdoor Blink camera too How do I set up the Sync Module? {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is inaccurate This is harmful / unsafe Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 22.2,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 17
+     },
+     {
+      "q": "How do I use it correctly to get the best result?",
+      "a": "fline\" warnings. If a camera goes offline, restart it by unplugging for 10 seconds — this fixes 90% of connection issues.Want tips on optimal camera placement for maximum coverage? {} Best placement for indoor camera How to fix offline cameras Motion detection settings explained Adding a second camera {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is irrelevant This is harmful / unsafe Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 10,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 20
+     },
+     {
+      "q": "Is there a subscription or refill option?",
+      "a": "the yearly plan saves you money long-term.Would you like me to set up a reminder to check in after your first month and decide whether to switch to yearly? {} Remind me to review Blink after one month How much does the yearly plan cost? Show my upcoming subscriptions Compare monthly vs yearly savings {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is irrelevant This is inaccurate Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 12,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "Confirm my total and when it will arrive?",
+      "a": "tically. The good news: it comes with a free 30-day trial, so you won't be charged right away.Ready to place the order? I can initiate checkout for the three hardware items whenever you are! {} Place the order now Add the Blink Plus Plan to my order Will it arrive before the weekend? Show my full cart {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is inaccurate This is irrelevant Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 17.8,
+      "fl": [
+       {
+        "t": "no timeframe given",
+        "k": "warn"
+       }
+      ],
+      "cov": 50
+     }
+    ]
+   },
+   {
+    "key": "problem-solver-medicube-pads",
+    "label": "Specific need / reassurance · medicube-pads",
+    "datetime": "2026-07-07T17:34:55.803Z",
+    "lat": "~14.7s",
+    "success": 100,
+    "successTxt": "100%",
+    "handoverTurn": null,
+    "ticket": null,
+    "productRecs": {
+     "count": 0,
+     "names": []
+    },
+    "ev": {
+     "total": 88,
+     "cls": "resolved",
+     "dims": {
+      "answer": 30,
+      "discovery": 20,
+      "recommendation": 22,
+      "rich": 6,
+      "close": 10
+     },
+     "note": "Strong sensitivity-aware discovery and a genuinely risk-lowering pick (smallest size) that it adds to cart, though the $436.64 total is polluted by unrelated cart items."
+    },
+    "turns": [
+     {
+      "q": "Hi, I have a specific need and I'm worried about picking the wrong thing. Can you help?",
+      "a": "sure I point you in the right direction, could you tell me a bit more?•What's your main skin concern — pores, texture, oiliness, sensitivity, or something else?•Do you have any known sensitivities to exfoliating acids (AHA/BHA)?•Are you new to chemical exfoliants, or do you already use them regularly? {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is irrelevant This is harmful / unsafe Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 6.4,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "I've been disappointed by similar products before, so quality really matters to me.",
+      "a": "concerns but have a cleaner finish or are better suited for sensitive skin? {} Show alternatives with no sticky residue Best pore pads for sensitive skin How to use these to avoid irritation Compare with Paula's Choice BHA {} Informed by alibaba.com, alibaba.com, alibaba.com, BuzzFeed, Wet Shave Club {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is irrelevant This is harmful / unsafe Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 16.2,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 13
+     },
+     {
+      "q": "Which of your products is best for that, and why is it a good fit?",
+      "a": "esults with a cleaner, non-sticky finish? {} Show pore pad alternatives with no sticky residue Best options for sensitive skin How to minimize the sticky residue issue Compare with Paula's Choice BHA exfoliant {} Informed by thecuriousmillenni…, glamour.com, Skin Sense, thecuriousmillenni…, Glamour UK {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is harmful / unsafe This is inaccurate Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 18.1,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 29
+     },
+     {
+      "q": "What do other customers say in their reviews, does it actually hold up?",
+      "a": "past disappointments matter to you, it's worth knowing upfront.Would you like me to find alternatives with a similar formula but cleaner finish? {} Show alternatives with no sticky residue Best pore pads for sensitive skin How to use these to avoid irritation Compare with Paula's Choice BHA exfoliant {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is inaccurate This is harmful / unsafe Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 19.1,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "Is there anything I should pair it with to get the best result?",
+      "a": "mended pairing for maximum pore resultsMore details {} Show SPF moisturizers to pair with exfoliants Best moisturizers for after exfoliating How often should I use the pads? Compare Zero Pore Pads with Paula's Choice BHA {} Informed by Stylevana CA, Stylevana UK, Skin Seoul, Stylevana US, Stylevana MY {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is inaccurate This is harmful / unsafe Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 18,
+      "cov": 43
+     },
+     {
+      "q": "If it doesn't work out for me, what are my options?",
+      "a": "sis even for beauty items.My honest suggestion: Given your concern about being disappointed again, the smallest available size is your lowest-risk entry point. Would you like me to check if a smaller jar is available? {} Returns Policy Online Return Center About Amazon Returns Return Items You Ordered {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is irrelevant This is inaccurate Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 15.5,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "Okay, I'm convinced, add your recommendation and give me the total.",
+      "a": "pairing it with the medicube Affordable Trio (Pads + Serum + Cream) for the full system — would you like me to add that too, or just stick with the pads for now to test it out first?Go to cart {} Undo Add the full Zero Pore trio set Show SPF moisturizers to pair with it Compare with Paula's Choice BHA {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is harmful / unsafe This is inaccurate Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 13.5,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 17
+     },
+     {
+      "q": "How do I use it correctly to get the best result?",
+      "a": "n the same day•Don't overuse early on — build up frequency gradually {} How soon should I expect results? Best SPF moisturizers to use after exfoliating Can I use retinol with these pads? Add the full Zero Pore trio set {} Informed by Skin Bliss, SKINNEY, British Vogue, LUNAESCENT, comfortzoneskin.co… {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is harmful / unsafe This is inaccurate Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 16,
+      "cov": 40
+     },
+     {
+      "q": "Is there a subscription or refill option?",
+      "a": "ever schedule works best for you, and you just checkout when ready. This gives you more flexibility than a fixed subscription.Which would you prefer? {} Set up a refill reminder every 3 months Notify me when it goes on sale again Show the full Zero Pore trio set What's the best frequency for my usage? {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is irrelevant This is harmful / unsafe Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 10.5,
+      "cov": 50
+     },
+     {
+      "q": "Confirm my total and when it will arrive?",
+      "a": "ay July 8Your full cart total (including all other items) comes to $436.64.Go to cartWould you like to adjust the quantity, add the full Zero Pore Trio set, or go ahead and checkout? {} Remove one jar of the pads Add the full Zero Pore trio set Proceed to checkout Show SPF moisturizers to pair with it {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is inaccurate This is harmful / unsafe Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 13.4,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       },
+       {
+        "t": "no timeframe given",
+        "k": "warn"
+       }
+      ],
+      "cov": 25
+     }
+    ]
+   },
    {
     "key": "everyday-value",
     "label": "Everyday value buyer",
@@ -7487,10 +9132,10 @@ const STORES = [
   ],
   "turns": [
    {
-    "q": "Hi! I'm shopping but not sure what's right for me, can you help me choose?",
-    "a": "the whole family?•Do you have any dietary preferences or restrictions (e.g., vegan, gluten-free, no added sugar)?•Are you planning to snack on them as-is, or use them in recipes like smoothies, oatmeal, or baking? {} Informed by GearJunkie, SoundGuys, businessinsider.com, runnersworld.com, rtings.com {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is harmful / unsafe This is irrelevant Something else Dismiss Submit",
+    "q": "Hi! I'm deciding between a few options and money's a bit tight, can you help me choose?",
+    "a": "? (Feel free to list them or describe what you're looking for)•Is there a total budget you're trying to stay within?•Are these all for yourself, or are any of them gifts?That'll help me give you the most useful guidance! {} Informed by MoneyLion, vogue.com, msn.com, BuzzFeed, The Giving Assistant Blog {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is irrelevant This is inaccurate Something else Dismiss Submit",
     "by": "ai",
-    "lat": 6.9,
+    "lat": 9.9,
     "fl": [
      {
       "t": "missed part of the ask",
@@ -7500,49 +9145,10 @@ const STORES = [
     "cov": 0
    },
    {
-    "q": "I want something for everyday use, good quality, and I care about value for money.",
-    "a": "would you like me to compare them with similar organic snack options at different price points? {} Add to cart Compare similar organic snacks Subscribe & Save for better value? Other healthy everyday snack ideas {} Informed by Happy Simple Living, theguardian.com, Cha Ching Queen, wired.com, BuzzFeed {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is inaccurate This is irrelevant Something else Dismiss Submit",
+    "q": "I want the best bang for the buck, not the cheapest or the most expensive.",
+    "a": "any of these to your cart, or compare two of them more closely? {} Add the shower steamers to my cart Compare face masks vs shower steamers What's my cart total with all items? Show more value picks under $15 {} Informed by businessinsider.com, tomsguide.com, Mashable, refinery29.com, theguardian.com {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is irrelevant This is inaccurate Something else Dismiss Submit",
     "by": "ai",
-    "lat": 10.5,
-    "fl": [
-     {
-      "t": "missed part of the ask",
-      "k": "warn"
-     }
-    ],
-    "cov": 30
-   },
-   {
-    "q": "I'd like to stay within a sensible budget, what are my best options?",
-    "a": "pick with convenient individual resealable packs.Want me to add any of these to your cart? {} Add PANFRUIT raspberries to cart Compare nutrition between these snacks Subscribe & Save options available? More organic snack ideas {} Informed by Security.org, Beat Cop Game, PCMAG, PCMAG, caranddriver.com {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is inaccurate This is irrelevant Something else Dismiss Submit",
-    "by": "ai",
-    "lat": 22.7,
-    "fl": [
-     {
-      "t": "missed part of the ask",
-      "k": "warn"
-     }
-    ],
-    "cov": 14
-   },
-   {
-    "q": "Can you compare your two most popular options and tell me which is better for me?",
-    "a": "ANFRUIT is the better fit.Want me to add either to your cart? {} Add Brothers All Natural to cart Add PANFRUIT raspberries to cart Are there organic variety packs available? Subscribe & Save for better value? {} Informed by serp.co, sassblade.com, 10best-choices.com, Baby Bargains, Raw Creations Juice {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is irrelevant This is harmful / unsafe Something else Dismiss Submit",
-    "by": "ai",
-    "lat": 16.5,
-    "fl": [
-     {
-      "t": "missed part of the ask",
-      "k": "warn"
-     }
-    ],
-    "cov": 14
-   },
-   {
-    "q": "Which one is your overall best seller, and is it well reviewed?",
-    "a": "ould you like to add the Brothers All Natural pack to your cart? {} Add Brothers All Natural to cart Are there organic variety packs? Subscribe & Save options available? Compare nutrition between the two {} Informed by serp.co, 10best-choices.com, Baby Bargains, Freeze Dried Guide, Raw Creations Juice {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is inaccurate This is harmful / unsafe Something else Dismiss Submit",
-    "by": "ai",
-    "lat": 13.1,
+    "lat": 14.8,
     "fl": [
      {
       "t": "missed part of the ask",
@@ -7552,43 +9158,63 @@ const STORES = [
     "cov": 0
    },
    {
-    "q": "Okay, can you add your top recommendation to my cart?",
-    "a": "4 bags) — best value at ~$1.32/bag, great for everyday snackingMore details Great choice for everyday use and value for money! You can head to your cart whenever you're ready to check out.Go to cart {} Undo Also add the PANFRUIT raspberries? Subscribe & Save for better value? Other healthy snack ideas {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is inaccurate This is harmful / unsafe Something else Dismiss Submit",
+    "q": "Show me your two best value-for-money options and compare them.",
+    "a": "either (or both) to your cart? {} Add shower steamers to my cart What's my cart total with both items? Show more value picks under $15 Compare face masks vs shower steamers {} Informed by Aromatherapy Naturals, Aromatherapy Naturals, Aromatherapy Naturals, Aromatherapy Naturals, Aromatherapy Naturals {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is inaccurate This is irrelevant Something else Dismiss Submit",
     "by": "ai",
-    "lat": 12.6,
-    "cov": 40
+    "lat": 15.9,
+    "cov": 43
    },
    {
-    "q": "What's my total, and do you offer free shipping or a first-order discount?",
-    "a": "ee shipping benefitsWould you like to know more about Prime or Subscribe & Save options? {} Free Shipping Prime Members Subscribe & Save Learn More Amazon Prime Shipping Benefits {} Sign up for Prime free trial Subscribe & Save on this product Add another item to reach free shipping What's in my cart? {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is harmful / unsafe This is inaccurate Something else Dismiss Submit",
+    "q": "Honestly, is the pricier one worth the extra, or is the cheaper one fine?",
+    "a": "or buck — no contest.Want me to go ahead and confirm your cart with the sheet set? {} Add shower steamers too What's my total with both? Are there more durable sheet alternatives? Set a price alert on the steamers {} Sources businessinsider.com DataSSimilate - Help You Make Better Decisions Bed Guides {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is harmful / unsafe This is inaccurate Something else Dismiss Submit",
     "by": "ai",
-    "lat": 16.5,
+    "lat": 14,
     "fl": [
      {
       "t": "missed part of the ask",
       "k": "warn"
      }
     ],
-    "cov": 29
+    "cov": 0
    },
    {
-    "q": "Is there a warranty or guarantee if something goes wrong?",
-    "a": "mazon has you covered with a refund — no hassle return needed for food items. {} About Amazon Returns Your Orders Learn More Return Items You Ordered Returns Policy {} How do I request a refund on Amazon? What is Amazon Prime's return benefit? Subscribe & Save on my cart item Other healthy snack ideas {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is harmful / unsafe This is inaccurate Something else Dismiss Submit",
+    "q": "Are there any current promos, bundles, or ways to save?",
+    "a": "the steamers (if offered) could knock off 5–15%No major active promotions right now, but these are already strong value prices. Want me to add any of these to your cart? {} Add shower steamers to my cart What's my total with both items? Show more value self-care picks Set a price alert on the steamers {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is irrelevant This is inaccurate Something else Dismiss Submit",
     "by": "ai",
-    "lat": 18.6,
+    "lat": 13.8,
     "fl": [
      {
       "t": "missed part of the ask",
       "k": "warn"
      }
     ],
-    "cov": 17
+    "cov": 14
    },
    {
-    "q": "How long will delivery take, roughly?",
-    "a": "g at just 2 days from today (Tuesday, July 7).Not a Prime member yet? A free 30-day trial would get you that faster delivery on this order and future ones.Would you like to go ahead and place your order? {} Buy Now Sign up for Prime free trial Subscribe & Save on this product Other healthy snack ideas {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is irrelevant This is harmful / unsafe Something else Dismiss Submit",
+    "q": "Which would you personally pick on my budget?",
+    "a": "longer-lasting spend.Want me to go ahead and keep it in your cart? {} Keep the sheet set in my cart Are there more durable sheet alternatives? Add shower steamers too What's my cart total right now? {} Informed by Rosenberry Rooms, Burning For Success, goodhousekeeping.com, tomsguide.com, Sleep Pilot {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is harmful / unsafe This is irrelevant Something else Dismiss Submit",
     "by": "ai",
-    "lat": 8.4,
+    "lat": 12.7,
+    "fl": [
+     {
+      "t": "missed part of the ask",
+      "k": "warn"
+     }
+    ],
+    "cov": 0
+   },
+   {
+    "q": "Add that one to my cart and tell me the total with any discount.",
+    "a": "E tomorrow, July 8.No additional coupons or promo codes are currently showing on the sheet set, but at $14.16 for a 4-piece OEKO-TEX certified set, it's already a strong value.Go to cart {} Remove any items from my cart What's the best value item in my cart? Add shower steamers too Proceed to checkout {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is inaccurate This is irrelevant Something else Dismiss Submit",
+    "by": "ai",
+    "lat": 16.8,
+    "cov": 57
+   },
+   {
+    "q": "Does the cheaper one have the same warranty as the pricier one?",
+    "a": "g goes wrong.If warranty coverage is important to you, that's typically a feature of higher-priced bedding brands rather than budget options like these. {} Are there better quality sheets with a warranty? How do I initiate a return on Amazon? Show mid-range sheet options What's Amazon's return policy? {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is inaccurate This is harmful / unsafe Something else Dismiss Submit",
+    "by": "ai",
+    "lat": 11.9,
     "fl": [
      {
       "t": "missed part of the ask",
@@ -7598,17 +9224,24 @@ const STORES = [
     "cov": 20
    },
    {
-    "q": "And if I change my mind, how easy is it to return?",
-    "a": "g on eligible items, making it even more hassle-free.In short — returning on Amazon is very straightforward, especially for grocery/snack items! {} How do I track my order? Subscribe & Save on this product Other healthy snack ideas Place my order now {} Your Orders Returns Policy Customer Service Home {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is irrelevant This is harmful / unsafe Something else Dismiss Submit",
+    "q": "Can I pay in installments or split payment?",
+    "a": "ikely won't qualify on its own (below minimums), but your full cart total of $364+ should give you installment options.Want me to walk you through anything else about payment options? {} Proceed to checkout What payment methods do I have saved? Remove items from my cart How does Affirm work on Amazon? {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is harmful / unsafe This is irrelevant Something else Dismiss Submit",
     "by": "ai",
-    "lat": 10.6,
+    "lat": 18.5,
     "fl": [
      {
       "t": "missed part of the ask",
       "k": "warn"
      }
     ],
-    "cov": 0
+    "cov": 25
+   },
+   {
+    "q": "Confirm my total and the fastest shipping option?",
+    "a": "s is up to date•Choose \"Fastest delivery\" at checkout (may have an additional cost for some items vs. free standard)•Prime members typically get the best speeds at no extra chargeGo to cart {} Proceed to checkout What's my default shipping address? Remove an item from my cart Show payment plan options {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is irrelevant This is inaccurate Something else Dismiss Submit",
+    "by": "ai",
+    "lat": 11.1,
+    "cov": 40
    }
   ]
  },
