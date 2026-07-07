@@ -84984,7 +84984,8 @@ function convLatNum(s){ const m=String(s||'').match(/[\d.]+/); return m?+m[0]:nu
 function convOutcomeOf(it){ return it.handoverTurn ? 'handover' : 'automated'; }
 function buildConvItems(){
   const items=[];
-  const feed=(arr,lane)=>arr.forEach(s=>{
+  // vwPass = the top datebar vendor/website pills — they must filter this tab too
+  const feed=(arr,lane)=>arr.filter(vwPass).forEach(s=>{
     const list = (s.themes&&s.themes.length) ? s.themes
       : (s.turns&&s.turns.length ? [{label:'conversation', turns:s.turns, lat:s.lat, success:s.success, successTxt:s.successTxt, handoverTurn:null, datetime:s.datetime, ticket:s.ticket}] : []);
     list.forEach(th=>{
@@ -85011,7 +85012,7 @@ function passConvFilter(it){
     if(!hay.includes(q)) return false; }
   return true;
 }
-function setConvFilter(group,val){ CF_FILTER[group]=val; renderConv(); }
+function setConvFilter(group,val){ CF_FILTER[group]=val; if(group!=='q') renderConvFilters(); renderConv(); }
 function renderConvFilters(){
   const host=document.getElementById('conv-filters'); if(!host) return;
   const vendors=[...new Set([...STORES,...SUPPORT].map(s=>s.vendor))].sort();
@@ -85041,9 +85042,9 @@ function renderConvChart(items){
     const tot=Object.values(byDay[d]).reduce((a,b)=>a+b,0);
     const segs=vendors.filter(v=>byDay[d][v]).map(v=>{
       const hpx=Math.max(2,Math.round(byDay[d][v]/max*H));
-      return '<i style="height:'+hpx+'px;background:'+col(v)+'" data-tip="'+v+' — '+byDay[d][v]+' conversation'+(byDay[d][v]>1?'s':'')+' on '+d+'"></i>';
+      return '<i style="height:'+hpx+'px;background:'+col(v)+'" title="'+v+' · '+byDay[d][v]+'"></i>';
     }).join('');
-    return '<div class="cc-col" data-tip="'+tot+' conversation'+(tot>1?'s':'')+' on '+d+'"><div class="cc-bar" style="height:'+H+'px">'+segs+'</div><span class="cc-day">'+d.slice(5).replace('-','/')+'</span></div>';
+    return '<div class="cc-col"><div class="cc-bar" style="height:'+H+'px">'+segs+'</div><span class="cc-day">'+d.slice(5).replace('-','/')+'</span></div>';
   }).join('');
   const legend=vendors.map(v=>'<span class="cc-leg"><i style="background:'+col(v)+'"></i>'+v+'</span>').join('');
   el.innerHTML='<div class="card cc-card"><div class="cc-title">Conversations captured per day <span>· '+items.length+' in view · stacked by vendor · follows the filters</span></div>'+
