@@ -767,7 +767,10 @@ export const STORES = [
   { key: "yuma-meshki-au",    vendor: "Yuma",   store: "MESHKI AU",   url: "https://meshki.com.au/",      widget: "yuma", locale: "en-AU" }, // app.yuma.ai/w/df03b930
   { key: "yuma-meshki-uk",    vendor: "Yuma",   store: "MESHKI UK",   url: "https://meshki.co.uk/",       widget: "yuma", locale: "en-GB" }, // app.yuma.ai/w/5d646ace
   // yuma-bombayhair removed 2026-07-06 — no live AI agent / on-site chat on this store (verified, Max)
-  // yuma-tumble removed 2026-07-06 — email-gated/irrelevant cold conversations; excluded from future captures and historical data.
+  // yuma-tumble RESTORED 2026-07-07 — the 07-06 removal ("email-gated") predates the email-gate fix;
+  // today's run: 9/10 valid with real timed answers (16-31s). Without a roster entry gen.js silently
+  // drops the store's committed convs from the report.
+  { key: "yuma-tumble",       vendor: "Yuma",   store: "Tumble",       url: "https://www.tumbleliving.com/",   widget: "yuma" },              // US home/rugs · app.yuma.ai/w/fbb8eeda
 
   // Headed-only vendors (widget loads only in real Chrome). candidate=excluded from headless runs.
   { key: "humind-900care",    vendor: "Humind", store: "900.care",    url: "https://www.900.care/",       widget: "humind", candidate: true, locale: "fr-FR" },
