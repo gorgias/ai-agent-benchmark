@@ -304,15 +304,17 @@ async function runStoreMode(browser, store, mode, theme) {
         console.log(`  [${store.key}/${mode}/${theme.key}] T${i + 1} (not sent — handed to human)`);
         continue;
       }
-      let r, handoverTail, replyTail;
+      let r, handoverTail, replyTail, replyFull;
       if (useNet) {
         try { r = await withTimeout(timeTurnNet(page, net, () => w.send(page, q)), TURN_TIMEOUT_MS + 15000, "turn-net"); }
         catch (e) { r = { ttft_ms: null, complete_ms: null, error: String(e).slice(0, 120) }; }
         handoverTail = replyTail = net.replies.slice(-3).map(x => x.text).join("  ").slice(-700);
+        replyFull = r.replyText || replyTail;   // timeTurnNet already joins this turn's full replies
       } else {
         const beforeAssistant = store.widget === "yuma"
           ? await readLatestAssistantReply(page, w.scope).catch(() => "")
           : "";
+        const beforeText = (await readTranscript(page, w.scope)).text;
         try { r = await withTimeout(timeTurn(page, w.scope, () => w.send(page, q), q), TURN_TIMEOUT_MS + 15000, "turn"); }
         catch (e) { r = { ttft_ms: null, complete_ms: null, error: String(e).slice(0, 120) }; }
         const transcript = (await readTranscript(page, w.scope)).text;
@@ -324,7 +326,20 @@ async function runStoreMode(browser, store, mode, theme) {
           ? (latestAssistant && latestAssistant !== beforeAssistant ? latestAssistant : "")
           : handoverTail;
         replyTail = replyTail.slice(-700);
+        // FULL reply for this turn (replyTail keeps only the LAST 500 chars, which
+        // beheads long answers — bad for display AND for the judge). Delta the
+        // transcript across the turn so the HEAD of the answer is preserved; if the
+        // widget reset/reshuffled its container (common prefix collapsed), fall back
+        // to the whole post-turn transcript rather than lose the front.
+        if (store.widget === "yuma") replyFull = (latestAssistant && latestAssistant !== beforeAssistant) ? latestAssistant : "";
+        else {
+          let p = 0; const m = Math.min(beforeText.length, transcript.length);
+          while (p < m && beforeText[p] === transcript[p]) p++;
+          replyFull = (p >= beforeText.length * 0.7 ? transcript.slice(p) : transcript).trim();
+        }
       }
+      // cap generously from the FRONT (keep the beginning; the tail is usually chrome)
+      replyFull = replyFull && replyFull.length > 4000 ? replyFull.slice(0, 4000) + "…" : (replyFull || "");
       // Pass the store/vendor name so the bot's own brand label ("Tediber says:") isn't
       // misread as a human agent named "Tediber".
       // store.personas covers AI agents replying under a human first name (Atma/Yuma's "Lucas says:").
@@ -333,7 +348,7 @@ async function runStoreMode(browser, store, mode, theme) {
       // Once a human owns the thread, every later turn is human too. We NEVER
       // count a human reply's latency — only the AI's own responses are timed.
       const by = handedOver ? "human" : "ai";
-      out.turns.push({ turn: i + 1, q, by, ...r, ai_latency_ms: by === "ai" ? r.complete_ms : null, handover: !!handover, handover_hit: handover, replyTail: replyTail.slice(-500) });
+      out.turns.push({ turn: i + 1, q, by, ...r, ai_latency_ms: by === "ai" ? r.complete_ms : null, handover: !!handover, handover_hit: handover, replyTail: replyTail.slice(-500), replyText: replyFull });
       console.log(`  [${store.key}/${mode}/${theme.key}] T${i + 1} ${by === "ai" ? (r.complete_ms ?? "—") + "ms" : "(human)"}${handover ? "  ⛔ HANDOVER: " + handover : ""}`);
       await sleep(SETTLE_MS);
     }

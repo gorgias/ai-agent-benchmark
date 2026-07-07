@@ -121,10 +121,11 @@ function aText(turn) {
   if (turn.by === "human") return "🚩 human took over";
   // cleanAnswer strips widget chrome / suggested-reply chips / product-card fragments
   // (see reply-clean.js) and shows the START of the real answer — not the chip tail.
-  // Cap at 700 chars = the exact window the LLM-judge scored (eval-pack.js), so the reader
-  // sees the same answer text the quality score was based on. (Was 240, which cut most
-  // substantive answers mid-thought.)
-  const clean = cleanAnswer(turn.replyTail, turn.q, 700);
+  // Prefer replyText (the FULL turn reply captured by run.js since 2026-07-07; replyTail
+  // keeps only the last 500 chars, which beheads long answers) and keep line breaks so
+  // paragraphs/bullets render. Cap 2400 = the window the LLM-judge scores (eval-pack.js),
+  // so the reader sees the same answer text the quality score was based on.
+  const clean = cleanAnswer(turn.replyText || turn.replyTail, turn.q, 2400, { breaks: true });
   if (turn.complete_ms == null) {
     return clean ? "(streamed past timing window) " + clean : "AI replied (streamed past timing window)";
   }

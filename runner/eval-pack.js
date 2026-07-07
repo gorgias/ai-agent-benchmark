@@ -74,7 +74,9 @@ for (const date of fs.readdirSync(RESULTS).filter((d) => /^\d{4}-\d{2}-\d{2}$/.t
         // sees it (reply-clean.js) so chips can't be mis-credited as discovery/rich elements.
         // Price/link/review presence is captured separately via convoSignals, so no signal is lost.
         // A timed-out/uncompleted turn must not carry stale DOM text into the quality judge.
-        reply: answered ? maskText(stripWidgetChrome(t.replyTail, t.q).slice(0, 700), names) : "",
+        // Prefer replyText (FULL turn reply, head-preserved) over replyTail (last 500 chars —
+        // beheads long answers, so the judge scored an answer missing its opening).
+        reply: answered ? maskText(stripWidgetChrome(t.replyText || t.replyTail, t.q).slice(0, 2400), names) : "",
       };
     });
     packets.push({ id, mode: j.mode, theme: j.themeLabel || j.theme, outcome: o.outcome, signals: convoSignals(j.turns), turns });

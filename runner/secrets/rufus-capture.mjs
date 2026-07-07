@@ -57,12 +57,20 @@ for (const theme of themes) {
     for (let i = 0; i < theme.turns.length; i++) {
       const q = theme.turns[i];
       if (handedOver) { out.turns.push({ turn: i + 1, q, by: "human", ttft_ms: null, complete_ms: null, ai_latency_ms: null, handover: false, handover_hit: null, unsent: true, replyTail: "(not sent — handed to human)" }); continue; }
+      const beforeText = (await readTranscript(page, w.scope)).text;
       const r = await timeTurn(page, w.scope, () => w.send(page, q), q).catch(e => ({ ttft_ms: null, complete_ms: null, error: String(e).slice(0, 100) }));
-      const tail = (await readTranscript(page, w.scope)).text.slice(-700);
+      const afterText = (await readTranscript(page, w.scope)).text;
+      const tail = afterText.slice(-700);
+      // FULL turn reply, head preserved: the Rufus inner container grows monotonically, so
+      // the prefix-delta is exactly this turn's echo+answer (replyTail beheads long answers)
+      let p = 0; const m = Math.min(beforeText.length, afterText.length);
+      while (p < m && beforeText[p] === afterText[p]) p++;
+      let replyFull = (p >= beforeText.length * 0.7 ? afterText.slice(p) : afterText).trim();
+      replyFull = replyFull.length > 4000 ? replyFull.slice(0, 4000) + "…" : replyFull;
       const handover = detectHandover(tail, w.handover, [store.store, store.vendor, ...(store.personas || [])]);
       if (handover) handedOver = true;
       const by = handedOver ? "human" : "ai";
-      out.turns.push({ turn: i + 1, q, by, ...r, ai_latency_ms: by === "ai" ? r.complete_ms : null, handover: !!handover, handover_hit: handover, replyTail: tail.slice(-500) });
+      out.turns.push({ turn: i + 1, q, by, ...r, ai_latency_ms: by === "ai" ? r.complete_ms : null, handover: !!handover, handover_hit: handover, replyTail: tail.slice(-500), replyText: replyFull });
       L(`[rufus/${theme.key}] T${i + 1} ${by === "ai" ? (r.complete_ms ?? "—") + "ms" : "(human)"}${handover ? " ⛔ " + handover : ""}`);
       await sleep(SETTLE);
     }
