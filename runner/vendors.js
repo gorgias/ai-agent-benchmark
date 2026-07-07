@@ -466,9 +466,15 @@ export const WIDGETS = {
     scope: { kind: "dom", sel: "#rufus-conversation-container" },
     handover: [],
     async open(page) {
+      // Runner navigates with waitUntil:"commit" (page not loaded yet). Amazon is heavy, so
+      // WAIT for the page + the Rufus launcher before clicking, then wait for the composer.
+      await page.waitForLoadState("domcontentloaded").catch(() => {});
+      await page.waitForSelector('#nav-rufus-disco, input[placeholder*="specific info" i]', { timeout: 30000 }).catch(() => {});
+      await page.waitForTimeout(1500);
       await dismiss(page).catch(() => {});
-      await page.locator('#nav-rufus-disco, input[placeholder*="specific info" i], button:has-text("Ask something else")').first().click({ timeout: 9000 }).catch(() => {});
-      await page.waitForTimeout(3500);
+      await page.locator('#nav-rufus-disco, input[placeholder*="specific info" i], button:has-text("Ask something else")').first().click({ timeout: 12000 }).catch(() => {});
+      await page.waitForSelector('#rufus-text-area', { timeout: 20000 }).catch(() => {});
+      await page.waitForTimeout(2000);
     },
     async send(page, text) {
       const inp = page.locator("#rufus-text-area").first();
