@@ -179,6 +179,20 @@
   .dp-trigger:hover{border-color:var(--primary)}
   /* vendor / website multi-select filters (AND-combined with the date window) */
   .flist{max-height:260px;overflow:auto;display:flex;flex-direction:column;gap:2px;text-align:left}
+  .fsearch{width:100%;box-sizing:border-box;margin-bottom:8px;padding:7px 10px;border:1px solid var(--line);border-radius:8px;font:600 12.5px Inter,sans-serif;color:var(--on);background:var(--surface-2);outline:none}
+  .fsearch:focus{border-color:var(--primary)}
+  .cc-card{padding:14px 16px 12px;margin-bottom:12px}
+  .cc-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--on-faint);margin-bottom:10px}
+  .cc-title span{text-transform:none;letter-spacing:0;font-weight:600;color:var(--on-muted)}
+  .cc-row{display:flex;gap:10px;align-items:flex-end;overflow-x:auto;padding:4px 2px}
+  .cc-col{display:flex;flex-direction:column;align-items:center;gap:4px;min-width:36px}
+  .cc-bar{display:flex;flex-direction:column-reverse;justify-content:flex-start;width:26px;border-radius:6px;overflow:hidden;background:var(--surface-2)}
+  .cc-bar i{display:block;width:100%;cursor:help}
+  .cc-tot{font-size:10.5px;font-weight:800;font-family:'JetBrains Mono',monospace;color:var(--on-muted)}
+  .cc-day{font-size:9.5px;color:var(--on-faint);font-family:'JetBrains Mono',monospace;white-space:nowrap}
+  .cc-legend{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px;border-top:1px dashed var(--line);padding-top:9px}
+  .cc-leg{font-size:10.5px;font-weight:600;color:var(--on-muted);display:inline-flex;align-items:center;gap:5px}
+  .cc-leg i{width:9px;height:9px;border-radius:3px;display:inline-block}
   .flist label{display:flex;align-items:center;gap:8px;font-size:12.5px;font-weight:600;color:var(--on);padding:5px 8px;border-radius:8px;cursor:pointer}
   .flist label:hover{background:rgba(126,85,246,.08)}
   .flist input{accent-color:var(--primary)}
@@ -606,7 +620,7 @@
 <p class="lead" id="mode-note" style="text-align:center;margin:0 auto 6px">Shopping-discovery conversations that must end in a real product recommendation.</p>
 
 <div class="datebar" id="datebar">
-  <span class="datebar-lbl">Sample window</span>
+  <span class="datebar-lbl">Date</span>
   <div class="dp">
     <button class="dp-trigger" id="dp-trigger" onclick="toggleCal(event)"><span id="dp-label">—</span><span class="dp-caret">▾</span></button>
     <div class="dp-pop" id="dp-pop" hidden onclick="event.stopPropagation()">
@@ -616,13 +630,14 @@
       <div class="dp-presets">
         <button class="datebtn" onclick="presetDays(7)">Last 7 days</button>
         <button class="datebtn" onclick="presetDays(30)">Last 30 days</button>
-        <button class="datebtn" onclick="presetAll()">All runs</button>
+        <button class="datebtn" onclick="presetAll()">All dates</button>
       </div>
     </div>
   </div>
   <div class="dp">
     <button class="dp-trigger" id="vf-trigger" onclick="toggleFPop(event,'vf')"><span id="vf-label">All vendors</span><span class="dp-caret">▾</span></button>
     <div class="dp-pop" id="vf-pop" hidden onclick="event.stopPropagation()">
+      <input type="search" class="fsearch" id="vf-search" placeholder="Search vendors…" oninput="fSearch('vf',this.value)" onclick="event.stopPropagation()">
       <div class="flist" id="vf-list"></div>
       <div class="dp-presets"><button class="datebtn" onclick="clearFilter('vf')">All vendors</button></div>
     </div>
@@ -630,6 +645,7 @@
   <div class="dp">
     <button class="dp-trigger" id="wf-trigger" onclick="toggleFPop(event,'wf')"><span id="wf-label">All websites</span><span class="dp-caret">▾</span></button>
     <div class="dp-pop" id="wf-pop" hidden onclick="event.stopPropagation()">
+      <input type="search" class="fsearch" id="wf-search" placeholder="Search websites…" oninput="fSearch('wf',this.value)" onclick="event.stopPropagation()">
       <div class="flist" id="wf-list"></div>
       <div class="dp-presets"><button class="datebtn" onclick="clearFilter('wf')">All websites</button></div>
     </div>
@@ -749,6 +765,7 @@
   <h2 class="sec">Conversations</h2>
   <p class="lead">Every captured conversation across <strong>both lanes</strong>, freshest first. Filter by lane, vendor, outcome or latency, or search the transcripts. Click a row to expand the full turn-by-turn transcript with <strong>per-message latency</strong>; a <span style="color:var(--danger);font-weight:700">human handover</span> is flagged, and Gorgias conversations link to their <strong>ticket</strong>.</p>
   <div id="conv-filters"></div>
+  <div id="conv-chart"></div>
   <div id="conv-live" style="display:none"></div>
   <div id="conv-count" class="note" style="margin:2px 2px 10px;font-size:12px"></div>
   <div class="card table-scroll" id="conv-feed" style="max-height:none"></div>
@@ -38285,6 +38302,733 @@ const STORES = [
   "turns": []
  },
  {
+  "id": "yuma-tumble-shopping-2026-07-07",
+  "date": "2026-07-07",
+  "vendor": "Yuma",
+  "store": "Tumble",
+  "site": "tumbleliving.com",
+  "url": "https://www.tumbleliving.com/",
+  "widget": "yuma",
+  "locale": "en-US",
+  "method": "new",
+  "us": false,
+  "lat": "~25.3s",
+  "latPct": 100,
+  "latP75": 28.3,
+  "ttft": 23.1,
+  "delivery": "atomic",
+  "success": 90,
+  "successTxt": "90%",
+  "avgTurns": 10,
+  "timed": 36,
+  "attempted": 40,
+  "auto": {
+   "automated": 3,
+   "handover": 2,
+   "deflected": 0,
+   "no_answer": 0,
+   "engaged": 5,
+   "rate": 60
+  },
+  "evalq": {
+   "n": 4,
+   "total": 64,
+   "dims": {
+    "answer": 18,
+    "discovery": 18,
+    "recommendation": 17,
+    "rich": 4,
+    "close": 7
+   },
+   "cls": {
+    "partial": 2,
+    "deflected": 1,
+    "resolved": 1
+   },
+   "learnings": [
+    "Never drops a turn and discovers well, but avoids commitment — zero prices shown, no total given, and the delivery estimate is deflected into an email-collection escalation.",
+    "The agent outsources its core job to the Ask-a-Designer form — ten turns without naming a single product, so the cart request is impossible to fulfill.",
+    "Competent value-led selling with real prices and an invoice path, but it ends by escalating a basic warranty question it should have been able to answer.",
+    "The strongest conversation in the batch — reviews, prices, options, and return reassurance all grounded and tied to the shopper's stated worry, blocked only by the shopper never naming a size."
+   ]
+  },
+  "guard": null,
+  "ticket": null,
+  "what": "4 cold private conversations (shopping themes). Handover in 1/4 themes. Avg end-to-end latency ~25.3s across 36 AI-timed turns.",
+  "datetime": "2026-07-07T10:58:07.782Z",
+  "themes": [
+   {
+    "key": "everyday-value",
+    "label": "Everyday value buyer",
+    "datetime": "2026-07-07T10:47:36.625Z",
+    "lat": "~24.5s",
+    "success": 70,
+    "successTxt": "70%",
+    "handoverTurn": 8,
+    "ticket": null,
+    "productRecs": {
+     "count": 3,
+     "names": [
+      "3x5' Rugs",
+      "5x7' Rugs",
+      "8x10' Rugs"
+     ]
+    },
+    "ev": {
+     "total": 72,
+     "cls": "partial",
+     "dims": {
+      "answer": 16,
+      "discovery": 20,
+      "recommendation": 22,
+      "rich": 6,
+      "close": 8
+     },
+     "note": "Competent value-led selling with real prices and an invoice path, but it ends by escalating a basic warranty question it should have been able to answer."
+    },
+    "turns": [
+     {
+      "q": "Hi! I'm shopping but not sure what's right for me, can you help me choose?",
+      "a": "ould you tell me a little more about what you're looking for? 🙂 Knowing which room you're shopping for, your preferred style or colors, and the size you might need would be very helpful. If you're looking for expert advice, we also offer a free Ask a Designer consultation. You can fill out a quick form here and one of our professional designers will get back to you with personalized recommendations! Thank you for being a customer and let me know if you have any questions.",
+      "by": "ai",
+      "lat": 23.4,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 20
+     },
+     {
+      "q": "I want something for everyday use, good quality, and I care about value for money.",
+      "a": "ing them perfect for handling daily life. 🙂 To help me narrow down some great options for you, do you have a specific room in mind or a certain size you are looking for? Also, are there any colors or styles you typically gravitate toward? I would also be happy to send you an invoice once we find the right fit to make the purchase process as smooth as possible. Thank you for being a customer, and please let me know if you have any questions! Bedroom Dining Room Living Room",
+      "by": "ai",
+      "lat": 14,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "I'd like to stay within a sensible budget, what are my best options?",
+      "a": "me specific options once I know what space you are looking to fill. To give you an idea of our standard pricing: 3x5' Rugs: $119 USD / $159 CAD 5x7' Rugs: $199 USD / $269 CAD 8x10' Rugs: $399 USD / $539 CAD Do you have a specific room or rug size in mind? Once you let me know, I can suggest some designs and even send over an invoice to make things easy for you. Thank you for being a customer and let me know if you have any questions. 🙂 Bedroom Kitchen/Hallway Living Room",
+      "by": "ai",
+      "lat": 16.3,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 14
+     },
+     {
+      "q": "Can you compare your two most popular options and tell me which is better for me?",
+      "a": "if you want something with a bit more contrast and a sophisticated feel. Both collections are priced similarly, ranging from $119 USD / $159 CAD for a 3x5' to $399 USD / $539 CAD for an 8x10'. To help you decide which is better for you, do you have a sense of which colors you prefer for your space? I'd also be happy to send you an invoice for your favorite one once you've picked a size and design! Thank you for being a customer and let me know if you have any questions. ⭐️",
+      "by": "ai",
+      "lat": 24.3,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 29
+     },
+     {
+      "q": "Which one is your overall best seller, and is it well reviewed?",
+      "a": "ng. ⭐️ Customers often mention how much they appreciate the classic design and how easily it handles messes. Since it comes in several beautiful color options like Light Blue & Ivory and Indigo & Beige, it tends to be a very versatile choice for any home. Would you like me to send you an invoice for an Amara rug, or do you have a specific size in mind for your space? Thank you for being a customer and let me know if you have any questions. 🙂 Ask a Designer Send an invoice",
+      "by": "ai",
+      "lat": 14.3,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "Okay, can you add your top recommendation to my cart?",
+      "a": "eral beautiful colors (like Light Blue/Ivory, Indigo/Beige, and Ash/Natural) and various sizes (such as 5x7', 8x10', or runners), could you let me know which specific size and color you would like? Once you provide those details, I can certainly send you an invoice directly to your email. This will allow you to complete your purchase quickly and securely with all your chosen items already included. Thank you for being a customer and let me know if you have any questions. 🙂",
+      "by": "ai",
+      "lat": 22.7,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "What's my total, and do you offer free shipping or a first-order discount?",
+      "a": "r order. Regarding your total, it depends on the size you choose for your Amara rug. For example, a 5x7' rug set is $199 USD / $269 CAD, and an 8x10' rug set is $399 USD / $539 CAD. Once you let me know your preferred size and color, I can give you an exact total. To provide you with a first-order discount, I just need to verify your eligibility. Could you please share your email address with me? Thank you for being a customer, and let me know if you have any questions! 🙂",
+      "by": "ai",
+      "lat": 56.7,
+      "cov": 57
+     },
+     {
+      "q": "Is there a warranty or guarantee if something goes wrong?",
+      "a": "🚩 human took over",
+      "by": "human",
+      "lat": null,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 33
+     }
+    ]
+   },
+   {
+    "key": "problem-solver",
+    "label": "Specific need / reassurance",
+    "datetime": "2026-07-07T10:52:32.228Z",
+    "lat": "~24.4s",
+    "success": 100,
+    "successTxt": "100%",
+    "handoverTurn": null,
+    "ticket": null,
+    "productRecs": {
+     "count": 2,
+     "names": [
+      "3x5' Rug Set",
+      "9x12' Rug Set"
+     ]
+    },
+    "ev": {
+     "total": 93,
+     "cls": "resolved",
+     "dims": {
+      "answer": 30,
+      "discovery": 20,
+      "recommendation": 22,
+      "rich": 11,
+      "close": 10
+     },
+     "note": "The strongest conversation in the batch — reviews, prices, options, and return reassurance all grounded and tied to the shopper's stated worry, blocked only by the shopper never naming a size."
+    },
+    "turns": [
+     {
+      "q": "Hi, I have a specific need and I'm worried about picking the wrong thing. Can you help?",
+      "a": "hing out to us. I'd be more than happy to help you find the perfect fit for your home! To make sure we get it just right, could you tell me a bit more about the specific need you have or the space you're looking to furnish? Thank you for being with us as a customer. Feel free to reach out with any other questions. Note: You're chatting with Casey, Tumble's AI assistant. If you'd like to connect with our team, just let me know anytime. Team replies may take a little longer.",
+      "by": "ai",
+      "lat": 13.2,
+      "cov": 43
+     },
+     {
+      "q": "I've been disappointed by similar products before, so quality really matters to me.",
+      "a": "lcro, our system uses a cushioned, puzzle-piece rug pad with corner pockets to keep everything securely in place and prevent corner curling. If you are looking for specific advice to make sure you pick the right design or size, we offer a Free Design Consultation where our expert team can provide personalized recommendations within one business day. Thank you for being a customer, and please let me know if you have any other questions! 🙂 Free Design Consult",
+      "by": "ai",
+      "lat": 23.1,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "Which of your products is best for that, and why is it a good fit?",
+      "a": "e for everyone in your household. Plus, they all include our unique 1/4\" cushioned rug pad that stays flat without the need for velcro. If you have a specific color or room in mind, I'd be happy to help you narrow it down! Would you like me to send you an invoice for one of these designs to help streamline the process for you? Thank you for being such a valued customer, and please let me know if you have any other questions. ⭐️ Amara collection Lisa collection",
+      "by": "ai",
+      "lat": 25.1,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 14
+     },
+     {
+      "q": "What do other customers say in their reviews, does it actually hold up?",
+      "a": "s a \"game changer\" because of its comfort and support. With an average rating of 4.9/5 stars across thousands of reviews, you can feel confident that these rugs are built for real life, messes and all. Would you like to take a closer look at one of our top-rated designs, or perhaps see our size guide to find the perfect fit for your space? Thank you for being a customer, and please let me know if you have any other questions! ⭐️",
+      "by": "ai",
+      "lat": 28.3,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 29
+     },
+     {
+      "q": "Is there anything I should pair it with to get the best result?",
+      "a": "sign before committing to a full-sized rug. ⭐️ Check the Size Guide: Pairing the right rug size with your room layout is key to a polished look. You can explore our comprehensive size guide for specific recommendations for every room. Is there a particular room you're working on? I'd be happy to help you narrow down the perfect size or style! Thank you for being a customer, and feel free to reach out with any other questions. ❤️ Ask a Designer Order Swatches",
+      "by": "ai",
+      "lat": 16.8,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 14
+     },
+     {
+      "q": "If it doesn't work out for me, what are my options?",
+      "a": "le. You can visit our Returns & Exchange Center and enter your order number and email address to get started. Once your request is submitted, you will receive a prepaid FedEx return label via email. You can either print the label at home or simply show the QR code from the email at a FedEx drop-off location, and they can print it for you. Thank you for being a customer! Please let me know if there is anything else I can help you with today. ⭐️ Ask a Designer",
+      "by": "ai",
+      "lat": 26.2,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "Okay, I'm convinced, add your recommendation and give me the total.",
+      "a": "elp you get this started! To give you an accurate total and the best recommendation, could you let me know which room you're shopping for and what size you're thinking of? For example, our 8x10' rugs (like the popular Amara or Lisa) are $389, while our 9x12' options are $549. Both sizes come with the cushioned rug pad included! Once I know the space you're working with, I can narrow down the perfect fit and provide the final total for you. 🙂 Bedroom Dining Room Living Room",
+      "by": "ai",
+      "lat": 32.1,
+      "cov": 50
+     },
+     {
+      "q": "How do I use it correctly to get the best result?",
+      "a": "t machine water setting. Add an extra rinse cycle to make sure all detergent is removed. For drying, lay the rug as flat as possible in a cool, shaded area. I'm still happy to help you with that final total and recommendation! Did you have a specific room or size in mind? For instance, our popular 8x10' rugs are $389 and the 9x12' size is $549. Thank you for being a customer, and let me know if you have any other questions! 🙂 8x10' Living Room 9x12' Bedroom",
+      "by": "ai",
+      "lat": 22,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "Is there a subscription or refill option?",
+      "a": "ng constant replacement. 🙂 I'm still here to help you get that recommendation and total finalized! To make sure I suggest the best fit, which room are you looking to furnish? Once I know if you're looking for something like an 8x10' ($389) or a 9x12' ($549), I can provide you with the final total and even send over an invoice to make things super easy for you. Thank you for being a customer, and let me know if you have any other questions! ⭐️ Amara rug Canyon rug Lisa rug",
+      "by": "ai",
+      "lat": 29.4,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "Confirm my total and when it will arrive?",
+      "a": "et: $389 9x12' Rug Set: $549 3x5' Rug Set: $119 Once you place your order, items that are in stock typically ship within 1 to 2 business days. Delivery within the contiguous US usually takes an additional 1 to 5 business days. Which size and room were you thinking for your new Tumble? Once you let me know, I can give you that final total! Thank you for being a customer, and please let me know if you have any other questions! 🙂 3x5' Entryway 8x10' Living Room 9x12' Bedroom",
+      "by": "ai",
+      "lat": 27.3,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 25
+     }
+    ]
+   },
+   {
+    "key": "compare-budget",
+    "label": "Comparison, budget-tight",
+    "datetime": "2026-07-07T10:53:03.849Z",
+    "lat": "~21.2s",
+    "success": 90,
+    "successTxt": "90%",
+    "handoverTurn": null,
+    "ticket": null,
+    "productRecs": {
+     "count": 0,
+     "names": []
+    },
+    "ev": {
+     "total": 24,
+     "cls": "deflected",
+     "dims": {
+      "answer": 9,
+      "discovery": 13,
+      "recommendation": 0,
+      "rich": 0,
+      "close": 2
+     },
+     "note": "The agent outsources its core job to the Ask-a-Designer form — ten turns without naming a single product, so the cart request is impossible to fulfill."
+    },
+    "turns": [
+     {
+      "q": "Hi! I'm deciding between a few options and money's a bit tight, can you help me choose?",
+      "a": "ert design team can provide personalized suggestions based on your specific space, style, and budget within one business day! You can find the form here: https://www.tumbleliving.com/?srsltid=AfmBOooCTYH0ePZiFQHb--vHM8shMTZ0dV_nK9OOYYuYkZF8-Ahb7cXf Once you've settled on a choice, I'd also be more than happy to send you an invoice to help streamline the purchase process for you. Thank you for being a Tumble customer, and please let me know if you have any other questions!❤️",
+      "by": "ai",
+      "lat": 19.5,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "I want the best bang for the buck, not the cheapest or the most expensive.",
+      "a": "ral size you're looking for helps a lot. In the meantime, our Ask-a-Designer service is truly the best resource for this. They specialize in finding the right design and size that fits both your style and your budget perfectly. You can connect with them here: https://www.tumbleliving.com/?srsltid=AfmBOooCTYH0ePZiFQHb--vHM8shMTZ0dV_nK9OOYYuYkZF8-Ahb7cXf Thank you for being a customer, and please let me know those details so I can help further!❤️ Ask a Designer",
+      "by": "ai",
+      "lat": 15.3,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 13
+     },
+     {
+      "q": "Show me your two best value-for-money options and compare them.",
+      "a": "AI replied (streamed past timing window)",
+      "by": "ai",
+      "lat": null,
+      "fl": [
+       {
+        "t": "no timed answer",
+        "k": "bad"
+       },
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "Honestly, is the pricier one worth the extra, or is the cheaper one fine?",
+      "a": "://www.tumbleliving.com/?srsltid=AfmBOooCTYH0ePZiFQHb--vHM8shMTZ0dV_nK9OOYYuYkZF8-Ahb7cXf. If you have a couple of specific designs or sizes in mind already, please let me know! I would be happy to provide the pricing for those in both USD and CAD for you, and I can even send over an invoice once you've made your choice to make the checkout process as smooth as possible. Thank you for being a customer, and please let me know if you have any other questions!❤️ Ask a Designer",
+      "by": "ai",
+      "lat": 15.9,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "Are there any current promos, bundles, or ways to save?",
+      "a": "w a set promotional calendar and our sales are not scheduled in advance. Please keep in mind that our discounts apply to Rug and Pad Sets, Rugs, and Rug Covers. Items like rug swatches, corner grippers, and individual rug pads are ineligible for promotions. Also, our policy allows only one discount code or promotion to be applied per order, so they cannot be combined. Thank you for being a Tumble customer, and please feel free to reach out if you have any other questions!❤️",
+      "by": "ai",
+      "lat": 47.8,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 14
+     },
+     {
+      "q": "Which would you personally pick on my budget?",
+      "a": "ou the absolute \"best bang for your buck.\" You can connect with them here: https://form.typeform.com/to/nNQvxTwP?typeform-medium=embed-snippet&_kx=LFRyUmEvb-aDIbfM3vzjDGXXIx-kDj_xDoJ0qZBer0O2RByJbtz3JN8j4Qz5rqUs.Yz6npf To help me point you in the right direction, could you share which room you're shopping for or what size you might be looking for? Thank you for being a Tumble customer, and please let me know if you have any other questions! ❤️ Ask a Designer",
+      "by": "ai",
+      "lat": 24.7,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 20
+     },
+     {
+      "q": "Add that one to my cart and tell me the total with any discount.",
+      "a": "size you've decided on yet. 🙂 Could you let me know the specific name of the design and the size you'd like? If you're still deciding, telling me which room you're shopping for is a great place to start! Once we have those details, I can certainly provide you with the total and even offer to send you an invoice to make checkout a breeze. Thank you for being a Tumble customer, and please let me know those details whenever you're ready! ❤️ Bedroom Kitchen/Runner Living Room",
+      "by": "ai",
+      "lat": 15.4,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 14
+     },
+     {
+      "q": "Does the cheaper one have the same warranty as the pricier one?",
+      "a": "This covers manufacturing defects such as unraveling stitching, printing inconsistencies, incorrect sizing, or curling edges, starting from the day you receive your item. Whether you choose a more budget-friendly design or one of our premium styles, you can rest assured that you're getting the same level of protection and quality commitment. Thank you for being a Tumble customer, and please let me know if you have any other questions! ❤️ Ask a Designer",
+      "by": "ai",
+      "lat": 15.9,
+      "cov": 40
+     },
+     {
+      "q": "Can I pay in installments or split payment?",
+      "a": "Pay in Installments feature at checkout. This allows you to spread the cost over multiple payments. Please note that prepaid cards cannot be combined with this installment feature. Regarding split payments, we are unfortunately unable to process more than one form of payment per transaction. This means you cannot split a single order between two different credit or debit cards. Thank you for being a Tumble customer, and please let me know if you have any other questions! ❤️",
+      "by": "ai",
+      "lat": 13.4,
+      "cov": 100
+     },
+     {
+      "q": "Confirm my total and the fastest shipping option?",
+      "a": "ithin 1 to 2 business days. Once they're on their way, delivery within the contiguous US usually takes between 1 and 5 business days. We don't currently offer a separate expedited shipping method, but we always strive for the fastest standard transit times. As soon as you share those product details, I can also send over an invoice to make your purchase quick and easy! Thank you for being a Tumble customer, and let me know which rug you have your eye on.❤️ Newsletter signup",
+      "by": "ai",
+      "lat": 23.4,
+      "cov": 40
+     }
+    ]
+   },
+   {
+    "key": "beginner",
+    "label": "Total beginner",
+    "datetime": "2026-07-07T10:58:07.782Z",
+    "lat": "~30.5s",
+    "success": 100,
+    "successTxt": "100%",
+    "handoverTurn": null,
+    "ticket": null,
+    "productRecs": {
+     "count": 0,
+     "names": []
+    },
+    "ev": {
+     "total": 65,
+     "cls": "partial",
+     "dims": {
+      "answer": 16,
+      "discovery": 20,
+      "recommendation": 22,
+      "rich": 0,
+      "close": 7
+     },
+     "note": "Never drops a turn and discovers well, but avoids commitment — zero prices shown, no total given, and the delivery estimate is deflected into an email-collection escalation."
+    },
+    "turns": [
+     {
+      "q": "Hi! I'm completely new to this and don't know where to start, can you guide me?",
+      "a": "et me guide you through getting started. Welcome to Tumble! I would be more than happy to help you get started. Since you're new, are you looking for some product recommendations, or perhaps you have questions about our rug sizes and how they might fit in your home? Feel free to let me know what's on your mind, and we can go from there. Thank you for being with us as a customer. Feel free to reach out for with any other questions. Current sales Product info Rug sizing help",
+      "by": "ai",
+      "lat": 14.4,
+      "cov": 40
+     },
+     {
+      "q": "Can you explain the main options in simple terms?",
+      "a": "without any annoying velcro or curling corners. Everything we make is OEKO-TEX® certified, meaning it has been tested for over 1,000 harmful substances, making it safe for both kids and pets. ⭐️ Would you like to explore our size guide to see what might fit best in your room, or perhaps you'd be interested in a free consultation with one of our designers? Thank you for being a customer! Please let me know if you have any other questions. Design consultation",
+      "by": "ai",
+      "lat": 19.4,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "For a first-timer like me, what's the safest, easiest choice?",
+      "a": "other excellent starting point is our Swatch Program. You can order 10\" x 10\" swatches of any design you're interested in for a small fee. This allows you to see the colors and feel the texture in your own home's lighting before committing to a full-sized rug. You can find those on our swatch page. Do you have a specific room in mind that you're looking to refresh? 🙂 Thank you for being a customer! Let me know if you have any other questions. Ask a Designer",
+      "by": "ai",
+      "lat": 22.4,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "I don't want to overpay while I'm still learning, what's a good starter pick?",
+      "a": "the washable cover and the cushioned pad), you'll have everything you need to get started right away. 🤩 If you have a particular color or style in mind, I'd be happy to point you toward some of our most popular designs in that size. Or, if you'd like to see the materials in person first, our 10\" x 10\" swatches are another low-cost way to explore our collection! Thank you for being a customer! Let me know if you have any other questions. 3x5' Rugs Ask a Designer Swatch Page",
+      "by": "ai",
+      "lat": 24,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "What do beginners usually say about it in reviews?",
+      "a": "omers feel they finally found a rug that looks like a high-end designer piece but still stands up to the chaos of kids and pets. ❤️ If you'd like to read more, you can always visit the specific product page for any design you like and scroll to the bottom to see what other customers are saying! Do you have any other questions about how our rugs compare to traditional ones? Thank you for being a customer! Let me know if you have any other questions. Ask a Designer",
+      "by": "ai",
+      "lat": 24.1,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 20
+     },
+     {
+      "q": "Is there anything else a beginner needs to get started?",
+      "a": "dle on your own. 🤩 Just a quick tip for when your rug arrives: they are designed for hard surfaces like hardwood, laminate, or tile. We don't recommend using them on stairs or over existing carpet, as they are best suited for hard floors. Since you are all set for the setup, would you like to check out our Rug Size Guide to find the perfect fit for your space? Thank you for being a customer! Feel free to reach out with any other questions. 🙂 Ask a Designer Rug Size Guide",
+      "by": "ai",
+      "lat": 30.6,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "Okay, add your beginner recommendation to my cart, what's the total?",
+      "a": "d the Canyon (in Oatmeal & Grey). Once you let me know which design you love, I can certainly look into sending you an invoice to make the purchase process even easier for you. ⭐️ Please keep in mind that shipping is free within the Contiguous U.S. and Canada, but any applicable taxes would be calculated at checkout based on your specific address. Thank you for being a customer! Let me know which one caught your eye. 🙂 Amara Light Blue Canyon Oatmeal/Grey Lisa Taupe/Multi",
+      "by": "ai",
+      "lat": 24.3,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "How do I use it properly the very first time?",
+      "a": "ently pull the rug tight before applying them to the floor for the most secure fit. It is as simple as that! Once it is down, you are all set to enjoy your new spillproof space. 🙂 Are you leaning towards one of the designs I mentioned, like the Lisa, Amara, or Canyon, or would you like to see a few more options in that 3x5' size? Thank you for being a customer! Let me know if you have any other questions as you get started. Amara Light Blue Canyon Oatmeal Lisa Taupe/Multi",
+      "by": "ai",
+      "lat": 71.5,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "What's the return policy if it turns out not to be right for me?",
+      "a": "t eligible for return or exchange. If you ever need to start a return or exchange, you can simply visit our Returns/Exchange Center (US | Canada) with your order number and email address. You'll receive a prepaid FedEx label or a QR code to make the process as easy as possible. 🎉 Does that help put your mind at ease? Please let me know if you have any other questions! Thank you for being a customer! Feel free to reach out with anything else. Ask a Designer",
+      "by": "ai",
+      "lat": 34.4,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 33
+     },
+     {
+      "q": "Confirm my total and the delivery estimate?",
+      "a": "shipping included for the Contiguous U.S. and Canada. Any applicable taxes will be added at checkout. Regarding the delivery estimate, I want to make sure I give you the most accurate timeline for your specific location. Could you please provide your email address? Once I have that, I can escalate this to my team to get you a precise delivery window and assist you further with your order. ⭐️ Thank you for being a customer! Please let me know if you have any other questions.",
+      "by": "ai",
+      "lat": 39.9,
+      "cov": 50
+     }
+    ]
+   }
+  ],
+  "turns": [
+   {
+    "q": "Hi! I'm shopping but not sure what's right for me, can you help me choose?",
+    "a": "ould you tell me a little more about what you're looking for? 🙂 Knowing which room you're shopping for, your preferred style or colors, and the size you might need would be very helpful. If you're looking for expert advice, we also offer a free Ask a Designer consultation. You can fill out a quick form here and one of our professional designers will get back to you with personalized recommendations! Thank you for being a customer and let me know if you have any questions.",
+    "by": "ai",
+    "lat": 23.4,
+    "fl": [
+     {
+      "t": "missed part of the ask",
+      "k": "warn"
+     }
+    ],
+    "cov": 20
+   },
+   {
+    "q": "I want something for everyday use, good quality, and I care about value for money.",
+    "a": "ing them perfect for handling daily life. 🙂 To help me narrow down some great options for you, do you have a specific room in mind or a certain size you are looking for? Also, are there any colors or styles you typically gravitate toward? I would also be happy to send you an invoice once we find the right fit to make the purchase process as smooth as possible. Thank you for being a customer, and please let me know if you have any questions! Bedroom Dining Room Living Room",
+    "by": "ai",
+    "lat": 14,
+    "fl": [
+     {
+      "t": "missed part of the ask",
+      "k": "warn"
+     }
+    ],
+    "cov": 0
+   },
+   {
+    "q": "I'd like to stay within a sensible budget, what are my best options?",
+    "a": "me specific options once I know what space you are looking to fill. To give you an idea of our standard pricing: 3x5' Rugs: $119 USD / $159 CAD 5x7' Rugs: $199 USD / $269 CAD 8x10' Rugs: $399 USD / $539 CAD Do you have a specific room or rug size in mind? Once you let me know, I can suggest some designs and even send over an invoice to make things easy for you. Thank you for being a customer and let me know if you have any questions. 🙂 Bedroom Kitchen/Hallway Living Room",
+    "by": "ai",
+    "lat": 16.3,
+    "fl": [
+     {
+      "t": "missed part of the ask",
+      "k": "warn"
+     }
+    ],
+    "cov": 14
+   },
+   {
+    "q": "Can you compare your two most popular options and tell me which is better for me?",
+    "a": "if you want something with a bit more contrast and a sophisticated feel. Both collections are priced similarly, ranging from $119 USD / $159 CAD for a 3x5' to $399 USD / $539 CAD for an 8x10'. To help you decide which is better for you, do you have a sense of which colors you prefer for your space? I'd also be happy to send you an invoice for your favorite one once you've picked a size and design! Thank you for being a customer and let me know if you have any questions. ⭐️",
+    "by": "ai",
+    "lat": 24.3,
+    "fl": [
+     {
+      "t": "missed part of the ask",
+      "k": "warn"
+     }
+    ],
+    "cov": 29
+   },
+   {
+    "q": "Which one is your overall best seller, and is it well reviewed?",
+    "a": "ng. ⭐️ Customers often mention how much they appreciate the classic design and how easily it handles messes. Since it comes in several beautiful color options like Light Blue & Ivory and Indigo & Beige, it tends to be a very versatile choice for any home. Would you like me to send you an invoice for an Amara rug, or do you have a specific size in mind for your space? Thank you for being a customer and let me know if you have any questions. 🙂 Ask a Designer Send an invoice",
+    "by": "ai",
+    "lat": 14.3,
+    "fl": [
+     {
+      "t": "missed part of the ask",
+      "k": "warn"
+     }
+    ],
+    "cov": 0
+   },
+   {
+    "q": "Okay, can you add your top recommendation to my cart?",
+    "a": "eral beautiful colors (like Light Blue/Ivory, Indigo/Beige, and Ash/Natural) and various sizes (such as 5x7', 8x10', or runners), could you let me know which specific size and color you would like? Once you provide those details, I can certainly send you an invoice directly to your email. This will allow you to complete your purchase quickly and securely with all your chosen items already included. Thank you for being a customer and let me know if you have any questions. 🙂",
+    "by": "ai",
+    "lat": 22.7,
+    "fl": [
+     {
+      "t": "missed part of the ask",
+      "k": "warn"
+     }
+    ],
+    "cov": 0
+   },
+   {
+    "q": "What's my total, and do you offer free shipping or a first-order discount?",
+    "a": "r order. Regarding your total, it depends on the size you choose for your Amara rug. For example, a 5x7' rug set is $199 USD / $269 CAD, and an 8x10' rug set is $399 USD / $539 CAD. Once you let me know your preferred size and color, I can give you an exact total. To provide you with a first-order discount, I just need to verify your eligibility. Could you please share your email address with me? Thank you for being a customer, and let me know if you have any questions! 🙂",
+    "by": "ai",
+    "lat": 56.7,
+    "cov": 57
+   },
+   {
+    "q": "Is there a warranty or guarantee if something goes wrong?",
+    "a": "🚩 human took over",
+    "by": "human",
+    "lat": null,
+    "fl": [
+     {
+      "t": "missed part of the ask",
+      "k": "warn"
+     }
+    ],
+    "cov": 33
+   }
+  ]
+ },
+ {
   "id": "humind-900care-shopping-pending",
   "date": "2026-07-07",
   "vendor": "Humind",
@@ -75015,6 +75759,782 @@ const SUPPORT = [
   "turns": []
  },
  {
+  "id": "yuma-tumble-support-2026-07-07",
+  "date": "2026-07-07",
+  "vendor": "Yuma",
+  "store": "Tumble",
+  "site": "tumbleliving.com",
+  "url": "https://www.tumbleliving.com/",
+  "widget": "yuma",
+  "locale": "en-US",
+  "method": "new",
+  "us": false,
+  "lat": "~18.1s",
+  "latPct": 72,
+  "latP75": 20.5,
+  "ttft": 14.1,
+  "delivery": "atomic",
+  "success": 100,
+  "successTxt": "100%",
+  "avgTurns": 10,
+  "timed": 50,
+  "attempted": 50,
+  "auto": {
+   "automated": 4,
+   "handover": 0,
+   "deflected": 1,
+   "no_answer": 0,
+   "engaged": 5,
+   "rate": 80
+  },
+  "evalq": {
+   "n": 5,
+   "total": 91,
+   "dims": {
+    "resolution": 40,
+    "accuracy": 25,
+    "actionability": 14,
+    "close": 12
+   },
+   "cls": {
+    "resolved": 1,
+    "partial": 4
+   },
+   "learnings": [
+    "Every policy question gets concrete store facts (photos-in-chat procedure, prepaid label, no fees, replacement timeframes), but the agent robotically re-requests order number and email in all ten turns instead of progressing the case.",
+    "Clear one-hour modification window with concrete refund-hold timing, but the combine-orders and payment-change questions are deferred to an order lookup with no actual policy answer.",
+    "Deep store-specific policy coverage (FedEx labels, final-sale items, payment constraints), undermined by a price-match clarifying loop that is re-asked three times, never answered, and left dangling at the close.",
+    "Solid FedEx return procedure and final-sale specifics, but the direct refund-timing question dies on a 'checking now' stall whose promised follow-up never comes.",
+    "Strong tracking and shipping specifics with executable self-serve steps, but the delay-compensation question is dodged with an info request instead of a policy answer."
+   ]
+  },
+  "guard": null,
+  "ticket": null,
+  "what": "5 cold private conversations (support themes). No handover in any theme. Avg end-to-end latency ~18.1s across 50 AI-timed turns.",
+  "datetime": "2026-07-07T11:09:10.401Z",
+  "themes": [
+   {
+    "key": "tracking",
+    "label": "Order tracking / delay",
+    "datetime": "2026-07-07T10:59:10.117Z",
+    "lat": "~15.6s",
+    "success": 100,
+    "successTxt": "100%",
+    "handoverTurn": null,
+    "ticket": null,
+    "ev": {
+     "total": 92,
+     "cls": "partial",
+     "dims": {
+      "resolution": 40,
+      "accuracy": 25,
+      "actionability": 12,
+      "close": 15
+     },
+     "note": "Strong tracking and shipping specifics with executable self-serve steps, but the delay-compensation question is dodged with an info request instead of a policy answer."
+    },
+    "turns": [
+     {
+      "q": "I placed an order a few days ago and still have no tracking, where is it?",
+      "a": "r reaching out to us. Got it! Let me check that out for you. I understand how important it is to keep track of your order, and I would be happy to look into this for you. ⭐️ To get started, could you please provide the order number and the email address you used to place your order? I appreciate your patience, and I will check on this for you as soon as I have those details. 🙂 Thank you for being a Tumble customer, and please let me know if you have any other questions!",
+      "by": "ai",
+      "lat": 20.5,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 14
+     },
+     {
+      "q": "How long does it normally take to ship and send a tracking number?",
+      "a": "cessing. Once your order ships, you will receive an email with your tracking number. During high volume periods like promotions or holidays, these windows can sometimes be extended by an additional 2 to 3 business days. I would love to give you a specific update on your order. If you could share your order number and the email address used at checkout, I can look that up for you right away. Thank you for being a Tumble customer! Let me know if you have any other questions.",
+      "by": "ai",
+      "lat": 15.6,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 29
+     },
+     {
+      "q": "Once it ships, how long is delivery?",
+      "a": "Once your order has shipped, delivery to the contiguous United States typically takes 1 to 5 business days. 🙂 To give you a more accurate update on your specific order, could you please provide your order number and the email address you used at checkout? I'll be happy to look that up for you! Thank you for being a Tumble customer, and please let me know if you have any other questions! ⭐️",
+      "by": "ai",
+      "lat": 12.6,
+      "cov": 50
+     },
+     {
+      "q": "Is there any way to speed it up if I need it sooner?",
+      "a": ", we do not offer expedited shipping options. We operate on a real-time fulfillment model to ensure your order is processed and shipped as quickly as possible, and we are unable to manually prioritize or speed up specific shipments. I'd be happy to check on the current status of your order for you. Could you please share your order number and the email address you used at checkout? Thank you for being a Tumble customer! Please let me know if you have any other questions. 🙂",
+      "by": "ai",
+      "lat": 13.1,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 33
+     },
+     {
+      "q": "What should I do if the tracking never updates?",
+      "a": "tween carrier facilities. These gaps are a normal part of the process and usually don't mean there is a problem. If you notice no movement for 5 days or more, please let us know so we can investigate further with the carrier. To help you right now, could you please provide your order number and the email address you used at checkout? I'll be happy to check the current status for you. Thank you for being a Tumble customer, and let me know if you have any other questions! ⭐️",
+      "by": "ai",
+      "lat": 15.6,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "How do I find my tracking link?",
+      "a": "email with your tracking information. You can also find your tracking link by logging into your account on our website. To do this, click the account icon (the person shape) in the top right corner of the page, or visit: https://www.tumbleliving.com/account. If you'd like me to look it up for you right now, please share your order number and the email address you used at checkout. Thank you for being a Tumble customer! Please let me know if you have any other questions. ⭐️",
+      "by": "ai",
+      "lat": 14.1,
+      "cov": 100
+     },
+     {
+      "q": "Can you check the status of my latest order?",
+      "a": "I would be happy to check the status of your latest order for you! 🙂 To get started, could you please provide your order number and the email address you used at checkout? Once I have those details, I'll be able to look that up right away. Thank you for being a Tumble customer! Let me know if you have any other questions. ⭐️",
+      "by": "ai",
+      "lat": 15.8,
+      "cov": 100
+     },
+     {
+      "q": "My tracking says delivered but I didn't receive it, what now?",
+      "a": "ur tracking shows as delivered but you haven't received your package yet. I understand how frustrating that is! 🙂 To help me investigate this further and look into the status of your shipment, could you please provide your order number and the email address used to place the order? Once I have those details, I can check the shipping information and help figure out the next steps. Thank you for being a Tumble customer! Please let me know if you have any other questions. ⭐️",
+      "by": "ai",
+      "lat": 21.3,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 33
+     },
+     {
+      "q": "Can I reroute the package to a different address?",
+      "a": "ike to know if your package can be rerouted. Unfortunately, Tumble is unable to retrieve or reroute a package once it has been successfully delivered to the shipping address provided at the time of purchase. 🙂 To help me look into your specific situation and see what options might be available, could you please provide your order number and the email address used for the purchase? Thank you for being a Tumble customer! Please let me know if you have any other questions. ⭐️",
+      "by": "ai",
+      "lat": 13.9,
+      "cov": 75
+     },
+     {
+      "q": "Do you compensate for a long delay?",
+      "a": "I understand your concern regarding the delay in receiving your order. I would be happy to look into this for you and see how I can help. To get started, could you please provide your order number and the email address you used at checkout? Once I have those details, I can check the status and provide more specific information. Thank you for being a Tumble customer, and I look forward to assisting you further! 🙂",
+      "by": "ai",
+      "lat": 13.3,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 33
+     }
+    ]
+   },
+   {
+    "key": "returns",
+    "label": "Returns & exchanges",
+    "datetime": "2026-07-07T11:03:21.191Z",
+    "lat": "~21s",
+    "success": 100,
+    "successTxt": "100%",
+    "handoverTurn": null,
+    "ticket": null,
+    "ev": {
+     "total": 84,
+     "cls": "partial",
+     "dims": {
+      "resolution": 40,
+      "accuracy": 25,
+      "actionability": 12,
+      "close": 7
+     },
+     "note": "Solid FedEx return procedure and final-sale specifics, but the direct refund-timing question dies on a 'checking now' stall whose promised follow-up never comes."
+    },
+    "turns": [
+     {
+      "q": "What is your return policy?",
+      "a": "email address used at checkout. Once you complete the online form, you'll receive a prepaid FedEx return label via email. You can either print the label or simply show the QR code from the email at a FedEx drop-off location. Thank you for being with us as a customer. Feel free to reach out with any other questions. Note: You're chatting with Casey, Tumble's AI assistant. If you'd like to connect with our team, just let me know anytime. Team replies may take a little longer.",
+      "by": "ai",
+      "lat": 31.6,
+      "cov": 50
+     },
+     {
+      "q": "How many days do I have to return something?",
+      "a": "I understand wanting to make sure you have enough time to decide. You can return or exchange your items for any reason within 30 days of delivery. Please ensure the items are in new and sellable condition, as we cannot accept returns for products with visible damage, stains, or pet hair. Thank you for being a Tumble customer! Let us know if you have any other questions. 🙂",
+      "by": "ai",
+      "lat": 23.3,
+      "cov": 50
+     },
+     {
+      "q": "How do I start a return or an exchange?",
+      "a": "urn or exchange items within 30 days of delivery, provided they are in new and sellable condition. We cover the shipping costs, and there are no restocking fees! Once you complete the online form, you'll receive a prepaid FedEx return label via email. You can print it out or simply show the QR code from the email at any FedEx drop-off location. Thank you for being a Tumble customer, and please let us know if you have any other questions! 🙂 Return Center CA Return Center US",
+      "by": "ai",
+      "lat": 24.9,
+      "cov": 67
+     },
+     {
+      "q": "Do I have to pay for return shipping?",
+      "a": "You do not have to worry about return shipping costs! Tumble covers 100% of the return shipping for items returned within 30 days from the Contiguous US and Canada. We also do not charge any restocking fees. Just make sure that the items are in new and sellable condition, meaning they should be free of any visible damage, stains, or pet hair. Thank you for being a Tumble customer! Please let us know if you have any other questions. 🙂",
+      "by": "ai",
+      "lat": 29.7,
+      "cov": 67
+     },
+     {
+      "q": "How long until I get my refund once you receive it?",
+      "a": "Thanks — I’m checking the refund timing for you now. I’ll get back with the exact processing timeframe shortly.",
+      "by": "ai",
+      "lat": 30.4,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       },
+       {
+        "t": "no timeframe given",
+        "k": "warn"
+       }
+      ],
+      "cov": 33
+     },
+     {
+      "q": "Can I exchange for a different size or option instead of a refund?",
+      "a": "purchase? 🙂 Regarding your question about exchanges, you can absolutely choose to exchange for a different design or size! If you choose a larger size, we'll just send you an invoice for the price difference. If you're swapping for the same size, we'll even apply any discounts from your original order to the new one. Once you provide your order details, I can look into everything for you! ❤️ Thank you for being a Tumble customer, and let me know if you have any questions!",
+      "by": "ai",
+      "lat": 19.6,
+      "cov": 50
+     },
+     {
+      "q": "Are any items final sale / non-returnable?",
+      "a": "sidered final sale. Rug swatches and gift cards are final sale and are not eligible for return, refund, or exchange. Additionally, all rug pads purchased separately are final sale and strictly not eligible for return or refund. I'd love to help you check on your return or refund status! To get started, could you please share your order number and the email address you used for the purchase? 🙂 Thank you for being a Tumble customer, and let me know if you have any questions!",
+      "by": "ai",
+      "lat": 11.5,
+      "fl": [
+       {
+        "t": "sales prompt on a support question",
+        "k": "warn"
+       }
+      ],
+      "cov": 50
+     },
+     {
+      "q": "Do I need the original packaging to return something?",
+      "a": "t all if you don't have the original packaging! You are welcome to use any sturdy, appropriately sized box you have on hand to return your items. We just ask that you ensure the items are packed carefully to arrive in new and sellable condition. To help you with the status of your return or refund, could you please provide your order number and the email address you used for the purchase? 🙂 Thank you for being a Tumble customer! Let me know if you have any other questions.",
+      "by": "ai",
+      "lat": 12.7,
+      "cov": 60
+     },
+     {
+      "q": "Can I return an online order in a physical store?",
+      "a": "ime, all Tumble returns are handled exclusively through FedEx. We provide you with a prepaid shipping label or a QR code that you can use at any FedEx drop-off location. We do not have physical store locations for in-person returns. I'd be happy to check the status of your return or refund for you! Could you please provide your order number and the email address you used for the purchase? 🙂 Thank you for being a Tumble customer! Let me know if you have any other questions.",
+      "by": "ai",
+      "lat": 13.8,
+      "cov": 80
+     },
+     {
+      "q": "How do I track the status of my refund?",
+      "a": "I would be happy to track the status of your refund for you! To get started, could you please provide your order number and the email address you used to place the order? Once I have those details, I'll be able to look into your return and give you an accurate update. Thank you for being a Tumble customer, and let me know if you have any questions! 🙂",
+      "by": "ai",
+      "lat": 12.2,
+      "cov": 100
+     }
+    ]
+   },
+   {
+    "key": "damaged",
+    "label": "Damaged / faulty item",
+    "datetime": "2026-07-07T11:04:45.560Z",
+    "lat": "~16.9s",
+    "success": 100,
+    "successTxt": "100%",
+    "handoverTurn": null,
+    "ticket": null,
+    "ev": {
+     "total": 100,
+     "cls": "resolved",
+     "dims": {
+      "resolution": 40,
+      "accuracy": 25,
+      "actionability": 20,
+      "close": 15
+     },
+     "note": "Every policy question gets concrete store facts (photos-in-chat procedure, prepaid label, no fees, replacement timeframes), but the agent robotically re-requests order number and email in all ten turns instead of progressing the case."
+    },
+    "turns": [
+     {
+      "q": "My order arrived and one item is damaged, what do I do?",
+      "a": "Hi Thanks for reaching out to us. Thanks, looking this up for you now. I am so sorry to hear that an item in your order arrived damaged. I would be happy to help you with this. To get started, could you please provide your order number and the email address you used to place the order? Thank you for being with us as a customer. Feel free to reach out for with any other questions.",
+      "by": "ai",
+      "lat": 21.4,
+      "cov": 80
+     },
+     {
+      "q": "Is a damaged item handled differently from a normal return?",
+      "a": "derstand wanting to know how this works. We do handle damaged items differently than a standard return to make sure we get a replacement out to you as quickly as possible. Could you please share your order number and the email address associated with your purchase? Once I have those details, I'll be able to look up your order and guide you through the next steps for your damaged item. Thank you for being a Tumble customer. Please let me know if you have any other questions.",
+      "by": "ai",
+      "lat": 19.6,
+      "cov": 67
+     },
+     {
+      "q": "Do you need photos, and where do I send them?",
+      "a": "I am so sorry to hear that your item arrived damaged. I completely understand how disappointing that can be. To help you as quickly as possible, could you please provide your order number and the email address used for the purchase? Additionally, please share a few clear photos of the damage right here in our chat. This will allow me to look into the best solution for you. Thank you for being a Tumble customer. Please let me know if you have any questions!",
+      "by": "ai",
+      "lat": 15.1,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 33
+     },
+     {
+      "q": "Will I get a replacement or a refund?",
+      "a": "I completely understand wanting to know what to expect for a resolution. We typically offer replacements for items that arrive damaged to ensure you get the product you ordered in perfect condition. Once I have your order number and the email address used for the purchase, I can look into the specific details and provide you with the exact options available for your order. Thank you for being a Tumble customer. Please let me know if you have any other questions.",
+      "by": "ai",
+      "lat": 14.5,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 25
+     },
+     {
+      "q": "Do I have to pay anything to return the damaged item?",
+      "a": "I understand your concern about costs. Tumble covers 100% of return shipping costs for our customers in the Contiguous US and Canada, and there are no restocking fees. If a return is needed for your damaged item, we will provide a prepaid shipping label for you. To move forward with your request, could you please provide your order number and the email address used for the purchase? Thank you for being a Tumble customer. Please let me know if you have any other questions.",
+      "by": "ai",
+      "lat": 15.1,
+      "cov": 60
+     },
+     {
+      "q": "How long does the replacement take?",
+      "a": "it will take to receive a replacement. Items labeled \"In Stock | Ready to Ship\" typically leave our warehouse in California within 1 to 2 business days. Once shipped, delivery to the contiguous United States usually takes 1 to 5 business days. To give you more specific information for your order, could you please provide your order number and the email address you used at checkout? Thank you for being a Tumble customer. Please let me know if you have any other questions. 🙂",
+      "by": "ai",
+      "lat": 14.4,
+      "cov": 67
+     },
+     {
+      "q": "What if more than one item in my order is affected?",
+      "a": "I understand your concern about multiple items being affected. If more than one item in your order is damaged, we will certainly look into a resolution for all affected items. To help me investigate this for you, could you please provide your order number and the email address used for the purchase? Thank you for being a Tumble customer. Please let me know if you have any other questions.",
+      "by": "ai",
+      "lat": 14.9,
+      "cov": 100
+     },
+     {
+      "q": "Can I keep the damaged item or must I ship it back?",
+      "a": "I understand wanting to know if you'll need to send the damaged item back. In most cases, we do ask for the damaged item to be returned using a prepaid shipping label that we provide. This helps us with our quality control process. To help you with the next steps, could you please provide your order number and the email address you used for the purchase? Thank you for being a Tumble customer. Please let me know if you have any other questions.",
+      "by": "ai",
+      "lat": 14,
+      "cov": 50
+     },
+     {
+      "q": "Will the replacement ship with priority?",
+      "a": ". While we aim to resolve these issues promptly, we do not offer expedited or priority shipping at this time. All replacements are processed with our standard shipping to ensure they reach you as soon as they are ready. To help me look into your specific order and see how we can best assist you, could you please provide your order number and the email address used for the purchase? Thank you for being a Tumble customer. Please let me know if you have any other questions. 🙂",
+      "by": "ai",
+      "lat": 21.7,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 25
+     },
+     {
+      "q": "What if the replacement is also damaged?",
+      "a": "and we certainly want to ensure you receive a product in perfect condition. While it is rare for a replacement to arrive with issues, we would handle it with the same care and priority to make it right for you. To help me look into your specific order and start the process for your current item, could you please provide your order number and the email address used for the purchase? Thank you for being a Tumble customer. Please let me know if you have any other questions. 🙂",
+      "by": "ai",
+      "lat": 18.5,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 33
+     }
+    ]
+   },
+   {
+    "key": "order-mgmt",
+    "label": "Modify / cancel order",
+    "datetime": "2026-07-07T11:08:20.767Z",
+    "lat": "~16.1s",
+    "success": 100,
+    "successTxt": "100%",
+    "handoverTurn": null,
+    "ticket": null,
+    "ev": {
+     "total": 92,
+     "cls": "partial",
+     "dims": {
+      "resolution": 40,
+      "accuracy": 25,
+      "actionability": 12,
+      "close": 15
+     },
+     "note": "Clear one-hour modification window with concrete refund-hold timing, but the combine-orders and payment-change questions are deferred to an order lookup with no actual policy answer."
+    },
+    "turns": [
+     {
+      "q": "Can I change the shipping address on an order I just placed?",
+      "a": "Hello, Thanks for reaching out to us. I'd be happy to help you with your shipping address change! To get started, could you please provide the order number and the email address used to place the order? Thank you for being with us as a customer. Feel free to reach out for with any other questions. Note: You're chatting with Casey, Tumble's AI assistant. If you'd like to connect with our team, just let me know anytime. Team replies may take a little longer.",
+      "by": "ai",
+      "lat": 19.5,
+      "cov": 83
+     },
+     {
+      "q": "Can I cancel an order after placing it, and is there a time window?",
+      "a": "ancel your order. To help me find your details and check the status, could you please provide your order number and the email address you used for the purchase? Generally, customers can manually update or edit their order within one hour of placement through their account or order confirmation email. After that hour, or once an order has been processed, changes may not be possible. Thank you for being a Tumble customer! Please let me know if you have any other questions. 🙂",
+      "by": "ai",
+      "lat": 14.8,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       },
+       {
+        "t": "no timeframe given",
+        "k": "warn"
+       }
+      ],
+      "cov": 29
+     },
+     {
+      "q": "Can I add an item to an order I already placed?",
+      "a": "I understand you'd like to add an item to your order! I can certainly check if that's possible for you. To help me locate your order, could you please provide your order number and the email address used to place it? Just a heads up, customers can typically make changes like this within one hour of placing their order through the order confirmation email or their account page. Thank you for being a Tumble customer! Let me know if you have any questions. 🙂",
+      "by": "ai",
+      "lat": 13.9,
+      "cov": 60
+     },
+     {
+      "q": "What happens if it already shipped, can it still be changed?",
+      "a": "I understand your concern about making changes once an order has shipped. Typically, once an order is in transit, we aren't able to make any modifications or redirects. To give you the most accurate information for your specific case, could you please share your order number and the email address you used? I'll take a look at the status right away! Thank you for being a Tumble customer. Feel free to reach out with any other questions. 🙂",
+      "by": "ai",
+      "lat": 13.9,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 20
+     },
+     {
+      "q": "How do I update my contact or account details?",
+      "a": "I understand you'd like to update your details. To help me check your order and see what changes are possible, could you please provide your order number and the email address you used? Generally, you can update your details within one hour of placing an order through your order confirmation email or by visiting your account page. Thank you for being a Tumble customer! Let me know if you have any questions. 🙂",
+      "by": "ai",
+      "lat": 14.4,
+      "cov": 75
+     },
+     {
+      "q": "If I cancel, how long until I'm refunded?",
+      "a": "Generally, if an order is canceled within our one-hour post-purchase window, the pending authorization hold on your account typically expires and falls off within 3 to 5 business days, depending on your bank's processing times. For other cancellations, we process refunds back to the original payment method once the request is finalized. Thank you for being a Tumble customer! Please let me know those details so I can help you further. 🙂",
+      "by": "ai",
+      "lat": 13.3,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "Can you check whether my latest order can still be modified?",
+      "a": "I would be happy to check if your latest order can still be modified! To help me find your details, could you please provide your order number or the email address you used to place the order? Thank you for being a Tumble customer! Let me know if you have any other questions. 🙂",
+      "by": "ai",
+      "lat": 15.3,
+      "cov": 83
+     },
+     {
+      "q": "Can I combine two separate orders into one shipment?",
+      "a": "Thanks! Let me check if we can combine those orders for you. One moment, please. To help me check your orders and see what's possible, could you please provide the order numbers and the email address you used to place them? Thank you for being a Tumble customer! Let me know if you have any questions. 🙂",
+      "by": "ai",
+      "lat": 23.5,
+      "cov": 43
+     },
+     {
+      "q": "Can I change the payment method on my order?",
+      "a": "I understand you'd like to change the payment method on your order. To help me check what's possible, could you please share your order number and the email address you used for the purchase? Just as a quick note, we aren't able to process split payments or accept certain types of gift cards, but I'll be happy to look into your specific order once I have those details. Thank you for being a Tumble customer! Let me know if you have any questions. 🙂",
+      "by": "ai",
+      "lat": 18.5,
+      "fl": [
+       {
+        "t": "sales prompt on a support question",
+        "k": "warn"
+       }
+      ],
+      "cov": 100
+     },
+     {
+      "q": "Will I get an email confirmation once the change is made?",
+      "a": "check your order and provide the most accurate information, could you please share your order number and the email address you used for the purchase? Generally, if you make changes within the one-hour window through your account or confirmation email, you will see those updates reflected there. For other requests, I'll need to look into your specific order details first. Thank you for being a Tumble customer! Please let me know those details so I can assist you further. 🙂",
+      "by": "ai",
+      "lat": 14.1,
+      "cov": 43
+     }
+    ]
+   },
+   {
+    "key": "policy",
+    "label": "Shipping & returns policy",
+    "datetime": "2026-07-07T11:09:10.401Z",
+    "lat": "~20.7s",
+    "success": 100,
+    "successTxt": "100%",
+    "handoverTurn": null,
+    "ticket": null,
+    "ev": {
+     "total": 85,
+     "cls": "partial",
+     "dims": {
+      "resolution": 40,
+      "accuracy": 25,
+      "actionability": 12,
+      "close": 8
+     },
+     "note": "Deep store-specific policy coverage (FedEx labels, final-sale items, payment constraints), undermined by a price-match clarifying loop that is re-asked three times, never answered, and left dangling at the close."
+    },
+    "turns": [
+     {
+      "q": "Where can I find your full shipping policy?",
+      "a": "er free shipping on all orders within the Contiguous US and Canada. Shipping costs for Alaska and Hawaii are calculated at checkout. Shipping Locations: We currently ship within the United States and Canada. Shipping Times: Items labeled \"In Stock | Ready to Ship\" typically leave our warehouse within 1-2 business days. Delivery within the contiguous US usually takes 1-5 business days. Thank you for being with us as a customer. Feel free to reach out with any other questions.",
+      "by": "ai",
+      "lat": 20.3,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 25
+     },
+     {
+      "q": "Do you ship internationally, and who covers customs or duties?",
+      "a": "I understand wanting to know more about our shipping options! At this time, we only ship within the United States and Canada. Because we do not ship to other international locations, we don't have specific information regarding customs or duties for other countries. Thank you so much for being a customer, and please let me know if you have any other questions! 🙂",
+      "by": "ai",
+      "lat": 26.6,
+      "cov": 60
+     },
+     {
+      "q": "How long does standard shipping take once an order is placed?",
+      "a": "ur California warehouse within 1 to 2 business days. For other \"In Stock\" items, please allow up to 3 business days for processing. After your order has shipped, delivery within the contiguous United States typically takes between 1 to 5 business days. Please keep in mind that during promotions or holidays, these windows may be extended by an additional 2 to 3 business days. Thank you for being a Tumble customer! Let me know if there is anything else I can help you with. 🙂",
+      "by": "ai",
+      "lat": 14.6,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 14
+     },
+     {
+      "q": "What's your return and refund policy?",
+      "a": "or US: https://www.tumbleliving.com/pages/returns-and-exchanges For Canada: http://tumbleliving.ca/pages/returns-and-exchanges You will just need your order number and the email address used at checkout. Once you complete the request, you'll receive a prepaid FedEx label via email. You can print that label out or simply use the provided QR code at a FedEx drop-off location. Thank you so much for being a Tumble customer! Please let me know if you have any other questions. 🙂",
+      "by": "ai",
+      "lat": 40.9,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "Are any items final sale or non-returnable?",
+      "a": "or exchange. Gift Cards: These are also considered final sale. Rug Pads: All Tumble rug pads are considered final sale and are strictly not eligible for return or refund once the purchase is completed. For our washable rugs, we are happy to offer free shipping and free returns within the Contiguous U.S. and Canada, provided the item is returned within 30 days in new, sellable condition. Thank you so much for being a customer, and let me know if you have any other questions!",
+      "by": "ai",
+      "lat": 16.6,
+      "fl": [
+       {
+        "t": "sales prompt on a support question",
+        "k": "warn"
+       }
+      ],
+      "cov": 50
+     },
+     {
+      "q": "What payment methods do you accept for an order?",
+      "a": "revent any transaction failures. Please keep in mind that we can only accept one form of payment per transaction, so we are unable to process split payments between multiple cards. Additionally, while we accept prepaid cards for standard checkout, they are not compatible with Shopify's \"Pay In Installments\" feature. We are also unfortunately unable to accept Visa gift cards at this time. Thank you for being a customer! Please let me know if you have any other questions. ⭐️",
+      "by": "ai",
+      "lat": 18.6,
+      "fl": [
+       {
+        "t": "sales prompt on a support question",
+        "k": "warn"
+       }
+      ],
+      "cov": 50
+     },
+     {
+      "q": "How do I contact your support team if I have an issue with an order?",
+      "a": "to assist you! While we do not have a customer service hotline, we're happy to assist you through this chat, email, or direct messages on Facebook and Instagram. If you ever need to reach out via email, you can find our contact form on our website or reach us at hello@tumbleliving.com. Our team is always eager to help with any questions or concerns you might have. Thank you for being a Tumble customer! Please let me know if there is anything else I can do for you today. 🙂",
+      "by": "ai",
+      "lat": 15.2,
+      "cov": 40
+     },
+     {
+      "q": "Do you price match or honor a price drop after purchase?",
+      "a": "I understand how important it is to get the best value for your purchase! 🙂 To make sure I give you the most accurate information, have you already placed an order with us, or are you looking to place one? I have an order I haven't ordered",
+      "by": "ai",
+      "lat": 25,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 17
+     },
+     {
+      "q": "What's your warranty policy on defective items?",
+      "a": "ies, incorrect sizing, or curling edges, starting from the day you receive your item. If you ever run into an issue like that, we'll provide a replacement for the exact same size as your original order. To help you further with your previous question about price matching, have you already placed an order with us, or are you looking to place one? 🙂 Thank you for being a customer, and please let me know if you have any other questions! Already placed one Looking to place one",
+      "by": "ai",
+      "lat": 15.3,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "Do you have a loyalty or rewards program?",
+      "a": "rewards program, but we do have a few other ways to save. You can save 10% when purchasing two or more items, and we also offer a 10% off single-use discount code for members of our Tumble community. Regarding your question about price matching, could you let me know if you have already placed an order with us, or if you are looking to place one? Thank you for being a Tumble customer, and please let me know if you have any other questions! Already ordered Planning to order",
+      "by": "ai",
+      "lat": 13.8,
+      "cov": 67
+     }
+    ]
+   }
+  ],
+  "turns": [
+   {
+    "q": "I placed an order a few days ago and still have no tracking, where is it?",
+    "a": "r reaching out to us. Got it! Let me check that out for you. I understand how important it is to keep track of your order, and I would be happy to look into this for you. ⭐️ To get started, could you please provide the order number and the email address you used to place your order? I appreciate your patience, and I will check on this for you as soon as I have those details. 🙂 Thank you for being a Tumble customer, and please let me know if you have any other questions!",
+    "by": "ai",
+    "lat": 20.5,
+    "fl": [
+     {
+      "t": "missed part of the ask",
+      "k": "warn"
+     }
+    ],
+    "cov": 14
+   },
+   {
+    "q": "How long does it normally take to ship and send a tracking number?",
+    "a": "cessing. Once your order ships, you will receive an email with your tracking number. During high volume periods like promotions or holidays, these windows can sometimes be extended by an additional 2 to 3 business days. I would love to give you a specific update on your order. If you could share your order number and the email address used at checkout, I can look that up for you right away. Thank you for being a Tumble customer! Let me know if you have any other questions.",
+    "by": "ai",
+    "lat": 15.6,
+    "fl": [
+     {
+      "t": "missed part of the ask",
+      "k": "warn"
+     }
+    ],
+    "cov": 29
+   },
+   {
+    "q": "Once it ships, how long is delivery?",
+    "a": "Once your order has shipped, delivery to the contiguous United States typically takes 1 to 5 business days. 🙂 To give you a more accurate update on your specific order, could you please provide your order number and the email address you used at checkout? I'll be happy to look that up for you! Thank you for being a Tumble customer, and please let me know if you have any other questions! ⭐️",
+    "by": "ai",
+    "lat": 12.6,
+    "cov": 50
+   },
+   {
+    "q": "Is there any way to speed it up if I need it sooner?",
+    "a": ", we do not offer expedited shipping options. We operate on a real-time fulfillment model to ensure your order is processed and shipped as quickly as possible, and we are unable to manually prioritize or speed up specific shipments. I'd be happy to check on the current status of your order for you. Could you please share your order number and the email address you used at checkout? Thank you for being a Tumble customer! Please let me know if you have any other questions. 🙂",
+    "by": "ai",
+    "lat": 13.1,
+    "fl": [
+     {
+      "t": "missed part of the ask",
+      "k": "warn"
+     }
+    ],
+    "cov": 33
+   },
+   {
+    "q": "What should I do if the tracking never updates?",
+    "a": "tween carrier facilities. These gaps are a normal part of the process and usually don't mean there is a problem. If you notice no movement for 5 days or more, please let us know so we can investigate further with the carrier. To help you right now, could you please provide your order number and the email address you used at checkout? I'll be happy to check the current status for you. Thank you for being a Tumble customer, and let me know if you have any other questions! ⭐️",
+    "by": "ai",
+    "lat": 15.6,
+    "fl": [
+     {
+      "t": "missed part of the ask",
+      "k": "warn"
+     }
+    ],
+    "cov": 0
+   },
+   {
+    "q": "How do I find my tracking link?",
+    "a": "email with your tracking information. You can also find your tracking link by logging into your account on our website. To do this, click the account icon (the person shape) in the top right corner of the page, or visit: https://www.tumbleliving.com/account. If you'd like me to look it up for you right now, please share your order number and the email address you used at checkout. Thank you for being a Tumble customer! Please let me know if you have any other questions. ⭐️",
+    "by": "ai",
+    "lat": 14.1,
+    "cov": 100
+   },
+   {
+    "q": "Can you check the status of my latest order?",
+    "a": "I would be happy to check the status of your latest order for you! 🙂 To get started, could you please provide your order number and the email address you used at checkout? Once I have those details, I'll be able to look that up right away. Thank you for being a Tumble customer! Let me know if you have any other questions. ⭐️",
+    "by": "ai",
+    "lat": 15.8,
+    "cov": 100
+   },
+   {
+    "q": "My tracking says delivered but I didn't receive it, what now?",
+    "a": "ur tracking shows as delivered but you haven't received your package yet. I understand how frustrating that is! 🙂 To help me investigate this further and look into the status of your shipment, could you please provide your order number and the email address used to place the order? Once I have those details, I can check the shipping information and help figure out the next steps. Thank you for being a Tumble customer! Please let me know if you have any other questions. ⭐️",
+    "by": "ai",
+    "lat": 21.3,
+    "fl": [
+     {
+      "t": "missed part of the ask",
+      "k": "warn"
+     }
+    ],
+    "cov": 33
+   },
+   {
+    "q": "Can I reroute the package to a different address?",
+    "a": "ike to know if your package can be rerouted. Unfortunately, Tumble is unable to retrieve or reroute a package once it has been successfully delivered to the shipping address provided at the time of purchase. 🙂 To help me look into your specific situation and see what options might be available, could you please provide your order number and the email address used for the purchase? Thank you for being a Tumble customer! Please let me know if you have any other questions. ⭐️",
+    "by": "ai",
+    "lat": 13.9,
+    "cov": 75
+   },
+   {
+    "q": "Do you compensate for a long delay?",
+    "a": "I understand your concern regarding the delay in receiving your order. I would be happy to look into this for you and see how I can help. To get started, could you please provide your order number and the email address you used at checkout? Once I have those details, I can check the status and provide more specific information. Thank you for being a Tumble customer, and I look forward to assisting you further! 🙂",
+    "by": "ai",
+    "lat": 13.3,
+    "fl": [
+     {
+      "t": "missed part of the ask",
+      "k": "warn"
+     }
+    ],
+    "cov": 33
+   }
+  ]
+ },
+ {
   "id": "humind-900care-support-pending",
   "date": "2026-07-07",
   "vendor": "Humind",
@@ -83122,7 +84642,9 @@ function renderFilterPops(){
   if(wl) wl.innerHTML=fSites().map(w=>'<label><input type="checkbox" '+(WFILTER.has(w)?'checked':'')+' onchange="fToggle(\'wf\',\''+esc(w)+'\')"> '+esc(w.replace(/^www\./,''))+'<span class="fcount">'+esc(siteVendor[w]||'')+'</span></label>').join('');
   const lab=(id,set,word)=>{ const el=document.getElementById(id); if(!el) return; el.textContent=!set.size?('All '+word+'s'):set.size===1?[...set][0]:set.size+' '+word+'s'; el.parentElement.classList.toggle('active',!!set.size); };
   lab('vf-label',VFILTER,'vendor'); lab('wf-label',WFILTER,'website');
+  fSearch('vf',(document.getElementById('vf-search')||{}).value||''); fSearch('wf',(document.getElementById('wf-search')||{}).value||'');
 }
+function fSearch(kind,q){ q=String(q||'').toLowerCase(); document.querySelectorAll('#'+kind+'-list label').forEach(l=>{ l.style.display = l.textContent.toLowerCase().includes(q)?'':'none'; }); }
 document.addEventListener('click',()=>{ const v=document.getElementById('vf-pop'), w=document.getElementById('wf-pop'); if(v) v.hidden=true; if(w) w.hidden=true; });
 // ---- Single range date picker (one popover calendar, pick start + end) -------
 const DSET = new Set(ALL_DATES);
@@ -83138,7 +84660,7 @@ function dateNote(){
 }
 function dpLabel(){
   const el=document.getElementById('dp-label'); if(!el) return;
-  el.textContent = (!DATE_FROM&&!DATE_TO) ? 'All runs' : (fmtNice(DATE_FROM)+' – '+fmtNice(DATE_TO));
+  el.textContent = (!DATE_FROM&&!DATE_TO) ? 'All dates' : (fmtNice(DATE_FROM)+' – '+fmtNice(DATE_TO));
 }
 function applyRange(){ dpLabel(); dateNote(); renderAll(); }
 function toggleCal(e){ if(e) e.stopPropagation(); const p=document.getElementById('dp-pop'); p.hidden=!p.hidden; if(!p.hidden){ const ref=DATE_TO?parse(DATE_TO):new Date(); CAL={y:ref.getFullYear(),m:ref.getMonth()}; SEL_START=null; renderCal(); } }
@@ -83504,12 +85026,36 @@ function renderConvFilters(){
       '<div class="cf-fg cf-search"><input type="search" class="cf-inp" placeholder="Search transcripts…" value="'+CF_FILTER.q.replace(/"/g,'&quot;')+'" oninput="setConvFilter(\'q\',this.value)"></div>'+
     '</div>';
 }
+function renderConvChart(items){
+  const el=document.getElementById('conv-chart'); if(!el) return;
+  if(!items||!items.length){ el.innerHTML=''; return; }
+  const byDay={};
+  items.forEach(it=>{ const d=String(it.datetime||'').slice(0,10); if(!/^\d{4}-\d{2}-\d{2}$/.test(d)) return; (byDay[d]=byDay[d]||{})[it.vendor]=(byDay[d][it.vendor]||0)+1; });
+  const days=Object.keys(byDay).sort();
+  if(!days.length){ el.innerHTML=''; return; }
+  const vendors=[...new Set(items.map(i=>i.vendor))].sort();
+  const col=v=>COL[v]||'#888';
+  const max=Math.max(...days.map(d=>Object.values(byDay[d]).reduce((a,b)=>a+b,0)));
+  const H=110;
+  const bars=days.map(d=>{
+    const tot=Object.values(byDay[d]).reduce((a,b)=>a+b,0);
+    const segs=vendors.filter(v=>byDay[d][v]).map(v=>{
+      const hpx=Math.max(2,Math.round(byDay[d][v]/max*H));
+      return '<i style="height:'+hpx+'px;background:'+col(v)+'" data-tip="'+v+' — '+byDay[d][v]+' conversation'+(byDay[d][v]>1?'s':'')+' on '+d+'"></i>';
+    }).join('');
+    return '<div class="cc-col"><span class="cc-tot">'+tot+'</span><div class="cc-bar" style="height:'+H+'px">'+segs+'</div><span class="cc-day">'+d.slice(5).replace('-','/')+'</span></div>';
+  }).join('');
+  const legend=vendors.map(v=>'<span class="cc-leg"><i style="background:'+col(v)+'"></i>'+v+'</span>').join('');
+  el.innerHTML='<div class="card cc-card"><div class="cc-title">Conversations captured per day <span>· '+items.length+' in view · stacked by vendor · follows the filters</span></div>'+
+    '<div class="cc-row">'+bars+'</div><div class="cc-legend">'+legend+'</div></div>';
+}
 function renderConv(){
   CF_ITEMS = buildConvItems();
   renderConvFilters();
   const shown = CF_ITEMS.filter(passConvFilter);
   const feed=document.getElementById('conv-feed'); if(!feed) return;
   const cnt=document.getElementById('conv-count'); if(cnt) cnt.textContent = shown.length+' of '+CF_ITEMS.length+' conversations';
+  renderConvChart(shown);
   if(!shown.length){ feed.innerHTML='<div class="note" style="padding:16px">No conversations match the current filters (date window, vendor/website pills, or the feed filters above). <button class="datebtn" onclick="VFILTER.clear();WFILTER.clear();CF_FILTER={lane:\'all\',vendor:\'__all\',outcome:\'all\',lat:\'all\',q:\'\'};presetAll();renderFilterPops();renderAll();">Reset all filters</button></div>'; return; }
   feed.innerHTML = shown.map((it)=>{
     const i = CF_ITEMS.indexOf(it);
@@ -83733,7 +85279,7 @@ function renderBestPanel(elId, allRows, laneData){
   const w=rows[0];
   let h='<div class="best-winner"><div class="best-medal">#1 · winner</div>'+
     '<div class="best-wmain"><div class="best-name"><span class="vdot" style="background:'+col(w.v)+'"></span>'+w.v+(w.us?'<span class="us-tag">US</span>':'')+iChip(w,1)+'</div>'+
-    '<div class="best-sub">'+(w.autoRate!=null?w.autoRate+'% automation':Math.round(w.avgS)+'% success (legacy)')+' · ~'+s1(w.avgL)+'s'+(w.avgQ!=null?' · quality '+w.avgQ+'/100':'')+' · '+w.convs+' conversation'+(w.convs>1?'s':'')+' · <span data-tip="'+covTip(w)+'">'+pct(w.cov)+' coverage</span>'+ssTag(w.convs)+'</div>'+dnaLine(w.v)+'</div>'+
+    '<div class="best-sub">'+(w.autoRate!=null?w.autoRate+'% automation':Math.round(w.avgS)+'% success (legacy)')+' · <span data-tip="Average (mean) full-answer latency across this vendor&#39;s measured turns in this lane — not the median. See the Answer latency cards below for median vs p75.">~'+s1(w.avgL)+'s</span>'+(w.avgQ!=null?' · quality '+w.avgQ+'/100':'')+' · '+w.convs+' conversation'+(w.convs>1?'s':'')+' · <span data-tip="'+covTip(w)+'">'+pct(w.cov)+' coverage</span>'+ssTag(w.convs)+'</div>'+dnaLine(w.v)+'</div>'+
     '<div class="best-score" data-tip="'+compTip(w)+'">'+w.comp+'<span>/100</span></div></div>';
   if(rows.length>1){
     h+='<div class="best-list">'+rows.slice(1).map((r,i)=>
@@ -83744,7 +85290,7 @@ function renderBestPanel(elId, allRows, laneData){
           '<span class="bar best-bar"><i style="width:'+r.comp+'%;background:'+col(r.v)+'"></i></span>'+
           '<span class="best-rnum mono" data-tip="'+compTip(r)+'">'+r.comp+'</span>'+
         '</div>'+
-        '<div class="br-meta mono">'+(r.autoRate!=null?'<b>'+r.autoRate+'%</b> auto':'')+' · <b>'+s1(r.avgL)+'s</b>'+(r.avgQ!=null?' · <b>q'+r.avgQ+'</b>':'')+' · '+r.convs+' conv · <span data-tip="'+covTip(r)+'">'+pct(r.cov)+' cov</span>'+ssTag(r.convs)+'</div>'+
+        '<div class="br-meta mono">'+(r.autoRate!=null?'<b>'+r.autoRate+'%</b> auto':'')+' · <b data-tip="Average (mean) full-answer latency across this vendor&#39;s measured turns in this lane — not the median. See the Answer latency cards below for median vs p75.">'+s1(r.avgL)+'s</b>'+(r.avgQ!=null?' · <b>q'+r.avgQ+'</b>':'')+' · '+r.convs+' conv · <span data-tip="'+covTip(r)+'">'+pct(r.cov)+' cov</span>'+ssTag(r.convs)+'</div>'+
         dnaLine(r.v)+
       '</div>').join('')+'</div>';
   }
