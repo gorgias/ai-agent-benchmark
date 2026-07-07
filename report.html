@@ -6686,7 +6686,7 @@ const STORES = [
   ]
  },
  {
-  "id": "rufus-amazon-shopping-pending",
+  "id": "rufus-amazon-shopping-2026-07-07",
   "date": "2026-07-07",
   "vendor": "Amazon Rufus",
   "store": "Amazon.com",
@@ -6694,14 +6694,923 @@ const STORES = [
   "url": "https://www.amazon.com/dp/B0DX391LXK",
   "widget": "rufus",
   "locale": "en-US",
-  "method": "pending",
+  "method": "new",
   "us": false,
-  "lat": "—",
-  "success": null,
-  "successTxt": "pending",
-  "successCls": "p-na",
-  "what": "Not captured in a cold run yet — pending.",
-  "turns": []
+  "lat": "~12s",
+  "latPct": 48,
+  "latP75": 14,
+  "ttft": 12,
+  "delivery": "atomic",
+  "success": 100,
+  "successTxt": "100%",
+  "avgTurns": 10,
+  "timed": 50,
+  "attempted": 50,
+  "auto": {
+   "automated": 5,
+   "handover": 0,
+   "deflected": 0,
+   "no_answer": 0,
+   "engaged": 5,
+   "rate": 100
+  },
+  "evalq": {
+   "n": 5,
+   "total": 71,
+   "dims": {
+    "answer": 24,
+    "discovery": 17,
+    "recommendation": 18,
+    "rich": 6,
+    "close": 6
+   },
+   "cls": {
+    "resolved": 3,
+    "partial": 1,
+    "failed": 1
+   },
+   "learnings": [
+    "Guided a beginner to a concrete priced pick and completed the cart, but the final total ($154.75 vs earlier $31.79) is internally inconsistent and left dangling.",
+    "Strong, consistent value reasoning toward Brothers, but never delivered the explicitly-requested total/discount and closed on an unexplained 3x-quantity cart surprise.",
+    "Clean end-to-end everyday-value flow — clarified needs, compared two options, tied the pick to per-bag value and completed the cart.",
+    "Trapped in an infinite clarifying-question loop — never recommended a single product or added anything to cart despite explicit purchase requests.",
+    "Honestly flagged the pick's thin reviews and matched the quality-reassurance need, but never gave a concrete price and closed on an unresolved duplicate-cart issue."
+   ]
+  },
+  "guard": null,
+  "ticket": null,
+  "what": "5 cold private conversations (shopping themes). No handover in any theme. Avg end-to-end latency ~12s across 50 AI-timed turns.",
+  "datetime": "2026-07-07T16:49:25.419Z",
+  "themes": [
+   {
+    "key": "everyday-value",
+    "label": "Everyday value buyer",
+    "datetime": "2026-07-07T16:35:34.481Z",
+    "lat": "~13.6s",
+    "success": 100,
+    "successTxt": "100%",
+    "handoverTurn": null,
+    "ticket": null,
+    "productRecs": {
+     "count": 0,
+     "names": []
+    },
+    "ev": {
+     "total": 90,
+     "cls": "resolved",
+     "dims": {
+      "answer": 30,
+      "discovery": 20,
+      "recommendation": 22,
+      "rich": 8,
+      "close": 10
+     },
+     "note": "Clean end-to-end everyday-value flow — clarified needs, compared two options, tied the pick to per-bag value and completed the cart."
+    },
+    "turns": [
+     {
+      "q": "Hi! I'm shopping but not sure what's right for me, can you help me choose?",
+      "a": "the whole family?•Do you have any dietary preferences or restrictions (e.g., vegan, gluten-free, no added sugar)?•Are you planning to snack on them as-is, or use them in recipes like smoothies, oatmeal, or baking? {} Informed by GearJunkie, SoundGuys, businessinsider.com, runnersworld.com, rtings.com {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is harmful / unsafe This is irrelevant Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 6.9,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "I want something for everyday use, good quality, and I care about value for money.",
+      "a": "would you like me to compare them with similar organic snack options at different price points? {} Add to cart Compare similar organic snacks Subscribe & Save for better value? Other healthy everyday snack ideas {} Informed by Happy Simple Living, theguardian.com, Cha Ching Queen, wired.com, BuzzFeed {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is inaccurate This is irrelevant Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 10.5,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 30
+     },
+     {
+      "q": "I'd like to stay within a sensible budget, what are my best options?",
+      "a": "pick with convenient individual resealable packs.Want me to add any of these to your cart? {} Add PANFRUIT raspberries to cart Compare nutrition between these snacks Subscribe & Save options available? More organic snack ideas {} Informed by Security.org, Beat Cop Game, PCMAG, PCMAG, caranddriver.com {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is inaccurate This is irrelevant Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 22.7,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 14
+     },
+     {
+      "q": "Can you compare your two most popular options and tell me which is better for me?",
+      "a": "ANFRUIT is the better fit.Want me to add either to your cart? {} Add Brothers All Natural to cart Add PANFRUIT raspberries to cart Are there organic variety packs available? Subscribe & Save for better value? {} Informed by serp.co, sassblade.com, 10best-choices.com, Baby Bargains, Raw Creations Juice {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is irrelevant This is harmful / unsafe Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 16.5,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 14
+     },
+     {
+      "q": "Which one is your overall best seller, and is it well reviewed?",
+      "a": "ould you like to add the Brothers All Natural pack to your cart? {} Add Brothers All Natural to cart Are there organic variety packs? Subscribe & Save options available? Compare nutrition between the two {} Informed by serp.co, 10best-choices.com, Baby Bargains, Freeze Dried Guide, Raw Creations Juice {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is inaccurate This is harmful / unsafe Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 13.1,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "Okay, can you add your top recommendation to my cart?",
+      "a": "4 bags) — best value at ~$1.32/bag, great for everyday snackingMore details Great choice for everyday use and value for money! You can head to your cart whenever you're ready to check out.Go to cart {} Undo Also add the PANFRUIT raspberries? Subscribe & Save for better value? Other healthy snack ideas {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is inaccurate This is harmful / unsafe Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 12.6,
+      "cov": 40
+     },
+     {
+      "q": "What's my total, and do you offer free shipping or a first-order discount?",
+      "a": "ee shipping benefitsWould you like to know more about Prime or Subscribe & Save options? {} Free Shipping Prime Members Subscribe & Save Learn More Amazon Prime Shipping Benefits {} Sign up for Prime free trial Subscribe & Save on this product Add another item to reach free shipping What's in my cart? {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is harmful / unsafe This is inaccurate Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 16.5,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 29
+     },
+     {
+      "q": "Is there a warranty or guarantee if something goes wrong?",
+      "a": "mazon has you covered with a refund — no hassle return needed for food items. {} About Amazon Returns Your Orders Learn More Return Items You Ordered Returns Policy {} How do I request a refund on Amazon? What is Amazon Prime's return benefit? Subscribe & Save on my cart item Other healthy snack ideas {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is harmful / unsafe This is inaccurate Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 18.6,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 17
+     },
+     {
+      "q": "How long will delivery take, roughly?",
+      "a": "g at just 2 days from today (Tuesday, July 7).Not a Prime member yet? A free 30-day trial would get you that faster delivery on this order and future ones.Would you like to go ahead and place your order? {} Buy Now Sign up for Prime free trial Subscribe & Save on this product Other healthy snack ideas {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is irrelevant This is harmful / unsafe Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 8.4,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 20
+     },
+     {
+      "q": "And if I change my mind, how easy is it to return?",
+      "a": "g on eligible items, making it even more hassle-free.In short — returning on Amazon is very straightforward, especially for grocery/snack items! {} How do I track my order? Subscribe & Save on this product Other healthy snack ideas Place my order now {} Your Orders Returns Policy Customer Service Home {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is irrelevant This is harmful / unsafe Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 10.6,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     }
+    ]
+   },
+   {
+    "key": "gift",
+    "label": "Gift shopper",
+    "datetime": "2026-07-07T16:39:16.719Z",
+    "lat": "~9s",
+    "success": 100,
+    "successTxt": "100%",
+    "handoverTurn": null,
+    "ticket": null,
+    "productRecs": {
+     "count": 0,
+     "names": []
+    },
+    "ev": {
+     "total": 22,
+     "cls": "failed",
+     "dims": {
+      "answer": 9,
+      "discovery": 13,
+      "recommendation": 0,
+      "rich": 0,
+      "close": 0
+     },
+     "note": "Trapped in an infinite clarifying-question loop — never recommended a single product or added anything to cart despite explicit purchase requests."
+    },
+    "turns": [
+     {
+      "q": "Hi! I'm looking for a gift for someone and I'm not sure what to pick, can you help?",
+      "a": "your budget?•Do you have any idea of their interests or hobbies? (e.g., tech, fitness, food, home, beauty)•Is there an occasion? (e.g., birthday, thank-you, just because)The more you share, the better I can tailor my suggestions! {} Informed by Rustic Tools, SnackNation, Fern Facts, CNET, SnackNation {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is harmful / unsafe This is irrelevant Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 7.2,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "It's for someone who likes quality but isn't fussy; I want something they'll actually use.",
+      "a": "g, home décor, tech, self-care)•Any things to avoid? (e.g., dietary restrictions, things they already have)Even just a couple of these details will help me find something they'll genuinely love and use! {} Informed by naturesturn.com, serp.co, Freeze Dried Guide, Baby Bargains, Practical Self Reliance {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is inaccurate This is harmful / unsafe Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 7.4,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 30
+     },
+     {
+      "q": "My budget is moderate, what would make a good gift in that range?",
+      "a": "t because)\"Moderate budget\" can mean different things — are you thinking more $25–$50, $50–$100, or somewhere in between?Even just one or two of these will help me find something spot-on rather than just generic suggestions! {} Informed by naturesturn.com, iherb.com, iherb.com, Diaita Foods, accio.com {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is irrelevant This is harmful / unsafe Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 9.2,
+      "cov": 38
+     },
+     {
+      "q": "Between your top two gift ideas, which feels more special?",
+      "a": "coworker — age/gender helps too)•Any interests or hobbies? (e.g., cooking, fitness, tech, home, beauty, reading, outdoors)•Any occasion? (e.g., birthday, thank-you, just because)•Budget range? (e.g., $25–$50, $50–$100?)Once I know a bit more, I can give you two strong, well-matched options to compare! {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is harmful / unsafe This is irrelevant Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 7.3,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 22
+     },
+     {
+      "q": "Is there a gift set or bundle that looks nicer than a single item?",
+      "a": "terests or hobbies? (e.g., cooking, self-care, fitness, home, tech, outdoors)•What's your budget? (e.g., under $30, $30–$60, $60–$100?)•Any occasion? (e.g., birthday, thank-you, just because)With this, I can suggest gift sets and bundles that look great and feel thoughtful — not just a single product! {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is inaccurate This is harmful / unsafe Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 8.3,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 30
+     },
+     {
+      "q": "Can it arrive gift-ready, and how fast can it ship?",
+      "a": "Who is this for? (e.g., friend, parent, partner — age/gender helpful)•Any interests? (e.g., food, self-care, home, tech, fitness)•Budget? (e.g., under $30, $30–$60, $60–$100?)With that, I can find you a proper gift set or bundle that looks great, ships fast, and may even include gift-wrapping options! {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is irrelevant This is harmful / unsafe Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 9.2,
+      "cov": 40
+     },
+     {
+      "q": "Great, add your top gift pick to my cart and tell me the total.",
+      "a": "his for? (friend, parent, partner, coworker — age/gender helpful)•Any interests? (e.g., food, self-care, home, tech, fitness, outdoors)•Budget? (e.g., under $30, $30–$60, $60–$100?)Once you share that, I'll find a great gift set or bundle, add it to your cart, and give you the total — all in one step! {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is harmful / unsafe This is irrelevant Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 8.2,
+      "cov": 71
+     },
+     {
+      "q": "Can you include a gift message or a gift receipt?",
+      "a": "e:•Who is it for? (friend, parent, partner, coworker — age/gender helpful)•Any interests? (self-care, food, home, tech, fitness, outdoors, etc.)•Budget? (e.g., under $30, $30–$60, $60–$100?)Once I know, I'll recommend the best gift set or bundle, confirm gift options, and can even add it to your cart! {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is inaccurate This is irrelevant Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 10,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 25
+     },
+     {
+      "q": "If they want to exchange it, how would that work?",
+      "a": "or bundle, just share:•Who is it for? (friend, parent, partner — age/gender helpful)•Any interests? (self-care, food, home, tech, fitness, outdoors)•Budget? (under $30, $30–$60, $60–$100?) {} How do I add a gift receipt at checkout? What items are non-returnable on Amazon? Show me gift sets under $50 {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is inaccurate This is irrelevant Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 12.2,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 17
+     },
+     {
+      "q": "Any discount if I add a second smaller item?",
+      "a": "helpful)•Any interests? (self-care, food, home, tech, fitness, outdoors)•Budget? (under $30, $30–$60, $60–$100?)Once I know, I can find you something truly gift-ready and let you know about any deals or bundles available! {} Show gift sets under $50 What's on Subscribe & Save? Find snack gift bundles {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is inaccurate This is harmful / unsafe Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 10.9,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 17
+     }
+    ]
+   },
+   {
+    "key": "problem-solver",
+    "label": "Specific need / reassurance",
+    "datetime": "2026-07-07T16:42:12.795Z",
+    "lat": "~12s",
+    "success": 100,
+    "successTxt": "100%",
+    "handoverTurn": null,
+    "ticket": null,
+    "productRecs": {
+     "count": 0,
+     "names": []
+    },
+    "ev": {
+     "total": 89,
+     "cls": "resolved",
+     "dims": {
+      "answer": 30,
+      "discovery": 20,
+      "recommendation": 22,
+      "rich": 9,
+      "close": 8
+     },
+     "note": "Honestly flagged the pick's thin reviews and matched the quality-reassurance need, but never gave a concrete price and closed on an unresolved duplicate-cart issue."
+    },
+    "turns": [
+     {
+      "q": "Hi, I have a specific need and I'm worried about picking the wrong thing. Can you help?",
+      "a": "making sure something fits a specific need, or navigating a tricky decision, just share the details and I'll do my best to point you in the right direction. {} Help me find a gift for someone Find something for a specific dietary need Compare two products for me Show me options under a specific budget {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is irrelevant This is harmful / unsafe Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 6.4,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 29
+     },
+     {
+      "q": "I've been disappointed by similar products before, so quality really matters to me.",
+      "a": "rds that matter most to you?The more you share, the better I can match you with something that truly delivers on quality — and I'll focus on highly-rated options with strong customer reviews to back them up. {} Informed by GearJunkie, runnersworld.com, businessinsider.com, runnersworld.com, rtings.com {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is irrelevant This is harmful / unsafe Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 9.6,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 25
+     },
+     {
+      "q": "Which of your products is best for that, and why is it a good fit?",
+      "a": "was it taste, texture, freshness, or something else? If you share more, I can either confirm this is the right pick or find you a better alternative! {} How does freeze-drying affect taste? Compare with other organic fruit snacks Show similar snacks with more reviews Is this good for kids' lunchboxes? {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is harmful / unsafe This is irrelevant Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 11.1,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 29
+     },
+     {
+      "q": "What do other customers say in their reviews, does it actually hold up?",
+      "a": "rand with a larger review base. Want me to find you some highly-rated freeze-dried raspberry snacks with strong customer feedback to compare? {} Show freeze-dried snacks with top reviews Compare with other organic raspberry snacks What makes a good freeze-dried snack? Find snacks with verified quality {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is irrelevant This is harmful / unsafe Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 11.1,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 29
+     },
+     {
+      "q": "Is there anything I should pair it with to get the best result?",
+      "a": "straight as a crunchy snack on their ownAny of these pairings work well for on-the-go snacking or meal prep — and they all complement the clean, organic profile of the raspberries. {} Build a healthy snack bundle Show organic yogurt options Compare freeze-dried raspberry brands Add granola to my cart {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is irrelevant This is harmful / unsafe Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 20.2,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "If it doesn't work out for me, what are my options?",
+      "a": "'t live up to your expectations, you're covered. That said, since you've been disappointed before and this product has limited reviews, would you like me to find some well-reviewed alternatives with a stronger track record to compare? {} Your Orders Damaged Grocery Items Grocery Item Issues Learn More {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is inaccurate This is irrelevant Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 13.1,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "Okay, I'm convinced, add your recommendation and give me the total.",
+      "a": "u great variety alongside the raspberries, and its strong review base gives you that quality confidence you're after. Both should arrive by Thursday, July 9 with free delivery.Go to cart {} Undo Show more highly-rated snack options Compare freeze-dried fruit brands Find snack bundles with better value {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is irrelevant This is harmful / unsafe Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 15.1,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "How do I use it correctly to get the best result?",
+      "a": "rt for a fun mix-and-match snack experienceThey're genuinely simple to use — the resealable individual packs make portion control easy too! {} Can I rehydrate freeze-dried raspberries? Best smoothie bowl recipes with raspberries Show me yogurt to pair with this How long do they stay fresh once opened? {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is inaccurate This is harmful / unsafe Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 12.4,
+      "cov": 40
+     },
+     {
+      "q": "Is there a subscription or refill option?",
+      "a": "schedule, and you checkout when ready. More flexible if you want to adjust timing easily.Which would you prefer — or would you like me to set up the Add to Cart action now? {} Set up a refill every 2 months for me Refill every month instead How does Subscribe & Save work? Show everything I have set up {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is irrelevant This is inaccurate Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 9.7,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 25
+     },
+     {
+      "q": "Confirm my total and when it will arrive?",
+      "a": "th free delivery — just 2 days away!Note: It looks like the Brothers Variety Pack was added twice — did you want to keep 2 quantities, or would you like me to remove one? Go to cart {} Remove one Brothers Variety Pack Proceed to checkout Show Subscribe & Save options Add granola to complete the bundle {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is irrelevant This is harmful / unsafe Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 11.4,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     }
+    ]
+   },
+   {
+    "key": "compare-budget",
+    "label": "Comparison, budget-tight",
+    "datetime": "2026-07-07T16:45:38.932Z",
+    "lat": "~13.9s",
+    "success": 100,
+    "successTxt": "100%",
+    "handoverTurn": null,
+    "ticket": null,
+    "productRecs": {
+     "count": 0,
+     "names": []
+    },
+    "ev": {
+     "total": 83,
+     "cls": "partial",
+     "dims": {
+      "answer": 30,
+      "discovery": 20,
+      "recommendation": 22,
+      "rich": 6,
+      "close": 5
+     },
+     "note": "Strong, consistent value reasoning toward Brothers, but never delivered the explicitly-requested total/discount and closed on an unexplained 3x-quantity cart surprise."
+    },
+    "turns": [
+     {
+      "q": "Hi! I'm deciding between a few options and money's a bit tight, can you help me choose?",
+      "a": "e PANFRUIT?Just let me know and I'll update your cart right away! {} Find cheaper freeze-dried raspberry options Remove PANFRUIT from my cart Compare value of both products Show me more budget snack options {} Informed by naturesturn.com, naturesturn.com, naturesturn.com, FindThisBest, naturesturn.com {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is inaccurate This is harmful / unsafe Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 12,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 13
+     },
+     {
+      "q": "I want the best bang for the buck, not the cheapest or the most expensive.",
+      "a": ") and save ~$27.59. Want me to remove the PANFRUIT from your cart? {} Remove PANFRUIT from my cart Find an affordable organic raspberry option Show more high-value snack options Compare Brothers with other variety packs {} Informed by naturesturn.com, Mashed, naturesturn.com, WellFizz, naturesturn.com {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is inaccurate This is irrelevant Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 13.1,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 13
+     },
+     {
+      "q": "Show me your two best value-for-money options and compare them.",
+      "a": "hile still getting great variety. Want me to make that swap in your cart? {} Swap PANFRUIT for Freeze Dried Fruit Mix Remove PANFRUIT and keep Brothers only Show more budget snack options Compare serving sizes in detail {} Informed by Mashed, naturesturn.com, The Juicery World, naturesturn.com, UPROXX {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is inaccurate This is harmful / unsafe Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 18.5,
+      "cov": 43
+     },
+     {
+      "q": "Honestly, is the pricier one worth the extra, or is the cheaper one fine?",
+      "a": "he PANFRUIT in your cart for it and keep the Brothers pack? {} Swap PANFRUIT for Freeze Dried Fruit Mix Show my updated cart total Find more budget-friendly snacks Compare Brothers with other variety packs {} Informed by ewg.org, ewg.org, iherb.com, Brothers All Natural Blog, Brothers All Natural Blog {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is irrelevant This is harmful / unsafe Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 14,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "Are there any current promos, bundles, or ways to save?",
+      "a": "you want to keep it, setting it up on Subscribe & Save is the smartest way to reduce its cost over time.Want me to remove the PANFRUIT or set it up on Subscribe & Save? {} Remove PANFRUIT from my cart Set up Subscribe & Save for PANFRUIT Show me my updated cart total Find more deals on healthy snacks {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is inaccurate This is irrelevant Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 17.9,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 14
+     },
+     {
+      "q": "Which would you personally pick on my budget?",
+      "a": "t's the smart, satisfying choice here.Want me to remove the PANFRUIT from your cart now? {} Remove PANFRUIT from my cart Show my updated cart total Find more budget-friendly healthy snacks Compare Brothers with other variety packs {} Informed by WellFizz, accio.com, accio.com, ChaviUS, naturesturn.com {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is harmful / unsafe This is inaccurate Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 12.3,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 20
+     },
+     {
+      "q": "Add that one to my cart and tell me the total with any discount.",
+      "a": "•No active coupons or promo codes found at this timeIf you want the best value, removing the PANFRUIT saves you $27.59 instantly — no coupons needed. Want me to remove it? Go to cart {} Remove PANFRUIT from my cart Show my full cart Find more budget-friendly snacks Set up Subscribe & Save for Brothers {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is inaccurate This is irrelevant Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 14.7,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 29
+     },
+     {
+      "q": "Does the cheaper one have the same warranty as the pricier one?",
+      "a": "rranty differences to worry about here — both are on equal footing in that regard. The Brothers pack still wins on value for money! {} What is Amazon's return policy for food items? How long do freeze-dried snacks last? Show more budget-friendly healthy snacks Compare Brothers with other variety packs {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is inaccurate This is irrelevant Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 12.4,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "Can I pay in installments or split payment?",
+      "a": "would be your best bet if you want true monthly payments. You'll see it as an option during checkout if it's available for your order.Want help with anything else before you check out? {} How does Affirm work on Amazon? Check my gift card balance Show my payment methods Remove PANFRUIT to lower total {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is inaccurate This is irrelevant Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 11.1,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 25
+     },
+     {
+      "q": "Confirm my total and the fastest shipping option?",
+      "a": "3x Brothers Variety Packs in your cart — that's $95.37 just for those. Was that intentional, or would you like me to adjust the quantity?Want to proceed to checkout or make any changes first? {} Remove PANFRUIT from my cart Change Brothers quantity to 1 Proceed to checkout Show faster delivery options {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is harmful / unsafe This is irrelevant Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 13.3,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     }
+    ]
+   },
+   {
+    "key": "beginner",
+    "label": "Total beginner",
+    "datetime": "2026-07-07T16:49:25.419Z",
+    "lat": "~11.4s",
+    "success": 100,
+    "successTxt": "100%",
+    "handoverTurn": null,
+    "ticket": null,
+    "productRecs": {
+     "count": 0,
+     "names": []
+    },
+    "ev": {
+     "total": 69,
+     "cls": "resolved",
+     "dims": {
+      "answer": 21,
+      "discovery": 12,
+      "recommendation": 22,
+      "rich": 6,
+      "close": 8
+     },
+     "note": "Guided a beginner to a concrete priced pick and completed the cart, but the final total ($154.75 vs earlier $31.79) is internally inconsistent and left dangling."
+    },
+    "turns": [
+     {
+      "q": "Hi! I'm completely new to this and don't know where to start, can you guide me?",
+      "a": "you're happy with your picks, simply confirm and place your order!Is there anything specific you'd like help with — like finding more snacks, understanding a product, or checking out? {} Compare Brothers vs PANFRUIT again What snacks are best for kids? How do I use Subscribe & Save? Help me check out {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is harmful / unsafe This is inaccurate Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 11,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "Can you explain the main options in simple terms?",
+      "a": ", Jul 9 for both!Would you like help deciding or adding anything to your cart? {} Which is healthier overall? Are these good for kids' lunchboxes? Show more healthy snack options Add Brothers pack to my cart {} Informed by Eat This Not That, One Lovely Life, I'mTheChefToo, I'mTheChefToo, I'mTheChefToo {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is irrelevant This is inaccurate Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 14.2,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 20
+     },
+     {
+      "q": "For a first-timer like me, what's the safest, easiest choice?",
+      "a": "higher-reward choice. Would you like me to add it to your cart? {} Add Brothers pack to my cart Are these good for kids? Show more healthy snack options What's the return policy if I don't like them? {} Informed by bodyspec.com, Mama Knows Nutrition, ucsf.edu, healthline.com, The Real Food Dietitians {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is harmful / unsafe This is irrelevant Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 12.9,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 33
+     },
+     {
+      "q": "I don't want to overpay while I'm still learning, what's a good starter pick?",
+      "a": "spend smart!Ready to place an order, or would you like to make any changes first? {} Add Brothers pack to my cart Can I subscribe and save on this? What's Amazon's return policy? Show more budget-friendly snacks {} Informed by Mashed, The Juicery World, I'mTheChefToo, naturesturn.com, naturesturn.com {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is inaccurate This is harmful / unsafe Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 14.3,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "What do beginners usually say about it in reviews?",
+      "a": "appreciate the variety aspect — if one flavor isn't your thing, you have two others to enjoy. It's a low-risk, high-confidence first purchase.Ready to add it to your cart? {} Add Brothers pack to cart What do reviews say about shelf life? Are there other beginner snacks? How do I start my first order? {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is irrelevant This is harmful / unsafe Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 8.6,
+      "cov": 60
+     },
+     {
+      "q": "Is there anything else a beginner needs to get started?",
+      "a": "oy.Would you like to go ahead and add it to your cart? {} Add Brothers pack to my cart What are the best ways to use freeze-dried fruit? Show more healthy snack options Can I subscribe and save on this? {} Informed by Rachaels Raw Food, The Survival Mom, I'mTheChefToo, naturesturn.com, naturesturn.com {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is irrelevant This is harmful / unsafe Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 12.4,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 14
+     },
+     {
+      "q": "Okay, add your beginner recommendation to my cart, what's the total?",
+      "a": "k (24 bags) — $31.79 with free delivery by Thu, Jul 9More details Your order total for this item: $31.79 (free shipping, taxes may apply at checkout).Ready to check out, or would you like to keep browsing?Go to cart {} Undo Proceed to checkout Show more healthy snacks Can I subscribe and save on this? {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is harmful / unsafe This is irrelevant Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 15.3,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 33
+     },
+     {
+      "q": "How do I use it properly the very first time?",
+      "a": "! Some people eat them as-is, others mix them into yogurt, oatmeal, or smoothies. Just experiment and see what you like.That's it! No complicated steps. Just open, snack, and enjoy. {} What does it taste like first bite? Can I add these to smoothies? How long does it stay fresh? Best ways to store it? {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is irrelevant This is harmful / unsafe Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 7.3,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 20
+     },
+     {
+      "q": "What's the return policy if it turns out not to be right for me?",
+      "a": "er trying it you decide freeze-dried fruit snacks aren't for you, just return it within 30 days for a full refund.That's why I felt confident recommending it as your beginner pick — you can explore without worry! {} Proceed to checkout How long does delivery take? Can I track my order? Change my order {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is inaccurate This is irrelevant Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 7.2,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 17
+     },
+     {
+      "q": "Confirm my total and the delivery estimate?",
+      "a": "l: $154.75Delivery estimate: Both items qualify for FREE delivery by Thursday, July 9 (just 2 days away!).Would you like to adjust any quantities or go ahead and place your order?Go to cart {} Proceed to checkout Remove an item from cart Change quantity of Brothers pack Show more healthy snack options {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is inaccurate This is irrelevant Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 10.7,
+      "cov": 50
+     }
+    ]
+   }
+  ],
+  "turns": [
+   {
+    "q": "Hi! I'm shopping but not sure what's right for me, can you help me choose?",
+    "a": "the whole family?•Do you have any dietary preferences or restrictions (e.g., vegan, gluten-free, no added sugar)?•Are you planning to snack on them as-is, or use them in recipes like smoothies, oatmeal, or baking? {} Informed by GearJunkie, SoundGuys, businessinsider.com, runnersworld.com, rtings.com {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is harmful / unsafe This is irrelevant Something else Dismiss Submit",
+    "by": "ai",
+    "lat": 6.9,
+    "fl": [
+     {
+      "t": "missed part of the ask",
+      "k": "warn"
+     }
+    ],
+    "cov": 0
+   },
+   {
+    "q": "I want something for everyday use, good quality, and I care about value for money.",
+    "a": "would you like me to compare them with similar organic snack options at different price points? {} Add to cart Compare similar organic snacks Subscribe & Save for better value? Other healthy everyday snack ideas {} Informed by Happy Simple Living, theguardian.com, Cha Ching Queen, wired.com, BuzzFeed {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is inaccurate This is irrelevant Something else Dismiss Submit",
+    "by": "ai",
+    "lat": 10.5,
+    "fl": [
+     {
+      "t": "missed part of the ask",
+      "k": "warn"
+     }
+    ],
+    "cov": 30
+   },
+   {
+    "q": "I'd like to stay within a sensible budget, what are my best options?",
+    "a": "pick with convenient individual resealable packs.Want me to add any of these to your cart? {} Add PANFRUIT raspberries to cart Compare nutrition between these snacks Subscribe & Save options available? More organic snack ideas {} Informed by Security.org, Beat Cop Game, PCMAG, PCMAG, caranddriver.com {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is inaccurate This is irrelevant Something else Dismiss Submit",
+    "by": "ai",
+    "lat": 22.7,
+    "fl": [
+     {
+      "t": "missed part of the ask",
+      "k": "warn"
+     }
+    ],
+    "cov": 14
+   },
+   {
+    "q": "Can you compare your two most popular options and tell me which is better for me?",
+    "a": "ANFRUIT is the better fit.Want me to add either to your cart? {} Add Brothers All Natural to cart Add PANFRUIT raspberries to cart Are there organic variety packs available? Subscribe & Save for better value? {} Informed by serp.co, sassblade.com, 10best-choices.com, Baby Bargains, Raw Creations Juice {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is irrelevant This is harmful / unsafe Something else Dismiss Submit",
+    "by": "ai",
+    "lat": 16.5,
+    "fl": [
+     {
+      "t": "missed part of the ask",
+      "k": "warn"
+     }
+    ],
+    "cov": 14
+   },
+   {
+    "q": "Which one is your overall best seller, and is it well reviewed?",
+    "a": "ould you like to add the Brothers All Natural pack to your cart? {} Add Brothers All Natural to cart Are there organic variety packs? Subscribe & Save options available? Compare nutrition between the two {} Informed by serp.co, 10best-choices.com, Baby Bargains, Freeze Dried Guide, Raw Creations Juice {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is inaccurate This is harmful / unsafe Something else Dismiss Submit",
+    "by": "ai",
+    "lat": 13.1,
+    "fl": [
+     {
+      "t": "missed part of the ask",
+      "k": "warn"
+     }
+    ],
+    "cov": 0
+   },
+   {
+    "q": "Okay, can you add your top recommendation to my cart?",
+    "a": "4 bags) — best value at ~$1.32/bag, great for everyday snackingMore details Great choice for everyday use and value for money! You can head to your cart whenever you're ready to check out.Go to cart {} Undo Also add the PANFRUIT raspberries? Subscribe & Save for better value? Other healthy snack ideas {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is inaccurate This is harmful / unsafe Something else Dismiss Submit",
+    "by": "ai",
+    "lat": 12.6,
+    "cov": 40
+   },
+   {
+    "q": "What's my total, and do you offer free shipping or a first-order discount?",
+    "a": "ee shipping benefitsWould you like to know more about Prime or Subscribe & Save options? {} Free Shipping Prime Members Subscribe & Save Learn More Amazon Prime Shipping Benefits {} Sign up for Prime free trial Subscribe & Save on this product Add another item to reach free shipping What's in my cart? {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is harmful / unsafe This is inaccurate Something else Dismiss Submit",
+    "by": "ai",
+    "lat": 16.5,
+    "fl": [
+     {
+      "t": "missed part of the ask",
+      "k": "warn"
+     }
+    ],
+    "cov": 29
+   },
+   {
+    "q": "Is there a warranty or guarantee if something goes wrong?",
+    "a": "mazon has you covered with a refund — no hassle return needed for food items. {} About Amazon Returns Your Orders Learn More Return Items You Ordered Returns Policy {} How do I request a refund on Amazon? What is Amazon Prime's return benefit? Subscribe & Save on my cart item Other healthy snack ideas {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is harmful / unsafe This is inaccurate Something else Dismiss Submit",
+    "by": "ai",
+    "lat": 18.6,
+    "fl": [
+     {
+      "t": "missed part of the ask",
+      "k": "warn"
+     }
+    ],
+    "cov": 17
+   },
+   {
+    "q": "How long will delivery take, roughly?",
+    "a": "g at just 2 days from today (Tuesday, July 7).Not a Prime member yet? A free 30-day trial would get you that faster delivery on this order and future ones.Would you like to go ahead and place your order? {} Buy Now Sign up for Prime free trial Subscribe & Save on this product Other healthy snack ideas {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is irrelevant This is harmful / unsafe Something else Dismiss Submit",
+    "by": "ai",
+    "lat": 8.4,
+    "fl": [
+     {
+      "t": "missed part of the ask",
+      "k": "warn"
+     }
+    ],
+    "cov": 20
+   },
+   {
+    "q": "And if I change my mind, how easy is it to return?",
+    "a": "g on eligible items, making it even more hassle-free.In short — returning on Amazon is very straightforward, especially for grocery/snack items! {} How do I track my order? Subscribe & Save on this product Other healthy snack ideas Place my order now {} Your Orders Returns Policy Customer Service Home {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is irrelevant This is harmful / unsafe Something else Dismiss Submit",
+    "by": "ai",
+    "lat": 10.6,
+    "fl": [
+     {
+      "t": "missed part of the ask",
+      "k": "warn"
+     }
+    ],
+    "cov": 0
+   }
+  ]
  },
  {
   "id": "sierra-casper-shopping-2026-07-01",
