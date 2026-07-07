@@ -772,6 +772,12 @@ export const STORES = [
   // drops the store's committed convs from the report.
   { key: "yuma-tumble",       vendor: "Yuma",   store: "Tumble",       url: "https://www.tumbleliving.com/",   widget: "yuma" },              // US home/rugs · app.yuma.ai/w/fbb8eeda
 
+  // Amazon Rufus ("Alexa" shopping assistant on amazon.com) — INVESTIGATED 2026-07-07, NOT capturable:
+  // cold guest sessions (US zip set, no bot-wall) expose NO Rufus entry point on home or search —
+  // only a hidden 1x1 test div (nav-rufus-disc-txt). Rufus + Alexa+ web are gated behind an Amazon
+  // account login, which breaks the benchmark's cold-session methodology. Revisit if Amazon opens
+  // it to guests; a logged-in capture would need an explicit methodology exception (shopping-only,
+  // modes:["shopping"]).
   // Headed-only vendors (widget loads only in real Chrome). candidate=excluded from headless runs.
   { key: "humind-900care",    vendor: "Humind", store: "900.care",    url: "https://www.900.care/",       widget: "humind", candidate: true, locale: "fr-FR" },
   { key: "humind-puressentiel",vendor:"Humind", store: "Puressentiel",url: "https://fr.puressentiel.com/",widget: "humind", candidate: true, locale: "fr-FR" },
