@@ -326,7 +326,8 @@ async function runStoreMode(browser, store, mode, theme) {
       }
       // Pass the store/vendor name so the bot's own brand label ("Tediber says:") isn't
       // misread as a human agent named "Tediber".
-      const handover = detectHandover(handoverTail, w.handover, [store.store, store.vendor]);
+      // store.personas covers AI agents replying under a human first name (Atma/Yuma's "Lucas says:").
+      const handover = detectHandover(handoverTail, w.handover, [store.store, store.vendor, ...(store.personas || [])]);
       if (handover) handedOver = true;
       // Once a human owns the thread, every later turn is human too. We NEVER
       // count a human reply's latency — only the AI's own responses are timed.

@@ -706,7 +706,9 @@ export const STORES = [
   // probe 2026-07-07: js.yuma.ai widget.js loaded w/ salesAi, and a substantive Yuma product answer
   // (~40s) landed in the Gorgias thread after the in-chat email gate ("Communiquez-nous votre
   // adresse e-mail") was satisfied. Gate handling lives in gorgias.send() → fillEmailGate.
-  { key: "yuma-atma",      vendor: "Yuma",    store: "Atma Kitchenware",   url: "https://atmakitchenware.fr/",   widget: "gorgias", locale: "fr-FR" },
+  // personas: Yuma's AI replies under a human first name ("Lucas says:") — exclude it from the
+  // named-human handover heuristic (verified automated: answers ~40s post-email-gate, salesAi on).
+  { key: "yuma-atma",      vendor: "Yuma",    store: "Atma Kitchenware",   url: "https://atmakitchenware.fr/",   widget: "gorgias", locale: "fr-FR", personas: ["Lucas"] },
   { key: "envive-kut",     vendor: "Envive",  store: "Kut from the Kloth", url: "https://www.kutfromthekloth.com/", widget: "gorgias" }, // chat shell is Gorgias
   { key: "repai-fresh",    vendor: "Rep AI",  store: "Fresh Roasted Coffee", url: "https://www.freshroastedcoffee.com/", widget: "repai", candidate: true },
   { key: "kodif-dsc",      vendor: "Kodif",   store: "Dollar Shave Club",  url: "https://us.dollarshaveclub.com/", widget: "kodif", candidate: true },
