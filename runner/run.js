@@ -139,24 +139,25 @@ async function timeTurn(page, scope, sendFn, q) {
   const REPLY_MIN = echoApprox + 40;              // growth beyond this = a real reply, not the echo
   const t0 = Date.now();
   await sendFn();
-  let lastLen = before, lastChange = t0, ttft = null, sawGen = false, grownReply = false, complete = null, growthEvents = 0;
+  let lastLen = before, lastChange = t0, ttft = null, sawGen = false, grownReply = false, complete = null, growthEvents = 0, trough = before;  // some widgets (Amazon Rufus) RESET the transcript container on each question, so growth is measured from the post-send trough, not the pre-send baseline
   const deadline = t0 + TURN_TIMEOUT_MS;
   while (Date.now() < deadline) {
     await sleep(POLL_MS);
     const { len, text } = await readTranscript(page, scope);
     if (len !== lastLen) { lastChange = Date.now(); if (len > lastLen) growthEvents++; lastLen = len; }
+    if (len < trough) trough = len;
     if (isGen(text)) sawGen = true;
-    if (len > before + REPLY_MIN) { grownReply = true; if (ttft == null) ttft = Date.now() - t0; }
+    if (len > trough + REPLY_MIN) { grownReply = true; if (ttft == null) ttft = Date.now() - t0; }
     // "still working" = a typing indicator, OR a short stall/ack message that will be
     // followed by the real answer. A long reply (>240 chars) is accepted even if it
     // coincidentally ends acknowledgement-like.
-    const shortSoFar = (len - before) < 240;
+    const shortSoFar = (len - trough) < 240;
     const working = isGen(text) || (isAck(text) && shortSoFar);
     const settled = Date.now() - lastChange > STABLE_MS;
     // A settled transcript that's just an offline/reconnecting state or a chip/"leave a
     // message" menu is NOT a real answer — never stop the clock on it (leaves complete_ms
     // null → the conversation's validity gate will drop it as noise).
-    const realAnswer = (grownReply || (sawGen && len > before + 40)) && !isNoAnswer(text);
+    const realAnswer = (grownReply || (sawGen && len > trough + 40)) && !isNoAnswer(text);
     if (settled && !working && realAnswer) { complete = lastChange - t0; break; }
   }
   // growth_events distinguishes DELIVERY: many increments = token/segment streaming,
