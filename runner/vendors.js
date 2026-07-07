@@ -130,6 +130,7 @@ async function fillEmailGate(page, frame) {
       'button:has-text("Envoyer")',
       'button[type="submit"]',
       'input[type="submit"]',
+      'button[aria-label*="Submit" i]',   // Gorgias in-chat email gate: icon button, aria "Submit …"
     ].join(", ")).first();
     let submitted = false;
     if (await btn.count().catch(() => 0)) {
@@ -201,6 +202,9 @@ export const WIDGETS = {
       // screen in a cold context). Avoid the email-capture input if present.
       const f = await findFrame(page, "chat-window");
       if (!f) { try { await page.evaluate(t => window.GorgiasChat.sendMessage(t), text); } catch (e) {} return; }
+      // Some Gorgias shells (Atma/Yuma) pop an in-chat email-capture AFTER the first
+      // message — the AI won't reply until it's satisfied. No-op when absent.
+      await fillEmailGate(page, f).catch(() => {});
       let inp = f.locator('textarea').first();
       if (!(await inp.count().catch(() => 0))) inp = f.locator('[contenteditable="true"], input[type="text"], input:not([type="email"])').first();
       await inp.click({ timeout: 5000 }).catch(() => {});
@@ -696,6 +700,13 @@ export const STORES = [
   // if only the Gorgias widget is live these yield no data & drop out — no Gorgias-as-Yuma mis-attribution.
   { key: "yuma-rouje",     vendor: "Yuma",    store: "Rouje",              url: "https://www.rouje.com/",        widget: "yuma", locale: "fr-FR" }, // native yuma-widget + Gorgias
   { key: "yuma-ledomaine", vendor: "Yuma",    store: "Le Domaine",         url: "https://le-domaine.com/",       widget: "yuma", locale: "fr-FR" }, // native yuma-widget + Gorgias
+  // Atma: DUAL-widget, but Yuma's own iframe stays 1×1 (its config has forceSingleChatWidget:true —
+  // Yuma defers to Gorgias Chat and answers INSIDE it, replies tagged "Automatisé"). So unlike
+  // Rouje/Le Domaine above, the Gorgias shell IS the Yuma surface here — attribution verified by
+  // probe 2026-07-07: js.yuma.ai widget.js loaded w/ salesAi, and a substantive Yuma product answer
+  // (~40s) landed in the Gorgias thread after the in-chat email gate ("Communiquez-nous votre
+  // adresse e-mail") was satisfied. Gate handling lives in gorgias.send() → fillEmailGate.
+  { key: "yuma-atma",      vendor: "Yuma",    store: "Atma Kitchenware",   url: "https://atmakitchenware.fr/",   widget: "gorgias", locale: "fr-FR" },
   { key: "envive-kut",     vendor: "Envive",  store: "Kut from the Kloth", url: "https://www.kutfromthekloth.com/", widget: "gorgias" }, // chat shell is Gorgias
   { key: "repai-fresh",    vendor: "Rep AI",  store: "Fresh Roasted Coffee", url: "https://www.freshroastedcoffee.com/", widget: "repai", candidate: true },
   { key: "kodif-dsc",      vendor: "Kodif",   store: "Dollar Shave Club",  url: "https://us.dollarshaveclub.com/", widget: "kodif", candidate: true },
