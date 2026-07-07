@@ -85075,7 +85075,28 @@ function renderConv(){
   const cnt=document.getElementById('conv-count'); if(cnt) cnt.textContent = shown.length+' of '+CF_ITEMS.length+' conversations';
   renderConvChart(shown);
   if(!shown.length){ feed.innerHTML='<div class="note" style="padding:16px">No conversations match the current filters (date window, vendor/website pills, or the feed filters above). <button class="datebtn" onclick="VFILTER.clear();WFILTER.clear();CF_FILTER={lane:\'all\',vendor:\'__all\',outcome:\'all\',lat:\'all\',q:\'\'};presetAll();renderFilterPops();renderAll();">Reset all filters</button></div>'; return; }
-  feed.innerHTML = shown.map((it)=>{
+  // Lazy rendering: only the first CF_CHUNK rows are in the DOM; an IntersectionObserver
+  // sentinel appends the next chunk as you scroll. 500+ transcript rows at once was slow.
+  CF_SHOWN=shown; CF_PAGE=1;
+  feed.innerHTML = shown.slice(0,CF_CHUNK).map(cfItemHtml).join('') +
+    (shown.length>CF_CHUNK ? '<div id="cf-sentinel" class="note" style="padding:14px;text-align:center">Loading more…</div>' : '');
+  cfObserve();
+}
+let CF_SHOWN=[], CF_PAGE=1; const CF_CHUNK=60; let CF_IO=null;
+function cfObserve(){
+  const sen=document.getElementById('cf-sentinel'); if(CF_IO){ CF_IO.disconnect(); CF_IO=null; }
+  if(!sen) return;
+  CF_IO=new IntersectionObserver(es=>{ if(es.some(e=>e.isIntersecting)) cfAppendChunk(); },{rootMargin:'600px'});
+  CF_IO.observe(sen);
+}
+function cfAppendChunk(){
+  const sen=document.getElementById('cf-sentinel'); if(!sen) return;
+  const start=CF_PAGE*CF_CHUNK, next=CF_SHOWN.slice(start,start+CF_CHUNK);
+  CF_PAGE++;
+  if(next.length) sen.insertAdjacentHTML('beforebegin', next.map(cfItemHtml).join(''));
+  if(start+CF_CHUNK>=CF_SHOWN.length){ if(CF_IO){CF_IO.disconnect();CF_IO=null;} sen.remove(); }
+}
+function cfItemHtml(it){
     const i = CF_ITEMS.indexOf(it);
     const pill='<span class="pill '+themePillCls(it.success)+'">'+(it.successTxt||'—')+'</span>';
     const ho= it.handoverTurn?'<span class="lat" style="color:var(--danger);background:#fdeaea">🚩 @T'+it.handoverTurn+'</span>':'';
@@ -85093,7 +85114,6 @@ function renderConv(){
       '</button>'+
       '<div class="cf-body" id="cf-body-'+i+'" hidden></div>'+
     '</div>';
-  }).join('');
 }
 // Per-conversation LLM-judge eval: quality score + rubric-dimension breakdown + one-line
 // judge note. Rendered at the top of every judged conversation on the Conversations tab and
