@@ -53,12 +53,18 @@ const BOT_LABEL = /^(ai|assistant|bot|chatbot|concierge|virtual|team|support|hel
 // bot greeting is misread as a human handover and the conversation is wrongly killed.
 export function namedHumanSays(text, selfNames = []) {
   if (!text) return null;
+  // Widget innerText can hide zero-width chars or line breaks INSIDE the sender label
+  // ("Luc​as says:" / "Luc\nas says:") — the name then captures as a fragment ("as")
+  // that no exclusion list can know. Strip invisibles, and treat a captured fragment that
+  // is a SUFFIX of a selfName token as the bot's own label, not a human.
+  text = String(text).replace(/[​‌‍⁠﻿­]/g, "");
   const self = new Set((selfNames || []).flatMap(n => String(n || "").toLowerCase().split(/[^a-zà-ÿ0-9]+/i).filter(Boolean)));
   const re = /\b([A-Za-zÀ-ÿ][A-Za-zÀ-ÿ'’-]*) (says|dit)\s*:/gi;
   let m;
   while ((m = re.exec(text))) {
     const name = m[1].toLowerCase();
     if (BOT_LABEL.test(name) || self.has(name)) continue;
+    if ([...self].some(s => s.length > 2 && name.length >= 2 && s.endsWith(name))) continue; // split-label artifact
     return m[0].trim().slice(0, 80);
   }
   return null;
