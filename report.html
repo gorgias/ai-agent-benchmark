@@ -190,7 +190,7 @@
   .cc-bar i{display:block;width:100%;cursor:help}
   .cc-tot{font-size:10.5px;font-weight:800;font-family:'JetBrains Mono',monospace;color:var(--on-muted)}
   .cc-day{font-size:9.5px;color:var(--on-faint);font-family:'JetBrains Mono',monospace;white-space:nowrap}
-  .cc-legend{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px;border-top:1px dashed var(--line);padding-top:9px}
+  .cc-legend{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 12px;border-bottom:1px dashed var(--line);padding-bottom:9px}
   .cc-leg{font-size:10.5px;font-weight:600;color:var(--on-muted);display:inline-flex;align-items:center;gap:5px}
   .cc-leg i{width:9px;height:9px;border-radius:3px;display:inline-block}
   .flist label{display:flex;align-items:center;gap:8px;font-size:12.5px;font-weight:600;color:var(--on);padding:5px 8px;border-radius:8px;cursor:pointer}
@@ -316,7 +316,8 @@
   }
 
   /* ---------- UNIFIED site nav — IDENTICAL markup + CSS on takeaways.html, report.html, run-status.html (self-contained hex so it never diverges across pages) ---------- */
-  .sitenav{position:sticky;top:0;z-index:60;display:flex;align-items:center;gap:14px;padding:0 24px;height:54px;
+  .nav-burger{display:none;margin-left:auto;background:none;border:1px solid var(--line);border-radius:9px;font-size:17px;line-height:1;padding:6px 11px;color:var(--on);cursor:pointer}
+  .sitenav{position:relative;position:sticky;top:0;z-index:60;display:flex;align-items:center;gap:14px;padding:0 24px;height:54px;
     background:rgba(250,250,250,.85);backdrop-filter:blur(16px) saturate(1.4);-webkit-backdrop-filter:blur(16px) saturate(1.4);border-bottom:1px solid rgba(30,36,46,.08)}
   .sitenav .brand{display:flex;align-items:center;gap:8px;font-family:'Inter Tight','Inter',sans-serif;font-weight:800;font-size:14px;letter-spacing:-.01em;color:#1e242e;text-decoration:none;white-space:nowrap}
   .sitenav .brand .mark{width:22px;height:22px;border-radius:6px;background:#1e242e;display:grid;place-items:center;flex:none}
@@ -327,6 +328,12 @@
   .sitenav .links a:hover{background:#f0eefa;color:#1e242e}
   .sitenav .links a.active{background:#efe9fe;color:#683fcf;font-weight:700}
   @media(max-width:820px){.sitenav .links a{padding:6px 9px;font-size:12px}.sitenav .brand .sub{display:none}}
+  @media(max-width:720px){
+    .nav-burger{display:block}
+    .sitenav .links{display:none}
+    .sitenav.nav-open .links{display:flex;flex-direction:column;align-items:stretch;position:absolute;top:calc(100% + 6px);right:10px;left:auto;margin:0;background:var(--surface,#fff);border:1px solid var(--line);border-radius:14px;padding:8px;box-shadow:0 12px 32px rgba(15,18,25,.14);min-width:200px}
+    .sitenav.nav-open .links a{padding:11px 14px;font-size:14px;border-radius:9px;text-align:left}
+  }
   .us-tag{display:none!important}   /* US-HQ flag removed — confusing (flags country, not relevance) */
   /* LIVING mesh gradient — a canvas of ink-in-water color orbs, animated, behind the hero.
      This is the Editions-style "wow": real flowing motion, not static blobs. */
@@ -411,6 +418,7 @@
 <body>
 <nav class="sitenav">
   <a class="brand" href="takeaways.html"><span class="mark"></span>Gorgias<span class="sub">· AI Agent Benchmark</span></a>
+  <button class="nav-burger" aria-label="Menu" onclick="event.stopPropagation();this.closest('.sitenav').classList.toggle('nav-open')">☰</button>
   <div class="links">
     <a href="takeaways.html">Summary</a>
     <a href="report.html" id="nav-report" class="active" aria-current="page">Best AI Agent</a>
@@ -650,6 +658,7 @@
       <div class="dp-presets"><button class="datebtn" onclick="clearFilter('wf')">All websites</button></div>
     </div>
   </div>
+  <button class="datebtn" id="clear-all-filters" onclick="clearAllFilters()" hidden style="border-color:rgba(217,11,40,.3);color:var(--danger)">✕ Remove filters</button>
   <span class="datebar-note" id="date-note"></span>
 </div>
 
@@ -763,7 +772,6 @@
 
 <section id="conv-sec">
   <h2 class="sec">Conversations</h2>
-  <p class="lead">Every captured conversation across <strong>both lanes</strong>, freshest first. Filter by lane, vendor, outcome or latency, or search the transcripts. Click a row to expand the full turn-by-turn transcript with <strong>per-message latency</strong>; a <span style="color:var(--danger);font-weight:700">human handover</span> is flagged, and Gorgias conversations link to their <strong>ticket</strong>.</p>
   <div id="conv-filters"></div>
   <div id="conv-chart"></div>
   <div id="conv-live" style="display:none"></div>
@@ -84633,19 +84641,28 @@ function pruneWF(){ const ok=new Set(fSites()); for(const w of [...WFILTER]) if(
 function renderFilterPops(){
   const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');
   const all=[...STORES,...SUPPORT];
-  const vendors=[...new Set(all.map(s=>s.vendor))].sort();
+  const vendors=[...new Set(all.map(s=>s.vendor))].sort((a,b)=>((VFILTER.has(b)?1:0)-(VFILTER.has(a)?1:0))||a.localeCompare(b));
   const vCount=v=>new Set(all.filter(s=>s.vendor===v&&s.site).map(s=>s.site)).size;
   const vl=document.getElementById('vf-list');
   if(vl) vl.innerHTML=vendors.map(v=>'<label><input type="checkbox" '+(VFILTER.has(v)?'checked':'')+' onchange="fToggle(\'vf\',\''+esc(v)+'\')"> '+esc(v)+'<span class="fcount">'+vCount(v)+' site'+(vCount(v)>1?'s':'')+'</span></label>').join('');
   const siteVendor={}; all.forEach(s=>{ if(s.site) siteVendor[s.site]=s.vendor; });
   const wl=document.getElementById('wf-list');
-  if(wl) wl.innerHTML=fSites().map(w=>'<label><input type="checkbox" '+(WFILTER.has(w)?'checked':'')+' onchange="fToggle(\'wf\',\''+esc(w)+'\')"> '+esc(w.replace(/^www\./,''))+'<span class="fcount">'+esc(siteVendor[w]||'')+'</span></label>').join('');
+  if(wl) wl.innerHTML=[...fSites()].sort((a,b)=>((WFILTER.has(b)?1:0)-(WFILTER.has(a)?1:0))||a.localeCompare(b)).map(w=>'<label><input type="checkbox" '+(WFILTER.has(w)?'checked':'')+' onchange="fToggle(\'wf\',\''+esc(w)+'\')"> '+esc(w.replace(/^www\./,''))+'<span class="fcount">'+esc(siteVendor[w]||'')+'</span></label>').join('');
   const lab=(id,set,word)=>{ const el=document.getElementById(id); if(!el) return; el.textContent=!set.size?('All '+word+'s'):set.size===1?[...set][0]:set.size+' '+word+'s'; el.parentElement.classList.toggle('active',!!set.size); };
   lab('vf-label',VFILTER,'vendor'); lab('wf-label',WFILTER,'website');
+  updateClearShortcut();
   fSearch('vf',(document.getElementById('vf-search')||{}).value||''); fSearch('wf',(document.getElementById('wf-search')||{}).value||'');
 }
+function clearAllFilters(){ VFILTER.clear(); WFILTER.clear();
+  if(window.__initRange!==undefined){ const [f,t]=window.__initRange.split('|'); DATE_FROM=f||null; DATE_TO=t||null; if(typeof applyRange==='function') applyRange(); }
+  else if(typeof presetAll==='function') presetAll();
+  renderFilterPops(); if(typeof renderAll==='function') renderAll(); }
+function updateClearShortcut(){ const b=document.getElementById('clear-all-filters'); if(!b) return;
+  if(window.__initRange===undefined) window.__initRange=(DATE_FROM||'')+'|'+(DATE_TO||'');   // snapshot the default window on first render
+  const dateChanged=((DATE_FROM||'')+'|'+(DATE_TO||''))!==window.__initRange;
+  b.hidden = !((VFILTER&&VFILTER.size)||(WFILTER&&WFILTER.size)||dateChanged); }
 function fSearch(kind,q){ q=String(q||'').toLowerCase(); document.querySelectorAll('#'+kind+'-list label').forEach(l=>{ l.style.display = l.textContent.toLowerCase().includes(q)?'':'none'; }); }
-document.addEventListener('click',()=>{ const v=document.getElementById('vf-pop'), w=document.getElementById('wf-pop'); if(v) v.hidden=true; if(w) w.hidden=true; });
+document.addEventListener('click',()=>{ const v=document.getElementById('vf-pop'), w=document.getElementById('wf-pop'); if(v) v.hidden=true; if(w) w.hidden=true; const n=document.querySelector('.sitenav.nav-open'); if(n) n.classList.remove('nav-open'); });
 // ---- Single range date picker (one popover calendar, pick start + end) -------
 const DSET = new Set(ALL_DATES);
 const pad = n => String(n).padStart(2,'0');
@@ -84662,7 +84679,7 @@ function dpLabel(){
   const el=document.getElementById('dp-label'); if(!el) return;
   el.textContent = (!DATE_FROM&&!DATE_TO) ? 'All dates' : (fmtNice(DATE_FROM)+' – '+fmtNice(DATE_TO));
 }
-function applyRange(){ dpLabel(); dateNote(); renderAll(); }
+function applyRange(){ dpLabel(); dateNote(); updateClearShortcut(); renderAll(); }
 function toggleCal(e){ if(e) e.stopPropagation(); const p=document.getElementById('dp-pop'); p.hidden=!p.hidden; if(!p.hidden){ const ref=DATE_TO?parse(DATE_TO):new Date(); CAL={y:ref.getFullYear(),m:ref.getMonth()}; SEL_START=null; renderCal(); } }
 function closeCal(){ const p=document.getElementById('dp-pop'); if(p) p.hidden=true; }
 function calNav(d){ let m=CAL.m+d, y=CAL.y; if(m<0){m=11;y--;} if(m>11){m=0;y++;} CAL={y,m}; renderCal(); }
@@ -85044,11 +85061,11 @@ function renderConvChart(items){
       const hpx=Math.max(2,Math.round(byDay[d][v]/max*H));
       return '<i style="height:'+hpx+'px;background:'+col(v)+'" title="'+v+' · '+byDay[d][v]+'"></i>';
     }).join('');
-    return '<div class="cc-col"><div class="cc-bar" style="height:'+H+'px">'+segs+'</div><span class="cc-day">'+d.slice(5).replace('-','/')+'</span></div>';
+    return '<div class="cc-col"><span class="cc-tot">'+tot+'</span><div class="cc-bar" style="height:'+H+'px">'+segs+'</div><span class="cc-day">'+d.slice(5).replace('-','/')+'</span></div>';
   }).join('');
   const legend=vendors.map(v=>'<span class="cc-leg"><i style="background:'+col(v)+'"></i>'+v+'</span>').join('');
   el.innerHTML='<div class="card cc-card"><div class="cc-title">Conversations captured per day <span>· '+items.length+' in view · stacked by vendor · follows the filters</span></div>'+
-    '<div class="cc-row">'+bars+'</div><div class="cc-legend">'+legend+'</div></div>';
+    '<div class="cc-legend">'+legend+'</div><div class="cc-row">'+bars+'</div></div>';
 }
 function renderConv(){
   CF_ITEMS = buildConvItems();
