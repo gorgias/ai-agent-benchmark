@@ -463,8 +463,8 @@ export const WIDGETS = {
     async send(page, text) { await shadowSend(page, "#ads-agent-host", text); },
   },
   rufus: {
-    scope: { kind: "dom", sel: "#rufus-conversation-container" },
-    handover: [],
+    scope: { kind: "dom", sel: "#rufus-conversation-container-inner" },
+    handover: [],   // Amazon's shopping AI never hands off to a human
     async open(page) {
       // Runner navigates with waitUntil:"commit" (page not loaded yet). Amazon is heavy, so
       // WAIT for the page + the Rufus launcher before clicking, then wait for the composer.
