@@ -259,6 +259,9 @@
   .best-ref-meta{margin-left:auto;font-size:11.5px;color:var(--on-muted)}
   .best-ref-tag{font-size:9.5px;font-weight:800;text-transform:uppercase;letter-spacing:.03em;color:#b26b00;background:rgba(255,153,0,.14);border:1px solid rgba(255,153,0,.35);padding:1px 7px;border-radius:999px;cursor:help;margin-left:6px}
   .row-outlier{background:rgba(255,153,0,.045)}
+  .best-winner.is-ref{background:rgba(255,153,0,.07);border:1px dashed #ff9900;margin-bottom:10px}
+  .best-winner.is-ref .best-medal{color:#b26b00;border-color:rgba(255,153,0,.5)}
+  .best-winner.is-ref .best-score{color:#b26b00}
   .best-foot{margin-top:12px;font-size:12px;color:var(--on-muted);border-top:1px dashed var(--line);padding-top:10px}
   .lat-section{margin:2px 0 22px}
   .lat-sec-h{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--on-faint);margin-bottom:8px}
@@ -830,7 +833,7 @@ const STORES = [
   "latPct": 72,
   "latP75": 20,
   "ttft": 16.7,
-  "delivery": null,
+  "delivery": "atomic",
   "success": 100,
   "successTxt": "100%",
   "avgTurns": 7,
@@ -1501,7 +1504,7 @@ const STORES = [
   "latPct": 71,
   "latP75": 19.8,
   "ttft": 16.7,
-  "delivery": null,
+  "delivery": "atomic",
   "success": 100,
   "successTxt": "100%",
   "avgTurns": 7,
@@ -2160,7 +2163,7 @@ const STORES = [
   "latPct": 80,
   "latP75": 23.2,
   "ttft": 18.5,
-  "delivery": null,
+  "delivery": "atomic",
   "success": 91,
   "successTxt": "91%",
   "avgTurns": 7,
@@ -2840,7 +2843,7 @@ const STORES = [
   "latPct": 75,
   "latP75": 20.7,
   "ttft": 18.6,
-  "delivery": null,
+  "delivery": "atomic",
   "success": 64,
   "successTxt": "64%",
   "avgTurns": 7,
@@ -3248,7 +3251,7 @@ const STORES = [
   "latPct": 77,
   "latP75": 21.3,
   "ttft": 17.1,
-  "delivery": "streaming",
+  "delivery": "atomic",
   "success": 90,
   "successTxt": "90%",
   "avgTurns": 10,
@@ -4068,7 +4071,7 @@ const STORES = [
   "latPct": 80,
   "latP75": 23.9,
   "ttft": 18.2,
-  "delivery": "streaming",
+  "delivery": "atomic",
   "success": 94,
   "successTxt": "94%",
   "avgTurns": 10,
@@ -5143,7 +5146,7 @@ const STORES = [
   "latPct": 68,
   "latP75": 18.9,
   "ttft": 14.9,
-  "delivery": "streaming",
+  "delivery": "atomic",
   "success": 100,
   "successTxt": "100%",
   "avgTurns": 10,
@@ -6193,7 +6196,7 @@ const STORES = [
   "latPct": 36,
   "latP75": 10.2,
   "ttft": 7.6,
-  "delivery": "streaming",
+  "delivery": "atomic",
   "success": 75,
   "successTxt": "75%",
   "avgTurns": 10,
@@ -6701,7 +6704,7 @@ const STORES = [
   "latPct": 52,
   "latP75": 15.1,
   "ttft": 12.7,
-  "delivery": "atomic",
+  "delivery": "streaming",
   "success": 100,
   "successTxt": "100%",
   "avgTurns": 10,
@@ -46432,7 +46435,7 @@ const STORES = [
   "latPct": 60,
   "latP75": 16.8,
   "ttft": 15.3,
-  "delivery": "streaming",
+  "delivery": "atomic",
   "success": 40,
   "successTxt": "40%",
   "avgTurns": 10,
@@ -52206,7 +52209,7 @@ const STORES = [
   "latPct": 100,
   "latP75": 42.8,
   "ttft": 38.8,
-  "delivery": "streaming",
+  "delivery": "atomic",
   "success": 80,
   "successTxt": "80%",
   "avgTurns": 10,
@@ -53124,7 +53127,7 @@ const SUPPORT = [
   "latPct": 61,
   "latP75": 17.4,
   "ttft": 14.6,
-  "delivery": null,
+  "delivery": "atomic",
   "success": 86,
   "successTxt": "86%",
   "avgTurns": 7,
@@ -53482,7 +53485,7 @@ const SUPPORT = [
   "latPct": 72,
   "latP75": 25.6,
   "ttft": 14.2,
-  "delivery": null,
+  "delivery": "atomic",
   "success": 100,
   "successTxt": "100%",
   "avgTurns": 7,
@@ -53677,7 +53680,7 @@ const SUPPORT = [
   "latPct": 59,
   "latP75": 14.8,
   "ttft": 14.2,
-  "delivery": null,
+  "delivery": "atomic",
   "success": 100,
   "successTxt": "100%",
   "avgTurns": 7,
@@ -54245,7 +54248,7 @@ const SUPPORT = [
   "latPct": 60,
   "latP75": 18.1,
   "ttft": 13.5,
-  "delivery": null,
+  "delivery": "atomic",
   "success": 57,
   "successTxt": "57%",
   "avgTurns": 7,
@@ -54524,7 +54527,7 @@ const SUPPORT = [
   "latPct": 61,
   "latP75": 15.9,
   "ttft": 15.4,
-  "delivery": "streaming",
+  "delivery": "atomic",
   "success": 100,
   "successTxt": "100%",
   "avgTurns": 10,
@@ -55274,7 +55277,7 @@ const SUPPORT = [
   "latPct": 63,
   "latP75": 16.5,
   "ttft": 14.5,
-  "delivery": "streaming",
+  "delivery": "atomic",
   "success": 100,
   "successTxt": "100%",
   "avgTurns": 10,
@@ -56046,7 +56049,7 @@ const SUPPORT = [
   "latPct": 60,
   "latP75": 17,
   "ttft": 13.2,
-  "delivery": "streaming",
+  "delivery": "atomic",
   "success": 98,
   "successTxt": "98%",
   "avgTurns": 10,
@@ -65314,7 +65317,7 @@ const SUPPORT = [
   "latPct": 42,
   "latP75": 13.4,
   "ttft": 9.8,
-  "delivery": "streaming",
+  "delivery": "atomic",
   "success": 77,
   "successTxt": "77%",
   "avgTurns": 7,
@@ -69380,7 +69383,7 @@ const SUPPORT = [
   "latPct": 58,
   "latP75": 15.9,
   "ttft": 14.1,
-  "delivery": "streaming",
+  "delivery": "atomic",
   "success": 80,
   "successTxt": "80%",
   "avgTurns": 10,
@@ -69825,7 +69828,7 @@ const SUPPORT = [
   "latPct": 55,
   "latP75": 14.6,
   "ttft": 13.7,
-  "delivery": "streaming",
+  "delivery": "atomic",
   "success": 90,
   "successTxt": "90%",
   "avgTurns": 10,
@@ -78527,7 +78530,7 @@ const SUPPORT = [
   "latPct": 54,
   "latP75": 15.1,
   "ttft": 14.4,
-  "delivery": "streaming",
+  "delivery": "atomic",
   "success": 77,
   "successTxt": "77%",
   "avgTurns": 10,
@@ -87627,7 +87630,7 @@ const SUPPORT = [
   "latPct": 46,
   "latP75": 16.2,
   "ttft": 12.5,
-  "delivery": "streaming",
+  "delivery": "atomic",
   "success": 74,
   "successTxt": "74%",
   "avgTurns": 10,
@@ -88466,7 +88469,7 @@ const SUPPORT = [
   "latPct": 24,
   "latP75": 6.9,
   "ttft": 4.6,
-  "delivery": "streaming",
+  "delivery": "atomic",
   "success": 70,
   "successTxt": "70%",
   "avgTurns": 10,
@@ -91391,6 +91394,7 @@ const VENDOR_DNA = {
   'Kodif':         'Mid-pack generalist: competent scripted flows, rarely specific, slow for what it delivers.',
   'Rep AI':        'Contains everything, answers little: 100% automation with the lowest quality and the slowest replies measured.',
   'DigitalGenius': 'Post-purchase automation specialist (returns, WISMO integrations); its on-site chat struggles with live shopping conversations.',
+  'Amazon Rufus':  'The north-star, not a SaaS: near-total automation and genuine token-streaming, fast on simple product facts (~7–8s) but noticeably slower on discovery & multi-turn reasoning (~13–15s) — the ceiling to aim at, not a vendor to buy.',
   'Spiffy':        'See Envive — same product, rebranded.',
 };
 const dnaLine = v => VENDOR_DNA[v] ? '<div class="best-dna">'+VENDOR_DNA[v]+'</div>' : '';
@@ -91416,14 +91420,18 @@ function latSummaryHtml(laneData){
       card(p75,'p75 latency','p75 — 75% of the '+n+' answers arrive at or under this (Gorgias’s headline latency metric). “vs Gorgias” is Gorgias’s own p75'+(gP75!=null?' ('+gP75+'s)':' (n/a)')+' vs the field.',true,gP75)+
     '</div></div>';
 }
+// Reference vendors (Amazon Rufus) render as a prominent north-star card at the TOP of
+// the panel — in the main ranking view, not tucked in a footnote — but visually set apart
+// (amber, dashed, "★ reference · not ranked") so they never read as a purchasable #1.
 function refBlockHtml(refs,col,s1,pct){
   if(!refs||!refs.length) return '';
-  return '<div class="best-ref"><div class="best-ref-h">★ Reference — best-in-class, not a purchasable SaaS</div>'+
-    refs.map(r=>'<div class="best-ref-row"><span class="vdot" style="background:'+col(r.v)+'"></span><b>'+r.v+'</b>'+
-      '<span class="best-ref-tag" data-tip="Amazon&#39;s own on-site shopping AI. Not a product a merchant can buy — a north-star for what best-in-class looks like, deliberately excluded from the head-to-head ranking and the field latency stats. Logged-in session (guests get no module).">outlier · reference</span>'+
-      '<span class="best-ref-meta mono">'+(r.autoRate!=null?r.autoRate+'% auto · ':'')+'q'+(r.avgQ==null?'—':r.avgQ)+' · '+s1(r.avgL)+'s · '+r.convs+' conv · '+pct(r.cov)+' cov</span></div>').join('')+
-    '</div>';
+  return refs.map(r=>'<div class="best-winner is-ref"><div class="best-medal">★ reference · not ranked</div>'+
+    '<div class="best-wmain"><div class="best-name"><span class="vdot" style="background:'+col(r.v)+'"></span>'+r.v+(r.us?'<span class="us-tag">US</span>':'')+
+      '<span class="best-ref-tag" data-tip="Amazon&#39;s own on-site shopping AI — not a product a merchant can buy. Shown as a best-in-class north-star for what great looks like, deliberately excluded from the head-to-head ranking and the field latency stats. Logged-in session only (guests get no module).">not a purchasable SaaS</span></div>'+
+    '<div class="best-sub">'+(r.autoRate!=null?r.autoRate+'% automation':'')+' · <span data-tip="Average (mean) full-answer latency across Amazon&#39;s measured turns. Fast on simple product facts (~7–8s), slower on discovery &amp; multi-turn (~13–15s).">~'+s1(r.avgL)+'s</span>'+(r.avgQ!=null?' · quality '+r.avgQ+'/100':'')+' · '+r.convs+' conversation'+(r.convs>1?'s':'')+' · '+pct(r.cov)+' coverage · <b data-tip="Genuinely token-streams — substance appears before the full answer lands.">streams tokens</b></div>'+dnaLine(r.v)+'</div>'+
+    '<div class="best-score" data-tip="'+compTipRef(r)+'">'+r.comp+'<span>/100</span></div></div>').join('');
 }
+function compTipRef(r){ return 'Composite = 40% automation + 40% quality + 20% speed = '+r.comp+'/100. Shown for reference only — Amazon is not part of the head-to-head ranking.'; }
 function renderBestPanel(elId, allRows, laneData){
   const el=document.getElementById(elId); if(!el) return;
   const col=v=>COL[v]||'#888', s1=x=>Math.round(x*10)/10, pct=c=>Math.round(c*100)+'%';
@@ -91456,7 +91464,7 @@ function renderBestPanel(elId, allRows, laneData){
         dnaLine(r.v)+
       '</div>').join('')+'</div>';
   }
-  h+=refBlockHtml(refs,col,s1,pct);
+  h=refBlockHtml(refs,col,s1,pct)+h;   // north-star reference card sits at the TOP of the ranking
   h+=gatedHtml(gated,col,pct);
   el.innerHTML=h;
 }
