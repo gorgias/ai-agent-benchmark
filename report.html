@@ -6701,27 +6701,27 @@ const STORES = [
   "locale": "en-US",
   "method": "new",
   "us": false,
-  "lat": "~12.9s",
-  "latPct": 52,
-  "latP75": 15.1,
-  "ttft": 12.7,
+  "lat": "~13.2s",
+  "latPct": 53,
+  "latP75": 15.3,
+  "ttft": 13.1,
   "delivery": "streaming",
   "success": 100,
   "successTxt": "100%",
   "avgTurns": 10,
-  "timed": 160,
-  "attempted": 160,
+  "timed": 249,
+  "attempted": 250,
   "auto": {
-   "automated": 16,
+   "automated": 25,
    "handover": 0,
    "deflected": 0,
    "no_answer": 0,
-   "engaged": 16,
+   "engaged": 25,
    "rate": 100
   },
   "evalq": {
-   "n": 16,
-   "total": 76,
+   "n": 25,
+   "total": 77,
    "dims": {
     "answer": 25,
     "discovery": 19,
@@ -6730,25 +6730,25 @@ const STORES = [
     "close": 8
    },
    "cls": {
-    "resolved": 8,
-    "partial": 6,
-    "failed": 2
+    "resolved": 15,
+    "partial": 7,
+    "failed": 3
    },
    "learnings": [
     "Guided a beginner to a concrete priced pick and completed the cart, but the final total ($154.75 vs earlier $31.79) is internally inconsistent and left dangling.",
     "Clarifies and eventually completes the cart with a priced pick, but the product thread drifts across sheets/steamers/face masks and cites an implausible $364 cart for a budget-tight sheets shopper.",
     "Strong budget-anchored discovery and a consistent, price-backed single recommendation that it actually adds to cart and confirms delivery for.",
+    "Strong budget-anchored comparison with honest value verdicts, a fulfilled cart-plus-total request and a concrete final price; only product links and review evidence are missing.",
+    "Immediately pushed an add-on product at a budget-tight vague opener instead of clarifying needs first, but then built a genuinely budget-tied comparison and completed cart, total and shipping cleanly.",
+    "Cart-aware budget optimization done well — a concrete dollar-savings swap defended with itemized math, warranty trade-offs, and a consistent confirmed final total.",
     "Strong, consistent value reasoning toward Brothers, but never delivered the explicitly-requested total/discount and closed on an unexplained 3x-quantity cart surprise.",
-    "Good discovery and a consistent named pick, but it loops on an unanswerable size gate and never completes the explicitly requested add-to-cart, leaving the shopper stuck.",
-    "Value-fit plan recommendation is coherent, but it never executes the explicit add-to-cart and keeps pitching subscription instead of acting.",
-    "Skin-type discovery drives a fitted, responsibly-caveated pick (patch test) that it actually adds to cart; only gap is no concrete price shown.",
-    "Clean end-to-end everyday-value flow — clarified needs, compared two options, tied the pick to per-bag value and completed the cart."
+    "Good discovery and a consistent named pick, but it loops on an unanswerable size gate and never completes the explicitly requested add-to-cart, leaving the shopper stuck."
    ]
   },
   "guard": null,
   "ticket": null,
-  "what": "16 cold private conversations (shopping themes). No handover in any theme. Avg end-to-end latency ~12.9s across 160 AI-timed turns.",
-  "datetime": "2026-07-07T17:34:55.803Z",
+  "what": "25 cold private conversations (shopping themes). No handover in any theme. Avg end-to-end latency ~13.2s across 249 AI-timed turns.",
+  "datetime": "2026-07-07T18:09:21.085Z",
   "themes": [
    {
     "key": "compare-budget-basics-sheets",
@@ -7042,6 +7042,459 @@ const STORES = [
        }
       ],
       "cov": 0
+     }
+    ]
+   },
+   {
+    "key": "compare-budget-fd-blueberries",
+    "label": "Comparison, budget-tight · fd-blueberries",
+    "datetime": "2026-07-07T18:09:21.085Z",
+    "lat": "~14.3s",
+    "success": 100,
+    "successTxt": "100%",
+    "handoverTurn": null,
+    "ticket": null,
+    "productRecs": {
+     "count": 0,
+     "names": []
+    },
+    "ev": {
+     "total": 90,
+     "cls": "resolved",
+     "dims": {
+      "answer": 30,
+      "discovery": 20,
+      "recommendation": 22,
+      "rich": 8,
+      "close": 10
+     },
+     "note": "Strong budget-anchored comparison with honest value verdicts, a fulfilled cart-plus-total request and a concrete final price; only product links and review evidence are missing."
+    },
+    "turns": [
+     {
+      "q": "Hi! I'm deciding between a few options and money's a bit tight, can you help me choose?",
+      "a": "her a cheaper alternative would work just as well for you.•Do you have a budget in mind? I can help find the best value option within it.That way I can give you a clear, honest recommendation rather than a generic one! {} Informed by 10best-choices.com, One Degree Organics, Sprouting Fam, FindThisBest {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is harmful / unsafe This is inaccurate Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 10.6,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "I want the best bang for the buck, not the cheapest or the most expensive.",
+      "a": "point to compare side by side? {} Show cheaper freeze-dried blueberry alternatives Compare fresh vs freeze-dried nutrition Is the Subscribe & Save discount worth it? Other Jungle Powders flavors on sale {} Informed by bestproductsreview…, FindThisBest, FindThisBest, 10best-choices.com, Else Nutrition {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is inaccurate This is irrelevant Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 16.1,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "Show me your two best value-for-money options and compare them.",
+      "a": "n yogurt, Wyman's is the sweet spot.Which use case fits you better? {} Add Anthony's powder to cart Add Wyman's whole berries to cart Does powder have the same nutrition as whole berries? Show more affordable organic snack options {} Informed by Food Struct, delish.com, Soupersage, Soupersage, dvo.com {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is irrelevant This is inaccurate Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 20.4,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 29
+     },
+     {
+      "q": "Honestly, is the pricier one worth the extra, or is the cheaper one fine?",
+      "a": "ut for most everyday uses, it's not $15 better for half the amount. {} Add Anthony's powder to my cart Does powder vs whole berry affect nutrition? Show other affordable organic fruit options Compare all three options side by side {} Sources Arctic Flavors - Wild berry powders from Finland alibaba.com {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is harmful / unsafe This is inaccurate Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 15.7,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "Are there any current promos, bundles, or ways to save?",
+      "a": "bly the smartest move — you lock in a lower price and get more product per dollar.Want me to check if either product has an active coupon or deal right now? {} Check for active coupons on these How does Subscribe & Save work? Show other Jungle Powders flavors Add Anthony's powder with Subscribe & Save {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is inaccurate This is harmful / unsafe Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 13.1,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 14
+     },
+     {
+      "q": "Which would you personally pick on my budget?",
+      "a": "both beat Jungle Powders on value right now. {} Add Anthony's powder to my cart Set a price alert for Jungle Powders Compare all three side by side Show other affordable organic fruit options {} Informed by Z Natural Foods, Organicway Food Ingredients Inc., Jungle Powders, pureformulas.com, iherb.com {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is irrelevant This is harmful / unsafe Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 15,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "Add that one to my cart and tell me the total with any discount.",
+      "a": "dy a great deal compared to the Jungle Powders at $35.97 for half the amount. If you activate Subscribe & Save at checkout, you could save an additional $1–$3 per order.Go to cart {} Undo How do I activate Subscribe & Save? Show other affordable organic snacks Compare with Jungle Powders one more time {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is harmful / unsafe This is irrelevant Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 17.5,
+      "cov": 43
+     },
+     {
+      "q": "Does the cheaper one have the same warranty as the pricier one?",
+      "a": "e equally covered by that. You're not missing any protection by going with the cheaper Anthony's option.Want me to look up anything else before you checkout? {} How does Amazon's A-to-Z Guarantee work? What's the shelf life of freeze-dried fruit? Show other affordable organic snacks Ready to check out {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is harmful / unsafe This is inaccurate Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 11,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 20
+     },
+     {
+      "q": "Can I pay in installments or split payment?",
+      "a": "rd\" options•The installment option will show if your order qualifiesFor a $20 purchase, the 4-payment plan would make it super manageable. Want me to walk you through setting that up? {} How do I apply a gift card? Add gift card balance to this order What's my current gift card balance? Go to checkout {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is inaccurate This is harmful / unsafe Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 10.5,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 25
+     },
+     {
+      "q": "Confirm my total and the fastest shipping option?",
+      "a": "de needed — free shipping is already included. If you activate Subscribe & Save at checkout, you'd drop the price to ~$19.18 and save on every future order too.Ready to place the order? {} Buy Now How do I activate Subscribe & Save? Check if same-day delivery is available Show other organic superfoods {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is irrelevant This is harmful / unsafe Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 12.8,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 20
+     }
+    ]
+   },
+   {
+    "key": "compare-budget-medicube-pads",
+    "label": "Comparison, budget-tight · medicube-pads",
+    "datetime": "2026-07-07T17:38:50.067Z",
+    "lat": "~13.3s",
+    "success": 100,
+    "successTxt": "100%",
+    "handoverTurn": null,
+    "ticket": null,
+    "productRecs": {
+     "count": 2,
+     "names": [
+      "July 8 — that's the fastest available",
+      "Subscribe & Save   could bring this down to roughly"
+     ]
+    },
+    "ev": {
+     "total": 82,
+     "cls": "resolved",
+     "dims": {
+      "answer": 30,
+      "discovery": 12,
+      "recommendation": 22,
+      "rich": 8,
+      "close": 10
+     },
+     "note": "Immediately pushed an add-on product at a budget-tight vague opener instead of clarifying needs first, but then built a genuinely budget-tied comparison and completed cart, total and shipping cleanly."
+    },
+    "turns": [
+     {
+      "q": "Hi! I'm deciding between a few options and money's a bit tight, can you help me choose?",
+      "a": "d the Gua Sha set to your cart? {} Add the Gua Sha set to my cart Compare the pads vs the full trio value Show affordable SPF moisturizers to complete routine What's my cart total right now? {} Informed by whowhatwear.com, thecuriousmillenni…, cosmopolitan.com, smartsmssolutions.…, smartsmssolutions.… {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is inaccurate This is harmful / unsafe Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 16.7,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "I want the best bang for the buck, not the cheapest or the most expensive.",
+      "a": "the smartest spend given your budget. {} How soon should I expect results? Can I use retinol with these pads? Show affordable SPF moisturizers to pair Compare with Paula's Choice BHA pads {} Informed by broadsheet.com.au, today.com, whowhatwear.com, OSVI Dermatology and Surgery Institute , glamour.com {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is irrelevant This is inaccurate Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 14.8,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "Show me your two best value-for-money options and compare them.",
+      "a": "pting routine that covers both skin texture and facial tone. {} Add both to cart How to use Gua Sha with the pads? Show affordable SPF to complete the routine Compare the pads vs Paula's Choice BHA {} Informed by thecuriousmillenni…, broadsheet.com.au, goodhousekeeping.com, whowhatwear.com, thecut.com {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is irrelevant This is inaccurate Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 17,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 29
+     },
+     {
+      "q": "Honestly, is the pricier one worth the extra, or is the cheaper one fine?",
+      "a": "esults for your money. The Gua Sha is best as a complement, not a substitute. {} How do I use them without getting irritation? Can I use these pads with sensitive skin? Show affordable SPF moisturizer to pair with pads Compare with Paula's Choice BHA pads {} Sources The Body Blueprint glooshi. edyt.ai {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is inaccurate This is irrelevant Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 14.7,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "Are there any current promos, bundles, or ways to save?",
+      "a": "le | $50.21 | Full routine commitment |The Subscribe & Save on the pads is probably your smartest move if you like them after the first jar. {} How do I set up Subscribe & Save? Is the Trio bundle worth it long-term? Show affordable moisturizers to pair with pads Add pads to cart with Subscribe & Save {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is harmful / unsafe This is inaccurate Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 12.7,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 14
+     },
+     {
+      "q": "Which would you personally pick on my budget?",
+      "a": "ent. They're already in your cart and already on sale — it's a no-brainer. {} How do I patch test properly? Best moisturizer to pair with the pads Do these work for oily skin? Compare with Paula's Choice BHA pads {} Informed by CNN Underscored, mensgroomingpro.co…, smartsmssolutions.…, whowhatwear.com {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is inaccurate This is irrelevant Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 13.1,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "Add that one to my cart and tell me the total with any discount.",
+      "a": "avings tip: Subscribe & Save (every 3 months) could bring this down to roughly $16–18 per jar going forward — since one jar lasts ~3–4 months, the timing lines up perfectly.Go to cart {} Undo How do I set up Subscribe & Save? Show moisturizers to pair with the pads Compare with Paula's Choice BHA pads {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is irrelevant This is harmful / unsafe Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 11.4,
+      "cov": 43
+     },
+     {
+      "q": "Does the cheaper one have the same warranty as the pricier one?",
+      "a": "remains what we've already covered: the pads deliver active skincare results, while the Gua Sha is a reusable tool with essentially no \"expiry.\" {} How do I initiate a return on Amazon? Show moisturizers to pair with the pads Does the pads work for sensitive skin? Compare with Paula's Choice BHA pads {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is inaccurate This is harmful / unsafe Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 12.6,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "Can I pay in installments or split payment?",
+      "a": "your best bet is either using a credit card with built-in installment features or splitting between payment methods at checkout. Amazon's official installment plan kicks in at $50+. {} How do I split payment at checkout? Check my gift card balance Add another item to reach $50 View my payment methods {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is inaccurate This is irrelevant Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 11.1,
+      "cov": 50
+     },
+     {
+      "q": "Confirm my total and the fastest shipping option?",
+      "a": "July 8 — that's the fastest available and it's free!So you're paying just $18.90 (before tax) with next-day delivery at no extra cost. Hard to beat that!Want me to go ahead and place the order? {} Buy Now Set up Subscribe & Save Show moisturizers to pair with pads Compare with Paula's Choice BHA pads {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is harmful / unsafe This is inaccurate Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 8.4,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 20
+     }
+    ]
+   },
+   {
+    "key": "compare-budget-owala-bottle",
+    "label": "Comparison, budget-tight · owala-bottle",
+    "datetime": "2026-07-07T17:54:46.967Z",
+    "lat": "~14.1s",
+    "success": 100,
+    "successTxt": "100%",
+    "handoverTurn": null,
+    "ticket": null,
+    "productRecs": {
+     "count": 0,
+     "names": []
+    },
+    "ev": {
+     "total": 90,
+     "cls": "resolved",
+     "dims": {
+      "answer": 30,
+      "discovery": 20,
+      "recommendation": 22,
+      "rich": 8,
+      "close": 10
+     },
+     "note": "Cart-aware budget optimization done well — a concrete dollar-savings swap defended with itemized math, warranty trade-offs, and a consistent confirmed final total."
+    },
+    "turns": [
+     {
+      "q": "Hi! I'm deciding between a few options and money's a bit tight, can you help me choose?",
+      "a": "other changes to your cart? {} Swap the cleaning brush for the budget kit Show me the total after swapping both accessories Is the third-party boot as good as official? Buy everything in my cart now {} Informed by oneclearwinner.com, Water Bottle Advisor, 33rdsquare.com, housebeautiful.com, accio.com {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is irrelevant This is inaccurate Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 15.3,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "I want the best bang for the buck, not the cheapest or the most expensive.",
+      "a": "without compromising on anything that matters. Want me to swap the brush in your cart now? {} Swap the cleaning brush for the budget kit Buy everything in my cart now Show me the 32 oz version Compare Owala FreeSip vs YETI Rambler {} Informed by accio.com, accio.com, Which?, accio.com, bottlefirst.com {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is inaccurate This is harmful / unsafe Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 14,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 13
+     },
+     {
+      "q": "Show me your two best value-for-money options and compare them.",
+      "a": "al brush alone ($12.99) plus the official boot ($6.99) = $19.98. You save $5.30 without any real compromise.Want me to swap the cleaning brush in your cart now? {} Swap the cleaning brush for the 6-piece kit Show my updated cart total Buy everything in my cart now Compare Owala FreeSip vs YETI Rambler {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is inaccurate This is harmful / unsafe Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 16.7,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 29
+     },
+     {
+      "q": "Honestly, is the pricier one worth the extra, or is the cheaper one fine?",
+      "a": "official → worth it•Brush: save $5.30 with the kit → genuinely better dealNo compromises on either choice. Want me to swap the cleaning brush in your cart now? {} Swap the cleaning brush for the 6-piece kit Show my updated cart total Buy everything in my cart now Compare Owala FreeSip vs YETI Rambler {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is harmful / unsafe This is inaccurate Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 14.1,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 14
+     },
+     {
+      "q": "Are there any current promos, bundles, or ways to save?",
+      "a": "one Boot | $6.99 | | 6-piece Cleaning Kit (swap) | $7.69 | | Total | $44.67 | | FREE Delivery | $0.00 |Want me to make that swap now and save you $5.30? {} Swap the cleaning brush and save $5.30 Buy everything in my cart now Set a price alert for the Owala FreeSip Compare Owala FreeSip vs YETI Rambler {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is irrelevant This is inaccurate Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 16.4,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 14
+     },
+     {
+      "q": "Which would you personally pick on my budget?",
+      "a": "tection, same clean, $5.30 saved.Want me to swap the cleaning brush in your cart right now? {} Swap the cleaning brush for the 6-piece kit Show my updated cart total Buy everything in my cart now Compare Owala FreeSip vs YETI Rambler {} Informed by accio.com, accio.com, accio.com, accio.com, accio.com {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is irrelevant This is harmful / unsafe Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 13.6,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "Add that one to my cart and tell me the total with any discount.",
+      "a": "omo codes are available on these items right now, but the $5.30 savings from swapping to the third-party kit is already baked in. Ready to place the order?Go to cart {} Buy everything in my cart now Set a price alert for the Owala FreeSip Compare Owala FreeSip vs YETI Rambler Show me the 32 oz version {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is harmful / unsafe This is irrelevant Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 15.7,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 29
+     },
+     {
+      "q": "Does the cheaper one have the same warranty as the pricier one?",
+      "a": "overage, vs. no Owala warranty on the third-party Alwenid boot. Another reason the official boot at $6.99 remains the smarter pick. {} Buy everything in my cart now Show my current cart Compare Owala FreeSip vs YETI Rambler Set a price alert for the Owala FreeSip {} Sources owalalife.com owalalife.com {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is harmful / unsafe This is irrelevant Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 12.8,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 20
+     },
+     {
+      "q": "Can I pay in installments or split payment?",
+      "a": "selection page, look for \"Monthly Payments\" or \"Affirm\" options3.Select your preferred method and see if your order qualifiesWant to proceed to checkout to see which installment options are available for your order? {} Go to checkout now Check my gift card balance View all payment methods Show my cart {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is harmful / unsafe This is irrelevant Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 13.3,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 25
+     },
+     {
+      "q": "Confirm my total and the fastest shipping option?",
+      "a": "ilable option and it's free!•No expedited paid shipping needed — free delivery already gets you the fastest speed.So your final total is $44.67 with $0 shipping. Ready to place the order? {} Buy Now Compare Owala FreeSip vs YETI Rambler Set a price alert for the Owala FreeSip Show me the 32 oz version {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is irrelevant This is inaccurate Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 8.8,
+      "cov": 80
      }
     ]
    },
@@ -7371,6 +7824,156 @@ const STORES = [
     ]
    },
    {
+    "key": "everyday-value-fd-blueberries",
+    "label": "Everyday value buyer · fd-blueberries",
+    "datetime": "2026-07-07T17:58:34.914Z",
+    "lat": "~14.3s",
+    "success": 100,
+    "successTxt": "100%",
+    "handoverTurn": null,
+    "ticket": null,
+    "productRecs": {
+     "count": 0,
+     "names": []
+    },
+    "ev": {
+     "total": 90,
+     "cls": "resolved",
+     "dims": {
+      "answer": 30,
+      "discovery": 20,
+      "recommendation": 22,
+      "rich": 8,
+      "close": 10
+     },
+     "note": "Discovery-led value selling — flagged the on-page product as overpriced, steered to a cheaper better-fit alternative with per-ounce math, and closed the cart cleanly."
+    },
+    "turns": [
+     {
+      "q": "Hi! I'm shopping but not sure what's right for me, can you help me choose?",
+      "a": "added sugar, high antioxidants, etc.)•Is price a consideration? At $35.97, it's on the pricier side for freeze-dried fruit.That'll help me tell you if this is the right fit — or suggest better alternatives! {} Informed by oneclearwinner.com, Spoon University, the disney food blog, accio.com, accio.com {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is irrelevant This is harmful / unsafe Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 8.6,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 20
+     },
+     {
+      "q": "I want something for everyday use, good quality, and I care about value for money.",
+      "a": "or something else entirely for everyday use? {} Find freeze-dried blueberries with better value Compare organic vs non-organic options Show larger bag sizes What are the health benefits? {} Informed by goodhousekeeping.com, outdoorgearlab.com, theguardian.com, womenshealthmag.com, goodhousekeeping.com {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is inaccurate This is harmful / unsafe Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 14.6,
+      "cov": 40
+     },
+     {
+      "q": "I'd like to stay within a sensible budget, what are my best options?",
+      "a": "tive.Want me to add any of these to your cart? {} What's the difference between dried and freeze-dried? Which is best for smoothies? Show organic snack options under $20 Compare nutritional value of these options {} Informed by FaucetFam, besttoolskitchen.c…, Mochido YVR, NillyDahlia.com, My Mood Milk {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is irrelevant This is inaccurate Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 23.1,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 29
+     },
+     {
+      "q": "Can you compare your two most popular options and tell me which is better for me?",
+      "a": "Subscribe & Save to reduce the cost.Want me to add either to your cart? {} Add Herbaila 1 lb to my cart Are freeze-dried berries more nutritious than dehydrated? Show organic options under $20 Compare blueberry powder vs whole berries {} Sources cherrypicksreviews… oneclearwinner.com cuisineathome.com {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is harmful / unsafe This is irrelevant Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 18.9,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 29
+     },
+     {
+      "q": "Which one is your overall best seller, and is it well reviewed?",
+      "a": "re than sufficient.My recommendation for you: go with the Herbaila. Want me to add it to your cart? {} Add Herbaila 1 lb to my cart Are freeze-dried berries more nutritious? Show blueberry snack alternatives Compare with LOOV on taste {} Sources oneclearwinner.com cherrypicksreviews… cuisineathome.com {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is irrelevant This is inaccurate Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 14,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "Okay, can you add your top recommendation to my cart?",
+      "a": "ht in past month$2374($1.48/ounce)FREE delivery Sun, Jul 12 on $35.00 of items shipped by Amazon1 lb bag, no sugar added, all-natural, non-GMO — great everyday value at $23.74More details Go to cart {} Undo Show blueberry recipe ideas Find complementary healthy snacks Compare with freeze-dried options {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is irrelevant This is inaccurate Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 12,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 20
+     },
+     {
+      "q": "What's my total, and do you offer free shipping or a first-order discount?",
+      "a": "ery 2 months for this product.If you're not already a Prime member, it may be worth considering given the size of your cart! {} Free Shipping Subscribe & Save Prime Same-day Delivery {} How do I sign up for Prime? Set up Subscribe & Save for blueberries Show my full cart Any deals on items in my cart? {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is harmful / unsafe This is irrelevant Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 16.5,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 29
+     },
+     {
+      "q": "Is there a warranty or guarantee if something goes wrong?",
+      "a": "s. If anything goes wrong, simply go to Your Orders and select \"Problem with order.\" {} About Amazon Returns Learn More Return Items You Ordered Your Orders {} How do I start a return on Amazon? What if my order arrives damaged? Show complementary healthy snacks Set up Subscribe & Save for blueberries {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is inaccurate This is irrelevant Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 14.1,
+      "cov": 50
+     },
+     {
+      "q": "How long will delivery take, roughly?",
+      "a": ", Prime delivery would get it to you by tomorrow. That's pretty fast for a grocery item!Not a Prime member yet? A free trial could get you that next-day delivery on this order and future ones. {} Start a free Prime trial Can I get same-day delivery? Proceed to checkout Show other healthy snack options {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is irrelevant This is harmful / unsafe Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 9.5,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       },
+       {
+        "t": "no timeframe given",
+        "k": "warn"
+       }
+      ],
+      "cov": 20
+     },
+     {
+      "q": "And if I change my mind, how easy is it to return?",
+      "a": "d items especially, Amazon is quite generous — if you're simply not happy with the taste or quality, that's usually enough reason to get a refund. So you can order with confidence! {} How do I track my order? Proceed to checkout Show complementary healthy snacks Set up Subscribe & Save for blueberries {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is harmful / unsafe This is inaccurate Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 12.1,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     }
+    ]
+   },
+   {
     "key": "everyday-value-medicube-pads",
     "label": "Everyday value buyer · medicube-pads",
     "datetime": "2026-07-07T17:26:53.623Z",
@@ -7504,6 +8107,162 @@ const STORES = [
       "a": "rk for their skin, so Amazon does honor returns in those casesBottom line — returns are hassle-free, and with free next-day delivery, there's very little risk in trying it out! {} How do I start a return on Amazon? What moisturizer pairs well with this? Show the gentler Mild version Place my order now {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is irrelevant This is harmful / unsafe Something else Dismiss Submit",
       "by": "ai",
       "lat": 15.1,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 25
+     }
+    ]
+   },
+   {
+    "key": "everyday-value-owala-bottle",
+    "label": "Everyday value buyer · owala-bottle",
+    "datetime": "2026-07-07T17:42:30.182Z",
+    "lat": "~14.2s",
+    "success": 90,
+    "successTxt": "90%",
+    "handoverTurn": null,
+    "ticket": null,
+    "productRecs": {
+     "count": 1,
+     "names": [
+      "Stanley Quencher"
+     ]
+    },
+    "ev": {
+     "total": 66,
+     "cls": "partial",
+     "dims": {
+      "answer": 9,
+      "discovery": 20,
+      "recommendation": 22,
+      "rich": 8,
+      "close": 7
+     },
+     "note": "One shopper turn (the core needs statement) received no reply at all and the explicit total request was met with a Prime upsell instead of a number, undercutting an otherwise solid discovery-led recommendation flow."
+    },
+    "turns": [
+     {
+      "q": "Hi! I'm shopping but not sure what's right for me, can you help me choose?",
+      "a": "f, a gift, a kid)?•How do you plan to use it — gym, office, outdoor adventures? {} Compare 24oz vs 32oz vs 40oz sizes How does it compare to Stanley or Hydro Flask? What colors are available? Is it good for kids? {} Informed by British Vogue, thecustomerdigest.…, NUBIA MAGAZINE!, allure.com, vogue.com {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is irrelevant This is harmful / unsafe Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 12.3,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "I want something for everyday use, good quality, and I care about value for money.",
+      "a": "(streamed past timing window) Rufus has completed generating a response. {} Thinking... {} Sorry, something went wrong. Retry",
+      "by": "ai",
+      "lat": null,
+      "fl": [
+       {
+        "t": "no timed answer",
+        "k": "bad"
+       },
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 10
+     },
+     {
+      "q": "I'd like to stay within a sensible budget, what are my best options?",
+      "a": "the Stanley Quencher at $25 is hard to beat right now.What matters most to you — size, lid style, or brand? {} Compare Owala vs Stanley features Which is easiest to clean? Best bottle for gym use Show deals on water bottles {} Informed by Oprah Daily, cosmopolitan.com, elle.com, Glamour UK, vogue.com {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is harmful / unsafe This is inaccurate Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 27.1,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 14
+     },
+     {
+      "q": "Can you compare your two most popular options and tell me which is better for me?",
+      "a": "the stronger value pick right now.Want me to add either to your cart? {} Add the Stanley to my cart Which is easier to clean? Show more sizes for Owala Compare Owala vs Hydro Flask {} Sources extrabux.com Smart.DHgate – Trusted Buying Guides for Global Shoppers Water Bottle Advisor prudentreviews.com {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is inaccurate This is harmful / unsafe Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 17.5,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 29
+     },
+     {
+      "q": "Which one is your overall best seller, and is it well reviewed?",
+      "a": "tomorrow. Just treat the lid carefully and you'll likely love it.Want me to add it to your cart? {} Add Owala FreeSip to my cart Is the lid covered under warranty? What colors are available? Compare 24oz vs 32oz Owala {} Informed by bottlefirst.com, HandFan, Coldest, Rosenberry Rooms, bottlefirst.com {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is irrelevant This is harmful / unsafe Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 14.9,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "Okay, can you add your top recommendation to my cart?",
+      "a": "uly 8 — 1 addedMore details Ready to checkout, or would you like to keep browsing? You can also swap colors — there are 40+ color options available if Denim isn't quite your style!Go to cart {} Undo Proceed to checkout Show other color options Add the Stanley Quencher too Find accessories for my Owala {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is inaccurate This is harmful / unsafe Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 11.6,
+      "cov": 40
+     },
+     {
+      "q": "What's my total, and do you offer free shipping or a first-order discount?",
+      "a": "ike to go ahead and place your order, or is there anything else I can help you with? {} Prime Benefits Free Shipping Amazon Prime Shipping Benefits Order with Prime Free Same-Day Delivery Prime {} Start Amazon Prime free trial Show deals on items in my cart Proceed to checkout What else is in my cart? {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is harmful / unsafe This is irrelevant Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 15.4,
+      "cov": 43
+     },
+     {
+      "q": "Is there a warranty or guarantee if something goes wrong?",
+      "a": "Rufus has completed generating a response. Great question! Here's what you're covered by with the Owala FreeSip 24oz in your cart:Owala's Limited Lifetime Warranty:•Owala offers a manufacturer's limited lifetime warranty on all their products•To file a claim, visit owalalife.com or email {} I can't help with this type of request.",
+      "by": "ai",
+      "lat": 7,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 17
+     },
+     {
+      "q": "How long will delivery take, roughly?",
+      "a": "mber, this fast delivery is included as a standard benefit. Not a Prime member? You can start a free 30-day trial to unlock this and future fast deliveries.Would you like to go ahead and place your order? {} Buy Now Start Amazon Prime free trial What colors are available? Find accessories for my Owala {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is irrelevant This is inaccurate Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 8.4,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       },
+       {
+        "t": "no timeframe given",
+        "k": "warn"
+       }
+      ],
+      "cov": 20
+     },
+     {
+      "q": "And if I change my mind, how easy is it to return?",
+      "a": "ty — you can contact them directly at customerservice@owalalife.com or visit owalalife.com to file a claim.So you're well covered either way! {} Your Orders Returns Policy Refunds {} How do I start a return on Amazon? Proceed to checkout Show other color options for Owala Find accessories for my Owala {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is harmful / unsafe This is irrelevant Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 13.9,
       "fl": [
        {
         "t": "missed part of the ask",
@@ -7795,6 +8554,140 @@ const STORES = [
     ]
    },
    {
+    "key": "gift-fd-blueberries",
+    "label": "Gift shopper · fd-blueberries",
+    "datetime": "2026-07-07T18:02:32.922Z",
+    "lat": "~9.2s",
+    "success": 100,
+    "successTxt": "100%",
+    "handoverTurn": null,
+    "ticket": null,
+    "productRecs": {
+     "count": 0,
+     "names": []
+    },
+    "ev": {
+     "total": 22,
+     "cls": "failed",
+     "dims": {
+      "answer": 9,
+      "discovery": 13,
+      "recommendation": 0,
+      "rich": 0,
+      "close": 0
+     },
+     "note": "Locked into an infinite clarifying loop — re-asked the same three questions all ten turns, ignored the shopper's given answers (moderate budget, quality, practical), and never recommended a product, fulfilled the explicit add-to-cart request, or answered the gift-wrap, shipping and exchange question"
+    },
+    "turns": [
+     {
+      "q": "Hi! I'm looking for a gift for someone and I'm not sure what to pick, can you help?",
+      "a": "a of their interests or hobbies? (e.g., fitness, cooking, tech, reading, beauty)•Is there an occasion? (e.g., birthday, thank you, just because)The more you share, the better I can tailor my suggestions! {} Informed by Blueberries, Wild Blueberries, Wild Blueberries, Wild Blueberries, Wild Blueberries {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is inaccurate This is irrelevant Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 9.8,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "It's for someone who likes quality but isn't fussy; I want something they'll actually use.",
+      "a": "or hobbies? (e.g., cooking, fitness, tech, home, beauty, outdoors)•Is there an occasion? (e.g., birthday, thank you, housewarming)Even a rough idea helps me find something genuinely useful they'll appreciate! {} Informed by KoRo, powbab, Bella Viva Orchards, Snackathon Foods, Sunrise Fresh Dried Fruit {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is inaccurate This is irrelevant Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 8,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 20
+     },
+     {
+      "q": "My budget is moderate, what would make a good gift in that range?",
+      "a": "? (e.g., birthday, thank you, housewarming)•Roughly what's your budget? (e.g., $25–$50, $50–$100)The more you share, the better I can tailor my suggestions to something they'll genuinely love and use! {} Informed by oneclearwinner.com, Wholesale Nuts And Dried Fruit, iherb.com, accio.com, FindThisBest {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is harmful / unsafe This is irrelevant Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 8.9,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 25
+     },
+     {
+      "q": "Between your top two gift ideas, which feels more special?",
+      "a": "specific occasion? (e.g., birthday, thank you, housewarming)•Roughly what's your budget? (e.g., around $30, $50–$100)Once I know a bit more, I'll be able to suggest something they'll genuinely love and use! {} Informed by oneclearwinner.com, cherrypicksreviews…, Food Struct, Food Struct, graycare.net {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is inaccurate This is irrelevant Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 8.8,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 11
+     },
+     {
+      "q": "Is there a gift set or bundle that looks nicer than a single item?",
+      "a": "beauty, home, outdoors)•Roughly what's your budget? (e.g., around $30, $50–$100)Once I know a bit more, I can find a gift set that looks impressive and feels personal — not just a random bundle! {} Informed by raintreenursery.co…, wymans.com, Stardew Valley Wiki, The Blueberry Hill, The Blueberry Barn {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is irrelevant This is inaccurate Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 10,
+      "cov": 50
+     },
+     {
+      "q": "Can it arrive gift-ready, and how fast can it ship?",
+      "a": "g., friend, partner, parent, colleague)•What are their interests? (e.g., cooking, fitness, tech, home, beauty, outdoors)•Roughly what's your budget? (e.g., around $30, $50–$100)Once I know what kind of gift to look for, I can find options that are gift-ready and check exactly how fast they can arrive! {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is harmful / unsafe This is inaccurate Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 10,
+      "cov": 80
+     },
+     {
+      "q": "Great, add your top gift pick to my cart and tell me the total.",
+      "a": "rs:•Who is this for? (e.g., friend, partner, parent, colleague)•What are their interests? (e.g., cooking, fitness, tech, beauty, home, outdoors)•What's your rough budget? (e.g., around $30, $50–$100)Once I know this, I can find a great gift, add it to your cart, and give you the total — all in one go! {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is irrelevant This is harmful / unsafe Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 8.1,
+      "cov": 71
+     },
+     {
+      "q": "Can you include a gift message or a gift receipt?",
+      "a": "t, colleague)•What are their interests? (e.g., cooking, fitness, tech, beauty, home, outdoors)•Roughly what's your budget? (e.g., around $30, $50–$100)Once I know that, I can find options that arrive beautifully packaged, include a gift message, and ship quickly — some even arrive tomorrow with Prime! {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is harmful / unsafe This is inaccurate Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 7.7,
+      "cov": 75
+     },
+     {
+      "q": "If they want to exchange it, how would that work?",
+      "a": "ust share a little more:•Who is this for? (e.g., friend, partner, parent, colleague)•What are their interests? (e.g., cooking, fitness, tech, beauty, outdoors)•What's your budget? (e.g., around $30, $50–$100)Then I can find something great, check shipping speed, and confirm gift options — all at once! {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is harmful / unsafe This is inaccurate Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 10.1,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 17
+     },
+     {
+      "q": "Any discount if I add a second smaller item?",
+      "a": "pressive — I just need a bit more info:•Who is this for?•What are their interests?•What's your budget?Once I know, I can find a great option, check shipping speed, and look for any active deals! {} Show blueberry gift sets or bundles How does Subscribe & Save work? What are similar snack gift options? {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is irrelevant This is inaccurate Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 10.2,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 17
+     }
+    ]
+   },
+   {
     "key": "gift-medicube-pads",
     "label": "Gift shopper · medicube-pads",
     "datetime": "2026-07-07T17:30:53.763Z",
@@ -7918,6 +8811,158 @@ const STORES = [
       "a": "dding one of these keeps your total under $45 for the full gift, and they all ship tomorrow — no discount needed when the value looks this good!Want me to add one to your cart? {} Add the jade roller to my cart Add the sheet mask set to my cart What's my current cart total? Show more gift add-on ideas {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is irrelevant This is inaccurate Something else Dismiss Submit",
       "by": "ai",
       "lat": 21.3,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 33
+     }
+    ]
+   },
+   {
+    "key": "gift-owala-bottle",
+    "label": "Gift shopper · owala-bottle",
+    "datetime": "2026-07-07T17:46:47.366Z",
+    "lat": "~15.3s",
+    "success": 100,
+    "successTxt": "100%",
+    "handoverTurn": null,
+    "ticket": null,
+    "productRecs": {
+     "count": 0,
+     "names": []
+    },
+    "ev": {
+     "total": 88,
+     "cls": "resolved",
+     "dims": {
+      "answer": 30,
+      "discovery": 20,
+      "recommendation": 22,
+      "rich": 6,
+      "close": 10
+     },
+     "note": "Textbook gift discovery — clarified recipient and budget, narrowed by personality, delivered a gift-ready set with an exact total, gift-message mechanics and exchange path."
+    },
+    "turns": [
+     {
+      "q": "Hi! I'm looking for a gift for someone and I'm not sure what to pick, can you help?",
+      "a": "s or hobbies? (e.g., fitness, cooking, tech, reading)•Do you have a budget in mind?•Is there a special occasion? (e.g., birthday, graduation, just because)The more you share, the better I can tailor suggestions for them! {} Informed by Wonderbox.com, merchifies.com, W Magazine, esquire.com, British GQ {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is irrelevant This is inaccurate Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 6.8,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "It's for someone who likes quality but isn't fussy; I want something they'll actually use.",
+      "a": "y, works at a desk, travels a lot, hits the gym)•Are they more into practical everyday items, or would something a bit more personal/experiential feel right?The more you share, the better I can tailor this for you! {} Informed by theguardian.com, GearLab, goodhousekeeping.com, HandFan, The Best Picker {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is harmful / unsafe This is inaccurate Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 9.2,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 20
+     },
+     {
+      "q": "My budget is moderate, what would make a good gift in that range?",
+      "a": "e? (desk job, outdoorsy, gym, travel)•Any size or color preferences? {} Compare Owala vs Hydro Flask vs Stanley Show gift ideas for someone outdoorsy What are the best-selling gifts right now? Add the Owala to my cart as a gift {} Informed by HuffPost, The Broke Backpacker, Hikesity, Airfrov, Kisskind {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is harmful / unsafe This is irrelevant Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 18.4,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 25
+     },
+     {
+      "q": "Between your top two gift ideas, which feels more special?",
+      "a": "comes down to their personality. Do they lean more classic or playful? {} Compare Owala vs Hydro Flask in detail What colors does the Owala come in? Show gift wrapping options Add the Hydro Flask to my cart {} Informed by Water Bottle Advisor, extrabux.com, Prudent Reviews, KitchNext, Prudent Reviews {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is harmful / unsafe This is irrelevant Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 15.1,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 22
+     },
+     {
+      "q": "Is there a gift set or bundle that looks nicer than a single item?",
+      "a": "? I can also help you add it to your cart when you're ready. {} Add the Hydro Flask gift set to my cart Compare Hydro Flask vs Owala gift options Any gift wrapping options available? Show other gift ideas under $50 {} Informed by goodtasteofhome.co…, goodtasteofhome.co…, GearLab, accio.com, BrazeTools {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is inaccurate This is irrelevant Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 25.5,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 30
+     },
+     {
+      "q": "Can it arrive gift-ready, and how fast can it ship?",
+      "a": "eady feels like a complete gift without any extra effort. Just add a gift message at checkout!Would you like me to start the order for any of these? {} Add the Hydro Flask gift set to my cart How do I add a gift message at checkout? Compare the two Hydro Flask gift sets Show other gift ideas under $50 {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is harmful / unsafe This is irrelevant Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 20.4,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 20
+     },
+     {
+      "q": "Great, add your top gift pick to my cart and tell me the total.",
+      "a": "ms in your cart).Just the gift set: $65.80 with FREE delivery tomorrow, Jul 8.Don't forget — you can add a gift message and select gift wrap at checkout to make it extra special!Go to cart {} Undo How do I add a gift message at checkout? Show gift wrapping options Compare the two Hydro Flask gift sets {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is harmful / unsafe This is inaccurate Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 15,
+      "cov": 43
+     },
+     {
+      "q": "Can you include a gift message or a gift receipt?",
+      "a": "the surprise\" envelopeAll of these options appear during checkout — just look for the \"This is a gift\" option before placing your order. {} Gift Wrap {} How do I place my order now? Can I send the gift directly to the recipient? What if the recipient wants to return it? Show other gift ideas under $70 {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is irrelevant This is harmful / unsafe Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 13.2,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 25
+     },
+     {
+      "q": "If they want to exchange it, how would that work?",
+      "a": "able to get a replacement directly through Hydro FlaskWould you like help with anything else for your order? {} Gift Returns Return A Gift Replace Damaged Item {} How do I send the gift directly to their address? Can I add a gift message at checkout? Show other gift ideas under $70 Place my order now {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is irrelevant This is harmful / unsafe Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 14.9,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 17
+     },
+     {
+      "q": "Any discount if I add a second smaller item?",
+      "a": "lete, arrives tomorrow alongside it, and keeps your total very reasonable at ~$78.79 for the combo.Would you like me to add the cleaning brush to your cart too? {} Add the cleaning brush to my cart Are there any active coupon codes? Show other small gift add-ons under $20 What's my current cart total? {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is irrelevant This is harmful / unsafe Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 14.5,
       "fl": [
        {
         "t": "missed part of the ask",
@@ -8249,6 +9294,150 @@ const STORES = [
     ]
    },
    {
+    "key": "problem-solver-fd-blueberries",
+    "label": "Specific need / reassurance · fd-blueberries",
+    "datetime": "2026-07-07T18:05:33.602Z",
+    "lat": "~14s",
+    "success": 100,
+    "successTxt": "100%",
+    "handoverTurn": null,
+    "ticket": null,
+    "productRecs": {
+     "count": 0,
+     "names": []
+    },
+    "ev": {
+     "total": 88,
+     "cls": "resolved",
+     "dims": {
+      "answer": 30,
+      "discovery": 20,
+      "recommendation": 22,
+      "rich": 6,
+      "close": 10
+     },
+     "note": "Reassurance-led selling handled well — quality worry met with sourcing facts, honest review caveats, usage guidance and a completed cart with explicit totals, though the surprise $638.71 whole-cart figure at close could confuse the shopper."
+    },
+    "turns": [
+     {
+      "q": "Hi, I have a specific need and I'm worried about picking the wrong thing. Can you help?",
+      "a": "(e.g., baking, smoothies, snacking, gifting, a health goal)•Are there any dietary requirements or restrictions? (e.g., vegan, gluten-free, no added sugar)•Do you have a budget in mind?The more detail you share, the better I can help — whether it's this product or something better suited to your needs! {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is irrelevant This is harmful / unsafe Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 6.8,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "I've been disappointed by similar products before, so quality really matters to me.",
+      "a": "harvested, organic sourcing.Would you like to go ahead and add it to your cart, or would you like me to find some alternatives at different price points? {} Add this to my cart Show me similar products at lower prices What are the best uses for this product? Compare freeze-dried vs regular blueberries {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is harmful / unsafe This is inaccurate Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 13.2,
+      "cov": 38
+     },
+     {
+      "q": "Which of your products is best for that, and why is it a good fit?",
+      "a": "add it to your cart, or would you like me to find some alternatives to compare? {} Add this to my cart Compare with similar freeze-dried fruit options What are the best ways to use this product? Are there larger size options available? {} Informed by ZipDo, PCMAG, Consumer Reports, forbes.com, Which? {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is irrelevant This is inaccurate Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 15.7,
+      "cov": 43
+     },
+     {
+      "q": "What do other customers say in their reviews, does it actually hold up?",
+      "a": "t find it worth it — but those seem to be the exception rather than the rule.Would you like to add it to your cart, or explore alternatives to compare? {} Add this to my cart Show me similar freeze-dried fruit options Are there larger size options available? What are the best ways to use this product? {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is harmful / unsafe This is irrelevant Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 10.6,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "Is there anything I should pair it with to get the best result?",
+      "a": "vibrant garnish or color boost in baking — it's not just a snack!Would you like to add any of these to your cart along with the blueberries? {} Add blueberries and yogurt to my cart What's the best way to make chia pudding? Show me more organic breakfast options Are there other Jungle Powders flavors? {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is irrelevant This is harmful / unsafe Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 27.6,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 29
+     },
+     {
+      "q": "If it doesn't work out for me, what are my options?",
+      "a": "d if it doesn't work out — and the 30-day refund window gives you plenty of time to try it properly. {} Add this to my cart Tell me about Subscribe & Save Show me other Jungle Powders flavors Are there similar products to compare? {} Your Orders Contact Us About Amazon Returns Return Items You Ordered {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is harmful / unsafe This is inaccurate Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 16.3,
+      "cov": 75
+     },
+     {
+      "q": "Okay, I'm convinced, add your recommendation and give me the total.",
+      "a": "eberries: $35.97•Greek Yogurt (suggested): $5.99•Combined total: $41.96Both have FREE delivery tomorrow, July 8. Would you like me to add the yogurt to your cart too?Go to cart {} Add the yogurt too Show me other pairing options Set up Subscribe & Save for blueberries Show other Jungle Powders flavors {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is harmful / unsafe This is inaccurate Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 16.4,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 33
+     },
+     {
+      "q": "How do I use it correctly to get the best result?",
+      "a": "use case for quality-focused buyers like you.One note: A few customers mentioned they may cause digestive effects if you eat large quantities at once, so start with a moderate serving.Ready to check out? {} Go to cart Add the yogurt pairing Oatmeal recipes with blueberries Other Jungle Powders flavors {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is harmful / unsafe This is irrelevant Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 8.4,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 20
+     },
+     {
+      "q": "Is there a subscription or refill option?",
+      "a": "d checkout each time, no commitment neededWhich would you prefer — or would you like me to set up the scheduled action as a flexible alternative? {} Set up a refill action every 2 months Set up a refill action every 6 weeks Remind me to reorder when I'm running low Show me other Jungle Powders flavors {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is harmful / unsafe This is irrelevant Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 11.9,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 25
+     },
+     {
+      "q": "Confirm my total and when it will arrive?",
+      "a": "t total (all items) comes to $638.71 across 16 items.Would you like to go ahead and place the order, or would you like to add the Greek yogurt pairing as well before checking out?Go to cart {} Add the yogurt pairing Checkout now Set up Subscribe & Save for blueberries Show other Jungle Powders flavors {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is harmful / unsafe This is inaccurate Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 13.5,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       },
+       {
+        "t": "no timeframe given",
+        "k": "warn"
+       }
+      ],
+      "cov": 25
+     }
+    ]
+   },
+   {
     "key": "problem-solver-medicube-pads",
     "label": "Specific need / reassurance · medicube-pads",
     "datetime": "2026-07-07T17:34:55.803Z",
@@ -8389,6 +9578,162 @@ const STORES = [
        }
       ],
       "cov": 25
+     }
+    ]
+   },
+   {
+    "key": "problem-solver-owala-bottle",
+    "label": "Specific need / reassurance · owala-bottle",
+    "datetime": "2026-07-07T17:50:47.585Z",
+    "lat": "~15.1s",
+    "success": 100,
+    "successTxt": "100%",
+    "handoverTurn": null,
+    "ticket": null,
+    "productRecs": {
+     "count": 0,
+     "names": []
+    },
+    "ev": {
+     "total": 90,
+     "cls": "resolved",
+     "dims": {
+      "answer": 30,
+      "discovery": 20,
+      "recommendation": 22,
+      "rich": 8,
+      "close": 10
+     },
+     "note": "Concern-led selling done right — the stated durability worry was answered with warranty facts and honest review caveats, paired with protective accessories, and closed on a confirmed itemized total and delivery date."
+    },
+    "turns": [
+     {
+      "q": "Hi, I have a specific need and I'm worried about picking the wrong thing. Can you help?",
+      "a": "for? (a gift, something for yourself, a specific product type)•What's the concern? (size, compatibility, allergies, a use case you're not sure it fits)•Do you have a budget in mind?The more detail you share, the better I can match you to the right product — and help you avoid a purchase you'd regret! {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is harmful / unsafe This is inaccurate Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 7.6,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 14
+     },
+     {
+      "q": "I've been disappointed by similar products before, so quality really matters to me.",
+      "a": "ETI Rambler or another alternative, so you can make the most confident choice? {} Compare Owala FreeSip vs YETI Rambler Show me more durable water bottle options Does the warranty cover lid breakage? What sizes does the Owala FreeSip come in? {} Sources theguardian.com goodhousekeeping.com CleverHiker {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is inaccurate This is harmful / unsafe Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 15.3,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 13
+     },
+     {
+      "q": "Which of your products is best for that, and why is it a good fit?",
+      "a": "d durability concern is real but manageable given the warranty backing.Would you like to compare it to a more rugged alternative like the YETI Rambler? {} Compare Owala FreeSip vs YETI Rambler durability Does the warranty cover lid damage? What sizes does the Owala FreeSip come in? Add this to my cart {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is irrelevant This is inaccurate Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 15.2,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 14
+     },
+     {
+      "q": "What do other customers say in their reviews, does it actually hold up?",
+      "a": "lid complaints but costs more.Would you like me to pull up a direct comparison with the YETI? {} Compare Owala FreeSip vs YETI Rambler durability Does the warranty cover accidental damage? Show me the 32 oz version Add the Owala FreeSip to my cart {} Sources theguardian.com Treeline Review CleverHiker {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is inaccurate This is harmful / unsafe Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 21,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "Is there anything I should pair it with to get the best result?",
+      "a": "durability issues (denting and straw/lid buildup). Both arrive tomorrow.Would you like me to add any of these to your cart? {} Add the Owala boot and cleaning brush to my cart Does the silicone boot affect cup holder fit? Compare Owala FreeSip vs YETI Rambler durability Show me the Owala 32 oz version {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is inaccurate This is harmful / unsafe Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 24.3,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "If it doesn't work out for me, what are my options?",
+      "a": "l picture of your options if the Owala FreeSip 24 oz doesn't work out:1. Amazon Return Policy Most items sold and fulfilled by Amazon can be returned within 30 days of delivery for a full refund. The process is straightforward through Your Orders.2. Owala's Limited Lifetime Warranty This is your strongest long-term protection. Owala confirms directly:•\"We do have a limited lifetime warranty on all of our products.\"•File a claim at owalalife.com or email {} I can't help with this type of request.",
+      "by": "ai",
+      "lat": 10.7,
+      "cov": 100
+     },
+     {
+      "q": "Okay, I'm convinced, add your recommendation and give me the total.",
+      "a": "ala 2-in-1 Cleaning Brush | $12.99 | | Total | $49.97 |All three items qualify for free delivery tomorrow, July 8.Go to cart {} Undo Buy the Owala FreeSip now Compare Owala FreeSip vs YETI Rambler Show me the 32 oz version {} Informed by accio.com, accio.com, accio.com, Urban Outfitters, owalalife.com {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is harmful / unsafe This is irrelevant Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 15,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 17
+     },
+     {
+      "q": "How do I use it correctly to get the best result?",
+      "a": "h surfaces unprotected to prevent paint scratchingFollow these and your FreeSip should stay in great shape for years — backed by that lifetime warranty if anything does go wrong. {} How often should I deep clean it? Can I use it for hot tea? Does the 32 oz fit in cup holders? Buy the Owala FreeSip now {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is harmful / unsafe This is inaccurate This is irrelevant Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 18.6,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 20
+     },
+     {
+      "q": "Is there a subscription or refill option?",
+      "a": "price alert on the bottle itself in case you want a second one (different color/size) at a lower priceWould any of these be useful to set up? {} Remind me to restock replacement gaskets yearly Alert me if this bottle drops in price Show me the 32 oz version What other Owala accessories are available? {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is inaccurate This is irrelevant This is harmful / unsafe Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 11.9,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "Confirm my total and when it will arrive?",
+      "a": "ing Brush$12.99Owala Total$49.97Delivery: All 3 items qualify for FREE delivery tomorrow, Wednesday, July 8.All three are confirmed in your cart and ready to go!Go to cart {} Buy the Owala items now Compare Owala FreeSip vs YETI Rambler Show me the 32 oz version Set a price alert for the Owala FreeSip {} Your feedback has been submitted! Your feedback has been submitted! Select All That Apply (optional): This is irrelevant This is harmful / unsafe This is inaccurate Something else Dismiss Submit",
+      "by": "ai",
+      "lat": 11.7,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       },
+       {
+        "t": "no timeframe given",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
      }
     ]
    },
