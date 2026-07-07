@@ -23800,7 +23800,26 @@ const STORES = [
    "engaged": 5,
    "rate": 100
   },
-  "evalq": null,
+  "evalq": {
+   "n": 4,
+   "total": 54,
+   "dims": {
+    "answer": 9,
+    "discovery": 18,
+    "recommendation": 20,
+    "rich": 5,
+    "close": 3
+   },
+   "cls": {
+    "partial": 4
+   },
+   "learnings": [
+    "Strong budget-aware beginner guidance in the first four turns collapses into total silence for the last six, including the explicit purchase request.",
+    "Excellent price-per-piece value reasoning and honest promo policy, but the explicit add-to-cart and total requests were never actually fulfilled.",
+    "Delivered a real itemized cart total with shipping on request, then went silent on the last three gift-logistics questions.",
+    "An endless discovery loop — it asks good clarifying questions repeatedly but never lands a recommendation, and drops both explicit purchase turns."
+   ]
+  },
   "guard": null,
   "ticket": {
    "sub": "ilokitchen",
@@ -23829,6 +23848,18 @@ const STORES = [
       "Made of quality wood, it offers a stable and durable workspace. It",
       "Precise Pack"
      ]
+    },
+    "ev": {
+     "total": 60,
+     "cls": "partial",
+     "dims": {
+      "answer": 9,
+      "discovery": 20,
+      "recommendation": 22,
+      "rich": 6,
+      "close": 3
+     },
+     "note": "Delivered a real itemized cart total with shipping on request, then went silent on the last three gift-logistics questions."
     },
     "turns": [
      {
@@ -23991,6 +24022,18 @@ const STORES = [
      "names": [
       "Super Cleaner"
      ]
+    },
+    "ev": {
+     "total": 42,
+     "cls": "partial",
+     "dims": {
+      "answer": 9,
+      "discovery": 13,
+      "recommendation": 14,
+      "rich": 6,
+      "close": 0
+     },
+     "note": "An endless discovery loop — it asks good clarifying questions repeatedly but never lands a recommendation, and drops both explicit purchase turns."
     },
     "turns": [
      {
@@ -24172,6 +24215,18 @@ const STORES = [
       "Brigade pack, you therefore benefit from the same peace of mind for your investment"
      ]
     },
+    "ev": {
+     "total": 64,
+     "cls": "partial",
+     "dims": {
+      "answer": 9,
+      "discovery": 20,
+      "recommendation": 22,
+      "rich": 6,
+      "close": 7
+     },
+     "note": "Excellent price-per-piece value reasoning and honest promo policy, but the explicit add-to-cart and total requests were never actually fulfilled."
+    },
     "turns": [
      {
       "q": "Hi! I'm deciding between a few options and money's a bit tight, can you help me choose?",
@@ -24311,6 +24366,18 @@ const STORES = [
     "productRecs": {
      "count": 0,
      "names": []
+    },
+    "ev": {
+     "total": 51,
+     "cls": "partial",
+     "dims": {
+      "answer": 9,
+      "discovery": 20,
+      "recommendation": 22,
+      "rich": 0,
+      "close": 0
+     },
+     "note": "Strong budget-aware beginner guidance in the first four turns collapses into total silence for the last six, including the explicit purchase request."
     },
     "turns": [
      {
@@ -63454,7 +63521,26 @@ const SUPPORT = [
    "engaged": 4,
    "rate": 100
   },
-  "evalq": null,
+  "evalq": {
+   "n": 4,
+   "total": 74,
+   "dims": {
+    "resolution": 31,
+    "accuracy": 24,
+    "actionability": 13,
+    "close": 6
+   },
+   "cls": {
+    "partial": 3,
+    "resolved": 1
+   },
+   "learnings": [
+    "Patient, policy-complete damaged-item handling that correctly insists on the order number, but it never quantifies a timeframe and lets the conversation die at the end.",
+    "Crisp, linked, number-rich policy answers undermined by a direct self-contradiction on knife returns and total silence on the back half of the conversation.",
+    "Near-complete policy mastery with per-category precision on windows and packaging; the only gap is never putting a number on the refund timeframe.",
+    "Solid concrete timeframes for the first three turns, then the agent abandons the conversation for seven straight questions including the critical lost-package scenario."
+   ]
+  },
   "guard": null,
   "ticket": {
    "sub": "ilokitchen",
@@ -63476,6 +63562,17 @@ const SUPPORT = [
      "sub": "ilokitchen",
      "acct": "117658",
      "conv": "4bd35cca-b9e2-4584-ad7d-25e27aaa4e87"
+    },
+    "ev": {
+     "total": 61,
+     "cls": "partial",
+     "dims": {
+      "resolution": 28,
+      "accuracy": 25,
+      "actionability": 0,
+      "close": 8
+     },
+     "note": "Solid concrete timeframes for the first three turns, then the agent abandons the conversation for seven straight questions including the critical lost-package scenario."
     },
     "turns": [
      {
@@ -63651,6 +63748,17 @@ const SUPPORT = [
      "acct": "117658",
      "conv": "cc126708-c491-487c-8664-67828a29656d"
     },
+    "ev": {
+     "total": 92,
+     "cls": "resolved",
+     "dims": {
+      "resolution": 40,
+      "accuracy": 25,
+      "actionability": 20,
+      "close": 7
+     },
+     "note": "Near-complete policy mastery with per-category precision on windows and packaging; the only gap is never putting a number on the refund timeframe."
+    },
     "turns": [
      {
       "q": "What is your return policy?",
@@ -63764,6 +63872,17 @@ const SUPPORT = [
      "sub": "ilokitchen",
      "acct": "117658",
      "conv": "748efec5-6958-491f-92b3-2dd4c4e17e82"
+    },
+    "ev": {
+     "total": 73,
+     "cls": "partial",
+     "dims": {
+      "resolution": 28,
+      "accuracy": 25,
+      "actionability": 20,
+      "close": 0
+     },
+     "note": "Patient, policy-complete damaged-item handling that correctly insists on the order number, but it never quantifies a timeframe and lets the conversation die at the end."
     },
     "turns": [
      {
@@ -63888,6 +64007,17 @@ const SUPPORT = [
      "sub": "ilokitchen",
      "acct": "117658",
      "conv": "5b798c12-745c-4f7c-a4e4-380c9dcf5250"
+    },
+    "ev": {
+     "total": 68,
+     "cls": "partial",
+     "dims": {
+      "resolution": 28,
+      "accuracy": 20,
+      "actionability": 12,
+      "close": 8
+     },
+     "note": "Crisp, linked, number-rich policy answers undermined by a direct self-contradiction on knife returns and total silence on the back half of the conversation."
     },
     "turns": [
      {
