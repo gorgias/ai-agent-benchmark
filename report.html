@@ -248,6 +248,11 @@
   .lat-card:hover{border-color:var(--on-faint)}
   .lc-num{font-size:25px;font-weight:800;font-family:'JetBrains Mono',monospace;color:var(--on);line-height:1}
   .lc-lab{font-size:11px;font-weight:600;color:var(--on-muted)}
+  .vg{display:block;margin-top:6px;padding-top:7px;border-top:1px dashed var(--line);font-size:10.5px;font-weight:600;color:var(--on-faint)}
+  .vg b{font-weight:800}
+  .vg-slow b{color:var(--danger)}
+  .vg-fast b{color:var(--success)}
+  .vg-eq b{color:var(--on-muted)}
   .lat-hl{border-color:rgba(126,85,246,.38);background:linear-gradient(135deg,rgba(126,85,246,.09),transparent)}
   .lat-hl .lc-num{color:var(--gorgias)}
   @media(max-width:560px){.lat-cards{grid-template-columns:1fr}}
@@ -81953,20 +81958,24 @@ const VENDOR_DNA = {
 const dnaLine = v => VENDOR_DNA[v] ? '<div class="best-dna">'+VENDOR_DNA[v]+'</div>' : '';
 function latSummaryHtml(laneData){
   if(!laneData || !laneData.length) return '';
-  const lats=[];
-  laneData.forEach(s=>(s.themes||[]).forEach(t=>(t.turns||[]).forEach(x=>{ if(x.by==='ai' && x.lat!=null) lats.push(x.lat); })));
+  const lats=[], gLats=[];
+  laneData.forEach(s=>{ const isG=s.vendor==='Gorgias'; (s.themes||[]).forEach(t=>(t.turns||[]).forEach(x=>{ if(x.by==='ai' && x.lat!=null){ lats.push(x.lat); if(isG) gLats.push(x.lat); } })); });
   if(lats.length<3) return '';
-  const srt=[...lats].sort((a,b)=>a-b);
-  const pctile=(p)=>srt[Math.min(srt.length-1,Math.floor(p/100*srt.length))];  // nearest-rank, matches gen.js
-  const r1=x=>Math.round(x*10)/10;
-  const med=r1(pctile(50)), avg=r1(lats.reduce((a,b)=>a+b,0)/lats.length), p75=r1(pctile(75));
-  const n=lats.length;
-  const card=(num,lab,tip,hl)=>'<div class="lat-card'+(hl?' lat-hl':'')+'" data-tip="'+tip+'"><span class="lc-num">'+num+'s</span><span class="lc-lab">'+lab+'</span></div>';
-  return '<div class="lat-section"><div class="lat-sec-h">Answer latency <span>· pooled over '+n+' timed AI answers in this lane</span></div>'+
+  const r1=x=>x==null?null:Math.round(x*10)/10;
+  const pctile=(arr,p)=>{ if(!arr.length) return null; const s=[...arr].sort((a,b)=>a-b); return s[Math.min(s.length-1,Math.floor(p/100*s.length))]; };  // nearest-rank, matches gen.js
+  const mean=a=>a.length? a.reduce((x,y)=>x+y,0)/a.length : null;
+  const med=r1(pctile(lats,50)), avg=r1(mean(lats)), p75=r1(pctile(lats,75));
+  const gMed=r1(pctile(gLats,50)), gAvg=r1(mean(gLats)), gP75=r1(pctile(gLats,75));
+  const n=lats.length, gn=gLats.length;
+  // vs Gorgias: Gorgias's own value for this metric + delta (Gorgias − field). Negative = Gorgias faster.
+  const vsG=(gv,lv)=>{ if(gv==null) return '<span class="vg vg-na">vs Gorgias — n/a</span>'; const d=Math.round((gv-lv)*10)/10; const cls=d<0?'vg-fast':d>0?'vg-slow':'vg-eq'; const word=d<0?'faster':d>0?'slower':'even'; const sign=d>0?'+':''; return '<span class="vg '+cls+'">vs Gorgias '+gv+'s <b>'+sign+d+'s '+word+'</b></span>'; };
+  const card=(num,lab,tip,hl,gv)=>'<div class="lat-card'+(hl?' lat-hl':'')+'" data-tip="'+tip+'"><span class="lc-num">'+num+'s</span><span class="lc-lab">'+lab+'</span>'+vsG(gv,num)+'</div>';
+  const gnote = gn? ' · Gorgias '+gn+' answers' : '';
+  return '<div class="lat-section"><div class="lat-sec-h">Answer latency <span>· pooled over '+n+' timed AI answers in this lane'+gnote+'</span></div>'+
     '<div class="lat-cards">'+
-      card(med,'Median latency','Median — half of the '+n+' timed AI answers in this lane arrive faster than this, half slower. The typical shopper experience, unskewed by outliers.',false)+
-      card(avg,'Average latency','Mean latency across all '+n+' timed AI answers in this lane (time to the complete final reply). Pulled upward by slow outliers, so it reads higher than the median.',false)+
-      card(p75,'p75 latency','p75 — 75% of the '+n+' timed AI answers arrive at or under this. Gorgias&#39;s headline latency metric: it captures the slow tail a shopper actually feels without chasing the worst 25%.',true)+
+      card(med,'Median latency','Median of all '+n+' timed AI answers in this lane — half faster, half slower; the typical shopper experience, unskewed by outliers. “vs Gorgias” compares the field median to Gorgias’s own median'+(gMed!=null?' ('+gMed+'s over '+gn+' answers)':' (n/a)')+'.',false,gMed)+
+      card(avg,'Average latency','Mean latency across all '+n+' timed AI answers in this lane (time to the complete final reply); pulled upward by slow outliers. “vs Gorgias” is Gorgias’s own mean'+(gAvg!=null?' ('+gAvg+'s)':' (n/a)')+' and its gap to the field.',false,gAvg)+
+      card(p75,'p75 latency','p75 — 75% of the '+n+' answers arrive at or under this (Gorgias’s headline latency metric). “vs Gorgias” is Gorgias’s own p75'+(gP75!=null?' ('+gP75+'s)':' (n/a)')+' vs the field.',true,gP75)+
     '</div></div>';
 }
 function renderBestPanel(elId, allRows, laneData){
