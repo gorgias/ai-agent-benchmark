@@ -462,6 +462,21 @@ export const WIDGETS = {
     },
     async send(page, text) { await shadowSend(page, "#ads-agent-host", text); },
   },
+  rufus: {
+    scope: { kind: "dom", sel: "#rufus-conversation-container" },
+    handover: [],
+    async open(page) {
+      await dismiss(page).catch(() => {});
+      await page.locator('#nav-rufus-disco, input[placeholder*="specific info" i], button:has-text("Ask something else")').first().click({ timeout: 9000 }).catch(() => {});
+      await page.waitForTimeout(3500);
+    },
+    async send(page, text) {
+      const inp = page.locator("#rufus-text-area").first();
+      await inp.click({ timeout: 6000 }).catch(() => {});
+      await inp.fill(text).catch(async () => { await inp.type(text, { delay: 15 }); });
+      await inp.press("Enter");
+    },
+  },
   // Kodif — kodif-chat-widget iframe.
   kodif: {
     scope: { kind: "frame", match: "kodif" },
@@ -664,6 +679,9 @@ export const STORES = [
 
   // Spiffy.ai
   { key: "spiffy-supergoop", vendor: "Envive", store: "Supergoop",  url: "https://supergoop.com/products/everyday-sunscreen?variant=31189086634082", widget: "spiffy" },
+  // Amazon Rufus (shopping AI on the PDP). Logged-in-only → dummy-account session in
+  // secrets/amazon-state.json; run HEADED. Bare /dp/<ASIN> URL (tracking params expire → 404).
+  { key: "rufus-amazon", vendor: "Amazon Rufus", store: "Amazon.com", url: "https://www.amazon.com/dp/B0DX391LXK", widget: "rufus", modes: ["shopping"], stateFile: "secrets/amazon-state.json", loggedIn: true },
   { key: "spiffy-2",         vendor: "Spiffy.ai", store: "(2nd store)", url: "",                                widget: "spiffy", candidate: true, todo: "find a 2nd Spiffy.ai storefront" },
 
   // Sierra
@@ -929,6 +947,10 @@ export async function readTranscript(page, scope) {
       }, scope.sel);
       return { len: text.length, text };
     } catch { return { len: 0, text: "" }; }
+  }
+  if (scope.kind === "dom") {
+    try { const text = await page.evaluate((sel) => { const e = document.querySelector(sel); return e ? (e.innerText || "") : ""; }, scope.sel);
+      return { len: text.length, text }; } catch { return { len: 0, text: "" }; }
   }
   // shadow DOM (Sierra): find the root that CONTAINS the composer (scope.match is the
   // composer selector). The old code matched textContent against the aria-label "Add new

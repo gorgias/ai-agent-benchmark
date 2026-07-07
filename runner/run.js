@@ -218,7 +218,7 @@ async function runStoreMode(browser, store, mode, theme) {
   // IndexedDB/cache for ANY origin (the widget's cross-origin storage included),
   // so there is never a pre-existing conversation. storageState is left undefined
   // (no profile) and we clear cookies as belt-and-suspenders.
-  const ctxOpts = { viewport: { width: 1366, height: 900 }, locale: store.locale || "en-US", timezoneId: "America/New_York", userAgent: REAL_UA, extraHTTPHeaders: { "Accept-Language": "en-US,en;q=0.9" }, storageState: undefined };
+  const ctxOpts = { viewport: { width: 1366, height: 900 }, locale: store.locale || "en-US", timezoneId: "America/New_York", userAgent: REAL_UA, extraHTTPHeaders: { "Accept-Language": "en-US,en;q=0.9" }, storageState: store.stateFile ? new URL(store.stateFile, import.meta.url).pathname : undefined };
   // --video: only the first theme per (store,mode) gets recorded — one demo clip each.
   const isFirstTheme = theme.key === (mode === "support" ? SUPPORT_THEMES : SHOPPING_THEMES)[0].key;
   if (VIDEO && isFirstTheme) ctxOpts.recordVideo = { dir: `results/${STAMP}/video`, size: { width: 1366, height: 900 } };
