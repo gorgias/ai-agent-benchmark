@@ -116,7 +116,7 @@ function cleanReply(s) {
   if (t.length > 170) t = t.slice(-170).replace(/^\S*\s/, "…");
   return t;
 }
-function aText(turn) {
+function aText(turn, names = []) {
   if (turn.unsent) return "⏹ not sent — conversation was handed to a human";
   if (turn.by === "human") return "🚩 human took over";
   // cleanAnswer strips widget chrome / suggested-reply chips / product-card fragments
@@ -124,8 +124,9 @@ function aText(turn) {
   // Prefer replyText (the FULL turn reply captured by run.js since 2026-07-07; replyTail
   // keeps only the last 500 chars, which beheads long answers) and keep line breaks so
   // paragraphs/bullets render. Cap 2400 = the window the LLM-judge scores (eval-pack.js),
-  // so the reader sees the same answer text the quality score was based on.
-  const clean = cleanAnswer(turn.replyText || turn.replyTail, turn.q, 2400, { breaks: true });
+  // so the reader sees the same answer text the quality score was based on. `names`
+  // (store/vendor/bot personas) lets the cleaner drop bare sender-label lines ("Willow").
+  const clean = cleanAnswer(turn.replyText || turn.replyTail, turn.q, 2400, { breaks: true, names });
   if (turn.complete_ms == null) {
     return clean ? "(streamed past timing window) " + clean : "AI replied (streamed past timing window)";
   }
@@ -148,7 +149,7 @@ const normalizeDisplayTurns = (turns) => (turns || []).map((turn) => ({
 }));
 // Truncate the transcript at the first handover turn — once a human takes over the
 // conversation is over; we never show turns past that point.
-const themeTurns = (t, mode = "") => {
+const themeTurns = (t, mode = "", names = []) => {
   let turns = t.turns || [];
   const ho = turns.findIndex(x => x.handover);
   if (ho >= 0) turns = turns.slice(0, ho + 1);
@@ -167,7 +168,7 @@ const themeTurns = (t, mode = "") => {
     const flags = ((s && s.flags) || []).map(f => TQ_FLAG[f] ? { t: TQ_FLAG[f][0], k: TQ_FLAG[f][1] } : { t: f.replace(/_/g, " "), k: "warn" });
     const cov = s && s.keyword_coverage && s.keyword_coverage.asked ? Math.round(s.keyword_coverage.ratio * 100) : null;
     return {
-      q: normalizeUserMessage(x.q), a: aText(x), by: x.by,
+      q: normalizeUserMessage(x.q), a: aText(x, names), by: x.by,
       lat: x.ai_latency_ms != null ? round1(x.ai_latency_ms / 1000) : null,
       ...(flags.length ? { fl: flags } : {}),
       ...(cov != null ? { cov } : {}),
@@ -348,7 +349,7 @@ function measuredEntry(site, mode, agg, date) {
         ticket: tk(t.ticket),
         ...(mode === "shopping" ? { productRecs: { count: products.length, names: products.map(p => p.name) } } : {}),
         ...(t.ev ? { ev: t.ev } : {}),   // per-conversation judge eval (score + dims + note)
-        turns: themeTurns(t, mode),
+        turns: themeTurns(t, mode, [site.store, site.vendor, ...(site.personas || [])]),
       };
     }),
   };
