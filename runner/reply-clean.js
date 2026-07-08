@@ -23,19 +23,47 @@ const CHROME = /^(ask maggie|give us feedback|shop with ai|customer care team|we
 // A short line that opens with one of these reads as a suggested-reply chip, not prose.
 const CHIP_OPENER = /^(show me\b|explore\b|browse\b|see\b|view\b|shop\b|looking for\b|i need\b|i'?m looking\b|do you have\b|what'?s\b|what if\b|what other\b|what makes\b|how do i\b|how does\b|why is\b|why should\b|can i\b|tell me\b|find\b|help me\b|get\b|start\b)/i;
 
-function isNoiseLine(line) {
+// Messaging-widget chrome observed across vendors (Meta/Grove, DigitalGenius, Rufus…):
+// delivery status, relative timestamps, composer placeholder, escalation buttons,
+// widget headers, powered-by lines, bare clocks/locales.
+const MSG_CHROME = /^(sent|delivered|seen|read|typing…?|just now|sent\s*[·•]\s*just now|type a message\.?|send us a message|talk to a human|chat with (a |an )?(human|agent)|speak to (a |an )?(human|agent)|new messages?|start over|end chat|restart)$/i;
+
+function isNoiseLine(line, names) {
   const l = line.trim();
   if (!l) return true;
   if (CHROME.test(l)) return true;
+  if (MSG_CHROME.test(l)) return true;
   if (/^\$\s?\d[\d.,]*$/.test(l)) return true;              // bare price  "$28"
   if (/^from\s*\$?\d/i.test(l) || /^from$/i.test(l)) return true; // "From" / "From $28"
   if (/^\(\d[\d,]*\)$/.test(l)) return true;                // review count "(4639)"
   if (/^\d(\.\d)?$/.test(l)) return true;                   // bare rating "4.7"
   if (/^\d+\s+products?$/i.test(l)) return true;            // "4 products"
   if (/^[★☆]+$/.test(l)) return true;                       // star glyphs
+  if (/^\d{1,2}:\d{2}(:\d{2})?$/.test(l)) return true;      // bare clock "00:14"
+  if (/^\d+\s?(second|minute|hour|day)s?( ago)?$/i.test(l)) return true; // "14 seconds" / "2 minutes ago"
+  if (/^[a-z]{1,2}$/i.test(l)) return true;                 // bare locale/letter line "en" / "E"
+  if (/^.{1,32}\ssays:$/i.test(l)) return true;             // sender label "Grove Guide Team says:"
+  if (/^.{1,30}\schat$/i.test(l)) return true;              // widget header "Bloom & Wild Chat"
+  if (/^(⚡\s*)?(powered\s)?by\s[\w .&'’-]{2,30}$/i.test(l)) return true; // "⚡ by DigitalGenius"
+  // the widget's own bot/store/persona name as a bare label line ("Willow", "Grove Guide Team")
+  if (names && names.some((n) => n && l.toLowerCase() === String(n).toLowerCase())) return true;
   // short suggested-reply chip: brief, and either a CTA opener or a brief trailing question
   if (l.length <= 48 && (CHIP_OPENER.test(l) || (l.endsWith("?") && l.length <= 44))) return true;
   return false;
+}
+
+// Inline (non-line) noise: ARIA status text glued to the prose + template artifacts.
+// The status always starts with the BOT'S NAME (capitalized, 1-3 words) — anchoring on that
+// keeps the strip from nibbling the preceding prose.
+const GEN_STATUS = /\b[A-Z][\w'’-]{1,15}(?:\s[A-Z][\w'’-]{1,15}){0,2}\s(?:has\s(?:completed|finished)|is)\sgenerating\s(?:a|an|the)\s(?:response|answer)[.…]?\s*/g;
+function stripInlineNoise(text) {
+  return text
+    .replace(GEN_STATUS, "")
+    .replace(/\s*\{\}\s*/g, "\n")                           // "{}" template artifacts → block break
+    // Rufus feedback widget, flattened inline in old captures: "Your feedback has been
+    // submitted! Select All That Apply (optional): This is inaccurate … Dismiss Submit"
+    .replace(/your feedback has been submitted!?\s*/gi, "")
+    .replace(/select all that apply\s*\(optional\):?\s*(?:this is (?:inaccurate|irrelevant|harmful\s*\/?\s*unsafe)\s*)*(?:something else\s*)?(?:dismiss\s*)?(?:submit\s*)?/gi, "");
 }
 
 // rawReplyTail: the captured turn.replyText (full) or turn.replyTail (may contain newlines)
@@ -43,8 +71,10 @@ function isNoiseLine(line) {
 // opts.breaks:   keep ONE newline between kept lines so paragraphs/bullets survive for
 //                display (report renders with white-space:pre-line). Default stays a flat
 //                single line — the judge input and existing regex consumers expect that.
+// opts.names:    store/vendor/bot-persona names — a bare line equal to one of these is a
+//                sender label ("Willow", "Grove Guide Team"), not prose.
 export function stripWidgetChrome(rawReplyTail, userQuestion, opts = {}) {
-  let text = String(rawReplyTail || "");
+  let text = stripInlineNoise(String(rawReplyTail || ""));
   if (!text) return "";
   const q = String(userQuestion || "").trim();
   if (q && q.length > 8) {
@@ -54,7 +84,7 @@ export function stripWidgetChrome(rawReplyTail, userQuestion, opts = {}) {
   const kept = text
     .split(/\n+/)
     .map((s) => s.trim())
-    .filter((s) => s && !isNoiseLine(s));
+    .filter((s) => s && !isNoiseLine(s, opts.names));
   if (opts.breaks) return kept.map((s) => s.replace(/[ \t]+/g, " ")).join("\n").trim();
   return kept.join(" ").replace(/\s+/g, " ").trim();
 }
