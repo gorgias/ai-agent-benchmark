@@ -24,6 +24,10 @@ import { existsSync, readFileSync, writeFileSync, unlinkSync, mkdirSync } from "
 import { WIDGETS, STORES, readLatestAssistantReply, readTranscript } from "./vendors.js";
 import { SHOPPING_THEMES, SUPPORT_THEMES } from "./pools.js";
 import { isGen, isAck, isNoAnswer, detectHandover, convoValidity } from "./classify.js";
+import { stripWidgetChrome } from "./reply-clean.js";
+// Minimum CLEANED prose (chrome/stalls/labels/echo stripped) for a settled transcript to
+// count as an answer — the structural guard against stall-vocabulary whack-a-mole.
+const MIN_SUBSTANCE = 80;
 import { normalizeUserMessage } from "./message-style.js";
 
 // Prefix every log line with an ISO timestamp so run-status can render each activity event
@@ -157,7 +161,13 @@ async function timeTurn(page, scope, sendFn, q) {
     // A settled transcript that's just an offline/reconnecting state or a chip/"leave a
     // message" menu is NOT a real answer — never stop the clock on it (leaves complete_ms
     // null → the conversation's validity gate will drop it as noise).
-    const realAnswer = (grownReply || (sawGen && len > trough + 40)) && !isNoAnswer(text);
+    // STRUCTURAL stall guard (2026-07-09): pattern-matching stall phrases is whack-a-mole
+    // (Kodif rotates a whole library: "Putting the pieces together…", "Cooking up something
+    // good…", …). Instead require the SETTLED text to contain real PROSE after chrome/stall
+    // stripping — every stall line, whatever its wording, strips to ~nothing, so the clock
+    // can only stop on substance. GEN_RE/ACK_RE remain as fast-path hints, not the gate.
+    const realAnswer = (grownReply || (sawGen && len > trough + 40)) && !isNoAnswer(text)
+      && stripWidgetChrome(text.slice(-Math.max(600, len - trough + 200)), q).length >= MIN_SUBSTANCE;
     if (settled && !working && realAnswer) { complete = lastChange - t0; break; }
   }
   // growth_events distinguishes DELIVERY: many increments = token/segment streaming,
@@ -198,7 +208,8 @@ async function lateFlush(page, scope, sentAt) {
     await sleep(500);
     const { len, text } = await readTranscript(page, scope);
     if (len !== last) { if (len > last) grew += len - last; last = len; lastChange = Date.now(); continue; }
-    if (grew > 120 && lastChange && Date.now() - lastChange >= QUIET_MS && !isGen(text) && !isNoAnswer(text))
+    if (grew > 120 && lastChange && Date.now() - lastChange >= QUIET_MS && !isGen(text) && !isNoAnswer(text)
+      && stripWidgetChrome(text.slice(-800)).length >= MIN_SUBSTANCE)
       return { complete_ms: lastChange - sentAt };
   }
   return null;
