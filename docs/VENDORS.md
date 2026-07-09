@@ -70,6 +70,26 @@ What each assistant is, how its widget is built, the transport it uses, how to o
 - **Widget:** `static.ada.support/embed2.js`; `window.adaEmbed.toggle()`; cross-origin **`ada-chat-frame`** iframe.
 - **Status:** **deployed but the bot backend was down on both test days** ("The chat is experiencing technical difficulties…") across EU and US instances. No latency/quality measured — an availability data point in itself. Re-test when it recovers (the runner includes it and will record `null` + error until then).
 
+## Intercom — Fin AI Agent (Avocado Green Mattress, Public.com, Kajabi, Synthesia, Ninety, tado°)
+
+- **Sites (6, signature-verified 2026-07-09):** `avocadogreenmattress.com` (DTC mattress e-commerce),
+  `public.com` (consumer investing app), `kajabi.com` (creator platform), `help.synthesia.io` (AI
+  video SaaS support), `ninety.io` (B2B EOS software), `tado.com` (smart-home DTC hardware). Each
+  confirmed by `widget.intercom.io` / `intercom-lightweight-app` / `api-iam.intercom.io` present in
+  the page source (public client-side loader signatures, same verification standard used for
+  Decagon).
+- **Widget:** **Intercom Messenger** — launcher mounts in `#intercom-container`; the conversation
+  renders in a standard cross-origin `iframe[name="intercom-messenger-frame"]`.
+- **Fin AI Agent:** Intercom's default AI layer on top of the Messenger on paid plans — not
+  independently confirmable from a cold, logged-out page load. Whether Fin actually answers cold
+  free-text (vs. gating on identity, or falling straight to a human queue) is **unconfirmed until
+  the first capture run** — registered as `candidate: true`, same as Decagon's initial batch.
+- **Open / drive:** `window.Intercom('show')` to open; best-effort generic composer/send helpers
+  (`genericOpenChat`/`genericSendChat`) until a run shows the live DOM and selectors can be
+  tightened, matching the Decagon/Klaviyo/Shopify Inbox scaffold pattern.
+- **Status:** scaffolded, not yet captured — will show as "pending" in Coverage until the first
+  cold run.
+
 ---
 
 ### Quick reference — automation hooks
@@ -83,3 +103,4 @@ What each assistant is, how its widget is built, the transport it uses, how to o
 | DigitalGenius | `dgchat.methods.launchWidget()` (+ prechat form) | iframe input + Enter | `dg-chat-widget-iframe` |
 | Meta AI | `zE('messenger','open')` | "Messaging window" iframe input | "Messaging window" iframe (re-mounts) |
 | Ada | `adaEmbed.toggle()` | `ada-chat-frame` input | `ada-chat-frame` iframe |
+| Intercom | `Intercom('show')` | generic composer + Enter (best-effort) | `intercom-messenger-frame` iframe |
