@@ -54,10 +54,22 @@ function turnQuality(turn, mode = "") {
   const measured = turn.by === "ai" && turn.complete_ms != null;
   const flags = [];
 
+  // CLARIFYING turn (2026-07-09): an assistant that answers a broad ask by qualifying the
+  // need ("let me know your scent preferences and I can guide you!") is doing GOOD
+  // discovery, not failing coverage — a few back-and-forths are fine, and the judge's
+  // rubric rewards exactly this (d_clarify). Keyword coverage is meaningless on such
+  // turns: suppress coverage/thin penalties and emit a neutral informative flag instead.
+  // An invite phrase + needs-vocabulary counts even without a "?" — qualifying is often
+  // imperative ("Please let me know your scent preferences and I can guide you!").
+  const clarifying = measured &&
+    /\b(let me know|tell me|could you (share|tell|let)|which|what (kind|type|sort)|do you (prefer|want|need|have)|are you (looking|hoping|after)|to (help|guide) (you|me)|help me (understand|recommend|narrow))\b/i.test(answer) &&
+    (/\?/.test(answer) || /\b(preferences?|needs?|budget|size|style|goals?|looking for|kind of|type of|concerns?)\b/i.test(answer));
+
   if (turn.unsent) flags.push("not_sent_after_handover");
   if (turn.by === "ai" && !measured) flags.push("no_measured_answer");
-  if (measured && answer.length < 80) flags.push("thin_answer");
-  if (coverage.asked.length >= 3 && coverage.ratio < 0.35) flags.push("low_question_coverage");
+  if (measured && answer.length < 80 && !clarifying) flags.push("thin_answer");
+  if (!clarifying && coverage.asked.length >= 3 && coverage.ratio < 0.35) flags.push("low_question_coverage");
+  if (clarifying) flags.push("clarifying_question");
   if (lines.lines >= 4 && lines.short_ratio >= 0.65) flags.push("likely_chip_menu");
 
   if (/\bwho\s+(?:covers|pays)|\bcovered\s+by\b|\bresponsible\b/.test(q) &&

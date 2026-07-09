@@ -40,3 +40,20 @@ Tell me about expedited shipping`;
   assert.ok(quality.turns[0].flags.includes("missing_timeframe"));
 });
 
+
+// ---- clarifying turns are discovery, not failure (2026-07-09) -------------------
+import { conversationTurnQuality as ctq } from "./turn-quality.js";
+test("a qualifying question suppresses coverage/thin penalties and marks clarifying", () => {
+  const turns = [{ turn: 1, by: "ai", complete_ms: 5000, q: "Hi! I'm shopping but not sure what's right for me, can you help me choose?",
+    replyText: "We offer a subscription-based service with a variety of sophisticated car fragrances. Please let me know your scent preferences or any specific needs, and I can guide you!" }];
+  const r = ctq(turns, "shopping").turns[0];
+  assert.ok(r.flags.includes("clarifying_question"));
+  assert.ok(!r.flags.includes("low_question_coverage"));
+  assert.ok(!r.flags.includes("thin_answer"));
+});
+test("a non-clarifying thin reply still gets penalized", () => {
+  const turns = [{ turn: 1, by: "ai", complete_ms: 5000, q: "What is your return policy for damaged items and refunds?",
+    replyText: "We have a returns page." }];
+  const r = ctq(turns, "support").turns[0];
+  assert.ok(r.flags.includes("thin_answer"));
+});
