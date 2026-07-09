@@ -180,8 +180,12 @@ export const WIDGETS = {
                // silent escalation banner (2026-07-09: missed "joinING" → dead turns were
                // recorded as empty AI failures instead of an honest handover)
                /(is |agent )joining the (chat|conversation)/i, /will respond as soon as they join/i,
-               // verification/login gate — the AI won't proceed unattended past this point
-               /verify order details/i, /once you.?re logged in/i, /please (log|sign) in to (continue|proceed|verify)/i],
+               // hard login WALL only — the AI genuinely refuses to proceed unattended.
+               // NB: "verify order details" and "if you log in we can check…" are NOT gates —
+               // they are a trailing UI button / optional-help phrasing that Gorgias appends
+               // AFTER a complete automated answer; matching them wrongly nuked 54 good convs
+               // (2026-07-10 regression → reverted). Only the imperative continue-gate stays.
+               /please (log|sign) in to (continue|proceed|verify)/i],
     async open(page) {
       await dismiss(page);
       // widget bundle loads a couple seconds after a real-UA 'load'; wait for it
