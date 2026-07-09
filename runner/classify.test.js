@@ -235,3 +235,8 @@ test("isGen: Kodif's novelty progress lines are 'still working', not answers", (
   assert.equal(isGen("06:53 pm\nAgent is thinking...\nGetting the context..."), true);
   assert.equal(isGen("Our razors come in 3 blade options — here's the breakdown."), false);
 });
+
+test("isGen: probe-discovered Kodif stalls (connecting the dots / crafting a response)", () => {
+  assert.equal(isGen("Connecting the dots..."), true);
+  assert.equal(isGen("Crafting a response for you..."), true);
+});

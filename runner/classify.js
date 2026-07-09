@@ -6,7 +6,7 @@
 // context…", "Cooking up something good…", "Got it. Popping the hood…") — they sit
 // frozen >5s while the real answer generates, so without these patterns the clock
 // settles on the indicator and records it as the answer (2026-07-09 bug, 175 turns).
-export const GEN_RE = /(Thinking|Analyzing|Typing|Searching|Looking|Writing|Processing|Almost there|En train|Réflexion|Analyse|Recherche|escribiendo|pensando|agent is thinking|getting the context|cooking up something( good)?|popping the hood|crunching the numbers|working on it)\s*[.…]*\s*$/i;
+export const GEN_RE = /(Thinking|Analyzing|Typing|Searching|Looking|Writing|Processing|Almost there|En train|Réflexion|Analyse|Recherche|escribiendo|pensando|agent is thinking|getting the context|cooking up something( good)?|popping the hood|crunching the numbers|working on it|connecting the dots|crafting a response( for you)?)\s*[.…]*\s*$/i;
 
 // STALL / acknowledgement — a provider sends "OK, let me check…" FIRST, then the real
 // answer as a SECOND message. Don't stop the clock on the stall (only while still short).

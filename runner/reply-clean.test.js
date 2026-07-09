@@ -79,3 +79,21 @@ test("a stall-only capture strips to (almost) nothing — the mistimed-turn dete
   const raw = "06:53 pm\nAgent is thinking...\nGot it. Popping the hood...";
   assert.ok(stripWidgetChrome(raw, "").length <= 25);
 });
+
+// ---- Kodif turn-boundary bundle (2026-07-09 #2): raw+rendered dedupe + role labels ----
+test("a raw jammed duplicate line is dropped when the rendered version follows", () => {
+  const raw = [
+    "response: I understand you're looking for a quality gift! All our products are crafted with quality in mind, and their utility comes from addressing specific daily needs.To help me recommend the perfect gum, could you tell me which benefit matters most?",
+    "I understand you're looking for a quality gift! All our products are crafted with quality in mind, and their utility comes from addressing specific daily needs.",
+    "To help me recommend the perfect gum, could you tell me which benefit matters most?",
+  ].join("\n");
+  const out = stripWidgetChrome(raw, "", { breaks: true });
+  assert.equal(out.split("\n").length, 2);
+  assert.ok(!/response:/i.test(out));
+});
+
+test("bare 'User response:' / 'response:' role-label lines are stripped", () => {
+  const raw = "User response:\nWhat are my best options?\nresponse:\nOur Calm & Clarity Mints start from $24.99 and are perfect for everyday use.";
+  const out = stripWidgetChrome(raw, "What are my best options?");
+  assert.ok(out.startsWith("Our Calm & Clarity Mints"));
+});

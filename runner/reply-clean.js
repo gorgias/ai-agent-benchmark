@@ -43,7 +43,9 @@ function isNoiseLine(line, names) {
   if (/^\d{1,2}:\d{2}\s*(am|pm)$/i.test(l)) return true;    // bare clock "06:53 pm" (Kodif)
   if (/^\d+\s?(second|minute|hour|day)s?( ago)?$/i.test(l)) return true; // "14 seconds" / "2 minutes ago"
   // Kodif's rotating progress lines — frozen stall indicators, never prose
-  if (/^(agent is thinking|getting the context|cooking up something( good)?|(got it\.?\s*)?popping the hood|crunching the numbers)[.…]*$/i.test(l)) return true;
+  if (/^(agent is thinking|getting the context|cooking up something( good)?|(got it\.?\s*)?popping the hood|crunching the numbers|connecting the dots|crafting a response( for you)?)[.…]*$/i.test(l)) return true;
+  // Kodif's DOM role labels (raw node leaks alongside the rendered message)
+  if (/^(user )?response:$/i.test(l)) return true;
   if (/^[a-z]{1,2}$/i.test(l)) return true;                 // bare locale/letter line "en" / "E"
   if (/^.{1,32}\ssays:$/i.test(l)) return true;             // sender label "Grove Guide Team says:"
   if (/^.{1,30}\schat$/i.test(l)) return true;              // widget header "Bloom & Wild Chat"
@@ -62,7 +64,7 @@ const GEN_STATUS = /\b[A-Z][\w'’-]{1,15}(?:\s[A-Z][\w'’-]{1,15}){0,2}\s(?:ha
 function stripInlineNoise(text) {
   return text
     .replace(GEN_STATUS, "")
-    .replace(/\bagent response:\s*/gi, "")                  // Kodif's reply label prefix
+    .replace(/\b(agent |user )?response:\s*/gi, "")         // Kodif's raw role-label prefixes
     .replace(/\s*\{\}\s*/g, "\n")                           // "{}" template artifacts → block break
     // Rufus feedback widget, flattened inline in old captures: "Your feedback has been
     // submitted! Select All That Apply (optional): This is inaccurate … Dismiss Submit"
@@ -85,10 +87,23 @@ export function stripWidgetChrome(rawReplyTail, userQuestion, opts = {}) {
     const idx = text.toLowerCase().lastIndexOf(q.toLowerCase());
     if (idx >= 0) text = text.slice(idx + q.length);        // keep only what came AFTER the echoed question
   }
-  const kept = text
+  let kept = text
     .split(/\n+/)
     .map((s) => s.trim())
     .filter((s) => s && !isNoiseLine(s, opts.names));
+  // RAW+RENDERED dedupe (Kodif): the widget's DOM can leak the raw message node (one long
+  // jammed line) alongside the rendered multi-line version of the SAME text. If a long
+  // line's normalized content is fully contained in the normalized concatenation of the
+  // lines that follow it, it is the jammed duplicate — keep the structured version.
+  if (kept.length > 1) {
+    const norm = (s) => s.toLowerCase().replace(/[^a-z0-9]/g, "");
+    kept = kept.filter((line, i) => {
+      if (line.length < 150) return true;
+      const rest = norm(kept.slice(i + 1).join(""));
+      const n = norm(line);
+      return !(n.length > 100 && rest.includes(n));
+    });
+  }
   if (opts.breaks) return kept.map((s) => s.replace(/[ \t]+/g, " ")).join("\n").trim();
   return kept.join(" ").replace(/\s+/g, " ").trim();
 }
