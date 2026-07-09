@@ -124,6 +124,8 @@ runner/
   results/<date>/conv/*.json      one file per conversation (durable, resumable, NEVER moved/archived)
 docs/RUNBOOK.md     end-to-end operations: capture → judge → merge → bake → verify → deploy,
                     parallel-capture rules, teardown hygiene, troubleshooting, vendor quirks
+docs/OPERATOR-PROMPT.md   copy-paste prompt for a Claude Code session that runs the whole
+                    pipeline (add N convs → judge → merge → bake → gate → deploy)
 report.html         detailed interactive report      takeaways.html   board summary
 index.html          Pages landing (noindex → Summary)
 ```
