@@ -164,6 +164,13 @@ const themeTurns = (t, mode = "", names = []) => {
     try { tq = conversationTurnQuality(turns, mode).turns || []; } catch { tq = []; }
   }
   return turns.map((x, i) => {
+    // EXCLUDED turns (Max's call, 2026-07-09): a turn whose capture was corrupted by the
+    // stall/boundary bugs shows an explicit exclusion note instead of garbage — no fake
+    // text, no timing, no quality chips. Raw files keep everything for audit; the report
+    // simply does not present a corrupted message as if it were the vendor's answer.
+    if (x.mistimed_correction || x.boundary_bleed_correction) {
+      return { q: normalizeUserMessage(x.q), a: "⚠ capture error — this reply was not recorded cleanly and is excluded from display and metrics", by: x.by, lat: null, excluded: true };
+    }
     const s = tq[i] || null;
     const flags = ((s && s.flags) || []).map(f => TQ_FLAG[f] ? { t: TQ_FLAG[f][0], k: TQ_FLAG[f][1] } : { t: f.replace(/_/g, " "), k: "warn" });
     const cov = s && s.keyword_coverage && s.keyword_coverage.asked ? Math.round(s.keyword_coverage.ratio * 100) : null;

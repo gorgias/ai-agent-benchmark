@@ -22,7 +22,7 @@ const APPLY = process.argv.includes("--apply");
 const STALL_ONLY_MAX = 25;   // post-strip substance below this = no real answer was captured
 
 let convsTouched = 0, turnsFixed = 0;
-const byVendor = {};
+const byVendor = {}, ids = [];
 for (const d of readdirSync("results").filter((x) => /^\d{4}-\d{2}-\d{2}$/.test(x))) {
   let files; try { files = readdirSync(`results/${d}/conv`); } catch { continue; }
   for (const f of files) {
@@ -33,8 +33,10 @@ for (const d of readdirSync("results").filter((x) => /^\d{4}-\d{2}-\d{2}$/.test(
     for (const t of j.turns || []) {
       if (t.by !== "ai" || t.complete_ms == null) continue;
       const raw = t.replyText || t.replyTail || "";
-      if (!/(agent is thinking|getting the context|cooking up something|popping the hood|crunching the numbers)/i.test(raw)) continue;
-      const substance = stripWidgetChrome(raw, t.q);       // stall/chrome lines now stripped
+      // GENERIC detection (no stall-vocabulary prefilter — that was whack-a-mole): a timed
+      // turn whose captured reply strips to ~nothing has no real answer, whatever the
+      // widget's stall wording was. Timing is bogus by construction.
+      const substance = stripWidgetChrome(raw, t.q);       // stall/chrome/label lines stripped
       if (substance.length > STALL_ONLY_MAX) continue;     // real answer present → timing legit
       t.mistimed_correction = { was_complete_ms: t.complete_ms, was_ttft_ms: t.ttft_ms ?? null, fixed: "2026-07-09", reason: "stall indicator recorded as answer (pre-GEN_RE-fix)" };
       t.complete_ms = null; t.ai_latency_ms = null; if ("ttft_ms" in t) t.ttft_ms = null;
@@ -42,7 +44,7 @@ for (const d of readdirSync("results").filter((x) => /^\d{4}-\d{2}-\d{2}$/.test(
     }
     if (!touched) continue;
     convsTouched++;
-    byVendor[j.vendor] = (byVendor[j.vendor] || 0) + 1;
+    byVendor[j.vendor] = (byVendor[j.vendor] || 0) + 1; ids.push(`${d}/${f}`);
     // re-derive stats + validity from the corrected turns (same math as capture)
     const ai = (j.turns || []).filter((t) => t.by === "ai" && t.complete_ms != null).map((t) => t.complete_ms);
     const answered = ai.length;
@@ -64,3 +66,4 @@ for (const d of readdirSync("results").filter((x) => /^\d{4}-\d{2}-\d{2}$/.test(
 console.log(`${APPLY ? "FIXED" : "DRY RUN —"} ${turnsFixed} mistimed turns across ${convsTouched} conversations`);
 console.log(Object.entries(byVendor).map(([v, n]) => `${v}:${n}`).join("  ") || "none");
 if (!APPLY && convsTouched) console.log("re-run with --apply to write corrections");
+if (APPLY) { writeFileSync("/tmp/rejudge-stalls2.json", JSON.stringify(ids)); console.log(`conv ids for re-judge -> /tmp/rejudge-stalls2.json (${ids.length})`); }
