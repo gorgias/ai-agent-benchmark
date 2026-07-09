@@ -1,0 +1,21 @@
+# Unit tests + data quality gate — runs on every PR so a broken classifier,
+# reply-cleaner, or bake can't reach master (the report deploys from master root).
+name: tests
+on:
+  pull_request:
+  push:
+    branches: [master]
+jobs:
+  unit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - name: Unit tests (classifier, reply-clean, turn-quality, message-style, product-rec)
+        working-directory: runner
+        run: node --test ./*.test.js
+      - name: Data quality gate (baked report invariants + judge coverage)
+        working-directory: runner
+        run: node verify-data.js

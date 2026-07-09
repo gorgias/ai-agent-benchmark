@@ -57,6 +57,18 @@ IndexedDB / cache for any origin (including the widget's cross-origin storage), 
 **never a pre-existing conversation**. Latency is network/model-bound, so modest concurrency
 doesn't skew the timing; push it higher on a beefy CI runner.
 
+**Multiple run.js instances at once are safe.** Every conversation is claimed via an
+O_EXCL lock file (`results/<date>/conv/.locks/<store>-<mode>-<theme>.lock`, owner PID
+inside) before capture: a conversation claimed by a live process is skipped, a stale lock
+(dead PID) is stolen, and claiming re-checks whether a parallel run already completed the
+conversation. This is what lets the equalization balancer (`tools/balance.mjs`), a manual
+top-up, and an overnight stream overlap without double-capturing. Operating limits — ≤3
+streams on a laptop, `LOAD_CAP` pause, disjoint vendor lists per stream, teardown by PID —
+are in `../docs/RUNBOOK.md`.
+
+**Before deploying a bake:** `node verify-data.js` — the quality gate (baked-data
+invariants + judge-coverage threshold). CI runs it plus all `*.test.js` suites on every PR.
+
 ## Output
 
 - `results/<date>/<store>-<mode>.json` — per-turn latency, handover flag + hit, reply tail,

@@ -20,7 +20,7 @@
 //
 import { chromium } from "playwright";
 import { mkdir, writeFile } from "node:fs/promises";
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, readFileSync, writeFileSync, unlinkSync, mkdirSync } from "node:fs";
 import { WIDGETS, STORES, readLatestAssistantReply, readTranscript } from "./vendors.js";
 import { SHOPPING_THEMES, SUPPORT_THEMES } from "./pools.js";
 import { isGen, isAck, isNoAnswer, detectHandover, convoValidity } from "./classify.js";
@@ -456,9 +456,31 @@ async function runStoreMode(browser, store, mode, theme) {
   if (!tasks.length) { console.log("ALL DONE — every conversation already captured for this run-date."); await browser.close(); return; }
   console.log(`Running ${tasks.length} conversations at concurrency ${CONC}, each in a fresh incognito context.\n`);
 
+  // CROSS-PROCESS LOCKS — several run.js instances may capture in parallel (disjoint
+  // vendor streams, the balancer, a manual top-up). Each conversation is CLAIMED via an
+  // O_EXCL lock file before capture so two processes never burn a cold session on the
+  // same (store,mode,theme). Locks carry the owner PID: a lock whose owner is dead is
+  // stale (killed process) and is stolen; a live owner's conversation is skipped, never
+  // waited on. Claiming also re-checks the RESUME condition — another process may have
+  // completed the conversation after OUR task list was built.
+  const LOCK_DIR = `${CONV_DIR}/.locks`;
+  mkdirSync(LOCK_DIR, { recursive: true });
+  const lockPath = (t) => `${LOCK_DIR}/${t.store.key}-${t.mode}-${t.theme.key}.lock`;
+  function claimConv(t) {
+    if (RESUME && existsSync(convFile(t.store.key, t.mode, t.theme.key))) {
+      try { const j = JSON.parse(readFileSync(convFile(t.store.key, t.mode, t.theme.key), "utf8")); if (j.turns && j.turns.length > 0 && j.valid !== false) return false; } catch {}
+    }
+    try { writeFileSync(lockPath(t), String(process.pid), { flag: "wx" }); return true; }
+    catch {
+      try { process.kill(Number(readFileSync(lockPath(t), "utf8")), 0); return false; }   // owner alive → theirs
+      catch { try { writeFileSync(lockPath(t), String(process.pid)); return true; } catch { return false; } }  // stale → steal
+    }
+  }
+  const releaseConv = (t) => { try { unlinkSync(lockPath(t)); } catch {} };
+
   const remaining = tasks.slice();
   const inflight = new Set();
-  let done = 0, failed = 0;
+  let done = 0, failed = 0, lockSkipped = 0;
   async function worker(wid) {
     while (true) {
       let t;
@@ -467,6 +489,7 @@ async function runStoreMode(browser, store, mode, theme) {
         if (idx < 0) { if (remaining.length === 0) break; await sleep(300); continue; }
         t = remaining.splice(idx, 1)[0]; inflight.add(t.store.key);
       } else { t = remaining.shift(); if (!t) break; }
+      if (!claimConv(t)) { lockSkipped++; if (SERIAL) inflight.delete(t.store.key); continue; }
       try {
         const res = await runStoreMode(browser, t.store, t.mode, t.theme);
         // WRITE THIS CONVERSATION IMMEDIATELY — finest-grained durability.
@@ -474,10 +497,10 @@ async function runStoreMode(browser, store, mode, theme) {
         done++;
         console.log(`  ✔ [${done}/${tasks.length}] ${t.store.key}/${t.mode}/${t.theme.key} · success ${res.stats.success_rate ?? "n/a"}% · avg ${res.stats.avg_ms ?? "n/a"}ms${res.stats.handover_turn ? `  🚩 handover@T${res.stats.handover_turn}` : ""}`);
       } catch (e) { failed++; console.log(`  ✗ ${t.store.key}/${t.mode}/${t.theme.key} ERR ${String(e).slice(0, 100)}`); }
-      finally { if (SERIAL) inflight.delete(t.store.key); }
+      finally { releaseConv(t); if (SERIAL) inflight.delete(t.store.key); }
     }
   }
   await Promise.all(Array.from({ length: Math.min(CONC, tasks.length) }, (_, i) => worker(i + 1)));
   await browser.close();
-  console.log(`Done. Wrote ${done} conversations (${failed} failed) to ${CONV_DIR}/`);
+  console.log(`Done. Wrote ${done} conversations (${failed} failed${lockSkipped ? `, ${lockSkipped} claimed by a parallel run` : ""}) to ${CONV_DIR}/`);
 })();

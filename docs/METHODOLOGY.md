@@ -48,6 +48,26 @@ The **headless runner** uses the DOM growth+stability method uniformly (Playwrig
 
 **Why "grows then stable ≥3.5s"?** Streaming/replies arrive in chunks; we treat the response as complete when the transcript stops changing for 3.5s after it has grown beyond the user echo. We record the timestamp of the *last* change (not the stability-wait), so the 3.5s window isn't counted in the latency. First-token (TTFT) is also recorded where available.
 
+**Anti-cheat: the clock runs to the TRUE final answer.** A stall bubble ("Let me check
+that for you…", "One moment") never stops the clock — `classify.js` recognises stalls
+(`ACK_RE`/`GEN_RE`) and the turn keeps timing until real substance lands and settles.
+
+**Full-reply capture.** Each turn stores `replyText` — the complete reply, head-preserved,
+computed as the transcript delta across the turn (container resets fall back to the whole
+post-turn transcript; over-inclusion is recoverable, a beheaded answer is not; 4 kB cap).
+The legacy `replyTail` (last 500 chars) remains for compatibility. Display and the judge
+both consume `replyText` through `reply-clean.js`, which strips widget chrome
+(suggested-reply chips, feedback UI, price/rating fragments, "powered by" footers) so
+neither the reader nor the judge credits UI noise as prose.
+
+**Delivery style (streaming vs atomic) is a pinned engine property.** The DOM
+growth-events proxy misclassifies both ways: a loader plus appended timestamps inflates a
+non-streaming widget into "streaming", while a fast token stream coalesces into one
+measured jump and reads "atomic". `DELIVERY_OVERRIDE` in `gen.js` pins verified engines
+(Gorgias = atomic — its "I'm looking into this…" is a placeholder, not tokens;
+Amazon Rufus = streaming); the heuristic (median growth events ≥ 6) is only a fallback
+for unpinned vendors.
+
 ## Answer-quality eval
 
 Latency only matters if the answer is good. Every valid conversation is scored `/100` by an
