@@ -142,6 +142,9 @@ const TQ_FLAG = {
   no_measured_answer:         ["no timed answer", "bad"],
   not_substantive:            ["thin / non-substantive", "bad"],
   echoed_question:            ["echoed the question back", "warn"],
+  thin_answer:                ["thin answer", "warn"],
+  likely_chip_menu:           ["chip menu, not prose", "warn"],
+  clarifying_question:        ["clarifying the need ↩", "ok"],
 };
 const normalizeDisplayTurns = (turns) => (turns || []).map((turn) => ({
   ...turn,
@@ -159,9 +162,11 @@ const themeTurns = (t, mode = "", names = []) => {
   // capture, or a vendor the judge skipped), compute them on the fly here. This keeps the
   // Conversations tab's per-message quality chips present on EVERY conversation, not just
   // the judged subset. (Was the "lost metadata on the conversation tab" gap.)
-  let tq = (t.tq && t.tq.turns) || [];
-  if (!tq.length && turns.length) {
-    try { tq = conversationTurnQuality(turns, mode).turns || []; } catch { tq = []; }
+  // ALWAYS recompute turn-quality at bake time (pure + cheap): stored tq snapshots go
+  // stale whenever the chip rules improve (e.g. clarifying-turn suppression, 2026-07-09).
+  let tq = [];
+  if (turns.length) {
+    try { tq = conversationTurnQuality(turns, mode).turns || []; } catch { tq = (t.tq && t.tq.turns) || []; }
   }
   return turns.map((x, i) => {
     // EXCLUDED turns (Max's call, 2026-07-09): a turn whose capture was corrupted by the
@@ -173,7 +178,8 @@ const themeTurns = (t, mode = "", names = []) => {
     }
     const s = tq[i] || null;
     const flags = ((s && s.flags) || []).map(f => TQ_FLAG[f] ? { t: TQ_FLAG[f][0], k: TQ_FLAG[f][1] } : { t: f.replace(/_/g, " "), k: "warn" });
-    const cov = s && s.keyword_coverage && s.keyword_coverage.asked ? Math.round(s.keyword_coverage.ratio * 100) : null;
+    const clarify = s && (s.flags || []).includes("clarifying_question");
+    const cov = !clarify && s && s.keyword_coverage && s.keyword_coverage.asked ? Math.round(s.keyword_coverage.ratio * 100) : null;
     return {
       q: normalizeUserMessage(x.q), a: aText(x, names), by: x.by,
       lat: x.ai_latency_ms != null ? round1(x.ai_latency_ms / 1000) : null,

@@ -46,6 +46,9 @@ function isNoiseLine(line, names) {
   if (/^(agent is thinking|getting the context|cooking up something( good)?|(got it\.?\s*)?popping the hood|crunching the numbers|connecting the dots|crafting a response( for you)?|putting the pieces together)[.…]*$/i.test(l)) return true;
   // Kodif's DOM role labels (raw node leaks alongside the rendered message)
   if (/^(user )?response:$/i.test(l)) return true;
+  if (/^[•·▪◦‣*–—-]{1,3}$/.test(l)) return true;            // bare bullet/dash glyph line
+  // generic bot sender labels leaking as bare lines ("AI Agent", "Virtual Assistant")
+  if (/^(ai agent|ai assistant|virtual (assistant|agent)|chat assistant|assistant|agent|support bot)$/i.test(l)) return true;
   if (/^[a-z]{1,2}$/i.test(l)) return true;                 // bare locale/letter line "en" / "E"
   if (/^.{1,32}\ssays:$/i.test(l)) return true;             // sender label "Grove Guide Team says:"
   if (/^.{1,30}\schat$/i.test(l)) return true;              // widget header "Bloom & Wild Chat"
