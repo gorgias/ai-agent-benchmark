@@ -561,6 +561,26 @@ export const WIDGETS = {
     async open(page) { await genericOpenChat(page); },
     async send(page, text) { await genericSendChat(page, text); },
   },
+  intercom: {
+    // Intercom Messenger + Fin AI Agent. Loader is `widget.intercom.io` / the
+    // `intercom-lightweight-app` bundle; `window.Intercom('show')` opens the launcher
+    // (`#intercom-container`), and the conversation renders in the standard cross-origin
+    // `iframe[name="intercom-messenger-frame"]`. Composer + transcript live inside that
+    // frame, so we scope to it and drive with the generic open/send helpers — same
+    // best-effort pattern as decagon/klaviyo until a run shows the live DOM.
+    scope: { kind: "frame", match: /intercom-messenger-frame|intercom/i },
+    handover: [/connect you (with|to) (a|one of our)?\s*(teammate|human|agent|team member)/i,
+               /I'?ll (get|find) (you )?a teammate/i, /pass(ing)? (this|you) (on|over) to/i,
+               /a teammate will (reply|follow up|get back)/i],
+    async open(page) {
+      await dismiss(page);
+      await page.waitForFunction(() => typeof window.Intercom !== "undefined", null, { timeout: 15000 }).catch(() => {});
+      await page.evaluate(() => { try { window.Intercom && window.Intercom("show"); } catch (e) {} }).catch(() => {});
+      await page.waitForTimeout(2500);
+      await genericOpenChat(page);
+    },
+    async send(page, text) { await genericSendChat(page, text); },
+  },
   shopify_inbox: {
     // Native Shopify Inbox — gated (name/email) single-shot ticket form in most configs
     // (Roman): 1 canned "Automated" reply, then silent. Expected to fall to no_answer;
@@ -906,6 +926,17 @@ export const STORES = [
   { key: "decagon-quince",   vendor: "Decagon", store: "Quince",    url: "https://www.quince.com/",         widget: "decagon", us: true, candidate: true }, // "Chat provider":"Decagon"
   { key: "decagon-substack", vendor: "Decagon", store: "Substack",  url: "https://substack.com/",           widget: "decagon", us: true, candidate: true }, // enable_decagon_chat:true
   { key: "decagon-hertz",    vendor: "Decagon", store: "Hertz",     url: "https://www.hertz.com/rentacar/misc/index.jsp?targetPage=contact_us.jsp", widget: "decagon", us: true, candidate: true }, // decagon.ai in CSP
+
+  // Intercom (Fin AI Agent) — added 2026-07-09. All 6 signature-verified live via
+  // widget.intercom.io / intercom-lightweight-app / api-iam.intercom.io in page source.
+  // Fin is Intercom's default AI layer on top of the Messenger; whether it actually answers
+  // cold is unconfirmed until the first capture (candidate:true), same standard as Decagon.
+  { key: "intercom-avocado",    vendor: "Intercom", store: "Avocado Green Mattress", url: "https://www.avocadogreenmattress.com/", widget: "intercom", us: true, candidate: true }, // app_id le9x6vbl + widget.intercom.io
+  { key: "intercom-public",     vendor: "Intercom", store: "Public.com",            url: "https://public.com/",                    widget: "intercom", us: true, candidate: true }, // widget.intercom.io on homepage
+  { key: "intercom-kajabi",     vendor: "Intercom", store: "Kajabi",                url: "https://kajabi.com/",                    widget: "intercom", us: true, candidate: true }, // app_id gxun6ex4 + api-iam.intercom.io
+  { key: "intercom-synthesia",  vendor: "Intercom", store: "Synthesia",             url: "https://help.synthesia.io/",             widget: "intercom", us: true, candidate: true }, // intercom-lightweight-app
+  { key: "intercom-ninety",     vendor: "Intercom", store: "Ninety",                url: "https://www.ninety.io/",                 widget: "intercom", us: true, candidate: true }, // app_id u6zkohf3 + widget.intercom.io
+  { key: "intercom-tado",       vendor: "Intercom", store: "tado°",                 url: "https://www.tado.com/",                  widget: "intercom", us: true, candidate: true }, // intercom-lightweight-app
 ];
 
 // Find a frame by element id / title / name / url. `match` may be a string
