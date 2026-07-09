@@ -225,3 +225,13 @@ test("connectivityFail: offline/reconnecting mid-session is flagged", () => {
 test("connectivityFail: a normal (even bad) conversation is NOT flagged", () => {
   assert.equal(connectivityFail([{by:"ai",complete_ms:9000,replyTail:"What category are you shopping for?"},{by:"ai",complete_ms:8000,replyTail:"Please email us for that."}]), false);
 });
+
+// ---- Kodif rotating stall indicators (2026-07-09 bug: recorded as answers) -----
+test("isGen: Kodif's novelty progress lines are 'still working', not answers", () => {
+  assert.equal(isGen("Agent is thinking..."), true);
+  assert.equal(isGen("Getting the context..."), true);
+  assert.equal(isGen("Cooking up something good..."), true);
+  assert.equal(isGen("Got it. Popping the hood..."), true);
+  assert.equal(isGen("06:53 pm\nAgent is thinking...\nGetting the context..."), true);
+  assert.equal(isGen("Our razors come in 3 blade options — here's the breakdown."), false);
+});
