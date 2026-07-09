@@ -27,6 +27,7 @@ const TABLE = {
     /once you.?re logged in/i,
   ],
   dg: [/submit an email and we.?ll (come|get) back/i],
+  siena: [/routed to (a )?human agent/i, /we.?ll (follow up|reach out to you)( shortly)?( with more information)? via e-?mail/i],
 };
 
 let convsTouched = 0, turnsFlipped = 0;
