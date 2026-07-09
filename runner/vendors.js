@@ -176,7 +176,12 @@ export const WIDGETS = {
   gorgias: {
     scope: { kind: "frame", match: "chat-window" },
     handover: [/joined the chat/i, /a rejoint (la )?(conversation|discussion|chat)/i,
-               /conseiller humain/i, /transf[eè]re(r|z)?\b.*(humain|conseiller|agent|ticket)/i, /laissez(\-| )?(nous|moi)?\s*(votre)?\s*(e-?mail|adresse)/i],
+               /conseiller humain/i, /transf[eè]re(r|z)?\b.*(humain|conseiller|agent|ticket)/i, /laissez(\-| )?(nous|moi)?\s*(votre)?\s*(e-?mail|adresse)/i,
+               // silent escalation banner (2026-07-09: missed "joinING" → dead turns were
+               // recorded as empty AI failures instead of an honest handover)
+               /(is |agent )joining the (chat|conversation)/i, /will respond as soon as they join/i,
+               // verification/login gate — the AI won't proceed unattended past this point
+               /verify order details/i, /once you.?re logged in/i, /please (log|sign) in to (continue|proceed|verify)/i],
     async open(page) {
       await dismiss(page);
       // widget bundle loads a couple seconds after a real-UA 'load'; wait for it
@@ -349,7 +354,9 @@ export const WIDGETS = {
   // the greeting renders. HEADED-ONLY (headless stalls at "Bot is typing").
   dg: {
     scope: { kind: "frame", match: "dg-chat-widget-iframe" },
-    handover: [/connect you (with|to) (one of )?(our|an?) (agent|team|advisor|colleague)/i, /transfer(ring)? you (to|over)/i, /someone available to help/i, /a member of our team/i, /reply to you via email/i, /in the queue/i],
+    handover: [/connect you (with|to) (one of )?(our|an?) (agent|team|advisor|colleague)/i, /transfer(ring)? you (to|over)/i, /someone available to help/i, /a member of our team/i, /reply to you via email/i, /in the queue/i,
+               // email-escalation button menu: AI stops answering free text past this point (2026-07-09)
+               /submit an email and we.?ll (come|get) back/i],
     async open(page) {
       await page.waitForTimeout(3000); await dismiss(page);
       await page.waitForFunction(() => !!(window.dgchat && window.dgchat.methods && window.dgchat.methods.launchWidget), null, { timeout: 30000 }).catch(() => {});
