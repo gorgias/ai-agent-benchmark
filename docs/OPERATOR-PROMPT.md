@@ -74,7 +74,7 @@ balancer — it does exactly this:
 2. node verify-data.js                        # QUALITY GATE — must print PASSED; if it fails, FIX
                                               # the pipeline (usually: unjudged convs → rerun step 2)
 3. node --test ./*.test.js                    # 52+ tests must pass
-4. From repo root: branch off origin/master, commit report.html, takeaways.html,
+4. From repo root: branch off origin/master, commit report.html, conv-text.json, takeaways.html,
    runner/eval-scores.json, runner/results/<date>/conv (git add the conv DIR — new + modified),
    push, open a PR with a body stating: convs added per vendor, new dataset totals
    (takeaways sync line prints them), judge batch means. Squash-merge it yourself

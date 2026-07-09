@@ -101,7 +101,9 @@ do not ship. CI runs this + the unit tests on every PR (`.github/workflows/tests
 ## 6. Deploy
 
 ```bash
-git checkout -B <branch> origin/master && git add -A && git commit && git push -u origin <branch>
+git checkout -B <branch> origin/master
+git add -A          # bake outputs: report.html + conv-text.json (lazy turn text) + takeaways.html + eval-scores + convs
+git commit && git push -u origin <branch>
 gh pr create … && gh pr merge <pr> --squash --delete-branch
 gh api -X POST repos/gorgias/ai-agent-benchmark/pages/builds     # force Pages build
 curl -s https://gorgias.github.io/ai-agent-benchmark/report.html | grep <marker>  # verify live
