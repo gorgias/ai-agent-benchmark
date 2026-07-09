@@ -23,8 +23,10 @@ const TABLE = {
   gorgias: [
     /(is |agent )joining the (chat|conversation)/i,
     /will respond as soon as they join/i,
-    /verify order details/i,
-    /once you.?re logged in/i,
+    // NB: do NOT add "verify order details" / "once you're logged in" here — they are a
+    // trailing UI button + optional-help phrasing appended AFTER a complete automated
+    // answer, not an escalation. See revert-gorgias-false-gate.mjs (2026-07-10).
+    /please (log|sign) in to (continue|proceed|verify)/i,
   ],
   dg: [/submit an email and we.?ll (come|get) back/i],
   siena: [/routed to (a )?human agent/i, /we.?ll (follow up|reach out to you)( shortly)?( with more information)? via e-?mail/i],

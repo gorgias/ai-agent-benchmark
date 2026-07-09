@@ -28,6 +28,11 @@ import { execFileSync } from "node:child_process";
 import { stripWidgetChrome } from "../reply-clean.js";
 
 const FIX = process.argv.includes("--fix");
+// Phrasings that look gate-ish but are trailing UI buttons / optional-help text appended
+// AFTER a complete automated answer — must NEVER be learned as escalation gates (the
+// 2026-07-10 Gorgias regression). A real gate uses escalation SEMANTICS instead.
+const KNOWN_FALSE_GATE = /verify order details|(once |if ).{0,20}logged? in|log in (so|to check)|check your order|track your order|view (your )?order/i;
+const ESCALATION_SEMANTICS = /\b(human|agent|team|teammate|representative|colleague|advisor|specialist|associate|concierge|join(ing|ed)?|transfer|escalat|hand(ed|ing)? off|connect you|reach out|get back to you|follow up|respond|via e-?mail|leave your e-?mail|in the queue|be with you|shortly)\b/i;
 const HOURS = Number((process.argv.find((a) => /^\d+$/.test(a))) || 24 * 14);
 const cut = Date.now() - HOURS * 3600 * 1000;
 const out = { checkedConvs: 0, stallTimed: [], bleed: [], midDeath: [], unjudged: 0, stallVocabCandidates: {}, gateCandidates: {} };
@@ -72,6 +77,13 @@ for (const d of readdirSync("results").filter((x) => /^\d{4}-\d{2}-\d{2}$/.test(
         const tailLines = (prev?.replyText || "").split(/\n+/).map((x) => x.trim()).filter(Boolean).slice(-3);
         tailLines.forEach((line) => {
           if (/^(⚡\s*)?(powered\s)?by\s/i.test(line) || /give us feedback|^ask |says:$|specialist$|feedback$/i.test(line)) return;   // chrome, not an escalation line
+          // DENYLIST — trailing UI buttons / optional-help phrasing that appear AFTER a
+          // complete automated answer. These are NOT gates; harvesting them once nuked 54
+          // Gorgias convs (2026-07-10). Never re-propose them as escalation candidates.
+          if (KNOWN_FALSE_GATE.test(line)) return;
+          // an escalation candidate must actually SOUND like a handoff/gate — otherwise it is
+          // ordinary answer content (e.g. "no, different discount") that happens to end a turn.
+          if (!ESCALATION_SEMANTICS.test(line)) return;
           if (line.length >= 12 && line.length <= 90) {
             const k = `${j.vendor} :: ${line.toLowerCase()}`;
             out.gateCandidates[k] = (out.gateCandidates[k] || 0) + 1;
