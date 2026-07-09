@@ -88968,7 +88968,22 @@ const SUPPORT = [
    "engaged": 1,
    "rate": 100
   },
-  "evalq": null,
+  "evalq": {
+   "n": 1,
+   "total": 39,
+   "dims": {
+    "resolution": 22,
+    "accuracy": 5,
+    "actionability": 12,
+    "close": 0
+   },
+   "cls": {
+    "partial": 1
+   },
+   "learnings": [
+    "The agent correctly gated order-specific lookups behind email verification and handed over to a specialist, but it also refused answerable generic shipping-policy questions, leaving the shopper with zero substantive information."
+   ]
+  },
   "guard": null,
   "ticket": null,
   "what": "1 cold private conversations (support themes). No handover in any theme. Avg end-to-end latency ~9.5s across 7 AI-timed turns.",
@@ -88983,6 +88998,17 @@ const SUPPORT = [
     "successTxt": "70%",
     "handoverTurn": null,
     "ticket": null,
+    "ev": {
+     "total": 39,
+     "cls": "partial",
+     "dims": {
+      "resolution": 22,
+      "accuracy": 5,
+      "actionability": 12,
+      "close": 0
+     },
+     "note": "The agent correctly gated order-specific lookups behind email verification and handed over to a specialist, but it also refused answerable generic shipping-policy questions, leaving the shopper with zero substantive information."
+    },
     "turns": [
      {
       "q": "I placed an order a few days ago and still have no tracking, where is it?",
@@ -124368,24 +124394,375 @@ const SUPPORT = [
   "locale": "en-US",
   "method": "new",
   "us": true,
-  "lat": "—",
-  "latPct": 0,
-  "success": null,
-  "successTxt": "—",
+  "lat": "~38.6s",
+  "latPct": 100,
+  "latP75": 39.9,
+  "ttft": 38.9,
+  "delivery": "atomic",
+  "success": 30,
+  "successTxt": "30%",
+  "avgTurns": 10,
+  "timed": 3,
+  "attempted": 10,
   "auto": {
-   "automated": 1,
+   "automated": 5,
    "handover": 0,
    "deflected": 0,
    "no_answer": 0,
-   "engaged": 1,
+   "engaged": 5,
    "rate": 100
   },
-  "evalq": null,
+  "evalq": {
+   "n": 1,
+   "total": 22,
+   "dims": {
+    "resolution": 10,
+    "accuracy": 12,
+    "actionability": 0,
+    "close": 0
+   },
+   "cls": {
+    "failed": 1
+   },
+   "learnings": [
+    "The agent left 7 of 10 damaged-item questions entirely unanswered and its one substantive reply answered an unrelated meal-photo app question, delivering zero usable damage-claim guidance."
+   ]
+  },
   "guard": null,
-  "what": "Engaged 1 conversation(s) but none produced ≥3 timed AI answers — Counted in automation rate, excluded from latency.",
-  "datetime": null,
-  "themes": [],
-  "turns": []
+  "ticket": null,
+  "what": "1 cold private conversations (support themes). No handover in any theme. Avg end-to-end latency ~38.6s across 3 AI-timed turns.",
+  "datetime": "2026-07-08T16:58:10.604Z",
+  "themes": [
+   {
+    "key": "damaged",
+    "label": "Damaged / faulty item",
+    "datetime": "2026-07-08T16:58:10.604Z",
+    "lat": "~38.6s",
+    "success": 30,
+    "successTxt": "30%",
+    "handoverTurn": null,
+    "ticket": null,
+    "ev": {
+     "total": 22,
+     "cls": "failed",
+     "dims": {
+      "resolution": 10,
+      "accuracy": 12,
+      "actionability": 0,
+      "close": 0
+     },
+     "note": "The agent left 7 of 10 damaged-item questions entirely unanswered and its one substantive reply answered an unrelated meal-photo app question, delivering zero usable damage-claim guidance."
+    },
+    "turns": [
+     {
+      "q": "My order arrived and one item is damaged, what do I do?",
+      "a": "(streamed past timing window) Oura virtual assistant\n12:58 PM\nHi! I'm Finn, Oura's virtual assistant.\nI'm able to help with most questions, so let's get started. How can I help you?\nBy using Oura's virtual assistant, you agree to your data being processed by third parties as described in our Privacy Policy.",
+      "by": "ai",
+      "lat": null,
+      "fl": [
+       {
+        "t": "no timed answer",
+        "k": "bad"
+       },
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "Is a damaged item handled differently from a normal return?",
+      "a": "(streamed past timing window) Oura virtual assistant\n12:58 PM\nHi! I'm Finn, Oura's virtual assistant.\nI'm able to help with most questions, so let's get started. How can I help you?\n1:01 PM\nMy order arrived and one item is damaged, what do I do?\nBy using Oura's virtual assistant, you agree to your data being processed by third parties as described in our Privacy Policy.",
+      "by": "ai",
+      "lat": null,
+      "fl": [
+       {
+        "t": "no timed answer",
+        "k": "bad"
+       },
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 33
+     },
+     {
+      "q": "Do you need photos, and where do I send them?",
+      "a": "If you want to add meal photos, you can do that directly in the Oura App when logging a meal by taking a photo or uploading one from your phone; there is no separate place to send them.\nIf you mean a different kind of photo, please tell me what it is for.\nBy using Oura's virtual assistant, you agree to your data being processed by third parties as described in our Privacy Policy.",
+      "by": "ai",
+      "lat": 39.9,
+      "cov": 67
+     },
+     {
+      "q": "Will I get a replacement or a refund?",
+      "a": "(streamed past timing window) By using Oura's virtual assistant, you agree to your data being processed by third parties as described in our Privacy Policy.",
+      "by": "ai",
+      "lat": null,
+      "fl": [
+       {
+        "t": "no timed answer",
+        "k": "bad"
+       },
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "Do I have to pay anything to return the damaged item?",
+      "a": "(streamed past timing window) By using Oura's virtual assistant, you agree to your data being processed by third parties as described in our Privacy Policy.",
+      "by": "ai",
+      "lat": null,
+      "fl": [
+       {
+        "t": "no timed answer",
+        "k": "bad"
+       },
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "How long does the replacement take?",
+      "a": "(streamed past timing window) By using Oura's virtual assistant, you agree to your data being processed by third parties as described in our Privacy Policy.",
+      "by": "ai",
+      "lat": null,
+      "fl": [
+       {
+        "t": "no timed answer",
+        "k": "bad"
+       },
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       },
+       {
+        "t": "no timeframe given",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "What if more than one item in my order is affected?",
+      "a": "(streamed past timing window) By using Oura's virtual assistant, you agree to your data being processed by third parties as described in our Privacy Policy.",
+      "by": "ai",
+      "lat": null,
+      "fl": [
+       {
+        "t": "no timed answer",
+        "k": "bad"
+       },
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "Can I keep the damaged item or must I ship it back?",
+      "a": "I can check whether you may be eligible for a replacement.\nWhat issue is your Oura ring having that makes you want a replacement?\nBy using Oura's virtual assistant, you agree to your data being processed by third parties as described in our Privacy Policy.",
+      "by": "ai",
+      "lat": 36.9,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 0
+     },
+     {
+      "q": "Will the replacement ship with priority?",
+      "a": "I can check whether you may be eligible for a replacement.\nWhat issue is your Oura ring having that makes you want a replacement?\nBy using Oura's virtual assistant, you agree to your data being processed by third parties as described in our Privacy Policy.",
+      "by": "ai",
+      "lat": 38.9,
+      "fl": [
+       {
+        "t": "missed part of the ask",
+        "k": "warn"
+       }
+      ],
+      "cov": 25
+     },
+     {
+      "q": "What if the replacement is also damaged?",
+      "a": "(streamed past timing window) :41 PM\nCan I keep the damaged item or must I ship it back?\nI can check whether you may be eligible for a replacement.\nWhat issue is your Oura ring having that makes you want a replacement?\n1:42 PM\nI can check whether you may be eligible for a replacement.\nWhat issue is your Oura ring having that makes you want a replacement?\nBy using Oura's virtual assistant, you agree to your data being processed by third parties as described in our Privacy Policy.",
+      "by": "ai",
+      "lat": null,
+      "fl": [
+       {
+        "t": "no timed answer",
+        "k": "bad"
+       }
+      ],
+      "cov": 67
+     }
+    ]
+   }
+  ],
+  "turns": [
+   {
+    "q": "My order arrived and one item is damaged, what do I do?",
+    "a": "(streamed past timing window) Oura virtual assistant\n12:58 PM\nHi! I'm Finn, Oura's virtual assistant.\nI'm able to help with most questions, so let's get started. How can I help you?\nBy using Oura's virtual assistant, you agree to your data being processed by third parties as described in our Privacy Policy.",
+    "by": "ai",
+    "lat": null,
+    "fl": [
+     {
+      "t": "no timed answer",
+      "k": "bad"
+     },
+     {
+      "t": "missed part of the ask",
+      "k": "warn"
+     }
+    ],
+    "cov": 0
+   },
+   {
+    "q": "Is a damaged item handled differently from a normal return?",
+    "a": "(streamed past timing window) Oura virtual assistant\n12:58 PM\nHi! I'm Finn, Oura's virtual assistant.\nI'm able to help with most questions, so let's get started. How can I help you?\n1:01 PM\nMy order arrived and one item is damaged, what do I do?\nBy using Oura's virtual assistant, you agree to your data being processed by third parties as described in our Privacy Policy.",
+    "by": "ai",
+    "lat": null,
+    "fl": [
+     {
+      "t": "no timed answer",
+      "k": "bad"
+     },
+     {
+      "t": "missed part of the ask",
+      "k": "warn"
+     }
+    ],
+    "cov": 33
+   },
+   {
+    "q": "Do you need photos, and where do I send them?",
+    "a": "If you want to add meal photos, you can do that directly in the Oura App when logging a meal by taking a photo or uploading one from your phone; there is no separate place to send them.\nIf you mean a different kind of photo, please tell me what it is for.\nBy using Oura's virtual assistant, you agree to your data being processed by third parties as described in our Privacy Policy.",
+    "by": "ai",
+    "lat": 39.9,
+    "cov": 67
+   },
+   {
+    "q": "Will I get a replacement or a refund?",
+    "a": "(streamed past timing window) By using Oura's virtual assistant, you agree to your data being processed by third parties as described in our Privacy Policy.",
+    "by": "ai",
+    "lat": null,
+    "fl": [
+     {
+      "t": "no timed answer",
+      "k": "bad"
+     },
+     {
+      "t": "missed part of the ask",
+      "k": "warn"
+     }
+    ],
+    "cov": 0
+   },
+   {
+    "q": "Do I have to pay anything to return the damaged item?",
+    "a": "(streamed past timing window) By using Oura's virtual assistant, you agree to your data being processed by third parties as described in our Privacy Policy.",
+    "by": "ai",
+    "lat": null,
+    "fl": [
+     {
+      "t": "no timed answer",
+      "k": "bad"
+     },
+     {
+      "t": "missed part of the ask",
+      "k": "warn"
+     }
+    ],
+    "cov": 0
+   },
+   {
+    "q": "How long does the replacement take?",
+    "a": "(streamed past timing window) By using Oura's virtual assistant, you agree to your data being processed by third parties as described in our Privacy Policy.",
+    "by": "ai",
+    "lat": null,
+    "fl": [
+     {
+      "t": "no timed answer",
+      "k": "bad"
+     },
+     {
+      "t": "missed part of the ask",
+      "k": "warn"
+     },
+     {
+      "t": "no timeframe given",
+      "k": "warn"
+     }
+    ],
+    "cov": 0
+   },
+   {
+    "q": "What if more than one item in my order is affected?",
+    "a": "(streamed past timing window) By using Oura's virtual assistant, you agree to your data being processed by third parties as described in our Privacy Policy.",
+    "by": "ai",
+    "lat": null,
+    "fl": [
+     {
+      "t": "no timed answer",
+      "k": "bad"
+     },
+     {
+      "t": "missed part of the ask",
+      "k": "warn"
+     }
+    ],
+    "cov": 0
+   },
+   {
+    "q": "Can I keep the damaged item or must I ship it back?",
+    "a": "I can check whether you may be eligible for a replacement.\nWhat issue is your Oura ring having that makes you want a replacement?\nBy using Oura's virtual assistant, you agree to your data being processed by third parties as described in our Privacy Policy.",
+    "by": "ai",
+    "lat": 36.9,
+    "fl": [
+     {
+      "t": "missed part of the ask",
+      "k": "warn"
+     }
+    ],
+    "cov": 0
+   },
+   {
+    "q": "Will the replacement ship with priority?",
+    "a": "I can check whether you may be eligible for a replacement.\nWhat issue is your Oura ring having that makes you want a replacement?\nBy using Oura's virtual assistant, you agree to your data being processed by third parties as described in our Privacy Policy.",
+    "by": "ai",
+    "lat": 38.9,
+    "fl": [
+     {
+      "t": "missed part of the ask",
+      "k": "warn"
+     }
+    ],
+    "cov": 25
+   },
+   {
+    "q": "What if the replacement is also damaged?",
+    "a": "(streamed past timing window) :41 PM\nCan I keep the damaged item or must I ship it back?\nI can check whether you may be eligible for a replacement.\nWhat issue is your Oura ring having that makes you want a replacement?\n1:42 PM\nI can check whether you may be eligible for a replacement.\nWhat issue is your Oura ring having that makes you want a replacement?\nBy using Oura's virtual assistant, you agree to your data being processed by third parties as described in our Privacy Policy.",
+    "by": "ai",
+    "lat": null,
+    "fl": [
+     {
+      "t": "no timed answer",
+      "k": "bad"
+     }
+    ],
+    "cov": 67
+   }
+  ]
  },
  {
   "id": "decagon-curology-support-pending",

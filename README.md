@@ -86,9 +86,21 @@ node eval-audit.js pack /tmp/audit 24  # adversarial audit sample → audit batc
 #   → hand audit batches to an auditor subagent, outputs audited-*.json
 node eval-audit.js merge /tmp/audit    # fold audit back (flips + re-derive), writes eval-audit.json
 node gen.js                            # bake the scores in
+node verify-data.js                    # QUALITY GATE — invariants + judge coverage; must pass before deploy
 ```
 
 **Weekly, zero-touch:** `runner/weekly-local.sh` runs via a launchd job (Monday 07:00) — capture → gen → commit → push. Costs zero GitHub Actions minutes. The cloud sharded workflow (`.github/workflows/benchmark-cloud.yml`) is a manual fallback only.
+
+**Parallel capture** is safe by design: every conversation is claimed via a cross-process
+lock (`results/<date>/conv/.locks/`), so several `run.js` instances — the equalization
+balancer (`runner/tools/balance.mjs`), a manual top-up, an overnight stream — can run at
+the same time without double-capturing. Operating limits (≤3 streams on a laptop, the
+`LOAD_CAP` pause, disjoint vendor lists, teardown by PID) are in **`docs/RUNBOOK.md`** —
+the end-to-end operations guide for this repo.
+
+**CI:** every PR runs the unit suites (classifier, reply-cleaner, turn-quality,
+message-style, product-recs — `runner/*.test.js`) plus the data quality gate
+(`.github/workflows/tests.yml`).
 
 ---
 
@@ -103,10 +115,15 @@ runner/
   classify.js       pure, unit-tested logic (validity, handover, deflection, outcome,
                     guardrail-leak, connectivity-fail)
   classify.test.js  node --test suite
-  gen.js            aggregate results/ → bake report.html + takeaways.html (single source of truth)
-  eval-pack.js / eval-merge.js   LLM-judge quality pipeline
-  tools/            vendored CDP scripts (wire-level latency, adapted from Roman's method)
-  results/<date>/conv/*.json      one file per conversation (durable, resumable)
+  gen.js            aggregate results/ → bake report.html + takeaways.html (single source of truth;
+                    DELIVERY_OVERRIDE pins streaming/atomic per engine)
+  eval-pack.js / eval-merge.js   LLM-judge quality pipeline (blind batches → scored arrays)
+  verify-data.js    pre-deploy QUALITY GATE: baked-data invariants + judge-coverage threshold
+  reply-clean.js    isolates AI prose from widget-DOM scrape (display + judge input); unit-tested
+  tools/balance.mjs equalization balancer — water-fills the least-represented vendor (LOAD_CAP guard)
+  results/<date>/conv/*.json      one file per conversation (durable, resumable, NEVER moved/archived)
+docs/RUNBOOK.md     end-to-end operations: capture → judge → merge → bake → verify → deploy,
+                    parallel-capture rules, teardown hygiene, troubleshooting, vendor quirks
 report.html         detailed interactive report      takeaways.html   board summary
 index.html          Pages landing (noindex → Summary)
 ```

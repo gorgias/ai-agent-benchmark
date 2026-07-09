@@ -217337,5 +217337,607 @@
    "runner": "eval-merge.js",
    "schema": 1
   }
+ },
+ "2026-07-08/decagon-oura-support-damaged.json": {
+  "v": 2,
+  "mode": "support",
+  "rubric": {
+   "resolution": 10,
+   "accuracy": 12,
+   "actionability": 0,
+   "close": 0
+  },
+  "total": 22,
+  "checks": {
+   "s_answered": {
+    "pass": false,
+    "evidence": "Primary ask 'My order arrived and one item is damaged, what do I do?' received no reply at all; the only substantive reply addresses an unrelated topic: 'If you"
+   },
+   "s_outcome": {
+    "pass": false,
+    "evidence": "No resolution and no handover; conversation ends with 'What if the replacement is also damaged?' receiving no reply"
+   },
+   "s_no_deflect": {
+    "pass": true,
+    "evidence": "I can check whether you may be eligible for a replacement."
+   },
+   "g_specific": {
+    "pass": false,
+    "evidence": "No concrete store-specific facts about the damaged-item process were given — no timeframe, cost, policy term, or condition; 7 of 10 turns got no reply"
+   },
+   "g_consistent": {
+    "pass": true,
+    "evidence": "I can check whether you may be eligible for a replacement. What issue is your the store ring having that makes you want a replacement?"
+   },
+   "g_grounded": {
+    "pass": true,
+    "evidence": "you can do that directly in the the store App when logging a meal by taking a photo or uploading one from your phone; there is no separate place to send them"
+   },
+   "t_steps": {
+    "pass": false,
+    "evidence": "No executable steps for the damaged item were ever given; questions like 'Will I get a replacement or a refund?' and 'Do I have to pay anything to return the da"
+   },
+   "t_complete": {
+    "pass": false,
+    "evidence": "The actual ask (what to do about a damaged item in the order) was never addressed; the photo question was answered about app meal photos instead of damage-claim"
+   },
+   "k_expectations": {
+    "pass": false,
+    "evidence": "No WHO or WHEN was ever set; no timeframe appears anywhere in the replies"
+   },
+   "k_clean": {
+    "pass": false,
+    "evidence": "Conversation ends mid-issue with the final question 'What if the replacement is also damaged?' left with an empty reply"
+   }
+  },
+  "turn_quality": {
+   "schema": 1,
+   "turns": [
+    {
+     "turn": 1,
+     "measured": false,
+     "by": "ai",
+     "complete_ms": null,
+     "answer_chars": 278,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "order",
+       "arrived",
+       "one",
+       "item",
+       "damaged"
+      ]
+     },
+     "substantive": false,
+     "flags": [
+      "no_measured_answer",
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 2,
+     "measured": false,
+     "by": "ai",
+     "complete_ms": null,
+     "answer_chars": 342,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 2,
+      "ratio": 0.33,
+      "missing": [
+       "handled",
+       "differently",
+       "normal",
+       "return"
+      ]
+     },
+     "substantive": false,
+     "flags": [
+      "no_measured_answer",
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 3,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 39902,
+     "answer_chars": 382,
+     "keyword_coverage": {
+      "asked": 3,
+      "matched": 2,
+      "ratio": 0.67,
+      "missing": [
+       "need"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 4,
+     "measured": false,
+     "by": "ai",
+     "complete_ms": null,
+     "answer_chars": 126,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "will",
+       "get",
+       "replacement",
+       "refund"
+      ]
+     },
+     "substantive": false,
+     "flags": [
+      "no_measured_answer",
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 5,
+     "measured": false,
+     "by": "ai",
+     "complete_ms": null,
+     "answer_chars": 126,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "pay",
+       "anything",
+       "return",
+       "damaged",
+       "item"
+      ]
+     },
+     "substantive": false,
+     "flags": [
+      "no_measured_answer",
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 6,
+     "measured": false,
+     "by": "ai",
+     "complete_ms": null,
+     "answer_chars": 126,
+     "keyword_coverage": {
+      "asked": 3,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "long",
+       "replacement",
+       "take"
+      ]
+     },
+     "substantive": false,
+     "flags": [
+      "no_measured_answer",
+      "low_question_coverage",
+      "missing_timeframe"
+     ]
+    },
+    {
+     "turn": 7,
+     "measured": false,
+     "by": "ai",
+     "complete_ms": null,
+     "answer_chars": 126,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "more",
+       "than",
+       "one",
+       "item",
+       "order",
+       "affected"
+      ]
+     },
+     "substantive": false,
+     "flags": [
+      "no_measured_answer",
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 8,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 36889,
+     "answer_chars": 256,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "keep",
+       "damaged",
+       "item",
+       "must",
+       "ship",
+       "back"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 9,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 38930,
+     "answer_chars": 256,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 1,
+      "ratio": 0.25,
+      "missing": [
+       "will",
+       "ship",
+       "priority"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 10,
+     "measured": false,
+     "by": "ai",
+     "complete_ms": null,
+     "answer_chars": 453,
+     "keyword_coverage": {
+      "asked": 3,
+      "matched": 2,
+      "ratio": 0.67,
+      "missing": [
+       "also"
+      ]
+     },
+     "substantive": false,
+     "flags": [
+      "no_measured_answer"
+     ]
+    }
+   ],
+   "summary": {
+    "total_turns": 10,
+    "measured_turns": 3,
+    "substantive_turns": 3,
+    "issue_turns": 9,
+    "issue_rate": 0.9
+   }
+  },
+  "resolution_class": "failed",
+  "learning": "The agent left 7 of 10 damaged-item questions entirely unanswered and its one substantive reply answered an unrelated meal-photo app question, delivering zero usable damage-claim guidance.",
+  "judged_at": null,
+  "judge": {
+   "origin": "claude",
+   "origin_explicit": false,
+   "runner": "eval-merge.js",
+   "schema": 1
+  }
+ },
+ "2026-07-08/siena-figs-support-tracking.json": {
+  "v": 2,
+  "mode": "support",
+  "rubric": {
+   "resolution": 22,
+   "accuracy": 5,
+   "actionability": 12,
+   "close": 0
+  },
+  "total": 39,
+  "checks": {
+   "s_answered": {
+    "pass": false,
+    "evidence": "Even non-account-specific policy questions were refused pending verification: 'I can help with that as soon as we confirm it's really you — please reply with th"
+   },
+   "s_outcome": {
+    "pass": true,
+    "evidence": "Thanks for sharing that. I'll be sharing this with my team now and you will be connected with a specialist shortly! If this is still correct (johncarrow14@gmail"
+   },
+   "s_no_deflect": {
+    "pass": true,
+    "evidence": "you will be connected with a specialist shortly!"
+   },
+   "g_specific": {
+    "pass": false,
+    "evidence": "No concrete store-specific facts were given — no shipping timeframe, delivery window, or policy term; every reply was a verification prompt such as 'please repl"
+   },
+   "g_consistent": {
+    "pass": true,
+    "evidence": "Just to make sure I'm chatting with the right person and keep your account safe before I share any details, I've sent a 6-digit code to jo**@**ail.com."
+   },
+   "g_grounded": {
+    "pass": false,
+    "evidence": "No policy or product claims were made at all — only identity-verification prompts, so nothing grounded in this store's policies was delivered"
+   },
+   "t_steps": {
+    "pass": true,
+    "evidence": "please reply with the 6-digit code sent to your email"
+   },
+   "t_complete": {
+    "pass": false,
+    "evidence": "None of the substantive asks were covered — 'How long does it normally take to ship and send a tracking number?' and 'Once it ships, how long is delivery?' got "
+   },
+   "k_expectations": {
+    "pass": false,
+    "evidence": "'you will be connected with a specialist shortly!' names WHO but gives only a vague 'shortly' with no timeframe"
+   },
+   "k_clean": {
+    "pass": false,
+    "evidence": "The final three questions, including 'My tracking says delivered but I didn't receive it, what now?', received empty replies — the conversation ends dangling"
+   }
+  },
+  "turn_quality": {
+   "schema": 1,
+   "turns": [
+    {
+     "turn": 1,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 9261,
+     "answer_chars": 183,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "placed",
+       "order",
+       "few",
+       "days",
+       "ago",
+       "still",
+       "tracking"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 2,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 10753,
+     "answer_chars": 122,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "long",
+       "normally",
+       "take",
+       "ship",
+       "send",
+       "tracking",
+       "number"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage",
+      "missing_timeframe"
+     ]
+    },
+    {
+     "turn": 3,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 7301,
+     "answer_chars": 107,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 1,
+      "ratio": 0.25,
+      "missing": [
+       "ships",
+       "long",
+       "delivery"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage",
+      "missing_timeframe"
+     ]
+    },
+    {
+     "turn": 4,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 6269,
+     "answer_chars": 117,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "there",
+       "any",
+       "way",
+       "speed",
+       "need",
+       "sooner"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 5,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 18766,
+     "answer_chars": 218,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "should",
+       "tracking",
+       "never",
+       "updates"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 6,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 5789,
+     "answer_chars": 139,
+     "keyword_coverage": {
+      "asked": 3,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "find",
+       "tracking",
+       "link"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 7,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 8432,
+     "answer_chars": 194,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 1,
+      "ratio": 0.25,
+      "missing": [
+       "check",
+       "status",
+       "latest"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 8,
+     "measured": false,
+     "by": "ai",
+     "complete_ms": null,
+     "answer_chars": 21,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "tracking",
+       "says",
+       "delivered",
+       "didn",
+       "receive",
+       "now"
+      ]
+     },
+     "substantive": false,
+     "flags": [
+      "no_measured_answer",
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 9,
+     "measured": false,
+     "by": "ai",
+     "complete_ms": null,
+     "answer_chars": 0,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "reroute",
+       "package",
+       "different",
+       "address"
+      ]
+     },
+     "substantive": false,
+     "flags": [
+      "no_measured_answer",
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 10,
+     "measured": false,
+     "by": "ai",
+     "complete_ms": null,
+     "answer_chars": 0,
+     "keyword_coverage": {
+      "asked": 3,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "compensate",
+       "long",
+       "delay"
+      ]
+     },
+     "substantive": false,
+     "flags": [
+      "no_measured_answer",
+      "low_question_coverage"
+     ]
+    }
+   ],
+   "summary": {
+    "total_turns": 10,
+    "measured_turns": 7,
+    "substantive_turns": 7,
+    "issue_turns": 10,
+    "issue_rate": 1
+   }
+  },
+  "resolution_class": "partial",
+  "learning": "The agent correctly gated order-specific lookups behind email verification and handed over to a specialist, but it also refused answerable generic shipping-policy questions, leaving the shopper with zero substantive information.",
+  "judged_at": null,
+  "judge": {
+   "origin": "claude",
+   "origin_explicit": false,
+   "runner": "eval-merge.js",
+   "schema": 1
+  }
  }
 }
