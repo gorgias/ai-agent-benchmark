@@ -166,6 +166,44 @@ async function timeTurn(page, scope, sendFn, q) {
   return { ttft_ms: ttft, complete_ms: complete, grew: lastLen - before, growth_events: growthEvents };
 }
 
+// TURN-BOUNDARY GUARDS (Kodif bug, 2026-07-09). A slow answer that outlives TURN_TIMEOUT
+// used to land INSIDE the next turn's window: turn N recorded empty ("streamed past timing
+// window"), then answer(N) contaminated turn N+1's delta and was timed as N+1's latency —
+// bundled/mixed answers in the report and bogus timings. Probe on kodif-neuro showed the
+// longest silent gap WITHIN a legitimate generation is ~4.1s (stall → token stream), so a
+// 6s quiet window cleanly separates "still generating" from "done".
+const QUIET_MS = 6000, QUIESCE_CAP_MS = 30000;
+const LATE_GRACE_MS = Number(process.env.LATE_GRACE_MS) || 60000;
+
+// Never SEND into an active stream: wait until the transcript has been still for QUIET_MS
+// and the tail is not a typing/stall indicator (bounded by QUIESCE_CAP_MS).
+async function quiesceTranscript(page, scope) {
+  const t0 = Date.now();
+  let last = (await readTranscript(page, scope)).len, lastChange = Date.now();
+  while (Date.now() - t0 < QUIESCE_CAP_MS) {
+    await sleep(500);
+    const { len, text } = await readTranscript(page, scope);
+    if (len !== last) { last = len; lastChange = Date.now(); continue; }
+    if (Date.now() - lastChange >= QUIET_MS && !isGen(text)) return;
+  }
+}
+
+// A turn that timed out may still be generating — wait up to LATE_GRACE_MS for the stream
+// to land and settle, and attribute it to THIS turn with its TRUE latency (measured from
+// send). Honest measurement: the answer really took that long; it is late, not absent.
+async function lateFlush(page, scope, sentAt) {
+  const t0 = Date.now();
+  let last = (await readTranscript(page, scope)).len, lastChange = null, grew = 0;
+  while (Date.now() - t0 < LATE_GRACE_MS) {
+    await sleep(500);
+    const { len, text } = await readTranscript(page, scope);
+    if (len !== last) { if (len > last) grew += len - last; last = len; lastChange = Date.now(); continue; }
+    if (grew > 120 && lastChange && Date.now() - lastChange >= QUIET_MS && !isGen(text) && !isNoAnswer(text))
+      return { complete_ms: lastChange - sentAt };
+  }
+  return null;
+}
+
 // NETWORK-timed turn — for closed widgets (Rep AI, Humind) whose DOM is awkward but
 // whose assistant reply arrives on a known backend endpoint. t0 = send; complete =
 // when the last new reply payload arrived after t0 and then went quiet for STABLE_MS.
@@ -311,12 +349,22 @@ async function runStoreMode(browser, store, mode, theme) {
         handoverTail = replyTail = net.replies.slice(-3).map(x => x.text).join("  ").slice(-700);
         replyFull = r.replyText || replyTail;   // timeTurnNet already joins this turn's full replies
       } else {
+        // never send into an active stream (turn-boundary guard — see quiesceTranscript)
+        await quiesceTranscript(page, w.scope);
         const beforeAssistant = store.widget === "yuma"
           ? await readLatestAssistantReply(page, w.scope).catch(() => "")
           : "";
         const beforeText = (await readTranscript(page, w.scope)).text;
+        const sentAt = Date.now();
         try { r = await withTimeout(timeTurn(page, w.scope, () => w.send(page, q), q), TURN_TIMEOUT_MS + 15000, "turn"); }
         catch (e) { r = { ttft_ms: null, complete_ms: null, error: String(e).slice(0, 120) }; }
+        // turn timed out but the stream may still be running → wait for it and attribute
+        // it to THIS turn with its true (late) latency instead of letting it bleed into
+        // the next turn's window.
+        if (r.complete_ms == null && !r.error) {
+          const lf = await lateFlush(page, w.scope, sentAt);
+          if (lf) { r.complete_ms = lf.complete_ms; r.late = true; }
+        }
         const transcript = (await readTranscript(page, w.scope)).text;
         handoverTail = transcript.slice(-700);
         const latestAssistant = store.widget === "yuma" ? await readLatestAssistantReply(page, w.scope) : "";
@@ -349,7 +397,7 @@ async function runStoreMode(browser, store, mode, theme) {
       // count a human reply's latency — only the AI's own responses are timed.
       const by = handedOver ? "human" : "ai";
       out.turns.push({ turn: i + 1, q, by, ...r, ai_latency_ms: by === "ai" ? r.complete_ms : null, handover: !!handover, handover_hit: handover, replyTail: replyTail.slice(-500), replyText: replyFull });
-      console.log(`  [${store.key}/${mode}/${theme.key}] T${i + 1} ${by === "ai" ? (r.complete_ms ?? "—") + "ms" : "(human)"}${handover ? "  ⛔ HANDOVER: " + handover : ""}`);
+      console.log(`  [${store.key}/${mode}/${theme.key}] T${i + 1} ${by === "ai" ? (r.complete_ms ?? "—") + "ms" : "(human)"}${r.late ? " (late-flush)" : ""}${handover ? "  ⛔ HANDOVER: " + handover : ""}`);
       await sleep(SETTLE_MS);
     }
   } catch (e) {
