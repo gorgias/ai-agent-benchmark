@@ -43,7 +43,7 @@ function isNoiseLine(line, names) {
   if (/^\d{1,2}:\d{2}\s*(am|pm)$/i.test(l)) return true;    // bare clock "06:53 pm" (Kodif)
   if (/^\d+\s?(second|minute|hour|day)s?( ago)?$/i.test(l)) return true; // "14 seconds" / "2 minutes ago"
   // Kodif's rotating progress lines — frozen stall indicators, never prose
-  if (/^(agent is thinking|getting the context|cooking up something( good)?|(got it\.?\s*)?popping the hood|crunching the numbers|connecting the dots|crafting a response( for you)?)[.…]*$/i.test(l)) return true;
+  if (/^(agent is thinking|getting the context|cooking up something( good)?|(got it\.?\s*)?popping the hood|crunching the numbers|connecting the dots|crafting a response( for you)?|putting the pieces together)[.…]*$/i.test(l)) return true;
   // Kodif's DOM role labels (raw node leaks alongside the rendered message)
   if (/^(user )?response:$/i.test(l)) return true;
   if (/^[a-z]{1,2}$/i.test(l)) return true;                 // bare locale/letter line "en" / "E"
