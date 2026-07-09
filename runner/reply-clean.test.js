@@ -68,3 +68,14 @@ test("cleanAnswer keeps the START of the answer and appends an ellipsis when cap
 test("cleanAnswer under the cap is returned unchanged (no ellipsis)", () => {
   assert.equal(cleanAnswer("Short and complete.", "", 220), "Short and complete.");
 });
+
+// ---- Kodif stall/chrome (2026-07-09) -------------------------------------------
+test("Kodif stall lines, am/pm clocks and 'Agent response:' prefix are stripped", () => {
+  const raw = "06:53 pm\nAgent is thinking...\nGetting the context...\nCooking up something good...\nAgent response: Our Executive razor is the best pick for sensitive skin.";
+  assert.equal(stripWidgetChrome(raw, ""), "Our Executive razor is the best pick for sensitive skin.");
+});
+
+test("a stall-only capture strips to (almost) nothing — the mistimed-turn detector's signal", () => {
+  const raw = "06:53 pm\nAgent is thinking...\nGot it. Popping the hood...";
+  assert.ok(stripWidgetChrome(raw, "").length <= 25);
+});

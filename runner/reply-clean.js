@@ -40,7 +40,10 @@ function isNoiseLine(line, names) {
   if (/^\d+\s+products?$/i.test(l)) return true;            // "4 products"
   if (/^[★☆]+$/.test(l)) return true;                       // star glyphs
   if (/^\d{1,2}:\d{2}(:\d{2})?$/.test(l)) return true;      // bare clock "00:14"
+  if (/^\d{1,2}:\d{2}\s*(am|pm)$/i.test(l)) return true;    // bare clock "06:53 pm" (Kodif)
   if (/^\d+\s?(second|minute|hour|day)s?( ago)?$/i.test(l)) return true; // "14 seconds" / "2 minutes ago"
+  // Kodif's rotating progress lines — frozen stall indicators, never prose
+  if (/^(agent is thinking|getting the context|cooking up something( good)?|(got it\.?\s*)?popping the hood|crunching the numbers)[.…]*$/i.test(l)) return true;
   if (/^[a-z]{1,2}$/i.test(l)) return true;                 // bare locale/letter line "en" / "E"
   if (/^.{1,32}\ssays:$/i.test(l)) return true;             // sender label "Grove Guide Team says:"
   if (/^.{1,30}\schat$/i.test(l)) return true;              // widget header "Bloom & Wild Chat"
@@ -59,6 +62,7 @@ const GEN_STATUS = /\b[A-Z][\w'’-]{1,15}(?:\s[A-Z][\w'’-]{1,15}){0,2}\s(?:ha
 function stripInlineNoise(text) {
   return text
     .replace(GEN_STATUS, "")
+    .replace(/\bagent response:\s*/gi, "")                  // Kodif's reply label prefix
     .replace(/\s*\{\}\s*/g, "\n")                           // "{}" template artifacts → block break
     // Rufus feedback widget, flattened inline in old captures: "Your feedback has been
     // submitted! Select All That Apply (optional): This is inaccurate … Dismiss Submit"
