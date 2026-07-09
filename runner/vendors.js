@@ -356,7 +356,9 @@ export const WIDGETS = {
     scope: { kind: "frame", match: "dg-chat-widget-iframe" },
     handover: [/connect you (with|to) (one of )?(our|an?) (agent|team|advisor|colleague)/i, /transfer(ring)? you (to|over)/i, /someone available to help/i, /a member of our team/i, /reply to you via email/i, /in the queue/i,
                // email-escalation button menu: AI stops answering free text past this point (2026-07-09)
-               /submit an email and we.?ll (come|get) back/i],
+               /submit an email and we.?ll (come|get) back/i,
+               // sentinel-learned silent escalations (2026-07-10): Siena routes to a human/email without an explicit 'agent joined' banner
+               /routed to (a )?human agent/i, /we.?ll (follow up|reach out to you)( shortly)?( with more information)?( via e-?mail)?/i],
     async open(page) {
       await page.waitForTimeout(3000); await dismiss(page);
       await page.waitForFunction(() => !!(window.dgchat && window.dgchat.methods && window.dgchat.methods.launchWidget), null, { timeout: 30000 }).catch(() => {});
