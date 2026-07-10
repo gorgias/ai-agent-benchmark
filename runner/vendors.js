@@ -723,6 +723,13 @@ export const STORES = [
   { key: "gorgias-saigu",     vendor: "Gorgias", store: "Saigu Cosmetics",  url: "https://saigu.es/",                widget: "gorgias", locale: "es-ES" },
   { key: "gorgias-keysafe",   vendor: "Gorgias", store: "Keysafe",          url: "https://www.keysafe.co.uk/",       widget: "gorgias", locale: "en-GB" },
   { key: "gorgias-toyworld",  vendor: "Gorgias", store: "Toyworld",         url: "https://www.toyworld.com.au/",     widget: "gorgias", locale: "en-AU" },
+  // Second batch added 2026-07-10 (Max). Gorgias widget verified in static HTML on all except
+  // Blueroot (async-injected — not in static HTML; capture will confirm, else drop like NWA Hype).
+  { key: "gorgias-americanmeadows", vendor: "Gorgias", store: "American Meadows", url: "https://www.americanmeadows.com/", widget: "gorgias", us: true, locale: "en-US" },
+  { key: "gorgias-unfolded",  vendor: "Gorgias", store: "Unfolded",         url: "https://thisisunfolded.com/",      widget: "gorgias", locale: "en-GB" },
+  { key: "gorgias-baiafood",  vendor: "Gorgias", store: "Baia Food",        url: "https://baiafood.com/",            widget: "gorgias", locale: "es-ES" },
+  { key: "gorgias-blueroot",  vendor: "Gorgias", store: "Blueroot Health",  url: "https://blueroothealth.co/",       widget: "gorgias", locale: "en-GB" }, // widget not in static HTML — capture validates
+  { key: "gorgias-masderm",   vendor: "Gorgias", store: "Masderm",          url: "https://masderm.com/",             widget: "gorgias", locale: "fr-FR" },
   // NWA Hype (nwahype.com) dropped: captured 9 conversations, 0 measurable (all —ms — widget never
   // produced a timed answer; unmeasurable like Klaviyo/Humind/Decagon), so no honest data to add.
 
