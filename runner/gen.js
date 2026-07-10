@@ -58,11 +58,13 @@ const LATEST = DATES[DATES.length - 1];
 // Trailing 14-day window (inclusive) for RANKINGS — the point is that older runs matter less
 // as new ones accumulate. ISO date strings compare lexically, so a string cutoff is enough.
 const CUTOFF_14D = (() => { const d = new Date(LATEST + "T00:00:00Z"); d.setUTCDate(d.getUTCDate() - 13); return d.toISOString().slice(0, 10); })();
-// Rankability floor: a vendor needs at least this many judged conversations in the window
-// (one full store's run = 5 themes) to enter the scoreboard/provider ranking. A 1–2 conversation
-// sample (e.g. a freshly-sourced Klaviyo/Decagon store) is statistically meaningless and must
-// never rank — it stays in the prose profiles as "capture in progress" until it has real volume.
-const MIN_RANK_CONVS = 5;
+// Rankability floor: a vendor needs at least this many judged conversations IN A LANE (in the
+// window) to enter the scoreboard / head-to-head ranking. Set to 15 = at least THREE stores'
+// worth (5 themes each) — a board metric shouldn't rank a vendor #1 off a single store, and a
+// 5-conversation deflector (Klaviyo) shouldn't out-rank a 27-conversation vendor on noise
+// (2026-07-10 decision). Below the floor a vendor is still SHOWN in the prose profiles, just
+// not ranked head-to-head — "shown, insufficient sample".
+const MIN_RANK_CONVS = 15;
 console.log(`Generating report data from ${DATES.length} run(s): ${DATES.join(", ")}`);
 
 // Per-CONVERSATION LLM-judge eval scores (eval-scores.json, built by eval-pack/eval-merge +
