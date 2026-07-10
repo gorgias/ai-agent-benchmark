@@ -118,3 +118,25 @@ export function cleanAnswer(rawReplyTail, userQuestion, max = 220, opts = {}) {
   if (a.length <= max) return a;
   return a.slice(0, max).replace(/\s+\S*$/, "") + "…";
 }
+
+// LOGIN / VERIFICATION WALL — the agent tells the (logged-out) shopper to authenticate to
+// proceed. A cold harness can't satisfy it, so once the AI is gated AND then stops producing
+// substantive answers, further scripted questions land in a widget stuck on the login modal
+// and record FAKE empty turns. This is the INVERSE of a trailing "Verify order details"
+// BUTTON that appears after a full answer while the AI keeps answering — that is chrome, not
+// a wall (see the 2026-07-10 false-gate revert). The wall is only real when answers STOP.
+export const LOGIN_GATE = /\b(please (?:log|sign) in\b|log in so (?:we|i) can|once you.?re logged in|verify order details|(?:log|sign) in to (?:view|access|see|check|look up|confirm|continue|proceed))/i;
+
+// Index of the turn where a logged-out harness is stuck on the wall: the first AI turn with
+// no substantive answer AFTER a login gate has appeared. -1 if the AI keeps answering (gate
+// is chrome) or no gate appears. `substantive(turn)` is supplied by the caller because
+// substance depends on stripWidgetChrome + the turn's own question.
+export function loginWallStop(turns, substantive) {
+  let gateSeen = false;
+  for (let i = 0; i < (turns || []).length; i++) {
+    const t = turns[i];
+    if (LOGIN_GATE.test(t.replyText || t.replyTail || "")) gateSeen = true;
+    if (gateSeen && t.by === "ai" && !t.handover && !substantive(t)) return i;
+  }
+  return -1;
+}
