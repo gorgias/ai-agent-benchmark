@@ -83,6 +83,17 @@ else {
 if (!/STATS_JSON:\{/.test(html) && !/data-count="\d+"/.test(html)) warn.push("no STATS marker found in report.html (cosmetic)");
 ok("report.html structure markers present");
 
+// ---- 5. NO leftover git conflict markers in any deployed artifact ----
+// gen.js does targeted in-place replacements, so a merge conflict leaves markers in the
+// prose regions it never touches — they render as raw text on the live page (2026-07-10
+// incident: takeaways.html shipped with <<<<<<< HEAD visible). Hard-fail before deploy.
+const CONFLICT = /^(<{7} |={7}$|>{7} )/m;
+for (const f of ["report.html", "takeaways.html", "conv-text.json"]) {
+  let txt; try { txt = readFileSync(new URL(`../${f}`, import.meta.url), "utf8"); } catch { continue; }
+  if (CONFLICT.test(txt)) fail.push(`${f} contains unresolved git conflict markers (<<<<<<< / ======= / >>>>>>>)`);
+}
+if (!fail.some((f) => /conflict markers/.test(f))) ok("no git conflict markers in deployed artifacts");
+
 // ---- verdict ----
 console.log("");
 warn.forEach((w) => console.log(`  ⚠ ${w}`));
