@@ -24,10 +24,13 @@ import { existsSync, readFileSync, writeFileSync, unlinkSync, mkdirSync } from "
 import { WIDGETS, STORES, readLatestAssistantReply, readTranscript } from "./vendors.js";
 import { SHOPPING_THEMES, SUPPORT_THEMES } from "./pools.js";
 import { isGen, isAck, isNoAnswer, detectHandover, convoValidity } from "./classify.js";
-import { stripWidgetChrome } from "./reply-clean.js";
+import { stripWidgetChrome, LOGIN_GATE } from "./reply-clean.js";
 // Minimum CLEANED prose (chrome/stalls/labels/echo stripped) for a settled transcript to
 // count as an answer — the structural guard against stall-vocabulary whack-a-mole.
 const MIN_SUBSTANCE = 80;
+// LOGIN_GATE (login/verification wall) is imported from reply-clean.js — see the STOP logic
+// in the turn loop below. It's the inverse of a trailing "Verify order details" button that
+// appears after a full answer (chrome): the wall is only real when the AI then STOPS.
 import { normalizeUserMessage } from "./message-style.js";
 
 // Prefix every log line with an ISO timestamp so run-status can render each activity event
@@ -338,6 +341,7 @@ async function runStoreMode(browser, store, mode, theme) {
     await withTimeout(w.open(page), 90000, "open");
     console.log(`  [${store.key}/${mode}/${theme.key}] widget open @${_el()} → first message`);
     let handedOver = false;
+    let gateSeen = false;   // a login/verification wall has appeared in a prior reply
     const useNet = w.transport === "net" && w.net;
     for (let i = 0; i < pool.length; i++) {
       const q = normalizeUserMessage(pool[i]);
@@ -407,6 +411,22 @@ async function runStoreMode(browser, store, mode, theme) {
       // Once a human owns the thread, every later turn is human too. We NEVER
       // count a human reply's latency — only the AI's own responses are timed.
       const by = handedOver ? "human" : "ai";
+
+      // LOGIN-WALL STOP: if a prior reply asked us to log in / verify the order, and THIS
+      // turn produced no substantive answer, the widget is stuck on a login modal the
+      // logged-out harness can't clear. Recording this + the remaining scripted questions
+      // would fabricate a run of empty "failures" that never actually reached the AI. Stop
+      // here, flag the conversation, and let the worker regenerate a fresh one. (A gate on a
+      // turn that STILL answered substantively is chrome — we keep going, never trip here.)
+      const gateHitNow = LOGIN_GATE.test(replyFull) || LOGIN_GATE.test(handoverTail);
+      const substantive = by === "ai" && r.complete_ms != null && stripWidgetChrome(replyFull, q).length >= MIN_SUBSTANCE;
+      if (gateHitNow) gateSeen = true;
+      if (gateSeen && !handedOver && !substantive) {
+        out.gate_blocked = true; out.gate_turn = i + 1;
+        console.log(`  [${store.key}/${mode}/${theme.key}] T${i + 1} ⛔ LOGIN WALL — logged-out harness can't proceed; stopping (regenerate)`);
+        break;
+      }
+
       out.turns.push({ turn: i + 1, q, by, ...r, ai_latency_ms: by === "ai" ? r.complete_ms : null, handover: !!handover, handover_hit: handover, replyTail: replyTail.slice(-500), replyText: replyFull });
       console.log(`  [${store.key}/${mode}/${theme.key}] T${i + 1} ${by === "ai" ? (r.complete_ms ?? "—") + "ms" : "(human)"}${r.late ? " (late-flush)" : ""}${handover ? "  ⛔ HANDOVER: " + handover : ""}`);
       await sleep(SETTLE_MS);
@@ -448,6 +468,9 @@ async function runStoreMode(browser, store, mode, theme) {
   const v = convoValidity(out.turns);
   out.valid = v.valid;
   out.invalid_reason = v.reason;
+  // A login-walled conversation is not a measurable data point (a logged-out shopper can't
+  // do order-specific support here) — exclude it, honestly, rather than count the flow.
+  if (out.gate_blocked) { out.valid = false; out.invalid_reason = `login-gated flow — logged-out harness stopped at T${out.gate_turn}`; }
   out.stats = {
     turns: out.turns.length,
     answered_no_handover: answered,
@@ -492,7 +515,7 @@ async function runStoreMode(browser, store, mode, theme) {
       // noise captures (invalid: menu/offline/timeout with no handover) are re-tried,
       // never treated as done — so a re-run keeps trying to get a clean measurement.
       if (RESUME && existsSync(convFile(store.key, mode, theme.key))) {
-        try { const j = JSON.parse(readFileSync(convFile(store.key, mode, theme.key), "utf8")); if (j.turns && j.turns.length > 0 && j.valid !== false) { skipped++; continue; } } catch {}
+        try { const j = JSON.parse(readFileSync(convFile(store.key, mode, theme.key), "utf8")); if (j.turns && j.turns.length > 0 && (j.valid !== false || j.gate_blocked)) { skipped++; continue; } } catch {}
       }
       tasks.push({ store, mode, theme });
     }
@@ -527,7 +550,7 @@ async function runStoreMode(browser, store, mode, theme) {
   const lockPath = (t) => `${LOCK_DIR}/${t.store.key}-${t.mode}-${t.theme.key}.lock`;
   function claimConv(t) {
     if (RESUME && existsSync(convFile(t.store.key, t.mode, t.theme.key))) {
-      try { const j = JSON.parse(readFileSync(convFile(t.store.key, t.mode, t.theme.key), "utf8")); if (j.turns && j.turns.length > 0 && j.valid !== false) return false; } catch {}
+      try { const j = JSON.parse(readFileSync(convFile(t.store.key, t.mode, t.theme.key), "utf8")); if (j.turns && j.turns.length > 0 && (j.valid !== false || j.gate_blocked)) return false; } catch {}
     }
     try { writeFileSync(lockPath(t), String(process.pid), { flag: "wx" }); return true; }
     catch {
@@ -550,11 +573,19 @@ async function runStoreMode(browser, store, mode, theme) {
       } else { t = remaining.shift(); if (!t) break; }
       if (!claimConv(t)) { lockSkipped++; if (SERIAL) inflight.delete(t.store.key); continue; }
       try {
-        const res = await runStoreMode(browser, t.store, t.mode, t.theme);
+        let res = await runStoreMode(browser, t.store, t.mode, t.theme);
+        // REGENERATE ONCE on a login wall — it may be a transient modal; a fresh cold session
+        // often gets a clean run. If it walls AGAIN it's a deterministic gate for a logged-out
+        // shopper: we keep the (invalid) record so RESUME won't chase it forever.
+        if (res.gate_blocked && !t._regen) {
+          t._regen = true;
+          console.log(`  ↻ [${t.store.key}/${t.mode}/${t.theme.key}] login wall — regenerating a fresh conversation`);
+          res = await runStoreMode(browser, t.store, t.mode, t.theme);
+        }
         // WRITE THIS CONVERSATION IMMEDIATELY — finest-grained durability.
         await writeFile(convFile(t.store.key, t.mode, t.theme.key), JSON.stringify(res)).catch(e => console.log("write err", e.message));
         done++;
-        console.log(`  ✔ [${done}/${tasks.length}] ${t.store.key}/${t.mode}/${t.theme.key} · success ${res.stats.success_rate ?? "n/a"}% · avg ${res.stats.avg_ms ?? "n/a"}ms${res.stats.handover_turn ? `  🚩 handover@T${res.stats.handover_turn}` : ""}`);
+        console.log(`  ✔ [${done}/${tasks.length}] ${t.store.key}/${t.mode}/${t.theme.key} · ${res.gate_blocked ? "⛔ login-walled (excluded)" : `success ${res.stats.success_rate ?? "n/a"}% · avg ${res.stats.avg_ms ?? "n/a"}ms`}${res.stats.handover_turn ? `  🚩 handover@T${res.stats.handover_turn}` : ""}`);
       } catch (e) { failed++; console.log(`  ✗ ${t.store.key}/${t.mode}/${t.theme.key} ERR ${String(e).slice(0, 100)}`); }
       finally { releaseConv(t); if (SERIAL) inflight.delete(t.store.key); }
     }
