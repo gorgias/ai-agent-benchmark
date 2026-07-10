@@ -341,7 +341,7 @@ async function runStoreMode(browser, store, mode, theme) {
     await withTimeout(w.open(page), 90000, "open");
     console.log(`  [${store.key}/${mode}/${theme.key}] widget open @${_el()} → first message`);
     let handedOver = false;
-    let gateSeen = false;   // a login/verification wall has appeared in a prior reply
+    let prevAiGated = false;   // did the immediately-preceding AI turn carry a login gate?
     const useNet = w.transport === "net" && w.net;
     for (let i = 0; i < pool.length; i++) {
       const q = normalizeUserMessage(pool[i]);
@@ -412,20 +412,21 @@ async function runStoreMode(browser, store, mode, theme) {
       // count a human reply's latency — only the AI's own responses are timed.
       const by = handedOver ? "human" : "ai";
 
-      // LOGIN-WALL STOP: if a prior reply asked us to log in / verify the order, and THIS
-      // turn produced no substantive answer, the widget is stuck on a login modal the
-      // logged-out harness can't clear. Recording this + the remaining scripted questions
-      // would fabricate a run of empty "failures" that never actually reached the AI. Stop
-      // here, flag the conversation, and let the worker regenerate a fresh one. (A gate on a
-      // turn that STILL answered substantively is chrome — we keep going, never trip here.)
+      // LOGIN-WALL STOP: a turn with no substantive answer WHILE the gate is ACTIVE (the
+      // login ask is on this turn or the one right before) means the widget is stuck on a
+      // login modal the logged-out harness can't clear — the remaining scripted questions
+      // would fabricate a run of empty "failures". Stop, flag, and let the worker regenerate.
+      // The arm is NOT sticky: a trailing "Verify order details" BUTTON after a full answer
+      // is chrome, so a later unrelated stall must not trip this (it would kill a conv that
+      // recovers or genuinely hands over). A gated turn that STILL answered never trips it.
       const gateHitNow = LOGIN_GATE.test(replyFull) || LOGIN_GATE.test(handoverTail);
       const substantive = by === "ai" && r.complete_ms != null && stripWidgetChrome(replyFull, q).length >= MIN_SUBSTANCE;
-      if (gateHitNow) gateSeen = true;
-      if (gateSeen && !handedOver && !substantive) {
+      if (by === "ai" && !handedOver && !substantive && (gateHitNow || prevAiGated)) {
         out.gate_blocked = true; out.gate_turn = i + 1;
         console.log(`  [${store.key}/${mode}/${theme.key}] T${i + 1} ⛔ LOGIN WALL — logged-out harness can't proceed; stopping (regenerate)`);
         break;
       }
+      if (by === "ai") prevAiGated = gateHitNow;
 
       out.turns.push({ turn: i + 1, q, by, ...r, ai_latency_ms: by === "ai" ? r.complete_ms : null, handover: !!handover, handover_hit: handover, replyTail: replyTail.slice(-500), replyText: replyFull });
       console.log(`  [${store.key}/${mode}/${theme.key}] T${i + 1} ${by === "ai" ? (r.complete_ms ?? "—") + "ms" : "(human)"}${r.late ? " (late-flush)" : ""}${handover ? "  ⛔ HANDOVER: " + handover : ""}`);

@@ -57,3 +57,20 @@ test("does NOT fire when there is no gate at all (ordinary unanswered trailing t
   const turns = [A(long("Our return window is 30 days.")), A(long("Shipping is 3-5 business days.")), EMPTY()];
   assert.equal(loginWallStop(turns, substantive), -1);
 });
+
+// ---- the Envive-KUT case: trailing gate BUTTON, then more answers, a lone stall, then a
+// genuine handover. The gate arm must NOT be sticky, or we'd kill a conversation that
+// recovered/handed over (a false wall). This is the regression guard for the run.js fix.
+test("does NOT fire on a one-off gate button followed by clean answers + a later stall", () => {
+  const turns = [
+    A(long("Standard orders ship in 1-2 business days. Verify order details")), // trailing button (chrome)
+    A(long("Weekend orders usually ship the following Monday.")),               // clean answers resume, no gate
+    A(long("Shipments can be delayed by weather or other circumstances.")),
+    A(long("If it already shipped you can start a return once it arrives.")),
+    A(long("Send your order number and shipping address and we'll look into it.")),
+    EMPTY(),                                                                     // lone stall, NOT gate-adjacent
+    A(long("For order status please share the email used to place it.")),        // AI recovers
+    { by: "human", complete_ms: 5000, replyText: long("Our team will respond as soon as they join."), handover: true },
+  ];
+  assert.equal(loginWallStop(turns, substantive), -1, "a non-sticky gate must not wall a recovered/handed-over conv");
+});

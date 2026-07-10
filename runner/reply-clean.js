@@ -127,16 +127,21 @@ export function cleanAnswer(rawReplyTail, userQuestion, max = 220, opts = {}) {
 // a wall (see the 2026-07-10 false-gate revert). The wall is only real when answers STOP.
 export const LOGIN_GATE = /\b(please (?:log|sign) in\b|log in so (?:we|i) can|once you.?re logged in|verify order details|(?:log|sign) in to (?:view|access|see|check|look up|confirm|continue|proceed))/i;
 
-// Index of the turn where a logged-out harness is stuck on the wall: the first AI turn with
-// no substantive answer AFTER a login gate has appeared. -1 if the AI keeps answering (gate
-// is chrome) or no gate appears. `substantive(turn)` is supplied by the caller because
-// substance depends on stripWidgetChrome + the turn's own question.
+// Index of the turn where a logged-out harness is stuck on the wall: the first AI turn that
+// produces no substantive answer WHILE the gate is ACTIVE — i.e. the gate is on this turn or
+// on the immediately-preceding AI turn. Crucially the arm is NOT sticky: a trailing "Verify
+// order details" BUTTON that appears once after a full answer and is then followed by more
+// clean answers is chrome, and a later unrelated stall must NOT be read as a wall (that would
+// prematurely kill a conversation that recovers or genuinely hands over — the Envive-KUT
+// case). Returns -1 when the AI keeps answering or no gate is active at the stall.
 export function loginWallStop(turns, substantive) {
-  let gateSeen = false;
+  let prevAiGated = false;
   for (let i = 0; i < (turns || []).length; i++) {
     const t = turns[i];
-    if (LOGIN_GATE.test(t.replyText || t.replyTail || "")) gateSeen = true;
-    if (gateSeen && t.by === "ai" && !t.handover && !substantive(t)) return i;
+    if (t.by !== "ai") continue;                       // skip human / unsent turns
+    const gatedHere = LOGIN_GATE.test(t.replyText || t.replyTail || "");
+    if (!t.handover && !substantive(t) && (gatedHere || prevAiGated)) return i;
+    prevAiGated = gatedHere;
   }
   return -1;
 }
