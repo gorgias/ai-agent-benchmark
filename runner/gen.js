@@ -535,11 +535,15 @@ const D_JSON = " const D = " + JSON.stringify(D_OBJ) + ";";
 // ---- AUTO-GENERATED VERDICT: rank claims are derived from the same lane composites, never
 // hand-typed — so the Summary headline can never contradict the scoreboard again. ----
 const OUTLIER_V = new Set(["Amazon Rufus"]);  // references, not ranked head-to-head
-const laneRank = (scores) => Object.entries(scores)
+// LANE-SPECIFIC composite weights (2026-07-10, Max): SHOPPING weights speed higher — latency
+// is critical to conversion (a shopper won't wait); SUPPORT weights automation higher —
+// containment (not handing off to a human) is the point. Quality stays 0.3 in both.
+const LANE_W = { shopping: { a: 0.4, q: 0.3, s: 0.3 }, support: { a: 0.5, q: 0.3, s: 0.2 } };
+const laneRank = (scores, w) => Object.entries(scores)
   .filter(([v, sc]) => sc && sc.q != null && sc.n >= MIN_RANK_CONVS && !OUTLIER_V.has(v))
-  .map(([v, sc]) => ({ v, comp: Math.round(0.4 * sc.a + 0.4 * sc.q + 0.2 * speedScoreG(sc.l)) }))
+  .map(([v, sc]) => ({ v, comp: Math.round(w.a * sc.a + w.q * sc.q + w.s * speedScoreG(sc.l)) }))
   .sort((a, b) => b.comp - a.comp);
-const rShop = laneRank(shopS), rSupp = laneRank(supS);
+const rShop = laneRank(shopS, LANE_W.shopping), rSupp = laneRank(supS, LANE_W.support);
 const shopC = Object.fromEntries(rShop.map(r => [r.v, r.comp])), suppC = Object.fromEntries(rSupp.map(r => [r.v, r.comp]));
 // overall = mean of the two lane composites, for vendors ranked in BOTH lanes
 const rOverall = Object.keys(shopC).filter(v => v in suppC)
