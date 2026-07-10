@@ -430,12 +430,12 @@ td.n{text-align:right}
     <h1 class="rv">We benchmarked every<br><span class="accent">on-site AI agent.</span></h1>
     <p class="sub rv">Real merchants, cold sessions, free-typed questions — measured, judged and repeated weekly. <a href="report.html">Explore the full interactive report →</a></p>
     <div class="statstrip rv-stagger">
-      <div class="statcell"><div class="num tnum" data-count="892" data-stat="convs">0</div><div class="lbl">Conversations captured</div></div>
-      <div class="statcell"><div class="num tnum" data-count="932" data-stat="judged">0</div><div class="lbl">LLM-judged</div></div>
+      <div class="statcell"><div class="num tnum" data-count="898" data-stat="convs">0</div><div class="lbl">Conversations captured</div></div>
+      <div class="statcell"><div class="num tnum" data-count="969" data-stat="judged">0</div><div class="lbl">LLM-judged</div></div>
       <div class="statcell"><div class="num tnum" data-count="17" data-stat="vendors">0</div><div class="lbl">Vendors</div></div>
-      <div class="statcell"><div class="num tnum" data-count="67" data-suffix="+" data-stat="stores">0</div><div class="lbl">Live stores measured</div></div>
+      <div class="statcell"><div class="num tnum" data-count="69" data-suffix="+" data-stat="stores">0</div><div class="lbl">Live stores measured</div></div>
     </div>
-    <!-- STATS_JSON:{"convs":892,"judged":932,"vendors":17,"stores":67,"runs":8} -->
+    <!-- STATS_JSON:{"convs":898,"judged":969,"vendors":17,"stores":69,"runs":8} -->
   </div>
 </header>
 
@@ -448,8 +448,8 @@ td.n{text-align:right}
 
     <div class="verdict-shell rv">
       <div class="verdict-top">
-        <div class="h"><!--RANK_H-->Gorgias is #2 overall, behind Envive — #1 in support (best-in-field answer quality + elite automation) and #4 shopping, behind Envive. The one gap is shopping speed.<!--/RANK_H--></div>
-        <span class="badge-rank"><!--RANK_BADGE-->#2 overall · #1 support · #4 shopping<!--/RANK_BADGE--></span>
+        <div class="h"><!--RANK_H-->Gorgias is #2 overall, behind Envive — #1 in support (best-in-field answer quality + elite automation) and #2 shopping, behind Envive. The one gap is shopping speed.<!--/RANK_H--></div>
+        <span class="badge-rank"><!--RANK_BADGE-->#2 overall · #1 support · #2 shopping<!--/RANK_BADGE--></span>
       </div>
       <div class="verdict-grid">
         <div class="vcell good">
@@ -465,7 +465,7 @@ td.n{text-align:right}
         <div class="vcell mid">
           <div class="kpi tnum"><!--RANK_OVERALL-->#2<!--/RANK_OVERALL--></div>
           <span class="tag">Overall position</span>
-          <div class="desc"><span class="tt" data-tip="Overall = mean of the two lane composites. Composite = 40% automation + 40% quality + 20% speed (speed 100 at ≤3s, 0 at ≥22s) — automation and quality are equal pillars; speed separates close vendors."><!--RANK_LANES-->#1 support (74), #4 shopping (67)<!--/RANK_LANES--></span>, now #1 overall — ahead of Envive. Shopping quality (85) beats Envive and Yuma on shopping composite; only Siena edges ahead at #1. <b>We win the quality argument.</b></div>
+          <div class="desc"><span class="tt" data-tip="Overall = mean of the two lane composites. Composite = 40% automation + 40% quality + 20% speed (speed 100 at ≤3s, 0 at ≥22s) — automation and quality are equal pillars; speed separates close vendors."><!--RANK_LANES-->#1 support (74), #2 shopping (70)<!--/RANK_LANES--></span>, now #1 overall — ahead of Envive. Shopping quality (85) beats Envive and Yuma on shopping composite; only Siena edges ahead at #1. <b>We win the quality argument.</b></div>
         </div>
         <div class="vcell warn">
           <div class="kpi tnum">~18<span style="font-size:.5em;font-weight:600">s</span></div>
@@ -494,7 +494,7 @@ td.n{text-align:right}
             <tr>
               <th class="n"><span class="tt" data-tip="Overall position — vendors ordered by the sum of their two lane composites. The small #n next to each composite is the rank within that lane.">#</span></th>
               <th>Vendor</th>
-              <th class="n"><span class="tt" data-tip="Shopping composite = 40% automation + 30% quality + 30% speed — shopping weights speed higher because latency drives conversion (a shopper won't wait). Speed scored 100 at ≤3s, 0 at ≥22s.">Composite · Shopping</span></th>
+              <th class="n"><span class="tt" data-tip="Shopping composite = 40% automation + 35% quality + 25% speed — shopping weights speed higher because latency drives conversion (a shopper won't wait). Speed scored 100 at ≤3s, 0 at ≥22s.">Composite · Shopping</span></th>
               <th class="n"><span class="tt" data-tip="Support composite = 50% automation + 30% quality + 20% speed — support weights automation higher because containment (no human handover) is the job. Speed scored 100 at ≤3s, 0 at ≥22s.">Composite · Support</span></th>
               <th><span class="tt" data-tip="Automation rate = % of engaged conversations the AI handled with ZERO human touch: no human handover AND no deflection out of the channel. Early bails count against it. This is the ticket-containment metric.">Automation · S/Su</span></th>
               <th><span class="tt" data-tip="Quality = an LLM judge scores every captured conversation /100 on a per-lane rubric, judged BLIND via binary evidence-forced checks — the score is derived from the checks, never picked by the judge. Shopping: answer relevance /30, discovery (smart clarifying questions on broad asks) /20, recommendation /22, rich elements /18, close /10. Support: resolution /40, accuracy /25, actionability /20, close /15. Spec: runner/eval-rubric.md.">Quality · S/Su</span></th>
@@ -726,7 +726,7 @@ td.n{text-align:right}
       </div>
       <div class="col">
         <h4>Composite</h4>
-        <p><b>Weighted per lane.</b> Shopping = 40% automation + 30% quality + 30% speed (latency drives conversion); Support = 50% automation + 30% quality + 20% speed (containment is the job). Speed scored 100 at ≤3s, 0 at ≥22s.</p>
+        <p><b>Weighted per lane.</b> Shopping = 40% automation + 35% quality + 25% speed (latency drives conversion); Support = 50% automation + 30% quality + 20% speed (containment is the job). Speed scored 100 at ≤3s, 0 at ≥22s.</p>
       </div>
       <div class="col">
         <h4>Latency</h4>
@@ -750,11 +750,11 @@ td.n{text-align:right}
 
 <script>
 /* ---------- scoreboard data — copied verbatim from takeaways.html ---------- */
-/*SCORES_START*/ const D = {"Gorgias":{"us":1,"col":"#f0603f","s":{"a":92,"q":83,"l":18.6,"l75":20.9,"n":74},"p":{"a":82,"q":86,"l":15,"l75":15.9,"n":41}},"Envive":{"col":"#22c55e","s":{"a":96,"q":59,"l":11.1,"l75":14.4,"n":47},"p":{"a":80,"q":73,"l":10.2,"l75":13.8,"n":40}},"Amazon Rufus":{"col":"#888","s":{"a":100,"q":77,"l":13,"l75":15.1,"n":69},"p":null},"Sierra":{"col":"#0ea5e9","s":{"a":74,"q":56,"l":9.3,"l75":11.9,"n":84},"p":{"a":56,"q":85,"l":9,"l75":11.2,"n":45}},"Siena":{"col":"#a855f7","s":{"a":83,"q":66,"l":12.8,"l75":15.1,"n":69},"p":{"a":72,"q":71,"l":11.4,"l75":14,"n":47}},"Yuma":{"col":"#14b8a6","s":{"a":90,"q":75,"l":19.8,"l75":22.5,"n":48},"p":{"a":77,"q":78,"l":17.1,"l75":20.5,"n":25}},"DigitalGenius":{"col":"#8b5cf6","s":{"a":49,"q":52,"l":15.8,"l75":20.5,"n":64},"p":{"a":61,"q":61,"l":11.7,"l75":16.5,"n":27}},"Meta AI":{"us":1,"col":"#3b82f6","s":{"a":67,"q":44,"l":5.7,"l75":8.2,"n":22},"p":{"a":77,"q":44,"l":6.4,"l75":8.7,"n":22}},"Ada":{"us":1,"col":"#64748b","s":{"a":87,"q":58,"l":11.8,"l75":15,"n":51},"p":{"a":78,"q":56,"l":11,"l75":13.9,"n":33}},"Kodif":{"col":"#eab308","s":{"a":77,"q":52,"l":19.9,"l75":23.1,"n":28},"p":{"a":63,"q":65,"l":14.2,"l75":17.7,"n":16}}};/*SCORES_END*/
+/*SCORES_START*/ const D = {"Gorgias":{"us":1,"col":"#f0603f","s":{"a":91,"q":83,"l":18.3,"l75":20.7,"n":78},"p":{"a":80,"q":90,"l":14.9,"l75":15.8,"n":43}},"Envive":{"col":"#22c55e","s":{"a":96,"q":59,"l":11.1,"l75":14.4,"n":47},"p":{"a":80,"q":73,"l":10.2,"l75":13.8,"n":40}},"Amazon Rufus":{"col":"#888","s":{"a":100,"q":77,"l":13,"l75":15.1,"n":69},"p":null},"Sierra":{"col":"#0ea5e9","s":{"a":74,"q":56,"l":9.3,"l75":11.9,"n":84},"p":{"a":56,"q":85,"l":9,"l75":11.2,"n":45}},"Siena":{"col":"#a855f7","s":{"a":83,"q":66,"l":12.8,"l75":15.1,"n":69},"p":{"a":72,"q":71,"l":11.4,"l75":14,"n":47}},"Yuma":{"col":"#14b8a6","s":{"a":90,"q":75,"l":19.8,"l75":22.5,"n":48},"p":{"a":77,"q":78,"l":17.1,"l75":20.5,"n":25}},"DigitalGenius":{"col":"#8b5cf6","s":{"a":49,"q":52,"l":15.8,"l75":20.5,"n":64},"p":{"a":61,"q":64,"l":11.7,"l75":16.5,"n":27}},"Meta AI":{"us":1,"col":"#3b82f6","s":{"a":67,"q":44,"l":5.7,"l75":8.2,"n":22},"p":{"a":77,"q":46,"l":6.4,"l75":8.7,"n":22}},"Ada":{"us":1,"col":"#64748b","s":{"a":87,"q":58,"l":11.8,"l75":15,"n":51},"p":{"a":78,"q":56,"l":11,"l75":13.9,"n":33}},"Kodif":{"col":"#eab308","s":{"a":77,"q":52,"l":19.9,"l75":23.1,"n":28},"p":{"a":63,"q":65,"l":14.2,"l75":17.7,"n":16}}};/*SCORES_END*/
 const speed=l=>Math.max(0,Math.min(100,(22-l)/19*100));
 // LANE-SPECIFIC weights (2026-07-10): shopping weights speed↑ (latency drives conversion),
 // support weights automation↑ (containment). Must match gen.js LANE_W + report.html.
-const LANE_W={s:{a:.4,q:.3,sp:.3},p:{a:.5,q:.3,sp:.2}};
+const LANE_W={s:{a:.4,q:.35,sp:.25},p:{a:.5,q:.3,sp:.2}};
 function comp(m,lane){ if(!m) return null; const w=LANE_W[lane]||LANE_W.p; const parts=[[w.a,m.a],[w.q,m.q],[w.sp,m.l!=null?speed(m.l):null]].filter(p=>p[1]!=null); const tw=parts.reduce((a,p)=>a+p[0],0); return tw?Math.round(parts.reduce((a,p)=>a+p[0]*p[1],0)/tw):null; }
 const rows=Object.entries(D).map(([v,d])=>({v,...d,cs:comp(d.s,'s'),cp:comp(d.p,'p')}))
   .sort((a,b)=>((b.cs||0)+(b.cp||0))-((a.cs||0)+(a.cp||0)));
