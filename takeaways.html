@@ -430,12 +430,12 @@ td.n{text-align:right}
     <h1 class="rv">We benchmarked every<br><span class="accent">on-site AI agent.</span></h1>
     <p class="sub rv">Real merchants, cold sessions, free-typed questions — measured, judged and repeated weekly. <a href="report.html">Explore the full interactive report →</a></p>
     <div class="statstrip rv-stagger">
-      <div class="statcell"><div class="num tnum" data-count="865" data-stat="convs">0</div><div class="lbl">Conversations captured</div></div>
+      <div class="statcell"><div class="num tnum" data-count="877" data-stat="convs">0</div><div class="lbl">Conversations captured</div></div>
       <div class="statcell"><div class="num tnum" data-count="932" data-stat="judged">0</div><div class="lbl">LLM-judged</div></div>
       <div class="statcell"><div class="num tnum" data-count="17" data-stat="vendors">0</div><div class="lbl">Vendors</div></div>
-      <div class="statcell"><div class="num tnum" data-count="60" data-suffix="+" data-stat="stores">0</div><div class="lbl">Live stores measured</div></div>
+      <div class="statcell"><div class="num tnum" data-count="63" data-suffix="+" data-stat="stores">0</div><div class="lbl">Live stores measured</div></div>
     </div>
-    <!-- STATS_JSON:{"convs":865,"judged":932,"vendors":17,"stores":60,"runs":8} -->
+    <!-- STATS_JSON:{"convs":877,"judged":932,"vendors":17,"stores":63,"runs":8} -->
   </div>
 </header>
 
@@ -750,7 +750,7 @@ td.n{text-align:right}
 
 <script>
 /* ---------- scoreboard data — copied verbatim from takeaways.html ---------- */
-/*SCORES_START*/ const D = {"Gorgias":{"us":1,"col":"#f0603f","s":{"a":95,"q":83,"l":18.8,"l75":21.2,"n":61},"p":{"a":81,"q":86,"l":15.1,"l75":15.9,"n":27}},"Envive":{"col":"#22c55e","s":{"a":96,"q":59,"l":11.1,"l75":14.4,"n":47},"p":{"a":80,"q":73,"l":10.2,"l75":13.8,"n":40}},"Amazon Rufus":{"col":"#888","s":{"a":100,"q":77,"l":13,"l75":15.1,"n":69},"p":null},"Sierra":{"col":"#0ea5e9","s":{"a":74,"q":56,"l":9.3,"l75":11.9,"n":84},"p":{"a":56,"q":85,"l":9,"l75":11.2,"n":45}},"Siena":{"col":"#a855f7","s":{"a":83,"q":66,"l":12.8,"l75":15.1,"n":69},"p":{"a":72,"q":71,"l":11.4,"l75":14,"n":47}},"Yuma":{"col":"#14b8a6","s":{"a":90,"q":75,"l":19.8,"l75":22.5,"n":48},"p":{"a":77,"q":78,"l":17.1,"l75":20.5,"n":25}},"DigitalGenius":{"col":"#8b5cf6","s":{"a":49,"q":52,"l":15.8,"l75":20.5,"n":64},"p":{"a":61,"q":61,"l":11.7,"l75":16.5,"n":27}},"Meta AI":{"us":1,"col":"#3b82f6","s":{"a":67,"q":44,"l":5.7,"l75":8.2,"n":22},"p":{"a":77,"q":44,"l":6.4,"l75":8.7,"n":22}},"Ada":{"us":1,"col":"#64748b","s":{"a":87,"q":58,"l":11.8,"l75":15,"n":51},"p":{"a":78,"q":56,"l":11,"l75":13.9,"n":33}},"Kodif":{"col":"#eab308","s":{"a":77,"q":52,"l":19.9,"l75":23.1,"n":28},"p":{"a":63,"q":65,"l":14.2,"l75":17.7,"n":16}}};/*SCORES_END*/
+/*SCORES_START*/ const D = {"Gorgias":{"us":1,"col":"#f0603f","s":{"a":96,"q":83,"l":18.4,"l75":20.9,"n":67},"p":{"a":81,"q":86,"l":14.9,"l75":15.7,"n":33}},"Envive":{"col":"#22c55e","s":{"a":96,"q":59,"l":11.1,"l75":14.4,"n":47},"p":{"a":80,"q":73,"l":10.2,"l75":13.8,"n":40}},"Amazon Rufus":{"col":"#888","s":{"a":100,"q":77,"l":13,"l75":15.1,"n":69},"p":null},"Sierra":{"col":"#0ea5e9","s":{"a":74,"q":56,"l":9.3,"l75":11.9,"n":84},"p":{"a":56,"q":85,"l":9,"l75":11.2,"n":45}},"Siena":{"col":"#a855f7","s":{"a":83,"q":66,"l":12.8,"l75":15.1,"n":69},"p":{"a":72,"q":71,"l":11.4,"l75":14,"n":47}},"Yuma":{"col":"#14b8a6","s":{"a":90,"q":75,"l":19.8,"l75":22.5,"n":48},"p":{"a":77,"q":78,"l":17.1,"l75":20.5,"n":25}},"DigitalGenius":{"col":"#8b5cf6","s":{"a":49,"q":52,"l":15.8,"l75":20.5,"n":64},"p":{"a":61,"q":61,"l":11.7,"l75":16.5,"n":27}},"Meta AI":{"us":1,"col":"#3b82f6","s":{"a":67,"q":44,"l":5.7,"l75":8.2,"n":22},"p":{"a":77,"q":44,"l":6.4,"l75":8.7,"n":22}},"Ada":{"us":1,"col":"#64748b","s":{"a":87,"q":58,"l":11.8,"l75":15,"n":51},"p":{"a":78,"q":56,"l":11,"l75":13.9,"n":33}},"Kodif":{"col":"#eab308","s":{"a":77,"q":52,"l":19.9,"l75":23.1,"n":28},"p":{"a":63,"q":65,"l":14.2,"l75":17.7,"n":16}}};/*SCORES_END*/
 const speed=l=>Math.max(0,Math.min(100,(22-l)/19*100));
 function comp(m){ if(!m) return null; const parts=[[.4,m.a],[.4,m.q],[.2,m.l!=null?speed(m.l):null]].filter(p=>p[1]!=null); const w=parts.reduce((a,p)=>a+p[0],0); return w?Math.round(parts.reduce((a,p)=>a+p[0]*p[1],0)/w):null; }
 const rows=Object.entries(D).map(([v,d])=>({v,...d,cs:comp(d.s),cp:comp(d.p)}))
