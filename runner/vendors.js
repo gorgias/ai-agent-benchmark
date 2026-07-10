@@ -713,6 +713,16 @@ export const STORES = [
   { key: "gorgias-icewatch",   vendor: "Gorgias", store: "Ice-Watch",   url: "https://www.ice-watch.com/",  widget: "gorgias", locale: "en-US", v3: true }, // beta_3_sa · SA success 82% @6.4k tickets (Cortex)
   { key: "gorgias-amicci",     vendor: "Gorgias", store: "Amicci",      url: "https://amicci.com/",         widget: "gorgias", locale: "en-GB", v3: true }, // beta_3_sa · 1.2k AI int (Cortex)
   { key: "gorgias-addisonbay", vendor: "Gorgias", store: "Addison Bay", url: "https://addisonbay.com/",     widget: "gorgias", us: true, locale: "en-US", v3: true }, // beta_3_sa (Cortex)
+  // International Gorgias merchants added 2026-07-10 (Max) to densify the Gorgias sample so the
+  // #1 position is robust. All verified: live config.gorgias widget on the storefront. `v3`
+  // left unset (shopping included, but NOT asserting V3 SA architecture — confirm via Cortex
+  // dim_accounts.v3_ai_agent_architecture_beta_phase and set v3:false if any is v2).
+  { key: "gorgias-artdeco",   vendor: "Gorgias", store: "ARTDECO",          url: "https://www.artdeco.de/",          widget: "gorgias", locale: "de-DE" },
+  { key: "gorgias-loonas",    vendor: "Gorgias", store: "Loonas",           url: "https://loonas.de/",               widget: "gorgias", locale: "de-DE" },
+  { key: "gorgias-misanto",   vendor: "Gorgias", store: "Mi Santo Remedio", url: "https://misantoremedio.com/",      widget: "gorgias", locale: "es-ES" },
+  { key: "gorgias-saigu",     vendor: "Gorgias", store: "Saigu Cosmetics",  url: "https://saigu.es/",                widget: "gorgias", locale: "es-ES" },
+  { key: "gorgias-keysafe",   vendor: "Gorgias", store: "Keysafe",          url: "https://www.keysafe.co.uk/",       widget: "gorgias", locale: "en-GB" },
+  { key: "gorgias-toyworld",  vendor: "Gorgias", store: "Toyworld",         url: "https://www.toyworld.com.au/",     widget: "gorgias", locale: "en-AU" },
   // NWA Hype (nwahype.com) dropped: captured 9 conversations, 0 measurable (all —ms — widget never
   // produced a timed answer; unmeasurable like Klaviyo/Humind/Decagon), so no honest data to add.
 
