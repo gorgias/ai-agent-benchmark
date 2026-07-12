@@ -14,8 +14,8 @@ import { readFile, writeFile, readdir, rename, stat } from "node:fs/promises";
 import { existsSync } from "node:fs";
 import { STORES as SITES } from "./vendors.js";
 import { SHOPPING_THEMES, SUPPORT_THEMES } from "./pools.js";
-import { convoValidity, convoOutcome, guardrailLeak, connectivityFail } from "./classify.js";
-import { cleanAnswer } from "./reply-clean.js";
+import { convoValidity, convoOutcome, guardrailLeak, connectivityFail, isHandoffOnly } from "./classify.js";
+import { cleanAnswer, stripWidgetChrome } from "./reply-clean.js";
 import { conversationTurnQuality } from "./turn-quality.js";
 import { isQuarantinedConversation } from "./conversation-quarantine.js";
 
@@ -232,6 +232,18 @@ async function loadAgg(key, mode, date) {
       // included), every vendor alike (see METHODOLOGY §Ranking). Counting them as handover/
       // deflection would penalize vendors that run the most order-specific support flows.
       if (obj.gate_blocked) continue;
+      // HANDOFF-ONLY re-derivation: a reply whose entire substance is a "talk to a human" /
+      // "transfer you to an agent" button (no actual answer) is a DEFLECTION, not a fast
+      // automated answer. Mark it (→ convoOutcome reads deflected/engaged) and drop its
+      // latency (→ not a timed answer for validity/latency). Guarded by length in
+      // isHandoffOnly so a real answer that merely offers a human in passing is untouched
+      // (false-gate lesson). Symmetric across vendors — chiefly corrects pure-deflection
+      // Meta AI stores that were being scored as 100%-success ~2s automated answers.
+      for (const t of (obj.turns || [])) {
+        if (t.by === "ai" && !t.handover && isHandoffOnly(stripWidgetChrome(t.replyText || t.replyTail || "", t.q || ""))) {
+          t.handoff_cta = true; t.complete_ms = null; t.ai_latency_ms = null;
+        }
+      }
       auto[convoOutcome(obj.turns || []).outcome]++;
       const ev = EVALS[id];
       obj._eval = ev || null;   // carry the eval (incl. per-turn turn_quality) onto the theme

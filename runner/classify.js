@@ -78,6 +78,21 @@ export const isGen = (t) => GEN_RE.test((t || "").trim());
 export const isAck = (t) => ACK_RE.test(stripTrailChrome(t));
 export const isNoAnswer = (t) => NOANSWER_RE.test(stripTrailChrome(t));
 
+// HANDOFF-ONLY reply — the ENTIRE substance is an offer to route the shopper to a human
+// (a "Talk to a human" / "transfer you to an agent" button) with NO actual answer: the AI
+// stopped answering. This is NOT automation and NOT a measurable answer. It is deliberately
+// distinct from a real answer that merely mentions a human option in passing — the length
+// guard means an answer + optional offer keeps its substance and is NOT flagged. (The
+// false-gate lesson: the test is "did the AI stop answering?", never "did it say the word
+// human?".) Caller passes an ALREADY chrome-stripped reply. Applied symmetrically to every
+// vendor: pure "Talk To A Human" deflection (e.g. Meta AI on some stores) counts as
+// DEFLECTED (engaged, not automated) and yields no timed answer.
+export const HANDOFF_CTA = /\b(talk to (?:a|an|our|one of our) ?(?:human|person|live (?:agent|person)|real (?:agent|person)|team member|representative|agent)|(?:be )?transfer(?:red|ring)? (?:you )?(?:to|over)(?: to)? (?:a|an|our|one of our)?\s*[A-Za-z]{0,15}\s?(?:guide|agent|human|representative|specialist|advisor|team member))\b/i;
+export function isHandoffOnly(cleanedReply) {
+  const t = (cleanedReply || "").trim();
+  return t.length > 0 && t.length <= 220 && HANDOFF_CTA.test(t);
+}
+
 export function detectHandover(text, extra = [], selfNames = []) {
   if (!text) return null;
   for (const re of [...HANDOVER_PATTERNS, ...extra]) { const m = text.match(re); if (m) return m[0].trim().slice(0, 80); }
@@ -120,9 +135,14 @@ export function convoOutcome(turns) {
   const attempted = turns.filter((t) => !t.unsent && t.by === "ai");
   const timed = attempted.filter((t) => t.complete_ms != null);
   const hadHandover = turns.some((t) => t.handover);
-  const deflectHit = attempted.map((t) => detectDeflection(t.replyTail)).find(Boolean) || null;
+  // A pure "talk to a human" reply is a deflection even though it produced no timed answer:
+  // the widget DID engage (it responded, just punted to a human) — so it must count against
+  // automation, not vanish as no_answer. `handoff_cta` is set upstream where the cleaned
+  // reply is available (gen.js/run.js).
+  const anyHandoffCta = attempted.some((t) => t.handoff_cta);
+  const deflectHit = attempted.map((t) => (t.handoff_cta ? "talk-to-human" : detectDeflection(t.replyTail))).find(Boolean) || null;
   let outcome;
-  if (timed.length === 0) outcome = "no_answer";
+  if (timed.length === 0 && !anyHandoffCta) outcome = "no_answer";
   else if (hadHandover) outcome = "handover";
   else if (deflectHit) outcome = "deflected";
   else outcome = "automated";
