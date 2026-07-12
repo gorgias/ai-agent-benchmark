@@ -55,9 +55,9 @@ async function allDates() {
 // are kept. Pass --date to regenerate from a single run only.
 const DATES = dateArg ? [dateArg] : (await allDates());
 const LATEST = DATES[DATES.length - 1];
-// Trailing 14-day window (inclusive) for RANKINGS — the point is that older runs matter less
+// Trailing 90-day window (inclusive) for RANKINGS — the point is that older runs matter less
 // as new ones accumulate. ISO date strings compare lexically, so a string cutoff is enough.
-const CUTOFF_14D = (() => { const d = new Date(LATEST + "T00:00:00Z"); d.setUTCDate(d.getUTCDate() - 13); return d.toISOString().slice(0, 10); })();
+const RANK_CUTOFF = (() => { const d = new Date(LATEST + "T00:00:00Z"); d.setUTCDate(d.getUTCDate() - 89); return d.toISOString().slice(0, 10); })();
 // Rankability floor: a vendor needs at least this many judged conversations IN A LANE (in the
 // window) to enter the scoreboard / head-to-head ranking. Set to 15 = at least THREE stores'
 // worth (5 themes each) — a board metric shouldn't rank a vendor #1 off a single store, and a
@@ -226,6 +226,12 @@ async function loadAgg(key, mode, date) {
       // CONNECTIVITY FAILURE: widget dropped mid-session (offline/reconnecting) — measures the
       // store's transport, not AI quality. Excluded from ALL aggregates, every vendor alike.
       if (connectivityFail(obj.turns || [])) continue;
+      // LOGIN WALL: a logged-out cold harness hit an order-specific login/verification gate it
+      // cannot pass, so the AI stopped — a harness limitation, NOT an automation failure. Like
+      // connectivity fails, gate_blocked convs are excluded from ALL aggregates (automation
+      // included), every vendor alike (see METHODOLOGY §Ranking). Counting them as handover/
+      // deflection would penalize vendors that run the most order-specific support flows.
+      if (obj.gate_blocked) continue;
       auto[convoOutcome(obj.turns || []).outcome]++;
       const ev = EVALS[id];
       obj._eval = ev || null;   // carry the eval (incl. per-turn turn_quality) onto the theme
@@ -483,7 +489,7 @@ const convCount = (arr) => arr.reduce((n, s) => n + ((s.themes && s.themes.lengt
 // judged counted ONLY over conversations actually shown in the report (evalq.n per entry) —
 // so "conversations" and "LLM-judged" describe the SAME set and align, instead of the raw
 // eval-file count which also includes guardrail + connectivity-failed conversations.
-const judgedShown = (arr) => arr.reduce((n, s) => n + ((s.evalq && s.evalq.n) || 0), 0);
+const judgedShown = (arr) => arr.reduce((n, s) => n + ((s.themes || []).filter((t) => t.ev && t.ev.total != null).length), 0);
 const allEntries = [...STORES, ...SUPPORT];
 const STATS = {
   convs: convCount(STORES) + convCount(SUPPORT),
@@ -500,8 +506,8 @@ const PALETTE = { Gorgias:"#f0603f", Envive:"#22c55e", Ada:"#64748b", Siena:"#a8
 const speedScoreG = (l) => Math.max(0, Math.min(100, (22 - l) / 19 * 100));
 const latNumG = (s) => { const m = (s.lat || "").match(/[\d.]+/); return m ? parseFloat(m[0]) : null; };
 function laneScores(arr) {
-  // rankings use only the trailing 14 days (recency-weighted — older runs age out)
-  const byV = {}; arr.filter(s => !s.date || s.date >= CUTOFF_14D).forEach(s => { (byV[s.vendor] = byV[s.vendor] || []).push(s); });
+  // rankings use only the trailing 90 days (recency-weighted — older runs age out)
+  const byV = {}; arr.filter(s => !s.date || s.date >= RANK_CUTOFF).forEach(s => { (byV[s.vendor] = byV[s.vendor] || []).push(s); });
   const out = {};
   for (const [v, es] of Object.entries(byV)) {
     const ag = es.reduce((a, s) => { if (s.auto) { a.a += s.auto.automated; a.e += s.auto.engaged; } return a; }, { a: 0, e: 0 });
