@@ -1,7 +1,7 @@
 // Unit tests for the crawler's decision logic.  Run:  node --test
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { isGen, isAck, isNoAnswer, detectHandover, convoValidity, detectDeflection, convoOutcome, guardrailLeak } from "./classify.js";
+import { isGen, isAck, isNoAnswer, detectHandover, convoValidity, detectDeflection, convoOutcome, guardrailLeak, isHandoffOnly } from "./classify.js";
 
 // ---- typing / stall indicators ----------------------------------------------
 // GEN_RE / ACK_RE are END-anchored by design: they flag a *bare* typing/stall bubble
@@ -239,4 +239,44 @@ test("isGen: Kodif's novelty progress lines are 'still working', not answers", (
 test("isGen: probe-discovered Kodif stalls (connecting the dots / crafting a response)", () => {
   assert.equal(isGen("Connecting the dots..."), true);
   assert.equal(isGen("Crafting a response for you..."), true);
+});
+
+// ---- HANDOFF-ONLY: pure "talk to a human" deflection ≠ a fast automated answer -----
+// (2026-07-12: Meta AI on some stores answered EVERY turn with only "Talk To A Human",
+// which was being scored as 100%-success ~2s automated answers. The test is "did it stop
+// answering?" — a CTA that IS the whole reply, not a real answer that offers a human too.)
+test("isHandoffOnly: a reply that is ONLY a human-handoff CTA is flagged", () => {
+  assert.equal(isHandoffOnly("If you'd like to be transferred to a Grove Guide for further assistance, please select Talk To A Human below!"), true);
+  assert.equal(isHandoffOnly("Talk to a human"), true);
+  assert.equal(isHandoffOnly("I can transfer you to an agent."), true);
+  assert.equal(isHandoffOnly("Let me connect you — talk to a person for your order."), true);
+});
+test("isHandoffOnly: a real answer that merely OFFERS a human in passing is NOT flagged (false-gate guard)", () => {
+  // Siena: full order-change answer, then an optional human offer — long, substantive → keep it.
+  assert.equal(isHandoffOnly("Your order can still be changed if it hasn't been fulfilled yet — just reply with the new address and the item, and I'll update it right away. It usually ships within 24 hours, and if you'd rather talk to a human, I can make that happen."), false);
+  // A substantive support answer with no human mention at all.
+  assert.equal(isHandoffOnly("You have 30 days from delivery to return an item. Start at grove.co/returns, print the prepaid label, and drop it at any USPS location — refunds post in 5–7 business days."), false);
+  // Empty / stall.
+  assert.equal(isHandoffOnly(""), false);
+  assert.equal(isHandoffOnly("Let me check that for you…"), false);
+});
+test("convoOutcome: an all-handoff conversation is DEFLECTED (engaged), never automated or no_answer", () => {
+  const turns = [
+    { by: "user", q: "What is your return policy?" },
+    { by: "ai", complete_ms: null, handoff_cta: true, replyTail: "transferred to a Grove Guide … Talk To A Human" },
+    { by: "user", q: "How many days?" },
+    { by: "ai", complete_ms: null, handoff_cta: true, replyTail: "transferred to a Grove Guide … Talk To A Human" },
+    { by: "ai", complete_ms: null, handoff_cta: true, replyTail: "transferred to a Grove Guide … Talk To A Human" },
+  ];
+  const o = convoOutcome(turns);
+  assert.equal(o.outcome, "deflected");     // engaged but not automated — counts AGAINST automation
+  assert.equal(o.automated, false);
+});
+test("convoValidity: handoff-only turns (no timed answer) make a pure-deflection conv invalid", () => {
+  const turns = [
+    { by: "ai", complete_ms: null, handoff_cta: true },
+    { by: "ai", complete_ms: null, handoff_cta: true },
+    { by: "ai", complete_ms: null, handoff_cta: true },
+  ];
+  assert.equal(convoValidity(turns).valid, false);
 });
