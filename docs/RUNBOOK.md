@@ -140,7 +140,7 @@ In observed order of likelihood:
 ## Statistical guardrails
 
 - Ranking eligibility: ≥5 convs, ≥8 cleanly-timed turns, ≥30 % coverage. `<20` convs ⇒
-  "not stat-sig yet" tag. Rankings use a trailing 14-day window; **p75 latency** is the
+  "not stat-sig yet" tag. Rankings use a trailing 90-day window; **p75 latency** is the
   headline latency metric.
 - Equalization targets the **achievable tier** (vendors that actually capture unattended).
   Walls and deflectors are documented as such — that finding *is* competitive data.
