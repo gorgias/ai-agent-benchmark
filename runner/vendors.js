@@ -825,7 +825,6 @@ export const STORES = [
   // quip (getquip.com) DROPPED 2026-07-05: dual-vendor page — Zendesk messenger AND a live Gorgias
   // chat install are both wired; ambiguous which widget a shopper gets, so its data can't be
   // attributed to a single vendor. Prior captures excluded from Meta AI aggregates via drop list.
-  { key: "meta-grove",        vendor: "Meta AI",store: "Grove",       url: "https://www.grove.co/",       widget: "zendesk", personas: ["Grove Guide Team"] }, // verified messenger; "Grove Guide Team" = the bot's own sender label
   // Ada (often loads on the help/support page, not the homepage)
   { key: "ada-endy",          vendor: "Ada",    store: "Endy",        url: "https://www.endy.com/",       widget: "ada" },
   { key: "ada-ipsy",          vendor: "Ada",    store: "IPSY",        url: "https://help.ipsy.com/",      widget: "ada" },
