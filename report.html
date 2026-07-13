@@ -2151,8 +2151,10 @@ try {
   if(_pv==='conversations') VIEW='conversations';
   else if(VIEW==='conversations') VIEW='shopping';
 } catch(e){ if(VIEW==='conversations') VIEW='shopping'; }
-// Default landing lane = Support Agent (Support is the first tab in Best AI Agent).
-if(!_saved && VIEW!=='conversations'){ VIEW='support'; }
+// Default landing lane = Support Agent — ALWAYS. Clicking "Best AI Agent" (plain report.html,
+// no ?view param) must land on Support even for returning visitors: the localStorage restore
+// keeps filters/sorts, but never pins the lane (2026-07-13, Max).
+if(VIEW!=='conversations'){ VIEW='support'; }
 if(VIEW==='best') VIEW='support';                          // "Best category" tab retired → default lane
 if(VIEW==='shopping'||VIEW==='support') MODE=VIEW;          // keep the data-lane MODE in sync with the tab
 // Move each lane's Best-agent ranking to the TOP of its tab (above the summary table).
