@@ -25,6 +25,7 @@ import { WIDGETS, STORES, readLatestAssistantReply, readTranscript } from "./ven
 import { SHOPPING_THEMES, SUPPORT_THEMES } from "./pools.js";
 import { isGen, isAck, isNoAnswer, detectHandover, convoValidity } from "./classify.js";
 import { stripWidgetChrome, LOGIN_GATE } from "./reply-clean.js";
+import { detectProviderOnPage } from "./provider-detect.js";
 // Minimum CLEANED prose (chrome/stalls/labels/echo stripped) for a settled transcript to
 // count as an answer — the structural guard against stall-vocabulary whack-a-mole.
 const MIN_SUBSTANCE = 80;
@@ -340,6 +341,17 @@ async function runStoreMode(browser, store, mode, theme) {
     console.log(`  [${store.key}/${mode}/${theme.key}] page @${_el()} → opening widget…`);
     await withTimeout(w.open(page), 90000, "open");
     console.log(`  [${store.key}/${mode}/${theme.key}] widget open @${_el()} → first message`);
+    // PROVIDER VERIFICATION: stamp the provider ACTUALLY serving the widget onto the
+    // conversation (the widget is loaded+open now, so this is reliable — unlike a cold
+    // homepage sniff). Ties conversation ↔ site ↔ real provider; a mismatch means the store
+    // switched providers and gen.js must not attribute the conv to the stale vendor.
+    try {
+      const pd = await detectProviderOnPage(page, store.vendor);
+      out.detected_provider = pd.top;
+      out.provider_detected = pd.detected;
+      out.provider_mismatch = pd.mismatch;
+      if (pd.mismatch) console.log(`  [${store.key}] ⚠ PROVIDER MISMATCH: expected ${store.vendor}, detected ${pd.detected.join(", ")}`);
+    } catch (e) { /* detection is best-effort metadata; never fail a capture on it */ }
     let handedOver = false;
     let prevAiGated = false;   // did the immediately-preceding AI turn carry a login gate?
     const useNet = w.transport === "net" && w.net;

@@ -222,26 +222,30 @@ export const WIDGETS = {
     },
   },
 
-  // Spiffy.ai — shadow-DOM modal (#spiffy-modal-container). Open via a PDP
-  // suggestion chip / floating button; send via the modal's input + Send button.
+  // Envive (formerly Spiffy.ai) — shadow-DOM chat. TWO embeddings coexist during the rebrand,
+  // so the driver is embedding-agnostic (scope.match finds whichever shadow root holds the
+  // composer, like the Sierra driver):
+  //   legacy Spiffy:  #spiffy-modal-container shadow · input[placeholder*="Ask"] · send button
+  //   new Envive:     #envive-ai-floating-chat shadow · textarea[placeholder="Ask me anything…"] · Enter
+  // (2026-07-13: the old #spiffy-modal-container-only driver saw 8/11 stores as "0 replies" —
+  // they had silently migrated to the #envive-ai-* build. Retargeted to cover both.)
   spiffy: {
-    scope: { kind: "shadowId", sel: "#spiffy-modal-container" },
-    handover: [/customer care team/i, /human (agent|representative)/i, /connect you (with|to)/i],
+    scope: { kind: "shadow", match: 'textarea[placeholder*="Ask" i], input[placeholder*="Ask" i], [data-testid="spiffy-chat-reply-input"]' },
+    handover: [/customer care team/i, /human (agent|representative)/i, /connect you (with|to)/i, /talk to (a|an|our) (human|agent|person)/i],
     async open(page) {
-      // Requires: STEALTH's real chrome.runtime stub + localStorage spiffy_on=true (set in
-      // run.js) — else Spiffy's init throws / the A/B gate leaves it unmounted in a cold
-      // context. Poll for the auto-mounted composer; if the app mounted but the modal is
-      // closed, click the launcher inside the floating-button/container shadow (never a chip).
-      await page.waitForTimeout(2000); await dismiss(page);
+      await page.waitForTimeout(2500); await dismiss(page);
+      const sel = WIDGETS.spiffy.scope.match;
       for (let i = 0; i < 25; i++) {
-        const st = await page.evaluate(() => {
-          const modal = document.querySelector('#spiffy-modal-container');
-          const composer = modal?.shadowRoot?.querySelector('[data-testid="spiffy-chat-reply-input"], input[placeholder*="Ask" i]');
-          return { composer: !!composer, container: !!document.querySelector('#spiffy-ai-container'), fbtn: !!document.querySelector('#spiffy-ai-floating-button') };
-        });
+        const st = await page.evaluate((sel) => {
+          let composer = false;
+          const walk = (n) => { for (const el of (n.querySelectorAll ? n.querySelectorAll('*') : [])) { if (el.shadowRoot) { if (el.shadowRoot.querySelector(sel)) { composer = true; return; } walk(el.shadowRoot); } } };
+          walk(document);
+          const host = document.querySelector('#envive-ai-floating-chat') || document.querySelector('#spiffy-ai-floating-button') || document.querySelector('#envive-ai-container') || document.querySelector('#spiffy-ai-container');
+          return { composer, host: !!host };
+        }, sel);
         if (st.composer) break;
-        if (st.fbtn || st.container) await page.evaluate(() => {
-          const host = document.querySelector('#spiffy-ai-floating-button') || document.querySelector('#spiffy-ai-container');
+        if (st.host) await page.evaluate(() => {
+          const host = document.querySelector('#envive-ai-floating-chat') || document.querySelector('#spiffy-ai-floating-button') || document.querySelector('#envive-ai-container') || document.querySelector('#spiffy-ai-container');
           const r = host && (host.shadowRoot || host); const btn = r && r.querySelector('button,[role=button]'); btn && btn.click();
         }).catch(() => {});
         await page.waitForTimeout(800);
@@ -250,16 +254,32 @@ export const WIDGETS = {
     },
     async send(page, text) {
       await page.evaluate((t) => {
-        const sr = document.querySelector('#spiffy-modal-container')?.shadowRoot; if (!sr) return;
-        const inp = sr.querySelector('[data-testid="spiffy-chat-reply-input"]') || sr.querySelector('input[placeholder*="Ask" i]') || sr.querySelector('input[type="text"]'); if (!inp) return;
-        const setter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value').set;
+        let inp = null;
+        const walk = (n) => { for (const el of (n.querySelectorAll ? n.querySelectorAll('*') : [])) { if (inp) return; if (el.shadowRoot) { const c = el.shadowRoot.querySelector('[data-testid="spiffy-chat-reply-input"], textarea[placeholder*="Ask" i], input[placeholder*="Ask" i], textarea'); if (c) { inp = c; return; } walk(el.shadowRoot); } } };
+        walk(document);
+        if (!inp) return;
+        const proto = inp.tagName === 'TEXTAREA' ? window.HTMLTextAreaElement.prototype : window.HTMLInputElement.prototype;
+        const setter = Object.getOwnPropertyDescriptor(proto, 'value').set;
         inp.focus(); setter.call(inp, t); inp.dispatchEvent(new Event('input', { bubbles: true })); inp.dispatchEvent(new Event('change', { bubbles: true }));
+        const root = inp.getRootNode();
         setTimeout(() => {
-          const btn = sr.querySelector('[data-testid="spiffy-chat-reply-input-send-button"]') || [...sr.querySelectorAll('button')].find(b => /send message|send/i.test(b.getAttribute('aria-label') || ''));
+          const btn = (root.querySelector && (root.querySelector('[data-testid="spiffy-chat-reply-input-send-button"]') || [...root.querySelectorAll('button')].find(b => /send/i.test((b.getAttribute('aria-label') || '') + ' ' + (b.getAttribute('data-testid') || ''))))) || null;
           if (btn && !btn.disabled) btn.click(); else inp.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', code: 'Enter', keyCode: 13, bubbles: true }));
         }, 150);
       }, text);
     },
+  },
+
+  // Mavenoid — product-troubleshooting assistant (nanit). It drives users through GUIDED
+  // decision-tree troubleshooting, not a free-text chat, so our free-text conversation pools
+  // can't meaningfully drive it. Documented as a structural non-driver (like Humind / Shopify
+  // Inbox); captured convs come back invalid (no free-text answer) — the honest finding. Added
+  // 2026-07-13 when nanit was found mis-attributed to Envive.
+  mavenoid: {
+    scope: { kind: "shadow", match: 'textarea, input[type="text"], [contenteditable]' },
+    handover: [],
+    async open(page) { await page.waitForTimeout(3000); await dismiss(page); },
+    async send() { /* decision-tree UI — no free-text composer to drive */ },
   },
 
   // Sierra — shadow-DOM widget, SSE streaming. HEADED-ONLY (headless echoes the user but
@@ -795,7 +815,7 @@ export const STORES = [
   { key: "envive-tushbaby",   vendor: "Envive", store: "Tushbaby",    url: "https://tushbaby.com/",       widget: "spiffy" },
   { key: "envive-greenpan",   vendor: "Envive", store: "GreenPan",    url: "https://www.greenpan.us/",    widget: "spiffy" },
   { key: "envive-fracture",   vendor: "Envive", store: "Fracture",    url: "https://fractureme.com/",     widget: "spiffy" }, // verified envive-injection on fractureme.com (2026-07-07)
-  { key: "envive-nanit",      vendor: "Envive", store: "Nanit",       url: "https://nanit.com/",          widget: "spiffy" },
+  { key: "mavenoid-nanit",    vendor: "Mavenoid", store: "Nanit",     url: "https://nanit.com/",          widget: "mavenoid" }, // 2026-07-13: nanit's answering support widget is Mavenoid (decision-tree troubleshooting), not Envive — re-attributed. (An Envive shopping embed also loads, but Mavenoid is what serves support.)
   // Sierra (widget loads from sierra.chat; sierraConfig global)
   { key: "sierra-bark",       vendor: "Sierra", store: "BARK",        url: "https://bark.co/",            widget: "sierra" },
   { key: "sierra-sunandski",  vendor: "Sierra", store: "Sun & Ski",   url: "https://www.sunandski.com/",  widget: "sierra" },
