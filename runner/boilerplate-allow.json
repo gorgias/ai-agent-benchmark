@@ -1,0 +1,19 @@
+{
+  "_doc": "Patterns boilerplate-audit flagged that were REVIEWED and judged GENUINE bot prose (not chrome). Allowlisted so the deploy-gate warning only fires on NEW, unreviewed patterns. Never allowlist actual widget chrome — encode that in reply-clean.js instead. Match: store + kind + the flagged pattern's first 40 chars (case-insensitive).",
+  "allow": [
+    {
+      "store": "gorgias-unfolded",
+      "kind": "suffix",
+      "startsWith": "Hope that helps!",
+      "reviewed": "2026-07-13",
+      "verdict": "genuine_prose — the bot's habitual sign-off; stripping a vendor's real voice would bias quality judging (equity)."
+    },
+    {
+      "store": "dg-kukoon",
+      "kind": "suffix",
+      "startsWith": "Kukoon Rugs Assistant I’m sorry, but I don’t",
+      "reviewed": "2026-07-13",
+      "verdict": "genuine_prose — Kukoon's real canned apology (its actual, judged support behavior); the embedded sender label is mid-text and safer left than risking mid-prose label stripping."
+    }
+  ]
+}

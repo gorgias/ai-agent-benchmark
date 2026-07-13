@@ -26,7 +26,7 @@ const CHIP_OPENER = /^(show me\b|explore\b|browse\b|see\b|view\b|shop\b|looking 
 // Messaging-widget chrome observed across vendors (Meta/Grove, DigitalGenius, Rufus…):
 // delivery status, relative timestamps, composer placeholder, escalation buttons,
 // widget headers, powered-by lines, bare clocks/locales.
-const MSG_CHROME = /^(sent|delivered|seen|read|typing…?|just now|sent\s*[·•]\s*just now|type a message\.?|send us a message|talk to a human|chat with (a |an )?(human|agent)|speak to (a |an )?(human|agent)|new messages?|start over|end chat|restart)$/i;
+const MSG_CHROME = /^(sent|delivered|seen|read|typing…?|just now|sent\s*[·•]\s*just now|type a message\.?|send us a message|talk to a human|chat with (a |an )?(human|agent)|speak to (a |an )?(human|agent)|new messages?|start over|end chat|restart|routed to (a )?human( agent)?|(for you|orders|chat|profile)(\s+(for you|orders|chat|profile))+)$/i;
 
 function isNoiseLine(line, names) {
   const l = line.trim();
@@ -79,6 +79,7 @@ function stripInlineNoise(text) {
     // Rufus feedback widget, flattened inline in old captures: "Your feedback has been
     // submitted! Select All That Apply (optional): This is inaccurate … Dismiss Submit"
     .replace(/your feedback has been submitted!?\s*/gi, "")
+    .replace(/\s*(FOR YOU|ORDERS|CHAT|PROFILE)(\s+(FOR YOU|ORDERS|CHAT|PROFILE)){2,}\s*/g, " ")  // Klaviyo bottom-nav glued inline (audit)
     .replace(/select all that apply\s*\(optional\):?\s*(?:this is (?:inaccurate|irrelevant|harmful\s*\/?\s*unsafe)\s*)*(?:something else\s*)?(?:dismiss\s*)?(?:submit\s*)?/gi, "");
 }
 
@@ -97,17 +98,28 @@ export function stripWidgetChrome(rawReplyTail, userQuestion, opts = {}) {
     const idx = text.toLowerCase().lastIndexOf(q.toLowerCase());
     if (idx >= 0) text = text.slice(idx + q.length);        // keep only what came AFTER the echoed question
   }
-  // Envive/Spiffy: the assistant NAME is glued to the first word of the reply
-  // ("Tushbaby Shopping AssistantI don't…", "Supergoop! AINo, you…"). Strip a leading
-  // "<Brand> (Shopping Assistant|AI|Assistant|Concierge)" when a capital (the prose) follows.
-  text = text.replace(/^\s*[A-Z][A-Za-z0-9!'"&.\- ]{0,38}?(Shopping Assistant|AI Assistant|Virtual Assistant|Concierge|Assistant|AI)(?=[A-Z])/, "");
+  // SENDER-LABEL PREFIX (boilerplate-audit 2026-07-13): the bot's label is glued or joined to
+  // the reply's first word — "Tushbaby Shopping AssistantI don't…", "Supergoop! AINo, you…",
+  // "ButcherBot · AI", "KAI • AI ASSISTANT", "Dermalogica's Virtual Assistant · AI says:".
+  text = text.replace(/^\s*[A-Z][A-Za-z0-9!'"’&.\- ]{0,38}?(Shopping Assistant|AI Assistant|Virtual Assistant|Concierge|Assistant|AI)(?=[A-Z])/, "");
+  text = text.replace(/^\s*[A-Z][\w!'"’&.-]{0,24}(?:\s[A-Z][\w!'"’&.-]{0,24}){0,3}\s*[·•]\s*AI(\s+ASSISTANT)?(\s+says:)?\s*/i, "");
+  // spaced variant (audit: "Kukoon Rugs Assistant I'm sorry…") — ≥2 Title-Case words ending in
+  // Assistant/Bot, then a space and the prose's capital. Requires the multi-word label so a
+  // sentence merely mentioning an assistant is never eaten.
+  text = text.replace(/^\s*[A-Z][\w!'"’&.-]*(?:\s[A-Z][\w!'"’&.-]*){1,3}\s+(?:Assistant|Bot)\s+(?=[A-Z“"'])/, "");
+  // SENDER-LABEL SUFFIX (audit): a Title-Case persona label trailing the prose — "…Thanks!
+  // Evry Customer Specialist", "…policy. Dermalogica's Virtual Assistant · AI says:".
+  text = text.replace(/\s*[A-Z][\w!'"’&.-]*(?:\s[A-Z][\w!'"’&.-]*){0,3}\s(Customer (Specialist|Care Team)|Virtual Assistant(\s*[·•]\s*AI)?(\s+says:)?|AI Assistant)\s*$/, "");
+  // LEGAL/PRIVACY DISCLAIMER (audit: Oura — appended to 100% of replies): "By using X's
+  // virtual assistant, you agree to your data being processed by third parties…"
+  text = text.replace(/\bBy (using|chatting with) [^.]{0,60}(virtual assistant|assistant|chat)[,'’s]*[^.]{0,140}\b(you agree|consent)[^.]{0,140}\.?/gi, " ");
   // Everything from "Give us feedback" onward is widget chrome (feedback CTA + trailing chips).
   text = text.replace(/\s*Give us feedback\b[\s\S]*$/i, "");
   // Envive's canned closer + its suggested-reply chips are glued to the tail with no spaces
   // ("…for assistance.Is there anything else I can help you with?Track my order statusHelp…").
   // Cut the closer (and all chips after it), then peel any chip GLUED (no space) to the prose
   // end — safe because real prose puts a space after a sentence, only chips are jammed on.
-  text = text.replace(/\s*Is there anything else I can help you with[^.!?]*[.?!]?[\s\S]*$/i, "");
+  text = text.replace(/\s*Is there anything else (I can help|you'?d like)[^.!?]*[.?!]?[\s\S]*$/i, "");
   { let prev; do { prev = text; text = text.replace(/([.!?])[A-Z][^.!?]{2,90}[.?!]\s*$/, "$1"); } while (text !== prev); }
   let kept = text
     .split(/\n+/)
