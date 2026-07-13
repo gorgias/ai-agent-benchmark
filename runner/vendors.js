@@ -46,6 +46,12 @@ async function dismiss(page) {
     'button:has-text("Reject")', 'button:has-text("Decline")', 'button:has-text("No thanks")',
     'button:has-text("Refuser")', 'button:has-text("Tout refuser")', 'button:has-text("Continuer sans accepter")',
     'button:has-text("Accept")', '[aria-label="Close"]', 'button:has-text("Close")',
+    // HubSpot's EU cookie banner (#hs-eu-cookie-confirmation) uses "Dismiss", not
+    // Accept/Reject/Close — missing this left the banner's invisible-overlay hit-testing
+    // silently swallowing every click into the widget underneath it (ninety.io/Intercom: the
+    // composer accepted fill()/press("Enter") without throwing, since those act on the element
+    // directly, but the widget's own click-to-send path never fired).
+    'button:has-text("Dismiss")', '[aria-label="Dismiss"]', "#hs-eu-confirmation-button",
   ]) {
     try { const b = page.locator(sel).first(); if (await b.isVisible({ timeout: 400 })) await b.click({ timeout: 600 }); } catch {}
   }
@@ -606,11 +612,40 @@ export const WIDGETS = {
   intercom: {
     // Intercom Messenger + Fin AI Agent. Loader is `widget.intercom.io` / the
     // `intercom-lightweight-app` bundle; `window.Intercom('show')` opens the launcher
-    // (`#intercom-container`), and the conversation renders in the standard cross-origin
-    // `iframe[name="intercom-messenger-frame"]`. Composer + transcript live inside that
-    // frame, so we scope to it and drive with the generic open/send helpers — same
-    // best-effort pattern as decagon/klaviyo until a run shows the live DOM.
-    scope: { kind: "frame", match: /intercom-messenger-frame|intercom/i },
+    // (`#intercom-container`), and the conversation renders in a same-origin, dynamically
+    // created `iframe[name="intercom-messenger-frame"]`. IMPORTANT: the page also mounts an
+    // unrelated, contentless `iframe#intercom-frame` (no `name`) that appears EARLIER in DOM
+    // order — a bare `/intercom/i` scope match hits that decoy first (its `id` contains
+    // "intercom") and reads an eternally-empty transcript. Scope must match only the
+    // messenger frame's `name`. The composer is a `<textarea>` whose aria-label flips between
+    // "Ask a question…" (empty thread) and "Message…" (thread started) — same element, so we
+    // just target `textarea` scoped to this frame, never the generic multi-frame scanner
+    // (which checks the top-level page and every other frame first and can grab an unrelated
+    // page textarea/search box before ever reaching Intercom's).
+    //
+    // Some installs (ninety, public) open to a Help-Center-style "Home" space (Home/Messages/
+    // Help tabs, a "Get a personalized demo" card, NO textarea) instead of straight into a Fin
+    // conversation like avocado/kajabi/synthesia. Reading that Home screen's static text as the
+    // transcript looks like an eternally-unanswered conversation. Detect the missing textarea
+    // and click the entry card ("Ask a question" / "Send us a message" — copy varies per
+    // install) to open a real conversation first.
+    //
+    // KNOWN STRUCTURAL WALLS (verified 2026-07-13, not selector bugs — do not re-attempt the
+    // same fix here):
+    //  - tado: `window.Intercom` stub exists but never boots ANY iframe on the marketing
+    //    homepage (no consent gate blocking it either — confirmed no cookie banner present).
+    //  - ninety, public: the click-through above DOES reach a real conversation (textarea
+    //    present, realtime websockets to nexus-websocket-a.intercom.io + Ably connect fine),
+    //    but the Send button's `disabled` never clears — confirmed with real native
+    //    page.keyboard.type() keystrokes (not synthetic events), force-clicking the disabled
+    //    button (no-op — React never binds an onClick while disabled), across headed AND
+    //    headless. This is specific to composers opened via the Home "start a NEW conversation"
+    //    card; avocado/kajabi/synthesia open straight into an existing/default thread and never
+    //    hit it. Root cause is presumably server-side gating on new-conversation creation for a
+    //    cookie-less/analytics-less visitor, not something reachable from the client. Left as
+    //    `candidate: true` for a future revisit; the balancer's strike system retires these
+    //    stores unattended rather than burning budget on them.
+    scope: { kind: "frame", match: /intercom-messenger-frame/ },
     handover: [/connect you (with|to) (a|one of our)?\s*(teammate|human|agent|team member)/i,
                /I'?ll (get|find) (you )?a teammate/i, /pass(ing)? (this|you) (on|over) to/i,
                /a teammate will (reply|follow up|get back)/i],
@@ -618,10 +653,39 @@ export const WIDGETS = {
       await dismiss(page);
       await page.waitForFunction(() => typeof window.Intercom !== "undefined", null, { timeout: 15000 }).catch(() => {});
       await page.evaluate(() => { try { window.Intercom && window.Intercom("show"); } catch (e) {} }).catch(() => {});
-      await page.waitForTimeout(2500);
-      await genericOpenChat(page);
+      let f = null;
+      for (let i = 0; i < 20 && !f; i++) { f = await findFrame(page, /intercom-messenger-frame/); if (!f) await page.waitForTimeout(500); }
+      if (!f) return;
+      // Re-check: cookie-consent scripts (HubSpot et al.) often inject their banner a couple
+      // seconds AFTER initial load, missing the dismiss() call above; its overlay silently
+      // eats every click into the widget beneath it even though fill()/press() (which act on
+      // the element directly, no hit-testing) appear to succeed.
+      await dismiss(page);
+      for (let i = 0; i < 8 && !(await f.locator("textarea").count().catch(() => 0)); i++) {
+        await f.evaluate(() => {
+          // Match the innermost [role=button]/button/a — clicking the containing card DIV
+          // (which has no handler of its own) never reaches a nested button's onClick, since
+          // a click only bubbles UP from the element it's dispatched on, never back down into
+          // descendants.
+          const rx = /ask a question|send (us )?a message|start a conversation|chat (with|to) us|new (message|conversation)/i;
+          const cands = [...document.querySelectorAll('[role="button"], button, a')].filter((e) => rx.test((e.innerText || "").trim().slice(0, 24)));
+          const el = cands.sort((a, b) => a.innerText.length - b.innerText.length)[0];
+          if (el) el.click();
+        }).catch(() => {});
+        await page.waitForTimeout(1000);
+      }
+      await f.locator("textarea").first().waitFor({ state: "visible", timeout: 12000 }).catch(() => {});
     },
-    async send(page, text) { await genericSendChat(page, text); },
+    async send(page, text) {
+      await dismiss(page);
+      const f = await findFrame(page, /intercom-messenger-frame/);
+      if (!f) return;
+      const inp = f.locator("textarea").first();
+      await inp.waitFor({ state: "visible", timeout: 10000 }).catch(() => {});
+      await inp.click({ timeout: 5000 }).catch(() => {});
+      await inp.fill(text).catch(async () => { await inp.type(text, { delay: 12 }).catch(() => {}); });
+      await inp.press("Enter").catch(() => {});
+    },
   },
   shopify_inbox: {
     // Native Shopify Inbox — gated (name/email) single-shot ticket form in most configs

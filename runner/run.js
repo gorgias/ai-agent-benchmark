@@ -408,9 +408,42 @@ async function runStoreMode(browser, store, mode, theme) {
         // to the whole post-turn transcript rather than lose the front.
         if (store.widget === "yuma") replyFull = (latestAssistant && latestAssistant !== beforeAssistant) ? latestAssistant : "";
         else {
-          let p = 0; const m = Math.min(beforeText.length, transcript.length);
-          while (p < m && beforeText[p] === transcript[p]) p++;
-          replyFull = (p >= beforeText.length * 0.7 ? transcript.slice(p) : transcript).trim();
+          // Common-prefix scan to isolate the NEW content added this turn. Widgets that show
+          // LIVE relative timestamps on already-sent messages ("Just now" → "1m" → "2m" — seen
+          // on Intercom) mutate the "unchanged" prefix out from under a raw char-by-char scan:
+          // the first timestamp sits near the very top of the transcript, so as soon as it
+          // drifts, the compare stops almost immediately, `p` stays tiny, the 70% gate never
+          // clears, and every turn falls back to "whole transcript" — silently replaying the
+          // entire history as this turn's "reply" instead of just the new answer.
+          //
+          // Fix: normalize relative-time tokens to a FIXED-width placeholder in both strings
+          // (same width regardless of the token's own length — "Just now" and "3m" must
+          // collapse to the identical placeholder, or the strings re-diverge at the very next
+          // character) while recording an index map back to each character's position in the
+          // ORIGINAL string. The common-prefix scan then runs on the normalized text, and the
+          // resulting split point is translated back through the map before slicing the
+          // un-normalized `transcript` — so the stored reply is exact, only the comparison is
+          // fuzzy.
+          const TIME_RE = /\bjust now\b|\b\d{1,2}\s?(?:s|m|h|d)\b|\b\d{1,3}\s+(?:seconds?|minutes?|hours?|days?)\s+ago\b|\byesterday\b/gi;
+          const PLACEHOLDER = "    ";
+          const normalizeWithMap = (s) => {
+            let out = "", map = [], lastIndex = 0, mt;
+            TIME_RE.lastIndex = 0;
+            while ((mt = TIME_RE.exec(s))) {
+              for (let i = lastIndex; i < mt.index; i++) { out += s[i]; map.push(i); }
+              for (let i = 0; i < PLACEHOLDER.length; i++) { out += PLACEHOLDER[i]; map.push(mt.index); }
+              lastIndex = mt.index + mt[0].length;
+            }
+            for (let i = lastIndex; i < s.length; i++) { out += s[i]; map.push(i); }
+            map.push(s.length);
+            return { normalized: out, map };
+          };
+          const beforeNorm = normalizeWithMap(beforeText);
+          const transcriptNorm = normalizeWithMap(transcript);
+          let p = 0; const m = Math.min(beforeNorm.normalized.length, transcriptNorm.normalized.length);
+          while (p < m && beforeNorm.normalized[p] === transcriptNorm.normalized[p]) p++;
+          const pOriginal = transcriptNorm.map[p];
+          replyFull = (p >= beforeNorm.normalized.length * 0.7 ? transcript.slice(pOriginal) : transcript).trim();
         }
       }
       // cap generously from the FRONT (keep the beginning; the tail is usually chrome)
