@@ -656,7 +656,7 @@
         <span class="datebar-lbl">Date</span>
         <div class="dp">
           <button class="dp-trigger" id="vdp-trigger" onclick="toggleCal(event,'vdp')"><span id="vdp-label">—</span><span class="dp-caret">▾</span></button>
-          <div class="dp-pop" id="vdp-pop" hidden onclick="event.stopPropagation()">
+          <div class="dp-pop" id="vdp-pop" hidden onclick="event.stopPropagation()" style="left:0;transform:none">
             <div class="dp-head"><button class="dp-nav" onclick="calNav(-1)">‹</button><span id="vdp-title"></span><button class="dp-nav" onclick="calNav(1)">›</button></div>
             <div class="dp-week"><span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span><span>Su</span></div>
             <div class="dp-grid" id="vdp-grid"></div>
