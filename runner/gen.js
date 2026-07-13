@@ -245,9 +245,12 @@ async function loadAgg(key, mode, date) {
       // (false-gate lesson). Symmetric across vendors — chiefly corrects pure-deflection
       // Meta AI stores that were being scored as 100%-success ~2s automated answers.
       for (const t of (obj.turns || [])) {
-        if (t.by === "ai" && !t.handover && isHandoffOnly(stripWidgetChrome(t.replyText || t.replyTail || "", t.q || ""))) {
-          t.handoff_cta = true; t.complete_ms = null; t.ai_latency_ms = null;
-        }
+        if (t.by !== "ai") continue;
+        // Clean once and stash it: convoOutcome reads t.replyClean so deflection detection runs
+        // on the AI's prose, not on suggested-reply chips that survive in the raw replyTail.
+        const clean = stripWidgetChrome(t.replyText || t.replyTail || "", t.q || "");
+        t.replyClean = clean;
+        if (!t.handover && isHandoffOnly(clean)) { t.handoff_cta = true; t.complete_ms = null; t.ai_latency_ms = null; }
       }
       auto[convoOutcome(obj.turns || []).outcome]++;
       const ev = EVALS[id];

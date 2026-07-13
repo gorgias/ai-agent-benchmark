@@ -97,3 +97,26 @@ test("bare 'User response:' / 'response:' role-label lines are stripped", () => 
   const out = stripWidgetChrome(raw, "What are my best options?");
   assert.ok(out.startsWith("Our Calm & Clarity Mints"));
 });
+
+// ---- Envive new-shadow-DOM contamination (2026-07-13): inline CSS, glued name prefix, chips ----
+test("stripWidgetChrome: Envive inline SVG-icon CSS is removed, prose kept", () => {
+  const raw = "Tushbaby Shopping AssistantI don't have access to specific details about changing shipping addresses for orders. Please contact Customer Support #widget-icon--re- path, #widget-icon--re- rect { fill: var(--envive-colors-text-link) !important; } for assistance.Is there anything else I can help you with?Track my order statusHelp with order trackingGive us feedback";
+  const out = stripWidgetChrome(raw, "Can I change the shipping address on an order I just placed?");
+  assert.ok(!/widget-icon|var\(|!important|\{/.test(out), "CSS not stripped: " + out);
+  assert.ok(!/Shopping Assistant/.test(out), "name prefix not stripped: " + out);
+  assert.ok(!/Track my order status|Give us feedback|anything else I can help/i.test(out), "chips not stripped: " + out);
+  assert.ok(/don't have access to specific details about changing shipping addresses/.test(out), "prose lost: " + out);
+});
+
+test("stripWidgetChrome: glued name prefix 'Supergoop! AINo…' + trailing chips cleaned", () => {
+  const raw = "Do I have to pay anything to return the damaged item?Supergoop! AINo, you don't have to pay anything to return the damaged item. We'll provide you with a free return shipping label when you email hello@supergoop.com with your order number.How do I track my order?What's the best SPF for sensitive skin?Give us feedback";
+  const out = stripWidgetChrome(raw, "Do I have to pay anything to return the damaged item?");
+  assert.ok(out.startsWith("No, you don't have to pay"), "prefix/lead wrong: " + out);
+  assert.ok(!/How do I track my order|best SPF|Give us feedback/i.test(out), "chips not stripped: " + out);
+  assert.ok(/email hello@supergoop\.com with your order number/.test(out), "answer prose lost: " + out);
+});
+
+test("stripWidgetChrome: a real answer with a spaced trailing question is NOT eaten (safety)", () => {
+  const out = stripWidgetChrome("You have 30 days from delivery to return unworn items for a full refund. Want me to start a return?", "");
+  assert.equal(out, "You have 30 days from delivery to return unworn items for a full refund. Want me to start a return?");
+});

@@ -280,3 +280,13 @@ test("convoValidity: handoff-only turns (no timed answer) make a pure-deflection
   ];
   assert.equal(convoValidity(turns).valid, false);
 });
+
+// ---- deflection: out-of-chat fulfillment is a fail of in-chat automation (2026-07-13, Max) ----
+test("detectDeflection: 'email <address> to complete the action' IS a deflection", () => {
+  assert.ok(detectDeflection("We'll provide a free return label when you email hello@supergoop.com with your order number."));
+  assert.ok(detectDeflection("Please contact Customer Support for assistance."));
+  assert.ok(detectDeflection("I don't have access to that — you'll need to contact customer care."));
+});
+test("detectDeflection: an answer that merely NAMES an address is still NOT a deflection", () => {
+  assert.equal(detectDeflection("Order receipts are sent from orders@brand.com right after purchase."), null);
+});

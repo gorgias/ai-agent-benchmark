@@ -113,11 +113,27 @@ export const DEFLECT_PATTERNS = [
   /\bcontactez[- ]nous (à|au|par|via)(?=[\s.,;:!]|$)/i,   // no \b after accented à (JS \b is ASCII-only)
   /\breach out (to us )?at\s+\S+@/i,
   /\be-?mail (us )?at\s+\S+@/i,
+  // Directive to an email ADDRESS to complete the action ("email hello@brand.com with your
+  // order number") — the fulfillment leaves the chat, which is a deflection even when the
+  // stated info is correct. (2026-07-13, Max: in-chat automation should complete the task; an
+  // "email us to do X" is a fail.) Requires the verb, so a policy that merely names an address
+  // ("receipts come from orders@brand.com") does not match.
+  /\b(e-?mail|contact)\s+[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}/i,
+  // Bounce to a human/customer-support desk as the resolution ("please contact Customer
+  // Support for assistance") — pushing the job out of the AI channel.
+  /\b(please |kindly |you'?ll (?:need to|have to) |you (?:can|should) )?contact (?:our )?(?:customer (?:support|service|care)|support team|customer care)\b/i,
 ];
 
 export function detectDeflection(text) {
   if (!text) return null;
-  for (const re of DEFLECT_PATTERNS) { const m = text.match(re); if (m) return m[0].trim().slice(0, 80); }
+  for (const re of DEFLECT_PATTERNS) {
+    const m = text.match(re); if (!m) continue;
+    // IN-CHANNEL guard: "contact us directly HERE IN THE CHAT" / "reach us right here" is the
+    // opposite of a deflection — the bot is keeping the shopper in-channel. Skip such matches.
+    const after = text.slice(m.index + m[0].length, m.index + m[0].length + 22).toLowerCase();
+    if (/^[\s,]*(here\b|in (the|this) chat|right here|via (this|the) chat)/.test(after)) continue;
+    return m[0].trim().slice(0, 80);
+  }
   return null;
 }
 
@@ -140,7 +156,10 @@ export function convoOutcome(turns) {
   // automation, not vanish as no_answer. `handoff_cta` is set upstream where the cleaned
   // reply is available (gen.js/run.js).
   const anyHandoffCta = attempted.some((t) => t.handoff_cta);
-  const deflectHit = attempted.map((t) => (t.handoff_cta ? "talk-to-human" : detectDeflection(t.replyTail))).find(Boolean) || null;
+  // Detect deflection on the CLEANED reply (t.replyClean, set upstream) when available — the
+  // raw replyTail still contains suggested-reply CHIPS ("How to contact customer support?")
+  // whose text would false-positive; cleaning strips chips but keeps the AI's actual prose.
+  const deflectHit = attempted.map((t) => (t.handoff_cta ? "talk-to-human" : detectDeflection(t.replyClean != null ? t.replyClean : t.replyTail))).find(Boolean) || null;
   let outcome;
   if (timed.length === 0 && !anyHandoffCta) outcome = "no_answer";
   else if (hadHandover) outcome = "handover";
