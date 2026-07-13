@@ -67,6 +67,13 @@ const GEN_STATUS = /\b[A-Z][\w'’-]{1,15}(?:\s[A-Z][\w'’-]{1,15}){0,2}\s(?:ha
 function stripInlineNoise(text) {
   return text
     .replace(GEN_STATUS, "")
+    // Envive's new shadow-DOM leaks inline SVG-icon CSS into the message text, e.g.
+    // "#widget-icon--re- path, #widget-icon--re- rect { fill: var(--envive-colors-text-link) !important; }".
+    // Strip CSS rule blocks + stray var()/!important so the reader/judge see clean prose.
+    .replace(/#[\w-][^{}<>\n]{0,160}\{[^{}]*\}/g, " ")      // CSS rule blocks ("#widget-icon… { … }") — anchor on '#' so a sentence period is never mistaken for a selector
+    .replace(/#widget-icon[\w\- ,.>+~:]*(?=\s|$)/gi, " ")   // orphan Envive icon selectors left without braces
+    .replace(/\bvar\(--[\w-]+\)/g, " ")                     // stray CSS custom-property refs
+    .replace(/\s*!important\b/gi, "")                       // stray CSS keyword
     .replace(/\b(agent |user )?response:\s*/gi, "")         // Kodif's raw role-label prefixes
     .replace(/\s*\{\}\s*/g, "\n")                           // "{}" template artifacts → block break
     // Rufus feedback widget, flattened inline in old captures: "Your feedback has been
@@ -90,6 +97,18 @@ export function stripWidgetChrome(rawReplyTail, userQuestion, opts = {}) {
     const idx = text.toLowerCase().lastIndexOf(q.toLowerCase());
     if (idx >= 0) text = text.slice(idx + q.length);        // keep only what came AFTER the echoed question
   }
+  // Envive/Spiffy: the assistant NAME is glued to the first word of the reply
+  // ("Tushbaby Shopping AssistantI don't…", "Supergoop! AINo, you…"). Strip a leading
+  // "<Brand> (Shopping Assistant|AI|Assistant|Concierge)" when a capital (the prose) follows.
+  text = text.replace(/^\s*[A-Z][A-Za-z0-9!'"&.\- ]{0,38}?(Shopping Assistant|AI Assistant|Virtual Assistant|Concierge|Assistant|AI)(?=[A-Z])/, "");
+  // Everything from "Give us feedback" onward is widget chrome (feedback CTA + trailing chips).
+  text = text.replace(/\s*Give us feedback\b[\s\S]*$/i, "");
+  // Envive's canned closer + its suggested-reply chips are glued to the tail with no spaces
+  // ("…for assistance.Is there anything else I can help you with?Track my order statusHelp…").
+  // Cut the closer (and all chips after it), then peel any chip GLUED (no space) to the prose
+  // end — safe because real prose puts a space after a sentence, only chips are jammed on.
+  text = text.replace(/\s*Is there anything else I can help you with[^.!?]*[.?!]?[\s\S]*$/i, "");
+  { let prev; do { prev = text; text = text.replace(/([.!?])[A-Z][^.!?]{2,90}[.?!]\s*$/, "$1"); } while (text !== prev); }
   let kept = text
     .split(/\n+/)
     .map((s) => s.trim())
