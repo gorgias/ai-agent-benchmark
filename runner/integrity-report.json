@@ -12,29 +12,140 @@
     "2026-07-12",
     "2026-07-13"
   ],
-  "scannedValid": 995,
-  "flaggedTotal": 54,
+  "scannedValid": 1124,
+  "flaggedTotal": 58,
   "bySeverity": {
-    "low": 54
+    "low": 54,
+    "high": 4
   },
   "byCode": {
     "REPEATED_IDENTICAL_REPLY": 52,
-    "IMPLAUSIBLY_FAST": 3
+    "IMPLAUSIBLY_FAST": 3,
+    "CHROME_ONLY_REPLY": 2,
+    "ECHO_USER_MESSAGE": 2
   },
   "byVendor": {
-    "Gorgias": 1,
+    "Gorgias": 3,
     "Rep AI": 13,
     "Siena": 16,
     "DigitalGenius": 8,
     "Kodif": 4,
     "Ada": 4,
-    "Decagon": 3,
+    "Decagon": 2,
     "Klaviyo": 2,
     "Sierra": 1,
-    "Envive": 1,
+    "Envive": 4,
     "Yuma": 1
   },
   "flagged": [
+    {
+      "id": "2026-07-08/spiffy-supergoop-shopping-gift.json",
+      "vendor": "Envive",
+      "store": "Supergoop",
+      "mode": "shopping",
+      "severity": "high",
+      "codes": [
+        "CHROME_ONLY_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "CHROME_ONLY_REPLY",
+          "severity": "high",
+          "turn": 9,
+          "evidence": "If they want to exchange it, how would that work? Supergoop! AI Is there anything else you"
+        }
+      ]
+    },
+    {
+      "id": "2026-07-10/envive-bandolier-shopping-everyday-value.json",
+      "vendor": "Envive",
+      "store": "Bandolier",
+      "mode": "shopping",
+      "severity": "high",
+      "codes": [
+        "CHROME_ONLY_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "CHROME_ONLY_REPLY",
+          "severity": "high",
+          "turn": 8,
+          "evidence": "Is there a warranty or guarantee if something goes wrong? Ask Maggie Is there anything els"
+        }
+      ]
+    },
+    {
+      "id": "2026-07-13/gorgias-artdeco-support-damaged.json",
+      "vendor": "Gorgias",
+      "store": "ARTDECO",
+      "mode": "support",
+      "severity": "high",
+      "codes": [
+        "ECHO_USER_MESSAGE"
+      ],
+      "flags": [
+        {
+          "code": "ECHO_USER_MESSAGE",
+          "severity": "high",
+          "turn": 5,
+          "evidence": "3:52 AM. You said: Do I have to pay anything to return the damaged item? 03:52 AM"
+        },
+        {
+          "code": "ECHO_USER_MESSAGE",
+          "severity": "high",
+          "turn": 6,
+          "evidence": "3:54 AM. You said: How long does the replacement take? 03:54 AM"
+        },
+        {
+          "code": "ECHO_USER_MESSAGE",
+          "severity": "high",
+          "turn": 7,
+          "evidence": "3:56 AM. You said: What if more than one item in my order is affected? 03:56 AM"
+        },
+        {
+          "code": "ECHO_USER_MESSAGE",
+          "severity": "high",
+          "turn": 8,
+          "evidence": "3:58 AM. You said: Can I keep the damaged item or must I ship it back? 03:58 AM"
+        },
+        {
+          "code": "ECHO_USER_MESSAGE",
+          "severity": "high",
+          "turn": 9,
+          "evidence": "4:00 AM. You said: Will the replacement ship with priority? 04:00 AM"
+        },
+        {
+          "code": "ECHO_USER_MESSAGE",
+          "severity": "high",
+          "turn": 10,
+          "evidence": "4:03 AM. You said: What if the replacement is also damaged? 04:03 AM"
+        }
+      ]
+    },
+    {
+      "id": "2026-07-13/gorgias-artdeco-support-policy.json",
+      "vendor": "Gorgias",
+      "store": "ARTDECO",
+      "mode": "support",
+      "severity": "high",
+      "codes": [
+        "ECHO_USER_MESSAGE"
+      ],
+      "flags": [
+        {
+          "code": "ECHO_USER_MESSAGE",
+          "severity": "high",
+          "turn": 9,
+          "evidence": "3:59 AM. You said: What's your warranty policy on defective items? 03:59 AM"
+        },
+        {
+          "code": "ECHO_USER_MESSAGE",
+          "severity": "high",
+          "turn": 10,
+          "evidence": "4:01 AM. You said: Do you have a loyalty or rewards program? 04:01 AM"
+        }
+      ]
+    },
     {
       "id": "2026-07-01/gorgias-madura-shopping-beginner.json",
       "vendor": "Gorgias",
@@ -655,24 +766,6 @@
       ]
     },
     {
-      "id": "2026-07-08/decagon-oura-support-damaged.json",
-      "vendor": "Decagon",
-      "store": "Oura",
-      "mode": "support",
-      "severity": "low",
-      "codes": [
-        "REPEATED_IDENTICAL_REPLY"
-      ],
-      "flags": [
-        {
-          "code": "REPEATED_IDENTICAL_REPLY",
-          "severity": "low",
-          "turn": null,
-          "evidence": "4× \"By using Oura's virtual assistant, you agree to your data be\""
-        }
-      ]
-    },
-    {
       "id": "2026-07-08/dg-organicbasics-shopping-compare-budget.json",
       "vendor": "DigitalGenius",
       "store": "Organic Basics",
@@ -1011,6 +1104,24 @@
           "severity": "low",
           "turn": null,
           "evidence": "6× \"Thank you for your patience! To help me recommend the best p\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-13/envive-fracture-support-order-mgmt.json",
+      "vendor": "Envive",
+      "store": "Fracture",
+      "mode": "support",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "3× \"Once an order is placed, changes can't be guaranteed due to \""
         }
       ]
     }
