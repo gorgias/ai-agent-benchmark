@@ -652,13 +652,26 @@
     <div class="mblock">
       <h3>Volume fairness — conversations per vendor</h3>
       <p>How evenly the sample is spread across vendors: every valid conversation in the selected window, counted per vendor. A thin slice means a thin sample — those vendors sit below the ≥15/lane ranking floor (shown, not ranked) until capture catches up. Vendors at zero are listed under the legend so gaps are visible, not hidden.</p>
-      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:6px 0 12px">
-        <span class="site">From</span> <input type="date" id="vp-from" oninput="renderVolPie()" style="font:inherit;padding:3px 6px;border:1px solid var(--line);border-radius:8px;background:transparent;color:inherit">
-        <span class="site">to</span> <input type="date" id="vp-to" oninput="renderVolPie()" style="font:inherit;padding:3px 6px;border:1px solid var(--line);border-radius:8px;background:transparent;color:inherit">
-        <button class="tab" onclick="document.getElementById('vp-from').value='';document.getElementById('vp-to').value='';renderVolPie()" style="padding:3px 10px">All dates</button>
+      <div class="datebar" style="justify-content:flex-start;margin:6px 0 12px">
+        <span class="datebar-lbl">Date</span>
+        <div class="dp">
+          <button class="dp-trigger" id="vdp-trigger" onclick="toggleCal(event,'vdp')"><span id="vdp-label">—</span><span class="dp-caret">▾</span></button>
+          <div class="dp-pop" id="vdp-pop" hidden onclick="event.stopPropagation()">
+            <div class="dp-head"><button class="dp-nav" onclick="calNav(-1)">‹</button><span id="vdp-title"></span><button class="dp-nav" onclick="calNav(1)">›</button></div>
+            <div class="dp-week"><span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span><span>Su</span></div>
+            <div class="dp-grid" id="vdp-grid"></div>
+            <div class="dp-presets">
+              <button class="datebtn" onclick="presetDays(7)">Last 7 days</button>
+              <button class="datebtn" onclick="presetDays(30)">Last 30 days</button>
+              <button class="datebtn" onclick="presetAll()">All dates</button>
+            </div>
+          </div>
+        </div>
+        <span class="datebar-note">same window as the whole report</span>
       </div>
-      <div style="display:flex;gap:26px;align-items:center;flex-wrap:wrap">
+      <div style="display:flex;gap:26px;align-items:center;flex-wrap:wrap;position:relative">
         <svg id="vp-svg" viewBox="0 0 220 220" width="230" height="230" role="img" aria-label="Conversations per vendor"></svg>
+        <div id="vp-tip" hidden style="position:absolute;pointer-events:none;z-index:5;background:var(--on,#111);color:var(--card,#fff);font-size:12px;font-weight:600;padding:5px 9px;border-radius:8px;white-space:nowrap;box-shadow:0 4px 14px rgba(0,0,0,.25)"></div>
         <div id="vp-legend" style="min-width:260px;flex:1"></div>
       </div>
     </div>
@@ -1022,16 +1035,21 @@ function dateNote(){
   const n=document.getElementById('date-note'); if(!n) return;
   n.textContent = '';   // runs-in-window count removed (not useful); the picker trigger already shows the selected date range
 }
+// The picker renders in TWO places (page datebar `dp-*`, Volume-fairness tab `vdp-*`) but they
+// share ONE state (DATE_FROM/DATE_TO) — a single date window drives the whole report. DP holds
+// which instance's popover is active.
+let DP='dp';
 function dpLabel(){
-  const el=document.getElementById('dp-label'); if(!el) return;
-  el.textContent = (!DATE_FROM&&!DATE_TO) ? 'All dates' : (fmtNice(DATE_FROM)+' – '+fmtNice(DATE_TO));
+  const txt = (!DATE_FROM&&!DATE_TO) ? 'All dates' : (fmtNice(DATE_FROM)+' – '+fmtNice(DATE_TO));
+  for(const id of ['dp-label','vdp-label']){ const el=document.getElementById(id); if(el) el.textContent=txt; }
 }
-function applyRange(){ dpLabel(); dateNote(); updateClearShortcut(); renderAll(); }
-function toggleCal(e){ if(e) e.stopPropagation(); const p=document.getElementById('dp-pop'); p.hidden=!p.hidden; if(!p.hidden){ const ref=DATE_TO?parse(DATE_TO):new Date(); CAL={y:ref.getFullYear(),m:ref.getMonth()}; SEL_START=null; renderCal(); } }
-function closeCal(){ const p=document.getElementById('dp-pop'); if(p) p.hidden=true; }
+function applyRange(){ dpLabel(); dateNote(); updateClearShortcut(); renderAll(); if(typeof renderVolPie==='function') renderVolPie(); }
+function toggleCal(e,pre){ if(e) e.stopPropagation(); DP=pre||'dp'; for(const other of ['dp','vdp']) if(other!==DP){ const q=document.getElementById(other+'-pop'); if(q) q.hidden=true; }
+  const p=document.getElementById(DP+'-pop'); if(!p) return; p.hidden=!p.hidden; if(!p.hidden){ const ref=DATE_TO?parse(DATE_TO):new Date(); CAL={y:ref.getFullYear(),m:ref.getMonth()}; SEL_START=null; renderCal(); } }
+function closeCal(){ for(const pre of ['dp','vdp']){ const p=document.getElementById(pre+'-pop'); if(p) p.hidden=true; } }
 function calNav(d){ let m=CAL.m+d, y=CAL.y; if(m<0){m=11;y--;} if(m>11){m=0;y++;} CAL={y,m}; renderCal(); }
 function renderCal(){
-  const title=document.getElementById('dp-title'), grid=document.getElementById('dp-grid'); if(!grid) return;
+  const title=document.getElementById(DP+'-title'), grid=document.getElementById(DP+'-grid'); if(!grid) return;
   title.textContent = new Date(CAL.y,CAL.m,1).toLocaleDateString('en-US',{month:'long',year:'numeric'});
   const first=new Date(CAL.y,CAL.m,1); let lead=(first.getDay()+6)%7;   // Monday-first
   const start=addDays(first,-lead); let html='';
@@ -1075,10 +1093,8 @@ function setMTab(t){
 function renderVolPie(){
   const svg=document.getElementById('vp-svg'); if(!svg) return;
   const all=[...STORES,...SUPPORT];
-  const dates=all.map(s=>s.date).filter(Boolean).sort();
-  const fromEl=document.getElementById('vp-from'), toEl=document.getElementById('vp-to');
-  if(fromEl.min==='' && dates.length){ fromEl.min=toEl.min=dates[0]; fromEl.max=toEl.max=dates[dates.length-1]; }
-  const from=fromEl.value||null, to=toEl.value||null;
+  // SAME window as the whole report: the global DATE_FROM/DATE_TO the standard picker drives.
+  const from=DATE_FROM||null, to=DATE_TO||null;
   const cnt={}; new Set(all.map(s=>s.vendor)).forEach(v=>cnt[v]=0);
   for(const s of all){ if(from&&s.date&&s.date<from)continue; if(to&&s.date&&s.date>to)continue; cnt[s.vendor]=(cnt[s.vendor]||0)+((s.themes&&s.themes.length)||0); }
   const rows=Object.entries(cnt).sort((a,b)=>b[1]-a[1]);
@@ -1088,7 +1104,7 @@ function renderVolPie(){
   for(const [v,c] of rows){ if(!c) continue;
     const a1=a0+(c/total)*2*Math.PI, big=(a1-a0)>Math.PI?1:0;
     const [x0,y0]=arc(a0,R),[x1,y1]=arc(a1,R),[x2,y2]=arc(a1,r),[x3,y3]=arc(a0,r);
-    paths+='<path d="M'+x0.toFixed(1)+' '+y0.toFixed(1)+' A'+R+' '+R+' 0 '+big+' 1 '+x1.toFixed(1)+' '+y1.toFixed(1)+' L'+x2.toFixed(1)+' '+y2.toFixed(1)+' A'+r+' '+r+' 0 '+big+' 0 '+x3.toFixed(1)+' '+y3.toFixed(1)+' Z" fill="'+(COL[v]||'#888')+'" stroke="var(--card,#fff)" stroke-width="2"><title>'+v+' — '+c+' convs ('+(100*c/total).toFixed(1)+'%)</title></path>';
+    paths+='<path data-v="'+v.replace(/"/g,'&quot;')+'" data-c="'+c+'" data-p="'+(100*c/total).toFixed(1)+'" d="M'+x0.toFixed(1)+' '+y0.toFixed(1)+' A'+R+' '+R+' 0 '+big+' 1 '+x1.toFixed(1)+' '+y1.toFixed(1)+' L'+x2.toFixed(1)+' '+y2.toFixed(1)+' A'+r+' '+r+' 0 '+big+' 0 '+x3.toFixed(1)+' '+y3.toFixed(1)+' Z" fill="'+(COL[v]||'#888')+'" stroke="var(--card,#fff)" stroke-width="2" style="cursor:pointer"></path>';
     a0=a1;
   }
   svg.innerHTML=paths+'<text x="'+cx+'" y="'+(cy-4)+'" text-anchor="middle" style="font:800 26px/1 inherit;fill:currentColor">'+total+'</text><text x="'+cx+'" y="'+(cy+16)+'" text-anchor="middle" style="font:11px/1 inherit;fill:var(--on-faint,#888)">conversations</text>';
@@ -1097,6 +1113,17 @@ function renderVolPie(){
     '<span style="width:10px;height:10px;border-radius:3px;background:'+(COL[v]||'#888')+';flex:none"></span>'+
     '<span style="flex:1">'+v+'</span><span class="mono">'+c+'</span>'+
     '<span class="site" style="width:52px;text-align:right">'+(total&&c?(100*c/total).toFixed(1)+'%':'—')+'</span></div>').join('');
+  // hover tooltip: vendor + volume + share, tracking the cursor (hit target = whole slice)
+  const tip=document.getElementById('vp-tip'), wrap=tip&&tip.parentElement;
+  if(tip&&!svg.__tipWired){ svg.__tipWired=true;
+    svg.addEventListener('mousemove',(e)=>{ const p=e.target.closest('path[data-v]');
+      if(!p){ tip.hidden=true; return; }
+      tip.textContent=p.dataset.v+' — '+p.dataset.c+' convs ('+p.dataset.p+'%)';
+      const wb=wrap.getBoundingClientRect(); tip.hidden=false;
+      tip.style.left=Math.min(e.clientX-wb.left+14, wb.width-tip.offsetWidth-4)+'px';
+      tip.style.top=(e.clientY-wb.top-30)+'px'; });
+    svg.addEventListener('mouseleave',()=>{ tip.hidden=true; });
+  }
 }
 // deep link: report.html#how (used by the takeaways nav bubble) opens the modal directly
 if(location.hash==='#how'){ openModal(); }
