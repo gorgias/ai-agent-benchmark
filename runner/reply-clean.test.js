@@ -120,3 +120,26 @@ test("stripWidgetChrome: a real answer with a spaced trailing question is NOT ea
   const out = stripWidgetChrome("You have 30 days from delivery to return unworn items for a full refund. Want me to start a return?", "");
   assert.equal(out, "You have 30 days from delivery to return unworn items for a full refund. Want me to start a return?");
 });
+
+// ---- boilerplate-audit findings (2026-07-13): sender labels, disclaimers, nav chrome ----
+test("stripWidgetChrome: audit-found sender-label prefixes are stripped (ButcherBot/KAI/Dermalogica)", () => {
+  assert.equal(stripWidgetChrome("ButcherBot · AI Your box ships every 4 weeks and you can skip any month.", ""), "Your box ships every 4 weeks and you can skip any month.");
+  assert.equal(stripWidgetChrome("KAI • AI ASSISTANT We restock most sizes within 2 weeks.", ""), "We restock most sizes within 2 weeks.");
+  assert.ok(!/Virtual Assistant/.test(stripWidgetChrome("Dermalogica's Virtual Assistant · AI says: Use the Daily Microfoliant once a day.", "")));
+});
+test("stripWidgetChrome: audit-found trailing persona label is stripped (Evry Customer Specialist)", () => {
+  const out = stripWidgetChrome("Your ring size can be found using our online guide. Evry Customer Specialist", "");
+  assert.equal(out, "Your ring size can be found using our online guide.");
+});
+test("stripWidgetChrome: audit-found privacy disclaimer is stripped (Oura)", () => {
+  const out = stripWidgetChrome("Your ring should arrive in 3-5 business days. By using Oura's virtual assistant, you agree to your data being processed by third parties per our policy.", "");
+  assert.ok(/3-5 business days/.test(out) && !/you agree/.test(out), out);
+});
+test("stripWidgetChrome: Klaviyo nav bar + 'Routed to human agent' lines are noise", () => {
+  assert.ok(!/FOR YOU|PROFILE/.test(stripWidgetChrome("We ship worldwide from our LA warehouse.\nFOR YOU ORDERS CHAT PROFILE", "")));
+  assert.ok(!/routed to human/i.test(stripWidgetChrome("Let me check that for you.\nRouted to human agent", "")));
+});
+test("stripWidgetChrome: genuine repeated prose is NOT stripped (equity — a habitual sign-off stays)", () => {
+  const out = stripWidgetChrome("Returns are free within 30 days via our portal. Hope that helps!", "");
+  assert.equal(out, "Returns are free within 30 days via our portal. Hope that helps!");
+});

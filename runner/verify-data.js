@@ -105,6 +105,18 @@ try {
   else ok(`capture integrity: 0 high-severity flags (${ir.flaggedTotal || 0} low/medium for review)`);
 } catch { warn.push("no integrity-report.json — run `node integrity-check.js` to scan for misread captures"); }
 
+// ---- 7. boilerplate audit (recurring message chrome the cleaner misses) ----
+// Real prose varies; chrome repeats. `node boilerplate-audit.mjs` flags any prefix/suffix
+// shared by a majority of a store's cleaned replies — new widget-chrome leaks surface here
+// instead of being hand-flagged from the report. Review flags; encode true chrome in
+// reply-clean.js (leave genuine repeated prose — e.g. a bot's habitual sign-off — alone).
+try {
+  const ba = JSON.parse(readFileSync(new URL("./boilerplate-audit.json", import.meta.url), "utf8"));
+  const n = (ba.flags || []).length;
+  if (n > 0) warn.push(`${n} recurring message pattern(s) flagged by boilerplate-audit (possible un-stripped chrome) — review boilerplate-audit.json`);
+  else ok("boilerplate audit: no recurring chrome residue");
+} catch { warn.push("no boilerplate-audit.json — run `node boilerplate-audit.mjs` to scan for chrome residue"); }
+
 // ---- verdict ----
 console.log("");
 warn.forEach((w) => console.log(`  ⚠ ${w}`));
