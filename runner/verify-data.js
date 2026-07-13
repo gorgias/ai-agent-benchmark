@@ -94,6 +94,17 @@ for (const f of ["report.html", "takeaways.html", "conv-text.json"]) {
 }
 if (!fail.some((f) => /conflict markers/.test(f))) ok("no git conflict markers in deployed artifacts");
 
+// ---- 6. capture-integrity review queue (misread-UI detector) ----
+// Surfaces conversations the integrity scanner flagged as likely capture misreads (user-echo
+// scraped as an answer, KB-nav chrome counted as a reply, etc.). Review signal, not a hard
+// fail — run `node integrity-check.js` to refresh, then review/quarantine integrity-report.json.
+try {
+  const ir = JSON.parse(readFileSync(new URL("./integrity-report.json", import.meta.url), "utf8"));
+  const high = (ir.bySeverity && ir.bySeverity.high) || 0;
+  if (high > 0) warn.push(`${high} conversation(s) flagged HIGH-severity by integrity-check (possible UI misreads still counting) — review integrity-report.json and quarantine confirmed ones`);
+  else ok(`capture integrity: 0 high-severity flags (${ir.flaggedTotal || 0} low/medium for review)`);
+} catch { warn.push("no integrity-report.json — run `node integrity-check.js` to scan for misread captures"); }
+
 // ---- verdict ----
 console.log("");
 warn.forEach((w) => console.log(`  ⚠ ${w}`));
