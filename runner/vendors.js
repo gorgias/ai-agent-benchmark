@@ -235,7 +235,8 @@ export const WIDGETS = {
     async open(page) {
       await page.waitForTimeout(2500); await dismiss(page);
       const sel = WIDGETS.spiffy.scope.match;
-      for (let i = 0; i < 25; i++) {
+      let pdpTried = false;
+      for (let i = 0; i < 30; i++) {
         const st = await page.evaluate((sel) => {
           let composer = false;
           const walk = (n) => { for (const el of (n.querySelectorAll ? n.querySelectorAll('*') : [])) { if (el.shadowRoot) { if (el.shadowRoot.querySelector(sel)) { composer = true; return; } walk(el.shadowRoot); } } };
@@ -244,6 +245,14 @@ export const WIDGETS = {
           return { composer, host: !!host };
         }, sel);
         if (st.composer) break;
+        // Some Envive stores mount the chat ONLY on a product page (e.g. Fracture) — if no
+        // composer has appeared and we aren't already on a PDP, navigate to the first product
+        // link once, then keep polling. (The legacy driver's "open via a PDP" note, generalized.)
+        if (!st.composer && !pdpTried && i >= 2 && !/\/products\//.test(page.url())) {
+          pdpTried = true;
+          const href = await page.evaluate(() => { const a = document.querySelector('a[href*="/products/"]'); return a ? a.href : null; }).catch(() => null);
+          if (href) { try { await page.goto(href, { waitUntil: "domcontentloaded", timeout: 30000 }); await page.waitForTimeout(4000); await dismiss(page); } catch {} continue; }
+        }
         if (st.host) await page.evaluate(() => {
           const host = document.querySelector('#envive-ai-floating-chat') || document.querySelector('#spiffy-ai-floating-button') || document.querySelector('#envive-ai-container') || document.querySelector('#spiffy-ai-container');
           const r = host && (host.shadowRoot || host); const btn = r && r.querySelector('button,[role=button]'); btn && btn.click();
@@ -837,7 +846,6 @@ export const STORES = [
   { key: "meta-butcherbox",   vendor: "Meta AI", store: "ButcherBox",   url: "https://www.butcherbox.com/", widget: "zendesk" },           // static.zdassets
   // Siena (chat.siena.cx webchat)
   { key: "siena-mudwtr",      vendor: "Siena",  store: "MUD\\WTR",    url: "https://mudwtr.com/",         widget: "siena" },
-  { key: "siena-spanx",       vendor: "Siena",  store: "Spanx",       url: "https://spanx.com/",          widget: "siena" },
   // Yuma (runs behind Gorgias helpdesk → drive the Gorgias widget)
   // Zendesk AI ("Meta AI") — messaging widgets re-verified 2026-07-05 via ekr.zdassets.com/compose/<key>
   // (a `messenger` product block = live conversational widget, not a help-center form).
