@@ -473,6 +473,7 @@
       <button class="tab" data-mt="metrics" aria-selected="false" onclick="setMTab('metrics')">📐 Metrics &amp; ranking</button>
       <button class="tab" data-mt="quality" aria-selected="false" onclick="setMTab('quality')">⚖️ Quality judging</button>
       <button class="tab" data-mt="method" aria-selected="false" onclick="setMTab('method')">🤝 Method &amp; honesty</button>
+<button class="tab" data-mt="volume" aria-selected="false" onclick="setMTab('volume');renderVolPie()">🥧 Volume fairness</button>
     </div>
 
     <div class="mtab" data-mtp="test">
@@ -644,6 +645,22 @@
         <li><strong>Quality judging is audited</strong> — blind batches, evidence-forced checks, deterministic signal gates (see the Quality judging tab); sampled verdicts get an adversarial audit pass and the judge-agreement rate is reported. Scores are comparative, not absolute; small vendor×lane cells (n&lt;10) are directional.</li>
         <li><strong>Gorgias gets no special treatment</strong> — same harness, same themes, same rules; one Gorgias store (Baby Bee) was excluded as a non-functional deployment, the same class as dead/chip-gated widgets excluded across all vendors. Every functioning store is shown.</li>
       </ul>
+    </div>
+    </div>
+
+    <div class="mtab" data-mtp="volume" hidden>
+    <div class="mblock">
+      <h3>Volume fairness — conversations per vendor</h3>
+      <p>How evenly the sample is spread across vendors: every valid conversation in the selected window, counted per vendor. A thin slice means a thin sample — those vendors sit below the ≥15/lane ranking floor (shown, not ranked) until capture catches up. Vendors at zero are listed under the legend so gaps are visible, not hidden.</p>
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:6px 0 12px">
+        <span class="site">From</span> <input type="date" id="vp-from" oninput="renderVolPie()" style="font:inherit;padding:3px 6px;border:1px solid var(--line);border-radius:8px;background:transparent;color:inherit">
+        <span class="site">to</span> <input type="date" id="vp-to" oninput="renderVolPie()" style="font:inherit;padding:3px 6px;border:1px solid var(--line);border-radius:8px;background:transparent;color:inherit">
+        <button class="tab" onclick="document.getElementById('vp-from').value='';document.getElementById('vp-to').value='';renderVolPie()" style="padding:3px 10px">All dates</button>
+      </div>
+      <div style="display:flex;gap:26px;align-items:center;flex-wrap:wrap">
+        <svg id="vp-svg" viewBox="0 0 220 220" width="230" height="230" role="img" aria-label="Conversations per vendor"></svg>
+        <div id="vp-legend" style="min-width:260px;flex:1"></div>
+      </div>
     </div>
     </div>
   </div>
@@ -1050,6 +1067,36 @@ document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ closeModal(); cl
 function setMTab(t){
   document.querySelectorAll('#mtabs .tab').forEach(b=>b.setAttribute('aria-selected', b.dataset.mt===t));
   document.querySelectorAll('.mtab').forEach(p=>p.hidden = p.dataset.mtp!==t);
+}
+// Volume-fairness donut (How-it-works ▸ Volume fairness): valid conversations per vendor in the
+// picked window. Donut + gaps + full legend w/ counts (identity never color-alone); slices use
+// the report-wide vendor palette COL so color follows the entity everywhere; zero-conv vendors
+// are listed so sample gaps stay visible.
+function renderVolPie(){
+  const svg=document.getElementById('vp-svg'); if(!svg) return;
+  const all=[...STORES,...SUPPORT];
+  const dates=all.map(s=>s.date).filter(Boolean).sort();
+  const fromEl=document.getElementById('vp-from'), toEl=document.getElementById('vp-to');
+  if(fromEl.min==='' && dates.length){ fromEl.min=toEl.min=dates[0]; fromEl.max=toEl.max=dates[dates.length-1]; }
+  const from=fromEl.value||null, to=toEl.value||null;
+  const cnt={}; new Set(all.map(s=>s.vendor)).forEach(v=>cnt[v]=0);
+  for(const s of all){ if(from&&s.date&&s.date<from)continue; if(to&&s.date&&s.date>to)continue; cnt[s.vendor]=(cnt[s.vendor]||0)+((s.themes&&s.themes.length)||0); }
+  const rows=Object.entries(cnt).sort((a,b)=>b[1]-a[1]);
+  const total=rows.reduce((n,[,c])=>n+c,0);
+  const cx=110,cy=110,R=86,r=54; let a0=-Math.PI/2; let paths='';
+  const arc=(a,rad)=>[cx+rad*Math.cos(a),cy+rad*Math.sin(a)];
+  for(const [v,c] of rows){ if(!c) continue;
+    const a1=a0+(c/total)*2*Math.PI, big=(a1-a0)>Math.PI?1:0;
+    const [x0,y0]=arc(a0,R),[x1,y1]=arc(a1,R),[x2,y2]=arc(a1,r),[x3,y3]=arc(a0,r);
+    paths+='<path d="M'+x0.toFixed(1)+' '+y0.toFixed(1)+' A'+R+' '+R+' 0 '+big+' 1 '+x1.toFixed(1)+' '+y1.toFixed(1)+' L'+x2.toFixed(1)+' '+y2.toFixed(1)+' A'+r+' '+r+' 0 '+big+' 0 '+x3.toFixed(1)+' '+y3.toFixed(1)+' Z" fill="'+(COL[v]||'#888')+'" stroke="var(--card,#fff)" stroke-width="2"><title>'+v+' — '+c+' convs ('+(100*c/total).toFixed(1)+'%)</title></path>';
+    a0=a1;
+  }
+  svg.innerHTML=paths+'<text x="'+cx+'" y="'+(cy-4)+'" text-anchor="middle" style="font:800 26px/1 inherit;fill:currentColor">'+total+'</text><text x="'+cx+'" y="'+(cy+16)+'" text-anchor="middle" style="font:11px/1 inherit;fill:var(--on-faint,#888)">conversations</text>';
+  document.getElementById('vp-legend').innerHTML=rows.map(([v,c])=>
+    '<div style="display:flex;align-items:center;gap:8px;padding:2px 0'+(c?'':';opacity:.45')+'">'+
+    '<span style="width:10px;height:10px;border-radius:3px;background:'+(COL[v]||'#888')+';flex:none"></span>'+
+    '<span style="flex:1">'+v+'</span><span class="mono">'+c+'</span>'+
+    '<span class="site" style="width:52px;text-align:right">'+(total&&c?(100*c/total).toFixed(1)+'%':'—')+'</span></div>').join('');
 }
 // deep link: report.html#how (used by the takeaways nav bubble) opens the modal directly
 if(location.hash==='#how'){ openModal(); }
