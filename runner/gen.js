@@ -232,6 +232,11 @@ async function loadAgg(key, mode, date) {
       // included), every vendor alike (see METHODOLOGY §Ranking). Counting them as handover/
       // deflection would penalize vendors that run the most order-specific support flows.
       if (obj.gate_blocked) continue;
+      // PROVIDER MISMATCH: at capture the widget serving this store was a DIFFERENT provider
+      // than the one we attribute it to (the store switched providers). Exclude from all
+      // aggregates so a conversation is never credited to the wrong vendor — the vendors.js
+      // mapping should be corrected. (Detected by provider-detect.js at capture time.)
+      if (obj.provider_mismatch) continue;
       // HANDOFF-ONLY re-derivation: a reply whose entire substance is a "talk to a human" /
       // "transfer you to an agent" button (no actual answer) is a DEFLECTION, not a fast
       // automated answer. Mark it (→ convoOutcome reads deflected/engaged) and drop its
