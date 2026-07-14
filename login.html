@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Gorgias AI Agent Benchmark — Sign in</title>
+<style>
+  :root{
+    --bg:#fafafa;--surface:#fff;--surface-2:#f3f4f6;
+    --line:rgba(30,36,46,.10);--glass-border:rgba(30,36,46,.10);
+    --on:#1e242e;--on-muted:#5c6370;--on-faint:#8a929e;
+    --primary:#683fcf;--primary-2:#7e55f6;--danger:#d90b28;
+    --e8:0 1px 2px rgba(30,36,46,.05),0 6px 24px rgba(30,36,46,.06);--r:16px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    color:var(--on);background:var(--bg);
+    background-image:radial-gradient(1200px 600px at 50% -10%, rgba(126,85,246,.10), transparent 60%);
+    display:flex;align-items:center;justify-content:center;min-height:100dvh;padding:24px;-webkit-font-smoothing:antialiased;
+  }
+  .card{
+    width:100%;max-width:400px;background:var(--surface);border:1px solid var(--glass-border);
+    border-radius:var(--r);box-shadow:var(--e8);padding:32px 30px 28px;text-align:center;
+  }
+  .brand{display:inline-flex;align-items:center;gap:9px;font-family:'Inter Tight','Inter',sans-serif;font-weight:800;font-size:17px;letter-spacing:-.01em;margin-bottom:22px}
+  .mark{width:20px;height:20px;border-radius:6px;background:linear-gradient(135deg,var(--primary),var(--primary-2));transform:rotate(45deg);box-shadow:0 2px 8px rgba(104,63,207,.35)}
+  h1{font-family:'Inter Tight','Inter',sans-serif;font-size:22px;font-weight:800;letter-spacing:-.02em;margin-bottom:6px}
+  .sub{color:var(--on-muted);font-size:13.5px;line-height:1.5;margin-bottom:22px}
+  form{display:flex;flex-direction:column;gap:10px}
+  .field{position:relative;text-align:left}
+  label{display:block;font-size:12px;font-weight:600;color:var(--on-muted);margin:0 0 6px 2px}
+  input[type=password]{
+    width:100%;font:inherit;font-size:15px;padding:11px 13px;border:1px solid var(--line);
+    border-radius:11px;background:var(--surface-2);color:var(--on);transition:border-color .15s, box-shadow .15s;
+  }
+  input[type=password]:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(104,63,207,.15);background:#fff}
+  button{
+    margin-top:4px;font:inherit;font-weight:700;font-size:15px;color:#fff;cursor:pointer;
+    padding:12px;border:0;border-radius:11px;background:linear-gradient(135deg,var(--primary),var(--primary-2));
+    box-shadow:0 4px 14px rgba(104,63,207,.28);transition:transform .06s, box-shadow .15s;
+  }
+  button:hover{box-shadow:0 6px 20px rgba(104,63,207,.38)}
+  button:active{transform:translateY(1px)}
+  .err{display:none;margin-bottom:14px;font-size:13px;color:var(--danger);background:rgba(217,11,40,.07);border:1px solid rgba(217,11,40,.2);border-radius:10px;padding:9px 12px}
+  .err.show{display:block}
+  .foot{margin-top:20px;font-size:11.5px;color:var(--on-faint);letter-spacing:.02em}
+  @media (prefers-color-scheme: dark){
+    :root{--bg:#0f1216;--surface:#171b21;--surface-2:#1e232b;--line:rgba(255,255,255,.10);--glass-border:rgba(255,255,255,.10);--on:#e7eaef;--on-muted:#9aa3b0;--on-faint:#6b7480;--e8:0 1px 2px rgba(0,0,0,.4),0 8px 30px rgba(0,0,0,.5)}
+    input[type=password]:focus{background:#0f1216}
+  }
+</style>
+</head>
+<body>
+  <main class="card">
+    <div class="brand"><span class="mark"></span>Gorgias</div>
+    <h1>AI Agent Benchmark</h1>
+    <p class="sub">Internal competitive intelligence — Gorgias R&amp;D.<br>Enter the access password to continue.</p>
+    <div class="err" id="err">Incorrect password. Please try again.</div>
+    <form method="POST" action="/login" autocomplete="off">
+      <div class="field">
+        <label for="pw">Access password</label>
+        <input id="pw" name="password" type="password" placeholder="••••••••••••" required autofocus>
+      </div>
+      <button type="submit">Access the benchmark</button>
+    </form>
+    <div class="foot">GORGIAS R&amp;D · COMPETITIVE INTELLIGENCE</div>
+  </main>
+  <script>
+    if (new URLSearchParams(location.search).has('e')) document.getElementById('err').classList.add('show');
+  </script>
+</body>
+</html>
