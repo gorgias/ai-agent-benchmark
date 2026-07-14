@@ -425,6 +425,11 @@ async function buildMode(mode) {
   const out = [];
   for (const site of SITES) {
     if (!site.url) continue;                 // skip TBD placeholder rows
+    // E-commerce-only benchmark (Max): Gorgias is a pure e-commerce agent, so every compared
+    // store must be a real merchant. Non-ecommerce deployments (SaaS, fintech, services —
+    // e.g. Intercom on Synthesia/Kajabi, Decagon on Bilt/Hertz) are excluded from BOTH lanes;
+    // `ecommerce:false` is set on those store rows in vendors.js.
+    if (site.ecommerce === false) continue;
     // Standing rule (Max): a Gorgias store confirmed NOT on AI Agent V3 (Evoli) is excluded
     // from BOTH lanes — V2 isn't representative of the shipping product and drags the numbers
     // down abnormally. `v3:false` is set from Cortex dim_accounts.v3_ai_agent_architecture_beta_phase

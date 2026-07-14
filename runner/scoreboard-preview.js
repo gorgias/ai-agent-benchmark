@@ -322,6 +322,7 @@ async function buildMode({ mode, dates, evals, excluded }) {
   const vendorsWithReal = new Set(SITES.filter((s) => s.url && !s.candidate).map((s) => s.vendor));
   for (const site of SITES) {
     if (!site.url) continue;
+    if (site.ecommerce === false) continue;   // e-commerce-only benchmark (matches gen.js gate)
     if (site.vendor === "Gorgias" && site.v3 === false) continue;
     if (site.key === "gorgias-madura" && mode === "shopping") continue;
     let anyMeasured = false;

@@ -1000,7 +1000,7 @@ export const STORES = [
   { key: "spiffy-fur",        vendor: "Envive", store: "Fur",           url: "https://www.furyou.com/",         widget: "spiffy" },          // cdn.spiffy.ai
   { key: "dg-kukoon",         vendor: "DigitalGenius", store: "Kukoon", url: "https://kukoon.com/",             widget: "dg", locale: "en-GB" }, // chat.digitalgenius.com
   { key: "dg-blakely",        vendor: "DigitalGenius", store: "Blakely Clothing", url: "https://www.blakelyclothing.com/", widget: "dg", locale: "en-GB" }, // chat.digitalgenius.com/init.js (verified 2026-07-07)
-  { key: "dg-drift",          vendor: "DigitalGenius", store: "Drift", url: "https://drift.co/",                widget: "dg" }, // DG_CHAT_WIDGET_CONFIG + chat.digitalgenius.com/init.js
+  { key: "dg-drift", ecommerce: false,          vendor: "DigitalGenius", store: "Drift", url: "https://drift.co/",                widget: "dg" }, // DG_CHAT_WIDGET_CONFIG + chat.digitalgenius.com/init.js
   // Cotton On Group siblings (typo/factorie/supre + cottonon) share ONE Zendesk deployment — correlated
   // samples, not independent stores; keep for coverage but read as one deployment family.
   { key: "meta-typo",         vendor: "Zendesk", store: "Typo",         url: "https://www.typo.com.au/",        widget: "zendesk", locale: "en-AU" }, // verified messenger (ekr compose)
@@ -1043,20 +1043,20 @@ export const STORES = [
   // (decagon.ai/loaders/<client>.js embed or #decagon-iframe / CSP allowlist in page source).
   { key: "decagon-oura",     vendor: "Decagon", store: "Oura",      url: "https://support.ouraring.com/",  widget: "decagon", us: true, candidate: true, modeUrl: { shopping: "https://ouraring.com/store/rings/oura-ring-5/silver" } }, // support desk on support.ouraring.com; SHOPPING agent lives on the store PDP (verified working 2026-07-14) — loader oura.js + #decagon-embed-container
   { key: "decagon-curology", vendor: "Decagon", store: "Curology",  url: "https://curology.com/",          widget: "decagon", us: true, candidate: true }, // #decagon-iframe site-wide
-  { key: "decagon-bilt",     vendor: "Decagon", store: "Bilt",      url: "https://www.bilt.com/",           widget: "decagon", us: true, candidate: true }, // loader bilt.js embedded
+  { key: "decagon-bilt", ecommerce: false,     vendor: "Decagon", store: "Bilt",      url: "https://www.bilt.com/",           widget: "decagon", us: true, candidate: true }, // loader bilt.js embedded
   { key: "decagon-quince",   vendor: "Decagon", store: "Quince",    url: "https://www.quince.com/",         widget: "decagon", us: true, candidate: true }, // "Chat provider":"Decagon"
-  { key: "decagon-substack", vendor: "Decagon", store: "Substack",  url: "https://substack.com/",           widget: "decagon", us: true, candidate: true }, // enable_decagon_chat:true
-  { key: "decagon-hertz",    vendor: "Decagon", store: "Hertz",     url: "https://www.hertz.com/rentacar/misc/index.jsp?targetPage=contact_us.jsp", widget: "decagon", us: true, candidate: true }, // decagon.ai in CSP
+  { key: "decagon-substack", ecommerce: false, vendor: "Decagon", store: "Substack",  url: "https://substack.com/",           widget: "decagon", us: true, candidate: true }, // enable_decagon_chat:true
+  { key: "decagon-hertz", ecommerce: false,    vendor: "Decagon", store: "Hertz",     url: "https://www.hertz.com/rentacar/misc/index.jsp?targetPage=contact_us.jsp", widget: "decagon", us: true, candidate: true }, // decagon.ai in CSP
 
   // Intercom (Fin AI Agent) — added 2026-07-09. All 6 signature-verified live via
   // widget.intercom.io / intercom-lightweight-app / api-iam.intercom.io in page source.
   // Fin is Intercom's default AI layer on top of the Messenger; whether it actually answers
   // cold is unconfirmed until the first capture (candidate:true), same standard as Decagon.
   { key: "intercom-avocado",    vendor: "Intercom", store: "Avocado Green Mattress", url: "https://www.avocadogreenmattress.com/", widget: "intercom", us: true, candidate: true }, // app_id le9x6vbl + widget.intercom.io
-  { key: "intercom-public",     vendor: "Intercom", store: "Public.com",            url: "https://public.com/",                    widget: "intercom", us: true, candidate: true }, // widget.intercom.io on homepage
-  { key: "intercom-kajabi",     vendor: "Intercom", store: "Kajabi",                url: "https://kajabi.com/",                    widget: "intercom", us: true, candidate: true }, // app_id gxun6ex4 + api-iam.intercom.io
-  { key: "intercom-synthesia",  vendor: "Intercom", store: "Synthesia",             url: "https://help.synthesia.io/",             widget: "intercom", us: true, candidate: true }, // intercom-lightweight-app
-  { key: "intercom-ninety",     vendor: "Intercom", store: "Ninety",                url: "https://www.ninety.io/",                 widget: "intercom", us: true, candidate: true }, // app_id u6zkohf3 + widget.intercom.io
+  { key: "intercom-public", ecommerce: false,     vendor: "Intercom", store: "Public.com",            url: "https://public.com/",                    widget: "intercom", us: true, candidate: true }, // widget.intercom.io on homepage
+  { key: "intercom-kajabi", ecommerce: false,     vendor: "Intercom", store: "Kajabi",                url: "https://kajabi.com/",                    widget: "intercom", us: true, candidate: true }, // app_id gxun6ex4 + api-iam.intercom.io
+  { key: "intercom-synthesia", ecommerce: false,  vendor: "Intercom", store: "Synthesia",             url: "https://help.synthesia.io/",             widget: "intercom", us: true, candidate: true }, // intercom-lightweight-app
+  { key: "intercom-ninety", ecommerce: false,     vendor: "Intercom", store: "Ninety",                url: "https://www.ninety.io/",                 widget: "intercom", us: true, candidate: true }, // app_id u6zkohf3 + widget.intercom.io
   { key: "intercom-tado",       vendor: "Intercom", store: "tado°",                 url: "https://www.tado.com/",                  widget: "intercom", us: true, candidate: true }, // intercom-lightweight-app
 ];
 
