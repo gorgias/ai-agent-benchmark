@@ -13,16 +13,17 @@
     "2026-07-13",
     "2026-07-14"
   ],
-  "scannedValid": 1148,
-  "flaggedTotal": 65,
+  "scannedValid": 1190,
+  "flaggedTotal": 72,
   "bySeverity": {
-    "low": 53,
-    "high": 12
+    "low": 54,
+    "high": 18
   },
   "byCode": {
-    "REPEATED_IDENTICAL_REPLY": 55,
+    "REPEATED_IDENTICAL_REPLY": 54,
     "IMPLAUSIBLY_FAST": 3,
-    "PAGE_DUMP_REPLY": 12
+    "PAGE_DUMP_REPLY": 8,
+    "ECHO_USER_MESSAGE": 10
   },
   "byVendor": {
     "Gorgias": 1,
@@ -31,33 +32,16 @@
     "DigitalGenius": 8,
     "Kodif": 4,
     "Ada": 4,
-    "Decagon": 2,
-    "Klaviyo": 13,
+    "Decagon": 3,
+    "Klaviyo": 9,
     "Sierra": 1,
     "Envive": 2,
-    "Yuma": 1
+    "Yuma": 1,
+    "Zendesk": 10
   },
   "flagged": [
     {
-      "id": "2026-07-06/klaviyo-nanuk-shopping-problem-solver.json",
-      "vendor": "Klaviyo",
-      "store": "NANUK",
-      "mode": "shopping",
-      "severity": "high",
-      "codes": [
-        "PAGE_DUMP_REPLY"
-      ],
-      "flags": [
-        {
-          "code": "PAGE_DUMP_REPLY",
-          "severity": "high",
-          "turn": 9,
-          "evidence": "ion. Is there a subscription or refill option? Nuk • AI Assistant There does not appear to"
-        }
-      ]
-    },
-    {
-      "id": "2026-07-08/klaviyo-naked-shopping-beginner.json",
+      "id": "2026-07-14/klaviyo-naked-shopping-everyday-value.json",
       "vendor": "Klaviyo",
       "store": "Naked Wardrobe",
       "mode": "shopping",
@@ -69,13 +53,55 @@
         {
           "code": "PAGE_DUMP_REPLY",
           "severity": "high",
+          "turn": 3,
+          "evidence": "COOKIE CONSENT WE AND OUR PARTNERS, INCLUDING SHOPIFY, USE COOKIES AND OTHER TECHNOLOGIES "
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
           "turn": 4,
-          "evidence": "SKIP TO CONTENT NEW ARRIVALS EVERY SUNDAY FREE DOMESTIC SHIPPING ON ORDERS OVER $250 SEARC"
+          "evidence": "COOKIE CONSENT WE AND OUR PARTNERS, INCLUDING SHOPIFY, USE COOKIES AND OTHER TECHNOLOGIES "
         }
       ]
     },
     {
-      "id": "2026-07-08/klaviyo-naked-support-returns.json",
+      "id": "2026-07-14/klaviyo-naked-shopping-gift.json",
+      "vendor": "Klaviyo",
+      "store": "Naked Wardrobe",
+      "mode": "shopping",
+      "severity": "high",
+      "codes": [
+        "PAGE_DUMP_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 6,
+          "evidence": "COOKIE CONSENT WE AND OUR PARTNERS, INCLUDING SHOPIFY, USE COOKIES AND OTHER TECHNOLOGIES "
+        }
+      ]
+    },
+    {
+      "id": "2026-07-14/klaviyo-naked-shopping-problem-solver.json",
+      "vendor": "Klaviyo",
+      "store": "Naked Wardrobe",
+      "mode": "shopping",
+      "severity": "high",
+      "codes": [
+        "PAGE_DUMP_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 3,
+          "evidence": "COOKIE CONSENT WE AND OUR PARTNERS, INCLUDING SHOPIFY, USE COOKIES AND OTHER TECHNOLOGIES "
+        }
+      ]
+    },
+    {
+      "id": "2026-07-14/klaviyo-naked-support-damaged.json",
       "vendor": "Klaviyo",
       "store": "Naked Wardrobe",
       "mode": "support",
@@ -89,66 +115,42 @@
           "code": "PAGE_DUMP_REPLY",
           "severity": "high",
           "turn": 5,
-          "evidence": "SKIP TO CONTENT NEW ARRIVALS EVERY SUNDAY FREE DOMESTIC SHIPPING ON ORDERS OVER $250 SEARC"
+          "evidence": "COOKIE CONSENT WE AND OUR PARTNERS, INCLUDING SHOPIFY, USE COOKIES AND OTHER TECHNOLOGIES "
         },
         {
           "code": "PAGE_DUMP_REPLY",
           "severity": "high",
           "turn": 7,
-          "evidence": "SKIP TO CONTENT NEW ARRIVALS EVERY SUNDAY FREE DOMESTIC SHIPPING ON ORDERS OVER $250 SEARC"
+          "evidence": "COOKIE CONSENT WE AND OUR PARTNERS, INCLUDING SHOPIFY, USE COOKIES AND OTHER TECHNOLOGIES "
         },
         {
           "code": "PAGE_DUMP_REPLY",
           "severity": "high",
           "turn": 8,
-          "evidence": "SKIP TO CONTENT NEW ARRIVALS EVERY SUNDAY FREE DOMESTIC SHIPPING ON ORDERS OVER $250 SEARC"
+          "evidence": "COOKIE CONSENT WE AND OUR PARTNERS, INCLUDING SHOPIFY, USE COOKIES AND OTHER TECHNOLOGIES "
         },
         {
           "code": "PAGE_DUMP_REPLY",
           "severity": "high",
           "turn": 9,
-          "evidence": "SKIP TO CONTENT NEW ARRIVALS EVERY SUNDAY FREE DOMESTIC SHIPPING ON ORDERS OVER $250 SEARC"
+          "evidence": "COOKIE CONSENT WE AND OUR PARTNERS, INCLUDING SHOPIFY, USE COOKIES AND OTHER TECHNOLOGIES "
         },
         {
           "code": "PAGE_DUMP_REPLY",
           "severity": "high",
           "turn": 10,
-          "evidence": "SKIP TO CONTENT NEW ARRIVALS EVERY SUNDAY FREE DOMESTIC SHIPPING ON ORDERS OVER $250 SEARC"
+          "evidence": "COOKIE CONSENT WE AND OUR PARTNERS, INCLUDING SHOPIFY, USE COOKIES AND OTHER TECHNOLOGIES "
         },
         {
           "code": "REPEATED_IDENTICAL_REPLY",
           "severity": "low",
           "turn": null,
-          "evidence": "3× \"SKIP TO CONTENT NEW ARRIVALS EVERY SUNDAY FREE DOMESTIC SHIP\""
+          "evidence": "3× \"COOKIE CONSENT WE AND OUR PARTNERS, INCLUDING SHOPIFY, USE C\""
         }
       ]
     },
     {
-      "id": "2026-07-08/klaviyo-naked-support-tracking.json",
-      "vendor": "Klaviyo",
-      "store": "Naked Wardrobe",
-      "mode": "support",
-      "severity": "high",
-      "codes": [
-        "PAGE_DUMP_REPLY"
-      ],
-      "flags": [
-        {
-          "code": "PAGE_DUMP_REPLY",
-          "severity": "high",
-          "turn": 6,
-          "evidence": "SKIP TO CONTENT NEW ARRIVALS EVERY SUNDAY FREE DOMESTIC SHIPPING ON ORDERS OVER $250 SEARC"
-        },
-        {
-          "code": "PAGE_DUMP_REPLY",
-          "severity": "high",
-          "turn": 7,
-          "evidence": "SKIP TO CONTENT NEW ARRIVALS EVERY SUNDAY FREE DOMESTIC SHIPPING ON ORDERS OVER $250 SEARC"
-        }
-      ]
-    },
-    {
-      "id": "2026-07-13/klaviyo-nanuk-shopping-beginner.json",
+      "id": "2026-07-14/klaviyo-nanuk-shopping-gift.json",
       "vendor": "Klaviyo",
       "store": "NANUK",
       "mode": "shopping",
@@ -157,37 +159,6 @@
         "PAGE_DUMP_REPLY"
       ],
       "flags": [
-        {
-          "code": "PAGE_DUMP_REPLY",
-          "severity": "high",
-          "turn": 3,
-          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
-        },
-        {
-          "code": "PAGE_DUMP_REPLY",
-          "severity": "high",
-          "turn": 4,
-          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
-        }
-      ]
-    },
-    {
-      "id": "2026-07-13/klaviyo-nanuk-shopping-compare-budget.json",
-      "vendor": "Klaviyo",
-      "store": "NANUK",
-      "mode": "shopping",
-      "severity": "high",
-      "codes": [
-        "PAGE_DUMP_REPLY",
-        "REPEATED_IDENTICAL_REPLY"
-      ],
-      "flags": [
-        {
-          "code": "PAGE_DUMP_REPLY",
-          "severity": "high",
-          "turn": 2,
-          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
-        },
         {
           "code": "PAGE_DUMP_REPLY",
           "severity": "high",
@@ -225,15 +196,21 @@
           "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
         },
         {
-          "code": "REPEATED_IDENTICAL_REPLY",
-          "severity": "low",
-          "turn": null,
-          "evidence": "5× \"Please select your shipping country. Please select your ship\""
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 9,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 10,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
         }
       ]
     },
     {
-      "id": "2026-07-13/klaviyo-nanuk-shopping-everyday-value.json",
+      "id": "2026-07-14/klaviyo-nanuk-shopping-problem-solver.json",
       "vendor": "Klaviyo",
       "store": "NANUK",
       "mode": "shopping",
@@ -247,24 +224,17 @@
           "severity": "high",
           "turn": 3,
           "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
-        },
-        {
-          "code": "PAGE_DUMP_REPLY",
-          "severity": "high",
-          "turn": 4,
-          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
         }
       ]
     },
     {
-      "id": "2026-07-13/klaviyo-nanuk-shopping-gift.json",
+      "id": "2026-07-14/klaviyo-nanuk-support-damaged.json",
       "vendor": "Klaviyo",
       "store": "NANUK",
-      "mode": "shopping",
+      "mode": "support",
       "severity": "high",
       "codes": [
-        "PAGE_DUMP_REPLY",
-        "REPEATED_IDENTICAL_REPLY"
+        "PAGE_DUMP_REPLY"
       ],
       "flags": [
         {
@@ -298,18 +268,30 @@
           "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
         },
         {
-          "code": "REPEATED_IDENTICAL_REPLY",
-          "severity": "low",
-          "turn": null,
-          "evidence": "3× \"Please select your shipping country. Please select your ship\""
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 8,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 9,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 10,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
         }
       ]
     },
     {
-      "id": "2026-07-13/klaviyo-nanuk-shopping-problem-solver.json",
+      "id": "2026-07-14/klaviyo-nanuk-support-tracking.json",
       "vendor": "Klaviyo",
       "store": "NANUK",
-      "mode": "shopping",
+      "mode": "support",
       "severity": "high",
       "codes": [
         "PAGE_DUMP_REPLY"
@@ -318,105 +300,627 @@
         {
           "code": "PAGE_DUMP_REPLY",
           "severity": "high",
-          "turn": 2,
+          "turn": 3,
           "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
         },
         {
           "code": "PAGE_DUMP_REPLY",
           "severity": "high",
-          "turn": 3,
+          "turn": 4,
           "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
         }
       ]
     },
     {
-      "id": "2026-07-13/klaviyo-nanuk-support-damaged.json",
-      "vendor": "Klaviyo",
-      "store": "NANUK",
+      "id": "2026-07-14/meta-butcherbox-shopping-compare-budget.json",
+      "vendor": "Zendesk",
+      "store": "ButcherBox",
+      "mode": "shopping",
+      "severity": "high",
+      "codes": [
+        "ECHO_USER_MESSAGE"
+      ],
+      "flags": [
+        {
+          "code": "ECHO_USER_MESSAGE",
+          "severity": "high",
+          "turn": 1,
+          "evidence": "You say: Hi! I'm deciding between a few options and money's a bit tight, can you help me c"
+        },
+        {
+          "code": "ECHO_USER_MESSAGE",
+          "severity": "high",
+          "turn": 2,
+          "evidence": "You say: I want the best bang for the buck, not the cheapest or the most expensive. Sent ·"
+        },
+        {
+          "code": "ECHO_USER_MESSAGE",
+          "severity": "high",
+          "turn": 3,
+          "evidence": "How can we help? 5:20 AM ButcherBot ButcherBot says: Hi there! To get started, please type"
+        },
+        {
+          "code": "ECHO_USER_MESSAGE",
+          "severity": "high",
+          "turn": 4,
+          "evidence": "You say: Honestly, is the pricier one worth the extra, or is the cheaper one fine? Sent · "
+        },
+        {
+          "code": "ECHO_USER_MESSAGE",
+          "severity": "high",
+          "turn": 5,
+          "evidence": "You say: Are there any current promos, bundles, or ways to save? Sent · Just now ButcherBo"
+        },
+        {
+          "code": "ECHO_USER_MESSAGE",
+          "severity": "high",
+          "turn": 6,
+          "evidence": "You say: Which would you personally pick on my budget? Sent · Just now ButcherBot · AI But"
+        }
+      ]
+    },
+    {
+      "id": "2026-07-14/meta-butcherbox-shopping-everyday-value.json",
+      "vendor": "Zendesk",
+      "store": "ButcherBox",
+      "mode": "shopping",
+      "severity": "high",
+      "codes": [
+        "ECHO_USER_MESSAGE"
+      ],
+      "flags": [
+        {
+          "code": "ECHO_USER_MESSAGE",
+          "severity": "high",
+          "turn": 1,
+          "evidence": "You say: Hi! I'm shopping but not sure what's right for me, can you help me choose? Sent ·"
+        },
+        {
+          "code": "ECHO_USER_MESSAGE",
+          "severity": "high",
+          "turn": 2,
+          "evidence": "You say: I want something for everyday use, good quality, and I care about value for money"
+        },
+        {
+          "code": "ECHO_USER_MESSAGE",
+          "severity": "high",
+          "turn": 3,
+          "evidence": "How can we help? 5:08 AM ButcherBot ButcherBot says: Hi there! To get started, please type"
+        },
+        {
+          "code": "ECHO_USER_MESSAGE",
+          "severity": "high",
+          "turn": 4,
+          "evidence": "You say: Can you compare your two most popular options and tell me which is better for me?"
+        },
+        {
+          "code": "ECHO_USER_MESSAGE",
+          "severity": "high",
+          "turn": 5,
+          "evidence": "You say: Which one is your overall best seller, and is it well reviewed? Sent · Just now B"
+        },
+        {
+          "code": "ECHO_USER_MESSAGE",
+          "severity": "high",
+          "turn": 6,
+          "evidence": "You say: Okay, can you add your top recommendation to my cart? Sent · Just now ButcherBot "
+        },
+        {
+          "code": "ECHO_USER_MESSAGE",
+          "severity": "high",
+          "turn": 7,
+          "evidence": "You say: What's my total, and do you offer free shipping or a first-order discount? Sent ·"
+        },
+        {
+          "code": "ECHO_USER_MESSAGE",
+          "severity": "high",
+          "turn": 8,
+          "evidence": "You say: Is there a warranty or guarantee if something goes wrong? Sent · Just now Butcher"
+        },
+        {
+          "code": "ECHO_USER_MESSAGE",
+          "severity": "high",
+          "turn": 9,
+          "evidence": "You say: How long will delivery take, roughly? Sent · Just now ButcherBot · AI ButcherBot "
+        },
+        {
+          "code": "ECHO_USER_MESSAGE",
+          "severity": "high",
+          "turn": 10,
+          "evidence": "5:10 AM ButcherBot · AI ButcherBot · AI says: We guarantee delivery to your home address a"
+        }
+      ]
+    },
+    {
+      "id": "2026-07-14/meta-butcherbox-shopping-gift.json",
+      "vendor": "Zendesk",
+      "store": "ButcherBox",
+      "mode": "shopping",
+      "severity": "high",
+      "codes": [
+        "ECHO_USER_MESSAGE"
+      ],
+      "flags": [
+        {
+          "code": "ECHO_USER_MESSAGE",
+          "severity": "high",
+          "turn": 1,
+          "evidence": "You say: Hi! I'm looking for a gift for someone and I'm not sure what to pick, can you hel"
+        },
+        {
+          "code": "ECHO_USER_MESSAGE",
+          "severity": "high",
+          "turn": 2,
+          "evidence": "You say: It's for someone who likes quality but isn't fussy; I want something they'll actu"
+        },
+        {
+          "code": "ECHO_USER_MESSAGE",
+          "severity": "high",
+          "turn": 3,
+          "evidence": "How can we help? 5:12 AM ButcherBot ButcherBot says: Hi there! To get started, please type"
+        },
+        {
+          "code": "ECHO_USER_MESSAGE",
+          "severity": "high",
+          "turn": 4,
+          "evidence": "You say: Between your top two gift ideas, which feels more special? Sent · Just now Butche"
+        },
+        {
+          "code": "ECHO_USER_MESSAGE",
+          "severity": "high",
+          "turn": 5,
+          "evidence": "You say: Is there a gift set or bundle that looks nicer than a single item? Sent · Just no"
+        },
+        {
+          "code": "ECHO_USER_MESSAGE",
+          "severity": "high",
+          "turn": 6,
+          "evidence": "You say: Can it arrive gift-ready, and how fast can it ship? Sent · Just now ButcherBot · "
+        }
+      ]
+    },
+    {
+      "id": "2026-07-14/meta-butcherbox-support-order-mgmt.json",
+      "vendor": "Zendesk",
+      "store": "ButcherBox",
       "mode": "support",
       "severity": "high",
       "codes": [
-        "PAGE_DUMP_REPLY",
+        "ECHO_USER_MESSAGE"
+      ],
+      "flags": [
+        {
+          "code": "ECHO_USER_MESSAGE",
+          "severity": "high",
+          "turn": 1,
+          "evidence": "You say: Can I change the shipping address on an order I just placed? Sent · Just now Butc"
+        },
+        {
+          "code": "ECHO_USER_MESSAGE",
+          "severity": "high",
+          "turn": 2,
+          "evidence": "You say: Can I cancel an order after placing it, and is there a time window? Sent · Just n"
+        },
+        {
+          "code": "ECHO_USER_MESSAGE",
+          "severity": "high",
+          "turn": 3,
+          "evidence": "How can we help? 5:40 AM ButcherBot ButcherBot says: Hi there! To get started, please type"
+        },
+        {
+          "code": "ECHO_USER_MESSAGE",
+          "severity": "high",
+          "turn": 4,
+          "evidence": "How can we help? 5:40 AM ButcherBot ButcherBot says: Hi there! To get started, please type"
+        },
+        {
+          "code": "ECHO_USER_MESSAGE",
+          "severity": "high",
+          "turn": 5,
+          "evidence": "How can we help? 5:40 AM ButcherBot ButcherBot says: Hi there! To get started, please type"
+        }
+      ]
+    },
+    {
+      "id": "2026-07-14/meta-butcherbox-support-returns.json",
+      "vendor": "Zendesk",
+      "store": "ButcherBox",
+      "mode": "support",
+      "severity": "high",
+      "codes": [
+        "ECHO_USER_MESSAGE"
+      ],
+      "flags": [
+        {
+          "code": "ECHO_USER_MESSAGE",
+          "severity": "high",
+          "turn": 1,
+          "evidence": "You say: What is your return policy? Sent · Just now ButcherBot · AI ButcherBot · AI says:"
+        },
+        {
+          "code": "ECHO_USER_MESSAGE",
+          "severity": "high",
+          "turn": 2,
+          "evidence": "You say: How many days do I have to return something? Sent · Just now ButcherBot · AI Butc"
+        },
+        {
+          "code": "ECHO_USER_MESSAGE",
+          "severity": "high",
+          "turn": 3,
+          "evidence": "How can we help? 5:38 AM ButcherBot ButcherBot says: Hi there! To get started, please type"
+        },
+        {
+          "code": "ECHO_USER_MESSAGE",
+          "severity": "high",
+          "turn": 4,
+          "evidence": "You say: Do I have to pay for return shipping? Sent · Just now ButcherBot · AI ButcherBot "
+        }
+      ]
+    },
+    {
+      "id": "2026-07-14/meta-butcherbox-support-tracking.json",
+      "vendor": "Zendesk",
+      "store": "ButcherBox",
+      "mode": "support",
+      "severity": "high",
+      "codes": [
+        "ECHO_USER_MESSAGE"
+      ],
+      "flags": [
+        {
+          "code": "ECHO_USER_MESSAGE",
+          "severity": "high",
+          "turn": 1,
+          "evidence": "You say: I placed an order a few days ago and still have no tracking, where is it? Sent · "
+        },
+        {
+          "code": "ECHO_USER_MESSAGE",
+          "severity": "high",
+          "turn": 2,
+          "evidence": "You say: How long does it normally take to ship and send a tracking number? Sent · Just no"
+        },
+        {
+          "code": "ECHO_USER_MESSAGE",
+          "severity": "high",
+          "turn": 3,
+          "evidence": "How can we help? 5:33 AM ButcherBot ButcherBot says: Hi there! To get started, please type"
+        },
+        {
+          "code": "ECHO_USER_MESSAGE",
+          "severity": "high",
+          "turn": 4,
+          "evidence": "How can we help? 5:33 AM ButcherBot ButcherBot says: Hi there! To get started, please type"
+        },
+        {
+          "code": "ECHO_USER_MESSAGE",
+          "severity": "high",
+          "turn": 5,
+          "evidence": "How can we help? 5:33 AM ButcherBot ButcherBot says: Hi there! To get started, please type"
+        },
+        {
+          "code": "ECHO_USER_MESSAGE",
+          "severity": "high",
+          "turn": 6,
+          "evidence": "You say: How do I find my tracking link? Sent · Just now ButcherBot · AI ButcherBot · AI s"
+        },
+        {
+          "code": "ECHO_USER_MESSAGE",
+          "severity": "high",
+          "turn": 7,
+          "evidence": "You say: Can you check the status of my latest order? Sent · Just now ButcherBot · AI Butc"
+        },
+        {
+          "code": "ECHO_USER_MESSAGE",
+          "severity": "high",
+          "turn": 8,
+          "evidence": "You say: My tracking says delivered but I didn't receive it, what now? Sent · Just now But"
+        },
+        {
+          "code": "ECHO_USER_MESSAGE",
+          "severity": "high",
+          "turn": 9,
+          "evidence": "5:36 AM ButcherBot · AI ButcherBot · AI says: I’m not able to directly check your order st"
+        },
+        {
+          "code": "ECHO_USER_MESSAGE",
+          "severity": "high",
+          "turn": 10,
+          "evidence": "You say: Do you compensate for a long delay? Sent · Just now ButcherBot · AI ButcherBot · "
+        }
+      ]
+    },
+    {
+      "id": "2026-07-14/meta-dermalogica-shopping-beginner.json",
+      "vendor": "Zendesk",
+      "store": "Dermalogica",
+      "mode": "shopping",
+      "severity": "high",
+      "codes": [
+        "ECHO_USER_MESSAGE",
         "REPEATED_IDENTICAL_REPLY"
       ],
       "flags": [
         {
-          "code": "PAGE_DUMP_REPLY",
+          "code": "ECHO_USER_MESSAGE",
+          "severity": "high",
+          "turn": 1,
+          "evidence": "You say: Hi! I'm completely new to this and don't know where to start, can you guide me? S"
+        },
+        {
+          "code": "ECHO_USER_MESSAGE",
+          "severity": "high",
+          "turn": 2,
+          "evidence": "You say: Can you explain the main options in simple terms? Sent · Just now Dermalogica's V"
+        },
+        {
+          "code": "ECHO_USER_MESSAGE",
           "severity": "high",
           "turn": 3,
-          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+          "evidence": "Dermalogica This chat is recorded using a cloud service and is subject to the terms of our"
         },
         {
-          "code": "PAGE_DUMP_REPLY",
+          "code": "ECHO_USER_MESSAGE",
           "severity": "high",
           "turn": 4,
-          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+          "evidence": "Dermalogica This chat is recorded using a cloud service and is subject to the terms of our"
         },
         {
-          "code": "PAGE_DUMP_REPLY",
+          "code": "ECHO_USER_MESSAGE",
           "severity": "high",
           "turn": 5,
-          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+          "evidence": "or faster delivery. Rush Shipping: $30 fee for the quickest delivery. This gives you flexi"
         },
         {
-          "code": "PAGE_DUMP_REPLY",
+          "code": "ECHO_USER_MESSAGE",
           "severity": "high",
           "turn": 6,
-          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+          "evidence": "or faster delivery. Rush Shipping: $30 fee for the quickest delivery. This gives you flexi"
+        },
+        {
+          "code": "ECHO_USER_MESSAGE",
+          "severity": "high",
+          "turn": 7,
+          "evidence": "or faster delivery. Rush Shipping: $30 fee for the quickest delivery. This gives you flexi"
+        },
+        {
+          "code": "ECHO_USER_MESSAGE",
+          "severity": "high",
+          "turn": 8,
+          "evidence": "or faster delivery. Rush Shipping: $30 fee for the quickest delivery. This gives you flexi"
+        },
+        {
+          "code": "ECHO_USER_MESSAGE",
+          "severity": "high",
+          "turn": 9,
+          "evidence": "or faster delivery. Rush Shipping: $30 fee for the quickest delivery. This gives you flexi"
+        },
+        {
+          "code": "ECHO_USER_MESSAGE",
+          "severity": "high",
+          "turn": 10,
+          "evidence": "or faster delivery. Rush Shipping: $30 fee for the quickest delivery. This gives you flexi"
         },
         {
           "code": "REPEATED_IDENTICAL_REPLY",
           "severity": "low",
           "turn": null,
-          "evidence": "3× \"Please select your shipping country. Please select your ship\""
+          "evidence": "6× \"or faster delivery. Rush Shipping: $30 fee for the quickest \""
         }
       ]
     },
     {
-      "id": "2026-07-13/klaviyo-nanuk-support-returns.json",
-      "vendor": "Klaviyo",
-      "store": "NANUK",
+      "id": "2026-07-14/meta-dermalogica-support-damaged.json",
+      "vendor": "Zendesk",
+      "store": "Dermalogica",
       "mode": "support",
       "severity": "high",
       "codes": [
-        "PAGE_DUMP_REPLY"
+        "ECHO_USER_MESSAGE"
       ],
       "flags": [
         {
-          "code": "PAGE_DUMP_REPLY",
+          "code": "ECHO_USER_MESSAGE",
           "severity": "high",
-          "turn": 3,
-          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+          "turn": 1,
+          "evidence": "You say: My order arrived and one item is damaged, what do I do? Sent · Just now Dermalogi"
         },
         {
-          "code": "PAGE_DUMP_REPLY",
+          "code": "ECHO_USER_MESSAGE",
+          "severity": "high",
+          "turn": 2,
+          "evidence": "You say: Is a damaged item handled differently from a normal return? Sent · Just now Derma"
+        },
+        {
+          "code": "ECHO_USER_MESSAGE",
+          "severity": "high",
+          "turn": 3,
+          "evidence": "Dermalogica This chat is recorded using a cloud service and is subject to the terms of our"
+        },
+        {
+          "code": "ECHO_USER_MESSAGE",
           "severity": "high",
           "turn": 4,
-          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+          "evidence": "You say: Will I get a replacement or a refund? Sent · Just now Dermalogica's Virtual Assis"
+        },
+        {
+          "code": "ECHO_USER_MESSAGE",
+          "severity": "high",
+          "turn": 5,
+          "evidence": "You say: Do I have to pay anything to return the damaged item? Sent · Just now Dermalogica"
+        },
+        {
+          "code": "ECHO_USER_MESSAGE",
+          "severity": "high",
+          "turn": 6,
+          "evidence": "You say: How long does the replacement take? Sent · Just now Dermalogica's Virtual Assista"
+        },
+        {
+          "code": "ECHO_USER_MESSAGE",
+          "severity": "high",
+          "turn": 7,
+          "evidence": "You say: What if more than one item in my order is affected? Sent · Just now Dermalogica's"
+        },
+        {
+          "code": "ECHO_USER_MESSAGE",
+          "severity": "high",
+          "turn": 8,
+          "evidence": "You say: Can I keep the damaged item or must I ship it back? Sent · Just now Dermalogica's"
+        },
+        {
+          "code": "ECHO_USER_MESSAGE",
+          "severity": "high",
+          "turn": 9,
+          "evidence": "You say: Will the replacement ship with priority? Sent · Just now Dermalogica's Virtual As"
+        },
+        {
+          "code": "ECHO_USER_MESSAGE",
+          "severity": "high",
+          "turn": 10,
+          "evidence": "You say: What if the replacement is also damaged? Sent · Just now Dermalogica's Virtual As"
         }
       ]
     },
     {
-      "id": "2026-07-13/klaviyo-nanuk-support-tracking.json",
-      "vendor": "Klaviyo",
-      "store": "NANUK",
+      "id": "2026-07-14/meta-dermalogica-support-policy.json",
+      "vendor": "Zendesk",
+      "store": "Dermalogica",
       "mode": "support",
       "severity": "high",
       "codes": [
-        "PAGE_DUMP_REPLY"
+        "ECHO_USER_MESSAGE"
       ],
       "flags": [
         {
-          "code": "PAGE_DUMP_REPLY",
+          "code": "ECHO_USER_MESSAGE",
           "severity": "high",
-          "turn": 3,
-          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+          "turn": 1,
+          "evidence": "You say: Where can I find your full shipping policy? Sent · Just now Dermalogica's Virtual"
         },
         {
-          "code": "PAGE_DUMP_REPLY",
+          "code": "ECHO_USER_MESSAGE",
+          "severity": "high",
+          "turn": 2,
+          "evidence": "You say: Do you ship internationally, and who covers customs or duties? Sent · Just now De"
+        },
+        {
+          "code": "ECHO_USER_MESSAGE",
+          "severity": "high",
+          "turn": 3,
+          "evidence": "Dermalogica This chat is recorded using a cloud service and is subject to the terms of our"
+        },
+        {
+          "code": "ECHO_USER_MESSAGE",
           "severity": "high",
           "turn": 4,
-          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+          "evidence": "Dermalogica This chat is recorded using a cloud service and is subject to the terms of our"
+        },
+        {
+          "code": "ECHO_USER_MESSAGE",
+          "severity": "high",
+          "turn": 5,
+          "evidence": "5:02 AM Dermalogica's Virtual Assistant · AI Dermalogica's Virtual Assistant · AI says: Ou"
+        },
+        {
+          "code": "ECHO_USER_MESSAGE",
+          "severity": "high",
+          "turn": 6,
+          "evidence": "5:03 AM Dermalogica's Virtual Assistant · AI Dermalogica's Virtual Assistant · AI says: Ye"
+        },
+        {
+          "code": "ECHO_USER_MESSAGE",
+          "severity": "high",
+          "turn": 7,
+          "evidence": "You say: How do I contact your support team if I have an issue with an order? Sent · Just "
+        },
+        {
+          "code": "ECHO_USER_MESSAGE",
+          "severity": "high",
+          "turn": 8,
+          "evidence": "You say: Do you price match or honor a price drop after purchase? Sent · Just now Dermalog"
+        },
+        {
+          "code": "ECHO_USER_MESSAGE",
+          "severity": "high",
+          "turn": 9,
+          "evidence": "5:04 AM Dermalogica's Virtual Assistant · AI Dermalogica's Virtual Assistant · AI says: We"
+        },
+        {
+          "code": "ECHO_USER_MESSAGE",
+          "severity": "high",
+          "turn": 10,
+          "evidence": "You say: Do you have a loyalty or rewards program? Sent · Just now Dermalogica's Virtual A"
+        }
+      ]
+    },
+    {
+      "id": "2026-07-14/meta-dermalogica-support-returns.json",
+      "vendor": "Zendesk",
+      "store": "Dermalogica",
+      "mode": "support",
+      "severity": "high",
+      "codes": [
+        "ECHO_USER_MESSAGE"
+      ],
+      "flags": [
+        {
+          "code": "ECHO_USER_MESSAGE",
+          "severity": "high",
+          "turn": 1,
+          "evidence": "You say: What is your return policy? Sent · 4:41 AM Dermalogica's Virtual Assistant · AI D"
+        },
+        {
+          "code": "ECHO_USER_MESSAGE",
+          "severity": "high",
+          "turn": 2,
+          "evidence": "You say: How many days do I have to return something? Sent · 4:41 AM Dermalogica's Virtual"
+        },
+        {
+          "code": "ECHO_USER_MESSAGE",
+          "severity": "high",
+          "turn": 3,
+          "evidence": "You say: How do I start a return or an exchange? Sent · Just now Dermalogica's Virtual Ass"
+        },
+        {
+          "code": "ECHO_USER_MESSAGE",
+          "severity": "high",
+          "turn": 4,
+          "evidence": "You say: Do I have to pay for return shipping? Sent · Just now Dermalogica's Virtual Assis"
+        },
+        {
+          "code": "ECHO_USER_MESSAGE",
+          "severity": "high",
+          "turn": 5,
+          "evidence": "4:44 AM Dermalogica's Virtual Assistant · AI Dermalogica's Virtual Assistant · AI says: Yo"
+        },
+        {
+          "code": "ECHO_USER_MESSAGE",
+          "severity": "high",
+          "turn": 6,
+          "evidence": "4:44 AM Dermalogica's Virtual Assistant · AI Dermalogica's Virtual Assistant · AI says: We"
+        },
+        {
+          "code": "ECHO_USER_MESSAGE",
+          "severity": "high",
+          "turn": 7,
+          "evidence": "You say: Are any items final sale / non-returnable? Sent · Just now Dermalogica's Virtual "
+        },
+        {
+          "code": "ECHO_USER_MESSAGE",
+          "severity": "high",
+          "turn": 8,
+          "evidence": "You say: Do I need the original packaging to return something? Sent · Just now Dermalogica"
+        },
+        {
+          "code": "ECHO_USER_MESSAGE",
+          "severity": "high",
+          "turn": 9,
+          "evidence": "4:45 AM Dermalogica's Virtual Assistant · AI Dermalogica's Virtual Assistant · AI says: Ye"
+        },
+        {
+          "code": "ECHO_USER_MESSAGE",
+          "severity": "high",
+          "turn": 10,
+          "evidence": "You say: How do I track the status of my refund? Sent · Just now Dermalogica's Virtual Ass"
         }
       ]
     },
@@ -1378,6 +1882,24 @@
           "severity": "low",
           "turn": null,
           "evidence": "3× \"Once an order is placed, changes can't be guaranteed due to \""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-14/decagon-oura-shopping-problem-solver.json",
+      "vendor": "Decagon",
+      "store": "Oura",
+      "mode": "shopping",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "4× \"If you want extra charging flexibility, an Oura Ring 5 Charg\""
         }
       ]
     }
