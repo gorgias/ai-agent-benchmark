@@ -255,8 +255,13 @@ function withTimeout(promise, ms, label) {
 async function runStoreMode(browser, store, mode, theme) {
   const w = WIDGETS[store.widget];
   const pool = theme.turns;
+  // Per-mode landing URL: some agents live in different contexts per lane — e.g. Decagon on
+  // Oura answers SHOPPING on a store PDP (ouraring.com/store/…) but SUPPORT on
+  // support.ouraring.com. store.modeUrl?.[mode] overrides store.url for that lane; everyone
+  // else just uses store.url. (Same pattern that unblocks PDP-gated shopping widgets.)
+  const openUrl = (store.modeUrl && store.modeUrl[mode]) || store.url;
   const out = {
-    key: store.key, vendor: store.vendor, store: store.store, url: store.url, us: !!store.us, widget: store.widget,
+    key: store.key, vendor: store.vendor, store: store.store, url: openUrl, us: !!store.us, widget: store.widget,
     mode, theme: theme.key, themeLabel: theme.label, date: STAMP, capturedAt: new Date().toISOString(),
     capture: {
       origin: CAPTURE_ORIGIN.origin,
@@ -337,7 +342,7 @@ async function runStoreMode(browser, store, mode, theme) {
   try {
     const _t = Date.now(), _el = () => ((Date.now() - _t) / 1000).toFixed(0) + "s";
     // "commit" returns as soon as navigation starts (not full DOM) so widget-open begins ASAP.
-    await page.goto(store.url, { waitUntil: "commit", timeout: 45000 });
+    await page.goto(openUrl, { waitUntil: "commit", timeout: 45000 });
     console.log(`  [${store.key}/${mode}/${theme.key}] page @${_el()} → opening widget…`);
     await withTimeout(w.open(page), 90000, "open");
     console.log(`  [${store.key}/${mode}/${theme.key}] widget open @${_el()} → first message`);
