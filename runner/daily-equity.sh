@@ -44,4 +44,15 @@ BAL=$!
 WD=$!
 wait $BAL 2>/dev/null; kill $WD 2>/dev/null; wait $WD 2>/dev/null
 pkill -f 'chrome-headless-shell' 2>/dev/null
+
+# Push the RAW (unjudged) captures to master so the daily judge routine can pull + score them.
+# Raw convs are additive + gen.js filters invalid ones, so this never changes the live board on
+# its own — judging/bake/deploy is the routine's job. Rebase-safe; skips cleanly if nothing new.
+D=$(date +%F)
+if [ -d "results/$D/conv" ] && [ -n "$(ls results/$D/conv/*.json 2>/dev/null)" ]; then
+  git -C .. pull --rebase --autostash origin master >/dev/null 2>&1 || true
+  git -C .. add "runner/results/$D/conv" 2>/dev/null
+  git -C .. commit -q -m "Daily equity capture $D — raw unjudged convs [automation]" 2>/dev/null \
+    && git -C .. push origin HEAD:master >/dev/null 2>&1 && echo "$(date) pushed raw convs" >> "$LOG"
+fi
 echo "===== DAILY-EQUITY DONE $(date) — valid today: $(ls results/$(date +%F)/conv/*.json 2>/dev/null | wc -l | tr -d ' ') files =====" >> "$LOG"
