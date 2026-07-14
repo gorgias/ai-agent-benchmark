@@ -243,7 +243,7 @@ async function loadAgg(key, mode, date) {
       // latency (→ not a timed answer for validity/latency). Guarded by length in
       // isHandoffOnly so a real answer that merely offers a human in passing is untouched
       // (false-gate lesson). Symmetric across vendors — chiefly corrects pure-deflection
-      // Meta AI stores that were being scored as 100%-success ~2s automated answers.
+      // Zendesk stores that were being scored as 100%-success ~2s automated answers.
       for (const t of (obj.turns || [])) {
         if (t.by !== "ai") continue;
         // Clean once and stash it: convoOutcome reads t.replyClean so deflection detection runs
@@ -521,7 +521,7 @@ const STATS = {
 // Per-vendor lane composites — computed with the EXACT formula the report uses, then injected
 // into takeaways' scoreboard so the Summary can NEVER drift from the Detailed report again.
 const PALETTE = { Gorgias:"#f0603f", Envive:"#22c55e", Ada:"#64748b", Siena:"#a855f7", Sierra:"#0ea5e9",
-  Kodif:"#eab308", "Meta AI":"#3b82f6", "Rep AI":"#ef4444", DigitalGenius:"#8b5cf6", Yuma:"#14b8a6",
+  Kodif:"#eab308", "Zendesk":"#3b82f6", "Rep AI":"#ef4444", DigitalGenius:"#8b5cf6", Yuma:"#14b8a6",
   Humind:"#f59e0b", "Google Agentic":"#4285F4", Klaviyo:"#111", "Shopify Inbox":"#95BF47" };
 const speedScoreG = (l) => Math.max(0, Math.min(100, (22 - l) / 19 * 100));
 const latNumG = (s) => { const m = (s.lat || "").match(/[\d.]+/); return m ? parseFloat(m[0]) : null; };

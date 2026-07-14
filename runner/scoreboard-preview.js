@@ -31,7 +31,7 @@ const PALETTE = {
   Siena: "#a855f7",
   Sierra: "#0ea5e9",
   Kodif: "#eab308",
-  "Meta AI": "#3b82f6",
+  "Zendesk": "#3b82f6",
   "Rep AI": "#ef4444",
   DigitalGenius: "#8b5cf6",
   Yuma: "#14b8a6",

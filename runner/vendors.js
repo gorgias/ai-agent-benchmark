@@ -432,7 +432,7 @@ export const WIDGETS = {
     },
   },
 
-  // Zendesk messaging Virtual Assistant ("Meta AI" front-end).
+  // Zendesk messaging Virtual Assistant (AI agent).
   zendesk: {
     scope: { kind: "frame", match: "Messaging window" },
     async open(page) { await page.waitForTimeout(4000); await dismiss(page); await page.evaluate(() => { try { window.zE && window.zE("messenger", "open"); } catch (e) {} }); await page.waitForTimeout(4000); },
@@ -851,9 +851,9 @@ export const STORES = [
   { key: "dg-gstar",     vendor: "DigitalGenius", store: "G-Star RAW",   url: "https://www.g-star.com/en_us",    widget: "dg", candidate: true },
   // on.com — NOT DigitalGenius on-site (verified 2026-07-01); removed from DG list.
 
-  // Meta AI (front-end = Zendesk Virtual Assistant)
-  { key: "meta-dermalogica", vendor: "Meta AI", store: "Dermalogica",   url: "https://www.dermalogica.com/",    widget: "zendesk" },
-  { key: "meta-2",           vendor: "Meta AI", store: "(2nd store)",   url: "",                                widget: "zendesk", candidate: true, todo: "find a 2nd Meta/Zendesk AI storefront" },
+  // Zendesk AI agent (messaging Virtual Assistant) — corrected from mislabel "Meta AI" 2026-07-14
+  { key: "meta-dermalogica", vendor: "Zendesk", store: "Dermalogica",   url: "https://www.dermalogica.com/",    widget: "zendesk" },
+  { key: "meta-2",           vendor: "Zendesk", store: "(2nd store)",   url: "",                                widget: "zendesk", candidate: true, todo: "find a 2nd Zendesk AI storefront" },
 
   // Ada
   { key: "ada-loop", vendor: "Ada", store: "Loop Earplugs",            url: "https://www.loopearplugs.com/",    widget: "ada" },
@@ -907,16 +907,16 @@ export const STORES = [
   { key: "gorgias-pepper",    vendor: "Gorgias", store: "Pepper",       url: "https://www.wearpepper.com/", widget: "gorgias", us: true, v3: true }, // config.gorgias + gorgias-chat — V3 (Cortex: beta_2_actions)
   { key: "gorgias-drbronner", vendor: "Gorgias", store: "Dr. Bronner's",url: "https://www.drbronner.com/",  widget: "gorgias", us: true, v3: false }, // config.gorgias — NOT on V3 (Cortex: v3 phase null; runs legacy/V2 Shopping Assistant) → excluded from Shopping
   { key: "gorgias-glamnetic", vendor: "Gorgias", store: "Glamnetic",    url: "https://www.glamnetic.com/",  widget: "gorgias", us: true, modes: ["support"] }, // config.gorgias — SUPPORT ONLY per Max (not Shopping Assistant)
-  { key: "meta-butcherbox",   vendor: "Meta AI", store: "ButcherBox",   url: "https://www.butcherbox.com/", widget: "zendesk" },           // static.zdassets
+  { key: "meta-butcherbox",   vendor: "Zendesk", store: "ButcherBox",   url: "https://www.butcherbox.com/", widget: "zendesk" },           // static.zdassets
   // Siena (chat.siena.cx webchat)
   { key: "siena-mudwtr",      vendor: "Siena",  store: "MUD\\WTR",    url: "https://mudwtr.com/",         widget: "siena" },
   // Yuma (runs behind Gorgias helpdesk → drive the Gorgias widget)
-  // Zendesk AI ("Meta AI") — messaging widgets re-verified 2026-07-05 via ekr.zdassets.com/compose/<key>
+  // Zendesk AI — messaging widgets re-verified 2026-07-05 via ekr.zdassets.com/compose/<key>
   // (a `messenger` product block = live conversational widget, not a help-center form).
-  { key: "meta-cottonon",     vendor: "Meta AI",store: "Cotton On",   url: "https://cottonon.com/US/",    widget: "zendesk" }, // verified messenger. NOTE: Cotton On Group runs ONE deployment across cottonon/typo/factorie/supre — correlated, not independent samples.
+  { key: "meta-cottonon",     vendor: "Zendesk",store: "Cotton On",   url: "https://cottonon.com/US/",    widget: "zendesk" }, // verified messenger. NOTE: Cotton On Group runs ONE deployment across cottonon/typo/factorie/supre — correlated, not independent samples.
   // quip (getquip.com) DROPPED 2026-07-05: dual-vendor page — Zendesk messenger AND a live Gorgias
   // chat install are both wired; ambiguous which widget a shopper gets, so its data can't be
-  // attributed to a single vendor. Prior captures excluded from Meta AI aggregates via drop list.
+  // attributed to a single vendor. Prior captures excluded from Zendesk aggregates via drop list.
   // Ada (often loads on the help/support page, not the homepage)
   { key: "ada-endy",          vendor: "Ada",    store: "Endy",        url: "https://www.endy.com/",       widget: "ada" },
   { key: "ada-ipsy",          vendor: "Ada",    store: "IPSY",        url: "https://help.ipsy.com/",      widget: "ada" },
@@ -1003,25 +1003,25 @@ export const STORES = [
   { key: "dg-drift",          vendor: "DigitalGenius", store: "Drift", url: "https://drift.co/",                widget: "dg" }, // DG_CHAT_WIDGET_CONFIG + chat.digitalgenius.com/init.js
   // Cotton On Group siblings (typo/factorie/supre + cottonon) share ONE Zendesk deployment — correlated
   // samples, not independent stores; keep for coverage but read as one deployment family.
-  { key: "meta-typo",         vendor: "Meta AI", store: "Typo",         url: "https://www.typo.com.au/",        widget: "zendesk", locale: "en-AU" }, // verified messenger (ekr compose)
-  { key: "meta-factorie",     vendor: "Meta AI", store: "Factorie",     url: "https://www.factorie.com.au/",    widget: "zendesk", locale: "en-AU" }, // verified messenger
-  { key: "meta-supre",        vendor: "Meta AI", store: "Supre",        url: "https://www.supre.com.au/",       widget: "zendesk", locale: "en-AU" }, // verified messenger
-  { key: "meta-puma",         vendor: "Meta AI", store: "PUMA",         url: "https://us.puma.com/",            widget: "zendesk" }, // verified messenger
-  { key: "meta-publicrec",    vendor: "Meta AI", store: "Public Rec",   url: "https://publicrec.com/",          widget: "zendesk" }, // verified messenger (Intercom strings on page are inert data, no loader)
+  { key: "meta-typo",         vendor: "Zendesk", store: "Typo",         url: "https://www.typo.com.au/",        widget: "zendesk", locale: "en-AU" }, // verified messenger (ekr compose)
+  { key: "meta-factorie",     vendor: "Zendesk", store: "Factorie",     url: "https://www.factorie.com.au/",    widget: "zendesk", locale: "en-AU" }, // verified messenger
+  { key: "meta-supre",        vendor: "Zendesk", store: "Supre",        url: "https://www.supre.com.au/",       widget: "zendesk", locale: "en-AU" }, // verified messenger
+  { key: "meta-puma",         vendor: "Zendesk", store: "PUMA",         url: "https://us.puma.com/",            widget: "zendesk" }, // verified messenger
+  { key: "meta-publicrec",    vendor: "Zendesk", store: "Public Rec",   url: "https://publicrec.com/",          widget: "zendesk" }, // verified messenger (Intercom strings on page are inert data, no loader)
   // meta-saatva DROPPED 2026-07-05: no chat-vendor snippet in served HTML (help-center links only) — not drivable headlessly.
   // NEW verified Zendesk-messenger retail storefronts (2026-07-05; ekr compose = messenger + endUserConversations):
-  { key: "meta-generalpants", vendor: "Meta AI", store: "General Pants",   url: "https://www.generalpants.com/",     widget: "zendesk", locale: "en-AU" },
-  { key: "meta-universalstore", vendor: "Meta AI", store: "Universal Store", url: "https://www.universalstore.com/", widget: "zendesk", locale: "en-AU" },
-  { key: "meta-barkers",      vendor: "Meta AI", store: "Barkers",         url: "https://www.barkersonline.co.nz/",  widget: "zendesk", locale: "en-NZ" },
-  { key: "meta-camilla",      vendor: "Meta AI", store: "CAMILLA",         url: "https://camilla.com/",              widget: "zendesk", locale: "en-AU" },
-  { key: "meta-sealy",        vendor: "Meta AI", store: "Sealy",           url: "https://www.sealy.com/",            widget: "zendesk", us: true },
-  { key: "meta-tempurpedic",  vendor: "Meta AI", store: "Tempur-Pedic",    url: "https://www.tempurpedic.com/",      widget: "zendesk", us: true },
-  { key: "meta-horizn",       vendor: "Meta AI", store: "Horizn Studios",  url: "https://www.horizn-studios.com/",   widget: "zendesk", locale: "en-GB" },
-  { key: "meta-nomnom",       vendor: "Meta AI", store: "NomNom",          url: "https://www.nomnomnow.com/",        widget: "zendesk", us: true },
-  { key: "meta-hyperice",     vendor: "Meta AI", store: "Hyperice",        url: "https://www.hyperice.com/",         widget: "zendesk", us: true },
-  { key: "meta-blundstone",   vendor: "Meta AI", store: "Blundstone",      url: "https://www.blundstone.com/",       widget: "zendesk", us: true },
-  { key: "meta-next",         vendor: "Meta AI", store: "NEXT",            url: "https://www.next.co.uk/help",       widget: "zendesk", locale: "en-GB" }, // widget loads on /help route
-  { key: "meta-petbarn",      vendor: "Meta AI", store: "Petbarn",         url: "https://www.petbarn.com.au/",       widget: "zendesk", locale: "en-AU" },
+  { key: "meta-generalpants", vendor: "Zendesk", store: "General Pants",   url: "https://www.generalpants.com/",     widget: "zendesk", locale: "en-AU" },
+  { key: "meta-universalstore", vendor: "Zendesk", store: "Universal Store", url: "https://www.universalstore.com/", widget: "zendesk", locale: "en-AU" },
+  { key: "meta-barkers",      vendor: "Zendesk", store: "Barkers",         url: "https://www.barkersonline.co.nz/",  widget: "zendesk", locale: "en-NZ" },
+  { key: "meta-camilla",      vendor: "Zendesk", store: "CAMILLA",         url: "https://camilla.com/",              widget: "zendesk", locale: "en-AU" },
+  { key: "meta-sealy",        vendor: "Zendesk", store: "Sealy",           url: "https://www.sealy.com/",            widget: "zendesk", us: true },
+  { key: "meta-tempurpedic",  vendor: "Zendesk", store: "Tempur-Pedic",    url: "https://www.tempurpedic.com/",      widget: "zendesk", us: true },
+  { key: "meta-horizn",       vendor: "Zendesk", store: "Horizn Studios",  url: "https://www.horizn-studios.com/",   widget: "zendesk", locale: "en-GB" },
+  { key: "meta-nomnom",       vendor: "Zendesk", store: "NomNom",          url: "https://www.nomnomnow.com/",        widget: "zendesk", us: true },
+  { key: "meta-hyperice",     vendor: "Zendesk", store: "Hyperice",        url: "https://www.hyperice.com/",         widget: "zendesk", us: true },
+  { key: "meta-blundstone",   vendor: "Zendesk", store: "Blundstone",      url: "https://www.blundstone.com/",       widget: "zendesk", us: true },
+  { key: "meta-next",         vendor: "Zendesk", store: "NEXT",            url: "https://www.next.co.uk/help",       widget: "zendesk", locale: "en-GB" }, // widget loads on /help route
+  { key: "meta-petbarn",      vendor: "Zendesk", store: "Petbarn",         url: "https://www.petbarn.com.au/",       widget: "zendesk", locale: "en-AU" },
   { key: "sierra-babylist",   vendor: "Sierra", store: "Babylist",      url: "https://www.babylist.com/",       widget: "sierra" },          // sierraConfig
   { key: "ada-knix",          vendor: "Ada",    store: "Knix",          url: "https://knix.com/",               widget: "ada" },             // static.ada.support
   { key: "ada-goodfood",      vendor: "Ada",    store: "Goodfood",      url: "https://www.makegoodfood.ca/",    widget: "ada", locale: "en-CA" },

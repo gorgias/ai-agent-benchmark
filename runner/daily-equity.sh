@@ -32,7 +32,7 @@ fi
 git -C "$RUNNER/.." pull --rebase --autostash origin master >/dev/null 2>&1 || true
 
 echo "===== DAILY-EQUITY START $(date) =====" >> "$LOG"
-INCLUDE="Decagon,Klaviyo,Intercom,Meta AI,Yuma,Kodif,DigitalGenius,Ada" \
+INCLUDE="Decagon,Klaviyo,Intercom,Zendesk,Yuma,Kodif,DigitalGenius,Ada" \
   TARGET=100 BUDGET=80 CONCURRENCY=4 LOAD_CAP=9 STORE_TIMEOUT_MIN=4 \
   RUN_DATE=$(date +%F) BENCHMARK_CAPTURE_ORIGIN=automation \
   node tools/balance.mjs >> "$LOG" 2>&1 &

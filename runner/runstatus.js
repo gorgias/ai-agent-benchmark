@@ -20,7 +20,7 @@ const OUT_HTML = new URL("../run-status.html", import.meta.url).pathname;
 const OUT_JSON = new URL("../run-status.json", import.meta.url).pathname;
 
 const VCOL = { Gorgias:"#f0603f", "Envive":"#22c55e", Spiffy:"#22c55e", Sierra:"#0ea5e9", Siena:"#a855f7",
-  Kodif:"#eab308", Ada:"#64748b", "Meta AI":"#3b82f6", "Rep AI":"#ef4444", DigitalGenius:"#8b5cf6",
+  Kodif:"#eab308", Ada:"#64748b", "Zendesk":"#3b82f6", "Rep AI":"#ef4444", DigitalGenius:"#8b5cf6",
   Klaviyo:"#f59e0b", Humind:"#14b8a6", Yuma:"#ec4899", Decagon:"#7c3aed" };
 
 async function newestDate() {
