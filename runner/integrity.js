@@ -47,6 +47,21 @@ export function isChromeOnly(turn) {
   return hasChrome && stripped.length < 12;
 }
 
+// PAGE DUMP — the reader lost the chat transcript and captured storefront page text instead
+// (2026-07-14, klaviyo-nanuk: after T2 every "reply" was the country-selector overlay +
+// homepage nav, timed at 17-21s as if the AI answered). Signature: cleaned reply dominated
+// by shipping-country/consent/nav boilerplate rather than conversational prose.
+export const PAGE_DUMP_RE = /(please select your (shipping )?country|buy from the country of your choice|skip to (main )?content|add to cart\s+add to cart|newsletter sign.?up|©\s?20\d\d|free shipping on orders over[^.]*\.\s*shop now)/i;
+export function isPageDump(cleanedReply) {
+  const t = (cleanedReply || "").trim();
+  if (t.length < 40) return false;
+  if (!PAGE_DUMP_RE.test(t)) return false;
+  // dominated: the boilerplate appears in the first third, or repeats
+  const idx = t.search(PAGE_DUMP_RE);
+  const hits = (t.match(new RegExp(PAGE_DUMP_RE.source, "gi")) || []).length;
+  return idx < t.length / 3 || hits >= 2;
+}
+
 // Implausibly fast to be a generated answer — likely a cached/echoed/chrome element.
 export function isImplausiblyFast(turn, floorMs = 700) {
   const ms = turn.ai_latency_ms != null ? turn.ai_latency_ms : turn.complete_ms;
@@ -64,6 +79,7 @@ export function scanConversation(conv) {
     const clean = cleanedReply(t);
     const ev = (t.replyText || t.replyTail || "").replace(/\s+/g, " ").slice(0, 90);
     if (isUserEcho(t)) flags.push({ code: "ECHO_USER_MESSAGE", severity: "high", turn: t.turn, evidence: ev });
+    else if (isPageDump(clean)) flags.push({ code: "PAGE_DUMP_REPLY", severity: "high", turn: t.turn, evidence: ev });
     else if (isChromeOnly(t)) flags.push({ code: "CHROME_ONLY_REPLY", severity: "high", turn: t.turn, evidence: ev });
     if (isImplausiblyFast(t)) flags.push({ code: "IMPLAUSIBLY_FAST", severity: "low", turn: t.turn, evidence: `${t.ai_latency_ms ?? t.complete_ms}ms · ${ev}` });
     if (clean.length >= 12) reps[clean] = (reps[clean] || 0) + 1;

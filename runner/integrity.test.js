@@ -1,7 +1,7 @@
 // Unit tests for conversation-integrity detectors.  Run:  node --test
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { isUserEcho, isChromeOnly, isImplausiblyFast, scanConversation, integrityVerdict } from "./integrity.js";
+import { isUserEcho, isChromeOnly, isImplausiblyFast, isPageDump, scanConversation, integrityVerdict } from "./integrity.js";
 
 const ai = (o) => ({ by: "ai", complete_ms: 4000, ai_latency_ms: 4000, ...o });
 
@@ -56,4 +56,21 @@ test("scanConversation: ≥3 identical replies flags REPEATED (low, review)", ()
   const conv = { turns: [ ai({ turn: 1, replyText: same }), ai({ turn: 2, replyText: same }), ai({ turn: 3, replyText: same }) ] };
   const codes = scanConversation(conv).map((f) => f.code);
   assert.ok(codes.includes("REPEATED_IDENTICAL_REPLY"));
+});
+
+// ---- PAGE DUMP (2026-07-14, klaviyo-nanuk): reader captured the storefront instead of the chat ----
+test("isPageDump: country-selector/homepage dump captured as a reply is flagged", () => {
+  assert.equal(isPageDump("Please select your shipping country. Please select your shipping country. Buy from the country of your choice. CASES BAGS ACCESSORIES injection-molded pro"), true);
+});
+test("isPageDump: a real answer that merely mentions shipping countries is NOT flagged", () => {
+  assert.equal(isPageDump("We ship to 40+ countries. Once you pick your shipping country at checkout, duties are calculated automatically and delivery takes 5-7 business days."), false);
+});
+test("scanConversation: a nanuk-style dump conversation is HIGH severity", () => {
+  const conv = { turns: [
+    { by: "ai", complete_ms: 9000, ai_latency_ms: 9000, turn: 1, replyText: "To get started, our small cases fit cameras and drones; tell me what you carry." },
+    { by: "ai", complete_ms: 21000, ai_latency_ms: 21000, turn: 2, replyText: "Please select your shipping country. Please select your shipping country. Buy from the country of your choice. CASES BAGS" },
+  ] };
+  const v = integrityVerdict(conv);
+  assert.equal(v.severity, "high");
+  assert.ok(v.flags.some(f => f.code === "PAGE_DUMP_REPLY"));
 });
