@@ -10,139 +10,413 @@
     "2026-07-09",
     "2026-07-10",
     "2026-07-12",
-    "2026-07-13"
+    "2026-07-13",
+    "2026-07-14"
   ],
-  "scannedValid": 1124,
-  "flaggedTotal": 58,
+  "scannedValid": 1148,
+  "flaggedTotal": 65,
   "bySeverity": {
-    "low": 54,
-    "high": 4
+    "low": 53,
+    "high": 12
   },
   "byCode": {
-    "REPEATED_IDENTICAL_REPLY": 52,
+    "REPEATED_IDENTICAL_REPLY": 55,
     "IMPLAUSIBLY_FAST": 3,
-    "CHROME_ONLY_REPLY": 2,
-    "ECHO_USER_MESSAGE": 2
+    "PAGE_DUMP_REPLY": 12
   },
   "byVendor": {
-    "Gorgias": 3,
+    "Gorgias": 1,
     "Rep AI": 13,
     "Siena": 16,
     "DigitalGenius": 8,
     "Kodif": 4,
     "Ada": 4,
     "Decagon": 2,
-    "Klaviyo": 2,
+    "Klaviyo": 13,
     "Sierra": 1,
-    "Envive": 4,
+    "Envive": 2,
     "Yuma": 1
   },
   "flagged": [
     {
-      "id": "2026-07-08/spiffy-supergoop-shopping-gift.json",
-      "vendor": "Envive",
-      "store": "Supergoop",
+      "id": "2026-07-06/klaviyo-nanuk-shopping-problem-solver.json",
+      "vendor": "Klaviyo",
+      "store": "NANUK",
       "mode": "shopping",
       "severity": "high",
       "codes": [
-        "CHROME_ONLY_REPLY"
+        "PAGE_DUMP_REPLY"
       ],
       "flags": [
         {
-          "code": "CHROME_ONLY_REPLY",
+          "code": "PAGE_DUMP_REPLY",
           "severity": "high",
           "turn": 9,
-          "evidence": "If they want to exchange it, how would that work? Supergoop! AI Is there anything else you"
+          "evidence": "ion. Is there a subscription or refill option? Nuk • AI Assistant There does not appear to"
         }
       ]
     },
     {
-      "id": "2026-07-10/envive-bandolier-shopping-everyday-value.json",
-      "vendor": "Envive",
-      "store": "Bandolier",
+      "id": "2026-07-08/klaviyo-naked-shopping-beginner.json",
+      "vendor": "Klaviyo",
+      "store": "Naked Wardrobe",
       "mode": "shopping",
       "severity": "high",
       "codes": [
-        "CHROME_ONLY_REPLY"
+        "PAGE_DUMP_REPLY"
       ],
       "flags": [
         {
-          "code": "CHROME_ONLY_REPLY",
+          "code": "PAGE_DUMP_REPLY",
           "severity": "high",
-          "turn": 8,
-          "evidence": "Is there a warranty or guarantee if something goes wrong? Ask Maggie Is there anything els"
+          "turn": 4,
+          "evidence": "SKIP TO CONTENT NEW ARRIVALS EVERY SUNDAY FREE DOMESTIC SHIPPING ON ORDERS OVER $250 SEARC"
         }
       ]
     },
     {
-      "id": "2026-07-13/gorgias-artdeco-support-damaged.json",
-      "vendor": "Gorgias",
-      "store": "ARTDECO",
+      "id": "2026-07-08/klaviyo-naked-support-returns.json",
+      "vendor": "Klaviyo",
+      "store": "Naked Wardrobe",
       "mode": "support",
       "severity": "high",
       "codes": [
-        "ECHO_USER_MESSAGE"
+        "PAGE_DUMP_REPLY",
+        "REPEATED_IDENTICAL_REPLY"
       ],
       "flags": [
         {
-          "code": "ECHO_USER_MESSAGE",
+          "code": "PAGE_DUMP_REPLY",
           "severity": "high",
           "turn": 5,
-          "evidence": "3:52 AM. You said: Do I have to pay anything to return the damaged item? 03:52 AM"
+          "evidence": "SKIP TO CONTENT NEW ARRIVALS EVERY SUNDAY FREE DOMESTIC SHIPPING ON ORDERS OVER $250 SEARC"
         },
         {
-          "code": "ECHO_USER_MESSAGE",
-          "severity": "high",
-          "turn": 6,
-          "evidence": "3:54 AM. You said: How long does the replacement take? 03:54 AM"
-        },
-        {
-          "code": "ECHO_USER_MESSAGE",
+          "code": "PAGE_DUMP_REPLY",
           "severity": "high",
           "turn": 7,
-          "evidence": "3:56 AM. You said: What if more than one item in my order is affected? 03:56 AM"
+          "evidence": "SKIP TO CONTENT NEW ARRIVALS EVERY SUNDAY FREE DOMESTIC SHIPPING ON ORDERS OVER $250 SEARC"
         },
         {
-          "code": "ECHO_USER_MESSAGE",
+          "code": "PAGE_DUMP_REPLY",
           "severity": "high",
           "turn": 8,
-          "evidence": "3:58 AM. You said: Can I keep the damaged item or must I ship it back? 03:58 AM"
+          "evidence": "SKIP TO CONTENT NEW ARRIVALS EVERY SUNDAY FREE DOMESTIC SHIPPING ON ORDERS OVER $250 SEARC"
         },
         {
-          "code": "ECHO_USER_MESSAGE",
+          "code": "PAGE_DUMP_REPLY",
           "severity": "high",
           "turn": 9,
-          "evidence": "4:00 AM. You said: Will the replacement ship with priority? 04:00 AM"
+          "evidence": "SKIP TO CONTENT NEW ARRIVALS EVERY SUNDAY FREE DOMESTIC SHIPPING ON ORDERS OVER $250 SEARC"
         },
         {
-          "code": "ECHO_USER_MESSAGE",
+          "code": "PAGE_DUMP_REPLY",
           "severity": "high",
           "turn": 10,
-          "evidence": "4:03 AM. You said: What if the replacement is also damaged? 04:03 AM"
+          "evidence": "SKIP TO CONTENT NEW ARRIVALS EVERY SUNDAY FREE DOMESTIC SHIPPING ON ORDERS OVER $250 SEARC"
+        },
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "3× \"SKIP TO CONTENT NEW ARRIVALS EVERY SUNDAY FREE DOMESTIC SHIP\""
         }
       ]
     },
     {
-      "id": "2026-07-13/gorgias-artdeco-support-policy.json",
-      "vendor": "Gorgias",
-      "store": "ARTDECO",
+      "id": "2026-07-08/klaviyo-naked-support-tracking.json",
+      "vendor": "Klaviyo",
+      "store": "Naked Wardrobe",
       "mode": "support",
       "severity": "high",
       "codes": [
-        "ECHO_USER_MESSAGE"
+        "PAGE_DUMP_REPLY"
       ],
       "flags": [
         {
-          "code": "ECHO_USER_MESSAGE",
+          "code": "PAGE_DUMP_REPLY",
           "severity": "high",
-          "turn": 9,
-          "evidence": "3:59 AM. You said: What's your warranty policy on defective items? 03:59 AM"
+          "turn": 6,
+          "evidence": "SKIP TO CONTENT NEW ARRIVALS EVERY SUNDAY FREE DOMESTIC SHIPPING ON ORDERS OVER $250 SEARC"
         },
         {
-          "code": "ECHO_USER_MESSAGE",
+          "code": "PAGE_DUMP_REPLY",
           "severity": "high",
-          "turn": 10,
-          "evidence": "4:01 AM. You said: Do you have a loyalty or rewards program? 04:01 AM"
+          "turn": 7,
+          "evidence": "SKIP TO CONTENT NEW ARRIVALS EVERY SUNDAY FREE DOMESTIC SHIPPING ON ORDERS OVER $250 SEARC"
+        }
+      ]
+    },
+    {
+      "id": "2026-07-13/klaviyo-nanuk-shopping-beginner.json",
+      "vendor": "Klaviyo",
+      "store": "NANUK",
+      "mode": "shopping",
+      "severity": "high",
+      "codes": [
+        "PAGE_DUMP_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 3,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 4,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        }
+      ]
+    },
+    {
+      "id": "2026-07-13/klaviyo-nanuk-shopping-compare-budget.json",
+      "vendor": "Klaviyo",
+      "store": "NANUK",
+      "mode": "shopping",
+      "severity": "high",
+      "codes": [
+        "PAGE_DUMP_REPLY",
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 2,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 3,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 4,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 5,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 6,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 7,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 8,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "5× \"Please select your shipping country. Please select your ship\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-13/klaviyo-nanuk-shopping-everyday-value.json",
+      "vendor": "Klaviyo",
+      "store": "NANUK",
+      "mode": "shopping",
+      "severity": "high",
+      "codes": [
+        "PAGE_DUMP_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 3,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 4,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        }
+      ]
+    },
+    {
+      "id": "2026-07-13/klaviyo-nanuk-shopping-gift.json",
+      "vendor": "Klaviyo",
+      "store": "NANUK",
+      "mode": "shopping",
+      "severity": "high",
+      "codes": [
+        "PAGE_DUMP_REPLY",
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 3,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 4,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 5,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 6,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 7,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "3× \"Please select your shipping country. Please select your ship\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-13/klaviyo-nanuk-shopping-problem-solver.json",
+      "vendor": "Klaviyo",
+      "store": "NANUK",
+      "mode": "shopping",
+      "severity": "high",
+      "codes": [
+        "PAGE_DUMP_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 2,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 3,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        }
+      ]
+    },
+    {
+      "id": "2026-07-13/klaviyo-nanuk-support-damaged.json",
+      "vendor": "Klaviyo",
+      "store": "NANUK",
+      "mode": "support",
+      "severity": "high",
+      "codes": [
+        "PAGE_DUMP_REPLY",
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 3,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 4,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 5,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 6,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "3× \"Please select your shipping country. Please select your ship\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-13/klaviyo-nanuk-support-returns.json",
+      "vendor": "Klaviyo",
+      "store": "NANUK",
+      "mode": "support",
+      "severity": "high",
+      "codes": [
+        "PAGE_DUMP_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 3,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 4,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        }
+      ]
+    },
+    {
+      "id": "2026-07-13/klaviyo-nanuk-support-tracking.json",
+      "vendor": "Klaviyo",
+      "store": "NANUK",
+      "mode": "support",
+      "severity": "high",
+      "codes": [
+        "PAGE_DUMP_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 3,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 4,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
         }
       ]
     },
@@ -780,24 +1054,6 @@
           "severity": "low",
           "turn": null,
           "evidence": "4× \". If you have any specific questions about the products, fee\""
-        }
-      ]
-    },
-    {
-      "id": "2026-07-08/klaviyo-naked-support-returns.json",
-      "vendor": "Klaviyo",
-      "store": "Naked Wardrobe",
-      "mode": "support",
-      "severity": "low",
-      "codes": [
-        "REPEATED_IDENTICAL_REPLY"
-      ],
-      "flags": [
-        {
-          "code": "REPEATED_IDENTICAL_REPLY",
-          "severity": "low",
-          "turn": null,
-          "evidence": "3× \"SKIP TO CONTENT NEW ARRIVALS EVERY SUNDAY FREE DOMESTIC SHIP\""
         }
       ]
     },

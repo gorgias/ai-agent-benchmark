@@ -1585,30 +1585,412 @@
       ],
       "notes": "Auto-flagged misread capture: ECHO_USER_MESSAGE. Evidence: 3:59 AM. You said: What's your warranty policy on defective items? 03:59 AM"
     },
-    "2026-07-10/intercom-avocado-shopping-beginner.json": { "reason": "intercom_timestamp_drift_corrupts_reply_delta", "detected_at": "2026-07-13", "detected_by": "claude", "scope": ["scoreboard", "report", "eval-pack"], "notes": "run.js's per-turn reply delta (common-prefix scan vs the pre-send transcript) breaks on Intercom's live-updating relative timestamps (\"Just now\" -> \"1m\" -> \"2m\") on already-sent messages: the drift trips the char-compare within the first ~100 chars, the 70% common-prefix gate never clears, and every turn from roughly turn 5 onward falls back to the WHOLE accumulated transcript, replaying prior turns as the \"new\" reply (capped at 4000 chars from the front, so later real answers are silently dropped). Fixed in run.js (position-mapped timestamp normalization before the diff) 2026-07-13; excluded pending a clean rerun." },
-    "2026-07-10/intercom-avocado-shopping-compare-budget.json": { "reason": "intercom_timestamp_drift_corrupts_reply_delta", "detected_at": "2026-07-13", "detected_by": "claude", "scope": ["scoreboard", "report", "eval-pack"], "notes": "See intercom-avocado-shopping-beginner.json same date; identical root cause, fixed in run.js 2026-07-13." },
-    "2026-07-10/intercom-avocado-shopping-everyday-value.json": { "reason": "intercom_timestamp_drift_corrupts_reply_delta", "detected_at": "2026-07-13", "detected_by": "claude", "scope": ["scoreboard", "report", "eval-pack"], "notes": "See intercom-avocado-shopping-beginner.json same date; identical root cause, fixed in run.js 2026-07-13." },
-    "2026-07-10/intercom-avocado-shopping-gift.json": { "reason": "intercom_timestamp_drift_corrupts_reply_delta", "detected_at": "2026-07-13", "detected_by": "claude", "scope": ["scoreboard", "report", "eval-pack"], "notes": "See intercom-avocado-shopping-beginner.json same date; identical root cause, fixed in run.js 2026-07-13." },
-    "2026-07-10/intercom-avocado-shopping-problem-solver.json": { "reason": "intercom_timestamp_drift_corrupts_reply_delta", "detected_at": "2026-07-13", "detected_by": "claude", "scope": ["scoreboard", "report", "eval-pack"], "notes": "See intercom-avocado-shopping-beginner.json same date; identical root cause, fixed in run.js 2026-07-13." },
-    "2026-07-10/intercom-avocado-support-damaged.json": { "reason": "intercom_timestamp_drift_corrupts_reply_delta", "detected_at": "2026-07-13", "detected_by": "claude", "scope": ["scoreboard", "report", "eval-pack"], "notes": "See intercom-avocado-shopping-beginner.json same date; identical root cause, fixed in run.js 2026-07-13." },
-    "2026-07-10/intercom-avocado-support-order-mgmt.json": { "reason": "intercom_timestamp_drift_corrupts_reply_delta", "detected_at": "2026-07-13", "detected_by": "claude", "scope": ["scoreboard", "report", "eval-pack"], "notes": "See intercom-avocado-shopping-beginner.json same date; identical root cause, fixed in run.js 2026-07-13." },
-    "2026-07-10/intercom-avocado-support-returns.json": { "reason": "intercom_timestamp_drift_corrupts_reply_delta", "detected_at": "2026-07-13", "detected_by": "claude", "scope": ["scoreboard", "report", "eval-pack"], "notes": "See intercom-avocado-shopping-beginner.json same date; identical root cause, fixed in run.js 2026-07-13." },
-    "2026-07-10/intercom-avocado-support-tracking.json": { "reason": "intercom_timestamp_drift_corrupts_reply_delta", "detected_at": "2026-07-13", "detected_by": "claude", "scope": ["scoreboard", "report", "eval-pack"], "notes": "See intercom-avocado-shopping-beginner.json same date; identical root cause, fixed in run.js 2026-07-13." },
-    "2026-07-10/intercom-kajabi-shopping-beginner.json": { "reason": "intercom_timestamp_drift_corrupts_reply_delta", "detected_at": "2026-07-13", "detected_by": "claude", "scope": ["scoreboard", "report", "eval-pack"], "notes": "See intercom-avocado-shopping-beginner.json same date; identical root cause, fixed in run.js 2026-07-13." },
-    "2026-07-10/intercom-kajabi-shopping-compare-budget.json": { "reason": "intercom_timestamp_drift_corrupts_reply_delta", "detected_at": "2026-07-13", "detected_by": "claude", "scope": ["scoreboard", "report", "eval-pack"], "notes": "See intercom-avocado-shopping-beginner.json same date; identical root cause, fixed in run.js 2026-07-13." },
-    "2026-07-10/intercom-kajabi-shopping-everyday-value.json": { "reason": "intercom_timestamp_drift_corrupts_reply_delta", "detected_at": "2026-07-13", "detected_by": "claude", "scope": ["scoreboard", "report", "eval-pack"], "notes": "See intercom-avocado-shopping-beginner.json same date; identical root cause, fixed in run.js 2026-07-13." },
-    "2026-07-10/intercom-kajabi-shopping-gift.json": { "reason": "intercom_timestamp_drift_corrupts_reply_delta", "detected_at": "2026-07-13", "detected_by": "claude", "scope": ["scoreboard", "report", "eval-pack"], "notes": "See intercom-avocado-shopping-beginner.json same date; identical root cause, fixed in run.js 2026-07-13." },
-    "2026-07-10/intercom-kajabi-shopping-problem-solver.json": { "reason": "intercom_timestamp_drift_corrupts_reply_delta", "detected_at": "2026-07-13", "detected_by": "claude", "scope": ["scoreboard", "report", "eval-pack"], "notes": "See intercom-avocado-shopping-beginner.json same date; identical root cause, fixed in run.js 2026-07-13." },
-    "2026-07-10/intercom-kajabi-support-damaged.json": { "reason": "intercom_timestamp_drift_corrupts_reply_delta", "detected_at": "2026-07-13", "detected_by": "claude", "scope": ["scoreboard", "report", "eval-pack"], "notes": "See intercom-avocado-shopping-beginner.json same date; identical root cause, fixed in run.js 2026-07-13." },
-    "2026-07-10/intercom-kajabi-support-returns.json": { "reason": "intercom_timestamp_drift_corrupts_reply_delta", "detected_at": "2026-07-13", "detected_by": "claude", "scope": ["scoreboard", "report", "eval-pack"], "notes": "See intercom-avocado-shopping-beginner.json same date; identical root cause, fixed in run.js 2026-07-13." },
-    "2026-07-10/intercom-kajabi-support-tracking.json": { "reason": "intercom_timestamp_drift_corrupts_reply_delta", "detected_at": "2026-07-13", "detected_by": "claude", "scope": ["scoreboard", "report", "eval-pack"], "notes": "See intercom-avocado-shopping-beginner.json same date; identical root cause, fixed in run.js 2026-07-13." },
-    "2026-07-10/intercom-synthesia-shopping-beginner.json": { "reason": "intercom_timestamp_drift_corrupts_reply_delta", "detected_at": "2026-07-13", "detected_by": "claude", "scope": ["scoreboard", "report", "eval-pack"], "notes": "See intercom-avocado-shopping-beginner.json same date; identical root cause, fixed in run.js 2026-07-13." },
-    "2026-07-10/intercom-synthesia-shopping-compare-budget.json": { "reason": "intercom_timestamp_drift_corrupts_reply_delta", "detected_at": "2026-07-13", "detected_by": "claude", "scope": ["scoreboard", "report", "eval-pack"], "notes": "See intercom-avocado-shopping-beginner.json same date; identical root cause, fixed in run.js 2026-07-13." },
-    "2026-07-10/intercom-synthesia-shopping-everyday-value.json": { "reason": "intercom_timestamp_drift_corrupts_reply_delta", "detected_at": "2026-07-13", "detected_by": "claude", "scope": ["scoreboard", "report", "eval-pack"], "notes": "See intercom-avocado-shopping-beginner.json same date; identical root cause, fixed in run.js 2026-07-13." },
-    "2026-07-10/intercom-synthesia-shopping-gift.json": { "reason": "intercom_timestamp_drift_corrupts_reply_delta", "detected_at": "2026-07-13", "detected_by": "claude", "scope": ["scoreboard", "report", "eval-pack"], "notes": "See intercom-avocado-shopping-beginner.json same date; identical root cause, fixed in run.js 2026-07-13." },
-    "2026-07-10/intercom-synthesia-shopping-problem-solver.json": { "reason": "intercom_timestamp_drift_corrupts_reply_delta", "detected_at": "2026-07-13", "detected_by": "claude", "scope": ["scoreboard", "report", "eval-pack"], "notes": "See intercom-avocado-shopping-beginner.json same date; identical root cause, fixed in run.js 2026-07-13." },
-    "2026-07-10/intercom-synthesia-support-damaged.json": { "reason": "intercom_timestamp_drift_corrupts_reply_delta", "detected_at": "2026-07-13", "detected_by": "claude", "scope": ["scoreboard", "report", "eval-pack"], "notes": "See intercom-avocado-shopping-beginner.json same date; identical root cause, fixed in run.js 2026-07-13." },
-    "2026-07-10/intercom-synthesia-support-returns.json": { "reason": "intercom_timestamp_drift_corrupts_reply_delta", "detected_at": "2026-07-13", "detected_by": "claude", "scope": ["scoreboard", "report", "eval-pack"], "notes": "See intercom-avocado-shopping-beginner.json same date; identical root cause, fixed in run.js 2026-07-13." },
-    "2026-07-10/intercom-synthesia-support-tracking.json": { "reason": "intercom_timestamp_drift_corrupts_reply_delta", "detected_at": "2026-07-13", "detected_by": "claude", "scope": ["scoreboard", "report", "eval-pack"], "notes": "See intercom-avocado-shopping-beginner.json same date; identical root cause, fixed in run.js 2026-07-13." }
+    "2026-07-10/intercom-avocado-shopping-beginner.json": {
+      "reason": "intercom_timestamp_drift_corrupts_reply_delta",
+      "detected_at": "2026-07-13",
+      "detected_by": "claude",
+      "scope": [
+        "scoreboard",
+        "report",
+        "eval-pack"
+      ],
+      "notes": "run.js's per-turn reply delta (common-prefix scan vs the pre-send transcript) breaks on Intercom's live-updating relative timestamps (\"Just now\" -> \"1m\" -> \"2m\") on already-sent messages: the drift trips the char-compare within the first ~100 chars, the 70% common-prefix gate never clears, and every turn from roughly turn 5 onward falls back to the WHOLE accumulated transcript, replaying prior turns as the \"new\" reply (capped at 4000 chars from the front, so later real answers are silently dropped). Fixed in run.js (position-mapped timestamp normalization before the diff) 2026-07-13; excluded pending a clean rerun."
+    },
+    "2026-07-10/intercom-avocado-shopping-compare-budget.json": {
+      "reason": "intercom_timestamp_drift_corrupts_reply_delta",
+      "detected_at": "2026-07-13",
+      "detected_by": "claude",
+      "scope": [
+        "scoreboard",
+        "report",
+        "eval-pack"
+      ],
+      "notes": "See intercom-avocado-shopping-beginner.json same date; identical root cause, fixed in run.js 2026-07-13."
+    },
+    "2026-07-10/intercom-avocado-shopping-everyday-value.json": {
+      "reason": "intercom_timestamp_drift_corrupts_reply_delta",
+      "detected_at": "2026-07-13",
+      "detected_by": "claude",
+      "scope": [
+        "scoreboard",
+        "report",
+        "eval-pack"
+      ],
+      "notes": "See intercom-avocado-shopping-beginner.json same date; identical root cause, fixed in run.js 2026-07-13."
+    },
+    "2026-07-10/intercom-avocado-shopping-gift.json": {
+      "reason": "intercom_timestamp_drift_corrupts_reply_delta",
+      "detected_at": "2026-07-13",
+      "detected_by": "claude",
+      "scope": [
+        "scoreboard",
+        "report",
+        "eval-pack"
+      ],
+      "notes": "See intercom-avocado-shopping-beginner.json same date; identical root cause, fixed in run.js 2026-07-13."
+    },
+    "2026-07-10/intercom-avocado-shopping-problem-solver.json": {
+      "reason": "intercom_timestamp_drift_corrupts_reply_delta",
+      "detected_at": "2026-07-13",
+      "detected_by": "claude",
+      "scope": [
+        "scoreboard",
+        "report",
+        "eval-pack"
+      ],
+      "notes": "See intercom-avocado-shopping-beginner.json same date; identical root cause, fixed in run.js 2026-07-13."
+    },
+    "2026-07-10/intercom-avocado-support-damaged.json": {
+      "reason": "intercom_timestamp_drift_corrupts_reply_delta",
+      "detected_at": "2026-07-13",
+      "detected_by": "claude",
+      "scope": [
+        "scoreboard",
+        "report",
+        "eval-pack"
+      ],
+      "notes": "See intercom-avocado-shopping-beginner.json same date; identical root cause, fixed in run.js 2026-07-13."
+    },
+    "2026-07-10/intercom-avocado-support-order-mgmt.json": {
+      "reason": "intercom_timestamp_drift_corrupts_reply_delta",
+      "detected_at": "2026-07-13",
+      "detected_by": "claude",
+      "scope": [
+        "scoreboard",
+        "report",
+        "eval-pack"
+      ],
+      "notes": "See intercom-avocado-shopping-beginner.json same date; identical root cause, fixed in run.js 2026-07-13."
+    },
+    "2026-07-10/intercom-avocado-support-returns.json": {
+      "reason": "intercom_timestamp_drift_corrupts_reply_delta",
+      "detected_at": "2026-07-13",
+      "detected_by": "claude",
+      "scope": [
+        "scoreboard",
+        "report",
+        "eval-pack"
+      ],
+      "notes": "See intercom-avocado-shopping-beginner.json same date; identical root cause, fixed in run.js 2026-07-13."
+    },
+    "2026-07-10/intercom-avocado-support-tracking.json": {
+      "reason": "intercom_timestamp_drift_corrupts_reply_delta",
+      "detected_at": "2026-07-13",
+      "detected_by": "claude",
+      "scope": [
+        "scoreboard",
+        "report",
+        "eval-pack"
+      ],
+      "notes": "See intercom-avocado-shopping-beginner.json same date; identical root cause, fixed in run.js 2026-07-13."
+    },
+    "2026-07-10/intercom-kajabi-shopping-beginner.json": {
+      "reason": "intercom_timestamp_drift_corrupts_reply_delta",
+      "detected_at": "2026-07-13",
+      "detected_by": "claude",
+      "scope": [
+        "scoreboard",
+        "report",
+        "eval-pack"
+      ],
+      "notes": "See intercom-avocado-shopping-beginner.json same date; identical root cause, fixed in run.js 2026-07-13."
+    },
+    "2026-07-10/intercom-kajabi-shopping-compare-budget.json": {
+      "reason": "intercom_timestamp_drift_corrupts_reply_delta",
+      "detected_at": "2026-07-13",
+      "detected_by": "claude",
+      "scope": [
+        "scoreboard",
+        "report",
+        "eval-pack"
+      ],
+      "notes": "See intercom-avocado-shopping-beginner.json same date; identical root cause, fixed in run.js 2026-07-13."
+    },
+    "2026-07-10/intercom-kajabi-shopping-everyday-value.json": {
+      "reason": "intercom_timestamp_drift_corrupts_reply_delta",
+      "detected_at": "2026-07-13",
+      "detected_by": "claude",
+      "scope": [
+        "scoreboard",
+        "report",
+        "eval-pack"
+      ],
+      "notes": "See intercom-avocado-shopping-beginner.json same date; identical root cause, fixed in run.js 2026-07-13."
+    },
+    "2026-07-10/intercom-kajabi-shopping-gift.json": {
+      "reason": "intercom_timestamp_drift_corrupts_reply_delta",
+      "detected_at": "2026-07-13",
+      "detected_by": "claude",
+      "scope": [
+        "scoreboard",
+        "report",
+        "eval-pack"
+      ],
+      "notes": "See intercom-avocado-shopping-beginner.json same date; identical root cause, fixed in run.js 2026-07-13."
+    },
+    "2026-07-10/intercom-kajabi-shopping-problem-solver.json": {
+      "reason": "intercom_timestamp_drift_corrupts_reply_delta",
+      "detected_at": "2026-07-13",
+      "detected_by": "claude",
+      "scope": [
+        "scoreboard",
+        "report",
+        "eval-pack"
+      ],
+      "notes": "See intercom-avocado-shopping-beginner.json same date; identical root cause, fixed in run.js 2026-07-13."
+    },
+    "2026-07-10/intercom-kajabi-support-damaged.json": {
+      "reason": "intercom_timestamp_drift_corrupts_reply_delta",
+      "detected_at": "2026-07-13",
+      "detected_by": "claude",
+      "scope": [
+        "scoreboard",
+        "report",
+        "eval-pack"
+      ],
+      "notes": "See intercom-avocado-shopping-beginner.json same date; identical root cause, fixed in run.js 2026-07-13."
+    },
+    "2026-07-10/intercom-kajabi-support-returns.json": {
+      "reason": "intercom_timestamp_drift_corrupts_reply_delta",
+      "detected_at": "2026-07-13",
+      "detected_by": "claude",
+      "scope": [
+        "scoreboard",
+        "report",
+        "eval-pack"
+      ],
+      "notes": "See intercom-avocado-shopping-beginner.json same date; identical root cause, fixed in run.js 2026-07-13."
+    },
+    "2026-07-10/intercom-kajabi-support-tracking.json": {
+      "reason": "intercom_timestamp_drift_corrupts_reply_delta",
+      "detected_at": "2026-07-13",
+      "detected_by": "claude",
+      "scope": [
+        "scoreboard",
+        "report",
+        "eval-pack"
+      ],
+      "notes": "See intercom-avocado-shopping-beginner.json same date; identical root cause, fixed in run.js 2026-07-13."
+    },
+    "2026-07-10/intercom-synthesia-shopping-beginner.json": {
+      "reason": "intercom_timestamp_drift_corrupts_reply_delta",
+      "detected_at": "2026-07-13",
+      "detected_by": "claude",
+      "scope": [
+        "scoreboard",
+        "report",
+        "eval-pack"
+      ],
+      "notes": "See intercom-avocado-shopping-beginner.json same date; identical root cause, fixed in run.js 2026-07-13."
+    },
+    "2026-07-10/intercom-synthesia-shopping-compare-budget.json": {
+      "reason": "intercom_timestamp_drift_corrupts_reply_delta",
+      "detected_at": "2026-07-13",
+      "detected_by": "claude",
+      "scope": [
+        "scoreboard",
+        "report",
+        "eval-pack"
+      ],
+      "notes": "See intercom-avocado-shopping-beginner.json same date; identical root cause, fixed in run.js 2026-07-13."
+    },
+    "2026-07-10/intercom-synthesia-shopping-everyday-value.json": {
+      "reason": "intercom_timestamp_drift_corrupts_reply_delta",
+      "detected_at": "2026-07-13",
+      "detected_by": "claude",
+      "scope": [
+        "scoreboard",
+        "report",
+        "eval-pack"
+      ],
+      "notes": "See intercom-avocado-shopping-beginner.json same date; identical root cause, fixed in run.js 2026-07-13."
+    },
+    "2026-07-10/intercom-synthesia-shopping-gift.json": {
+      "reason": "intercom_timestamp_drift_corrupts_reply_delta",
+      "detected_at": "2026-07-13",
+      "detected_by": "claude",
+      "scope": [
+        "scoreboard",
+        "report",
+        "eval-pack"
+      ],
+      "notes": "See intercom-avocado-shopping-beginner.json same date; identical root cause, fixed in run.js 2026-07-13."
+    },
+    "2026-07-10/intercom-synthesia-shopping-problem-solver.json": {
+      "reason": "intercom_timestamp_drift_corrupts_reply_delta",
+      "detected_at": "2026-07-13",
+      "detected_by": "claude",
+      "scope": [
+        "scoreboard",
+        "report",
+        "eval-pack"
+      ],
+      "notes": "See intercom-avocado-shopping-beginner.json same date; identical root cause, fixed in run.js 2026-07-13."
+    },
+    "2026-07-10/intercom-synthesia-support-damaged.json": {
+      "reason": "intercom_timestamp_drift_corrupts_reply_delta",
+      "detected_at": "2026-07-13",
+      "detected_by": "claude",
+      "scope": [
+        "scoreboard",
+        "report",
+        "eval-pack"
+      ],
+      "notes": "See intercom-avocado-shopping-beginner.json same date; identical root cause, fixed in run.js 2026-07-13."
+    },
+    "2026-07-10/intercom-synthesia-support-returns.json": {
+      "reason": "intercom_timestamp_drift_corrupts_reply_delta",
+      "detected_at": "2026-07-13",
+      "detected_by": "claude",
+      "scope": [
+        "scoreboard",
+        "report",
+        "eval-pack"
+      ],
+      "notes": "See intercom-avocado-shopping-beginner.json same date; identical root cause, fixed in run.js 2026-07-13."
+    },
+    "2026-07-10/intercom-synthesia-support-tracking.json": {
+      "reason": "intercom_timestamp_drift_corrupts_reply_delta",
+      "detected_at": "2026-07-13",
+      "detected_by": "claude",
+      "scope": [
+        "scoreboard",
+        "report",
+        "eval-pack"
+      ],
+      "notes": "See intercom-avocado-shopping-beginner.json same date; identical root cause, fixed in run.js 2026-07-13."
+    },
+    "2026-07-06/klaviyo-nanuk-shopping-problem-solver.json": {
+      "reason": "capture_integrity_page_dump_reply",
+      "detected_at": "2026-07-14",
+      "detected_by": "integrity-check",
+      "scope": [
+        "scoreboard",
+        "report",
+        "eval-pack"
+      ],
+      "notes": "Auto-flagged misread capture: PAGE_DUMP_REPLY. Evidence: ion. Is there a subscription or refill option? Nuk • AI Assistant There does not appear to"
+    },
+    "2026-07-08/klaviyo-naked-shopping-beginner.json": {
+      "reason": "capture_integrity_page_dump_reply",
+      "detected_at": "2026-07-14",
+      "detected_by": "integrity-check",
+      "scope": [
+        "scoreboard",
+        "report",
+        "eval-pack"
+      ],
+      "notes": "Auto-flagged misread capture: PAGE_DUMP_REPLY. Evidence: SKIP TO CONTENT NEW ARRIVALS EVERY SUNDAY FREE DOMESTIC SHIPPING ON ORDERS OVER $250 SEARC"
+    },
+    "2026-07-08/klaviyo-naked-support-returns.json": {
+      "reason": "capture_integrity_page_dump_reply",
+      "detected_at": "2026-07-14",
+      "detected_by": "integrity-check",
+      "scope": [
+        "scoreboard",
+        "report",
+        "eval-pack"
+      ],
+      "notes": "Auto-flagged misread capture: PAGE_DUMP_REPLY, REPEATED_IDENTICAL_REPLY. Evidence: SKIP TO CONTENT NEW ARRIVALS EVERY SUNDAY FREE DOMESTIC SHIPPING ON ORDERS OVER $250 SEARC"
+    },
+    "2026-07-08/klaviyo-naked-support-tracking.json": {
+      "reason": "capture_integrity_page_dump_reply",
+      "detected_at": "2026-07-14",
+      "detected_by": "integrity-check",
+      "scope": [
+        "scoreboard",
+        "report",
+        "eval-pack"
+      ],
+      "notes": "Auto-flagged misread capture: PAGE_DUMP_REPLY. Evidence: SKIP TO CONTENT NEW ARRIVALS EVERY SUNDAY FREE DOMESTIC SHIPPING ON ORDERS OVER $250 SEARC"
+    },
+    "2026-07-13/klaviyo-nanuk-shopping-beginner.json": {
+      "reason": "capture_integrity_page_dump_reply",
+      "detected_at": "2026-07-14",
+      "detected_by": "integrity-check",
+      "scope": [
+        "scoreboard",
+        "report",
+        "eval-pack"
+      ],
+      "notes": "Auto-flagged misread capture: PAGE_DUMP_REPLY. Evidence: Please select your shipping country. Please select your shipping country. Buy from the cou"
+    },
+    "2026-07-13/klaviyo-nanuk-shopping-compare-budget.json": {
+      "reason": "capture_integrity_page_dump_reply",
+      "detected_at": "2026-07-14",
+      "detected_by": "integrity-check",
+      "scope": [
+        "scoreboard",
+        "report",
+        "eval-pack"
+      ],
+      "notes": "Auto-flagged misread capture: PAGE_DUMP_REPLY, REPEATED_IDENTICAL_REPLY. Evidence: Please select your shipping country. Please select your shipping country. Buy from the cou"
+    },
+    "2026-07-13/klaviyo-nanuk-shopping-everyday-value.json": {
+      "reason": "capture_integrity_page_dump_reply",
+      "detected_at": "2026-07-14",
+      "detected_by": "integrity-check",
+      "scope": [
+        "scoreboard",
+        "report",
+        "eval-pack"
+      ],
+      "notes": "Auto-flagged misread capture: PAGE_DUMP_REPLY. Evidence: Please select your shipping country. Please select your shipping country. Buy from the cou"
+    },
+    "2026-07-13/klaviyo-nanuk-shopping-gift.json": {
+      "reason": "capture_integrity_page_dump_reply",
+      "detected_at": "2026-07-14",
+      "detected_by": "integrity-check",
+      "scope": [
+        "scoreboard",
+        "report",
+        "eval-pack"
+      ],
+      "notes": "Auto-flagged misread capture: PAGE_DUMP_REPLY, REPEATED_IDENTICAL_REPLY. Evidence: Please select your shipping country. Please select your shipping country. Buy from the cou"
+    },
+    "2026-07-13/klaviyo-nanuk-shopping-problem-solver.json": {
+      "reason": "capture_integrity_page_dump_reply",
+      "detected_at": "2026-07-14",
+      "detected_by": "integrity-check",
+      "scope": [
+        "scoreboard",
+        "report",
+        "eval-pack"
+      ],
+      "notes": "Auto-flagged misread capture: PAGE_DUMP_REPLY. Evidence: Please select your shipping country. Please select your shipping country. Buy from the cou"
+    },
+    "2026-07-13/klaviyo-nanuk-support-damaged.json": {
+      "reason": "capture_integrity_page_dump_reply",
+      "detected_at": "2026-07-14",
+      "detected_by": "integrity-check",
+      "scope": [
+        "scoreboard",
+        "report",
+        "eval-pack"
+      ],
+      "notes": "Auto-flagged misread capture: PAGE_DUMP_REPLY, REPEATED_IDENTICAL_REPLY. Evidence: Please select your shipping country. Please select your shipping country. Buy from the cou"
+    },
+    "2026-07-13/klaviyo-nanuk-support-returns.json": {
+      "reason": "capture_integrity_page_dump_reply",
+      "detected_at": "2026-07-14",
+      "detected_by": "integrity-check",
+      "scope": [
+        "scoreboard",
+        "report",
+        "eval-pack"
+      ],
+      "notes": "Auto-flagged misread capture: PAGE_DUMP_REPLY. Evidence: Please select your shipping country. Please select your shipping country. Buy from the cou"
+    },
+    "2026-07-13/klaviyo-nanuk-support-tracking.json": {
+      "reason": "capture_integrity_page_dump_reply",
+      "detected_at": "2026-07-14",
+      "detected_by": "integrity-check",
+      "scope": [
+        "scoreboard",
+        "report",
+        "eval-pack"
+      ],
+      "notes": "Auto-flagged misread capture: PAGE_DUMP_REPLY. Evidence: Please select your shipping country. Please select your shipping country. Buy from the cou"
+    }
   }
 }
