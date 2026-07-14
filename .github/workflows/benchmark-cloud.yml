@@ -54,15 +54,18 @@ jobs:
           - { vendor: "Yuma",          key: yuma,    headed: "true"  }
     runs-on: ubuntu-latest
     timeout-minutes: 110
-    # vendors filter: blank = all; otherwise only the comma-listed keys run (a skipped matrix
-    # cell is a ~0-min no-op). Lets a cheap 2-vendor pilot run without touching the other 9.
-    if: ${{ github.event.inputs.vendors == '' || contains(format(',{0},', github.event.inputs.vendors), format(',{0},', matrix.key)) }}
+    # vendors filter: blank = all; otherwise only the comma-listed keys capture. The `sel` env
+    # (evaluated per matrix cell, where `matrix` IS in scope) guards the heavy steps below, so a
+    # skipped vendor just does a ~1-min no-op. Lets a cheap 2-vendor pilot run without the other 9.
+    env:
+      SEL: ${{ github.event.inputs.vendors == '' || contains(format(',{0},', github.event.inputs.vendors), format(',{0},', matrix.key)) }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
       - name: Install deps + Chromium + xvfb
+        if: ${{ env.SEL == 'true' }}
         working-directory: runner
         run: |
           npm install
@@ -70,6 +73,7 @@ jobs:
           sudo apt-get update && sudo apt-get install -y xvfb
 
       - name: Capture ${{ matrix.vendor }} (both lanes)
+        if: ${{ env.SEL == 'true' }}
         working-directory: runner
         timeout-minutes: 85       # per-STEP: on timeout the job still runs the upload step below
         continue-on-error: true
@@ -88,7 +92,7 @@ jobs:
           done
 
       - name: Upload results artifact
-        if: always()
+        if: ${{ always() && env.SEL == 'true' }}
         uses: actions/upload-artifact@v4
         with:
           name: results-${{ matrix.key }}
