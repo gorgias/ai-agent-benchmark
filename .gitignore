@@ -13,3 +13,6 @@ runner/*.log
 runner/_*.mjs
 runner/captest.js
 runner/.eval-wip/
+
+# Amazon Rufus: session-state is a regenerable artifact (amazon-login.mjs recreates it)
+runner/secrets/*-state.json

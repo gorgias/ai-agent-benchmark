@@ -1,0 +1,37 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow">
+<title>Design Lab — Benchmark restyle directions</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Inter+Tight:wght@700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#16120D;--paper:#F6F2EC;--on:#1B1712;--mut:#6B6259;--line:rgba(27,23,18,.12);--coral:#F0603F}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',-apple-system,sans-serif;background:var(--paper);color:var(--on);line-height:1.55;padding:48px 24px 80px}
+.wrap{max-width:1000px;margin:0 auto}
+h1{font-family:'Inter Tight';font-weight:900;font-size:clamp(30px,5vw,48px);letter-spacing:-.03em}
+.sub{color:var(--mut);font-size:15px;margin:10px 0 36px;max-width:64ch}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}
+.card{background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden;transition:transform .2s,box-shadow .2s;text-decoration:none;color:inherit;display:flex;flex-direction:column}
+.card:hover{transform:translateY(-4px);box-shadow:0 20px 50px rgba(27,23,18,.13)}
+.card.soon{opacity:.55;pointer-events:none}
+.thumb{height:150px;display:flex;align-items:center;justify-content:center;font-family:'Inter Tight';font-weight:900;font-size:26px;letter-spacing:-.02em}
+.t1{background:linear-gradient(135deg,#EEF0FF,#fff);color:#6E56CF}
+.t2{background:linear-gradient(135deg,#101316,#22252a);color:#ff6a45}
+.t3{background:linear-gradient(135deg,#F6F2EC,#EFE9E0);color:var(--coral)}
+.t4{background:linear-gradient(135deg,#111,#2a1e16);color:#FFB84D}
+.body{padding:18px 20px}
+.body h2{font-family:'Inter Tight';font-size:19px;font-weight:800;margin-bottom:6px}
+.body p{font-size:13px;color:var(--mut)}
+.tag{display:inline-block;font-size:11px;font-weight:700;color:var(--coral);background:rgba(240,96,63,.1);padding:3px 9px;border-radius:999px;margin-bottom:10px}
+.foot{margin-top:40px;font-size:13px;color:var(--mut)}
+.foot a{color:var(--coral);font-weight:600;text-decoration:none}
+</style></head><body><div class="wrap">
+<h1>Design Lab</h1>
+<p class="sub">Four restyle directions for the benchmark Summary page, all on the <b>real Axiom design system</b> (Gorgias tokens loaded via the axiom-builder skill) and the <b>same live v2.1 data</b>. Pick one — or a hybrid — and I'll apply it across all pages. Each is a temporary throwaway; the current site is untouched.</p>
+<div class="grid">
+  <a class="card" href="v1.html"><div class="thumb t1">Aa</div><div class="body"><span class="tag">V1 · ready</span><h2>Axiom-native (light)</h2><p>First-party Gorgias product feel — exact Axiom light tokens, purple accent, DataTable scoreboard, Linear/Stripe-grade restraint. Calm and credible.</p></div></a>
+  <a class="card" href="v2.html"><div class="thumb t2">Aa</div><div class="body"><span class="tag">V2 · ready</span><h2>Editorial dark</h2><p>Industry-report "première" — near-black canvas from Axiom neutrals, one electric-coral accent, huge display numbers, the scoreboard as a Bloomberg-style ledger. Authored, definitive.</p></div></a>
+  <div class="card soon"><div class="thumb t3">Aa</div><div class="body"><span class="tag">V3 · building</span><h2>Data-forward</h2><p>Charts-first: rank-movement bars, per-dimension small multiples, the composite decomposed visually. For a numbers audience.</p></div></div>
+  <div class="card soon"><div class="thumb t4">Aa</div><div class="body"><span class="tag">V4 · building</span><h2>Bold kinetic</h2><p>Maximum first-open "wow" — scroll-driven hero, kinetic typography, animated reveal of the verdict. The most creative swing.</p></div></div>
+</div>
+<p class="foot">Live locally at <a href="http://localhost:8080/design-lab/v1.html">/design-lab/v1.html</a> &amp; <a href="http://localhost:8080/design-lab/v2.html">v2.html</a> · current site: <a href="http://localhost:8080/takeaways.html">takeaways.html</a></p>
+</div></body></html>

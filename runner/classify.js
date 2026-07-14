@@ -6,11 +6,24 @@ export const GEN_RE = /(Thinking|Analyzing|Typing|Searching|Looking|Writing|Proc
 
 // STALL / acknowledgement — a provider sends "OK, let me check…" FIRST, then the real
 // answer as a SECOND message. Don't stop the clock on the stall (only while still short).
-export const ACK_RE = /(let me (check|look|see|find|pull|grab|dig|confirm)|one moment|just a (sec|second|moment|minute)|give me a (sec|second|moment|minute)|hold on|bear with|i'?ll (check|look|find|get|see|have a look)|looking into (it|that|this)|checking (on )?(that|this|it)|let me take a look|searching (for|our)|on it!?|right away|happy to help|great question|un instant|un moment|deux secondes|laisse[- ]?moi|je (regarde|vérifie|cherche|reviens|te reviens|te dis|m'?en occupe)|patiente)\b[\s.!?…]*$/i;
+// Includes helpdesk auto-greetings ("Thanks for reaching out! We will be with you in a few
+// minutes." — Gorgias/Yuma): a canned ack, never the answer (Atma bug: it was timed as T1).
+export const ACK_RE = /(let me (check|look|see|find|pull|grab|dig|confirm)|one moment|just a (sec|second|moment|minute)|give me a (sec|second|moment|minute)|hold on|bear with|i'?ll (check|look|find|get|see|have a look)|looking into (it|that|this)|checking (on )?(that|this|it)|let me take a look|searching (for|our)|on it!?|right away|happy to help|great question|thanks for reaching out!?|we( wi|')ll be with you( shortly| soon| in a few (minutes|moments))?|un instant|un moment|deux secondes|laisse[- ]?moi|je (regarde|vérifie|cherche|reviens|te reviens|te dis|m'?en occupe)|patiente|merci de nous avoir contact[ée]s?!?|nous serons à votre disposition( dans quelques (minutes|instants))?)\b[\s.!?…]*$/i;
 
 // NOT a real assistant answer — the widget is offline/reconnecting, or fell back to a
-// "leave a message" / menu prompt. These must never be counted as a timed answer.
-export const NOANSWER_RE = /(you'?re offline|reconnecting|leave a message|leave us a message|start a conversation|choose (an|a) (option|topic)|select an option|main menu)\s*[.!…]*\s*$/i;
+// "leave a message" / email-gate / menu prompt. These must never be counted as a timed answer.
+export const NOANSWER_RE = /(you'?re offline|reconnecting|leave a message|leave us a message|leave us your email|(enter|share|provide) your email( address)?|start a conversation|choose (an|a) (option|topic)|select an option|main menu|communiquez[- ]nous votre adresse e[- ]?mail|(laissez|entrez|indiquez)[- ]?(nous)? votre (adresse )?e[- ]?mail)\s*[.!…]*\s*$/i;
+
+// Widget UI chrome that trails the last message in the transcript's innerText — sender
+// labels and relative timestamps ("… , Automated · Just now", "…, Il y a 1mn", "5:34 AM").
+// Strip it before testing the $-anchored ACK/NOANSWER regexes, or a canned ack followed
+// by chrome never matches and the clock stops on the greeting (the Atma T1 bug).
+const TRAIL_CHROME_RE = /[\s,·|–-]*\b(automated|automatis[ée]|bot|just now|maintenant|(il y a|hace)\s+\d+\s*(mn|min(ute)?s?|h)|\d+\s*(m|mn|min(ute)?s?|h(our)?s?)\s+ago|\d{1,2}:\d{2}\s*(am|pm)?)(?=[\s.,·]|$)[\s.·]*$/i;
+export function stripTrailChrome(t) {
+  let s = String(t || "").trim(), prev = null;
+  while (prev !== s) { prev = s; s = s.replace(TRAIL_CHROME_RE, "").trim(); }
+  return s;
+}
 
 // Unprompted handover to a HUMAN = the assistant bailed (a failure we measure).
 // Explicit phrases only — the fragile "<Name> says:" heuristic lives in namedHumanSays()
@@ -40,20 +53,26 @@ const BOT_LABEL = /^(ai|assistant|bot|chatbot|concierge|virtual|team|support|hel
 // bot greeting is misread as a human handover and the conversation is wrongly killed.
 export function namedHumanSays(text, selfNames = []) {
   if (!text) return null;
+  // Widget innerText can hide zero-width chars or line breaks INSIDE the sender label
+  // ("Luc​as says:" / "Luc\nas says:") — the name then captures as a fragment ("as")
+  // that no exclusion list can know. Strip invisibles, and treat a captured fragment that
+  // is a SUFFIX of a selfName token as the bot's own label, not a human.
+  text = String(text).replace(/[​‌‍⁠﻿­]/g, "");
   const self = new Set((selfNames || []).flatMap(n => String(n || "").toLowerCase().split(/[^a-zà-ÿ0-9]+/i).filter(Boolean)));
   const re = /\b([A-Za-zÀ-ÿ][A-Za-zÀ-ÿ'’-]*) (says|dit)\s*:/gi;
   let m;
   while ((m = re.exec(text))) {
     const name = m[1].toLowerCase();
     if (BOT_LABEL.test(name) || self.has(name)) continue;
+    if ([...self].some(s => s.length > 2 && name.length >= 2 && s.endsWith(name))) continue; // split-label artifact
     return m[0].trim().slice(0, 80);
   }
   return null;
 }
 
 export const isGen = (t) => GEN_RE.test((t || "").trim());
-export const isAck = (t) => ACK_RE.test((t || "").trim());
-export const isNoAnswer = (t) => NOANSWER_RE.test((t || "").trim());
+export const isAck = (t) => ACK_RE.test(stripTrailChrome(t));
+export const isNoAnswer = (t) => NOANSWER_RE.test(stripTrailChrome(t));
 
 export function detectHandover(text, extra = [], selfNames = []) {
   if (!text) return null;

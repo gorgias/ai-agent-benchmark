@@ -14,27 +14,31 @@
 //   send(page,txt) post a user message
 //   handover       extra handover regexes specific to this widget (optional)
 
-const DUMMY = { name: "Benchmark Test", email: "benchmark.test@example.com" }; // reserved example.com — never a real inbox
+import { randomBytes } from "node:crypto";
 
-// Realistic throwaway identity for chat email-gates. Some widgets (e.g. Yuma on Tumble,
-// Bombay Hair, Rouje…) refuse to start a conversation until an email is entered, and they
-// silently DROP a conversation opened with an obvious test address (@example.com) — which
-// is why those stores looked "bot-guarded" (0 timed answers) when really the gate was never
-// satisfied. We generate a plausible-looking, unique address each call so the gate lets us
-// in. We never send mail to it — it only unlocks the chat. Dummy PII, not a real person
-// (uncommon surname + digits ⇒ vanishingly unlikely to collide with a real inbox).
-const FIRST = ["john", "claire", "lucas", "emma", "marc", "julie", "alex", "sofia", "liam", "chloe",
-               "noah", "ines", "hugo", "sara", "leo", "mia", "paul", "anna", "tom", "lea", "ryan", "nina"];
-const LAST = ["minser", "desmarais", "varley", "holt", "braud", "kessler", "navarro", "fenwick", "aldridge",
-              "romano", "hollis", "garnier", "prewitt", "salter", "bianchi", "vasseur", "mercer", "harmon", "dubois", "kellerman"];
-const MAILHOST = ["gmail.com", "gmail.com", "gmail.com", "outlook.com", "icloud.com", "hotmail.com"];
-const pick = (a) => a[Math.floor(Math.random() * a.length)];
-const cap = (s) => s.charAt(0).toUpperCase() + s.slice(1);
-function randomIdentity() {
-  const f = pick(FIRST), l = pick(LAST);
-  const sep = Math.random() < 0.6 ? "." : "";
-  const num = Math.random() < 0.5 ? String(10 + Math.floor(Math.random() * 89)) : "";
-  return { name: `${cap(f)} ${cap(l)}`, email: `${f}${sep}${l}${num}@${pick(MAILHOST)}` };
+// Realistic throwaway identities for pre-chat email gates. @example.com gets rejected by
+// stricter validators (verified on Tumble), so we use real consumer domains. The address is
+// only typed to unlock the chat and is never sent to; uncommon surname + digits make a real
+// inbox collision vanishingly unlikely. Dummy PII, not a real person.
+const DUMMY_FIRST_NAMES = ["John", "Maya", "Nora", "Evan", "Lina", "Adam", "Sofia", "Noah"];
+const DUMMY_LAST_NAMES = ["Minser", "Carrow", "Bellin", "Harper", "Linton", "Rossi", "Parker", "Madden"];
+const DUMMY_EMAIL_HOSTS = ["gmail.com", "gmail.com", "gmail.com", "outlook.com", "icloud.com", "hotmail.com"];
+
+function pickDummy(xs) {
+  return xs[randomBytes(1)[0] % xs.length];
+}
+
+function makeDummyIdentity() {
+  const firstName = pickDummy(DUMMY_FIRST_NAMES);
+  const lastName = pickDummy(DUMMY_LAST_NAMES);
+  const num = (randomBytes(1)[0] % 90) + 10;                 // 2-digit — realistic + unique enough
+  const sep = randomBytes(1)[0] % 2 ? "." : "";
+  return {
+    firstName,
+    lastName,
+    name: `${firstName} ${lastName}`,
+    email: `${firstName}${sep}${lastName}${num}`.toLowerCase() + `@${pickDummy(DUMMY_EMAIL_HOSTS)}`,
+  };
 }
 
 async function dismiss(page) {
@@ -86,30 +90,82 @@ async function shadowClickLauncher(page, hostSel) {
   }, hostSel).catch(() => {});
 }
 
-// Some chats gate behind a name/email pre-chat form and will not start (or will
-// silently drop messages) until it's filled. Fill a fresh realistic identity — obvious
-// test addresses (@example.com) get rejected by stricter gates (e.g. Yuma). Returns true
-// if a gate was found+filled. We only type the address to unlock the chat; nothing is sent.
+async function fillVisibleInput(frame, selector, value, timeout = 3000) {
+  const input = frame.locator(selector).first();
+  if (!(await input.count().catch(() => 0))) return false;
+  if (!(await input.isVisible().catch(() => false))) return false;
+  await input.click({ timeout }).catch(() => {});
+  await input.fill(value).catch(async () => { await input.type(value, { delay: 12 }).catch(() => {}); });
+  return true;
+}
+
+// Some chats gate behind a pre-chat identity form. Fill a fresh dummy identity
+// from reserved example.com and submit so the conversation can start.
 async function fillEmailGate(page, frame) {
   try {
-    const email = frame.locator('input[type="email"], input[placeholder*="@"], input[placeholder*="mail" i], input[name*="mail" i], input[aria-label*="mail" i], input[id*="mail" i]').first();
+    const emailSel = 'input[type="email"], input[placeholder*="@"], input[placeholder*="mail" i], input[name*="mail" i], input[aria-label*="mail" i]';
+    const email = frame.locator(emailSel).first();
     if (!(await email.count().catch(() => 0))) return false;
     if (!(await email.isVisible().catch(() => false))) return false;
-    const who = randomIdentity();
-    // name field first if the gate has one (some gates require it before enabling submit)
-    const nameI = frame.locator('input[name*="name" i], input[placeholder*="name" i], input[aria-label*="name" i], input[id*="name" i]').first();
-    if ((await nameI.count().catch(() => 0)) && (await nameI.isVisible().catch(() => false))) {
-      await nameI.click({ timeout: 2000 }).catch(() => {});
-      await nameI.fill(who.name).catch(async () => { await nameI.type(who.name, { delay: 12 }).catch(() => {}); });
+
+    const identity = makeDummyIdentity();
+    await fillVisibleInput(frame, 'input[placeholder*="first" i], input[name*="first" i], input[aria-label*="first" i]', identity.firstName);
+    await fillVisibleInput(frame, 'input[placeholder*="last" i], input[name*="last" i], input[aria-label*="last" i]', identity.lastName);
+    await fillVisibleInput(frame, 'input[placeholder*="name" i], input[name*="name" i], input[aria-label*="name" i]', identity.name);
+    await fillVisibleInput(frame, emailSel, identity.email);
+
+    const btn = frame.locator([
+      'button:has-text("Start chat")',
+      'button:has-text("Start Chat")',
+      'button:has-text("Start conversation")',
+      'button:has-text("Start")',
+      'button:has-text("Submit")',
+      'button:has-text("Continue")',
+      'button:has-text("Chat")',
+      'button:has-text("Send")',
+      'button:has-text("Commencer")',
+      'button:has-text("Demarrer")',
+      'button:has-text("Démarrer")',
+      'button:has-text("Continuer")',
+      'button:has-text("Envoyer")',
+      'button[type="submit"]',
+      'input[type="submit"]',
+      'button[aria-label*="Submit" i]',   // Gorgias in-chat email gate: icon button, aria "Submit …"
+    ].join(", ")).first();
+    let submitted = false;
+    if (await btn.count().catch(() => 0)) {
+      await btn.click({ timeout: 3000 }).catch(() => {});
+      submitted = true;
     }
-    await email.click({ timeout: 3000 }).catch(() => {});
-    await email.fill(who.email).catch(async () => { await email.type(who.email, { delay: 12 }).catch(() => {}); });
-    const btn = frame.locator('button:has-text("Start"), button:has-text("Submit"), button:has-text("Continue"), button:has-text("Commencer"), button:has-text("Chat"), button:has-text("Send"), button[type="submit"]').first();
-    if (await btn.count().catch(() => 0)) await btn.click({ timeout: 3000 }).catch(() => {});
-    else await email.press("Enter").catch(() => { page.keyboard.press("Enter").catch(() => {}); });
+    if (!submitted) {
+      submitted = await frame.evaluate(() => {
+        const rx = /start|submit|continue|chat|send|commencer|démarrer|demarrer|continuer|envoyer/i;
+        const buttons = [...document.querySelectorAll('button,[role="button"],input[type="submit"]')];
+        const btn = buttons.find((el) => rx.test(el.innerText || el.value || el.getAttribute("aria-label") || ""));
+        if (btn) { btn.click(); return true; }
+        return false;
+      }).catch(() => false);
+    }
+    if (!submitted) await page.keyboard.press("Enter").catch(() => {});
     await page.waitForTimeout(2500);
     return true;
   } catch { return false; }
+}
+
+async function fillAnyChatEmailGate(page) {
+  let filled = false;
+  for (const frame of page.frames()) {
+    try {
+      if (frame === page.mainFrame()) continue;
+      const meta = `${frame.name()} ${frame.url()}`;
+      const body = await frame.locator("body").innerText({ timeout: 700 }).catch(() => "");
+      const haystack = `${meta} ${body}`;
+      if (!/chat|message|support|help|assistant|conversation|inbox|siena|gorgias|yuma|dg-chat|shopify/i.test(haystack)) continue;
+      if (/newsletter|subscribe|discount|coupon/i.test(body) && !/chat|message|support|assistant|conversation/i.test(body)) continue;
+      if (await fillEmailGate(page, frame)) filled = true;
+    } catch {}
+  }
+  return filled;
 }
 
 // ---------------------------------------------------------------------------
@@ -146,6 +202,9 @@ export const WIDGETS = {
       // screen in a cold context). Avoid the email-capture input if present.
       const f = await findFrame(page, "chat-window");
       if (!f) { try { await page.evaluate(t => window.GorgiasChat.sendMessage(t), text); } catch (e) {} return; }
+      // Some Gorgias shells (Atma/Yuma) pop an in-chat email-capture AFTER the first
+      // message — the AI won't reply until it's satisfied. No-op when absent.
+      await fillEmailGate(page, f).catch(() => {});
       let inp = f.locator('textarea').first();
       if (!(await inp.count().catch(() => 0))) inp = f.locator('[contenteditable="true"], input[type="text"], input:not([type="email"])').first();
       await inp.click({ timeout: 5000 }).catch(() => {});
@@ -260,10 +319,11 @@ export const WIDGETS = {
       if (f) {
         const composerReady = () => f.evaluate(() => !!document.querySelector('textarea,[contenteditable="true"]')).catch(() => false);
         for (let attempt = 0; attempt < 4 && !(await composerReady()); attempt++) {
+          const identity = makeDummyIdentity();
           const nameI = f.locator('input[placeholder*="name" i], input[aria-label*="name" i]').first();
-          if (await nameI.count().catch(() => 0)) { await nameI.click({ timeout: 2000 }).catch(() => {}); await nameI.fill(DUMMY.name).catch(() => {}); }
+          if (await nameI.count().catch(() => 0)) { await nameI.click({ timeout: 2000 }).catch(() => {}); await nameI.fill(identity.name).catch(() => {}); }
           const mailI = f.locator('input[type="email"], input[placeholder*="@" i], input[placeholder*="mail" i], input[aria-label*="mail" i]').first();
-          if (await mailI.count().catch(() => 0)) { await mailI.click({ timeout: 2000 }).catch(() => {}); await mailI.fill(DUMMY.email).catch(async () => { await mailI.type(DUMMY.email, { delay: 15 }).catch(() => {}); }); }
+          if (await mailI.count().catch(() => 0)) { await mailI.click({ timeout: 2000 }).catch(() => {}); await mailI.fill(identity.email).catch(async () => { await mailI.type(identity.email, { delay: 15 }).catch(() => {}); }); }
           const startBtn = f.locator('button:has-text("Start chat"), button:has-text("Start"), button:has-text("Continue")').first();
           if (await startBtn.count().catch(() => 0)) await startBtn.click({ timeout: 3000 }).catch(() => {});
           else { const skip = f.locator('button:has-text("Skip for now"), button:has-text("Skip")').first(); if (await skip.count().catch(() => 0)) await skip.click({ timeout: 3000 }).catch(() => {}); else await page.keyboard.press("Enter").catch(() => {}); }
@@ -301,10 +361,11 @@ export const WIDGETS = {
       for (let i = 0; i < 40 && !wf; i++) { wf = await findFrame(page, "dg-chat-widget-iframe"); if (!wf) await page.waitForTimeout(500); }
       if (!wf) return;
       await page.waitForTimeout(1000);
+      const identity = makeDummyIdentity();
       const nameI = wf.locator('input[placeholder*="name" i], input[name="name"], input[aria-label*="name" i]').first();
       const mailI = wf.locator('input[type="email"], input[placeholder*="email" i], input[name*="email" i], input[aria-label*="email" i]').first();
-      if (await nameI.count().catch(() => 0)) { await nameI.click({ timeout: 3000 }).catch(() => {}); await nameI.fill(DUMMY.name).catch(async () => { await nameI.type(DUMMY.name, { delay: 15 }).catch(() => {}); }); }
-      if (await mailI.count().catch(() => 0)) { await mailI.click({ timeout: 3000 }).catch(() => {}); await mailI.fill(DUMMY.email).catch(async () => { await mailI.type(DUMMY.email, { delay: 15 }).catch(() => {}); }); }
+      if (await nameI.count().catch(() => 0)) { await nameI.click({ timeout: 3000 }).catch(() => {}); await nameI.fill(identity.name).catch(async () => { await nameI.type(identity.name, { delay: 15 }).catch(() => {}); }); }
+      if (await mailI.count().catch(() => 0)) { await mailI.click({ timeout: 3000 }).catch(() => {}); await mailI.fill(identity.email).catch(async () => { await mailI.type(identity.email, { delay: 15 }).catch(() => {}); }); }
       const start = wf.locator('button:has-text("Start Chat"), button:has-text("Start chat"), button[type="submit"]').first();
       if (await start.count().catch(() => 0)) await start.click({ timeout: 6000 }).catch(() => {});
       const composer = wf.locator('textarea[aria-label*="message" i], textarea[placeholder*="message" i], textarea[placeholder*="type" i], [contenteditable="true"]').first();
@@ -400,6 +461,27 @@ export const WIDGETS = {
       await page.waitForTimeout(4000);
     },
     async send(page, text) { await shadowSend(page, "#ads-agent-host", text); },
+  },
+  rufus: {
+    scope: { kind: "dom", sel: "#rufus-conversation-container-inner" },
+    handover: [],   // Amazon's shopping AI never hands off to a human
+    async open(page) {
+      // Runner navigates with waitUntil:"commit" (page not loaded yet). Amazon is heavy, so
+      // WAIT for the page + the Rufus launcher before clicking, then wait for the composer.
+      await page.waitForLoadState("domcontentloaded").catch(() => {});
+      await page.waitForSelector('#nav-rufus-disco, input[placeholder*="specific info" i]', { timeout: 30000 }).catch(() => {});
+      await page.waitForTimeout(1500);
+      await dismiss(page).catch(() => {});
+      await page.locator('#nav-rufus-disco, input[placeholder*="specific info" i], button:has-text("Ask something else")').first().click({ timeout: 12000 }).catch(() => {});
+      await page.waitForSelector('#rufus-text-area', { timeout: 20000 }).catch(() => {});
+      await page.waitForTimeout(2000);
+    },
+    async send(page, text) {
+      const inp = page.locator("#rufus-text-area").first();
+      await inp.click({ timeout: 6000 }).catch(() => {});
+      await inp.fill(text).catch(async () => { await inp.type(text, { delay: 15 }); });
+      await inp.press("Enter");
+    },
   },
   // Kodif — kodif-chat-widget iframe.
   kodif: {
@@ -512,28 +594,26 @@ export const WIDGETS = {
       // launcher lives INSIDE the iframe
       const launcher = f.locator('[aria-label="Open chat widget"], .widgetTrigger').first();
       await launcher.click({ timeout: 8000 }).catch(() => {});
-      await page.waitForTimeout(900);
-      // FLOW (verified on Tumble 2026-07-06): open → "Send us a message" → EMAIL GATE → composer.
-      // Many Yuma stores (Tumble, Bombay Hair, Rouje, Le Domaine, CABAIA…) route through a home
-      // screen: you must click "Send us a message", then enter an email before the chat responds —
-      // messages sent before that are silently dropped (what looked like "bot-guard"/0-answers).
-      // Only click through when the composer isn't already present (EvryJewels opens straight to it).
-      const COMPOSER = '.chatPage__textarea, [aria-label="Ask your question"], textarea';
-      if (!(await f.locator(COMPOSER).first().isVisible().catch(() => false))) {
-        const start = f.locator('button:has-text("Send us a message"), button:has-text("Send a message"), button:has-text("Send us"), button:has-text("Message us"), button:has-text("New conversation"), button:has-text("Start a conversation"), button:has-text("Ask a question"), button:has-text("Chat with us"), button:has-text("Envoyer un message"), [role="button"]:has-text("Send us a message")').first();
-        if (await start.count().catch(() => 0)) { await start.click({ timeout: 6000 }).catch(() => {}); await page.waitForTimeout(1000); }
-        await fillEmailGate(page, f);   // fresh realistic identity — unlocks the conversation
+      // WAIT for the composer to actually exist before returning (verified selector:
+      // textarea.chatPage__textarea, aria-label="Ask your question"). Some native Yuma
+      // installs now gate cold chats on email first (e.g. Tumble Living), so fill the
+      // pre-chat identity form with reserved dummy PII if it appears.
+      const composer = f.locator('.chatPage__textarea, [aria-label="Ask your question"], textarea').first();
+      for (let i = 0; i < 5 && !(await composer.isVisible().catch(() => false)); i++) {
+        await fillEmailGate(page, f);
+        await page.waitForTimeout(1000);
       }
-      // WAIT for the composer to actually exist before returning
-      await f.locator(COMPOSER).first().waitFor({ state: "visible", timeout: 15000 }).catch(() => {});
+      await composer.waitFor({ state: "visible", timeout: 15000 }).catch(() => {});
       await page.waitForTimeout(600);
     },
     async send(page, text) {
       const f = await findFrame(page, "app.yuma.ai");
       if (!f) return;
-      // if a late email gate appeared (some stores gate on first send), satisfy it first
-      await fillEmailGate(page, f).catch(() => {});
       const inp = f.locator('.chatPage__textarea, [aria-label="Ask your question"], textarea').first();
+      if (!(await inp.isVisible().catch(() => false))) {
+        await fillEmailGate(page, f);
+        await inp.waitFor({ state: "visible", timeout: 10000 }).catch(() => {});
+      }
       await inp.click({ timeout: 6000 }).catch(() => {});
       await inp.fill(text).catch(async () => { await inp.type(text, { delay: 12 }).catch(() => {}); });
       await inp.press("Enter").catch(async () => {
@@ -556,11 +636,13 @@ async function genericOpenChat(page) {
     return false;
   }).catch(() => false);
   await page.waitForTimeout(4000);
+  await fillAnyChatEmailGate(page).catch(() => {});
   return clicked;
 }
 
 // Generic send: find the most chat-like text input (in page or any iframe) + Enter.
 async function genericSendChat(page, text) {
+  await fillAnyChatEmailGate(page).catch(() => {});
   // try iframes first (widgets are usually cross-origin frames)
   for (const f of page.frames()) {
     try {
@@ -603,6 +685,9 @@ export const STORES = [
 
   // Spiffy.ai
   { key: "spiffy-supergoop", vendor: "Envive", store: "Supergoop",  url: "https://supergoop.com/products/everyday-sunscreen?variant=31189086634082", widget: "spiffy" },
+  // Amazon Rufus (shopping AI on the PDP). Logged-in-only → dummy-account session in
+  // secrets/amazon-state.json; run HEADED. Bare /dp/<ASIN> URL (tracking params expire → 404).
+  { key: "rufus-amazon", vendor: "Amazon Rufus", store: "Amazon.com", url: "https://www.amazon.com/dp/B0DX391LXK", widget: "rufus", modes: ["shopping"], stateFile: "secrets/amazon-state.json", loggedIn: true },
   { key: "spiffy-2",         vendor: "Spiffy.ai", store: "(2nd store)", url: "",                                widget: "spiffy", candidate: true, todo: "find a 2nd Spiffy.ai storefront" },
 
   // Sierra
@@ -639,6 +724,15 @@ export const STORES = [
   // if only the Gorgias widget is live these yield no data & drop out — no Gorgias-as-Yuma mis-attribution.
   { key: "yuma-rouje",     vendor: "Yuma",    store: "Rouje",              url: "https://www.rouje.com/",        widget: "yuma", locale: "fr-FR" }, // native yuma-widget + Gorgias
   { key: "yuma-ledomaine", vendor: "Yuma",    store: "Le Domaine",         url: "https://le-domaine.com/",       widget: "yuma", locale: "fr-FR" }, // native yuma-widget + Gorgias
+  // Atma: DUAL-widget, but Yuma's own iframe stays 1×1 (its config has forceSingleChatWidget:true —
+  // Yuma defers to Gorgias Chat and answers INSIDE it, replies tagged "Automatisé"). So unlike
+  // Rouje/Le Domaine above, the Gorgias shell IS the Yuma surface here — attribution verified by
+  // probe 2026-07-07: js.yuma.ai widget.js loaded w/ salesAi, and a substantive Yuma product answer
+  // (~40s) landed in the Gorgias thread after the in-chat email gate ("Communiquez-nous votre
+  // adresse e-mail") was satisfied. Gate handling lives in gorgias.send() → fillEmailGate.
+  // personas: Yuma's AI replies under a human first name ("Lucas says:") — exclude it from the
+  // named-human handover heuristic (verified automated: answers ~40s post-email-gate, salesAi on).
+  { key: "yuma-atma",      vendor: "Yuma",    store: "Atma Kitchenware",   url: "https://atmakitchenware.fr/",   widget: "gorgias", locale: "fr-FR", personas: ["Lucas"] },
   { key: "envive-kut",     vendor: "Envive",  store: "Kut from the Kloth", url: "https://www.kutfromthekloth.com/", widget: "gorgias" }, // chat shell is Gorgias
   { key: "repai-fresh",    vendor: "Rep AI",  store: "Fresh Roasted Coffee", url: "https://www.freshroastedcoffee.com/", widget: "repai", candidate: true },
   { key: "kodif-dsc",      vendor: "Kodif",   store: "Dollar Shave Club",  url: "https://us.dollarshaveclub.com/", widget: "kodif", candidate: true },
@@ -696,28 +790,18 @@ export const STORES = [
   { key: "yuma-meshki",       vendor: "Yuma",   store: "MESHKI",      url: "https://meshki.com/",         widget: "yuma", locale: "en-AU" }, // app.yuma.ai/w/4f7a9401
   { key: "yuma-meshki-au",    vendor: "Yuma",   store: "MESHKI AU",   url: "https://meshki.com.au/",      widget: "yuma", locale: "en-AU" }, // app.yuma.ai/w/df03b930
   { key: "yuma-meshki-uk",    vendor: "Yuma",   store: "MESHKI UK",   url: "https://meshki.co.uk/",       widget: "yuma", locale: "en-GB" }, // app.yuma.ai/w/5d646ace
-  // rouje, le-domaine, cabaia, meshki(×3): widget PRESENT but bot-guard drops messages (0 timed answers 2026-07-06).
-  // Sourced 2026-07-06 via builtwith website-list (js.yuma.ai + app.yuma.ai/w/<uuid> confirmed in raw HTML) —
-  // widget is live; CAPTURABILITY TBD (may bot-guard like rouje). Verify VALID timed answers before trusting.
-  { key: "yuma-bombayhair",   vendor: "Yuma",   store: "Bombay Hair",  url: "https://www.bombayhair.com/",     widget: "yuma" },              // CA hair/beauty · app.yuma.ai/w/b3ae0b45
+  // yuma-bombayhair removed 2026-07-06 — no live AI agent / on-site chat on this store (verified, Max)
+  // yuma-tumble RESTORED 2026-07-07 — the 07-06 removal ("email-gated") predates the email-gate fix;
+  // today's run: 9/10 valid with real timed answers (16-31s). Without a roster entry gen.js silently
+  // drops the store's committed convs from the report.
   { key: "yuma-tumble",       vendor: "Yuma",   store: "Tumble",       url: "https://www.tumbleliving.com/",   widget: "yuma" },              // US home/rugs · app.yuma.ai/w/fbb8eeda
-  { key: "yuma-atma",         vendor: "Yuma",   store: "Atma Kitchenware", url: "https://www.atmakitchenware.fr/", widget: "yuma", locale: "fr-FR" }, // FR kitchenware · app.yuma.ai/w/c4de8095
-  { key: "yuma-fitnessboutique", vendor: "Yuma", store: "FitnessBoutique", url: "https://www.fitnessboutique.fr/", widget: "yuma", locale: "fr-FR" }, // FR fitness · app.yuma.ai/w/bade23e1
-  { key: "yuma-raceface",     vendor: "Yuma",   store: "Race Face",    url: "https://www.raceface.com/",       widget: "yuma" },              // CA MTB · app.yuma.ai/w/e05a7bcc
-  { key: "yuma-susanshaw",    vendor: "Yuma",   store: "Susan Shaw",   url: "https://susanshaw.com/",          widget: "yuma" },              // US jewelry · app.yuma.ai/w/e8ad7558
-  { key: "yuma-90degree",     vendor: "Yuma",   store: "90 Degree by Reflex", url: "https://www.90degreebyreflex.com/", widget: "yuma" },     // US activewear · app.yuma.ai/w/d63be532
-  // Sourced 2026-07-06 from Gorgias competition-benchmark data (dim_companies.storeleads_live_chat='Yuma') — the
-  // DEFINITIVE Yuma on-site-chat roster (~27 brands). GMV from dim_companies. Widget confirmed live; capturability TBD (bot-guard).
-  { key: "yuma-thebradery",   vendor: "Yuma",   store: "The Bradery",  url: "https://www.thebradery.com/",     widget: "yuma", locale: "fr-FR" }, // FR flash-sale · $116M GMV · GTM-lazy widget
-  { key: "yuma-manucurist",   vendor: "Yuma",   store: "Manucurist",   url: "https://manucurist.com/",         widget: "yuma", locale: "fr-FR" }, // FR nail/beauty · $62M · GTM-lazy
-  { key: "yuma-saalt",        vendor: "Yuma",   store: "Saalt",        url: "https://saalt.com/",              widget: "yuma" },              // US period care · $8.7M · widget in raw HTML
-  { key: "yuma-amnutrition",  vendor: "Yuma",   store: "AM Nutrition", url: "https://amnutrition.fr/",         widget: "yuma", locale: "fr-FR" }, // FR nutrition · $6.2M · widget in raw HTML
-  { key: "yuma-villagecraft", vendor: "Yuma",   store: "Village Craft & Candle", url: "https://villagecraftandcandle.com/", widget: "yuma" }, // CA candle-making · $5.8M · widget in raw HTML
-  { key: "yuma-hannun",       vendor: "Yuma",   store: "Hannun",       url: "https://hannun.com/",             widget: "yuma", locale: "es-ES" }, // ES furniture · $5.7M · GTM-lazy
-  { key: "yuma-novoma",       vendor: "Yuma",   store: "Novoma",       url: "https://novoma.com/",             widget: "yuma", locale: "fr-FR" }, // FR supplements · $5.0M · GTM-lazy
-  { key: "yuma-beaudomaine",  vendor: "Yuma",   store: "Beau Domaine", url: "https://beau-domaine.com/",       widget: "yuma", locale: "fr-FR" }, // FR skincare · $2.7M · widget in raw HTML
-  { key: "yuma-mool",         vendor: "Yuma",   store: "Mool",         url: "https://mool.fr/",                widget: "yuma", locale: "fr-FR" }, // FR · $2.9M · widget in raw HTML
 
+  // Amazon Rufus ("Alexa" shopping assistant on amazon.com) — INVESTIGATED 2026-07-07, NOT capturable:
+  // cold guest sessions (US zip set, no bot-wall) expose NO Rufus entry point on home or search —
+  // only a hidden 1x1 test div (nav-rufus-disc-txt). Rufus + Alexa+ web are gated behind an Amazon
+  // account login, which breaks the benchmark's cold-session methodology. Revisit if Amazon opens
+  // it to guests; a logged-in capture would need an explicit methodology exception (shopping-only,
+  // modes:["shopping"]).
   // Headed-only vendors (widget loads only in real Chrome). candidate=excluded from headless runs.
   { key: "humind-900care",    vendor: "Humind", store: "900.care",    url: "https://www.900.care/",       widget: "humind", candidate: true, locale: "fr-FR" },
   { key: "humind-puressentiel",vendor:"Humind", store: "Puressentiel",url: "https://fr.puressentiel.com/",widget: "humind", candidate: true, locale: "fr-FR" },
@@ -870,6 +954,10 @@ export async function readTranscript(page, scope) {
       return { len: text.length, text };
     } catch { return { len: 0, text: "" }; }
   }
+  if (scope.kind === "dom") {
+    try { const text = await page.evaluate((sel) => { const e = document.querySelector(sel); return e ? (e.innerText || "") : ""; }, scope.sel);
+      return { len: text.length, text }; } catch { return { len: 0, text: "" }; }
+  }
   // shadow DOM (Sierra): find the root that CONTAINS the composer (scope.match is the
   // composer selector). The old code matched textContent against the aria-label "Add new
   // message" — an attribute, never in textContent → always 0.
@@ -880,4 +968,34 @@ export async function readTranscript(page, scope) {
     }, scope.match);
     return { len: text.length, text };
   } catch { return { len: 0, text: "" }; }
+}
+
+// Best-effort extraction of the latest assistant bubble. This is deliberately narrower than
+// readTranscript(): timing and handover detection still use the full transcript, but report
+// snippets should not include Yuma quick replies, footers, or old user echoes from body.innerText.
+export async function readLatestAssistantReply(page, scope) {
+  if (scope.kind !== "frame") return "";
+  const f = await findFrame(page, scope.match);
+  if (!f) return "";
+  try {
+    return await f.evaluate(() => {
+      const roots = [
+        ...document.querySelectorAll('[aria-label="Chat messages"], .messages__list'),
+      ];
+      for (const root of roots) {
+        const rows = [...root.querySelectorAll(".message")];
+        for (const row of rows.reverse()) {
+          if (row.classList.contains("message--user")) continue;
+          const parts = [...row.querySelectorAll(".message__text")]
+            .map((el) => (el.innerText || el.textContent || "").trim())
+            .filter(Boolean);
+          const text = (parts.join("\n") || "").trim();
+          if (text) return text;
+        }
+      }
+      return "";
+    });
+  } catch {
+    return "";
+  }
 }

@@ -115,21 +115,22 @@ async function computeStatus() {
 const SHELL = `<!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow">
 <title>Run status — Gorgias AI Agent Benchmark</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Inter+Tight:wght@700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <style>
-:root{--ink:#16120D;--paper:#F6F2EC;--on:#1B1712;--mut:#6B6259;--faint:#A89D92;--coral:#F0603F;--mint:#1E9E6A;--amber:#D98A00;--red:#D64545;--line:rgba(27,23,18,.10)}
+:root{--ink:#1e242e;--paper:#fafafa;--on:#1e242e;--mut:#5c6370;--faint:#8a929e;--coral:#683fcf;--mint:#147656;--amber:#a94f13;--red:#d90b28;--line:rgba(30,36,46,.10)}
 *{box-sizing:border-box;margin:0;padding:0}body{font-family:'Inter',-apple-system,sans-serif;background:var(--paper);color:var(--on);padding:28px 22px 60px;line-height:1.5}
 .mono{font-family:'JetBrains Mono',ui-monospace,monospace;font-variant-numeric:tabular-nums}.n{text-align:right}.note{color:var(--mut);font-size:12.5px}.warn{color:var(--amber);font-weight:700}
 .wrap{max-width:900px;margin:0 auto}h1{font-family:'Inter Tight';font-size:30px;font-weight:900;letter-spacing:-.02em;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
 a.back{color:var(--coral);text-decoration:none;font-weight:700;font-size:13px}
 .topbar{margin:0 0 16px}.tsep{color:var(--faint);margin:0 9px}
 .badge{font-size:12px;font-weight:800;padding:4px 11px;border-radius:999px;letter-spacing:.02em}
-.badge.live{background:#FDEAEA;color:var(--red)}.badge.ok{background:#E2F4EA;color:var(--mint)}.badge.idle{background:#EEE9E4;color:var(--faint)}
+.badge.live{background:#ffecef;color:var(--red)}.badge.ok{background:#e9fbf5;color:var(--mint)}.badge.idle{background:#ebecef;color:var(--faint)}
 .sub{color:var(--mut);font-size:13px;margin-top:6px}
 .big{margin:26px 0;background:#fff;border:1px solid var(--line);border-radius:18px;padding:22px 24px}
 .big .pct{font-family:'Inter Tight';font-size:52px;font-weight:900;letter-spacing:-.03em;line-height:1}.big .cap{color:var(--mut);font-size:13px;margin-top:2px}
 .bar{height:9px;border-radius:999px;background:rgba(27,23,18,.08);overflow:hidden}.bar span{display:block;height:100%;border-radius:999px}
-.big .bar{height:14px;margin-top:16px}.big .bar span{background:linear-gradient(90deg,var(--coral),#FF8B5D)}
+.big .bar{height:14px;margin-top:16px}.big .bar span{background:linear-gradient(90deg,var(--coral),#7e55f6)}
 .kpis{display:flex;gap:26px;margin-top:14px;flex-wrap:wrap}.kpi b{font-family:'Inter Tight';font-size:22px;font-weight:800}.kpi span{color:var(--mut);font-size:12px;display:block}
 h2{font-family:'Inter Tight';font-size:16px;font-weight:800;margin:26px 0 10px}
 table{width:100%;border-collapse:collapse;font-size:13px;background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden}
@@ -140,8 +141,20 @@ td{padding:9px 12px;border-bottom:1px solid rgba(27,23,18,.05);vertical-align:mi
 .ev-done{color:#43D598}.ev-fail{color:#FF7A5C}.ev-run{color:#C9BEB0}.ev-ts{color:#8A8078;font-weight:700}
 .live-dot{width:8px;height:8px;border-radius:50%;background:var(--red);display:inline-block;animation:pulse 1.4s infinite}@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
 #upd{font-size:11px;color:var(--faint);margin-left:auto}
-</style></head><body><div class="wrap">
-<div class="topbar"><a class="back" href="report.html">← Back to report</a><span class="tsep">·</span><a class="back" href="takeaways.html">Summary</a><span class="tsep">·</span><a class="back" href="report.html?view=conversations">Conversations</a></div>
+/* UNIFIED site nav — IDENTICAL markup + CSS across takeaways.html, report.html, run-status.html */
+.sitenav{position:sticky;top:0;z-index:60;display:flex;align-items:center;gap:14px;padding:0 24px;height:54px;background:rgba(250,250,250,.85);backdrop-filter:blur(16px) saturate(1.4);-webkit-backdrop-filter:blur(16px) saturate(1.4);border-bottom:1px solid rgba(30,36,46,.08);margin:-28px -22px 20px}
+.sitenav .brand{display:flex;align-items:center;gap:8px;font-family:'Inter Tight','Inter',sans-serif;font-weight:800;font-size:14px;letter-spacing:-.01em;color:#1e242e;text-decoration:none;white-space:nowrap}
+.sitenav .brand .mark{width:22px;height:22px;border-radius:6px;background:#1e242e;display:grid;place-items:center;flex:none}
+.sitenav .brand .mark::before{content:"";width:9px;height:9px;border-radius:2px;background:#7e55f6;transform:rotate(45deg)}
+.sitenav .brand .sub{color:#5c6370;font-weight:600}
+.sitenav .links{display:flex;align-items:center;gap:4px;margin-left:auto;flex-wrap:wrap}
+.sitenav .links a{font-size:13px;font-weight:600;color:#5c6370;text-decoration:none;padding:7px 13px;border-radius:8px;transition:background .14s,color .14s;white-space:nowrap}
+.sitenav .links a:hover{background:#f0eefa;color:#1e242e}
+.sitenav .links a.active{background:#efe9fe;color:#683fcf;font-weight:700}
+@media(max-width:820px){.sitenav .links a{padding:6px 9px;font-size:12px}.sitenav .brand .sub{display:none}}
+</style></head><body>
+<nav class="sitenav"><a class="brand" href="takeaways.html"><span class="mark"></span>Gorgias<span class="sub">· AI Agent Benchmark</span></a><div class="links"><a href="takeaways.html">Summary</a><a href="report.html">Best AI Agent</a><a href="report.html?view=conversations">Conversations</a><a href="report.html#how">How it works</a></div></nav>
+<div class="wrap">
 <h1>Capture run status <span id="badge"></span><span id="upd"></span></h1>
 <div class="sub" id="meta"></div>
 <div id="root"><div class="note" style="margin-top:24px">Loading run status…</div></div>
@@ -149,7 +162,7 @@ td{padding:9px 12px;border-bottom:1px solid rgba(27,23,18,.05);vertical-align:mi
 <script>
 const VC=${JSON.stringify(VCOL)};
 const esc=s=>String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;");
-const bar=(v,max,col)=>'<div class="bar"><span style="width:'+(max?Math.round(100*v/max):0)+'%;background:'+(col||'linear-gradient(90deg,#F0603F,#FF8B5D)')+'"></span></div>';
+const bar=(v,max,col)=>'<div class="bar"><span style="width:'+(max?Math.round(100*v/max):0)+'%;background:'+(col||'linear-gradient(90deg,#683fcf,#7e55f6)')+'"></span></div>';
 function render(d){
   const badge={running:'<span class="badge live"><span class="live-dot"></span> LIVE — capturing</span>',done:'<span class="badge ok">✓ run complete</span>',idle:'<span class="badge idle">idle — last run</span>'}[d.state]||'';
   document.getElementById('badge').innerHTML=badge;
@@ -159,7 +172,7 @@ function render(d){
   const lt=ts=>{ if(!ts) return ''; try{ const d=new Date(ts); return '<span class="ev-ts">'+d.toLocaleDateString([],{month:'short',day:'numeric'})+' '+d.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit',second:'2-digit'})+'</span> '; }catch(e){ return ''; } };
   const acts=(d.activity||[]).map(e=>'<div class="ev-'+e.t+'">'+lt(e.ts)+esc(e.txt)+'</div>').join('')||'<div class="note">No live log attached.</div>';
   const running=d.state==='running'&&d.running&&d.running.length?'<div class="sub" style="margin-top:14px">⏳ In flight: '+d.running.map(x=>'<span class="chip">'+esc(x)+'</span>').join(' ')+'</div>':'';
-  const next=d.next&&d.next.stores&&d.next.stores.length?'<h2>Upcoming — next daily run</h2><div class="big" style="padding:16px 20px"><div class="sub" style="margin:0 0 10px"><b>Daily · 08:00 local</b> · ~'+d.next.plannedConvs+' conversations across '+d.next.stores.length+' stores'+(d.next.newSites?' · <span class="warn">'+d.next.newSites+' never-measured (new)</span>':'')+'</div><div style="display:flex;flex-wrap:wrap;gap:6px">'+d.next.stores.map(s=>'<span class="chip" style="background:rgba(240,96,63,.10);color:#F0603F">'+esc(s.vendor)+' · '+esc(s.store)+(s.lastRun?'':' ✦')+'</span>').join('')+'</div><div class="note" style="margin-top:8px">✦ = never measured yet (grows pool diversity).</div></div>':'';
+  const next=d.next&&d.next.stores&&d.next.stores.length?'<h2>Upcoming — next daily run</h2><div class="big" style="padding:16px 20px"><div class="sub" style="margin:0 0 10px"><b>Daily · 08:00 local</b> · ~'+d.next.plannedConvs+' conversations across '+d.next.stores.length+' stores'+(d.next.newSites?' · <span class="warn">'+d.next.newSites+' never-measured (new)</span>':'')+'</div><div style="display:flex;flex-wrap:wrap;gap:6px">'+d.next.stores.map(s=>'<span class="chip" style="background:rgba(126,85,246,.10);color:#683fcf">'+esc(s.vendor)+' · '+esc(s.store)+(s.lastRun?'':' ✦')+'</span>').join('')+'</div><div class="note" style="margin-top:8px">✦ = never measured yet (grows pool diversity).</div></div>':'';
   document.getElementById('root').innerHTML=
     '<div class="big"><div class="pct">'+d.pct+'%</div><div class="cap">'+d.done+' of '+d.total+' conversations captured this run</div>'+bar(d.done,d.total)+
     '<div class="kpis"><div class="kpi"><b class="mono">'+d.totValid+'</b><span>valid (timed)</span></div><div class="kpi"><b class="mono">'+d.totInvalid+'</b><span>invalid / failed</span></div><div class="kpi"><b class="mono">'+d.remaining+'</b><span>remaining</span></div><div class="kpi"><b class="mono">'+d.storesInRun+'</b><span>stores in run</span></div></div>'+running+'</div>'+
@@ -174,7 +187,8 @@ async function tick(){
   }catch(e){ document.getElementById('upd').textContent='(offline — retrying)'; }
 }
 tick(); setInterval(tick, 8000);   // auto-refresh — the page updates itself, no rebuild needed
-</script></body></html>`;
+</script></body></html>
+`;
 
 async function refresh() {
   const status = await computeStatus();

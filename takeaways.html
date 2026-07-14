@@ -6,6 +6,7 @@
 <meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Industry Takeaways — Gorgias AI Agent Competitive Benchmark</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -88,7 +89,8 @@ a{color:inherit;text-decoration:none}
    TOP NAV — first-party product-header pattern (sticky, hairline on scroll)
    ========================================================================= */
 /* UNIFIED site nav — IDENTICAL markup + CSS across takeaways.html, report.html, run-status.html (self-contained hex so it never diverges) */
-.sitenav{position:sticky;top:0;z-index:60;display:flex;align-items:center;gap:14px;padding:0 24px;height:54px;
+.nav-burger{display:none;margin-left:auto;background:none;border:1px solid var(--line,#e5e7ee);border-radius:9px;font-size:17px;line-height:1;padding:6px 11px;cursor:pointer}
+.sitenav{position:relative;position:sticky;top:0;z-index:60;display:flex;align-items:center;gap:14px;padding:0 24px;height:54px;
   background:rgba(250,250,250,.85);backdrop-filter:blur(16px) saturate(1.4);-webkit-backdrop-filter:blur(16px) saturate(1.4);border-bottom:1px solid rgba(30,36,46,.08)}
 .sitenav .brand{display:flex;align-items:center;gap:8px;font-family:'Inter Tight','Inter',sans-serif;font-weight:800;font-size:14px;letter-spacing:-.01em;color:#1e242e;text-decoration:none;white-space:nowrap}
 .sitenav .brand .mark{width:22px;height:22px;border-radius:6px;background:#1e242e;display:grid;place-items:center;flex:none}
@@ -98,7 +100,14 @@ a{color:inherit;text-decoration:none}
 .sitenav .links a{font-size:13px;font-weight:600;color:#5c6370;text-decoration:none;padding:7px 13px;border-radius:8px;transition:background .14s,color .14s;white-space:nowrap;cursor:pointer;background:none;border:none;font-family:inherit}
 .sitenav .links a:hover{background:#f0eefa;color:#1e242e}
 .sitenav .links a.active{background:#efe9fe;color:#683fcf;font-weight:700}
-@media(max-width:820px){.sitenav .links a{padding:6px 9px;font-size:12px}.sitenav .brand .sub{display:none}}
+@media(max-width:820px){.sitenav .links a{padding:6px 9px;font-size:12px}
+@media(max-width:720px){
+  .nav-burger{display:block}
+  .sitenav .links{display:none}
+  .sitenav.nav-open .links{display:flex;flex-direction:column;align-items:stretch;position:absolute;top:calc(100% + 6px);right:10px;background:#fff;border:1px solid var(--line,#e5e7ee);border-radius:14px;padding:8px;box-shadow:0 12px 32px rgba(15,18,25,.14);min-width:200px}
+  .sitenav.nav-open .links a{padding:11px 14px;font-size:14px;border-radius:9px;text-align:left}
+}
+.sitenav .brand .sub{display:none}}
 
 /* =========================================================================
    LAYOUT
@@ -405,6 +414,7 @@ td.n{text-align:right}
 <!-- ============================== APP BAR ============================== -->
 <nav class="sitenav" id="appbar">
   <a class="brand" href="takeaways.html"><span class="mark"></span>Gorgias<span class="sub">· AI Agent Benchmark</span></a>
+  <button class="nav-burger" aria-label="Menu" onclick="event.stopPropagation();this.closest('.sitenav').classList.toggle('nav-open')">☰</button>
   <div class="links">
     <a href="takeaways.html" class="active" aria-current="page">Summary</a>
     <a href="report.html">Best AI Agent</a>
@@ -420,12 +430,12 @@ td.n{text-align:right}
     <h1 class="rv">We benchmarked every<br><span class="accent">on-site AI agent.</span></h1>
     <p class="sub rv">Real merchants, cold sessions, free-typed questions — measured, judged and repeated weekly. <a href="report.html">Explore the full interactive report →</a></p>
     <div class="statstrip rv-stagger">
-      <div class="statcell"><div class="num tnum" data-count="450" data-stat="convs">0</div><div class="lbl">Conversations captured</div></div>
-      <div class="statcell"><div class="num tnum" data-count="422" data-stat="judged">0</div><div class="lbl">LLM-judged</div></div>
-      <div class="statcell"><div class="num tnum" data-count="15" data-stat="vendors">0</div><div class="lbl">Vendors</div></div>
-      <div class="statcell"><div class="num tnum" data-count="44" data-suffix="+" data-stat="stores">0</div><div class="lbl">Live stores measured</div></div>
+      <div class="statcell"><div class="num tnum" data-count="544" data-stat="convs">0</div><div class="lbl">Conversations captured</div></div>
+      <div class="statcell"><div class="num tnum" data-count="546" data-stat="judged">0</div><div class="lbl">LLM-judged</div></div>
+      <div class="statcell"><div class="num tnum" data-count="16" data-stat="vendors">0</div><div class="lbl">Vendors</div></div>
+      <div class="statcell"><div class="num tnum" data-count="53" data-suffix="+" data-stat="stores">0</div><div class="lbl">Live stores measured</div></div>
     </div>
-    <!-- STATS_JSON:{"convs":450,"judged":422,"vendors":15,"stores":44,"runs":4} -->
+    <!-- STATS_JSON:{"convs":544,"judged":546,"vendors":16,"stores":53,"runs":5} -->
   </div>
 </header>
 
@@ -433,13 +443,13 @@ td.n{text-align:right}
 <section id="verdict">
   <div class="wrap">
     <span class="kicker rv"><span class="dot"></span>The verdict — Gorgias</span>
-    <h2 class="sec rv">Gorgias: #2 overall — best-in-class support, and one shopping gap.</h2>
+    <h2 class="sec rv"><!--RANK_TITLE-->Gorgias: #1 overall — best-in-class support, one shopping-speed gap.<!--/RANK_TITLE--></h2>
     <p class="sec-lead rv">A single read on where Gorgias stands across the field, on the same rubric applied blind to every vendor.</p>
 
     <div class="verdict-shell rv">
       <div class="verdict-top">
-        <div class="h">Gorgias sits #2 overall — best-in-class support answer quality and elite automation; the one remaining gap is shopping speed.</div>
-        <span class="badge-rank">#2 overall · #2 support · #2 shopping</span>
+        <div class="h"><!--RANK_H-->Gorgias is the #1 AI agent overall in the field (mean of both lanes) — #1 in support (best-in-field answer quality + elite automation) and #2 shopping, behind Siena. The one gap is shopping speed.<!--/RANK_H--></div>
+        <span class="badge-rank"><!--RANK_BADGE-->#1 overall · #1 support · #2 shopping<!--/RANK_BADGE--></span>
       </div>
       <div class="verdict-grid">
         <div class="vcell good">
@@ -453,9 +463,9 @@ td.n{text-align:right}
           <div class="desc"><span class="tt" data-tip="Automation rate = % of engaged conversations the AI handled with ZERO human touch: no human handover AND no out-of-channel deflection ('email us' / 'call us'). Early bails count against it. In helpdesk terms: the share of tickets a human never touches.">94% shopping · 83% support</span> across live V3 stores. Only Ada/Rep score higher (100%) — both at near-zero answer quality. <b>Among vendors that actually answer, containment is top-tier.</b></div>
         </div>
         <div class="vcell mid">
-          <div class="kpi tnum">#2</div>
+          <div class="kpi tnum"><!--RANK_OVERALL-->#1<!--/RANK_OVERALL--></div>
           <span class="tag">Overall position</span>
-          <div class="desc"><span class="tt" data-tip="Overall = mean of the two lane composites. Composite = 40% automation + 40% quality + 20% speed (speed 100 at ≤3s, 0 at ≥22s) — automation and quality are equal pillars; speed separates close vendors.">#2 support (78), #2 shopping (75)</span>, behind only Envive — now level with Yuma on shopping. Shopping quality (85) beats Envive (80) and matches Yuma (85); the two tie on composite (75) and Gorgias edges #2. <b>We win the quality argument.</b></div>
+          <div class="desc"><span class="tt" data-tip="Overall = mean of the two lane composites. Composite = 40% automation + 40% quality + 20% speed (speed 100 at ≤3s, 0 at ≥22s) — automation and quality are equal pillars; speed separates close vendors."><!--RANK_LANES-->#1 support (77), #2 shopping (74)<!--/RANK_LANES--></span>, now #1 overall — ahead of Envive. Shopping quality (85) beats Envive and Yuma on shopping composite; only Siena edges ahead at #1. <b>We win the quality argument.</b></div>
         </div>
         <div class="vcell warn">
           <div class="kpi tnum">~18<span style="font-size:.5em;font-weight:600">s</span></div>
@@ -464,7 +474,7 @@ td.n{text-align:right}
         </div>
       </div>
       <div class="verdict-note">
-        <b>Bottom line:</b> under the blind, evidence-forced re-judge, Gorgias is <b>#2 overall, behind only Envive</b>. Support is the standout — quality <b>94/100</b>, effectively best-in-field, at 83% automation. Shopping quality (85) beats Envive (80) and is level with Yuma (85) — the two tie on composite (75) and Gorgias edges <b>#2</b>. The remaining gap is speed (~18s vs ~12s), not substance. Two clean levers: shopping speed, and lifting the weakest-configured stores. Composite = 40% automation · 40% quality · 20% speed.
+        <b>Bottom line:</b> under the blind, evidence-forced re-judge, Gorgias is <b>#1 overall</b> (mean of both lanes), now ahead of Envive. Support is the standout — quality <b>94/100</b>, best-in-field, and now the <b>#1 support agent</b>. Shopping is <b>#2</b>, just behind Siena; the remaining gap is speed (~18s vs the field), not substance. Two clean levers: shopping speed, and lifting the weakest-configured stores. Composite = 40% automation · 40% quality · 20% speed.
       </div>
     </div>
   </div>
@@ -495,7 +505,7 @@ td.n{text-align:right}
         </table>
       </div>
     </div>
-    <p class="table-note rv">Not ranked: <b>Humind</b> (widget only initializes for real human sessions; blocked our capture everywhere), and <b>Klaviyo</b> &amp; <b>Decagon</b> (thin sample — under the 5-conversation floor; shown in the profiles until they have real volume). <b>Madura</b>'s Shopping is excluded as a misconfigured deployment (its agent answers shopping openers with payment-method info — a store-specific config gap, not the V3 agent); its Support (100/100) is kept.</p>
+    <p class="table-note rv">Not ranked: <b>Humind</b> (widget only initializes for real human sessions; blocked our capture everywhere) and <b>Decagon</b> (thin sample — under the 5-conversation floor; shown in the profiles until it has real volume). <b>Klaviyo</b> now clears the Shopping floor, but has no Support lane yet. <b>Madura</b>'s Shopping is excluded as a misconfigured deployment (its agent answers shopping openers with payment-method info — a store-specific config gap, not the V3 agent); its Support (100/100) is kept.</p>
   </div>
 </section>
 
@@ -510,14 +520,14 @@ td.n{text-align:right}
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
       </span>
       <h3>Shopping Assistant</h3>
-      <span class="meta">composite #2 of 10 · level with Yuma (75), behind Envive · we beat Envive on quality, trail on speed</span>
+      <span class="meta">composite #2 of 11 · just behind Siena, ahead of Envive and Yuma · we beat Envive on quality, trail on speed</span>
     </div>
     <div class="wl-grid rv-stagger">
       <div class="wl-card win">
         <div class="head"><span class="chip">✓</span>Wins</div>
         <ul>
           <li><b>Automation 94% — top-tier.</b> Across 6 live V3 stores; only Ada/Rep go higher (100%) and both at near-zero answer quality. Sierra loses 15% of shopping conversations to humans, DigitalGenius 72%.</li>
-          <li><b>It actually sells — quality (85) beats Envive (80).</b> Head-to-head comparisons, promo terms cited correctly, consistent purchase nudges. Most support-first vendors refuse to recommend at all (DG). Now level with Yuma (85) — which runs on a thin 14-conversation, 2-store sample.</li>
+          <li><b>It actually sells — quality (85) beats Envive (80).</b> Head-to-head comparisons, promo terms cited correctly, consistent purchase nudges. Most support-first vendors refuse to recommend at all (DG). Now ahead of Yuma — which runs on a thin 14-conversation, 2-store sample.</li>
           <li><b>Zero out-of-channel deflections</b> — never punts the shopper to email/phone (Kodif and Siena both do).</li>
         </ul>
       </div>
@@ -570,7 +580,7 @@ td.n{text-align:right}
       <div class="prof-card">
         <div class="prof-head"><span class="vdot" style="background:#f0603f"></span><span class="vname">Gorgias<span class="us-tag">US</span></span></div>
         <div class="prof-metrics">94/83% auto · <b>q85/94</b> · 18.4s/15s · p75 21.3s/15.9s</div>
-        <div class="pp plus"><b>+ Best-in-class support, never lets go.</b> Support answer quality 94/100 — highest in the field; elite automation (94% shopping, 83% support). Sales instinct is real: head-to-head comparisons, promo terms, purchase nudges, product cards; shopping quality (85) <b>beats Envive (80)</b>, level with Yuma.</div>
+        <div class="pp plus"><b>+ Best-in-class support, never lets go.</b> Support answer quality 94/100 — highest in the field; elite automation (94% shopping, 83% support). Sales instinct is real: head-to-head comparisons, promo terms, purchase nudges, product cards; shopping quality <b>beats Envive</b> and Yuma; only Siena edges ahead.</div>
         <div class="quote">"Cited specific clinical stats (94% firmer) and the exact return policy (30-day, €8 fee vs free store credit) to reassure a skeptical shopper" — judge, 84/100</div>
         <div class="pp minus"><b>− Slow on shopping.</b> 18.4s to a full shopping answer (p75 21.3s) — slowest of the top tier, delivered atomically (no streaming). Speed, not substance, is the gap: quality is consistent across live V3 stores (Beekman 88, Addison Bay &amp; Amicci 86).</div>
         <div class="quote">"All seven turns return support-hours boilerplate with no policy details" — judge, 15/100</div>
@@ -639,9 +649,10 @@ td.n{text-align:right}
       </div>
 
       <div class="prof-card">
-        <div class="prof-head"><span class="vdot" style="background:#f59e0b"></span><span class="vname">Klaviyo</span><span class="tail"><span class="tag-soft">Not measurable</span></span></div>
-        <div class="prof-metrics">K:AI Customer Agent — no cold concierge</div>
-        <div class="pp minus"><b>− Accepts questions, returns nothing.</b> On Naked Wardrobe and Harney &amp; Sons the on-site K:AI took our free-typed messages but produced no answer in cold, un-identified sessions — it appears gated on login/identity. Detected on-site, but not a drivable free-text concierge in our harness.</div>
+        <div class="prof-head"><span class="vdot" style="background:#111"></span><span class="vname">Klaviyo</span><span class="tail"><span class="tag-soft tag-new">Shopping only</span></span></div>
+        <div class="prof-metrics">25% auto · q74 · ~15s — 8 Shopping conversations</div>
+        <div class="pp plus"><b>+ Now measurable on Shopping.</b> NANUK, Naked Wardrobe, and K9 Ballistics produced valid free-text Customer Agent conversations with named products, prices, and cart cards; Naked was the strongest quality signal.</div>
+        <div class="pp minus"><b>− Containment and cold-session reliability are the gap.</b> Several Klaviyo turns stalled on catalog search or handed over before completing cart, review, or gift-message asks. Support is still absent, so Klaviyo is not comparable as a two-lane support+shopping provider yet.</div>
       </div>
 
       <div class="prof-card">
@@ -739,7 +750,7 @@ td.n{text-align:right}
 
 <script>
 /* ---------- scoreboard data — copied verbatim from takeaways.html ---------- */
-/*SCORES_START*/ const D = {"Gorgias":{"us":1,"col":"#f0603f","s":{"a":94,"q":83,"l":18.7,"l75":21.3,"n":32},"p":{"a":82,"q":94,"l":15.3,"l75":15.9,"n":26}},"Envive":{"col":"#22c55e","s":{"a":93,"q":65,"l":12.5,"l75":16,"n":14},"p":{"a":90,"q":87,"l":11.6,"l75":15.1,"n":10}},"Sierra":{"col":"#0ea5e9","s":{"a":85,"q":59,"l":10,"l75":13.2,"n":38},"p":{"a":54,"q":85,"l":9.3,"l75":11.3,"n":22}},"Siena":{"col":"#a855f7","s":{"a":93,"q":69,"l":12.6,"l75":15.6,"n":27},"p":{"a":75,"q":72,"l":11.6,"l75":14,"n":24}},"Yuma":{"col":"#14b8a6","s":{"a":93,"q":89,"l":18,"l75":20.7,"n":14},"p":{"a":73,"q":73,"l":16.9,"l75":17,"n":11}},"DigitalGenius":{"col":"#8b5cf6","s":{"a":23,"q":55,"l":19.3,"l75":25.5,"n":19},"p":{"a":63,"q":65,"l":14.1,"l75":22.5,"n":15}},"Meta AI":{"us":1,"col":"#3b82f6","s":{"a":70,"q":19,"l":5.4,"l75":3.2,"n":6},"p":{"a":83,"q":45,"l":7.8,"l75":10.1,"n":12}},"Ada":{"us":1,"col":"#64748b","s":{"a":84,"q":60,"l":11.2,"l75":14.8,"n":42},"p":{"a":76,"q":58,"l":10.9,"l75":13.5,"n":35}},"Rep AI":{"col":"#ef4444","s":{"a":100,"q":22,"l":40.6,"l75":57.4,"n":9},"p":{"a":100,"q":15,"l":42.4,"l75":57.5,"n":7}},"Kodif":{"col":"#eab308","s":{"a":83,"q":63,"l":15.1,"l75":21.5,"n":40},"p":{"a":61,"q":67,"l":11.4,"l75":16,"n":35}},"Klaviyo":{"col":"#111","s":{"a":40,"q":72,"l":9.2,"l75":11.7,"n":5},"p":null}};/*SCORES_END*/
+/*SCORES_START*/ const D = {"Gorgias":{"us":1,"col":"#f0603f","s":{"a":94,"q":83,"l":18.7,"l75":21.3,"n":32},"p":{"a":82,"q":94,"l":15.3,"l75":15.9,"n":26}},"Envive":{"col":"#22c55e","s":{"a":94,"q":60,"l":11.6,"l75":15,"n":16},"p":{"a":78,"q":76,"l":10.6,"l75":14.1,"n":31}},"Amazon Rufus":{"col":"#888","s":{"a":100,"q":76,"l":12.9,"l75":15.1,"n":16},"p":null},"Sierra":{"col":"#0ea5e9","s":{"a":80,"q":57,"l":9.5,"l75":12.3,"n":65},"p":{"a":59,"q":87,"l":9.1,"l75":11.2,"n":38}},"Siena":{"col":"#a855f7","s":{"a":91,"q":69,"l":11.9,"l75":14.7,"n":34},"p":{"a":69,"q":73,"l":11.1,"l75":13.8,"n":29}},"Yuma":{"col":"#14b8a6","s":{"a":88,"q":75,"l":22.4,"l75":25.5,"n":24},"p":{"a":78,"q":78,"l":17.4,"l75":20.1,"n":18}},"DigitalGenius":{"col":"#8b5cf6","s":{"a":24,"q":55,"l":19.2,"l75":25.4,"n":18},"p":{"a":62,"q":65,"l":13.8,"l75":22.3,"n":12}},"Meta AI":{"us":1,"col":"#3b82f6","s":{"a":67,"q":48,"l":6.2,"l75":8.5,"n":6},"p":{"a":89,"q":45,"l":7.2,"l75":10.2,"n":9}},"Ada":{"us":1,"col":"#64748b","s":{"a":83,"q":60,"l":11.3,"l75":14.9,"n":41},"p":{"a":76,"q":58,"l":10.9,"l75":13.9,"n":31}},"Rep AI":{"col":"#ef4444","s":{"a":100,"q":22,"l":40.6,"l75":57.4,"n":9},"p":{"a":100,"q":15,"l":42.4,"l75":57.5,"n":7}},"Kodif":{"col":"#eab308","s":{"a":85,"q":63,"l":15.2,"l75":21.5,"n":39},"p":{"a":66,"q":67,"l":11.4,"l75":15.8,"n":31}},"Klaviyo":{"col":"#111","s":{"a":40,"q":82,"l":12.4,"l75":13.5,"n":5},"p":null}};/*SCORES_END*/
 const speed=l=>Math.max(0,Math.min(100,(22-l)/19*100));
 function comp(m){ if(!m) return null; const parts=[[.4,m.a],[.4,m.q],[.2,m.l!=null?speed(m.l):null]].filter(p=>p[1]!=null); const w=parts.reduce((a,p)=>a+p[0],0); return w?Math.round(parts.reduce((a,p)=>a+p[0]*p[1],0)/w):null; }
 const rows=Object.entries(D).map(([v,d])=>({v,...d,cs:comp(d.s),cp:comp(d.p)}))

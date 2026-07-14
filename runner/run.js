@@ -21,9 +21,10 @@
 import { chromium } from "playwright";
 import { mkdir, writeFile } from "node:fs/promises";
 import { existsSync, readFileSync } from "node:fs";
-import { WIDGETS, STORES, readTranscript } from "./vendors.js";
+import { WIDGETS, STORES, readLatestAssistantReply, readTranscript } from "./vendors.js";
 import { SHOPPING_THEMES, SUPPORT_THEMES } from "./pools.js";
 import { isGen, isAck, isNoAnswer, detectHandover, convoValidity } from "./classify.js";
+import { normalizeUserMessage } from "./message-style.js";
 
 // Prefix every log line with an ISO timestamp so run-status can render each activity event
 // in the viewer's local time. runstatus.parseLog strips/keeps the prefix.
@@ -86,8 +87,14 @@ const SERIAL = args.includes("--serial");        // per-store serialize (cleaner
 // concurrency doesn't skew timing. Default 4; tune with --concurrency N.
 const CONC = Math.max(1, Number((pick("--concurrency") || [])[0]) || Number(process.env.CONCURRENCY) || 4);
 const THEME_LIMIT = Number((pick("--themes") || [])[0]) || 0;   // 0 = all themes
+const MAX_CONVERSATIONS = Number((pick("--max-conversations") || [])[0]) || Number(process.env.MAX_CONVERSATIONS) || 0;   // 0 = unbounded
 const MODES = (modeFilter || ["shopping", "support"]);
 const STAMP = (process.env.RUN_DATE || new Date().toISOString().slice(0, 10));
+const CAPTURE_BATCH = String(process.env.BENCHMARK_CAPTURE_BATCH || process.env.CAPTURE_BATCH || "")
+  .trim()
+  .toLowerCase()
+  .replace(/[^a-z0-9._-]+/g, "-")
+  .replace(/^-+|-+$/g, "");
 
 function normalizeCaptureOrigin(raw) {
   const v = String(raw || "").trim().toLowerCase();
@@ -132,24 +139,25 @@ async function timeTurn(page, scope, sendFn, q) {
   const REPLY_MIN = echoApprox + 40;              // growth beyond this = a real reply, not the echo
   const t0 = Date.now();
   await sendFn();
-  let lastLen = before, lastChange = t0, ttft = null, sawGen = false, grownReply = false, complete = null, growthEvents = 0;
+  let lastLen = before, lastChange = t0, ttft = null, sawGen = false, grownReply = false, complete = null, growthEvents = 0, trough = before;  // some widgets (Amazon Rufus) RESET the transcript container on each question, so growth is measured from the post-send trough, not the pre-send baseline
   const deadline = t0 + TURN_TIMEOUT_MS;
   while (Date.now() < deadline) {
     await sleep(POLL_MS);
     const { len, text } = await readTranscript(page, scope);
     if (len !== lastLen) { lastChange = Date.now(); if (len > lastLen) growthEvents++; lastLen = len; }
+    if (len < trough) trough = len;
     if (isGen(text)) sawGen = true;
-    if (len > before + REPLY_MIN) { grownReply = true; if (ttft == null) ttft = Date.now() - t0; }
+    if (len > trough + REPLY_MIN) { grownReply = true; if (ttft == null) ttft = Date.now() - t0; }
     // "still working" = a typing indicator, OR a short stall/ack message that will be
     // followed by the real answer. A long reply (>240 chars) is accepted even if it
     // coincidentally ends acknowledgement-like.
-    const shortSoFar = (len - before) < 240;
+    const shortSoFar = (len - trough) < 240;
     const working = isGen(text) || (isAck(text) && shortSoFar);
     const settled = Date.now() - lastChange > STABLE_MS;
     // A settled transcript that's just an offline/reconnecting state or a chip/"leave a
     // message" menu is NOT a real answer — never stop the clock on it (leaves complete_ms
     // null → the conversation's validity gate will drop it as noise).
-    const realAnswer = (grownReply || (sawGen && len > before + 40)) && !isNoAnswer(text);
+    const realAnswer = (grownReply || (sawGen && len > trough + 40)) && !isNoAnswer(text);
     if (settled && !working && realAnswer) { complete = lastChange - t0; break; }
   }
   // growth_events distinguishes DELIVERY: many increments = token/segment streaming,
@@ -200,6 +208,7 @@ async function runStoreMode(browser, store, mode, theme) {
     capture: {
       origin: CAPTURE_ORIGIN.origin,
       origin_explicit: CAPTURE_ORIGIN.explicit,
+      batch: CAPTURE_BATCH || null,
       runner: "run.js",
       browser: HEADED ? "headed" : "headless",
       schema: 1,
@@ -210,7 +219,7 @@ async function runStoreMode(browser, store, mode, theme) {
   // IndexedDB/cache for ANY origin (the widget's cross-origin storage included),
   // so there is never a pre-existing conversation. storageState is left undefined
   // (no profile) and we clear cookies as belt-and-suspenders.
-  const ctxOpts = { viewport: { width: 1366, height: 900 }, locale: store.locale || "en-US", timezoneId: "America/New_York", userAgent: REAL_UA, extraHTTPHeaders: { "Accept-Language": "en-US,en;q=0.9" }, storageState: undefined };
+  const ctxOpts = { viewport: { width: 1366, height: 900 }, locale: store.locale || "en-US", timezoneId: "America/New_York", userAgent: REAL_UA, extraHTTPHeaders: { "Accept-Language": "en-US,en;q=0.9" }, storageState: store.stateFile ? new URL(store.stateFile, import.meta.url).pathname : undefined };
   // --video: only the first theme per (store,mode) gets recorded — one demo clip each.
   const isFirstTheme = theme.key === (mode === "support" ? SUPPORT_THEMES : SHOPPING_THEMES)[0].key;
   if (VIDEO && isFirstTheme) ctxOpts.recordVideo = { dir: `results/${STAMP}/video`, size: { width: 1366, height: 900 } };
@@ -282,7 +291,7 @@ async function runStoreMode(browser, store, mode, theme) {
     let handedOver = false;
     const useNet = w.transport === "net" && w.net;
     for (let i = 0; i < pool.length; i++) {
-      const q = pool[i];
+      const q = normalizeUserMessage(pool[i]);
       // Handed to a human on an earlier turn → STOP talking to the human. We do NOT
       // keep sending scripted shopper messages to a live agent. The remaining turns
       // are recorded as "not sent" (by:human) so the full-journey denominator — and
@@ -295,24 +304,51 @@ async function runStoreMode(browser, store, mode, theme) {
         console.log(`  [${store.key}/${mode}/${theme.key}] T${i + 1} (not sent — handed to human)`);
         continue;
       }
-      let r, tail;
+      let r, handoverTail, replyTail, replyFull;
       if (useNet) {
         try { r = await withTimeout(timeTurnNet(page, net, () => w.send(page, q)), TURN_TIMEOUT_MS + 15000, "turn-net"); }
         catch (e) { r = { ttft_ms: null, complete_ms: null, error: String(e).slice(0, 120) }; }
-        tail = net.replies.slice(-3).map(x => x.text).join("  ").slice(-700);
+        handoverTail = replyTail = net.replies.slice(-3).map(x => x.text).join("  ").slice(-700);
+        replyFull = r.replyText || replyTail;   // timeTurnNet already joins this turn's full replies
       } else {
+        const beforeAssistant = store.widget === "yuma"
+          ? await readLatestAssistantReply(page, w.scope).catch(() => "")
+          : "";
+        const beforeText = (await readTranscript(page, w.scope)).text;
         try { r = await withTimeout(timeTurn(page, w.scope, () => w.send(page, q), q), TURN_TIMEOUT_MS + 15000, "turn"); }
         catch (e) { r = { ttft_ms: null, complete_ms: null, error: String(e).slice(0, 120) }; }
-        tail = (await readTranscript(page, w.scope)).text.slice(-700);
+        const transcript = (await readTranscript(page, w.scope)).text;
+        handoverTail = transcript.slice(-700);
+        const latestAssistant = store.widget === "yuma" ? await readLatestAssistantReply(page, w.scope) : "";
+        // Yuma keeps the previous assistant bubble in the DOM after an unanswered/timeout
+        // turn. Only attach a Yuma reply snippet when a new bubble appeared for this turn.
+        replyTail = store.widget === "yuma"
+          ? (latestAssistant && latestAssistant !== beforeAssistant ? latestAssistant : "")
+          : handoverTail;
+        replyTail = replyTail.slice(-700);
+        // FULL reply for this turn (replyTail keeps only the LAST 500 chars, which
+        // beheads long answers — bad for display AND for the judge). Delta the
+        // transcript across the turn so the HEAD of the answer is preserved; if the
+        // widget reset/reshuffled its container (common prefix collapsed), fall back
+        // to the whole post-turn transcript rather than lose the front.
+        if (store.widget === "yuma") replyFull = (latestAssistant && latestAssistant !== beforeAssistant) ? latestAssistant : "";
+        else {
+          let p = 0; const m = Math.min(beforeText.length, transcript.length);
+          while (p < m && beforeText[p] === transcript[p]) p++;
+          replyFull = (p >= beforeText.length * 0.7 ? transcript.slice(p) : transcript).trim();
+        }
       }
+      // cap generously from the FRONT (keep the beginning; the tail is usually chrome)
+      replyFull = replyFull && replyFull.length > 4000 ? replyFull.slice(0, 4000) + "…" : (replyFull || "");
       // Pass the store/vendor name so the bot's own brand label ("Tediber says:") isn't
       // misread as a human agent named "Tediber".
-      const handover = detectHandover(tail, w.handover, [store.store, store.vendor]);
+      // store.personas covers AI agents replying under a human first name (Atma/Yuma's "Lucas says:").
+      const handover = detectHandover(handoverTail, w.handover, [store.store, store.vendor, ...(store.personas || [])]);
       if (handover) handedOver = true;
       // Once a human owns the thread, every later turn is human too. We NEVER
       // count a human reply's latency — only the AI's own responses are timed.
       const by = handedOver ? "human" : "ai";
-      out.turns.push({ turn: i + 1, q, by, ...r, ai_latency_ms: by === "ai" ? r.complete_ms : null, handover: !!handover, handover_hit: handover, replyTail: tail.slice(-500) });
+      out.turns.push({ turn: i + 1, q, by, ...r, ai_latency_ms: by === "ai" ? r.complete_ms : null, handover: !!handover, handover_hit: handover, replyTail: replyTail.slice(-500), replyText: replyFull });
       console.log(`  [${store.key}/${mode}/${theme.key}] T${i + 1} ${by === "ai" ? (r.complete_ms ?? "—") + "ms" : "(human)"}${handover ? "  ⛔ HANDOVER: " + handover : ""}`);
       await sleep(SETTLE_MS);
     }
@@ -385,7 +421,7 @@ async function runStoreMode(browser, store, mode, theme) {
   // conversation in its own cold context. RESUME is THEME-level: we skip any
   // conversation already on disk, so a kill loses at most the one in flight —
   // relaunch continues exactly where it stopped. Aggregation happens on READ (gen.js).
-  const convFile = (k, mode, theme) => `${CONV_DIR}/${k}-${mode}-${theme}.json`;
+  const convFile = (k, mode, theme) => `${CONV_DIR}/${k}-${mode}-${theme}${CAPTURE_BATCH ? `-${CAPTURE_BATCH}` : ""}.json`;
   const tasks = [];
   let skipped = 0;
   for (const store of targets) for (const mode of MODES.filter(m => !store.modes || store.modes.includes(m))) {
@@ -411,6 +447,11 @@ async function runStoreMode(browser, store, mode, theme) {
     const lists = Object.values(byV); const rr = [];
     for (let i = 0; rr.length < tasks.length; i++) for (const l of lists) if (l[i]) rr.push(l[i]);
     tasks.length = 0; tasks.push(...rr);
+  }
+  if (MAX_CONVERSATIONS > 0 && tasks.length > MAX_CONVERSATIONS) {
+    const original = tasks.length;
+    tasks.length = MAX_CONVERSATIONS;
+    console.log(`↯ MAX_CONVERSATIONS: capped ${original} pending conversations to ${tasks.length}.`);
   }
   if (!tasks.length) { console.log("ALL DONE — every conversation already captured for this run-date."); await browser.close(); return; }
   console.log(`Running ${tasks.length} conversations at concurrency ${CONC}, each in a fresh incognito context.\n`);

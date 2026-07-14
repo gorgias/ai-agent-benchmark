@@ -16,7 +16,23 @@ import { STORES as SITES } from "./vendors.js";
 import { SHOPPING_THEMES, SUPPORT_THEMES } from "./pools.js";
 import { convoValidity, convoOutcome, guardrailLeak, connectivityFail } from "./classify.js";
 import { cleanAnswer } from "./reply-clean.js";
+import { conversationTurnQuality } from "./turn-quality.js";
 import { isQuarantinedConversation } from "./conversation-quarantine.js";
+
+// Delivery style is an ENGINE property, not a per-conversation trait, and the
+// growth_events proxy is unreliable at the extremes: it counts EVERY DOM length
+// increase, so a widget's loader ("I'm looking into this…"), appended timestamps
+// and multi-bubble answers inflate the count even when nothing streams (Gorgias
+// medians ~4 = a placeholder loader, NOT tokens). Conversely a fast token stream
+// can coalesce into a single measured jump (Amazon Rufus medians 1 despite really
+// streaming). So we pin the engines we've verified by eye and fall back to the
+// heuristic — with a higher bar (≥6) so loader/chrome churn no longer false-flags.
+const DELIVERY_OVERRIDE = {
+  "Gorgias": "atomic",       // "I'm looking into this…" is a loader, then the answer lands at once — not streaming
+  "Amazon Rufus": "streaming", // genuinely token-streams; capture coalesces it, so the proxy misses it
+};
+import { extractRecommendedProducts } from "./product-recommendation-bars.js";
+import { normalizeUserMessage } from "./message-style.js";
 
 // Themes whose turns must NOT count toward latency / automation / quality (robustness only).
 const GUARDRAIL_KEYS = new Set(["guardrails"]);
@@ -105,7 +121,11 @@ function aText(turn) {
   if (turn.by === "human") return "🚩 human took over";
   // cleanAnswer strips widget chrome / suggested-reply chips / product-card fragments
   // (see reply-clean.js) and shows the START of the real answer — not the chip tail.
-  const clean = cleanAnswer(turn.replyTail, turn.q, 240);
+  // Prefer replyText (the FULL turn reply captured by run.js since 2026-07-07; replyTail
+  // keeps only the last 500 chars, which beheads long answers) and keep line breaks so
+  // paragraphs/bullets render. Cap 2400 = the window the LLM-judge scores (eval-pack.js),
+  // so the reader sees the same answer text the quality score was based on.
+  const clean = cleanAnswer(turn.replyText || turn.replyTail, turn.q, 2400, { breaks: true });
   if (turn.complete_ms == null) {
     return clean ? "(streamed past timing window) " + clean : "AI replied (streamed past timing window)";
   }
@@ -122,19 +142,32 @@ const TQ_FLAG = {
   not_substantive:            ["thin / non-substantive", "bad"],
   echoed_question:            ["echoed the question back", "warn"],
 };
+const normalizeDisplayTurns = (turns) => (turns || []).map((turn) => ({
+  ...turn,
+  q: normalizeUserMessage(turn.q),
+}));
 // Truncate the transcript at the first handover turn — once a human takes over the
 // conversation is over; we never show turns past that point.
-const themeTurns = (t) => {
+const themeTurns = (t, mode = "") => {
   let turns = t.turns || [];
   const ho = turns.findIndex(x => x.handover);
   if (ho >= 0) turns = turns.slice(0, ho + 1);
-  const tq = (t.tq && t.tq.turns) || [];   // deterministic per-turn quality signals (turn-quality.js)
+  // Per-turn quality signals (turn-quality.js). Prefer the copy the LLM-judge attached
+  // (t.tq), but these signals are 100% DETERMINISTIC — coverage + flags derived from the
+  // transcript text, no model. So when a conversation was never judged (e.g. a fresh
+  // capture, or a vendor the judge skipped), compute them on the fly here. This keeps the
+  // Conversations tab's per-message quality chips present on EVERY conversation, not just
+  // the judged subset. (Was the "lost metadata on the conversation tab" gap.)
+  let tq = (t.tq && t.tq.turns) || [];
+  if (!tq.length && turns.length) {
+    try { tq = conversationTurnQuality(turns, mode).turns || []; } catch { tq = []; }
+  }
   return turns.map((x, i) => {
     const s = tq[i] || null;
     const flags = ((s && s.flags) || []).map(f => TQ_FLAG[f] ? { t: TQ_FLAG[f][0], k: TQ_FLAG[f][1] } : { t: f.replace(/_/g, " "), k: "warn" });
     const cov = s && s.keyword_coverage && s.keyword_coverage.asked ? Math.round(s.keyword_coverage.ratio * 100) : null;
     return {
-      q: x.q, a: aText(x), by: x.by,
+      q: normalizeUserMessage(x.q), a: aText(x), by: x.by,
       lat: x.ai_latency_ms != null ? round1(x.ai_latency_ms / 1000) : null,
       ...(flags.length ? { fl: flags } : {}),
       ...(cov != null ? { cov } : {}),
@@ -171,7 +204,7 @@ async function loadAgg(key, mode, date) {
       if (isGuard) {
         const ev = EVALS[id];
         guard.n++;
-        guard.convs.push({ theme: obj.theme, turns: obj.turns, datetime: obj.capturedAt || null, capture: obj.capture || null, eval: ev || null });
+        guard.convs.push({ theme: obj.theme, turns: normalizeDisplayTurns(obj.turns), datetime: obj.capturedAt || null, capture: obj.capture || null, eval: ev || null });
         continue;   // never in latency/automation/quality aggregates
       }
       // CONNECTIVITY FAILURE: widget dropped mid-session (offline/reconnecting) — measures the
@@ -228,7 +261,9 @@ async function loadAgg(key, mode, date) {
   // TTFT ("first signal") + delivery classification — Roman's key insight: a shopper
   // feels the first token / first card, not the full answer. ttft_ms is captured per
   // turn; growth_events distinguishes streaming (many DOM increments) from atomic
-  // (1-2 jumps) delivery. A vendor is "streaming" if the median growth_events ≥ 4.
+  // (1-2 jumps) delivery. Fallback heuristic only (DELIVERY_OVERRIDE wins): a vendor
+  // streams if median growth_events ≥ 6 — the bar is high because loaders, appended
+  // timestamps and multi-bubble answers each add increments (~4) without any streaming.
   const ttfts = aiTurns.map(x => x.ttft_ms).filter(x => x != null);
   const growth = aiTurns.map(x => x.growth_events).filter(x => x != null);
   const median = (a) => a.length ? [...a].sort((x, y) => x - y)[Math.floor(a.length / 2)] : null;
@@ -239,7 +274,10 @@ async function loadAgg(key, mode, date) {
   const medGrowth = median(growth);
   return {
     auto: autoOut, evalq: evalOut, guard: guardOut,
-    themes: themes.map(t => ({ theme: t.theme, label: t.themeLabel, turns: t.turns, stats: t.stats, ticket: t.ticket || null, error: t.error || null, datetime: t._datetime || null, capture: t.capture || null, tq: (t._eval && t._eval.turn_quality) || null })),
+    themes: themes.map(t => ({ theme: t.theme, label: t.themeLabel, turns: t.turns, stats: t.stats, ticket: t.ticket || null, error: t.error || null, datetime: t._datetime || null, capture: t.capture || null, tq: (t._eval && t._eval.turn_quality) || null,
+      // Compact per-conversation LLM-judge eval so the Conversations tab can show the
+      // quality score + dimension breakdown per conversation (not just the aggregate).
+      ev: (t._eval && t._eval.total != null) ? { total: t._eval.total, cls: t._eval.resolution_class || null, dims: t._eval.rubric || {}, note: t._eval.learning || null } : null })),
     stats: {
       n_themes: themes.length, turns_total: totalTurns,
       avg_turns: themes.length ? Math.round((totalTurns / themes.length) * 10) / 10 : null,
@@ -250,7 +288,7 @@ async function loadAgg(key, mode, date) {
       min_ms: aiMs.length ? Math.min(...aiMs) : null,
       max_ms: aiMs.length ? Math.max(...aiMs) : null,
       ttft_ms: ttfts.length ? Math.round(median(ttfts)) : null,      // median first-signal
-      delivery: medGrowth == null ? null : (medGrowth >= 4 ? "streaming" : "atomic"),
+      delivery: medGrowth == null ? null : (medGrowth >= 6 ? "streaming" : "atomic"),
       med_growth: medGrowth,
       themes_with_handover: themesWithHandover,
     },
@@ -292,7 +330,7 @@ function measuredEntry(site, mode, agg, date) {
     method: "new", us: !!site.us,
     lat: avgS != null ? `~${avgS}s` : "—", latPct: avgS != null ? Math.min(100, Math.round(avgS / 25 * 100)) : 0,
     latP75: st.p75_ms != null ? round1(st.p75_ms / 1000) : null,   // p75 latency (seconds)
-    ttft: st.ttft_ms != null ? round1(st.ttft_ms / 1000) : null, delivery: st.delivery,
+    ttft: st.ttft_ms != null ? round1(st.ttft_ms / 1000) : null, delivery: DELIVERY_OVERRIDE[site.vendor] || st.delivery,
     success, successTxt: success != null ? success + "%" : "—",
     avgTurns: st.avg_turns,
     timed: st.answered_no_handover, attempted: st.turns_total,   // latency-measurement coverage
@@ -300,14 +338,19 @@ function measuredEntry(site, mode, agg, date) {
     ticket: tk(agg.ticket),
     what,
     datetime: agg.themes.map(t => t.datetime).filter(Boolean).sort().pop() || null,
-    themes: agg.themes.map(t => ({
-      key: t.theme, label: t.label, datetime: t.datetime || null,
-      lat: t.stats.avg_ms != null ? `~${round1(t.stats.avg_ms / 1000)}s` : "—",
-      success: t.stats.success_rate, successTxt: (t.stats.success_rate != null ? t.stats.success_rate + "%" : "—"),
-      handoverTurn: t.stats.handover_turn,
-      ticket: tk(t.ticket),
-      turns: themeTurns(t),
-    })),
+    themes: agg.themes.map(t => {
+      const products = mode === "shopping" ? extractRecommendedProducts(t.turns || []) : [];
+      return {
+        key: t.theme, label: t.label, datetime: t.datetime || null,
+        lat: t.stats.avg_ms != null ? `~${round1(t.stats.avg_ms / 1000)}s` : "—",
+        success: t.stats.success_rate, successTxt: (t.stats.success_rate != null ? t.stats.success_rate + "%" : "—"),
+        handoverTurn: t.stats.handover_turn,
+        ticket: tk(t.ticket),
+        ...(mode === "shopping" ? { productRecs: { count: products.length, names: products.map(p => p.name) } } : {}),
+        ...(t.ev ? { ev: t.ev } : {}),   // per-conversation judge eval (score + dims + note)
+        turns: themeTurns(t, mode),
+      };
+    }),
   };
   if (mode === "shopping" && CAPS[site.key]) e.caps = CAPS[site.key];
   // Quality comes EXCLUSIVELY from the per-conversation LLM-judge evals (evalq).
@@ -379,7 +422,8 @@ if (args.includes("--print")) {
 }
 const REPORT = new URL("../report.html", import.meta.url).pathname;
 let html = await readFile(REPORT, "utf8");
-const a = html.indexOf("const STORES = [");
+const generatedStart = html.indexOf("// ---- SHOPPING (one entry per store; .themes = 5 apple-to-apple conversations)");
+const a = generatedStart >= 0 ? generatedStart : html.indexOf("const STORES = [");
 const b = html.indexOf("let MODE='shopping';");
 if (a < 0 || b < 0 || b < a) { console.error("Could not find STORES…let MODE markers in report.html"); process.exit(1); }
 html = html.slice(0, a) + block + html.slice(b);
@@ -450,6 +494,29 @@ for (const v of new Set([...Object.keys(shopS), ...Object.keys(supS)])) {
 }
 const D_JSON = " const D = " + JSON.stringify(D_OBJ) + ";";
 
+// ---- AUTO-GENERATED VERDICT: rank claims are derived from the same lane composites, never
+// hand-typed — so the Summary headline can never contradict the scoreboard again. ----
+const OUTLIER_V = new Set(["Amazon Rufus"]);  // references, not ranked head-to-head
+const laneRank = (scores) => Object.entries(scores)
+  .filter(([v, sc]) => sc && sc.q != null && sc.n >= MIN_RANK_CONVS && !OUTLIER_V.has(v))
+  .map(([v, sc]) => ({ v, comp: Math.round(0.4 * sc.a + 0.4 * sc.q + 0.2 * speedScoreG(sc.l)) }))
+  .sort((a, b) => b.comp - a.comp);
+const rShop = laneRank(shopS), rSupp = laneRank(supS);
+const shopC = Object.fromEntries(rShop.map(r => [r.v, r.comp])), suppC = Object.fromEntries(rSupp.map(r => [r.v, r.comp]));
+// overall = mean of the two lane composites, for vendors ranked in BOTH lanes
+const rOverall = Object.keys(shopC).filter(v => v in suppC)
+  .map(v => ({ v, mean: (shopC[v] + suppC[v]) / 2 })).sort((a, b) => b.mean - a.mean);
+const gShop = rShop.findIndex(r => r.v === "Gorgias") + 1;
+const gSupp = rSupp.findIndex(r => r.v === "Gorgias") + 1;
+const gOv = rOverall.findIndex(r => r.v === "Gorgias") + 1;
+const suppLeader = rSupp[0] && rSupp[0].v, shopLeader = rShop[0] && rShop[0].v, ovLeader = rOverall[0] && rOverall[0].v;
+const suppTxt = "#" + gSupp + " support", shopTxt = "#" + gShop + " shopping", ovTxt = "#" + gOv + " overall";
+const RANK_OVERALL = gOv ? ("#" + gOv) : "\u2014";
+const RANK_LANES = `${suppTxt} (${suppC["Gorgias"] != null ? suppC["Gorgias"] : "\u2014"}), ${shopTxt} (${shopC["Gorgias"] != null ? shopC["Gorgias"] : "\u2014"})`;
+const RANK_TITLE = `Gorgias: ${ovTxt} \u2014 ${gSupp === 1 ? "best-in-class support" : suppTxt}, ${gShop === 1 ? "top shopping" : "one shopping-speed gap"}.`;
+const RANK_BADGE = `${ovTxt} \u00b7 ${suppTxt} \u00b7 ${shopTxt}`;
+const RANK_H = `Gorgias is ${gOv === 1 ? "the #1 AI agent overall in the field (mean of both lanes)" : (ovTxt + ", behind " + ovLeader)} \u2014 ${gSupp === 1 ? "#1 in support (best-in-field answer quality + elite automation)" : (suppTxt + " (behind " + suppLeader + ")")} and ${gShop === 1 ? "#1 in shopping" : (shopTxt + ", behind " + shopLeader)}. The one gap is shopping speed.`;
+
 try {
   const TK = new URL("../takeaways.html", import.meta.url).pathname;
   let tk = await readFile(TK, "utf8");
@@ -464,6 +531,12 @@ try {
          .replace(/<!-- STATS_JSON:.*?-->/, `<!-- STATS_JSON:${JSON.stringify(STATS)} -->`);
   // reconcile the prose count in the method note (any "NNN LLM-judged conversations")
   tk = tk.replace(/\b\d{3}\s+LLM-judged conversations\b/g, `${STATS.judged} LLM-judged conversations`);
+  // generated verdict — replace between markers so the headline rank claims stay in sync
+  tk = tk.replace(/<!--RANK_TITLE-->[\s\S]*?<!--\/RANK_TITLE-->/, `<!--RANK_TITLE-->${RANK_TITLE}<!--/RANK_TITLE-->`)
+         .replace(/<!--RANK_BADGE-->[\s\S]*?<!--\/RANK_BADGE-->/, `<!--RANK_BADGE-->${RANK_BADGE}<!--/RANK_BADGE-->`)
+         .replace(/<!--RANK_H-->[\s\S]*?<!--\/RANK_H-->/, `<!--RANK_H-->${RANK_H}<!--/RANK_H-->`);
+  tk = tk.replace(/<!--RANK_OVERALL-->[\s\S]*?<!--\/RANK_OVERALL-->/, `<!--RANK_OVERALL-->${RANK_OVERALL}<!--/RANK_OVERALL-->`);
+  tk = tk.replace(/<!--RANK_LANES-->[\s\S]*?<!--\/RANK_LANES-->/, `<!--RANK_LANES-->${RANK_LANES}<!--/RANK_LANES-->`);
   await writeFile(TK + ".tmp", tk); await rename(TK + ".tmp", TK);
   console.log(`Synced takeaways.html stats: ${STATS.convs} convs · ${STATS.judged} judged · ${STATS.vendors} vendors · ${STATS.stores} stores`);
 } catch (e) { console.log("takeaways sync skipped:", e.message); }

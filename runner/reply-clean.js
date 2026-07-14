@@ -18,7 +18,7 @@
 // that reads like a real sentence (the answer). Used by gen.js (display), eval-pack.js
 // (judge input) and turn-quality.js (per-turn coverage).
 
-const CHROME = /^(ask maggie|give us feedback|shop with ai|customer care team|welcome to .*\bai\b|.+!\s*ai$|verified buyer|privacy|cancel|close|ai agent powered by.*|powered by.*|message from [^:]+:|thumbs up|thumbs down|copy|helpful\??|was this helpful\??)$/i;
+const CHROME = /^(ask maggie|give us feedback|shop with ai|customer care team|welcome to .*\bai\b|.+!\s*ai$|verified buyer|privacy|cancel|close|ai agent powered by.*|powered by.*|message from [^:]+:|thumbs up|thumbs down|copy|helpful\??|was this helpful\??|your feedback has been submitted!?|select all that apply.*|this is (irrelevant|inaccurate|harmful.*)|something else|dismiss|submit)$/i;
 
 // A short line that opens with one of these reads as a suggested-reply chip, not prose.
 const CHIP_OPENER = /^(show me\b|explore\b|browse\b|see\b|view\b|shop\b|looking for\b|i need\b|i'?m looking\b|do you have\b|what'?s\b|what if\b|what other\b|what makes\b|how do i\b|how does\b|why is\b|why should\b|can i\b|tell me\b|find\b|help me\b|get\b|start\b)/i;
@@ -38,9 +38,12 @@ function isNoiseLine(line) {
   return false;
 }
 
-// rawReplyTail: the captured turn.replyTail (may contain newlines)
+// rawReplyTail: the captured turn.replyText (full) or turn.replyTail (may contain newlines)
 // userQuestion:  turn.q — echoed at the top of the tail by many widgets; sliced off.
-export function stripWidgetChrome(rawReplyTail, userQuestion) {
+// opts.breaks:   keep ONE newline between kept lines so paragraphs/bullets survive for
+//                display (report renders with white-space:pre-line). Default stays a flat
+//                single line — the judge input and existing regex consumers expect that.
+export function stripWidgetChrome(rawReplyTail, userQuestion, opts = {}) {
   let text = String(rawReplyTail || "");
   if (!text) return "";
   const q = String(userQuestion || "").trim();
@@ -52,13 +55,14 @@ export function stripWidgetChrome(rawReplyTail, userQuestion) {
     .split(/\n+/)
     .map((s) => s.trim())
     .filter((s) => s && !isNoiseLine(s));
+  if (opts.breaks) return kept.map((s) => s.replace(/[ \t]+/g, " ")).join("\n").trim();
   return kept.join(" ").replace(/\s+/g, " ").trim();
 }
 
 // convenience: cleaned answer capped to `max` chars from the FRONT (so the report shows
 // the START of the real answer, not the chip tail). Adds an ellipsis when truncated.
-export function cleanAnswer(rawReplyTail, userQuestion, max = 220) {
-  const a = stripWidgetChrome(rawReplyTail, userQuestion);
+export function cleanAnswer(rawReplyTail, userQuestion, max = 220, opts = {}) {
+  const a = stripWidgetChrome(rawReplyTail, userQuestion, opts);
   if (a.length <= max) return a;
   return a.slice(0, max).replace(/\s+\S*$/, "") + "…";
 }
