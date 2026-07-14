@@ -126,6 +126,9 @@
   .cf-row{display:flex;align-items:center;gap:10px;width:100%;text-align:left;background:none;border:none;cursor:pointer;padding:11px 16px;font-size:13px;color:var(--on);font-family:inherit}
   .cf-row:hover{background:var(--surface-2)}
   .cf-store{font-weight:700;white-space:nowrap}
+  .cf-store a{color:inherit;text-decoration:none;cursor:pointer}
+  .cf-store a:hover{color:var(--primary);text-decoration:underline}
+  .cf-store a .ext{color:var(--primary);font-size:11px;font-weight:600;vertical-align:1px;margin-left:1px}
   .cf-meta{color:var(--on-faint);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .cf-dt{margin-left:auto;font-size:11.5px;color:var(--on-muted);font-variant-numeric:tabular-nums;white-space:nowrap}
   .cf-caret{color:var(--on-faint);font-size:11px;width:12px;text-align:center}
@@ -1496,7 +1499,7 @@ function buildConvItems(){
     list.forEach(th=>{
       if(!(th.turns&&th.turns.length)) return;
       if(!inRange(convDate(s,th))) return;   // per-conversation date filter (by capture date)
-      items.push({ vendor:s.vendor, store:s.store, us:s.us, lane, label:th.label||'conversation',
+      items.push({ vendor:s.vendor, store:s.store, site:s.site, url:s.url, us:s.us, lane, label:th.label||'conversation',
         datetime: th.datetime||s.datetime||null, lat:th.lat, success:th.success,
         successTxt:th.successTxt, handoverTurn:th.handoverTurn, ticket:th.ticket||s.ticket||null, turns:th.turns, ev:th.ev||null });
     });
@@ -1615,7 +1618,7 @@ function cfItemHtml(it){
       '<button class="cf-row" onclick="toggleCF('+i+')">'+
         laneBadge+
         '<span class="vdot" style="background:'+(COL[it.vendor]||'#888')+'"></span>'+
-        '<span class="cf-store">'+it.store+(it.us?'<span class="us-tag">US</span>':'')+'</span>'+
+        '<span class="cf-store">'+(it.url?'<a href="'+it.url+'" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="Open '+(it.site||it.store)+' in a new tab">'+it.store+' <span class="ext">↗</span></a>':it.store)+(it.us?'<span class="us-tag">US</span>':'')+'</span>'+
         '<span class="cf-meta">'+it.vendor+' · '+it.label+'</span>'+
         '<span class="cf-dt">'+(fmtDT(it.datetime)||'—')+'</span>'+
         '<span class="lat">'+(it.lat||'—')+'</span>'+pill+ho+tkt+
