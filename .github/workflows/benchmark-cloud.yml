@@ -15,6 +15,14 @@ on:
         description: "Run date YYYY-MM-DD (blank = today)"
         required: false
         default: ""
+      vendors:
+        description: "Comma-list of vendor keys to run (blank = all 11). Pilot: gorgias,envive"
+        required: false
+        default: ""
+      deploy:
+        description: "Commit + push the rebuilt report to master? (pilot: false → artifacts only)"
+        required: false
+        default: "false"
   # NO schedule: the weekly run is LOCAL (launchd → runner/weekly-local.sh, Monday 07:00).
   # One sharded cloud run burns ~900 Actions minutes (free plan = 2000/month) — cloud is
   # a MANUAL fallback only (workflow_dispatch), e.g. when the laptop is unavailable.
@@ -46,6 +54,9 @@ jobs:
           - { vendor: "Yuma",          key: yuma,    headed: "true"  }
     runs-on: ubuntu-latest
     timeout-minutes: 110
+    # vendors filter: blank = all; otherwise only the comma-listed keys run (a skipped matrix
+    # cell is a ~0-min no-op). Lets a cheap 2-vendor pilot run without touching the other 9.
+    if: ${{ github.event.inputs.vendors == '' || contains(format(',{0},', github.event.inputs.vendors), format(',{0},', matrix.key)) }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -100,11 +111,15 @@ jobs:
           path: runner/results
           pattern: results-*
           merge-multiple: true
-      - name: Rebuild report + commit
+      - name: Rebuild report (bake only)
         working-directory: runner
+        run: node gen.js
+      - name: Commit + push to master
+        # PILOT-SAFE: only deploys when deploy=true. Default (false) skips the commit entirely
+        # — cloud convs live only as downloadable artifacts, so a pilot never touches the live
+        # board (captures are UNJUDGED at this point anyway; judging is a separate Claude step).
+        if: ${{ github.event.inputs.deploy == 'true' }}
         run: |
-          node gen.js
-          cd ..
           git config user.name "benchmark-bot"
           git config user.email "actions@users.noreply.github.com"
           git add runner/results report.html
