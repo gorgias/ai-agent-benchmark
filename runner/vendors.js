@@ -605,9 +605,57 @@ export const WIDGETS = {
     // injects #decagon-embed-container + a #decagon-iframe; opening toggles
     // html[data-decagon-open='true']. Composer + transcript live inside the iframe, so we
     // scope to the decagon frame and drive it with the generic open/send helpers.
+    //
+    // Some installs (away, confirmed 2026-07-15) render the launcher button INSIDE the
+    // decagon-iframe itself (aria-label "Open Chat Agent"), not as a separate element on the
+    // top-level page — genericOpenChat only scans the top-level document, so it silently finds
+    // nothing to click and the iframe stays collapsed at its 100x100 launcher size (composer
+    // never renders, every turn reads a permanently-empty transcript). Try the in-frame
+    // launcher FIRST; fall back to genericOpenChat for installs where the launcher lives
+    // outside (oura, curology, etc. — unaffected, still work as before).
     scope: { kind: "frame", match: /decagon/i },
-    async open(page) { await genericOpenChat(page); },
-    async send(page, text) { await genericSendChat(page, text); },
+    async open(page) {
+      await dismiss(page);
+      // run.js navigates with waitUntil:"commit" (returns as soon as navigation starts, well
+      // before Decagon's loader script even runs) — a single un-retried findFrame() call here
+      // almost always ran before the iframe existed at all, making the in-frame-launcher check
+      // below silently false every time and falling through to the no-op genericOpenChat. Poll
+      // for the frame to actually exist first (confirmed needed on away 2026-07-15).
+      let f = null;
+      for (let i = 0; i < 20 && !f; i++) { f = await findFrame(page, /decagon/i); if (!f) await page.waitForTimeout(500); }
+      const inFrameLauncher = f ? f.locator('[aria-label="Open Chat Agent"], [aria-label*="chat" i][aria-label*="open" i]').first() : null;
+      const hasInFrameLauncher = inFrameLauncher && (await inFrameLauncher.count().catch(() => 0));
+      if (hasInFrameLauncher) {
+        // Click INSIDE the frame and stop — don't also run genericOpenChat: its page-level
+        // click can land on an unrelated element that re-toggles this same widget CLOSED
+        // right after we opened it (same failure mode found + fixed for Intercom's redundant
+        // double-open). The panel expands (100x100 -> 500x700) near-instantly, but the
+        // composer itself takes several MORE seconds to render after that — a fixed 2-3s
+        // sleep here consistently missed it (0 turns ever answered). Wait for the actual
+        // composer instead of guessing a delay.
+        await inFrameLauncher.click({ timeout: 5000 }).catch(() => {});
+        await f.locator('textarea, [contenteditable="true"]').first().waitFor({ state: "visible", timeout: 12000 }).catch(() => {});
+        return;
+      }
+      await genericOpenChat(page);
+    },
+    async send(page, text) {
+      // Scope explicitly to the decagon frame rather than genericSendChat's blind
+      // multi-frame scan — same fix as Intercom's decoy-frame bug: on a real page (many
+      // tracking-pixel iframes, unlike a bare debug script), some OTHER frame earlier in
+      // page.frames() order can spuriously match `textarea`/`input[type=text]` first, so the
+      // message never reaches Decagon's composer at all (0 turns answered, no error thrown).
+      const f = await findFrame(page, /decagon/i);
+      if (!f) { await genericSendChat(page, text); return; }
+      const inp = f.locator('textarea, [contenteditable="true"]').first();
+      if (await inp.count().catch(() => 0)) {
+        await inp.click({ timeout: 5000 }).catch(() => {});
+        await inp.fill(text).catch(async () => { await inp.type(text, { delay: 12 }).catch(() => {}); });
+        await inp.press("Enter").catch(() => {});
+        return;
+      }
+      await genericSendChat(page, text);
+    },
   },
   intercom: {
     // Intercom Messenger + Fin AI Agent. Loader is `widget.intercom.io` / the
@@ -1061,6 +1109,24 @@ export const STORES = [
   { key: "decagon-quince",   vendor: "Decagon", store: "Quince",    url: "https://www.quince.com/",         widget: "decagon", us: true, candidate: true }, // "Chat provider":"Decagon"
   { key: "decagon-substack", ecommerce: false, vendor: "Decagon", store: "Substack",  url: "https://substack.com/",           widget: "decagon", us: true, candidate: true }, // enable_decagon_chat:true
   { key: "decagon-hertz", ecommerce: false,    vendor: "Decagon", store: "Hertz",     url: "https://www.hertz.com/rentacar/misc/index.jsp?targetPage=contact_us.jsp", widget: "decagon", us: true, candidate: true }, // decagon.ai in CSP
+  // Sourced 2026-07-15 via the StoreLeads API (f:tech=Decagon, f:p=shopify, f:ds=Active — 9
+  // total, most non-ecommerce or Cloudflare-blocked in headless). Live-verified (decagon-iframe
+  // mounts under STEALTH): Away, Open Farm. backbone.com and www.topps.com ALSO show
+  // Decagon in StoreLeads' crawl data but return Cloudflare challenge pages to headless
+  // Playwright (403 / "Attention Required") — not selector bugs, structurally unreachable
+  // unattended; left unregistered rather than added as candidate:true walls.
+  // Away: UNRESOLVED wall, do not re-attempt the same fixes below without new evidence.
+  // Its Fin-style launcher lives INSIDE the decagon-iframe (fixed in open() — see the
+  // scope.open code) and a standalone minimal Playwright script (open in-frame launcher ->
+  // wait for composer -> fill -> Enter) gets a REAL Decagon reply in ~10s every time. But
+  // the exact same open()/send() sequence run through run.js's real turn loop (quiesceTranscript
+  // -> timeTurn -> readTranscript polling) times out with 0 growth on every turn, every theme,
+  // both before AND after that fix (confirmed 0/20 across 2 themes x 2 runs). Root cause not
+  // found — something specific to the polling/quiescence path on this store, not the
+  // open/send mechanics themselves. Left `candidate: true`; needs fresh eyes, not another
+  // repeat of the same open()/send() debugging loop.
+  { key: "decagon-away",       vendor: "Decagon", store: "Away",       url: "https://www.awaytravel.com/", widget: "decagon", us: true, candidate: true }, // luggage DTC, Shopify Plus, $1.3B/mo est. (Storeleads)
+  { key: "decagon-openfarm",   vendor: "Decagon", store: "Open Farm",  url: "https://openfarmpet.com/",    widget: "decagon", us: true, candidate: true }, // pet food DTC, Shopify Plus, $475M/mo est. (Storeleads) — also runs Kustomer; scope to #decagon-iframe only
 
   // Intercom (Fin AI Agent) — added 2026-07-09. All 6 signature-verified live via
   // widget.intercom.io / intercom-lightweight-app / api-iam.intercom.io in page source.
