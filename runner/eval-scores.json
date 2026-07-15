@@ -431331,5 +431331,2801 @@
    "runner": "eval-merge.js",
    "schema": 1
   }
+ },
+ "2026-07-15/ada-loop-support-order-mgmt.json": {
+  "v": 2,
+  "mode": "support",
+  "rubric": {
+   "resolution": 10,
+   "accuracy": 25,
+   "actionability": 0,
+   "close": 7
+  },
+  "total": 42,
+  "checks": {
+   "s_answered": {
+    "pass": false,
+    "evidence": ""
+   },
+   "s_outcome": {
+    "pass": false,
+    "evidence": ""
+   },
+   "s_no_deflect": {
+    "pass": true,
+    "evidence": "Once the order is dispatched, we can’t guarantee we can make any changes to your order (including redirecting to another address)."
+   },
+   "g_specific": {
+    "pass": true,
+    "evidence": "No — once you place an order, the payment method can’t be changed afterward."
+   },
+   "g_consistent": {
+    "pass": true,
+    "evidence": "No — once you place an order, the payment method can’t be changed afterward."
+   },
+   "g_grounded": {
+    "pass": true,
+    "evidence": "If this is about your the store Circle account (like changing your email), I can get you to a Customer Happiness Champion."
+   },
+   "t_steps": {
+    "pass": false,
+    "evidence": ""
+   },
+   "t_complete": {
+    "pass": false,
+    "evidence": ""
+   },
+   "k_expectations": {
+    "pass": false,
+    "evidence": ""
+   },
+   "k_clean": {
+    "pass": true,
+    "evidence": "Yes — you’ll receive an order confirmation email once your order is successfully modified."
+   }
+  },
+  "turn_quality": {
+   "schema": 1,
+   "turns": [
+    {
+     "turn": 1,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 5661,
+     "answer_chars": 181,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 2,
+      "ratio": 0.33,
+      "missing": [
+       "change",
+       "shipping",
+       "just",
+       "placed"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 2,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 3771,
+     "answer_chars": 172,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 2,
+      "ratio": 0.29,
+      "missing": [
+       "cancel",
+       "after",
+       "there",
+       "time",
+       "window"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage",
+      "missing_timeframe"
+     ]
+    },
+    {
+     "turn": 3,
+     "measured": false,
+     "by": "ai",
+     "complete_ms": null,
+     "answer_chars": 140,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "add",
+       "item",
+       "order",
+       "already",
+       "placed"
+      ]
+     },
+     "substantive": false,
+     "flags": [
+      "no_measured_answer",
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 4,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 8298,
+     "answer_chars": 292,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "happens",
+       "already",
+       "shipped",
+       "still",
+       "changed"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 5,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 13369,
+     "answer_chars": 261,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 3,
+      "ratio": 0.75,
+      "missing": [
+       "update"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 6,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 9474,
+     "answer_chars": 255,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "cancel",
+       "long",
+       "until",
+       "refunded"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage",
+      "missing_timeframe"
+     ]
+    },
+    {
+     "turn": 7,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 10012,
+     "answer_chars": 284,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 6,
+      "ratio": 1,
+      "missing": []
+     },
+     "substantive": true,
+     "flags": [
+      "clarifying_question"
+     ]
+    },
+    {
+     "turn": 8,
+     "measured": false,
+     "by": "ai",
+     "complete_ms": null,
+     "answer_chars": 200,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 6,
+      "ratio": 0.86,
+      "missing": [
+       "combine"
+      ]
+     },
+     "substantive": false,
+     "flags": [
+      "no_measured_answer"
+     ]
+    },
+    {
+     "turn": 9,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 17484,
+     "answer_chars": 190,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 3,
+      "ratio": 0.75,
+      "missing": [
+       "change"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 10,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 9086,
+     "answer_chars": 216,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 3,
+      "ratio": 0.43,
+      "missing": [
+       "will",
+       "get",
+       "change",
+       "made"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    }
+   ],
+   "summary": {
+    "total_turns": 10,
+    "measured_turns": 8,
+    "substantive_turns": 8,
+    "issue_turns": 7,
+    "issue_rate": 0.7
+   }
+  },
+  "resolution_class": "partial",
+  "learning": "Two of ten questions (adding an item, combining orders) received completely blank replies, a hard reliability gap despite otherwise concrete, store-specific answers elsewhere.",
+  "judged_at": null,
+  "judge": {
+   "origin": "claude",
+   "origin_explicit": false,
+   "runner": "eval-merge.js",
+   "schema": 1
+  }
+ },
+ "2026-07-15/ada-loop-support-policy.json": {
+  "v": 2,
+  "mode": "support",
+  "rubric": {
+   "resolution": 10,
+   "accuracy": 25,
+   "actionability": 0,
+   "close": 0
+  },
+  "total": 35,
+  "checks": {
+   "s_answered": {
+    "pass": false,
+    "evidence": "Yes — a return can be rejected if it’s outside the 100-day return window, not shipped back, or if it’s a customized product."
+   },
+   "s_outcome": {
+    "pass": false,
+    "evidence": "Yes — a return can be rejected if it’s outside the 100-day return window, not shipped back, or if it’s a customized product."
+   },
+   "s_no_deflect": {
+    "pass": true,
+    "evidence": "I’m not able to share direct contact details, but I can help you right here—tell me what’s going on with your order (e.g., tracking not updating, wrong item, mi"
+   },
+   "g_specific": {
+    "pass": true,
+    "evidence": "Our return policy is 100 days from delivery."
+   },
+   "g_consistent": {
+    "pass": true,
+    "evidence": "Our return policy is 100 days from delivery."
+   },
+   "g_grounded": {
+    "pass": true,
+    "evidence": "it also covers your carrying case, mute accessories, and carry cords"
+   },
+   "t_steps": {
+    "pass": false,
+    "evidence": ""
+   },
+   "t_complete": {
+    "pass": false,
+    "evidence": ""
+   },
+   "k_expectations": {
+    "pass": false,
+    "evidence": ""
+   },
+   "k_clean": {
+    "pass": false,
+    "evidence": ""
+   }
+  },
+  "turn_quality": {
+   "schema": 1,
+   "turns": [
+    {
+     "turn": 1,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 7375,
+     "answer_chars": 116,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 4,
+      "ratio": 1,
+      "missing": []
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 2,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 8180,
+     "answer_chars": 265,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 2,
+      "ratio": 0.4,
+      "missing": [
+       "internationally",
+       "covers",
+       "customs"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 3,
+     "measured": false,
+     "by": "ai",
+     "complete_ms": null,
+     "answer_chars": 57,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "long",
+       "standard",
+       "shipping",
+       "take",
+       "once",
+       "order",
+       "placed"
+      ]
+     },
+     "substantive": false,
+     "flags": [
+      "no_measured_answer",
+      "low_question_coverage",
+      "missing_timeframe"
+     ]
+    },
+    {
+     "turn": 4,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 9131,
+     "answer_chars": 282,
+     "keyword_coverage": {
+      "asked": 3,
+      "matched": 2,
+      "ratio": 0.67,
+      "missing": [
+       "refund"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 5,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 10743,
+     "answer_chars": 235,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "any",
+       "items",
+       "final",
+       "sale",
+       "non",
+       "returnable"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 6,
+     "measured": false,
+     "by": "ai",
+     "complete_ms": null,
+     "answer_chars": 156,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "payment",
+       "methods",
+       "accept",
+       "order"
+      ]
+     },
+     "substantive": false,
+     "flags": [
+      "no_measured_answer",
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 7,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 9703,
+     "answer_chars": 239,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 2,
+      "ratio": 0.4,
+      "missing": [
+       "support",
+       "team",
+       "issue"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 8,
+     "measured": false,
+     "by": "ai",
+     "complete_ms": null,
+     "answer_chars": 214,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 4,
+      "ratio": 0.67,
+      "missing": [
+       "match",
+       "honor"
+      ]
+     },
+     "substantive": false,
+     "flags": [
+      "no_measured_answer"
+     ]
+    },
+    {
+     "turn": 9,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 14272,
+     "answer_chars": 1131,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 2,
+      "ratio": 0.5,
+      "missing": [
+       "defective",
+       "items"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 10,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 7660,
+     "answer_chars": 276,
+     "keyword_coverage": {
+      "asked": 3,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "loyalty",
+       "rewards",
+       "program"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    }
+   ],
+   "summary": {
+    "total_turns": 10,
+    "measured_turns": 7,
+    "substantive_turns": 7,
+    "issue_turns": 5,
+    "issue_rate": 0.5
+   }
+  },
+  "resolution_class": "partial",
+  "learning": "Two replies answer the wrong question entirely (a loyalty-program question gets a return-rejection answer, and a final-sale question gets a shipping-time answer), alongside three blank turns.",
+  "judged_at": null,
+  "judge": {
+   "origin": "claude",
+   "origin_explicit": false,
+   "runner": "eval-merge.js",
+   "schema": 1
+  }
+ },
+ "2026-07-16/siena-simplemodern-shopping-beginner.json": {
+  "v": 2,
+  "mode": "shopping",
+  "rubric": {
+   "answer": 30,
+   "discovery": 20,
+   "recommendation": 22,
+   "rich": 16,
+   "close": 7
+  },
+  "total": 95,
+  "checks": {
+   "a_direct": {
+    "pass": true,
+    "evidence": "For a first-timer, the Mesa Loop 30oz with Covered Straw is a super safe and easy choice!"
+   },
+   "a_consistent": {
+    "pass": true,
+    "evidence": "The Mesa Loop 30oz with Covered Straw is $26.99."
+   },
+   "a_no_ignored": {
+    "pass": true,
+    "evidence": "Here’s how to use your Mesa Loop 30oz for the very first time:"
+   },
+   "d_clarify": {
+    "pass": true,
+    "evidence": "Is there something specific you’re looking for—like a new water bottle, a backpack, or maybe a gift?"
+   },
+   "d_progressive": {
+    "pass": true,
+    "evidence": "Beginners usually love the Mesa Loop 30oz! Most say it’s super easy to use, keeps drinks cold for hours, and doesn’t leak"
+   },
+   "d_not_dump": {
+    "pass": true,
+    "evidence": "our Mesa Loop 30oz tumbler is a great place to start"
+   },
+   "r_named": {
+    "pass": true,
+    "evidence": "the Mesa Loop 30oz with Covered Straw is a super safe and easy choice"
+   },
+   "r_fit": {
+    "pass": true,
+    "evidence": "it’s well-priced, keeps drinks cold or hot for hours, and has a leak-proof, user-friendly design. You get quality without overpaying"
+   },
+   "r_plausible": {
+    "pass": true,
+    "evidence": "Most beginners find they’re set with just the tumbler itself."
+   },
+   "e_price": {
+    "pass": true,
+    "evidence": "The Mesa Loop 30oz with Covered Straw is $26.99."
+   },
+   "e_link": {
+    "pass": true,
+    "evidence": "Mesa Loop with Covered Straw"
+   },
+   "e_reviews": {
+    "pass": true,
+    "evidence": "a 4.7 out of 5 star rating from over 500 reviews"
+   },
+   "e_options": {
+    "pass": false,
+    "evidence": ""
+   },
+   "c_cta": {
+    "pass": true,
+    "evidence": "If you place your order now, you’ll see the exact total and estimated delivery date at checkout."
+   },
+   "c_cart": {
+    "pass": false,
+    "evidence": "I can't add it to your cart directly, but you can click the link to add it and check out!"
+   },
+   "c_clean": {
+    "pass": true,
+    "evidence": "Let me know if you have any other questions or need help with the next step!"
+   }
+  },
+  "turn_quality": {
+   "schema": 1,
+   "turns": [
+    {
+     "turn": 1,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 10192,
+     "answer_chars": 621,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 2,
+      "ratio": 0.4,
+      "missing": [
+       "completely",
+       "don",
+       "guide"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "clarifying_question"
+     ]
+    },
+    {
+     "turn": 2,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 9874,
+     "answer_chars": 637,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 3,
+      "ratio": 0.6,
+      "missing": [
+       "explain",
+       "terms"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 3,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 8663,
+     "answer_chars": 456,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 3,
+      "ratio": 0.5,
+      "missing": [
+       "like",
+       "safest",
+       "easiest"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 4,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 9539,
+     "answer_chars": 526,
+     "keyword_coverage": {
+      "asked": 9,
+      "matched": 3,
+      "ratio": 0.33,
+      "missing": [
+       "don",
+       "overpay",
+       "still",
+       "learning",
+       "good",
+       "starter"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "clarifying_question"
+     ]
+    },
+    {
+     "turn": 5,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 9263,
+     "answer_chars": 438,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 4,
+      "ratio": 0.8,
+      "missing": [
+       "about"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 6,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 8688,
+     "answer_chars": 429,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 3,
+      "ratio": 0.43,
+      "missing": [
+       "there",
+       "anything",
+       "beginner",
+       "needs"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "clarifying_question"
+     ]
+    },
+    {
+     "turn": 7,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 5819,
+     "answer_chars": 242,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 2,
+      "ratio": 0.33,
+      "missing": [
+       "okay",
+       "beginner",
+       "recommendation",
+       "total"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "clarifying_question"
+     ]
+    },
+    {
+     "turn": 8,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 7845,
+     "answer_chars": 821,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 4,
+      "ratio": 0.8,
+      "missing": [
+       "properly"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 9,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 9458,
+     "answer_chars": 563,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 3,
+      "ratio": 0.5,
+      "missing": [
+       "policy",
+       "turns",
+       "out"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "clarifying_question"
+     ]
+    },
+    {
+     "turn": 10,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 7841,
+     "answer_chars": 710,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 4,
+      "ratio": 1,
+      "missing": []
+     },
+     "substantive": true,
+     "flags": [
+      "clarifying_question"
+     ]
+    }
+   ],
+   "summary": {
+    "total_turns": 10,
+    "measured_turns": 10,
+    "substantive_turns": 10,
+    "issue_turns": 6,
+    "issue_rate": 0.6
+   }
+  },
+  "resolution_class": "partial",
+  "learning": "Strong personalized beginner guidance with concrete numbers (price, review rating) throughout, but the explicit add-to-cart request is deflected to a link instead of fulfilled.",
+  "judged_at": null,
+  "judge": {
+   "origin": "claude",
+   "origin_explicit": false,
+   "runner": "eval-merge.js",
+   "schema": 1
+  }
+ },
+ "2026-07-16/siena-simplemodern-shopping-everyday-value.json": {
+  "v": 2,
+  "mode": "shopping",
+  "rubric": {
+   "answer": 30,
+   "discovery": 20,
+   "recommendation": 22,
+   "rich": 16,
+   "close": 7
+  },
+  "total": 95,
+  "checks": {
+   "a_direct": {
+    "pass": true,
+    "evidence": "Orders over $30 get free standard shipping to the contiguous 48 states."
+   },
+   "a_consistent": {
+    "pass": true,
+    "evidence": "It’s our best seller and a great value for everyday use."
+   },
+   "a_no_ignored": {
+    "pass": true,
+    "evidence": "For everyday use and great value, I recommend our Trek Pivot Tumbler."
+   },
+   "d_clarify": {
+    "pass": true,
+    "evidence": "Are you shopping for a water bottle, tumbler, can cooler, or something else?"
+   },
+   "d_progressive": {
+    "pass": true,
+    "evidence": "For everyday use and great value, I recommend our Trek Pivot Tumbler."
+   },
+   "d_not_dump": {
+    "pass": true,
+    "evidence": "could you share what you use most often—like water bottles, tumblers, or maybe something for coffee or tea?"
+   },
+   "r_named": {
+    "pass": true,
+    "evidence": "I recommend our Trek Pivot Tumbler."
+   },
+   "r_fit": {
+    "pass": true,
+    "evidence": "For everyday use and great value, I recommend our Trek Pivot Tumbler. It’s super versatile, keeps drinks hot or cold for hours"
+   },
+   "r_plausible": {
+    "pass": true,
+    "evidence": "Our overall best seller is the Trek Tumbler 40oz!"
+   },
+   "e_price": {
+    "pass": true,
+    "evidence": "At $29.99, it’s a fantastic balance of quality and price."
+   },
+   "e_link": {
+    "pass": true,
+    "evidence": "Trek Pivot Tumbler"
+   },
+   "e_reviews": {
+    "pass": true,
+    "evidence": "it has over 5,300 reviews with an average rating of 4.8 out of 5 stars"
+   },
+   "e_options": {
+    "pass": false,
+    "evidence": ""
+   },
+   "c_cta": {
+    "pass": true,
+    "evidence": "You can start your return anytime using our online portal here: Submit a Return"
+   },
+   "c_cart": {
+    "pass": false,
+    "evidence": "I can’t add items to your cart from chat, but my top recommendation is the Trek Tumbler 40oz"
+   },
+   "c_clean": {
+    "pass": true,
+    "evidence": "Let me know if you have any other questions or need help with anything else! 😊"
+   }
+  },
+  "turn_quality": {
+   "schema": 1,
+   "turns": [
+    {
+     "turn": 1,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 26607,
+     "answer_chars": 364,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 1,
+      "ratio": 0.2,
+      "missing": [
+       "not",
+       "sure",
+       "right",
+       "choose"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "clarifying_question"
+     ]
+    },
+    {
+     "turn": 2,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 13447,
+     "answer_chars": 435,
+     "keyword_coverage": {
+      "asked": 10,
+      "matched": 5,
+      "ratio": 0.5,
+      "missing": [
+       "want",
+       "good",
+       "care",
+       "about",
+       "money"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "clarifying_question"
+     ]
+    },
+    {
+     "turn": 3,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 13295,
+     "answer_chars": 487,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 1,
+      "ratio": 0.14,
+      "missing": [
+       "like",
+       "stay",
+       "within",
+       "sensible",
+       "budget",
+       "best"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "clarifying_question"
+     ]
+    },
+    {
+     "turn": 4,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 16759,
+     "answer_chars": 835,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 3,
+      "ratio": 0.43,
+      "missing": [
+       "compare",
+       "options",
+       "which",
+       "better"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "clarifying_question"
+     ]
+    },
+    {
+     "turn": 5,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 14810,
+     "answer_chars": 453,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 6,
+      "ratio": 0.86,
+      "missing": [
+       "which"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "clarifying_question"
+     ]
+    },
+    {
+     "turn": 6,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 13904,
+     "answer_chars": 297,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 4,
+      "ratio": 0.8,
+      "missing": [
+       "okay"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 7,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 12916,
+     "answer_chars": 659,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 6,
+      "ratio": 0.86,
+      "missing": [
+       "offer"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 8,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 12799,
+     "answer_chars": 543,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 4,
+      "ratio": 0.67,
+      "missing": [
+       "there",
+       "guarantee"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "clarifying_question"
+     ]
+    },
+    {
+     "turn": 9,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 12119,
+     "answer_chars": 371,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "long",
+       "will",
+       "delivery",
+       "take",
+       "roughly"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 10,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 12001,
+     "answer_chars": 457,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 4,
+      "ratio": 1,
+      "missing": []
+     },
+     "substantive": true,
+     "flags": [
+      "clarifying_question"
+     ]
+    }
+   ],
+   "summary": {
+    "total_turns": 10,
+    "measured_turns": 10,
+    "substantive_turns": 10,
+    "issue_turns": 8,
+    "issue_rate": 0.8
+   }
+  },
+  "resolution_class": "partial",
+  "learning": "Well-reasoned value-focused recommendation with concrete numbers throughout, but the product is inconsistently called Trek Pivot Tumbler and Trek Tumbler 40oz, and the add-to-cart request is never fulfilled.",
+  "judged_at": null,
+  "judge": {
+   "origin": "claude",
+   "origin_explicit": false,
+   "runner": "eval-merge.js",
+   "schema": 1
+  }
+ },
+ "2026-07-16/siena-simplemodern-shopping-gift.json": {
+  "v": 2,
+  "mode": "shopping",
+  "rubric": {
+   "answer": 30,
+   "discovery": 13,
+   "recommendation": 22,
+   "rich": 7,
+   "close": 7
+  },
+  "total": 79,
+  "checks": {
+   "a_direct": {
+    "pass": true,
+    "evidence": "For someone who appreciates quality and practicality, I’d recommend one of our classic insulated tumblers or a versatile bag"
+   },
+   "a_consistent": {
+    "pass": true,
+    "evidence": "we don’t offer direct exchanges"
+   },
+   "a_no_ignored": {
+    "pass": true,
+    "evidence": "our Ellie Snack Bag 3-Pack is a lovely, practical bundle"
+   },
+   "d_clarify": {
+    "pass": true,
+    "evidence": "Could you tell me a little more about who you're shopping for?"
+   },
+   "d_progressive": {
+    "pass": false,
+    "evidence": ""
+   },
+   "d_not_dump": {
+    "pass": true,
+    "evidence": "I’d recommend one of our classic insulated tumblers or a versatile bag"
+   },
+   "r_named": {
+    "pass": true,
+    "evidence": "The Mesa Loop 30oz Tumbler is super practical"
+   },
+   "r_fit": {
+    "pass": true,
+    "evidence": "For someone who appreciates quality and practicality, I’d recommend one of our classic insulated tumblers or a versatile bag—both are super useful for everyday "
+   },
+   "r_plausible": {
+    "pass": true,
+    "evidence": "our Ellie Snack Bag 3-Pack is a lovely, practical bundle—they’re reusable, eco-friendly, and come in three sizes"
+   },
+   "e_price": {
+    "pass": false,
+    "evidence": ""
+   },
+   "e_link": {
+    "pass": true,
+    "evidence": "Mesa Loop with Covered Straw"
+   },
+   "e_reviews": {
+    "pass": false,
+    "evidence": ""
+   },
+   "e_options": {
+    "pass": false,
+    "evidence": ""
+   },
+   "c_cta": {
+    "pass": true,
+    "evidence": "Let me know if you’d like help finding the perfect smaller item to add!"
+   },
+   "c_cart": {
+    "pass": false,
+    "evidence": "I can’t add items to your cart from chat, and I don’t want to guess at the total."
+   },
+   "c_clean": {
+    "pass": true,
+    "evidence": "Let me know if you’d like help finding the perfect smaller item to add!"
+   }
+  },
+  "turn_quality": {
+   "schema": 1,
+   "turns": [
+    {
+     "turn": 1,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 26608,
+     "answer_chars": 444,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 1,
+      "ratio": 0.17,
+      "missing": [
+       "looking",
+       "someone",
+       "not",
+       "sure",
+       "pick"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "clarifying_question"
+     ]
+    },
+    {
+     "turn": 2,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 13173,
+     "answer_chars": 792,
+     "keyword_coverage": {
+      "asked": 10,
+      "matched": 3,
+      "ratio": 0.3,
+      "missing": [
+       "likes",
+       "isn",
+       "fussy",
+       "something",
+       "they",
+       "actually",
+       "use"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "clarifying_question"
+     ]
+    },
+    {
+     "turn": 3,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 13253,
+     "answer_chars": 528,
+     "keyword_coverage": {
+      "asked": 8,
+      "matched": 5,
+      "ratio": 0.63,
+      "missing": [
+       "would",
+       "good",
+       "that"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "clarifying_question"
+     ]
+    },
+    {
+     "turn": 4,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 14562,
+     "answer_chars": 396,
+     "keyword_coverage": {
+      "asked": 9,
+      "matched": 3,
+      "ratio": 0.33,
+      "missing": [
+       "between",
+       "top",
+       "two",
+       "gift",
+       "ideas",
+       "which"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "clarifying_question"
+     ]
+    },
+    {
+     "turn": 5,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 15816,
+     "answer_chars": 512,
+     "keyword_coverage": {
+      "asked": 10,
+      "matched": 7,
+      "ratio": 0.7,
+      "missing": [
+       "there",
+       "looks",
+       "nicer"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "clarifying_question"
+     ]
+    },
+    {
+     "turn": 6,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 12878,
+     "answer_chars": 555,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 3,
+      "ratio": 0.6,
+      "missing": [
+       "fast",
+       "ship"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 7,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 13101,
+     "answer_chars": 451,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 5,
+      "ratio": 0.71,
+      "missing": [
+       "great",
+       "gift"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 8,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 10395,
+     "answer_chars": 246,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 3,
+      "ratio": 0.75,
+      "missing": [
+       "include"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "clarifying_question"
+     ]
+    },
+    {
+     "turn": 9,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 14763,
+     "answer_chars": 466,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 2,
+      "ratio": 0.33,
+      "missing": [
+       "exchange",
+       "would",
+       "that",
+       "work"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "clarifying_question"
+     ]
+    },
+    {
+     "turn": 10,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 12284,
+     "answer_chars": 402,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 5,
+      "ratio": 0.83,
+      "missing": [
+       "discount"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    }
+   ],
+   "summary": {
+    "total_turns": 10,
+    "measured_turns": 10,
+    "substantive_turns": 10,
+    "issue_turns": 7,
+    "issue_rate": 0.7
+   }
+  },
+  "resolution_class": "partial",
+  "learning": "The agent recommends the same Mesa Loop tumbler across three consecutive turns without ever stating an actual price, undermining its moderate-budget reasoning, and the add-to-cart request is never fulfilled.",
+  "judged_at": null,
+  "judge": {
+   "origin": "claude",
+   "origin_explicit": false,
+   "runner": "eval-merge.js",
+   "schema": 1
+  }
+ },
+ "2026-07-16/siena-simplemodern-shopping-problem-solver.json": {
+  "v": 2,
+  "mode": "shopping",
+  "rubric": {
+   "answer": 7,
+   "discovery": 13,
+   "recommendation": 17,
+   "rich": 7,
+   "close": 7
+  },
+  "total": 51,
+  "checks": {
+   "a_direct": {
+    "pass": false,
+    "evidence": "To help you pick the best product, could you share a bit more about how you plan to use it?"
+   },
+   "a_consistent": {
+    "pass": false,
+    "evidence": "Out of Stock Mesa Loop with Covered Straw"
+   },
+   "a_no_ignored": {
+    "pass": true,
+    "evidence": "Here’s how to get the best results with your Mesa Loop with Covered Straw:"
+   },
+   "d_clarify": {
+    "pass": true,
+    "evidence": "Could you tell me a little more about what you’re looking for or what you need your product to do?"
+   },
+   "d_progressive": {
+    "pass": false,
+    "evidence": ""
+   },
+   "d_not_dump": {
+    "pass": true,
+    "evidence": "The Mesa Loop with Covered Straw is designed to be super convenient on its own"
+   },
+   "r_named": {
+    "pass": true,
+    "evidence": "I recommend the Mesa Loop with Covered Straw—it’s a fantastic pick for quality and everyday use."
+   },
+   "r_fit": {
+    "pass": true,
+    "evidence": "we take quality and durability very seriously, and we use materials that are BPA-free and built to last"
+   },
+   "r_plausible": {
+    "pass": false,
+    "evidence": "Out of Stock Mesa Loop with Covered Straw"
+   },
+   "e_price": {
+    "pass": false,
+    "evidence": ""
+   },
+   "e_link": {
+    "pass": true,
+    "evidence": "Mesa Loop with Covered Straw"
+   },
+   "e_reviews": {
+    "pass": false,
+    "evidence": ""
+   },
+   "e_options": {
+    "pass": false,
+    "evidence": ""
+   },
+   "c_cta": {
+    "pass": true,
+    "evidence": "If you’re ready to order, add your items to your cart and head to checkout—your total (including taxes and shipping) will show before you finalize your purchase"
+   },
+   "c_cart": {
+    "pass": false,
+    "evidence": "I recommend the Mesa Loop with Covered Straw—it’s a fantastic pick for quality and everyday use. To see your total, just add it to your cart on our website and "
+   },
+   "c_clean": {
+    "pass": true,
+    "evidence": "Let me know if you have any other questions or need help with anything else!"
+   }
+  },
+  "turn_quality": {
+   "schema": 1,
+   "turns": [
+    {
+     "turn": 1,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 6984,
+     "answer_chars": 212,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 2,
+      "ratio": 0.29,
+      "missing": [
+       "specific",
+       "worried",
+       "picking",
+       "wrong",
+       "thing"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "clarifying_question"
+     ]
+    },
+    {
+     "turn": 2,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 16289,
+     "answer_chars": 433,
+     "keyword_coverage": {
+      "asked": 8,
+      "matched": 5,
+      "ratio": 0.63,
+      "missing": [
+       "disappointed",
+       "similar",
+       "matters"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "clarifying_question"
+     ]
+    },
+    {
+     "turn": 3,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 8757,
+     "answer_chars": 414,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 1,
+      "ratio": 0.14,
+      "missing": [
+       "which",
+       "products",
+       "that",
+       "why",
+       "good",
+       "fit"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "clarifying_question"
+     ]
+    },
+    {
+     "turn": 4,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 9830,
+     "answer_chars": 696,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 2,
+      "ratio": 0.29,
+      "missing": [
+       "other",
+       "say",
+       "their",
+       "actually",
+       "hold"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 5,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 8949,
+     "answer_chars": 611,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 1,
+      "ratio": 0.14,
+      "missing": [
+       "there",
+       "anything",
+       "should",
+       "pair",
+       "best",
+       "result"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 6,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 8673,
+     "answer_chars": 376,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "doesn",
+       "work",
+       "out",
+       "options"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 7,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 8392,
+     "answer_chars": 477,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 2,
+      "ratio": 0.33,
+      "missing": [
+       "okay",
+       "convinced",
+       "recommendation",
+       "give"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 8,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 8403,
+     "answer_chars": 913,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 3,
+      "ratio": 0.6,
+      "missing": [
+       "correctly",
+       "result"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "clarifying_question"
+     ]
+    },
+    {
+     "turn": 9,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 7573,
+     "answer_chars": 384,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 3,
+      "ratio": 0.75,
+      "missing": [
+       "there"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "clarifying_question"
+     ]
+    },
+    {
+     "turn": 10,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 7586,
+     "answer_chars": 559,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 3,
+      "ratio": 0.75,
+      "missing": [
+       "arrive"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "clarifying_question"
+     ]
+    }
+   ],
+   "summary": {
+    "total_turns": 10,
+    "measured_turns": 10,
+    "substantive_turns": 10,
+    "issue_turns": 10,
+    "issue_rate": 1
+   }
+  },
+  "resolution_class": "partial",
+  "learning": "The agent confidently tells the shopper to check out with the Mesa Loop with Covered Straw, but the product card attached to that same recommendation is tagged Out of Stock and the mismatch is never surfaced.",
+  "judged_at": null,
+  "judge": {
+   "origin": "claude",
+   "origin_explicit": false,
+   "runner": "eval-merge.js",
+   "schema": 1
+  }
+ },
+ "2026-07-16/siena-simplemodern-support-damaged.json": {
+  "v": 2,
+  "mode": "support",
+  "rubric": {
+   "resolution": 40,
+   "accuracy": 25,
+   "actionability": 20,
+   "close": 7
+  },
+  "total": 92,
+  "checks": {
+   "s_answered": {
+    "pass": true,
+    "evidence": "Normal returns are for unused, non-defective items. If an item arrived damaged, we usually handle that as a damage claim instead."
+   },
+   "s_outcome": {
+    "pass": true,
+    "evidence": "If it was from us, another retailer, or a gift, use claims.the storemodern.com."
+   },
+   "s_no_deflect": {
+    "pass": true,
+    "evidence": "You won’t need to send photos here in chat first."
+   },
+   "g_specific": {
+    "pass": true,
+    "evidence": "In most arrived-damaged cases, the next step is to submit the issue through our claims process rather than do a normal return."
+   },
+   "g_consistent": {
+    "pass": true,
+    "evidence": "If it was from us, another retailer, or it was a gift, you’ll upload photos through our claims portal If it was from Amazon, Amazon handles the damage claim dir"
+   },
+   "g_grounded": {
+    "pass": true,
+    "evidence": "use claims.the storemodern.com"
+   },
+   "t_steps": {
+    "pass": true,
+    "evidence": "If it was from us, another retailer, or it was a gift, you’ll upload photos through our claims portal"
+   },
+   "t_complete": {
+    "pass": true,
+    "evidence": "If more than one item is affected, it’s still handled through the same damaged-order process — you can include all affected items when you submit the claim."
+   },
+   "k_expectations": {
+    "pass": false,
+    "evidence": "Replacement timing can vary, so I can’t confirm an exact timeframe here."
+   },
+   "k_clean": {
+    "pass": true,
+    "evidence": "Let me know if there’s anything else I can help with!"
+   }
+  },
+  "turn_quality": {
+   "schema": 1,
+   "turns": [
+    {
+     "turn": 1,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 8429,
+     "answer_chars": 157,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "order",
+       "arrived",
+       "one",
+       "item",
+       "damaged"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "clarifying_question"
+     ]
+    },
+    {
+     "turn": 2,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 7950,
+     "answer_chars": 331,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 6,
+      "ratio": 1,
+      "missing": []
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 3,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 8665,
+     "answer_chars": 383,
+     "keyword_coverage": {
+      "asked": 3,
+      "matched": 3,
+      "ratio": 1,
+      "missing": []
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 4,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 6958,
+     "answer_chars": 423,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "will",
+       "get",
+       "replacement",
+       "refund"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage",
+      "sales_prompt_on_support_ask"
+     ]
+    },
+    {
+     "turn": 5,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 8398,
+     "answer_chars": 444,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 3,
+      "ratio": 0.6,
+      "missing": [
+       "pay",
+       "anything"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 6,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 8695,
+     "answer_chars": 361,
+     "keyword_coverage": {
+      "asked": 3,
+      "matched": 1,
+      "ratio": 0.33,
+      "missing": [
+       "long",
+       "take"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage",
+      "missing_timeframe"
+     ]
+    },
+    {
+     "turn": 7,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 10100,
+     "answer_chars": 273,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 6,
+      "ratio": 1,
+      "missing": []
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 8,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 7284,
+     "answer_chars": 358,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 4,
+      "ratio": 0.67,
+      "missing": [
+       "keep",
+       "must"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 9,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 6957,
+     "answer_chars": 317,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 2,
+      "ratio": 0.5,
+      "missing": [
+       "will",
+       "ship"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 10,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 9482,
+     "answer_chars": 328,
+     "keyword_coverage": {
+      "asked": 3,
+      "matched": 3,
+      "ratio": 1,
+      "missing": []
+     },
+     "substantive": true,
+     "flags": [
+      "clarifying_question"
+     ]
+    }
+   ],
+   "summary": {
+    "total_turns": 10,
+    "measured_turns": 10,
+    "substantive_turns": 10,
+    "issue_turns": 4,
+    "issue_rate": 0.4
+   }
+  },
+  "resolution_class": "partial",
+  "learning": "Consistent, store-specific claims-process guidance across all ten replies, but the assistant never sets a replacement timeframe, explicitly declining to estimate one.",
+  "judged_at": null,
+  "judge": {
+   "origin": "claude",
+   "origin_explicit": false,
+   "runner": "eval-merge.js",
+   "schema": 1
+  }
+ },
+ "2026-07-16/siena-simplemodern-support-order-mgmt.json": {
+  "v": 2,
+  "mode": "support",
+  "rubric": {
+   "resolution": 40,
+   "accuracy": 20,
+   "actionability": 20,
+   "close": 15
+  },
+  "total": 95,
+  "checks": {
+   "s_answered": {
+    "pass": true,
+    "evidence": "Under 45 minutes: you can usually cancel it yourself from your order confirmation email using the “Edit or View your order” button"
+   },
+   "s_outcome": {
+    "pass": true,
+    "evidence": "Yes — if an order change is successfully made, you’ll usually receive an updated email confirmation."
+   },
+   "s_no_deflect": {
+    "pass": true,
+    "evidence": "If you want, send me your order number and I can help check the timing."
+   },
+   "g_specific": {
+    "pass": true,
+    "evidence": "the refund typically processes in 3–5 business days"
+   },
+   "g_consistent": {
+    "pass": false,
+    "evidence": "Under 45 minutes: you can usually cancel it yourself (T2) vs. If it’s been less than 40 minutes, the order can usually be canceled (T9)"
+   },
+   "g_grounded": {
+    "pass": true,
+    "evidence": "Open the email titled “Order #SM_____ Confirmed” and click “Edit or View your order.”"
+   },
+   "t_steps": {
+    "pass": true,
+    "evidence": "Open the email titled “Order #SM_____ Confirmed” and click “Edit or View your order.” From there, you can change the address, cancel, edit items, and more."
+   },
+   "t_complete": {
+    "pass": true,
+    "evidence": "If the issue is the shipping address, you can file a claim at claims.the storemodern.com to have the products resent to the correct address."
+   },
+   "k_expectations": {
+    "pass": true,
+    "evidence": "the refund typically processes in 3–5 business days"
+   },
+   "k_clean": {
+    "pass": true,
+    "evidence": "If you don’t see one, check your spam/junk folder too."
+   }
+  },
+  "turn_quality": {
+   "schema": 1,
+   "turns": [
+    {
+     "turn": 1,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 7026,
+     "answer_chars": 430,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 5,
+      "ratio": 0.83,
+      "missing": [
+       "just"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 2,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 6379,
+     "answer_chars": 577,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 6,
+      "ratio": 0.86,
+      "missing": [
+       "time"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "clarifying_question"
+     ]
+    },
+    {
+     "turn": 3,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 8095,
+     "answer_chars": 473,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 3,
+      "ratio": 0.6,
+      "missing": [
+       "already",
+       "placed"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 4,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 7530,
+     "answer_chars": 382,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 3,
+      "ratio": 0.6,
+      "missing": [
+       "happens",
+       "still"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 5,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 6622,
+     "answer_chars": 336,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 4,
+      "ratio": 1,
+      "missing": []
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 6,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 6173,
+     "answer_chars": 287,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "cancel",
+       "long",
+       "until",
+       "refunded"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 7,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 6390,
+     "answer_chars": 190,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 5,
+      "ratio": 0.83,
+      "missing": [
+       "latest"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 8,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 7613,
+     "answer_chars": 419,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 7,
+      "ratio": 1,
+      "missing": []
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 9,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 8397,
+     "answer_chars": 421,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 4,
+      "ratio": 1,
+      "missing": []
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 10,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 7241,
+     "answer_chars": 262,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 4,
+      "ratio": 0.57,
+      "missing": [
+       "will",
+       "get",
+       "once"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    }
+   ],
+   "summary": {
+    "total_turns": 10,
+    "measured_turns": 10,
+    "substantive_turns": 10,
+    "issue_turns": 2,
+    "issue_rate": 0.2
+   }
+  },
+  "resolution_class": "resolved",
+  "learning": "Consistently concrete, tiered self-service windows and named UI steps throughout, but the assistant contradicts itself on the exact cancellation cutoff (45 minutes versus 40 minutes).",
+  "judged_at": null,
+  "judge": {
+   "origin": "claude",
+   "origin_explicit": false,
+   "runner": "eval-merge.js",
+   "schema": 1
+  }
+ },
+ "2026-07-16/siena-simplemodern-support-policy.json": {
+  "v": 2,
+  "mode": "support",
+  "rubric": {
+   "resolution": 40,
+   "accuracy": 25,
+   "actionability": 20,
+   "close": 7
+  },
+  "total": 92,
+  "checks": {
+   "s_answered": {
+    "pass": true,
+    "evidence": "You can reach our support team by emailing support@the storemodern.com or by using the contact form on our website."
+   },
+   "s_outcome": {
+    "pass": true,
+    "evidence": "We don’t currently have a loyalty or rewards program, but I love that you’re interested!"
+   },
+   "s_no_deflect": {
+    "pass": true,
+    "evidence": "At this time, we don’t offer price matching."
+   },
+   "g_specific": {
+    "pass": true,
+    "evidence": "Most unused, non-defective items can be returned for a full refund within 90 days of purchase"
+   },
+   "g_consistent": {
+    "pass": true,
+    "evidence": "within 90 days of purchase, as long as they're unused and in their original packaging"
+   },
+   "g_grounded": {
+    "pass": true,
+    "evidence": "We stand behind our products with a Limited Lifetime Warranty!"
+   },
+   "t_steps": {
+    "pass": true,
+    "evidence": "You can read all the details or start a return on our Return Policy page."
+   },
+   "t_complete": {
+    "pass": true,
+    "evidence": "We currently ship directly to the U.S. and Canada only."
+   },
+   "k_expectations": {
+    "pass": false,
+    "evidence": ""
+   },
+   "k_clean": {
+    "pass": true,
+    "evidence": "Let me know if there’s anything else you’re curious about! 😊"
+   }
+  },
+  "turn_quality": {
+   "schema": 1,
+   "turns": [
+    {
+     "turn": 1,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 6506,
+     "answer_chars": 207,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 4,
+      "ratio": 1,
+      "missing": []
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 2,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 8418,
+     "answer_chars": 546,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 4,
+      "ratio": 0.8,
+      "missing": [
+       "covers"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "clarifying_question"
+     ]
+    },
+    {
+     "turn": 3,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 6687,
+     "answer_chars": 475,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 7,
+      "ratio": 1,
+      "missing": []
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 4,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 8938,
+     "answer_chars": 674,
+     "keyword_coverage": {
+      "asked": 3,
+      "matched": 3,
+      "ratio": 1,
+      "missing": []
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 5,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 7603,
+     "answer_chars": 329,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 6,
+      "ratio": 1,
+      "missing": []
+     },
+     "substantive": true,
+     "flags": [
+      "clarifying_question"
+     ]
+    },
+    {
+     "turn": 6,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 6825,
+     "answer_chars": 252,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 2,
+      "ratio": 0.5,
+      "missing": [
+       "methods",
+       "order"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 7,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 6104,
+     "answer_chars": 408,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 5,
+      "ratio": 1,
+      "missing": []
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 8,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 8944,
+     "answer_chars": 614,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 3,
+      "ratio": 0.5,
+      "missing": [
+       "match",
+       "honor",
+       "drop"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 9,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 7522,
+     "answer_chars": 563,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 1,
+      "ratio": 0.25,
+      "missing": [
+       "policy",
+       "defective",
+       "items"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "clarifying_question"
+     ]
+    },
+    {
+     "turn": 10,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 8098,
+     "answer_chars": 368,
+     "keyword_coverage": {
+      "asked": 3,
+      "matched": 3,
+      "ratio": 1,
+      "missing": []
+     },
+     "substantive": true,
+     "flags": [
+      "clarifying_question"
+     ]
+    }
+   ],
+   "summary": {
+    "total_turns": 10,
+    "measured_turns": 10,
+    "substantive_turns": 10,
+    "issue_turns": 4,
+    "issue_rate": 0.4
+   }
+  },
+  "resolution_class": "resolved",
+  "learning": "Every one of ten policy questions gets a complete, store-specific, on-topic answer (exact refund window, support email and hours, warranty terms) with zero blanks or mismatches.",
+  "judged_at": null,
+  "judge": {
+   "origin": "claude",
+   "origin_explicit": false,
+   "runner": "eval-merge.js",
+   "schema": 1
+  }
+ },
+ "2026-07-16/siena-simplemodern-support-returns.json": {
+  "v": 2,
+  "mode": "support",
+  "rubric": {
+   "resolution": 40,
+   "accuracy": 25,
+   "actionability": 20,
+   "close": 7
+  },
+  "total": 92,
+  "checks": {
+   "s_answered": {
+    "pass": true,
+    "evidence": "Most unused, non-defective items can be returned for a full refund within 90 days of purchase"
+   },
+   "s_outcome": {
+    "pass": true,
+    "evidence": "To check your refund status, please send either: your order number, or the checkout email that was actually used on the order"
+   },
+   "s_no_deflect": {
+    "pass": true,
+    "evidence": "You can start a return here: the storemodern.com/pages/returns-portal"
+   },
+   "g_specific": {
+    "pass": true,
+    "evidence": "You have 90 days from the date of purchase to return most unused, non-defective items"
+   },
+   "g_consistent": {
+    "pass": true,
+    "evidence": "90 days from the date of purchase"
+   },
+   "g_grounded": {
+    "pass": true,
+    "evidence": "If you bought your item from a store like Target or Walmart, the return would need to go through that retailer instead."
+   },
+   "t_steps": {
+    "pass": true,
+    "evidence": "You can start a return here: the storemodern.com/pages/returns-portal"
+   },
+   "t_complete": {
+    "pass": true,
+    "evidence": "These include: Personalized or custom items Certain limited edition products Orders shipped to Canada Used items Defective items"
+   },
+   "k_expectations": {
+    "pass": false,
+    "evidence": "We don’t have a specific refund timeline I can share in chat."
+   },
+   "k_clean": {
+    "pass": true,
+    "evidence": "Once I have that, I can help with the next step and see where your refund is in the process 💙"
+   }
+  },
+  "turn_quality": {
+   "schema": 1,
+   "turns": [
+    {
+     "turn": 1,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 6949,
+     "answer_chars": 520,
+     "keyword_coverage": {
+      "asked": 2,
+      "matched": 2,
+      "ratio": 1,
+      "missing": []
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 2,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 8456,
+     "answer_chars": 262,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 2,
+      "ratio": 0.5,
+      "missing": [
+       "many",
+       "something"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "clarifying_question"
+     ]
+    },
+    {
+     "turn": 3,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 7845,
+     "answer_chars": 510,
+     "keyword_coverage": {
+      "asked": 3,
+      "matched": 2,
+      "ratio": 0.67,
+      "missing": [
+       "exchange"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "clarifying_question"
+     ]
+    },
+    {
+     "turn": 4,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 8688,
+     "answer_chars": 240,
+     "keyword_coverage": {
+      "asked": 3,
+      "matched": 1,
+      "ratio": 0.33,
+      "missing": [
+       "pay",
+       "shipping"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 5,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 9262,
+     "answer_chars": 296,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 2,
+      "ratio": 0.33,
+      "missing": [
+       "long",
+       "until",
+       "get",
+       "receive"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage",
+      "missing_timeframe"
+     ]
+    },
+    {
+     "turn": 6,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 7793,
+     "answer_chars": 349,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 3,
+      "ratio": 0.5,
+      "missing": [
+       "exchange",
+       "different",
+       "instead"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "clarifying_question"
+     ]
+    },
+    {
+     "turn": 7,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 8438,
+     "answer_chars": 494,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 3,
+      "ratio": 0.5,
+      "missing": [
+       "any",
+       "final",
+       "sale"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 8,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 8094,
+     "answer_chars": 503,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 3,
+      "ratio": 0.6,
+      "missing": [
+       "need",
+       "something"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "clarifying_question"
+     ]
+    },
+    {
+     "turn": 9,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 11587,
+     "answer_chars": 606,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 5,
+      "ratio": 1,
+      "missing": []
+     },
+     "substantive": true,
+     "flags": [
+      "clarifying_question"
+     ]
+    },
+    {
+     "turn": 10,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 10724,
+     "answer_chars": 300,
+     "keyword_coverage": {
+      "asked": 3,
+      "matched": 2,
+      "ratio": 0.67,
+      "missing": [
+       "track"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    }
+   ],
+   "summary": {
+    "total_turns": 10,
+    "measured_turns": 10,
+    "substantive_turns": 10,
+    "issue_turns": 7,
+    "issue_rate": 0.7
+   }
+  },
+  "resolution_class": "partial",
+  "learning": "Consistent, store-specific detail across nearly every turn (90-day window, a named Target/Walmart cross-retailer exception), but refund-processing time is never given, even as a general estimate.",
+  "judged_at": null,
+  "judge": {
+   "origin": "claude",
+   "origin_explicit": false,
+   "runner": "eval-merge.js",
+   "schema": 1
+  }
  }
 }
