@@ -456,7 +456,21 @@ async function runStoreMode(browser, store, mode, theme) {
       // Pass the store/vendor name so the bot's own brand label ("Tediber says:") isn't
       // misread as a human agent named "Tediber".
       // store.personas covers AI agents replying under a human first name (Atma/Yuma's "Lucas says:").
-      const handover = detectHandover(handoverTail, w.handover, [store.store, store.vendor, ...(store.personas || [])]);
+      //
+      // Detect on the DELTA (replyFull), not the raw handoverTail (last 700 chars of the
+      // FULL post-send transcript) — confirmed false-positive on Decagon/Open Farm 2026-07-15:
+      // the bot's static turn-1 GREETING advertises "I can help with most questions and
+      // connect you with one of our Pet Parent Experience Experts if needed" as a capability
+      // disclosure, which trips the generic /\bconnect you (with|to)\b/i HANDOVER_PATTERN even
+      // though no human ever joins. On a short (turn-1) transcript the whole greeting still
+      // fits inside the last-700-chars tail; since handedOver is STICKY (every later turn
+      // inherits it), this one false match on turn 1 silently killed 100% of that store's
+      // conversations. replyFull already isolates just the NEW content since the pre-send
+      // baseline (the greeting was already present in beforeText, so it's excluded) — a real
+      // handover is by definition new, so it still shows up there. Fall back to handoverTail
+      // only when replyFull came back empty (nothing was isolated to check).
+      const handoverSource = replyFull && replyFull.length ? replyFull : handoverTail;
+      const handover = detectHandover(handoverSource, w.handover, [store.store, store.vendor, ...(store.personas || [])]);
       if (handover) handedOver = true;
       // Once a human owns the thread, every later turn is human too. We NEVER
       // count a human reply's latency — only the AI's own responses are timed.
