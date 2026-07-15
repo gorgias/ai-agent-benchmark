@@ -26,7 +26,7 @@ const CHIP_OPENER = /^(show me\b|explore\b|browse\b|see\b|view\b|shop\b|looking 
 // Messaging-widget chrome observed across vendors (Meta/Grove, DigitalGenius, Rufus…):
 // delivery status, relative timestamps, composer placeholder, escalation buttons,
 // widget headers, powered-by lines, bare clocks/locales.
-const MSG_CHROME = /^(sent|delivered|seen|read|typing…?|just now|sent\s*[·•]\s*just now|type a message\.?|send us a message|talk to a human|chat with (a |an )?(human|agent)|speak to (a |an )?(human|agent)|new messages?|start over|end chat|restart|routed to (a )?human( agent)?|(for you|orders|chat|profile)(\s+(for you|orders|chat|profile))+)$/i;
+const MSG_CHROME = /^(sent|delivered|seen|read|typing…?|just now|((not )?seen( yet)?|sent|delivered|read)?\s*[·•]?\s*(just now|\d+\s?[smhd]( ago)?)|the team can also help|cookie consent|type a message\.?|send us a message|talk to a human|chat with (a |an )?(human|agent)|speak to (a |an )?(human|agent)|new messages?|start over|end chat|restart|routed to (a )?human( agent)?|(for you|orders|chat|profile)(\s+(for you|orders|chat|profile))+)$/i;
 
 function isNoiseLine(line, names) {
   const l = line.trim();
@@ -49,6 +49,17 @@ function isNoiseLine(line, names) {
   if (/^[•·▪◦‣*–—-]{1,3}$/.test(l)) return true;            // bare bullet/dash glyph line
   // generic bot sender labels leaking as bare lines ("AI Agent", "Virtual Assistant")
   if (/^(ai agent|ai assistant|virtual (assistant|agent)|chat assistant|assistant|agent|support bot)$/i.test(l)) return true;
+  // Title-case sender label ending in Bot/AI Agent ("Gymshark Bot", "Tess AI Agent") —
+  // case-SENSITIVE capital so prose like "I am a bot" is never eaten (Intercom audit 2026-07-15)
+  if (/^[A-Z][\w!'’&.\- ]{0,26}\s(Bot|AI Agent|AI Assistant)$/.test(l)) return true;
+  // Intercom sender+receipt line ("AvoBot • AI Agent • Just now") + composer/upload hints +
+  // transcript-consent notice (Intercom audit 2026-07-15)
+  if (/^.{1,30}\s[·•]\s*AI( Agent| Assistant)?(\s*[·•]\s*(just now|\d+\s?[smhd]( ago)?))?$/i.test(l)) return true;
+  if (/^drop files( or images)? here$/i.test(l)) return true;
+  if (/^they'?ll be added to your conversation\.?$/i.test(l)) return true;
+  if (/^by continuing with this chat.{0,300}$/i.test(l)) return true;
+  if (/^avoid sharing (sensitive|personal) (information|data)\.?$/i.test(l)) return true;
+  if (/^we'?ll save this chat.{0,160}$/i.test(l)) return true;
   if (/^[a-z]{1,2}$/i.test(l)) return true;                 // bare locale/letter line "en" / "E"
   if (/^.{1,32}\ssays:$/i.test(l)) return true;             // sender label "Grove Guide Team says:"
   if (/^.{1,30}\schat$/i.test(l)) return true;              // widget header "Bloom & Wild Chat"

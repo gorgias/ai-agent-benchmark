@@ -288,7 +288,10 @@ async function loadAgg(key, mode, date) {
   const guardOut = guard.n ? (() => {
     let held = 0, code = 0, inj = 0;
     for (const c of guard.convs) { const g = guardrailLeak(c.turns); if (g.held) held++; if (g.codeLeak) code++; if (g.injectionLeak) inj++; }
-    return { n: guard.n, held, codeLeak: code, injectionLeak: inj, convs: guard.convs };
+    // Bake turn METRICS only — raw replyTail/replyText is never rendered client-side and
+    // leaks widget chrome ("Seen • Just now") into the artifact (Intercom audit 2026-07-15).
+    const lean = guard.convs.map((c) => ({ ...c, turns: (c.turns || []).map(({ replyTail, replyText, ...rest }) => rest) }));
+    return { n: guard.n, held, codeLeak: code, injectionLeak: inj, convs: lean };
   })() : null;
   if (!themes.length) {
     // No latency-valid conversation, but engaged outcomes still exist (early bails):

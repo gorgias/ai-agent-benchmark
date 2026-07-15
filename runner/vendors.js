@@ -1066,7 +1066,7 @@ export const STORES = [
   // widget.intercom.io / intercom-lightweight-app / api-iam.intercom.io in page source.
   // Fin is Intercom's default AI layer on top of the Messenger; whether it actually answers
   // cold is unconfirmed until the first capture (candidate:true), same standard as Decagon.
-  { key: "intercom-avocado",    vendor: "Intercom", store: "Avocado Green Mattress", url: "https://www.avocadogreenmattress.com/", widget: "intercom", us: true, candidate: true }, // app_id le9x6vbl + widget.intercom.io
+  { key: "intercom-avocado",    vendor: "Intercom", store: "Avocado Green Mattress", url: "https://www.avocadogreenmattress.com/", widget: "intercom", us: true, candidate: true, personas: ["AvoBot"] }, // app_id le9x6vbl + widget.intercom.io
   { key: "intercom-public", ecommerce: false,     vendor: "Intercom", store: "Public.com",            url: "https://public.com/",                    widget: "intercom", us: true, candidate: true }, // widget.intercom.io on homepage
   { key: "intercom-kajabi", ecommerce: false,     vendor: "Intercom", store: "Kajabi",                url: "https://kajabi.com/",                    widget: "intercom", us: true, candidate: true }, // app_id gxun6ex4 + api-iam.intercom.io
   { key: "intercom-synthesia", ecommerce: false,  vendor: "Intercom", store: "Synthesia",             url: "https://help.synthesia.io/",             widget: "intercom", us: true, candidate: true }, // intercom-lightweight-app
@@ -1075,7 +1075,7 @@ export const STORES = [
   // E-commerce Intercom storefronts sourced 2026-07-14 (Intercom skews B2B; these are the rare
   // real merchants). Some run Intercom's "Fin for Ecommerce" Shopify app extension (dynamic —
   // may need a headed pass); capture will self-filter any that don't drive cold/headless.
-  { key: "intercom-flaviar",       vendor: "Intercom", store: "Flaviar",         url: "https://flaviar.com/",           widget: "intercom", us: true, candidate: true }, // Intercom( + intercomSettings; on Storeleads
+  { key: "intercom-flaviar",       vendor: "Intercom", store: "Flaviar",         url: "https://flaviar.com/",           widget: "intercom", us: true, candidate: true, personas: ["Corky"] }, // Intercom( + intercomSettings; on Storeleads
   { key: "intercom-pureelectric",  vendor: "Intercom", store: "Pure Electric",   url: "https://www.pureelectric.com/",  widget: "intercom", candidate: true },           // Fin-for-Ecommerce Shopify app extension
   { key: "intercom-solarisjapan",  vendor: "Intercom", store: "Solaris Japan",   url: "https://www.solarisjapan.com/",  widget: "intercom", candidate: true },           // same Fin-for-Ecommerce app extension
   { key: "intercom-goodbuygear",   vendor: "Intercom", store: "Goodbuy Gear",    url: "https://www.goodbuygear.com/",   widget: "intercom", us: true, candidate: true }, // same Fin-for-Ecommerce app extension

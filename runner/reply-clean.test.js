@@ -143,3 +143,23 @@ test("stripWidgetChrome: genuine repeated prose is NOT stripped (equity — a ha
   const out = stripWidgetChrome("Returns are free within 30 days via our portal. Hope that helps!", "");
   assert.equal(out, "Returns are free within 30 days via our portal. Hope that helps!");
 });
+
+// ---- Intercom Messenger chrome (Max screenshot 2026-07-15): receipts, team strip, bot labels ----
+test("stripWidgetChrome: Intercom read receipts + team strip + bot name are noise", () => {
+  const raw = "AvoBot\n\nThe team can also help\n\nWelcome to Avocado Green brands! We can discuss product details.";
+  const out = stripWidgetChrome(raw, "", { names: ["AvoBot"] });
+  assert.equal(out, "Welcome to Avocado Green brands! We can discuss product details.");
+});
+test("stripWidgetChrome: 'Seen • Just now' variants + echoed question are stripped (Intercom)", () => {
+  const raw = "Seen • Just now\nCan you explain the main options in simple terms?\n• Just now\nSeen • Just now\nHere's a simple breakdown of the main mattress options.";
+  const out = stripWidgetChrome(raw, "Can you explain the main options in simple terms?", {});
+  assert.equal(out, "Here's a simple breakdown of the main mattress options.");
+});
+test("stripWidgetChrome: Title-case Bot/AI Agent labels are noise, lowercase prose is kept", () => {
+  assert.equal(stripWidgetChrome("Gymshark Bot\nOur Flex leggings are squat-proof and come in 12 colors.", ""), "Our Flex leggings are squat-proof and come in 12 colors.");
+  assert.equal(stripWidgetChrome("Tess AI Agent\nYou can pause your plan anytime from settings.", ""), "You can pause your plan anytime from settings.");
+  assert.ok(/i am a bot/i.test(stripWidgetChrome("Well, I am a bot", "")));
+});
+test("stripWidgetChrome: COOKIE CONSENT banner line is noise (Klaviyo)", () => {
+  assert.ok(!/cookie/i.test(stripWidgetChrome("COOKIE CONSENT\nWe ship worldwide from our LA warehouse.", "")));
+});
