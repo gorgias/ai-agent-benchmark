@@ -1080,6 +1080,13 @@ export const STORES = [
   { key: "intercom-solarisjapan",  vendor: "Intercom", store: "Solaris Japan",   url: "https://www.solarisjapan.com/",  widget: "intercom", candidate: true },           // same Fin-for-Ecommerce app extension
   { key: "intercom-goodbuygear",   vendor: "Intercom", store: "Goodbuy Gear",    url: "https://www.goodbuygear.com/",   widget: "intercom", us: true, candidate: true }, // same Fin-for-Ecommerce app extension
   { key: "intercom-ninjatransfers",vendor: "Intercom", store: "Ninja Transfers", url: "https://ninjatransfers.com/",    widget: "intercom", us: true, candidate: true }, // Intercom( + intercomSettings x6
+  // Sourced 2026-07-15 from a Store Leads "apps: intercom" export (Romain) — confirmed
+  // Shopify Plus merchants, live-verified (window.Intercom + intercom-messenger-frame mount
+  // under STEALTH), then confirmed VALID end-to-end with the runner (10/10 timed turns on
+  // both modes for each). Gymshark was the ORIGINAL target store from this vendor's initial
+  // brief. Ritual is a confirmed structural wall (0/20 timed turns, retested).
+  { key: "intercom-gymshark", vendor: "Intercom", store: "Gymshark", url: "https://www.gymshark.com/", widget: "intercom", us: true, candidate: true }, // athleticwear DTC, $35M/mo est. sales (Storeleads)
+  { key: "intercom-ritual",   vendor: "Intercom", store: "Ritual",   url: "https://ritual.com/",       widget: "intercom", us: true, candidate: true }, // supplements DTC — wall: 0/20 timed turns
 ];
 
 // Find a frame by element id / title / name / url. `match` may be a string
