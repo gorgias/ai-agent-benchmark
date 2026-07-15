@@ -1085,6 +1085,14 @@ export const STORES = [
   { key: "meta-next",         vendor: "Zendesk", store: "NEXT",            url: "https://www.next.co.uk/help",       widget: "zendesk", locale: "en-GB" }, // widget loads on /help route
   { key: "meta-petbarn",      vendor: "Zendesk", store: "Petbarn",         url: "https://www.petbarn.com.au/",       widget: "zendesk", locale: "en-AU" },
   { key: "sierra-babylist",   vendor: "Sierra", store: "Babylist",      url: "https://www.babylist.com/",       widget: "sierra" },          // sierraConfig
+  // Sourced 2026-07-15 via the StoreLeads API (f:tech=Sierra, f:p=shopify) — signature-verified
+  // live (sierra.chat / sierra_enable / enable_sierra_ai_chat in page source). casper/aloyoga/
+  // bark/thirdlove/babylist above were already registered (skipped as duplicates). lifeisgood,
+  // wilson, therabody did NOT show a live Sierra signature on re-check — not registered.
+  { key: "sierra-olukai",      vendor: "Sierra", store: "OluKai",        url: "https://olukai.com/",         widget: "sierra", us: true, candidate: true }, // footwear DTC, Shopify Plus, $12.9M/mo est. (Storeleads)
+  { key: "sierra-melin",       vendor: "Sierra", store: "Melin",         url: "https://melin.com/",          widget: "sierra", us: true, candidate: true }, // headwear DTC, Shopify Plus, $3.5M/mo est. (Storeleads)
+  { key: "sierra-pendulum",    vendor: "Sierra", store: "Pendulum",      url: "https://pendulumlife.com/",   widget: "sierra", us: true, candidate: true }, // probiotics DTC, Shopify Plus, $1.4M/mo est. (Storeleads)
+  { key: "sierra-bodi",        vendor: "Sierra", store: "BODi",         url: "https://www.bodi.com/",       widget: "sierra", us: true, candidate: true }, // fitness/wellness DTC (Beachbody), Shopify Plus, $4.4M/mo est. (Storeleads)
   { key: "ada-knix",          vendor: "Ada",    store: "Knix",          url: "https://knix.com/",               widget: "ada" },             // static.ada.support
   { key: "ada-goodfood",      vendor: "Ada",    store: "Goodfood",      url: "https://www.makegoodfood.ca/",    widget: "ada", locale: "en-CA" },
   // Wider Ada target — NEW retail storefronts sourced + widget-verified 2026-07-05 (real
