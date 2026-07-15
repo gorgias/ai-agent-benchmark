@@ -469,8 +469,21 @@ async function runStoreMode(browser, store, mode, theme) {
       // baseline (the greeting was already present in beforeText, so it's excluded) — a real
       // handover is by definition new, so it still shows up there. Fall back to handoverTail
       // only when replyFull came back empty (nothing was isolated to check).
+      // Second false-positive class found alongside the above (Zendesk/"Meta AI" stores,
+      // 2026-07-15): turn 1's delta necessarily includes the bot's own static GREETING (there's
+      // no prior turn to have already captured it in `beforeText`), and Zendesk's canned
+      // greeting is itself a capability disclosure — "...I will do my best to find the right
+      // answer. If I can't, I will quickly transfer you to one of our agents." — which trips
+      // /\btransfer(ring)? you (to|over)\b/i even though no human ever joins. handedOver being
+      // STICKY meant this one false match on turn 1 killed EVERY subsequent turn, on EVERY
+      // Zendesk store (~21 registered), for the conversation's entire life. Widgets that echo
+      // the user's own message back into the transcript ("You say: <question>") give us a
+      // reliable anchor: strip everything up to and including that echo (stripWidgetChrome
+      // already does this for judge/display text) before checking for handover, so a greeting
+      // that precedes the echo is never inspected. Widgets that don't echo the question are
+      // unaffected — the strip is a no-op when the echo isn't found.
       const handoverSource = replyFull && replyFull.length ? replyFull : handoverTail;
-      const handover = detectHandover(handoverSource, w.handover, [store.store, store.vendor, ...(store.personas || [])]);
+      const handover = detectHandover(stripWidgetChrome(handoverSource, q), w.handover, [store.store, store.vendor, ...(store.personas || [])]);
       if (handover) handedOver = true;
       // Once a human owns the thread, every later turn is human too. We NEVER
       // count a human reply's latency — only the AI's own responses are timed.
