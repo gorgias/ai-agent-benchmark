@@ -415045,5 +415045,547 @@
    "runner": "eval-merge.js",
    "schema": 1
   }
+ },
+ "2026-07-15/decagon-openfarm-support-policy.json": {
+  "v": 2,
+  "mode": "support",
+  "rubric": {
+   "resolution": 40,
+   "accuracy": 25,
+   "actionability": 12,
+   "close": 15
+  },
+  "total": 92,
+  "checks": {
+   "s_answered": {
+    "pass": true,
+    "evidence": "Online orders are available within the United States and Canada only, and shipping is not available to Hawaii, Alaska, Puerto Rico"
+   },
+   "s_outcome": {
+    "pass": true,
+    "evidence": "You can contact support through the chat on the storefarmpet.com during business hours"
+   },
+   "s_no_deflect": {
+    "pass": true,
+    "evidence": "I can also answer a specific shipping question here, like cost, timing, or tracking"
+   },
+   "g_specific": {
+    "pass": true,
+    "evidence": "the store offers a 30-Day Satisfaction Guarantee for eligible recipes"
+   },
+   "g_consistent": {
+    "pass": true,
+    "evidence": "online orders are limited to the United States and Canada only"
+   },
+   "g_grounded": {
+    "pass": true,
+    "evidence": "the recipe name, and the lot code and best-before date if available"
+   },
+   "t_steps": {
+    "pass": true,
+    "evidence": "To request a review, please have your order number or proof of purchase, the recipe name"
+   },
+   "t_complete": {
+    "pass": false,
+    "evidence": ""
+   },
+   "k_expectations": {
+    "pass": true,
+    "evidence": "please share your email address so I can get you connected with a Pet Parent Experience Expert who can help"
+   },
+   "k_clean": {
+    "pass": true,
+    "evidence": "You can contact support through the chat on the storefarmpet.com during business hours"
+   }
+  },
+  "turn_quality": {
+   "schema": 1,
+   "turns": [
+    {
+     "turn": 1,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 14118,
+     "answer_chars": 454,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 2,
+      "ratio": 0.5,
+      "missing": [
+       "full",
+       "policy"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 2,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 13254,
+     "answer_chars": 248,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 4,
+      "ratio": 0.8,
+      "missing": [
+       "covers"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "missing_responsible_party"
+     ]
+    },
+    {
+     "turn": 3,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 13740,
+     "answer_chars": 243,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 4,
+      "ratio": 0.57,
+      "missing": [
+       "long",
+       "take",
+       "once"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "missing_timeframe"
+     ]
+    },
+    {
+     "turn": 4,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 13800,
+     "answer_chars": 531,
+     "keyword_coverage": {
+      "asked": 3,
+      "matched": 2,
+      "ratio": 0.67,
+      "missing": [
+       "return"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 5,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 15446,
+     "answer_chars": 373,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 5,
+      "ratio": 0.83,
+      "missing": [
+       "items"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 6,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 15207,
+     "answer_chars": 194,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "payment",
+       "methods",
+       "accept",
+       "order"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 7,
+     "measured": false,
+     "by": "human",
+     "complete_ms": 9549,
+     "answer_chars": 258,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 4,
+      "ratio": 0.8,
+      "missing": [
+       "team"
+      ]
+     },
+     "substantive": false,
+     "flags": []
+    },
+    {
+     "turn": 8,
+     "measured": false,
+     "by": "human",
+     "complete_ms": null,
+     "answer_chars": 47,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "price",
+       "match",
+       "honor",
+       "drop",
+       "after",
+       "purchase"
+      ]
+     },
+     "substantive": false,
+     "flags": [
+      "not_sent_after_handover",
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 9,
+     "measured": false,
+     "by": "human",
+     "complete_ms": null,
+     "answer_chars": 47,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "warranty",
+       "policy",
+       "defective",
+       "items"
+      ]
+     },
+     "substantive": false,
+     "flags": [
+      "not_sent_after_handover",
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 10,
+     "measured": false,
+     "by": "human",
+     "complete_ms": null,
+     "answer_chars": 47,
+     "keyword_coverage": {
+      "asked": 3,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "loyalty",
+       "rewards",
+       "program"
+      ]
+     },
+     "substantive": false,
+     "flags": [
+      "not_sent_after_handover",
+      "low_question_coverage"
+     ]
+    }
+   ],
+   "summary": {
+    "total_turns": 10,
+    "measured_turns": 6,
+    "substantive_turns": 6,
+    "issue_turns": 6,
+    "issue_rate": 0.6
+   }
+  },
+  "resolution_class": "partial",
+  "learning": "Strong store-grounded policy specifics (30-Day Guarantee, US/Canada-only, full payment list) but it never commits to a concrete standard-shipping timeframe and cannot confirm final-sale categories, leaving coverage incomplete.",
+  "judged_at": null,
+  "judge": {
+   "origin": "claude",
+   "origin_explicit": false,
+   "runner": "eval-merge.js",
+   "schema": 1
+  }
+ },
+ "2026-07-15/decagon-openfarm-support-tracking.json": {
+  "v": 2,
+  "mode": "support",
+  "rubric": {
+   "resolution": 40,
+   "accuracy": 25,
+   "actionability": 12,
+   "close": 15
+  },
+  "total": 92,
+  "checks": {
+   "s_answered": {
+    "pass": true,
+    "evidence": "If you have not received that email yet, the order may not have shipped yet, and tracking is only available after shipment"
+   },
+   "s_outcome": {
+    "pass": true,
+    "evidence": "please share the email used at checkout so I can get you connected with a Pet Parent Experience Expert"
+   },
+   "s_no_deflect": {
+    "pass": true,
+    "evidence": "Yes, I can check the next step for your latest order"
+   },
+   "g_specific": {
+    "pass": true,
+    "evidence": "expected to arrive within 1 to 3 business days from the ship date"
+   },
+   "g_consistent": {
+    "pass": true,
+    "evidence": "the email used at checkout and either your order ID or your ZIP code"
+   },
+   "g_grounded": {
+    "pass": true,
+    "evidence": "Freshly Crafted recipes ship frozen on Monday, Wednesday, and Thursday"
+   },
+   "t_steps": {
+    "pass": true,
+    "evidence": "first check around the delivery address and any secure drop off spots, then check with household members, neighbors, or building staff"
+   },
+   "t_complete": {
+    "pass": false,
+    "evidence": ""
+   },
+   "k_expectations": {
+    "pass": true,
+    "evidence": "If your order is more than 3 days past the expected delivery window from the order date"
+   },
+   "k_clean": {
+    "pass": true,
+    "evidence": "get you connected with a Pet Parent Experience Expert who can help"
+   }
+  },
+  "turn_quality": {
+   "schema": 1,
+   "turns": [
+    {
+     "turn": 1,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 8434,
+     "answer_chars": 163,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 1,
+      "ratio": 0.14,
+      "missing": [
+       "placed",
+       "few",
+       "days",
+       "ago",
+       "still",
+       "tracking"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 2,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 10756,
+     "answer_chars": 413,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 2,
+      "ratio": 0.29,
+      "missing": [
+       "long",
+       "normally",
+       "take",
+       "ship",
+       "number"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage",
+      "missing_timeframe"
+     ]
+    },
+    {
+     "turn": 3,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 11377,
+     "answer_chars": 434,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 3,
+      "ratio": 0.75,
+      "missing": [
+       "long"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 4,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 15349,
+     "answer_chars": 396,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 5,
+      "ratio": 0.83,
+      "missing": [
+       "any"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 5,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 14546,
+     "answer_chars": 385,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 3,
+      "ratio": 0.75,
+      "missing": [
+       "should"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 6,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 15002,
+     "answer_chars": 522,
+     "keyword_coverage": {
+      "asked": 3,
+      "matched": 3,
+      "ratio": 1,
+      "missing": []
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 7,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 10824,
+     "answer_chars": 193,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 3,
+      "ratio": 0.75,
+      "missing": [
+       "status"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 8,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 21108,
+     "answer_chars": 548,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 2,
+      "ratio": 0.33,
+      "missing": [
+       "says",
+       "didn",
+       "receive",
+       "now"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 9,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 10921,
+     "answer_chars": 191,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 3,
+      "ratio": 0.75,
+      "missing": [
+       "reroute"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "clarifying_question"
+     ]
+    },
+    {
+     "turn": 10,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 9553,
+     "answer_chars": 295,
+     "keyword_coverage": {
+      "asked": 3,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "compensate",
+       "long",
+       "delay"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    }
+   ],
+   "summary": {
+    "total_turns": 10,
+    "measured_turns": 10,
+    "substantive_turns": 10,
+    "issue_turns": 5,
+    "issue_rate": 0.5
+   }
+  },
+  "resolution_class": "partial",
+  "learning": "Concrete, self-consistent troubleshooting (frozen ship days, 1-3 day delivery, 24-48h scan windows) but admitted knowledge gaps on rerouting and delay compensation leave those asks unanswered and the lookup itself never completes.",
+  "judged_at": null,
+  "judge": {
+   "origin": "claude",
+   "origin_explicit": false,
+   "runner": "eval-merge.js",
+   "schema": 1
+  }
  }
 }
