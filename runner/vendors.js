@@ -1058,6 +1058,14 @@ export const STORES = [
   { key: "intercom-synthesia", ecommerce: false,  vendor: "Intercom", store: "Synthesia",             url: "https://help.synthesia.io/",             widget: "intercom", us: true, candidate: true }, // intercom-lightweight-app
   { key: "intercom-ninety", ecommerce: false,     vendor: "Intercom", store: "Ninety",                url: "https://www.ninety.io/",                 widget: "intercom", us: true, candidate: true }, // app_id u6zkohf3 + widget.intercom.io
   { key: "intercom-tado",       vendor: "Intercom", store: "tado°",                 url: "https://www.tado.com/",                  widget: "intercom", us: true, candidate: true }, // intercom-lightweight-app
+  // E-commerce Intercom storefronts sourced 2026-07-14 (Intercom skews B2B; these are the rare
+  // real merchants). Some run Intercom's "Fin for Ecommerce" Shopify app extension (dynamic —
+  // may need a headed pass); capture will self-filter any that don't drive cold/headless.
+  { key: "intercom-flaviar",       vendor: "Intercom", store: "Flaviar",         url: "https://flaviar.com/",           widget: "intercom", us: true, candidate: true }, // Intercom( + intercomSettings; on Storeleads
+  { key: "intercom-pureelectric",  vendor: "Intercom", store: "Pure Electric",   url: "https://www.pureelectric.com/",  widget: "intercom", candidate: true },           // Fin-for-Ecommerce Shopify app extension
+  { key: "intercom-solarisjapan",  vendor: "Intercom", store: "Solaris Japan",   url: "https://www.solarisjapan.com/",  widget: "intercom", candidate: true },           // same Fin-for-Ecommerce app extension
+  { key: "intercom-goodbuygear",   vendor: "Intercom", store: "Goodbuy Gear",    url: "https://www.goodbuygear.com/",   widget: "intercom", us: true, candidate: true }, // same Fin-for-Ecommerce app extension
+  { key: "intercom-ninjatransfers",vendor: "Intercom", store: "Ninja Transfers", url: "https://ninjatransfers.com/",    widget: "intercom", us: true, candidate: true }, // Intercom( + intercomSettings x6
 ];
 
 // Find a frame by element id / title / name / url. `match` may be a string
