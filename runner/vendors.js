@@ -1143,9 +1143,18 @@ export const STORES = [
   // may need a headed pass); capture will self-filter any that don't drive cold/headless.
   { key: "intercom-flaviar",       vendor: "Intercom", store: "Flaviar",         url: "https://flaviar.com/",           widget: "intercom", us: true, candidate: true, personas: ["Corky"] }, // Intercom( + intercomSettings; on Storeleads
   { key: "intercom-pureelectric",  vendor: "Intercom", store: "Pure Electric",   url: "https://www.pureelectric.com/",  widget: "intercom", candidate: true },           // Fin-for-Ecommerce Shopify app extension
+  // Solaris probe 2026-07-15 (tools/probe-fin2.mjs): NOT a driver bug — Fin here is a human
+  // front door. T1 gets one canned reply, then "Give the team a way to reach you" + "Waiting
+  // for a teammate" (out-of-hours human queue); T2 sends fine (visible in thread) but no AI
+  // ever answers. Same family likely for Pure Electric/Goodbuy/Ritual (0-valid pattern).
+  // Honest outcome = engaged-but-deflected; the balancer's strike system retires them.
   { key: "intercom-solarisjapan",  vendor: "Intercom", store: "Solaris Japan",   url: "https://www.solarisjapan.com/",  widget: "intercom", candidate: true },           // same Fin-for-Ecommerce app extension
   { key: "intercom-goodbuygear",   vendor: "Intercom", store: "Goodbuy Gear",    url: "https://www.goodbuygear.com/",   widget: "intercom", us: true, candidate: true }, // same Fin-for-Ecommerce app extension
-  { key: "intercom-ninjatransfers",vendor: "Klaviyo", store: "Ninja Transfers", url: "https://ninjatransfers.com/",    widget: "klaviyo", us: true, candidate: true }, // RE-ATTRIBUTED 2026-07-15: Intercom snippet installed but live chat widget = Klaviyo (provider-detect during capture; intercom driver read 0 turns)
+  // Ninja Transfers probe 2026-07-15 (tools/probe-nt.mjs): the live chat is NEITHER Intercom
+  // NOR Klaviyo — it's a proprietary printflyone.com/p/chat iframe (their in-house platform).
+  // No standard driver applies; 0/10 under both. Needs a custom driver (backlog) — url kept
+  // for reference, candidate so it never burns balancer budget.
+  { key: "intercom-ninjatransfers",vendor: "Klaviyo", store: "Ninja Transfers", url: "",    widget: "klaviyo", us: true, candidate: true, todo: "custom printflyone chat driver" }, // live widget = printflyone iframe, not Intercom/Klaviyo
   // Sourced 2026-07-15 from a Store Leads "apps: intercom" export (Romain) — confirmed
   // Shopify Plus merchants, live-verified (window.Intercom + intercom-messenger-frame mount
   // under STEALTH), then confirmed VALID end-to-end with the runner (10/10 timed turns on
