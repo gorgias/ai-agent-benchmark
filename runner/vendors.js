@@ -630,10 +630,15 @@ export const WIDGETS = {
     // and click the entry card ("Ask a question" / "Send us a message" — copy varies per
     // install) to open a real conversation first.
     //
-    // KNOWN STRUCTURAL WALLS (verified 2026-07-13, not selector bugs — do not re-attempt the
-    // same fix here):
-    //  - tado: `window.Intercom` stub exists but never boots ANY iframe on the marketing
-    //    homepage (no consent gate blocking it either — confirmed no cookie banner present).
+    // KNOWN STRUCTURAL WALLS (verified 2026-07-13, re-probed 2026-07-15 — not selector bugs;
+    // do not re-attempt the same fix here):
+    //  - tado: UPDATED 2026-07-15 — the messenger frame DOES boot now (earlier "never boots"
+    //    was the consent banner; dismiss() handles it). But its Fin variant opens on a
+    //    quick-reply-only qualification flow ("Yes" / "No, I have a different question") with
+    //    the composer SUPPRESSED until a quick reply is chosen, and those buttons are inert in
+    //    headless: JS click/full pointer sequence/focus()+Enter all no-op (focus refuses to
+    //    take), same server/client gating family as ninety/public below. Composer never
+    //    appears → 0 timed answers. Structural wall for the headless runner; revisit headed.
     //  - ninety, public: the click-through above DOES reach a real conversation (textarea
     //    present, realtime websockets to nexus-websocket-a.intercom.io + Ably connect fine),
     //    but the Send button's `disabled` never clears — confirmed with real native
@@ -674,13 +679,22 @@ export const WIDGETS = {
         }).catch(() => {});
         await page.waitForTimeout(1000);
       }
-      await f.locator("textarea").first().waitFor({ state: "visible", timeout: 12000 }).catch(() => {});
+      // Fin home-menu variant (2026-07-15, tado°/Fin-for-Ecommerce probe): when the card
+      // click-through still leaves us on a Home/menu screen with NO composer, the official
+      // JS API `Intercom("showNewMessage")` opens a real conversation view directly — far
+      // more reliable than DOM-clicking entry cards whose copy/DOM varies per install.
+      if (!(await f.locator('textarea, [contenteditable="true"]').count().catch(() => 0))) {
+        await page.evaluate(() => { try { window.Intercom && window.Intercom("showNewMessage"); } catch (e) {} }).catch(() => {});
+        await page.waitForTimeout(3000);
+      }
+      await f.locator('textarea, [contenteditable="true"]').first().waitFor({ state: "visible", timeout: 12000 }).catch(() => {});
     },
     async send(page, text) {
       await dismiss(page);
       const f = await findFrame(page, /intercom-messenger-frame/);
       if (!f) return;
-      const inp = f.locator("textarea").first();
+      // Newer Fin builds render the composer as a contenteditable div, not a <textarea>.
+      const inp = f.locator('textarea, [contenteditable="true"]').first();
       await inp.waitFor({ state: "visible", timeout: 10000 }).catch(() => {});
       await inp.click({ timeout: 5000 }).catch(() => {});
       await inp.fill(text).catch(async () => { await inp.type(text, { delay: 12 }).catch(() => {}); });
