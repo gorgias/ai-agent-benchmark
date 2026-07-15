@@ -1079,7 +1079,7 @@ export const STORES = [
   { key: "intercom-pureelectric",  vendor: "Intercom", store: "Pure Electric",   url: "https://www.pureelectric.com/",  widget: "intercom", candidate: true },           // Fin-for-Ecommerce Shopify app extension
   { key: "intercom-solarisjapan",  vendor: "Intercom", store: "Solaris Japan",   url: "https://www.solarisjapan.com/",  widget: "intercom", candidate: true },           // same Fin-for-Ecommerce app extension
   { key: "intercom-goodbuygear",   vendor: "Intercom", store: "Goodbuy Gear",    url: "https://www.goodbuygear.com/",   widget: "intercom", us: true, candidate: true }, // same Fin-for-Ecommerce app extension
-  { key: "intercom-ninjatransfers",vendor: "Intercom", store: "Ninja Transfers", url: "https://ninjatransfers.com/",    widget: "intercom", us: true, candidate: true }, // Intercom( + intercomSettings x6
+  { key: "intercom-ninjatransfers",vendor: "Klaviyo", store: "Ninja Transfers", url: "https://ninjatransfers.com/",    widget: "klaviyo", us: true, candidate: true }, // RE-ATTRIBUTED 2026-07-15: Intercom snippet installed but live chat widget = Klaviyo (provider-detect during capture; intercom driver read 0 turns)
   // Sourced 2026-07-15 from a Store Leads "apps: intercom" export (Romain) — confirmed
   // Shopify Plus merchants, live-verified (window.Intercom + intercom-messenger-frame mount
   // under STEALTH), then confirmed VALID end-to-end with the runner (10/10 timed turns on
