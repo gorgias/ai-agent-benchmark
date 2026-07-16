@@ -667,6 +667,50 @@ export const WIDGETS = {
       // message never reaches Decagon's composer at all (0 turns answered, no error thrown).
       const f = await findFrame(page, /decagon/i);
       if (!f) { await genericSendChat(page, text); return; }
+      // TWO COMPOSER-EATING STATES (probed live on oura support, 2026-07-16 — the widget
+      // works fine for a human; the driver just didn't know these states):
+      // 1) INLINE FORM: Finn answers some questions with a dropdown form ("What are you
+      //    trying to track: Ring, …? Select one below *" + Select/Close/Submit) that
+      //    REPLACES the composer. A human picks an option and continues; we do the same —
+      //    choose the first real option, Submit, and wait for the composer to return.
+      // 2) CLOSED CONVERSATION: off-topic messages make Finn close the thread ("This
+      //    conversation has been closed" + a "Start a new chat" button, composer removed).
+      //    Reopen and continue — a human would click it.
+      // Both states previously made every remaining turn a silent no-op (lat=NULL).
+      // The form can be MULTI-STEP (probed: Select-dropdown step, then an "Email *" identity
+      // step). Handle up to 3 steps. DOM truths that cost a day to learn:
+      //  - the dropdown options are plain BUTTONs (no role attr, no option class) in a
+      //    `.z-50` portal at body level — the ONLY reliable click is getByRole('button',
+      //    {name}) with the option's text read from the portal (CSS-path clicks select
+      //    intermittently across runs; JS el.click() never selects);
+      //  - `.chat-form-submit` (widget's own class) stays disabled until the field registers;
+      //  - email identity steps reuse fillEmailGate + the reserved dummy identity.
+      for (let step = 0; step < 3; step++) {
+        if (await f.locator('textarea, [contenteditable="true"]').first().count().catch(() => 0)) break;
+        const newChat = f.locator('button, [role="button"]').filter({ hasText: /start a new chat/i }).first();
+        if (await newChat.count().catch(() => 0)) {
+          await newChat.click({ timeout: 4000 }).catch(() => {});
+          await f.locator('textarea, [contenteditable="true"]').first().waitFor({ state: "visible", timeout: 10000 }).catch(() => {});
+          continue;
+        }
+        if (!(await f.locator(".chat-form-submit").count().catch(() => 0))) break;
+        const selBtn = f.getByRole("button", { name: /^select$/i }).first();
+        if (await selBtn.count().catch(() => 0)) {
+          await selBtn.click({ timeout: 4000 }).catch(() => {});
+          await page.waitForTimeout(900);
+          const optName = await f.evaluate(() => {
+            const b = document.querySelector(".z-50 .overflow-y-auto button, .z-50 button");
+            return b ? (b.innerText || "").trim() : null;
+          }).catch(() => null);
+          if (optName) await f.getByRole("button", { name: optName, exact: true }).first().click({ timeout: 4000 }).catch(() => {});
+        }
+        await fillEmailGate(page, f).catch(() => {});
+        const submit = f.locator(".chat-form-submit:not([disabled])").first();
+        await submit.waitFor({ state: "visible", timeout: 6000 }).catch(() => {});
+        await submit.click({ timeout: 4000 }).catch(() => {});
+        await page.waitForTimeout(1500);
+      }
+      await f.locator('textarea, [contenteditable="true"]').first().waitFor({ state: "visible", timeout: 10000 }).catch(() => {});
       const inp = f.locator('textarea, [contenteditable="true"]').first();
       if (await inp.count().catch(() => 0)) {
         await inp.click({ timeout: 5000 }).catch(() => {});
