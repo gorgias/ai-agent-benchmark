@@ -27,9 +27,18 @@ const HEADED   = new Set(["Rep AI", "Kodif", "Humind"]);            // these onl
 const EXCLUDE  = new Set(["Amazon Rufus", "Spiffy.ai", "Google Agentic", "Shopify Inbox"]); // separate/structural-zero
 // INCLUDE (optional whitelist): when set, ONLY these vendors are candidates — used to target the
 // productive, automatable tier (Envive/Yuma/DG/Siena) instead of draining the night into vendors
-// that can't be captured unattended. STORE_TIMEOUT_MIN lets us fail fast (dead store can't hang for 22min).
+// that can't be captured unattended.
+//
+// STORE_TIMEOUT_MIN: incident 2026-07-16 — the old 22min default killed run.js mid-batch on
+// slower-but-ALIVE vendors (Decagon ~42s/turn: 10 turns x 5 sequential waves at concurrency 2
+// needs ~35-40min) before all 10 conversations could finish. The kill orphans every in-flight
+// conversation with a generic "browser.newContext: ...closed" error and the store gets charged
+// a false strike — 3 such stores burned ~65min for 3/30 valid convs that night. A truly-dead
+// widget already fails fast on its own (open() bails within ~10-25s, TURN_TIMEOUT_MS=60s caps
+// any single hung turn) — this ceiling only needs to be long enough for a SLOW-but-responsive
+// vendor to complete, not to detect dead ones. Raised to give real vendors room to finish.
 const INCLUDE  = (process.env.INCLUDE || "").split(",").map(s => s.trim()).filter(Boolean);
-const STORE_TIMEOUT_MS = (Number(process.env.STORE_TIMEOUT_MIN) || 22) * 60 * 1000;
+const STORE_TIMEOUT_MS = (Number(process.env.STORE_TIMEOUT_MIN) || 40) * 60 * 1000;
 const DRY = process.argv.includes("--dry");
 
 const L = (...a) => console.log(new Date().toISOString() + " " + a.join(" "));
