@@ -598,7 +598,27 @@ export const WIDGETS = {
     // answer (likely login/identity-gated) — captured as engaged-but-unanswered.
     scope: { kind: "frame", match: /klaviyo|customer hub|chat|assistant/i },
     async open(page) { await genericOpenChat(page); },
-    async send(page, text) { await genericSendChat(page, text); },
+    async send(page, text) {
+      // Driver fix (probe 2026-07-16, happywax): genericSendChat grabs the FIRST
+      // textarea/input on the page — on stores with a prominent site-search box
+      // ("What are you looking for?") it typed the question into SEARCH and Enter
+      // navigated away, closing the chat (0/19 burned). Target K:AI's own composer
+      // first — its textarea is labeled "Ask a question" inside the #k-hub pane —
+      // and only fall back to the generic picker if no K:AI composer exists.
+      const composer = 'textarea[placeholder*="ask a question" i], textarea[aria-label*="ask a question" i]';
+      for (const f of page.frames()) {
+        try {
+          const inp = f.locator(composer).first();
+          if (await inp.count().catch(() => 0)) {
+            await inp.click({ timeout: 3000 }).catch(() => {});
+            await inp.fill(text).catch(async () => { await inp.type(text).catch(() => {}); });
+            await inp.press("Enter").catch(() => {});
+            return;
+          }
+        } catch {}
+      }
+      await genericSendChat(page, text);
+    },
   },
   decagon: {
     // Decagon — enterprise AI support agent. Loader https://decagon.ai/loaders/<client>.js
@@ -903,7 +923,7 @@ export const STORES = [
   // Siena
   { key: "siena-simplemodern", vendor: "Siena", store: "Simple Modern", url: "https://www.simplemodern.com/products/mesa-loop-30oz-49", widget: "siena" },
   { key: "siena-figs",         vendor: "Siena", store: "FIGS",          url: "https://www.wearfigs.com/pages/men-home", widget: "siena" },
-  { key: "siena-jonesroad",    vendor: "Siena", store: "Jones Road",    url: "https://www.jonesroadbeauty.com/", widget: "siena", candidate: true },
+  { key: "siena-jonesroad",    wall: true, vendor: "Siena", store: "Jones Road",    url: "https://www.jonesroadbeauty.com/", widget: "siena", candidate: true },
 
   // Yuma (runs behind a helpdesk; 2nd drivable store TBD)
   { key: "yuma-evryjewels", vendor: "Yuma", store: "EvryJewels",       url: "https://evryjewels.com/",          widget: "yuma" }, // PURE Yuma store (no Gorgias) — widget uuid 1c068af4; bot-guard defeated by STEALTH webdriver=undefined
@@ -960,7 +980,7 @@ export const STORES = [
   { key: "sierra-thirdlove",  vendor: "Sierra", store: "ThirdLove",   url: "https://www.thirdlove.com/",  widget: "sierra" },          // sierra.chat + sierraConfig
   { key: "spiffy-carbahn",    vendor: "Envive", store: "CarBahn",     url: "https://carbahn.com/",        widget: "spiffy" },          // cdn.spiffy
   { key: "siena-superfoods",  vendor: "Siena",  store: "Superfoods Company", url: "https://superfoodscompany.com/", widget: "siena" }, // siena.cx
-  { key: "ada-simba",         vendor: "Ada",    store: "Simba Sleep", url: "https://simbasleep.com/",     widget: "ada", locale: "en-GB" }, // static.ada.support + adaEmbed
+  { key: "ada-simba",         wall: true, vendor: "Ada",    store: "Simba Sleep", url: "https://simbasleep.com/",     widget: "ada", locale: "en-GB" }, // static.ada.support + adaEmbed
   { key: "dg-organicbasics",  vendor: "DigitalGenius", store: "Organic Basics", url: "https://organicbasics.com/",     widget: "dg" },                    // digitalgenius.com
   { key: "dg-clubllondon",    vendor: "DigitalGenius", store: "Club L London",  url: "https://www.clubllondon.com/",   widget: "dg", locale: "en-GB" },   // digitalgenius.com
   { key: "dg-abbottlyon",     vendor: "DigitalGenius", store: "Abbott Lyon",    url: "https://www.abbottlyon.com/",    widget: "dg", locale: "en-GB" },   // digitalgenius.com
@@ -975,7 +995,7 @@ export const STORES = [
   // Yuma (runs behind Gorgias helpdesk → drive the Gorgias widget)
   // Zendesk AI — messaging widgets re-verified 2026-07-05 via ekr.zdassets.com/compose/<key>
   // (a `messenger` product block = live conversational widget, not a help-center form).
-  { key: "meta-cottonon",     vendor: "Zendesk",store: "Cotton On",   url: "https://cottonon.com/US/",    widget: "zendesk" }, // verified messenger. NOTE: Cotton On Group runs ONE deployment across cottonon/typo/factorie/supre — correlated, not independent samples.
+  { key: "meta-cottonon", wall: true,     vendor: "Zendesk",store: "Cotton On",   url: "https://cottonon.com/US/",    widget: "zendesk" }, // verified messenger. NOTE: Cotton On Group runs ONE deployment across cottonon/typo/factorie/supre — correlated, not independent samples.
   // quip (getquip.com) DROPPED 2026-07-05: dual-vendor page — Zendesk messenger AND a live Gorgias
   // chat install are both wired; ambiguous which widget a shopper gets, so its data can't be
   // attributed to a single vendor. Prior captures excluded from Zendesk aggregates via drop list.
@@ -1065,9 +1085,9 @@ export const STORES = [
   { key: "dg-drift", ecommerce: false,          vendor: "DigitalGenius", store: "Drift", url: "https://drift.co/",                widget: "dg" }, // DG_CHAT_WIDGET_CONFIG + chat.digitalgenius.com/init.js
   // Cotton On Group siblings (typo/factorie/supre + cottonon) share ONE Zendesk deployment — correlated
   // samples, not independent stores; keep for coverage but read as one deployment family.
-  { key: "meta-typo",         vendor: "Zendesk", store: "Typo",         url: "https://www.typo.com.au/",        widget: "zendesk", locale: "en-AU" }, // verified messenger (ekr compose)
-  { key: "meta-factorie",     vendor: "Zendesk", store: "Factorie",     url: "https://www.factorie.com.au/",    widget: "zendesk", locale: "en-AU" }, // verified messenger
-  { key: "meta-supre",        vendor: "Zendesk", store: "Supre",        url: "https://www.supre.com.au/",       widget: "zendesk", locale: "en-AU" }, // verified messenger
+  { key: "meta-typo", wall: true,         vendor: "Zendesk", store: "Typo",         url: "",        widget: "zendesk", locale: "en-AU" }, // verified messenger (ekr compose)
+  { key: "meta-factorie", wall: true,     vendor: "Zendesk", store: "Factorie",     url: "https://www.factorie.com.au/",    widget: "zendesk", locale: "en-AU" }, // verified messenger
+  { key: "meta-supre", wall: true,        vendor: "Zendesk", store: "Supre",        url: "https://www.supre.com.au/",       widget: "zendesk", locale: "en-AU" }, // verified messenger
   { key: "meta-puma",         vendor: "Zendesk", store: "PUMA",         url: "https://us.puma.com/",            widget: "zendesk" }, // verified messenger
   { key: "meta-publicrec",    vendor: "Zendesk", store: "Public Rec",   url: "https://publicrec.com/",          widget: "zendesk" }, // verified messenger (Intercom strings on page are inert data, no loader)
   // meta-saatva DROPPED 2026-07-05: no chat-vendor snippet in served HTML (help-center links only) — not drivable headlessly.
@@ -1114,7 +1134,7 @@ export const STORES = [
   { key: "decagon-oura",     vendor: "Decagon", store: "Oura",      url: "https://support.ouraring.com/",  widget: "decagon", us: true, candidate: true, modeUrl: { shopping: "https://ouraring.com/store/rings/oura-ring-5/silver" } }, // support desk on support.ouraring.com; SHOPPING agent lives on the store PDP (verified working 2026-07-14) — loader oura.js + #decagon-embed-container
   { key: "decagon-curology", vendor: "Decagon", store: "Curology",  url: "https://curology.com/",          widget: "decagon", us: true, candidate: true }, // #decagon-iframe site-wide
   { key: "decagon-bilt", ecommerce: false,     vendor: "Decagon", store: "Bilt",      url: "https://www.bilt.com/",           widget: "decagon", us: true, candidate: true }, // loader bilt.js embedded
-  { key: "decagon-quince",   vendor: "Decagon", store: "Quince",    url: "https://www.quince.com/",         widget: "decagon", us: true, candidate: true }, // "Chat provider":"Decagon"
+  { key: "decagon-quince",   wall: true, vendor: "Decagon", store: "Quince",    url: "https://www.quince.com/",         widget: "decagon", us: true, candidate: true }, // "Chat provider":"Decagon"
   { key: "decagon-substack", ecommerce: false, vendor: "Decagon", store: "Substack",  url: "https://substack.com/",           widget: "decagon", us: true, candidate: true }, // enable_decagon_chat:true
   { key: "decagon-hertz", ecommerce: false,    vendor: "Decagon", store: "Hertz",     url: "https://www.hertz.com/rentacar/misc/index.jsp?targetPage=contact_us.jsp", widget: "decagon", us: true, candidate: true }, // decagon.ai in CSP
   // Sourced 2026-07-15 via the StoreLeads API (f:tech=Decagon, f:p=shopify, f:ds=Active — 9
@@ -1141,23 +1161,23 @@ export const STORES = [
   // Fin is Intercom's default AI layer on top of the Messenger; whether it actually answers
   // cold is unconfirmed until the first capture (candidate:true), same standard as Decagon.
   { key: "intercom-avocado",    vendor: "Intercom", store: "Avocado Green Mattress", url: "https://www.avocadogreenmattress.com/", widget: "intercom", us: true, candidate: true, personas: ["AvoBot"] }, // app_id le9x6vbl + widget.intercom.io
-  { key: "intercom-public", ecommerce: false,     vendor: "Intercom", store: "Public.com",            url: "https://public.com/",                    widget: "intercom", us: true, candidate: true }, // widget.intercom.io on homepage
+  { key: "intercom-public", ecommerce: false, wall: true,     vendor: "Intercom", store: "Public.com",            url: "https://public.com/",                    widget: "intercom", us: true, candidate: true }, // widget.intercom.io on homepage
   { key: "intercom-kajabi", ecommerce: false,     vendor: "Intercom", store: "Kajabi",                url: "https://kajabi.com/",                    widget: "intercom", us: true, candidate: true }, // app_id gxun6ex4 + api-iam.intercom.io
   { key: "intercom-synthesia", ecommerce: false,  vendor: "Intercom", store: "Synthesia",             url: "https://help.synthesia.io/",             widget: "intercom", us: true, candidate: true }, // intercom-lightweight-app
-  { key: "intercom-ninety", ecommerce: false,     vendor: "Intercom", store: "Ninety",                url: "https://www.ninety.io/",                 widget: "intercom", us: true, candidate: true }, // app_id u6zkohf3 + widget.intercom.io
-  { key: "intercom-tado",       vendor: "Intercom", store: "tado°",                 url: "https://www.tado.com/",                  widget: "intercom", us: true, candidate: true }, // intercom-lightweight-app
+  { key: "intercom-ninety", ecommerce: false, wall: true,     vendor: "Intercom", store: "Ninety",                url: "https://www.ninety.io/",                 widget: "intercom", us: true, candidate: true }, // app_id u6zkohf3 + widget.intercom.io
+  { key: "intercom-tado", wall: true,       vendor: "Intercom", store: "tado°",                 url: "https://www.tado.com/",                  widget: "intercom", us: true, candidate: true }, // intercom-lightweight-app
   // E-commerce Intercom storefronts sourced 2026-07-14 (Intercom skews B2B; these are the rare
   // real merchants). Some run Intercom's "Fin for Ecommerce" Shopify app extension (dynamic —
   // may need a headed pass); capture will self-filter any that don't drive cold/headless.
   { key: "intercom-flaviar",       vendor: "Intercom", store: "Flaviar",         url: "https://flaviar.com/",           widget: "intercom", us: true, candidate: true, personas: ["Corky"] }, // Intercom( + intercomSettings; on Storeleads
-  { key: "intercom-pureelectric",  vendor: "Intercom", store: "Pure Electric",   url: "https://www.pureelectric.com/",  widget: "intercom", candidate: true },           // Fin-for-Ecommerce Shopify app extension
+  { key: "intercom-pureelectric", wall: true,  vendor: "Intercom", store: "Pure Electric",   url: "https://www.pureelectric.com/",  widget: "intercom", candidate: true },           // Fin-for-Ecommerce Shopify app extension
   // Solaris probe 2026-07-15 (tools/probe-fin2.mjs): NOT a driver bug — Fin here is a human
   // front door. T1 gets one canned reply, then "Give the team a way to reach you" + "Waiting
   // for a teammate" (out-of-hours human queue); T2 sends fine (visible in thread) but no AI
   // ever answers. Same family likely for Pure Electric/Goodbuy/Ritual (0-valid pattern).
   // Honest outcome = engaged-but-deflected; the balancer's strike system retires them.
-  { key: "intercom-solarisjapan",  vendor: "Intercom", store: "Solaris Japan",   url: "https://www.solarisjapan.com/",  widget: "intercom", candidate: true },           // same Fin-for-Ecommerce app extension
-  { key: "intercom-goodbuygear",   vendor: "Intercom", store: "Goodbuy Gear",    url: "https://www.goodbuygear.com/",   widget: "intercom", us: true, candidate: true }, // same Fin-for-Ecommerce app extension
+  { key: "intercom-solarisjapan", wall: true,  vendor: "Intercom", store: "Solaris Japan",   url: "https://www.solarisjapan.com/",  widget: "intercom", candidate: true },           // same Fin-for-Ecommerce app extension
+  { key: "intercom-goodbuygear", wall: true,   vendor: "Intercom", store: "Goodbuy Gear",    url: "https://www.goodbuygear.com/",   widget: "intercom", us: true, candidate: true }, // same Fin-for-Ecommerce app extension
   // Ninja Transfers probe 2026-07-15 (tools/probe-nt.mjs): the live chat is NEITHER Intercom
   // NOR Klaviyo — it's a proprietary printflyone.com/p/chat iframe (their in-house platform).
   // No standard driver applies; 0/10 under both. Needs a custom driver (backlog) — url kept
@@ -1169,7 +1189,7 @@ export const STORES = [
   // both modes for each). Gymshark was the ORIGINAL target store from this vendor's initial
   // brief. Ritual is a confirmed structural wall (0/20 timed turns, retested).
   { key: "intercom-gymshark", vendor: "Intercom", store: "Gymshark", url: "https://www.gymshark.com/", widget: "intercom", us: true, candidate: true }, // athleticwear DTC, $35M/mo est. sales (Storeleads)
-  { key: "intercom-ritual",   vendor: "Intercom", store: "Ritual",   url: "https://ritual.com/",       widget: "intercom", us: true, candidate: true }, // supplements DTC — wall: 0/20 timed turns
+  { key: "intercom-ritual",   wall: true, vendor: "Intercom", store: "Ritual",   url: "https://ritual.com/",       widget: "intercom", us: true, candidate: true }, // supplements DTC — wall: 0/20 timed turns
 ];
 
 // Find a frame by element id / title / name / url. `match` may be a string

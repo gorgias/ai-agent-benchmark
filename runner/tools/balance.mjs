@@ -48,6 +48,11 @@ const byV = {};
 for (const s of STORES) {
   if (EXCLUDE.has(s.vendor)) continue;
   if (INCLUDE.length && !INCLUDE.includes(s.vendor)) continue;
+  // Never burn budget on stores that can't reach the board (audit 2026-07-16: Bilt/Hertz/
+  // Substack alone ate ~40 attempts over 7 days for 0 board-eligible convs):
+  if (!s.url) continue;                    // placeholder / retired rows
+  if (s.ecommerce === false) continue;     // excluded from the board by the e-commerce-only rule
+  if (s.wall) continue;                    // probed structural wall (recaptcha, human front door…)
   (byV[s.vendor] = byV[s.vendor] || []).push(s);
 }
 
