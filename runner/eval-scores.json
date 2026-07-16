@@ -452597,5 +452597,2913 @@
    "runner": "eval-merge.js",
    "schema": 1
   }
+ },
+ "2026-07-15/meta-blundstone-shopping-beginner.json": {
+  "v": 2,
+  "mode": "shopping",
+  "rubric": {
+   "answer": 23,
+   "discovery": 5,
+   "recommendation": 22,
+   "rich": 0,
+   "close": 0
+  },
+  "total": 50,
+  "checks": {
+   "a_direct": {
+    "pass": true,
+    "evidence": "For a first-timer, the Originals Series is the safest, easiest choice."
+   },
+   "a_consistent": {
+    "pass": true,
+    "evidence": "you can return them within 30 days of purchase/order for a free refund"
+   },
+   "a_no_ignored": {
+    "pass": false,
+    "evidence": "Turn 'Okay, add your beginner recommendation to my cart, what's the total?' got reply \"\" (and 3 other turns also empty)."
+   },
+   "d_clarify": {
+    "pass": false,
+    "evidence": "Opener 'don't know where to start, can you guide me?' answered with a generic tool/policy list, no clarifying question asked."
+   },
+   "d_progressive": {
+    "pass": false,
+    "evidence": "Turn 4's 'don't overpay' reply repeats the same Originals pitch (breathable leather, versatile) without addressing price/value at all."
+   },
+   "d_not_dump": {
+    "pass": true,
+    "evidence": "Find your size: Use the True Fit \"Find My Size\" tool on any product page for a personalized size recommendation."
+   },
+   "r_named": {
+    "pass": true,
+    "evidence": "our Originals Series (e.g., #500/#510)"
+   },
+   "r_fit": {
+    "pass": true,
+    "evidence": "For a first-timer, the Originals Series is the safest, easiest choice."
+   },
+   "r_plausible": {
+    "pass": true,
+    "evidence": "Originals Series: Classic everyday boots, unlined, true to size, snugger fit."
+   },
+   "e_price": {
+    "pass": false,
+    "evidence": "signal has_price=false; no price gate available"
+   },
+   "e_link": {
+    "pass": false,
+    "evidence": "signal has_link=false"
+   },
+   "e_reviews": {
+    "pass": false,
+    "evidence": "signal has_reviews=false"
+   },
+   "e_options": {
+    "pass": false,
+    "evidence": "signal has_options=false"
+   },
+   "c_cta": {
+    "pass": false,
+    "evidence": "Conversation ends on an unanswered turn ('Confirm my total and the delivery estimate?', reply \"\"); no next step given."
+   },
+   "c_cart": {
+    "pass": false,
+    "evidence": "\"Okay, add your beginner recommendation to my cart, what's the total?\" received reply \"\" — explicit cart request unfulfilled."
+   },
+   "c_clean": {
+    "pass": false,
+    "evidence": "Final turn 'Confirm my total and the delivery estimate?' left with reply \"\" — dangling close."
+   }
+  },
+  "turn_quality": {
+   "schema": 1,
+   "turns": [
+    {
+     "turn": 1,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 11167,
+     "answer_chars": 655,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 1,
+      "ratio": 0.2,
+      "missing": [
+       "completely",
+       "new",
+       "don",
+       "start"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "clarifying_question"
+     ]
+    },
+    {
+     "turn": 2,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 12142,
+     "answer_chars": 1131,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 3,
+      "ratio": 0.6,
+      "missing": [
+       "explain",
+       "terms"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 3,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 11159,
+     "answer_chars": 360,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 5,
+      "ratio": 0.83,
+      "missing": [
+       "like"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 4,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 10190,
+     "answer_chars": 477,
+     "keyword_coverage": {
+      "asked": 9,
+      "matched": 2,
+      "ratio": 0.22,
+      "missing": [
+       "don",
+       "want",
+       "overpay",
+       "while",
+       "still",
+       "learning",
+       "good"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 5,
+     "measured": false,
+     "by": "ai",
+     "complete_ms": null,
+     "answer_chars": 75,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "beginners",
+       "usually",
+       "say",
+       "about",
+       "reviews"
+      ]
+     },
+     "substantive": false,
+     "flags": [
+      "no_measured_answer",
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 6,
+     "measured": false,
+     "by": "ai",
+     "complete_ms": null,
+     "answer_chars": 75,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 1,
+      "ratio": 0.14,
+      "missing": [
+       "there",
+       "anything",
+       "else",
+       "beginner",
+       "needs",
+       "started"
+      ]
+     },
+     "substantive": false,
+     "flags": [
+      "no_measured_answer",
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 7,
+     "measured": false,
+     "by": "ai",
+     "complete_ms": null,
+     "answer_chars": 75,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "okay",
+       "add",
+       "beginner",
+       "recommendation",
+       "cart",
+       "total"
+      ]
+     },
+     "substantive": false,
+     "flags": [
+      "no_measured_answer",
+      "low_question_coverage",
+      "purchase_request_unfulfilled"
+     ]
+    },
+    {
+     "turn": 8,
+     "measured": false,
+     "by": "ai",
+     "complete_ms": null,
+     "answer_chars": 75,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "use",
+       "properly",
+       "very",
+       "first",
+       "time"
+      ]
+     },
+     "substantive": false,
+     "flags": [
+      "no_measured_answer",
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 9,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 11052,
+     "answer_chars": 381,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 3,
+      "ratio": 0.5,
+      "missing": [
+       "policy",
+       "turns",
+       "out"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 10,
+     "measured": false,
+     "by": "ai",
+     "complete_ms": null,
+     "answer_chars": 75,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "confirm",
+       "total",
+       "delivery",
+       "estimate"
+      ]
+     },
+     "substantive": false,
+     "flags": [
+      "no_measured_answer",
+      "low_question_coverage",
+      "purchase_request_unfulfilled"
+     ]
+    }
+   ],
+   "summary": {
+    "total_turns": 10,
+    "measured_turns": 5,
+    "substantive_turns": 5,
+    "issue_turns": 7,
+    "issue_rate": 0.7
+   }
+  },
+  "resolution_class": "partial",
+  "learning": "Gives substantive beginner guidance and a well-reasoned starter recommendation, but silently drops nearly half the turns, including the explicit add-to-cart request.",
+  "judged_at": null,
+  "judge": {
+   "origin": "claude",
+   "origin_explicit": false,
+   "runner": "eval-merge.js",
+   "schema": 1
+  }
+ },
+ "2026-07-15/meta-blundstone-shopping-compare-budget.json": {
+  "v": 2,
+  "mode": "shopping",
+  "rubric": {
+   "answer": 23,
+   "discovery": 12,
+   "recommendation": 22,
+   "rich": 0,
+   "close": 2
+  },
+  "total": 59,
+  "checks": {
+   "a_direct": {
+    "pass": true,
+    "evidence": "we'd generally steer you toward the Classics Series."
+   },
+   "a_consistent": {
+    "pass": true,
+    "evidence": "For eligible purchases between $30–$1,500, you can split your order into 4 interest‑free, bi‑weekly payments with no late fees."
+   },
+   "a_no_ignored": {
+    "pass": false,
+    "evidence": "\"Show me your two best value-for-money options and compare them.\" got reply \"\" (2 other turns also empty)."
+   },
+   "d_clarify": {
+    "pass": false,
+    "evidence": "Opener 'money's a bit tight, can you help me choose?' answered with payment-plan info, no clarifying question about budget amount or needs."
+   },
+   "d_progressive": {
+    "pass": true,
+    "evidence": "So the cheaper pair is fine for general use, while the pricier pair is usually worth it if you want added comfort and space for long wear."
+   },
+   "d_not_dump": {
+    "pass": true,
+    "evidence": "Payment methods: We accept Visa, MasterCard, Amex, Discover, and PayPal."
+   },
+   "r_named": {
+    "pass": true,
+    "evidence": "we'd generally steer you toward the Classics Series."
+   },
+   "r_fit": {
+    "pass": true,
+    "evidence": "You're not paying top dollar for dress styling, but you get upgraded comfort over the Originals."
+   },
+   "r_plausible": {
+    "pass": true,
+    "evidence": "Leather-lined for extra comfort and warmth Roomier fit with extra footbeds to fine‑tune sizing"
+   },
+   "e_price": {
+    "pass": false,
+    "evidence": "No dollar price is ever attached to the Classics/Originals recommendation itself, only Pay-in-4 thresholds ($30–$1,500) and shipping ($75)."
+   },
+   "e_link": {
+    "pass": false,
+    "evidence": "signal has_link=false"
+   },
+   "e_reviews": {
+    "pass": false,
+    "evidence": "signal has_reviews=false"
+   },
+   "e_options": {
+    "pass": false,
+    "evidence": "signal has_options=false"
+   },
+   "c_cta": {
+    "pass": false,
+    "evidence": "Conversation ends confirming shipping speed only; no concrete next step for completing the purchase."
+   },
+   "c_cart": {
+    "pass": false,
+    "evidence": "\"Add that one to my cart and tell me the total with any discount.\" received reply \"\" — explicit cart/total request unfulfilled."
+   },
+   "c_clean": {
+    "pass": true,
+    "evidence": "the fastest available method is Urgent shipping, estimated to arrive in 1–2 business days"
+   }
+  },
+  "turn_quality": {
+   "schema": 1,
+   "turns": [
+    {
+     "turn": 1,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 10313,
+     "answer_chars": 622,
+     "keyword_coverage": {
+      "asked": 8,
+      "matched": 3,
+      "ratio": 0.38,
+      "missing": [
+       "deciding",
+       "few",
+       "options",
+       "bit",
+       "choose"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 2,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 10027,
+     "answer_chars": 406,
+     "keyword_coverage": {
+      "asked": 8,
+      "matched": 2,
+      "ratio": 0.25,
+      "missing": [
+       "want",
+       "bang",
+       "buck",
+       "cheapest",
+       "most",
+       "expensive"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 3,
+     "measured": false,
+     "by": "ai",
+     "complete_ms": null,
+     "answer_chars": 75,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "show",
+       "two",
+       "best",
+       "value",
+       "money",
+       "options",
+       "compare"
+      ]
+     },
+     "substantive": false,
+     "flags": [
+      "no_measured_answer",
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 4,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 12864,
+     "answer_chars": 595,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 5,
+      "ratio": 0.71,
+      "missing": [
+       "honestly",
+       "one"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 5,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 11595,
+     "answer_chars": 1093,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 2,
+      "ratio": 0.29,
+      "missing": [
+       "there",
+       "any",
+       "promos",
+       "bundles",
+       "ways"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 6,
+     "measured": false,
+     "by": "ai",
+     "complete_ms": null,
+     "answer_chars": 3342,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 1,
+      "ratio": 0.2,
+      "missing": [
+       "which",
+       "would",
+       "personally",
+       "pick"
+      ]
+     },
+     "substantive": false,
+     "flags": [
+      "no_measured_answer",
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 7,
+     "measured": false,
+     "by": "ai",
+     "complete_ms": null,
+     "answer_chars": 75,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 1,
+      "ratio": 0.14,
+      "missing": [
+       "add",
+       "one",
+       "cart",
+       "total",
+       "any",
+       "discount"
+      ]
+     },
+     "substantive": false,
+     "flags": [
+      "no_measured_answer",
+      "low_question_coverage",
+      "purchase_request_unfulfilled"
+     ]
+    },
+    {
+     "turn": 8,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 9878,
+     "answer_chars": 294,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 3,
+      "ratio": 0.6,
+      "missing": [
+       "one",
+       "pricier"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 9,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 9935,
+     "answer_chars": 320,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 2,
+      "ratio": 0.5,
+      "missing": [
+       "installments",
+       "payment"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 10,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 10151,
+     "answer_chars": 365,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 4,
+      "ratio": 0.8,
+      "missing": [
+       "option"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    }
+   ],
+   "summary": {
+    "total_turns": 10,
+    "measured_turns": 7,
+    "substantive_turns": 7,
+    "issue_turns": 5,
+    "issue_rate": 0.5
+   }
+  },
+  "resolution_class": "partial",
+  "learning": "Handles the value-comparison reasoning well but repeatedly ignores or fails to fulfill the explicit add-to-cart/total request.",
+  "judged_at": null,
+  "judge": {
+   "origin": "claude",
+   "origin_explicit": false,
+   "runner": "eval-merge.js",
+   "schema": 1
+  }
+ },
+ "2026-07-15/meta-blundstone-shopping-everyday-value.json": {
+  "v": 2,
+  "mode": "shopping",
+  "rubric": {
+   "answer": 23,
+   "discovery": 20,
+   "recommendation": 22,
+   "rich": 0,
+   "close": 7
+  },
+  "total": 72,
+  "checks": {
+   "a_direct": {
+    "pass": true,
+    "evidence": "For everyday use with strong quality and good value, our Originals Series is likely the best match."
+   },
+   "a_consistent": {
+    "pass": true,
+    "evidence": "within 2 years of purchase, you can submit a warranty claim for assessment and potential replacement"
+   },
+   "a_no_ignored": {
+    "pass": false,
+    "evidence": "\"Okay, can you add your top recommendation to my cart?\" got reply \"\"."
+   },
+   "d_clarify": {
+    "pass": true,
+    "evidence": "If you share what styles you like, how you prefer your boots to fit (snug vs roomy), and whether you'll use them for work, casual wear, or travel, we can narrow"
+   },
+   "d_progressive": {
+    "pass": true,
+    "evidence": "For everyday use with strong quality and good value, our Originals Series is likely the best match."
+   },
+   "d_not_dump": {
+    "pass": true,
+    "evidence": "If you share what styles you like... we can narrow things down further based only on this information."
+   },
+   "r_named": {
+    "pass": true,
+    "evidence": "our Originals Series is likely the best match."
+   },
+   "r_fit": {
+    "pass": true,
+    "evidence": "They're built to last and designed as all-rounders, maximizing value for money."
+   },
+   "r_plausible": {
+    "pass": true,
+    "evidence": "Durable 2.5mm premium leather, unlined for breathability"
+   },
+   "e_price": {
+    "pass": false,
+    "evidence": "No concrete dollar price is attached to the Originals/Classics recommendation anywhere in the transcript."
+   },
+   "e_link": {
+    "pass": false,
+    "evidence": "signal has_link=false"
+   },
+   "e_reviews": {
+    "pass": false,
+    "evidence": "signal has_reviews=false"
+   },
+   "e_options": {
+    "pass": false,
+    "evidence": "signal has_options=false"
+   },
+   "c_cta": {
+    "pass": true,
+    "evidence": "Go to our online returns portal Enter your order number and email Follow the prompts to generate your return and refund"
+   },
+   "c_cart": {
+    "pass": false,
+    "evidence": "\"Okay, can you add your top recommendation to my cart?\" received reply \"\" — explicit cart request unfulfilled."
+   },
+   "c_clean": {
+    "pass": true,
+    "evidence": "Returns are processed after the boots reach us."
+   }
+  },
+  "turn_quality": {
+   "schema": 1,
+   "turns": [
+    {
+     "turn": 1,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 11788,
+     "answer_chars": 1144,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 2,
+      "ratio": 0.4,
+      "missing": [
+       "shopping",
+       "not",
+       "sure"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "clarifying_question"
+     ]
+    },
+    {
+     "turn": 2,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 10140,
+     "answer_chars": 377,
+     "keyword_coverage": {
+      "asked": 10,
+      "matched": 6,
+      "ratio": 0.6,
+      "missing": [
+       "want",
+       "something",
+       "care",
+       "about"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 3,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 14305,
+     "answer_chars": 384,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 4,
+      "ratio": 0.57,
+      "missing": [
+       "like",
+       "stay",
+       "within"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 4,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 13454,
+     "answer_chars": 1358,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 6,
+      "ratio": 0.86,
+      "missing": [
+       "better"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "clarifying_question"
+     ]
+    },
+    {
+     "turn": 5,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 9881,
+     "answer_chars": 348,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 5,
+      "ratio": 0.71,
+      "missing": [
+       "which",
+       "one"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 6,
+     "measured": false,
+     "by": "ai",
+     "complete_ms": null,
+     "answer_chars": 75,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "okay",
+       "add",
+       "top",
+       "recommendation",
+       "cart"
+      ]
+     },
+     "substantive": false,
+     "flags": [
+      "no_measured_answer",
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 7,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 10623,
+     "answer_chars": 351,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 7,
+      "ratio": 1,
+      "missing": []
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 8,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 9489,
+     "answer_chars": 339,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 1,
+      "ratio": 0.17,
+      "missing": [
+       "there",
+       "guarantee",
+       "something",
+       "goes",
+       "wrong"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 9,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 9430,
+     "answer_chars": 390,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 1,
+      "ratio": 0.2,
+      "missing": [
+       "long",
+       "will",
+       "take",
+       "roughly"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 10,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 9912,
+     "answer_chars": 328,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 2,
+      "ratio": 0.5,
+      "missing": [
+       "change",
+       "mind"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    }
+   ],
+   "summary": {
+    "total_turns": 10,
+    "measured_turns": 9,
+    "substantive_turns": 9,
+    "issue_turns": 5,
+    "issue_rate": 0.5
+   }
+  },
+  "resolution_class": "partial",
+  "learning": "Strong discovery (asks a relevant clarifying question and builds on stated needs) undercut by ignoring the explicit add-to-cart request.",
+  "judged_at": null,
+  "judge": {
+   "origin": "claude",
+   "origin_explicit": false,
+   "runner": "eval-merge.js",
+   "schema": 1
+  }
+ },
+ "2026-07-15/meta-blundstone-shopping-gift.json": {
+  "v": 2,
+  "mode": "shopping",
+  "rubric": {
+   "answer": 23,
+   "discovery": 12,
+   "recommendation": 22,
+   "rich": 0,
+   "close": 0
+  },
+  "total": 57,
+  "checks": {
+   "a_direct": {
+    "pass": true,
+    "evidence": "For someone who appreciates quality but isn't fussy and will actually use the boots, we'd suggest: Originals Series"
+   },
+   "a_consistent": {
+    "pass": true,
+    "evidence": "free UPS Ground shipping on orders over $75 (contiguous U.S.)"
+   },
+   "a_no_ignored": {
+    "pass": false,
+    "evidence": "\"Hi! I'm looking for a gift for someone and I'm not sure what to pick, can you help?\" got reply \"\" — the opener itself went unanswered."
+   },
+   "d_clarify": {
+    "pass": false,
+    "evidence": "The broad gift opener received no reply at all, so no clarifying question was ever asked."
+   },
+   "d_progressive": {
+    "pass": true,
+    "evidence": "Ideal for everyday wear and light outdoor or DIY use—simple, durable, and low‑maintenance without extra features they may not care about."
+   },
+   "d_not_dump": {
+    "pass": true,
+    "evidence": "Originals Series: unlined, breathable 2.5mm premium leather, durable TPU sole, true-to-size snug fit."
+   },
+   "r_named": {
+    "pass": true,
+    "evidence": "Originals Series: unlined, breathable 2.5mm premium leather"
+   },
+   "r_fit": {
+    "pass": true,
+    "evidence": "Ideal for everyday wear and light outdoor or DIY use—simple, durable, and low‑maintenance without extra features they may not care about."
+   },
+   "r_plausible": {
+    "pass": true,
+    "evidence": "durable TPU sole, true-to-size snug fit."
+   },
+   "e_price": {
+    "pass": false,
+    "evidence": "No dollar price is attached to the gift recommendation; only the $75 free-shipping threshold is mentioned."
+   },
+   "e_link": {
+    "pass": false,
+    "evidence": "signal has_link=false"
+   },
+   "e_reviews": {
+    "pass": false,
+    "evidence": "signal has_reviews=false"
+   },
+   "e_options": {
+    "pass": false,
+    "evidence": "signal has_options=false"
+   },
+   "c_cta": {
+    "pass": false,
+    "evidence": "Conversation ends on a discount question with no next step offered."
+   },
+   "c_cart": {
+    "pass": false,
+    "evidence": "\"Great, add your top gift pick to my cart and tell me the total.\" received reply \"\" — explicit cart request unfulfilled."
+   },
+   "c_clean": {
+    "pass": false,
+    "evidence": "\"Can you include a gift message or a gift receipt?\" got reply \"\" and was never revisited, leaving it dangling."
+   }
+  },
+  "turn_quality": {
+   "schema": 1,
+   "turns": [
+    {
+     "turn": 1,
+     "measured": false,
+     "by": "ai",
+     "complete_ms": null,
+     "answer_chars": 75,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "looking",
+       "gift",
+       "someone",
+       "not",
+       "sure",
+       "pick"
+      ]
+     },
+     "substantive": false,
+     "flags": [
+      "no_measured_answer",
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 2,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 9733,
+     "answer_chars": 387,
+     "keyword_coverage": {
+      "asked": 10,
+      "matched": 7,
+      "ratio": 0.7,
+      "missing": [
+       "likes",
+       "want",
+       "something"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 3,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 10516,
+     "answer_chars": 458,
+     "keyword_coverage": {
+      "asked": 8,
+      "matched": 4,
+      "ratio": 0.5,
+      "missing": [
+       "would",
+       "make",
+       "good",
+       "that"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 4,
+     "measured": false,
+     "by": "ai",
+     "complete_ms": null,
+     "answer_chars": 75,
+     "keyword_coverage": {
+      "asked": 9,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "between",
+       "top",
+       "two",
+       "gift",
+       "ideas",
+       "which",
+       "feels",
+       "more"
+      ]
+     },
+     "substantive": false,
+     "flags": [
+      "no_measured_answer",
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 5,
+     "measured": false,
+     "by": "ai",
+     "complete_ms": null,
+     "answer_chars": 75,
+     "keyword_coverage": {
+      "asked": 10,
+      "matched": 1,
+      "ratio": 0.1,
+      "missing": [
+       "there",
+       "gift",
+       "set",
+       "bundle",
+       "looks",
+       "nicer",
+       "than",
+       "single"
+      ]
+     },
+     "substantive": false,
+     "flags": [
+      "no_measured_answer",
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 6,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 10125,
+     "answer_chars": 400,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 3,
+      "ratio": 0.6,
+      "missing": [
+       "arrive",
+       "fast"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 7,
+     "measured": false,
+     "by": "ai",
+     "complete_ms": null,
+     "answer_chars": 75,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "great",
+       "add",
+       "top",
+       "gift",
+       "pick",
+       "cart",
+       "total"
+      ]
+     },
+     "substantive": false,
+     "flags": [
+      "no_measured_answer",
+      "low_question_coverage",
+      "purchase_request_unfulfilled"
+     ]
+    },
+    {
+     "turn": 8,
+     "measured": false,
+     "by": "ai",
+     "complete_ms": null,
+     "answer_chars": 75,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "include",
+       "gift",
+       "message",
+       "receipt"
+      ]
+     },
+     "substantive": false,
+     "flags": [
+      "no_measured_answer",
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 9,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 10062,
+     "answer_chars": 340,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 1,
+      "ratio": 0.17,
+      "missing": [
+       "they",
+       "exchange",
+       "would",
+       "that",
+       "work"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 10,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 9796,
+     "answer_chars": 319,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 4,
+      "ratio": 0.67,
+      "missing": [
+       "any",
+       "add"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    }
+   ],
+   "summary": {
+    "total_turns": 10,
+    "measured_turns": 5,
+    "substantive_turns": 5,
+    "issue_turns": 6,
+    "issue_rate": 0.6
+   }
+  },
+  "resolution_class": "partial",
+  "learning": "Recommendation quality is solid when it responds, but the assistant never answers the opening ask itself and drops half the shopper's turns, including the cart request.",
+  "judged_at": null,
+  "judge": {
+   "origin": "claude",
+   "origin_explicit": false,
+   "runner": "eval-merge.js",
+   "schema": 1
+  }
+ },
+ "2026-07-15/meta-blundstone-shopping-problem-solver.json": {
+  "v": 2,
+  "mode": "shopping",
+  "rubric": {
+   "answer": 23,
+   "discovery": 5,
+   "recommendation": 0,
+   "rich": 0,
+   "close": 0
+  },
+  "total": 28,
+  "checks": {
+   "a_direct": {
+    "pass": true,
+    "evidence": "We pride ourselves on the durability of our boots and accessories and have stood behind them since 1870."
+   },
+   "a_consistent": {
+    "pass": true,
+    "evidence": "You have 60 minutes after placing your order to cancel via the link in your confirmation email or through My Account."
+   },
+   "a_no_ignored": {
+    "pass": false,
+    "evidence": "\"Which of your products is best for that, and why is it a good fit?\" got reply \"\" (3 other turns also empty)."
+   },
+   "d_clarify": {
+    "pass": false,
+    "evidence": "\"I have a specific need\" was never clarified — the reply jumped straight to generic sizing-tool guidance without asking what the need is."
+   },
+   "d_progressive": {
+    "pass": false,
+    "evidence": "The one turn that could have built a profile — 'which product is best for that' — was left with reply \"\", so no narrowing to an actual pick ever happens."
+   },
+   "d_not_dump": {
+    "pass": true,
+    "evidence": "Use True Fit/Find My Size on any product page for a personalized size recommendation."
+   },
+   "r_named": {
+    "pass": false,
+    "evidence": "No specific boot is ever recommended for the stated need; only an unrelated care product ('the store Renovating Cream') is named for pairing."
+   },
+   "r_fit": {
+    "pass": false,
+    "evidence": "No recommendation exists to tie to the shopper's stated quality concern; the core 'which product' question was left unanswered."
+   },
+   "r_plausible": {
+    "pass": false,
+    "evidence": "No product recommendation was ever made to evaluate for plausibility."
+   },
+   "e_price": {
+    "pass": false,
+    "evidence": "signal has_price=false"
+   },
+   "e_link": {
+    "pass": false,
+    "evidence": "signal has_link=false"
+   },
+   "e_reviews": {
+    "pass": false,
+    "evidence": "signal has_reviews=false"
+   },
+   "e_options": {
+    "pass": false,
+    "evidence": "signal has_options=false"
+   },
+   "c_cta": {
+    "pass": false,
+    "evidence": "Final reply only explains generic order-confirmation email process; no next step tied to actually choosing or buying a product."
+   },
+   "c_cart": {
+    "pass": false,
+    "evidence": "\"Okay, I'm convinced, add your recommendation and give me the total.\" received reply \"\" — unfulfilled, and no recommendation had even been given."
+   },
+   "c_clean": {
+    "pass": false,
+    "evidence": "\"Is there a subscription or refill option?\" got reply \"\" and was never revisited."
+   }
+  },
+  "turn_quality": {
+   "schema": 1,
+   "turns": [
+    {
+     "turn": 1,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 10265,
+     "answer_chars": 485,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 1,
+      "ratio": 0.14,
+      "missing": [
+       "specific",
+       "worried",
+       "about",
+       "picking",
+       "wrong",
+       "thing"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 2,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 9581,
+     "answer_chars": 355,
+     "keyword_coverage": {
+      "asked": 8,
+      "matched": 6,
+      "ratio": 0.75,
+      "missing": [
+       "really",
+       "matters"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 3,
+     "measured": false,
+     "by": "ai",
+     "complete_ms": null,
+     "answer_chars": 75,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 1,
+      "ratio": 0.14,
+      "missing": [
+       "which",
+       "products",
+       "best",
+       "why",
+       "good",
+       "fit"
+      ]
+     },
+     "substantive": false,
+     "flags": [
+      "no_measured_answer",
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 4,
+     "measured": false,
+     "by": "ai",
+     "complete_ms": null,
+     "answer_chars": 75,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "other",
+       "customers",
+       "say",
+       "their",
+       "reviews",
+       "actually",
+       "hold"
+      ]
+     },
+     "substantive": false,
+     "flags": [
+      "no_measured_answer",
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 5,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 10846,
+     "answer_chars": 548,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 4,
+      "ratio": 0.57,
+      "missing": [
+       "there",
+       "anything",
+       "pair"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "clarifying_question"
+     ]
+    },
+    {
+     "turn": 6,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 9810,
+     "answer_chars": 425,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 3,
+      "ratio": 0.75,
+      "missing": [
+       "doesn"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 7,
+     "measured": false,
+     "by": "ai",
+     "complete_ms": null,
+     "answer_chars": 75,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "okay",
+       "convinced",
+       "add",
+       "recommendation",
+       "give",
+       "total"
+      ]
+     },
+     "substantive": false,
+     "flags": [
+      "no_measured_answer",
+      "low_question_coverage",
+      "purchase_request_unfulfilled"
+     ]
+    },
+    {
+     "turn": 8,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 9976,
+     "answer_chars": 400,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 5,
+      "ratio": 1,
+      "missing": []
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 9,
+     "measured": false,
+     "by": "ai",
+     "complete_ms": null,
+     "answer_chars": 75,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "there",
+       "subscription",
+       "refill",
+       "option"
+      ]
+     },
+     "substantive": false,
+     "flags": [
+      "no_measured_answer",
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 10,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 10200,
+     "answer_chars": 543,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 2,
+      "ratio": 0.5,
+      "missing": [
+       "will",
+       "arrive"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "missing_timeframe"
+     ]
+    }
+   ],
+   "summary": {
+    "total_turns": 10,
+    "measured_turns": 6,
+    "substantive_turns": 6,
+    "issue_turns": 7,
+    "issue_rate": 0.7
+   }
+  },
+  "resolution_class": "failed",
+  "learning": "Never actually answers the shopper's central 'which product fits my need' question, then also fails to fulfill the resulting cart request.",
+  "judged_at": null,
+  "judge": {
+   "origin": "claude",
+   "origin_explicit": false,
+   "runner": "eval-merge.js",
+   "schema": 1
+  }
+ },
+ "2026-07-15/meta-blundstone-support-damaged.json": {
+  "v": 2,
+  "mode": "support",
+  "rubric": {
+   "resolution": 28,
+   "accuracy": 25,
+   "actionability": 12,
+   "close": 8
+  },
+  "total": 73,
+  "checks": {
+   "s_answered": {
+    "pass": true,
+    "evidence": "please use this assistance link to get help with your order: https://assist.narvar.com/the store/assist#/orderlookup"
+   },
+   "s_outcome": {
+    "pass": false,
+    "evidence": "\"Do you need photos, and where do I send them?\" got reply \"\" — a directly relevant sub-question left with no answer or handover."
+   },
+   "s_no_deflect": {
+    "pass": true,
+    "evidence": "For a normal return, boots must be in their original, unworn condition, in the original shoe box and shipping carton, and returned within 30 days for a refund"
+   },
+   "g_specific": {
+    "pass": true,
+    "evidence": "our team reviews all warranty claims within 5 business days."
+   },
+   "g_consistent": {
+    "pass": true,
+    "evidence": "Warranty/manufacturing fault: If, after assessment, we find a manufacturing fault, we will replace the product."
+   },
+   "g_grounded": {
+    "pass": true,
+    "evidence": "please use this assistance link to get help with your order: https://assist.narvar.com/the store/assist#/orderlookup"
+   },
+   "t_steps": {
+    "pass": true,
+    "evidence": "Same order: Multiple pairs from a single order can all be sent back using one return label."
+   },
+   "t_complete": {
+    "pass": false,
+    "evidence": "\"Do you need photos, and where do I send them?\" got reply \"\" — this part of the damaged-item process is never covered."
+   },
+   "k_expectations": {
+    "pass": true,
+    "evidence": "our team reviews all warranty claims within 5 business days."
+   },
+   "k_clean": {
+    "pass": false,
+    "evidence": "\"Can I keep the damaged item or must I ship it back?\" got reply \"\" and is never resolved by the end of the conversation."
+   }
+  },
+  "turn_quality": {
+   "schema": 1,
+   "turns": [
+    {
+     "turn": 1,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 9695,
+     "answer_chars": 362,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 4,
+      "ratio": 0.8,
+      "missing": [
+       "one"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 2,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 9247,
+     "answer_chars": 446,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 6,
+      "ratio": 1,
+      "missing": []
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 3,
+     "measured": false,
+     "by": "ai",
+     "complete_ms": null,
+     "answer_chars": 75,
+     "keyword_coverage": {
+      "asked": 3,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "need",
+       "photos",
+       "send"
+      ]
+     },
+     "substantive": false,
+     "flags": [
+      "no_measured_answer",
+      "low_question_coverage",
+      "missing_contact_path"
+     ]
+    },
+    {
+     "turn": 4,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 11674,
+     "answer_chars": 514,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 2,
+      "ratio": 0.5,
+      "missing": [
+       "get",
+       "replacement"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 5,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 10096,
+     "answer_chars": 396,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 4,
+      "ratio": 0.8,
+      "missing": [
+       "anything"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 6,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 9565,
+     "answer_chars": 246,
+     "keyword_coverage": {
+      "asked": 3,
+      "matched": 1,
+      "ratio": 0.33,
+      "missing": [
+       "long",
+       "take"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 7,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 11292,
+     "answer_chars": 494,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 6,
+      "ratio": 1,
+      "missing": []
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 8,
+     "measured": false,
+     "by": "ai",
+     "complete_ms": null,
+     "answer_chars": 75,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "keep",
+       "damaged",
+       "item",
+       "must",
+       "ship",
+       "back"
+      ]
+     },
+     "substantive": false,
+     "flags": [
+      "no_measured_answer",
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 9,
+     "measured": false,
+     "by": "ai",
+     "complete_ms": null,
+     "answer_chars": 75,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "will",
+       "replacement",
+       "ship",
+       "priority"
+      ]
+     },
+     "substantive": false,
+     "flags": [
+      "no_measured_answer",
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 10,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 10987,
+     "answer_chars": 472,
+     "keyword_coverage": {
+      "asked": 3,
+      "matched": 3,
+      "ratio": 1,
+      "missing": []
+     },
+     "substantive": true,
+     "flags": []
+    }
+   ],
+   "summary": {
+    "total_turns": 10,
+    "measured_turns": 7,
+    "substantive_turns": 7,
+    "issue_turns": 4,
+    "issue_rate": 0.4
+   }
+  },
+  "resolution_class": "partial",
+  "learning": "Gives specific, store-grounded policy detail on the damaged-item process but silently skips several directly relevant follow-ups (photo submission, whether to keep the item).",
+  "judged_at": null,
+  "judge": {
+   "origin": "claude",
+   "origin_explicit": false,
+   "runner": "eval-merge.js",
+   "schema": 1
+  }
+ },
+ "2026-07-15/meta-blundstone-support-order-mgmt.json": {
+  "v": 2,
+  "mode": "support",
+  "rubric": {
+   "resolution": 28,
+   "accuracy": 25,
+   "actionability": 12,
+   "close": 8
+  },
+  "total": 73,
+  "checks": {
+   "s_answered": {
+    "pass": true,
+    "evidence": "You have 60 minutes after placing the order to cancel it via your confirmation email link or through My Account."
+   },
+   "s_outcome": {
+    "pass": false,
+    "evidence": "\"Will I get an email confirmation once the change is made?\" got reply \"\" — the conversation ends in silence with no handover."
+   },
+   "s_no_deflect": {
+    "pass": true,
+    "evidence": "You're not able to add or edit items on an order once it's placed... you'd need to place a new order for additional items."
+   },
+   "g_specific": {
+    "pass": true,
+    "evidence": "You have 60 minutes after placing the order to cancel it."
+   },
+   "g_consistent": {
+    "pass": true,
+    "evidence": "Once an order has shipped, it cannot be changed. You only have 60 minutes after placing the order to cancel it"
+   },
+   "g_grounded": {
+    "pass": true,
+    "evidence": "via the link in your confirmation email or through My Account"
+   },
+   "t_steps": {
+    "pass": true,
+    "evidence": "You can cancel using the link in your confirmation email or by logging into your account and going to My Account."
+   },
+   "t_complete": {
+    "pass": false,
+    "evidence": "\"Can I combine two separate orders into one shipment?\" got reply \"\" — a distinct ask left completely uncovered (2 others also empty)."
+   },
+   "k_expectations": {
+    "pass": true,
+    "evidence": "refunds are normally processed within 8 business days... your bank may take up to an additional 10 business days to show the credit."
+   },
+   "k_clean": {
+    "pass": false,
+    "evidence": "The last three turns in a row, ending with 'Will I get an email confirmation once the change is made?', all got reply \"\" — the conversation trails off with no c"
+   }
+  },
+  "turn_quality": {
+   "schema": 1,
+   "turns": [
+    {
+     "turn": 1,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 9423,
+     "answer_chars": 371,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 5,
+      "ratio": 0.83,
+      "missing": [
+       "just"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 2,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 14981,
+     "answer_chars": 291,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 5,
+      "ratio": 0.71,
+      "missing": [
+       "there",
+       "time"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "missing_timeframe"
+     ]
+    },
+    {
+     "turn": 3,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 13974,
+     "answer_chars": 288,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 3,
+      "ratio": 0.6,
+      "missing": [
+       "item",
+       "already"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 4,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 9480,
+     "answer_chars": 341,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 2,
+      "ratio": 0.4,
+      "missing": [
+       "happens",
+       "already",
+       "still"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 5,
+     "measured": false,
+     "by": "ai",
+     "complete_ms": null,
+     "answer_chars": 75,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "update",
+       "contact",
+       "account",
+       "details"
+      ]
+     },
+     "substantive": false,
+     "flags": [
+      "no_measured_answer",
+      "low_question_coverage",
+      "missing_contact_path"
+     ]
+    },
+    {
+     "turn": 6,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 11871,
+     "answer_chars": 472,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 1,
+      "ratio": 0.25,
+      "missing": [
+       "long",
+       "until",
+       "refunded"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 7,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 10399,
+     "answer_chars": 397,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 2,
+      "ratio": 0.33,
+      "missing": [
+       "whether",
+       "latest",
+       "still",
+       "modified"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 8,
+     "measured": false,
+     "by": "ai",
+     "complete_ms": null,
+     "answer_chars": 75,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "combine",
+       "two",
+       "separate",
+       "orders",
+       "into",
+       "one",
+       "shipment"
+      ]
+     },
+     "substantive": false,
+     "flags": [
+      "no_measured_answer",
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 9,
+     "measured": false,
+     "by": "ai",
+     "complete_ms": null,
+     "answer_chars": 75,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "change",
+       "payment",
+       "method",
+       "order"
+      ]
+     },
+     "substantive": false,
+     "flags": [
+      "no_measured_answer",
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 10,
+     "measured": false,
+     "by": "ai",
+     "complete_ms": null,
+     "answer_chars": 75,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 1,
+      "ratio": 0.14,
+      "missing": [
+       "will",
+       "email",
+       "confirmation",
+       "once",
+       "change",
+       "made"
+      ]
+     },
+     "substantive": false,
+     "flags": [
+      "no_measured_answer",
+      "low_question_coverage"
+     ]
+    }
+   ],
+   "summary": {
+    "total_turns": 10,
+    "measured_turns": 6,
+    "substantive_turns": 6,
+    "issue_turns": 7,
+    "issue_rate": 0.7
+   }
+  },
+  "resolution_class": "partial",
+  "learning": "Nails the core 60-minute cancellation policy with specifics but goes completely silent on the final several follow-up questions instead of closing or handing over.",
+  "judged_at": null,
+  "judge": {
+   "origin": "claude",
+   "origin_explicit": false,
+   "runner": "eval-merge.js",
+   "schema": 1
+  }
+ },
+ "2026-07-15/meta-blundstone-support-policy.json": {
+  "v": 2,
+  "mode": "support",
+  "rubric": {
+   "resolution": 18,
+   "accuracy": 25,
+   "actionability": 12,
+   "close": 0
+  },
+  "total": 55,
+  "checks": {
+   "s_answered": {
+    "pass": true,
+    "evidence": "We offer free returns for purchases sent back within 30 days of the date of purchase/order."
+   },
+   "s_outcome": {
+    "pass": false,
+    "evidence": "\"Do you have a loyalty or rewards program?\" got reply \"\" — no resolution or handover at the close."
+   },
+   "s_no_deflect": {
+    "pass": false,
+    "evidence": "\"Do you price match or honor a price drop after purchase?\" was answered only with 'the store Please choose the area that best matches your inquiry. Refunds Exch"
+   },
+   "g_specific": {
+    "pass": true,
+    "evidence": "For orders placed Nov 26–Dec 5, 2025, returns are accepted through Jan 5, 2026."
+   },
+   "g_consistent": {
+    "pass": true,
+    "evidence": "typically process within 8 business days after the return arrives, plus up to 10 additional business days"
+   },
+   "g_grounded": {
+    "pass": true,
+    "evidence": "if you return boots bought during certain sale periods, a coupon is automatically emailed so you can keep your sale discount on a future purchase."
+   },
+   "t_steps": {
+    "pass": true,
+    "evidence": "You can start a return via our online returns portal following the prompts."
+   },
+   "t_complete": {
+    "pass": false,
+    "evidence": "\"What's your warranty policy on defective items?\" got reply \"\" — no coverage at all."
+   },
+   "k_expectations": {
+    "pass": false,
+    "evidence": "No WHO/WHEN forward statement appears near the close; the conversation simply stops after the loyalty-program question goes unanswered."
+   },
+   "k_clean": {
+    "pass": false,
+    "evidence": "\"Do you have a loyalty or rewards program?\" got reply \"\" — conversation ends abruptly with no wrap-up."
+   }
+  },
+  "turn_quality": {
+   "schema": 1,
+   "turns": [
+    {
+     "turn": 1,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 2356,
+     "answer_chars": 166,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 1,
+      "ratio": 0.25,
+      "missing": [
+       "find",
+       "full",
+       "policy"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 2,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 9532,
+     "answer_chars": 315,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 3,
+      "ratio": 0.6,
+      "missing": [
+       "internationally",
+       "covers"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "missing_responsible_party"
+     ]
+    },
+    {
+     "turn": 3,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 12918,
+     "answer_chars": 269,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 4,
+      "ratio": 0.57,
+      "missing": [
+       "long",
+       "take",
+       "once"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 4,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 10742,
+     "answer_chars": 855,
+     "keyword_coverage": {
+      "asked": 3,
+      "matched": 3,
+      "ratio": 1,
+      "missing": []
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 5,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 9289,
+     "answer_chars": 364,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 6,
+      "ratio": 1,
+      "missing": []
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 6,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 11641,
+     "answer_chars": 356,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 1,
+      "ratio": 0.25,
+      "missing": [
+       "payment",
+       "methods",
+       "order"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 7,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 10965,
+     "answer_chars": 411,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 4,
+      "ratio": 0.8,
+      "missing": [
+       "support"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 8,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 2331,
+     "answer_chars": 83,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "price",
+       "match",
+       "honor",
+       "drop",
+       "after",
+       "purchase"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 9,
+     "measured": false,
+     "by": "ai",
+     "complete_ms": null,
+     "answer_chars": 95,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 1,
+      "ratio": 0.25,
+      "missing": [
+       "policy",
+       "defective",
+       "items"
+      ]
+     },
+     "substantive": false,
+     "flags": [
+      "no_measured_answer",
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 10,
+     "measured": false,
+     "by": "ai",
+     "complete_ms": null,
+     "answer_chars": 75,
+     "keyword_coverage": {
+      "asked": 3,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "loyalty",
+       "rewards",
+       "program"
+      ]
+     },
+     "substantive": false,
+     "flags": [
+      "no_measured_answer",
+      "low_question_coverage"
+     ]
+    }
+   ],
+   "summary": {
+    "total_turns": 10,
+    "measured_turns": 8,
+    "substantive_turns": 8,
+    "issue_turns": 6,
+    "issue_rate": 0.6
+   }
+  },
+  "resolution_class": "partial",
+  "learning": "Delivers thorough, specific shipping/returns detail but punts the price-match question to an irrelevant menu and goes silent on warranty and loyalty questions.",
+  "judged_at": null,
+  "judge": {
+   "origin": "claude",
+   "origin_explicit": false,
+   "runner": "eval-merge.js",
+   "schema": 1
+  }
+ },
+ "2026-07-15/meta-blundstone-support-returns.json": {
+  "v": 2,
+  "mode": "support",
+  "rubric": {
+   "resolution": 40,
+   "accuracy": 25,
+   "actionability": 20,
+   "close": 15
+  },
+  "total": 100,
+  "checks": {
+   "s_answered": {
+    "pass": true,
+    "evidence": "Our standard policy is free returns within 30 days of purchase/order for eligible items."
+   },
+   "s_outcome": {
+    "pass": true,
+    "evidence": "You can track the status of your refund/return by: Following the tracking link in your return confirmation email."
+   },
+   "s_no_deflect": {
+    "pass": true,
+    "evidence": "To start a return, visit our online Returns Portal, then: Enter your order number and email address Follow the on-screen prompts to create your return label"
+   },
+   "g_specific": {
+    "pass": true,
+    "evidence": "it normally takes about 8 business days for us to process your return and issue your refund"
+   },
+   "g_consistent": {
+    "pass": true,
+    "evidence": "we do not offer exchanges for different sizes or options."
+   },
+   "g_grounded": {
+    "pass": true,
+    "evidence": "Boots must be unworn, tried on only on carpet, and sent back in the original shoe box and shipping carton."
+   },
+   "t_steps": {
+    "pass": true,
+    "evidence": "Enter your order number and email address Follow the on-screen prompts to create your return label and ship your unworn boots back in their original packaging."
+   },
+   "t_complete": {
+    "pass": true,
+    "evidence": "All orders must be returned to their original place of purchase, so products bought on the store.com must be returned through our online return process, not to "
+   },
+   "k_expectations": {
+    "pass": true,
+    "evidence": "refunds are typically processed within 8 business days, plus up to 10 additional business days for your bank to show the credit."
+   },
+   "k_clean": {
+    "pass": true,
+    "evidence": "You can track the status of your refund/return by: Following the tracking link in your return confirmation email. Reviewing your order and return status in My A"
+   }
+  },
+  "turn_quality": {
+   "schema": 1,
+   "turns": [
+    {
+     "turn": 1,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 10989,
+     "answer_chars": 918,
+     "keyword_coverage": {
+      "asked": 2,
+      "matched": 2,
+      "ratio": 1,
+      "missing": []
+     },
+     "substantive": true,
+     "flags": [
+      "clarifying_question"
+     ]
+    },
+    {
+     "turn": 2,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 9782,
+     "answer_chars": 384,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 2,
+      "ratio": 0.5,
+      "missing": [
+       "many",
+       "something"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 3,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 9887,
+     "answer_chars": 484,
+     "keyword_coverage": {
+      "asked": 3,
+      "matched": 2,
+      "ratio": 0.67,
+      "missing": [
+       "exchange"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 4,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 9829,
+     "answer_chars": 364,
+     "keyword_coverage": {
+      "asked": 3,
+      "matched": 3,
+      "ratio": 1,
+      "missing": []
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 5,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 9238,
+     "answer_chars": 344,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 2,
+      "ratio": 0.33,
+      "missing": [
+       "long",
+       "until",
+       "get",
+       "receive"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 6,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 9666,
+     "answer_chars": 379,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 4,
+      "ratio": 0.67,
+      "missing": [
+       "exchange",
+       "option"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 7,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 9751,
+     "answer_chars": 374,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 5,
+      "ratio": 0.83,
+      "missing": [
+       "any"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 8,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 10381,
+     "answer_chars": 368,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 2,
+      "ratio": 0.4,
+      "missing": [
+       "need",
+       "packaging",
+       "something"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 9,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 9492,
+     "answer_chars": 322,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 5,
+      "ratio": 1,
+      "missing": []
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 10,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 9862,
+     "answer_chars": 382,
+     "keyword_coverage": {
+      "asked": 3,
+      "matched": 3,
+      "ratio": 1,
+      "missing": []
+     },
+     "substantive": true,
+     "flags": []
+    }
+   ],
+   "summary": {
+    "total_turns": 10,
+    "measured_turns": 10,
+    "substantive_turns": 10,
+    "issue_turns": 2,
+    "issue_rate": 0.2
+   }
+  },
+  "resolution_class": "resolved",
+  "learning": "Fully resolves every returns/exchange question in-channel with consistent, specific, store-grounded detail and a clean close — the strongest conversation in the batch.",
+  "judged_at": null,
+  "judge": {
+   "origin": "claude",
+   "origin_explicit": false,
+   "runner": "eval-merge.js",
+   "schema": 1
+  }
+ },
+ "2026-07-15/meta-blundstone-support-tracking.json": {
+  "v": 2,
+  "mode": "support",
+  "rubric": {
+   "resolution": 28,
+   "accuracy": 25,
+   "actionability": 12,
+   "close": 0
+  },
+  "total": 65,
+  "checks": {
+   "s_answered": {
+    "pass": true,
+    "evidence": "Once an order is placed, we first send an order confirmation email, then a second email with your UPS tracking number after it leaves our distribution facility."
+   },
+   "s_outcome": {
+    "pass": false,
+    "evidence": "\"Do you compensate for a long delay?\" got reply \"\" — the conversation ends without resolution or handover."
+   },
+   "s_no_deflect": {
+    "pass": true,
+    "evidence": "If you still have issues (no movement, missing, or incorrect items), please use the online assistance link for order problems."
+   },
+   "g_specific": {
+    "pass": true,
+    "evidence": "Standard: about 5–7 business days Faster: about 3–4 business days Urgent: about 1–2 business days"
+   },
+   "g_consistent": {
+    "pass": true,
+    "evidence": "Standard (about 5–7 business days), Faster (about 3–4 business days), and Urgent (about 1–2 business days) are stated identically in both the delivery-time and "
+   },
+   "g_grounded": {
+    "pass": true,
+    "evidence": "you'll receive a second email with tracking once your order leaves our facility and is on its way to you"
+   },
+   "t_steps": {
+    "pass": true,
+    "evidence": "Check your email (including junk/spam) for: The order confirmation email The shipping email with your UPS tracking link"
+   },
+   "t_complete": {
+    "pass": false,
+    "evidence": "\"Can I reroute the package to a different address?\" got reply \"\" — left completely uncovered."
+   },
+   "k_expectations": {
+    "pass": false,
+    "evidence": "No WHO/WHEN statement is given near the close; the final two questions get reply \"\" instead of any expectation-setting."
+   },
+   "k_clean": {
+    "pass": false,
+    "evidence": "\"Do you compensate for a long delay?\" got reply \"\" — the conversation ends abruptly with no wrap-up."
+   }
+  },
+  "turn_quality": {
+   "schema": 1,
+   "turns": [
+    {
+     "turn": 1,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 9126,
+     "answer_chars": 372,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 3,
+      "ratio": 0.43,
+      "missing": [
+       "few",
+       "days",
+       "ago",
+       "still"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 2,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 9224,
+     "answer_chars": 365,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 3,
+      "ratio": 0.43,
+      "missing": [
+       "long",
+       "take",
+       "ship",
+       "send"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "missing_timeframe"
+     ]
+    },
+    {
+     "turn": 3,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 9195,
+     "answer_chars": 279,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 3,
+      "ratio": 0.75,
+      "missing": [
+       "long"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 4,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 10634,
+     "answer_chars": 358,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 3,
+      "ratio": 0.5,
+      "missing": [
+       "there",
+       "any",
+       "way"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 5,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 10531,
+     "answer_chars": 576,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 3,
+      "ratio": 0.75,
+      "missing": [
+       "should"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 6,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 9797,
+     "answer_chars": 410,
+     "keyword_coverage": {
+      "asked": 3,
+      "matched": 2,
+      "ratio": 0.67,
+      "missing": [
+       "find"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 7,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 11862,
+     "answer_chars": 456,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 3,
+      "ratio": 0.75,
+      "missing": [
+       "latest"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 8,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 9597,
+     "answer_chars": 363,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 4,
+      "ratio": 0.67,
+      "missing": [
+       "says",
+       "now"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 9,
+     "measured": false,
+     "by": "ai",
+     "complete_ms": null,
+     "answer_chars": 75,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "reroute",
+       "package",
+       "different",
+       "address"
+      ]
+     },
+     "substantive": false,
+     "flags": [
+      "no_measured_answer",
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 10,
+     "measured": false,
+     "by": "ai",
+     "complete_ms": null,
+     "answer_chars": 75,
+     "keyword_coverage": {
+      "asked": 3,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "compensate",
+       "long",
+       "delay"
+      ]
+     },
+     "substantive": false,
+     "flags": [
+      "no_measured_answer",
+      "low_question_coverage"
+     ]
+    }
+   ],
+   "summary": {
+    "total_turns": 10,
+    "measured_turns": 8,
+    "substantive_turns": 8,
+    "issue_turns": 3,
+    "issue_rate": 0.3
+   }
+  },
+  "resolution_class": "partial",
+  "learning": "Handles tracking/delay questions with honest, process-based answers appropriate for a cold session, but goes silent on the final two questions (reroute, delay compensation) instead of closing.",
+  "judged_at": null,
+  "judge": {
+   "origin": "claude",
+   "origin_explicit": false,
+   "runner": "eval-merge.js",
+   "schema": 1
+  }
  }
 }
