@@ -1036,6 +1036,18 @@ export const STORES = [
   { key: "meta-butcherbox",   vendor: "Zendesk", store: "ButcherBox",   url: "https://www.butcherbox.com/", widget: "zendesk" },           // static.zdassets
   // Siena (chat.siena.cx webchat)
   { key: "siena-mudwtr",      vendor: "Siena",  store: "MUD\\WTR",    url: "https://mudwtr.com/",         widget: "siena" },
+  // Sourced 2026-07-16 via StoreLeads (f:tech=Siena, f:p=shopify, f:ds=Active — 45 total).
+  // Signature-verified live for all 3 on a cold page load (window.Siena / SienaLaunchChat +
+  // siena script in page source under STEALTH), but only Portland Leather Goods actually
+  // produced replies end-to-end (2/2 timed themes). Brooklinen and Dandelion Chocolate both
+  // returned empty replies across every turn despite the widget being present — a repeat
+  // debug pass on Brooklinen found the launcher script present but no siena iframe ever
+  // mounted (inconsistent with the earlier signature check minutes prior — may be a
+  // load-order/A-B-test flake rather than a stable driver bug). Left `candidate: true`
+  // rather than chased further; do not re-attempt without new evidence.
+  { key: "siena-brooklinen", candidate: true, vendor: "Siena", store: "Brooklinen",            url: "https://www.brooklinen.com/", widget: "siena" }, // bedding DTC, Shopify Plus, $1.5B/mo est. (Storeleads) — 0/2 valid, empty replies
+  { key: "siena-plg",         vendor: "Siena", store: "Portland Leather Goods", url: "https://www.portlandleathergoods.com/", widget: "siena" }, // leather goods DTC, Shopify Plus, $842M/mo est. (Storeleads) — confirmed 2/2 valid
+  { key: "siena-dandelion", candidate: true, vendor: "Siena", store: "Dandelion Chocolate",   url: "https://www.dandelionchocolate.com/", widget: "siena" }, // chocolate DTC, Shopify Plus, $193M/mo est. (Storeleads) — 0/2 valid, empty replies
   // Yuma (runs behind Gorgias helpdesk → drive the Gorgias widget)
   // Zendesk AI — messaging widgets re-verified 2026-07-05 via ekr.zdassets.com/compose/<key>
   // (a `messenger` product block = live conversational widget, not a help-center form).
@@ -1199,6 +1211,12 @@ export const STORES = [
   // repeat of the same open()/send() debugging loop.
   { key: "decagon-away",       vendor: "Decagon", store: "Away",       url: "https://www.awaytravel.com/", widget: "decagon", us: true, candidate: true }, // luggage DTC, Shopify Plus, $1.3B/mo est. (Storeleads)
   { key: "decagon-openfarm",   vendor: "Decagon", store: "Open Farm",  url: "https://openfarmpet.com/",    widget: "decagon", us: true, candidate: true }, // pet food DTC, Shopify Plus, $475M/mo est. (Storeleads) — also runs Kustomer; scope to #decagon-iframe only
+  // Sourced 2026-07-16 via a second StoreLeads pass (all-platform, not just Shopify) — the
+  // Shopify-only search kept surfacing the same 9 stores already tried. Confirmed live
+  // (script present in page source under STEALTH): Little Spoon (baby-food subscription
+  // DTC). Frame doesn't mount on cold load (same lazy-mount pattern as away/openfarm) —
+  // registered candidate:true pending a real capture run to confirm the composer opens.
+  { key: "decagon-littlespoon", vendor: "Decagon", store: "Little Spoon", url: "https://www.littlespoon.com/", widget: "decagon", us: true, candidate: true }, // baby-food subscription DTC, $557M/mo est. (Storeleads) — tested 0/2 valid, empty replies; not chased further
 
   // Intercom (Fin AI Agent) — added 2026-07-09. All 6 signature-verified live via
   // widget.intercom.io / intercom-lightweight-app / api-iam.intercom.io in page source.
