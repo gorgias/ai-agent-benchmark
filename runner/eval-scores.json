@@ -507212,67 +507212,67 @@
   "checks": {
    "a_direct": {
     "pass": false,
-    "evidence": "Sorry, I didn't understand that. I operate best with short direct phrases!"
+    "evidence": "I'm sorry, I'm still struggling to understand your question."
    },
    "a_consistent": {
     "pass": false,
-    "evidence": "No substantive info was ever given to compare; only repeated fallback: I'm sorry, I'm still struggling to understand your question."
+    "evidence": "Apologies, I am still struggling to understand your question."
    },
    "a_no_ignored": {
     "pass": false,
-    "evidence": "reply is empty (\"\") for: Hi! I'm looking for a gift for someone and I'm not sure what to pick, can you help?"
+    "evidence": "My budget is moderate, what would make a good gift in that range?"
    },
    "d_clarify": {
     "pass": false,
-    "evidence": "reply is empty (\"\") for the broad opener asking for gift help"
+    "evidence": "Hi! I'm looking for a gift for someone and I'm not sure what to pick, can you help?"
    },
    "d_progressive": {
     "pass": false,
-    "evidence": "reply is empty (\"\") for: My budget is moderate, what would make a good gift in that range?"
+    "evidence": "I'm sorry, I'm still struggling to understand your question."
    },
    "d_not_dump": {
     "pass": false,
-    "evidence": "No content was ever produced beyond fallback text: Sorry, I didn't understand that."
+    "evidence": "Sorry, I didn't understand that. I operate best with short direct phrases!"
    },
    "r_named": {
     "pass": false,
-    "evidence": "No product name appears anywhere in any reply in this transcript"
+    "evidence": "Sorry, I didn't understand that. I operate best with short direct phrases!"
    },
    "r_fit": {
     "pass": false,
-    "evidence": "No recommendation was ever made to tie to shopper's stated constraints"
+    "evidence": "Sorry, I didn't understand that. I operate best with short direct phrases!"
    },
    "r_plausible": {
     "pass": false,
-    "evidence": "No recommendation exists to assess plausibility"
+    "evidence": "Sorry, I didn't understand that. I operate best with short direct phrases!"
    },
    "e_price": {
     "pass": false,
-    "evidence": "signal has_price=false"
+    "evidence": "Sorry, I didn't understand that. I operate best with short direct phrases!"
    },
    "e_link": {
     "pass": false,
-    "evidence": "signal has_link=false"
+    "evidence": "Sorry, I didn't understand that. I operate best with short direct phrases!"
    },
    "e_reviews": {
     "pass": false,
-    "evidence": "signal has_reviews=false"
+    "evidence": "Sorry, I didn't understand that. I operate best with short direct phrases!"
    },
    "e_options": {
     "pass": false,
-    "evidence": "signal has_options=false"
+    "evidence": "Sorry, I didn't understand that. I operate best with short direct phrases!"
    },
    "c_cta": {
     "pass": false,
-    "evidence": "Final AI turn is a fallback loop with no next step: I'm sorry, I'm still struggling to understand your question."
+    "evidence": "I'm sorry, I'm still struggling to understand your question."
    },
    "c_cart": {
     "pass": false,
-    "evidence": "Shopper said Great, add your top gift pick to my cart and tell me the total. and got: I'm sorry, I'm still struggling to understand your question."
+    "evidence": "Great, add your top gift pick to my cart and tell me the total."
    },
    "c_clean": {
     "pass": false,
-    "evidence": "Conversation ends on an unanswered handover turn (empty reply) after repeated fallback loops"
+    "evidence": "Any discount if I add a second smaller item?"
    }
   },
   "turn_quality": {
@@ -507539,7 +507539,7 @@
    }
   },
   "resolution_class": "failed",
-  "learning": "The assistant never understood a single message in this gift-shopping thread, looping on generic fallback/error text instead of answering anything.",
+  "learning": "The assistant never gave a single substantive answer, looping on generic 'I don't understand' errors and leaving an explicit add-to-cart request completely unfulfilled.",
   "judged_at": null,
   "judge": {
    "origin": "claude",
@@ -507561,11 +507561,11 @@
   "checks": {
    "s_answered": {
     "pass": false,
-    "evidence": "One moment please. Before we get you in touch with a member of the Team, we'll need some information."
+    "evidence": "Apologies, I am still struggling to understand your question."
    },
    "s_outcome": {
     "pass": false,
-    "evidence": "Repeated fallback: Apologies, I am still struggling to understand your question. -- no info collected, no resolution"
+    "evidence": "One moment please. Before we get you in touch with a member of the Team, we'll need some information."
    },
    "s_no_deflect": {
     "pass": false,
@@ -507573,31 +507573,31 @@
    },
    "g_specific": {
     "pass": false,
-    "evidence": "Activate Membership Reset Password Membership Receipt Pause/Cancel Update Payment/Billing Info -- an unrelated menu, not a fact answering the refund-timing ques"
+    "evidence": "Activate Membership Reset Password Membership Receipt Pause/Cancel Update Payment/Billing Info"
    },
    "g_consistent": {
     "pass": false,
-    "evidence": "No substantive claims were ever made to compare; only repeated verbatim fallback text across turns"
+    "evidence": "Activate Membership Reset Password Membership Receipt Pause/Cancel Update Payment/Billing Info"
    },
    "g_grounded": {
     "pass": false,
-    "evidence": "No store-specific policy or procedure is stated anywhere in the transcript"
+    "evidence": "Apologies, I am still struggling to understand your question."
    },
    "t_steps": {
     "pass": false,
-    "evidence": "One moment please. Before we get you in touch with a member of the Team, we'll need some information. -- trails off with no steps given"
+    "evidence": "Apologies, I am still struggling to understand your question."
    },
    "t_complete": {
     "pass": false,
-    "evidence": "None of the five distinct order-modification questions receive any substantive coverage"
+    "evidence": "Can I change the shipping address on an order I just placed?"
    },
    "k_expectations": {
     "pass": false,
-    "evidence": "No WHO/WHEN is ever given; conversation ends on fallback text, not an expectations statement"
+    "evidence": "One moment please. Before we get you in touch with a member of the Team, we'll need some information."
    },
    "k_clean": {
     "pass": false,
-    "evidence": "Apologies, I am still struggling to understand your question. Please try again, or click below to chat with a team member"
+    "evidence": "Will I get an email confirmation once the change is made?"
    }
   },
   "turn_quality": {
@@ -507856,7 +507856,7 @@
    }
   },
   "resolution_class": "failed",
-  "learning": "Every order-modification question hits a broken menu or fallback loop; no question about cancellation, refund timing, or address changes is ever actually answered.",
+  "learning": "The assistant could not answer any of the order-modification questions, alternating between blank non-replies, an unrelated self-service menu, and a canned 'still struggling to understand' loop.",
   "judged_at": null,
   "judge": {
    "origin": "claude",
@@ -507879,15 +507879,15 @@
   "checks": {
    "a_direct": {
     "pass": false,
-    "evidence": "reply is empty (\"\") for: Show me your two best value-for-money options and compare them."
+    "evidence": "I want the best bang for the buck, not the cheapest or the most expensive."
    },
    "a_consistent": {
     "pass": true,
-    "evidence": "I would pick the store Ring 4 for your budget. It is the best balance of price and value at $349"
+    "evidence": "It is the best balance of price and value at $349, with newer upgrades and up to two weeks of data storage"
    },
    "a_no_ignored": {
     "pass": false,
-    "evidence": "reply is empty (\"\") for: Are there any current promos, bundles, or ways to save?"
+    "evidence": "Show me your two best value-for-money options and compare them."
    },
    "d_clarify": {
     "pass": true,
@@ -507895,7 +507895,7 @@
    },
    "d_progressive": {
     "pass": false,
-    "evidence": "I want the best bang for the buck, not the cheapest or the most expensive. got reply \"\" -- never used to inform later answers"
+    "evidence": "I want the best bang for the buck, not the cheapest or the most expensive."
    },
    "d_not_dump": {
     "pass": true,
@@ -507907,39 +507907,39 @@
    },
    "r_fit": {
     "pass": true,
-    "evidence": "It is the best balance of price and value at $349, with newer upgrades and up to two weeks of data storage, so it should feel like the smarter long-term buy"
+    "evidence": "It is the best balance of price and value at $349, with newer upgrades and up to two weeks of data storage, so it should feel like the smarter long-term buy ove"
    },
    "r_plausible": {
     "pass": true,
-    "evidence": "the store Ring 4 for your budget... $349"
+    "evidence": "I would pick the store Ring 4 for your budget."
    },
    "e_price": {
     "pass": true,
-    "evidence": "the best balance of price and value at $349"
+    "evidence": "It is the best balance of price and value at $349"
    },
    "e_link": {
     "pass": false,
-    "evidence": "No URL or openable product link/card appears anywhere in the replies despite the has_link signal"
+    "evidence": "I would pick the store Ring 4 for your budget. It is the best balance of price and value at $349"
    },
    "e_reviews": {
     "pass": false,
-    "evidence": "signal has_reviews=false"
+    "evidence": "I would pick the store Ring 4 for your budget."
    },
    "e_options": {
     "pass": false,
-    "evidence": "signal has_options=false"
+    "evidence": "I would pick the store Ring 4 for your budget."
    },
    "c_cta": {
     "pass": false,
-    "evidence": "reply is empty (\"\") for the final turn: Confirm my total and the fastest shipping option?"
+    "evidence": "Confirm my total and the fastest shipping option?"
    },
    "c_cart": {
     "pass": false,
-    "evidence": "Add that one to my cart and tell me the total with any discount. got reply \"\""
+    "evidence": "Add that one to my cart and tell me the total with any discount."
    },
    "c_clean": {
     "pass": false,
-    "evidence": "Conversation ends on an unanswered question with an empty reply"
+    "evidence": "Confirm my total and the fastest shipping option?"
    }
   },
   "turn_quality": {
@@ -508165,7 +508165,7 @@
    }
   },
   "resolution_class": "partial",
-  "learning": "Solid, budget-anchored product recommendation and specific warranty/payment answers are undercut by six of ten turns going completely unanswered, including the explicit cart/total request.",
+  "learning": "When it engaged, the assistant gave genuinely reasoned pricing and warranty answers tied to the stated budget, but it silently dropped roughly half the shopper's questions, including the explicit cart/total request.",
   "judged_at": null,
   "judge": {
    "origin": "claude",
@@ -508188,15 +508188,15 @@
   "checks": {
    "a_direct": {
     "pass": false,
-    "evidence": "reply is empty (\"\") for: Which one is your overall best seller, and is it well reviewed?"
+    "evidence": "Which one is your overall best seller, and is it well reviewed?"
    },
    "a_consistent": {
     "pass": true,
-    "evidence": "For everyday use and strong value, I would look first at the store Ring 5. ... I would lean toward the store Ring 5 if it fits your budget."
+    "evidence": "the store Ring 4 is a strong value option at $349"
    },
    "a_no_ignored": {
     "pass": false,
-    "evidence": "reply is empty (\"\") for: How long will delivery take, roughly?"
+    "evidence": "How long will delivery take, roughly?"
    },
    "d_clarify": {
     "pass": true,
@@ -508204,15 +508204,15 @@
    },
    "d_progressive": {
     "pass": true,
-    "evidence": "For a sensible budget, the store Ring 4 is a strong value option at $349, with membership at $5.99/month or $69.99/year."
+    "evidence": "For everyday wear, quality, and long-term value, I would lean toward the store Ring 5 if it fits your budget."
    },
    "d_not_dump": {
     "pass": true,
-    "evidence": "the store Ring 5 is our newest model... Are you deciding between models, sizing, or which finger to wear it on? -- info paired with a clarifying question, not a"
+    "evidence": "Are you deciding between models, sizing, or which finger to wear it on?"
    },
    "r_named": {
     "pass": true,
-    "evidence": "the store Ring 4 is a strong value option at $349"
+    "evidence": "For everyday use and strong value, I would look first at the store Ring 5."
    },
    "r_fit": {
     "pass": true,
@@ -508220,7 +508220,7 @@
    },
    "r_plausible": {
     "pass": true,
-    "evidence": "the store Ring 4 is a strong value option at $349"
+    "evidence": "For everyday use and strong value, I would look first at the store Ring 5."
    },
    "e_price": {
     "pass": true,
@@ -508228,15 +508228,15 @@
    },
    "e_link": {
     "pass": true,
-    "evidence": "you can select it here: https://the storering.com/store"
+    "evidence": "https://the storering.com/store"
    },
    "e_reviews": {
     "pass": false,
-    "evidence": "signal has_reviews=false"
+    "evidence": "Which one is your overall best seller, and is it well reviewed?"
    },
    "e_options": {
     "pass": false,
-    "evidence": "signal has_options=false"
+    "evidence": "the store Ring 4 is a strong value option at $349"
    },
    "c_cta": {
     "pass": false,
@@ -508244,11 +508244,11 @@
    },
    "c_cart": {
     "pass": false,
-    "evidence": "What's my total, and do you offer free shipping or a first-order discount? got reply \"\""
+    "evidence": "I cannot add items to your cart directly. My top recommendation for your needs is the store Ring 5, and you can select it here: https://the storering.com/store"
    },
    "c_clean": {
     "pass": false,
-    "evidence": "Ends on: To better assist you, please clarify what you are looking to do? Select one below: * Select"
+    "evidence": "To better assist you, please clarify what you are looking to do? Select one below: * Select"
    }
   },
   "turn_quality": {
@@ -508467,7 +508467,7 @@
    }
   },
   "resolution_class": "partial",
-  "learning": "Budget-driven narrowing from Ring 5 to Ring 4 is genuinely progressive and well-reasoned, but the explicit total/discount request is silently ignored and the conversation ends in a confused menu loop.",
+  "learning": "Strong progressive discovery tying recommendations to the shopper's stated everyday-value budget, but the reviews and total/shipping questions were dropped entirely and the conversation ends on a generic non-answer.",
   "judged_at": null,
   "judge": {
    "origin": "claude",
@@ -508490,27 +508490,27 @@
   "checks": {
    "a_direct": {
     "pass": false,
-    "evidence": "reply is empty (\"\") for: My budget is moderate, what would make a good gift in that range?"
+    "evidence": "My budget is moderate, what would make a good gift in that range?"
    },
    "a_consistent": {
     "pass": false,
-    "evidence": "gifting the store Ring 5 is simple (turn 1) contradicts the later My top gift pick is the store Ring 4 at $349 (turn 7) with no explanation for the switch"
+    "evidence": "My top gift pick is the store Ring 4 at $349"
    },
    "a_no_ignored": {
     "pass": false,
-    "evidence": "reply is empty (\"\") for: Between your top two gift ideas, which feels more special?"
+    "evidence": "Between your top two gift ideas, which feels more special?"
    },
    "d_clarify": {
     "pass": false,
-    "evidence": "Yes — gifting the store Ring 5 is simple -- recommends immediately on the broad not sure what to pick opener without first asking budget or recipient"
+    "evidence": "Yes — gifting the store Ring 5 is simple, and a sizing kit is usually the best choice so the recipient can find their ideal fit."
    },
    "d_progressive": {
     "pass": false,
-    "evidence": "My budget is moderate, what would make a good gift in that range? got reply \"\", so it could not have informed the later switch to Ring 4"
+    "evidence": "My budget is moderate, what would make a good gift in that range?"
    },
    "d_not_dump": {
     "pass": true,
-    "evidence": "gifting the store Ring 5 is simple, and a sizing kit is usually the best choice -- one product with reasoning, not a list dump"
+    "evidence": "the store Ring 5 is a strong gift choice for someone like that because it pairs a premium design with practical daily insights for sleep, activity, and overall "
    },
    "r_named": {
     "pass": true,
@@ -508518,11 +508518,11 @@
    },
    "r_fit": {
     "pass": true,
-    "evidence": "the store Ring 5 is a strong gift choice for someone like that because it pairs a premium design with practical daily insights"
+    "evidence": "the store Ring 5 is a strong gift choice for someone like that because it pairs a premium design with practical daily insights for sleep, activity, and overall "
    },
    "r_plausible": {
     "pass": true,
-    "evidence": "the store Ring 5 is a strong gift choice for someone like that"
+    "evidence": "My top gift pick is the store Ring 4 at $349"
    },
    "e_price": {
     "pass": true,
@@ -508530,27 +508530,27 @@
    },
    "e_link": {
     "pass": true,
-    "evidence": "You can place the order here: https://the storering.com/store"
+    "evidence": "https://the storering.com/store"
    },
    "e_reviews": {
     "pass": false,
-    "evidence": "signal has_reviews=false"
+    "evidence": "My top gift pick is the store Ring 4 at $349"
    },
    "e_options": {
     "pass": false,
-    "evidence": "signal has_options=false"
+    "evidence": "My top gift pick is the store Ring 4 at $349"
    },
    "c_cta": {
     "pass": false,
-    "evidence": "reply is empty (\"\") for the final turn: Any discount if I add a second smaller item?"
+    "evidence": "Any discount if I add a second smaller item?"
    },
    "c_cart": {
     "pass": false,
-    "evidence": "I cannot add items to your cart directly. My top gift pick is the store Ring 4 at $349 -- gives an item price, never an actual computed total, despite being exp"
+    "evidence": "Great, add your top gift pick to my cart and tell me the total."
    },
    "c_clean": {
     "pass": false,
-    "evidence": "Conversation ends on an ignored final question (empty reply)"
+    "evidence": "Any discount if I add a second smaller item?"
    }
   },
   "turn_quality": {
@@ -508787,7 +508787,7 @@
    }
   },
   "resolution_class": "partial",
-  "learning": "The gift pick flips from Ring 5 to Ring 4 between turns with no stated reason, and several follow-up questions (budget, bundles, exchange) get no reply at all.",
+  "learning": "The assistant contradicts its own top gift recommendation, naming Ring 5 as the pick early on and later calling Ring 4 'my top gift pick', and drops the budget and cart/total questions entirely.",
   "judged_at": null,
   "judge": {
    "origin": "claude",
@@ -508802,23 +508802,23 @@
   "rubric": {
    "answer": 9,
    "discovery": 13,
-   "recommendation": 14,
+   "recommendation": 9,
    "rich": 0,
    "close": 0
   },
-  "total": 36,
+  "total": 31,
   "checks": {
    "a_direct": {
     "pass": false,
-    "evidence": "reply is empty (\"\") for: I've been disappointed by similar products before, so quality really matters to me."
+    "evidence": "I've been disappointed by similar products before, so quality really matters to me."
    },
    "a_consistent": {
     "pass": true,
-    "evidence": "help you choose the right the store Ring 5 size ... You do not need any extra device to use the store Ring 5 -- consistently references the same product"
+    "evidence": "You do not need any extra device to use the store Ring 5."
    },
    "a_no_ignored": {
     "pass": false,
-    "evidence": "reply is empty (\"\") for: Which of your products is best for that, and why is it a good fit?"
+    "evidence": "Okay, I'm convinced, add your recommendation and give me the total."
    },
    "d_clarify": {
     "pass": true,
@@ -508826,51 +508826,51 @@
    },
    "d_progressive": {
     "pass": false,
-    "evidence": "I've been disappointed by similar products before, so quality really matters to me. got reply \"\" -- never used to shape any later answer"
+    "evidence": "Which of your products is best for that, and why is it a good fit?"
    },
    "d_not_dump": {
     "pass": true,
-    "evidence": "reply to the opener is a single targeted clarifying question, not a product list"
+    "evidence": "Please tell me your specific need, and I'll guide you on fit, finger choice, and whether to size up or down."
    },
    "r_named": {
     "pass": true,
-    "evidence": "help you choose the right the store Ring 5 size"
+    "evidence": "choose the right the store Ring 5 size"
    },
    "r_fit": {
     "pass": false,
-    "evidence": "the stated concern quality really matters to me got reply \"\", so no reasoning was ever tied to it"
+    "evidence": "I've been disappointed by similar products before, so quality really matters to me."
    },
    "r_plausible": {
-    "pass": true,
-    "evidence": "You do not need any extra device to use the store Ring 5."
+    "pass": false,
+    "evidence": "I've been disappointed by similar products before, so quality really matters to me."
    },
    "e_price": {
     "pass": false,
-    "evidence": "signal has_price=false"
+    "evidence": "You do not need any extra device to use the store Ring 5."
    },
    "e_link": {
     "pass": false,
-    "evidence": "signal has_link=false"
+    "evidence": "You do not need any extra device to use the store Ring 5."
    },
    "e_reviews": {
     "pass": false,
-    "evidence": "signal has_reviews=false"
+    "evidence": "What do other customers say in their reviews, does it actually hold up?"
    },
    "e_options": {
     "pass": false,
-    "evidence": "signal has_options=false"
+    "evidence": "You do not need any extra device to use the store Ring 5."
    },
    "c_cta": {
     "pass": false,
-    "evidence": "reply is empty (\"\") for the final turn: Confirm my total and when it will arrive?"
+    "evidence": "Confirm my total and when it will arrive?"
    },
    "c_cart": {
     "pass": false,
-    "evidence": "Okay, I'm convinced, add your recommendation and give me the total. got reply \"\" -- explicit purchase request completely ignored"
+    "evidence": "Okay, I'm convinced, add your recommendation and give me the total."
    },
    "c_clean": {
     "pass": false,
-    "evidence": "Conversation ends on an ignored final question (empty reply)"
+    "evidence": "Confirm my total and when it will arrive?"
    }
   },
   "turn_quality": {
@@ -509124,8 +509124,8 @@
     "issue_rate": 1
    }
   },
-  "resolution_class": "partial",
-  "learning": "A promising clarifying opener is followed by silence on most of the shopper's reassurance and purchase questions, including a totally ignored explicit cart request.",
+  "resolution_class": "failed",
+  "learning": "The assistant never engaged with the shopper's core reassurance concern about past disappointment and left the explicit checkout request completely unanswered.",
   "judged_at": null,
   "judge": {
    "origin": "claude",
@@ -509138,77 +509138,77 @@
   "v": 2,
   "mode": "shopping",
   "rubric": {
-   "answer": 21,
-   "discovery": 13,
+   "answer": 9,
+   "discovery": 20,
    "recommendation": 22,
    "rich": 13,
-   "close": 7
+   "close": 0
   },
-  "total": 76,
+  "total": 64,
   "checks": {
    "a_direct": {
-    "pass": true,
-    "evidence": "Best value picks right now are FlutterVibe at $79 and G-Thump at $119. FlutterVibe gives you flickering clit stimulation plus G-spot vibration"
+    "pass": false,
+    "evidence": "hat's the return policy if it turns out not to be right for me? I can help with that. We routed your previous messages."
    },
    "a_consistent": {
-    "pass": false,
-    "evidence": "Best value picks right now are FlutterVibe at $79 and G-Thump at $119 (turn 2) vs Best value picks: AirVibe Pro at $119 and AirThrust at $179 (turn 3) -- differ"
+    "pass": true,
+    "evidence": "my beginner pick is the Mini-Classic Wand Vibrator at $24.00 before tax and shipping"
    },
    "a_no_ignored": {
-    "pass": true,
-    "evidence": "Yep, you can find all current promos and deals on our daily deals page."
+    "pass": false,
+    "evidence": "How do I use it properly the very first time?"
    },
    "d_clarify": {
     "pass": true,
-    "evidence": "If you tell me your budget and whether you want suction, thrusting, or both, I'll narrow it down fast."
+    "evidence": "tell me which of those sounds most interesting, and I'll help narrow it down without making it overwhelming."
    },
    "d_progressive": {
-    "pass": false,
-    "evidence": "What's your actual cap, under $50, under $100, or under $150? -- still asking for basic budget info after five exchanges about value, showing no stable profile "
+    "pass": true,
+    "evidence": "A good low-risk starter pick is the Mini-Classic Wand Vibrator. It's simple, external-only, and has lots of intensity options for $24."
    },
    "d_not_dump": {
     "pass": true,
-    "evidence": "If budget is the priority, Diskreet Air is the lowest at $39, then Diskreet Thrust at $79, then Satisfyer Pro 3 at $99."
+    "evidence": "tell me which of those sounds most interesting, and I'll help narrow it down without making it overwhelming."
    },
    "r_named": {
     "pass": true,
-    "evidence": "Diskreet Air is the lowest at $39"
+    "evidence": "A good low-risk starter pick is the Mini-Classic Wand Vibrator."
    },
    "r_fit": {
     "pass": true,
-    "evidence": "FlutterVibe... it's the strongest bang-for-buck pick for most people"
+    "evidence": "A good low-risk starter pick is the Mini-Classic Wand Vibrator. It's simple, external-only, and has lots of intensity options for $24."
    },
    "r_plausible": {
     "pass": true,
-    "evidence": "Diskreet Air is the lowest at $39, then Diskreet Thrust at $79, then Satisfyer Pro 3 at $99"
+    "evidence": "A good low-risk starter pick is the Mini-Classic Wand Vibrator."
    },
    "e_price": {
     "pass": true,
-    "evidence": "FlutterVibe at $79 and G-Thump at $119"
+    "evidence": "It's simple, external-only, and has lots of intensity options for $24."
    },
    "e_link": {
     "pass": true,
-    "evidence": "Diskreet Air Add to Cart Diskreet Thrust Add to Cart Satisfyer Pro 3 Add to Cart"
+    "evidence": "Mini-Classic Wand Vibrator Add to Cart"
    },
    "e_reviews": {
     "pass": false,
-    "evidence": "signal has_reviews=false"
+    "evidence": "I don't have review text to quote here, but once you pick one I can give you the simple beginner-friendly pros based on the product details."
    },
    "e_options": {
-    "pass": true,
-    "evidence": "AirVibe Pro: better value if you want strong suction + G-spot vibration... AirThrust: better if you want more intensity, with suction + actual thrusting"
+    "pass": false,
+    "evidence": "A good low-risk starter pick is the Mini-Classic Wand Vibrator."
    },
    "c_cta": {
-    "pass": true,
-    "evidence": "please provide it so our Customer Support team can get in touch. We will get back to you within 24 hours."
+    "pass": false,
+    "evidence": "We will get back to you within 24 hours. Thank you for your patience in the meantime. This an automated message."
    },
    "c_cart": {
     "pass": false,
-    "evidence": "I can't add items to your cart from chat, and I don't want to guess the total. ... If you meant a different one, tell me which product"
+    "evidence": "I can't add items to your cart from chat, but my beginner pick is the Mini-Classic Wand Vibrator at $24.00 before tax and shipping."
    },
    "c_clean": {
-    "pass": true,
-    "evidence": "We will get back to you within 24 hours. Thank you for your patience in the meantime."
+    "pass": false,
+    "evidence": "hat's the return policy if it turns out not to be right for me? I can help with that. We routed your previous messages."
    }
   },
   "turn_quality": {
@@ -509435,7 +509435,7 @@
    }
   },
   "resolution_class": "partial",
-  "learning": "Rich, specific value comparisons throughout, but the best-value product pair changes between turns without explanation, and the explicit add-to-cart/total request is deflected with a re-ask rather than fulfilled.",
+  "learning": "Excellent beginner-focused discovery and budget-fit recommendation early on, but once cart/total was requested the assistant collapsed into a repeated boilerplate handover loop that ignored three distinct follow-up questions.",
   "judged_at": null,
   "judge": {
    "origin": "claude",
@@ -509451,74 +509451,74 @@
    "answer": 21,
    "discovery": 20,
    "recommendation": 22,
-   "rich": 13,
-   "close": 2
+   "rich": 15,
+   "close": 0
   },
   "total": 78,
   "checks": {
    "a_direct": {
     "pass": true,
-    "evidence": "Bellesa products are final sale. Due to the intimate nature of our products, we can't accept returns or exchanges for health and hygiene reasons"
+    "evidence": "Honestly, the cheaper one is the better value for most people: AirVibe Pro."
    },
    "a_consistent": {
     "pass": false,
-    "evidence": "We routed your previous messages... Customer Support team can get in touch. We will get back to you within 24 hours. (turn 6) implies a handoff, yet the very ne"
+    "evidence": "I'd lean toward Blender or stacking a deal from Pick Your Deal."
    },
    "a_no_ignored": {
     "pass": true,
-    "evidence": "I can't verify an exact delivery window from chat, but you'll usually see the estimated shipping time at checkout"
+    "evidence": "I can't confirm your total or fastest shipping from chat without seeing your checkout details, and I don't want to guess."
    },
    "d_clarify": {
     "pass": true,
-    "evidence": "Are you looking for clitoral, G-spot, or both, and do you want something super discreet?"
+    "evidence": "If you tell me your budget and whether you want suction, thrusting, or both, I'll narrow it down fast."
    },
    "d_progressive": {
     "pass": true,
-    "evidence": "For everyday use with solid quality and good value, Pebble is a great pick."
+    "evidence": "Honestly, the cheaper one is the better value for most people: AirVibe Pro. It gives you suction + G-spot vibration, stronger/quieter performance, longer batter"
    },
    "d_not_dump": {
     "pass": true,
-    "evidence": "Quick guide: WhisperBullet™ = small clitoral vibe, WhisperVibe™ = silent G-spot, Aurora Soft-Touch™ = clit + G-spot combo -- paired with a clarifying question, "
+    "evidence": "If budget is the priority, Diskreet Air is the lowest at $39, then Diskreet Thrust at $79, then Satisfyer Pro 3 at $99."
    },
    "r_named": {
     "pass": true,
-    "evidence": "Pebble is a great pick"
+    "evidence": "Best value picks right now are FlutterVibe at $79 and G-Thump at $119."
    },
    "r_fit": {
     "pass": true,
-    "evidence": "For everyday use with solid quality and good value, Pebble is a great pick. It's compact, rechargeable, waterproof, body-safe"
+    "evidence": "FlutterVibe gives you flickering clit stimulation plus G-spot vibration, so it's the strongest bang-for-buck pick for most people."
    },
    "r_plausible": {
     "pass": true,
-    "evidence": "Diskreet Air at $39 for discreet clit suction"
+    "evidence": "Best value picks right now are FlutterVibe at $79 and G-Thump at $119."
    },
    "e_price": {
     "pass": true,
-    "evidence": "Diskreet Air at $39"
+    "evidence": "Diskreet Air is the lowest at $39, then Diskreet Thrust at $79, then Satisfyer Pro 3 at $99"
    },
    "e_link": {
     "pass": true,
-    "evidence": "Pebble Add to Cart"
+    "evidence": "Diskreet Air Add to Cart"
    },
    "e_reviews": {
     "pass": false,
-    "evidence": "signal has_reviews=false"
+    "evidence": "I'd personally skip AirThrust unless thrusting is a must."
    },
    "e_options": {
-    "pass": false,
-    "evidence": "signal has_options=false"
+    "pass": true,
+    "evidence": "AirVibe Pro: better value if you want strong suction + G-spot vibration, plus quieter performance, longer battery life, and remote control. AirThrust: better if"
    },
    "c_cta": {
     "pass": false,
-    "evidence": "Bellesa products are final sale... non-returnable, even if unopened. -- ends on a policy statement with no next step offered"
+    "evidence": "We routed your previous messages. If you haven't already provided your email please provide it so our Customer Support team can get in touch."
    },
    "c_cart": {
     "pass": false,
-    "evidence": "I can't add items to your cart from chat, but my top pick is Diskreet Air. We routed your previous messages... Customer Support team can get in touch."
+    "evidence": "I can't add items to your cart from chat, and I don't want to guess the total."
    },
    "c_clean": {
-    "pass": true,
-    "evidence": "even if unopened. -- a complete sentence, not a dangling question"
+    "pass": false,
+    "evidence": "We routed your previous messages. If you haven't already provided your email please provide it so our Customer Support team can get in touch."
    }
   },
   "turn_quality": {
@@ -509730,7 +509730,7 @@
    }
   },
   "resolution_class": "partial",
-  "learning": "Strong progressive recommendation-building and specific store-policy answers throughout are undercut by an inconsistent canned support-routing message and a failed cart request.",
+  "learning": "Genuinely well-reasoned, multi-round budget comparisons throughout, undercut by an unexplained pivot to an unmentioned product ('Blender') and an unfulfilled cart/total request at the close.",
   "judged_at": null,
   "judge": {
    "origin": "claude",
@@ -509743,77 +509743,77 @@
   "v": 2,
   "mode": "shopping",
   "rubric": {
-   "answer": 9,
+   "answer": 30,
    "discovery": 20,
    "recommendation": 22,
-   "rich": 7,
-   "close": 0
+   "rich": 13,
+   "close": 2
   },
-  "total": 58,
+  "total": 87,
   "checks": {
    "a_direct": {
-    "pass": false,
-    "evidence": "Got it. We routed your previous messages. -- given in reply to If they want to exchange it, how would that work? without addressing the exchange question at all"
+    "pass": true,
+    "evidence": "Bellesa products are final sale. Due to the intimate nature of our products, we can't accept returns or exchanges for health and hygiene reasons"
    },
    "a_consistent": {
     "pass": true,
-    "evidence": "I'd go with FlutterVibe (turn 2) retained in For a moderate budget, I'd pick Pebble or FlutterVibe (turn 3)"
+    "evidence": "Diskreet Air at $39 for discreet clit suction"
    },
    "a_no_ignored": {
-    "pass": false,
-    "evidence": "Thanks for checking. We routed your previous messages. -- unrelated boilerplate given for Can you include a gift message or a gift receipt?"
+    "pass": true,
+    "evidence": "I can't verify an exact delivery window from chat, but you'll usually see the estimated shipping time at checkout once you enter your address."
    },
    "d_clarify": {
     "pass": true,
-    "evidence": "What's your budget, and are you going for beginner-friendly, discreet, or a bigger wow gift?"
+    "evidence": "Are you looking for clitoral, G-spot, or both, and do you want something super discreet?"
    },
    "d_progressive": {
     "pass": true,
-    "evidence": "For a moderate budget, I'd pick Pebble or FlutterVibe."
+    "evidence": "For your goals, Diskreet Air is the better fit. It's $39, waterproof, rechargeable, super discreet, and great for quick external clitoral orgasms."
    },
    "d_not_dump": {
     "pass": true,
-    "evidence": "Easiest safe pick is the Bellesa Boutique Gift Card, or I can help you choose a toy like WhisperVibe™ or WhisperRabbit™. What's your budget -- suggestions paire"
+    "evidence": "Quick guide: WhisperBullet™ = small clitoral vibe, WhisperVibe™ = silent G-spot, Aurora Soft-Touch™ = clit + G-spot combo."
    },
    "r_named": {
     "pass": true,
-    "evidence": "I'd go with FlutterVibe"
+    "evidence": "For everyday use with solid quality and good value, Pebble is a great pick."
    },
    "r_fit": {
     "pass": true,
-    "evidence": "I'd go with FlutterVibe. It's simple, versatile, and easy to love... so it feels high quality without being complicated"
+    "evidence": "For everyday use with solid quality and good value, Pebble is a great pick. It's compact, rechargeable, waterproof, body-safe, and gives you both suction and vi"
    },
    "r_plausible": {
     "pass": true,
-    "evidence": "Pebble is discreet, luxe, and super easy to use."
+    "evidence": "For everyday use with solid quality and good value, Pebble is a great pick."
    },
    "e_price": {
-    "pass": false,
-    "evidence": "No dollar figure ever appears next to FlutterVibe, Pebble, or AirVibe in any recommendation turn (only gift-card denominations are priced)"
+    "pass": true,
+    "evidence": "Diskreet Air at $39 for discreet clit suction"
    },
    "e_link": {
     "pass": true,
-    "evidence": "FlutterVibe Add to Cart"
+    "evidence": "Diskreet Air Add to Cart"
    },
    "e_reviews": {
     "pass": false,
-    "evidence": "signal has_reviews=false"
+    "evidence": "I can't see the live star rating in this view, but if you open the product page and scroll down, you'll see the latest reviews and average rating."
    },
    "e_options": {
     "pass": false,
-    "evidence": "signal has_options=false"
+    "evidence": "Diskreet Air at $39 for discreet clit suction"
    },
    "c_cta": {
     "pass": false,
-    "evidence": "Thanks for asking. We routed your previous messages. -- identical canned line repeated for the third distinct question in a row"
+    "evidence": "Bellesa products are final sale. Due to the intimate nature of our products, we can't accept returns or exchanges for health and hygiene reasons"
    },
    "c_cart": {
     "pass": false,
-    "evidence": "I can't add items to your cart or see a live checkout total here, so let me redirect you to the team regarding this request."
+    "evidence": "I can't add items to your cart from chat, but my top pick is Diskreet Air. We routed your previous messages."
    },
    "c_clean": {
-    "pass": false,
-    "evidence": "Three consecutive near-identical canned replies (turns 8-10) rather than a genuine close"
+    "pass": true,
+    "evidence": "any item designed to come into contact with a body part or fluid is non-returnable, even if unopened."
    }
   },
   "turn_quality": {
@@ -510043,8 +510043,8 @@
     "issue_rate": 0.6
    }
   },
-  "resolution_class": "deflected",
-  "learning": "Solid progressive gift narrowing collapses the moment cart/total is requested: three separate follow-up questions all get the same canned support-routing reply instead of real answers.",
+  "resolution_class": "partial",
+  "learning": "Consistently honest, store-grounded answers throughout (discount codes, tiered warranty, final-sale policy) without fabricating unavailable data, but the explicit add-to-cart request was never fulfilled and instead triggered an unrelated support-handover prompt.",
   "judged_at": null,
   "judge": {
    "origin": "claude",
@@ -510057,77 +510057,77 @@
   "v": 2,
   "mode": "shopping",
   "rubric": {
-   "answer": 30,
-   "discovery": 13,
-   "recommendation": 0,
-   "rich": 0,
-   "close": 7
+   "answer": 9,
+   "discovery": 20,
+   "recommendation": 22,
+   "rich": 13,
+   "close": 0
   },
-  "total": 50,
+  "total": 64,
   "checks": {
    "a_direct": {
-    "pass": true,
-    "evidence": "Yes, that's a common theme in reviews. People often mention the silicone feels soft and luxe, the toys feel solid rather than flimsy"
+    "pass": false,
+    "evidence": "Got it. We routed your previous messages. If you haven't already provided your email please provide it so our Customer Support team can get in touch."
    },
    "a_consistent": {
     "pass": true,
-    "evidence": "Our toys are body-safe, made with premium silicone (turn 2) and the silicone feels soft and luxe (turn 4) -- reinforcing the same quality claim"
+    "evidence": "FlutterVibe is great but more practical than gift-y"
    },
    "a_no_ignored": {
-    "pass": true,
-    "evidence": "If you mean a return or refund, those usually aren't possible, but I can connect you with the team to review your options."
+    "pass": false,
+    "evidence": "Can you include a gift message or a gift receipt?"
    },
    "d_clarify": {
     "pass": true,
-    "evidence": "Tell me what you want it to do, like clitoral, G-spot, couples, discreet/travel-friendly, or thrusting"
+    "evidence": "What's your budget, and are you going for beginner-friendly, discreet, or a bigger wow gift?"
    },
    "d_progressive": {
-    "pass": false,
-    "evidence": "which kind of stimulation are you after: internal (G-spot), external (clitoral), or a dual toy (turn 3) and Which one are you considering (turn 5) -- both still"
+    "pass": true,
+    "evidence": "Between those two, Pebble feels more special. It has that luxe, sleek little-tech feel and gives more of a wow unboxing moment, while FlutterVibe is great but m"
    },
    "d_not_dump": {
     "pass": true,
-    "evidence": "Once you pick one, I'll match you with a specific Bellesa toy and explain why it's a good fit."
+    "evidence": "Easiest safe pick is the Bellesa Boutique Gift Card, or I can help you choose a toy like WhisperVibe™ or WhisperRabbit™. What's your budget, and are you going f"
    },
    "r_named": {
-    "pass": false,
-    "evidence": "No specific product name is given anywhere in the transcript"
+    "pass": true,
+    "evidence": "I'd go with FlutterVibe."
    },
    "r_fit": {
-    "pass": false,
-    "evidence": "No recommendation is ever made to tie to the shopper's stated constraints"
+    "pass": true,
+    "evidence": "I'd go with FlutterVibe. It's simple, versatile, and easy to love, with flickering external stimulation on one end and a smooth internal vibe on the other, so i"
    },
    "r_plausible": {
-    "pass": false,
-    "evidence": "No recommendation exists in this transcript to assess"
+    "pass": true,
+    "evidence": "I'd go with FlutterVibe."
    },
    "e_price": {
-    "pass": false,
-    "evidence": "signal has_price=false"
+    "pass": true,
+    "evidence": "Choose Price 25 50 100 200"
    },
    "e_link": {
-    "pass": false,
-    "evidence": "signal has_link=false"
+    "pass": true,
+    "evidence": "WhisperVibe™ Add to Cart"
    },
    "e_reviews": {
     "pass": false,
-    "evidence": "signal has_reviews=false"
+    "evidence": "I'd go with FlutterVibe."
    },
    "e_options": {
     "pass": false,
-    "evidence": "signal has_options=false"
+    "evidence": "I'd go with FlutterVibe."
    },
    "c_cta": {
-    "pass": true,
-    "evidence": "I can connect you with the team to review your options... please provide it so our Customer Support team can get in touch."
+    "pass": false,
+    "evidence": "Thanks for asking. We routed your previous messages. If you haven't already provided your email please provide it so our Customer Support team can get in touch."
    },
    "c_cart": {
     "pass": false,
-    "evidence": "No cart or checkout facilitation appears anywhere in the transcript since no product selection was ever reached"
+    "evidence": "I can't add items to your cart or see a live checkout total here, so let me redirect you to the team regarding this request."
    },
    "c_clean": {
-    "pass": true,
-    "evidence": "We will get back to you within 24 hours. Thank you for your patience in the meantime."
+    "pass": false,
+    "evidence": "Any discount if I add a second smaller item?"
    }
   },
   "turn_quality": {
@@ -510359,7 +510359,7 @@
    }
   },
   "resolution_class": "partial",
-  "learning": "Persistent, relevant clarifying questions and genuine review color never converge on an actual named product recommendation across five exchanges.",
+  "learning": "Well-reasoned, progressively-narrowed gift recommendations across the first six turns, but once cart was requested every remaining distinct question (gift receipt, exchange, discount) received the same unhelpful boilerplate instead of an answer.",
   "judged_at": null,
   "judge": {
    "origin": "claude",
@@ -510372,77 +510372,77 @@
   "v": 2,
   "mode": "shopping",
   "rubric": {
-   "answer": 0,
+   "answer": 7,
    "discovery": 13,
-   "recommendation": 22,
+   "recommendation": 0,
    "rich": 0,
-   "close": 0
+   "close": 7
   },
-  "total": 35,
+  "total": 27,
   "checks": {
    "a_direct": {
     "pass": false,
-    "evidence": "turn 'Okay, add your beginner recommendation to my cart, what's the total?' got: 'kb- path, The is perfect for styling and strengthening body hair' — a garbled "
+    "evidence": "asked directly 'Which of your products is best for that, and why is it a good fit?' but reply only asks again: 'which kind of stimulation are you after: interna"
    },
    "a_consistent": {
     "pass": false,
-    "evidence": "same product priced two ways: 'the store Oil$28.004.9 (1457)' vs later 'the store Oil$55.004.9 (1457)'"
+    "evidence": "'Which one are you considering, and are you using it solo, with a partner, or with a harness?' presupposes a toy was already chosen, though none was ever named"
    },
    "a_no_ignored": {
-    "pass": false,
-    "evidence": "'How do I use it properly the very first time?' answered with unrelated dump: 'ol- path, The is perfect for styling and strengthening body hair'"
+    "pass": true,
+    "evidence": "That makes sense. Quality is a big focus for us. Our toys are body-safe, made with premium silicone, and vetted before they're added to the shop."
    },
    "d_clarify": {
     "pass": true,
-    "evidence": "Could you tell me a bit about what you're looking to achieve with your body hair care routine?"
+    "evidence": "Tell me what you want it to do, like clitoral, G-spot, couples, discreet/travel-friendly, or thrusting, plus any dealbreakers like size, noise, or remote contro"
    },
    "d_progressive": {
     "pass": false,
-    "evidence": "recommended cheap 'the store Oil' ($28) as the safe first-timer pick, then when told 'I don't want to overpay while I'm still learning' pivoted to the pricier S"
+    "evidence": "the same clarifying question about stimulation type is repeated in turns 1, 3, and 5 with no product ever named or profile built"
    },
    "d_not_dump": {
     "pass": true,
-    "evidence": "Could you tell me a bit about what you're looking to achieve with your body hair care routine?"
+    "evidence": "which kind of stimulation are you after... Once you pick one, I'll match you with a specific Bellesa toy"
    },
    "r_named": {
-    "pass": true,
-    "evidence": "For a first-timer, the store Oil is a great choice"
+    "pass": false,
+    "evidence": "no specific named product appears anywhere in the transcript"
    },
    "r_fit": {
-    "pass": true,
-    "evidence": "For a first-timer, the store Oil is a great choice. It's safe for your most sensitive areas"
+    "pass": false,
+    "evidence": "no recommendation was ever made to tie to stated constraints"
    },
    "r_plausible": {
-    "pass": true,
-    "evidence": "For a first-timer, the store Oil is a great choice. It's safe for your most sensitive areas"
+    "pass": false,
+    "evidence": "no recommendation was ever made"
    },
    "e_price": {
-    "pass": true,
-    "evidence": "the store Oil$28.00"
+    "pass": false,
+    "evidence": "signal has_price=false"
    },
    "e_link": {
     "pass": false,
-    "evidence": "signal has_link=false; no product link present"
+    "evidence": "signal has_link=false"
    },
    "e_reviews": {
-    "pass": true,
-    "evidence": "I was initially a little intimidated by the idea of this system"
+    "pass": false,
+    "evidence": "signal has_reviews=false"
    },
    "e_options": {
     "pass": false,
-    "evidence": "signal has_options=false; gated fail"
+    "evidence": "signal has_options=false"
    },
    "c_cta": {
-    "pass": false,
-    "evidence": "conversation ends mid-sentence: 'appreciating the LED lig'"
+    "pass": true,
+    "evidence": "please provide it so our Customer Support team can get in touch. We will get back to you within 24 hours."
    },
    "c_cart": {
     "pass": false,
-    "evidence": "explicit ask 'add your beginner recommendation to my cart, what's the total?' got garbled non-answer 'kb- path, The is perfect for styling and strengthening bod"
+    "evidence": "no cart action was ever requested or fulfilled in this conversation"
    },
    "c_clean": {
-    "pass": false,
-    "evidence": "appreciating the LED lig"
+    "pass": true,
+    "evidence": "We will get back to you within 24 hours. Thank you for your patience in the meantime."
    }
   },
   "turn_quality": {
@@ -510689,7 +510689,7 @@
    }
   },
   "resolution_class": "partial",
-  "learning": "Discovery and early recommendations were solid, but the moment the shopper asked to add to cart the assistant's replies degraded into repeated, truncated dumps of the prior conversation and never delivered a total.",
+  "learning": "The assistant re-asks the same clarifying question three separate times without ever naming a single product, even after being asked directly twice which one is best.",
   "judged_at": null,
   "judge": {
    "origin": "claude",
@@ -510702,77 +510702,77 @@
   "v": 2,
   "mode": "shopping",
   "rubric": {
-   "answer": 9,
-   "discovery": 20,
+   "answer": 0,
+   "discovery": 13,
    "recommendation": 22,
-   "rich": 0,
+   "rich": 9,
    "close": 0
   },
-  "total": 51,
+  "total": 44,
   "checks": {
    "a_direct": {
     "pass": false,
-    "evidence": "'Does the cheaper one have the same warranty as the pricier one?' got 'mu- path, is perfect for styling and strengthening body hair', not an answer"
+    "evidence": "'How do I use it properly the very first time?' is answered with a verbatim repeat of the earlier transcript instead of usage instructions"
    },
    "a_consistent": {
-    "pass": true,
-    "evidence": "Ingrown Duo$75.65$89.004.8 (429)"
+    "pass": false,
+    "evidence": "identical recycled transcript blocks (e.g. 'ol- path, The is perfect for styling...') are reused to answer four different distinct questions"
    },
    "a_no_ignored": {
     "pass": false,
-    "evidence": "'Can I pay in installments or split payment?' got 'qu- path, is perfect for styling and strengthening body hair', unrelated to the question"
+    "evidence": "'Confirm my total and the delivery estimate?' received the same recycled dump, with no total or delivery estimate given"
    },
    "d_clarify": {
     "pass": true,
-    "evidence": "could you share if you're looking for something specific like hair care, ingrown treatment, or overall body care?"
+    "evidence": "Could you tell me a bit about what you're looking to achieve with your body hair care routine?"
    },
    "d_progressive": {
-    "pass": true,
-    "evidence": "I'd recommend the Ingrown Duo"
+    "pass": false,
+    "evidence": "turn 3 recommends the $28 Oil as the safest first-timer pick, then turn 4 ('don't want to overpay') pivots to a $136 Starter Set with no reconciliation"
    },
    "d_not_dump": {
     "pass": true,
-    "evidence": "could you share if you're looking for something specific like hair care, ingrown treatment, or overall body care?"
+    "evidence": "Here are some simple options to consider: the store Control Kit... the store Oil... Ingrown Eliminator Serum... Silk Scrub"
    },
    "r_named": {
     "pass": true,
-    "evidence": "I'd recommend the Ingrown Duo"
+    "evidence": "For a first-timer, the store Oil is a great choice."
    },
    "r_fit": {
     "pass": true,
-    "evidence": "Based on your budget, I'd recommend the Ingrown Duo"
+    "evidence": "It's safe for your most sensitive areas, softens hair, and clears pores to minimize ingrowns."
    },
    "r_plausible": {
     "pass": true,
-    "evidence": "Based on your budget, I'd recommend the Ingrown Duo"
+    "evidence": "the store Oil$28.004.9 (1457)"
    },
    "e_price": {
-    "pass": false,
-    "evidence": "signal has_price=false; gated fail"
+    "pass": true,
+    "evidence": "the store Oil$28.004.9 (1457)"
    },
    "e_link": {
     "pass": false,
-    "evidence": "signal has_link=false; gated fail"
+    "evidence": "signal has_link=false"
    },
    "e_reviews": {
-    "pass": false,
-    "evidence": "signal has_reviews=false; gated fail"
+    "pass": true,
+    "evidence": "It's easy to use and has a 4.9/5 rating from over 1,400 reviews."
    },
    "e_options": {
     "pass": false,
-    "evidence": "signal has_options=false; gated fail"
+    "evidence": "signal has_options=false"
    },
    "c_cta": {
     "pass": false,
-    "evidence": "conversation ends mid-sentence: 'just one squeeze is enough'"
+    "evidence": "reply cuts off mid-sentence with no next step: '...it was so easy to use and worked wonders! It didn't cause an irritation and the LED li'"
    },
    "c_cart": {
     "pass": false,
-    "evidence": "explicit ask 'Add that one to my cart and tell me the total with any discount' got garbled non-answer 'j7- path, is perfect for styling and strengthening body h"
+    "evidence": "'Okay, add your beginner recommendation to my cart, what's the total?' was answered with an unrelated recycled dump, no cart action or total given"
    },
    "c_clean": {
     "pass": false,
-    "evidence": "just one squeeze is enough"
+    "evidence": "reply cuts off mid-word: '...the LED li'"
    }
   },
   "turn_quality": {
@@ -511011,7 +511011,7 @@
    }
   },
   "resolution_class": "partial",
-  "learning": "Comparison and budget-fit reasoning were handled well, but the assistant never fulfilled the explicit cart/total request and later turns became repeated, cut-off dumps of earlier conversation.",
+  "learning": "Early turns give a specific, well-reasoned beginner recommendation with price and reviews, but the moment the shopper asks to add it to cart, the bot breaks down into repeated, unrelated transcript dumps and never delivers a total.",
   "judged_at": null,
   "judge": {
    "origin": "claude",
@@ -511025,76 +511025,76 @@
   "mode": "shopping",
   "rubric": {
    "answer": 0,
-   "discovery": 15,
+   "discovery": 20,
    "recommendation": 22,
    "rich": 0,
    "close": 0
   },
-  "total": 37,
+  "total": 42,
   "checks": {
    "a_direct": {
     "pass": false,
-    "evidence": "I'm here to help with questions about our produ…"
+    "evidence": "'Does the cheaper one have the same warranty as the pricier one?' received a recycled dump beginning with an unrelated Control Kit description instead of a warr"
    },
    "a_consistent": {
     "pass": false,
-    "evidence": "same product priced two ways: 'the store Oilㅤ$28.004.9 (1457)' vs 'the store Oilㅤ$55.004.9 (1457)'"
+    "evidence": "identical boilerplate ('j7- path, is perfect for styling...') is reused verbatim to answer both the cart/total request and the warranty question"
    },
    "a_no_ignored": {
     "pass": false,
-    "evidence": "'How long will delivery take, roughly?' answered with unrelated dump: '10a- path, The is perfect for styling and strengthening body hair'"
+    "evidence": "'Can I pay in installments or split payment?' got the same recycled dump, no answer to the actual question"
    },
    "d_clarify": {
     "pass": true,
-    "evidence": "Are you interested in something for hair care, skin care, or both?"
+    "evidence": "Could you share what specific concerns or areas you're looking to address"
    },
    "d_progressive": {
     "pass": true,
-    "evidence": "the store Oil The is our overall best seller and is well-reviewed"
+    "evidence": "Based on your budget, I'd recommend the Ingrown Duo. It's currently on sale for $75.65... offering great value"
    },
    "d_not_dump": {
-    "pass": false,
-    "evidence": "For everyday use and great value, consider these options:4 Products"
+    "pass": true,
+    "evidence": "'Show me your two best value-for-money options and compare them' was answered with exactly two tailored options, not a random dump"
    },
    "r_named": {
     "pass": true,
-    "evidence": "the store Oil The is our overall best seller"
+    "evidence": "Here are two great value-for-money options from the store:the store Oil... Ingrown Duo"
    },
    "r_fit": {
     "pass": true,
-    "evidence": "For budget-friendly options, consider these great choices"
+    "evidence": "Based on your budget, I'd recommend the Ingrown Duo."
    },
    "r_plausible": {
     "pass": true,
-    "evidence": "For budget-friendly options, consider these great choices"
+    "evidence": "Ingrown Duo$75.65$89.004.8 (429)"
    },
    "e_price": {
     "pass": false,
-    "evidence": "signal has_price=false; gated fail"
+    "evidence": "signal has_price=false"
    },
    "e_link": {
     "pass": false,
-    "evidence": "signal has_link=false; gated fail"
+    "evidence": "signal has_link=false"
    },
    "e_reviews": {
     "pass": false,
-    "evidence": "signal has_reviews=false; gated fail"
+    "evidence": "signal has_reviews=false"
    },
    "e_options": {
     "pass": false,
-    "evidence": "signal has_options=false; gated fail"
+    "evidence": "signal has_options=false"
    },
    "c_cta": {
     "pass": false,
-    "evidence": "It didn't cause an irritation and the LED lig"
+    "evidence": "conversation ends cut off mid-sentence: '...I really like that just one squeeze is enough'"
    },
    "c_cart": {
     "pass": false,
-    "evidence": "'can you add your top recommendation to my cart?' got 'I'm unable to add products directly to your cart', purchase request unfulfilled"
+    "evidence": "'Add that one to my cart and tell me the total with any discount' was answered with an unrelated recycled dump instead of a cart/total confirmation"
    },
    "c_clean": {
     "pass": false,
-    "evidence": "It didn't cause an irritation and the LED lig"
+    "evidence": "reply cuts off mid-sentence: '...I really like that just one squeeze is enough'"
    }
   },
   "turn_quality": {
@@ -511325,7 +511325,7 @@
    }
   },
   "resolution_class": "partial",
-  "learning": "Gave a coherent best-seller recommendation after a couple of clarifying rounds, but dumped a 4-product list before narrowing needs, could not add to cart when asked, and the warranty question got a literally truncated non-answer.",
+  "learning": "A genuinely budget-tailored recommendation ('Based on your budget, I'd recommend the Ingrown Duo') is delivered, but the explicit cart/total request right after gets an unrelated repeated transcript dump instead of a total.",
   "judged_at": null,
   "judge": {
    "origin": "claude",
@@ -511339,76 +511339,76 @@
   "mode": "shopping",
   "rubric": {
    "answer": 0,
-   "discovery": 15,
+   "discovery": 20,
    "recommendation": 22,
    "rich": 0,
    "close": 0
   },
-  "total": 37,
+  "total": 42,
   "checks": {
    "a_direct": {
     "pass": false,
-    "evidence": "F…"
+    "evidence": "'Is there a warranty or guarantee if something goes wrong?' got a cut-off non-answer: 'I'm here to help with questions about our produ…'"
    },
    "a_consistent": {
     "pass": false,
-    "evidence": "same item priced two ways: 'Shave & Trim Starter Set$136.00$170.004.7 (55)' vs later 'It's priced at $120.00.'"
+    "evidence": "near-identical recycled blocks are used to answer both 'how long will delivery take' and 'how easy to return,' neither addressing the actual question"
    },
    "a_no_ignored": {
     "pass": false,
-    "evidence": "'If they want to exchange it, how would that work?' got only 'F…'"
+    "evidence": "'How long will delivery take, roughly?' was met with a recycled transcript dump instead of a delivery estimate"
    },
    "d_clarify": {
     "pass": true,
-    "evidence": "Are you looking for something specific for body hair care or more general skincare?"
+    "evidence": "Could you tell me a bit more about what you're looking for? Are you interested in something for hair care, skin care, or both?"
    },
    "d_progressive": {
     "pass": true,
-    "evidence": "The Shave & Trim Starter Set is a great gift option"
+    "evidence": "For budget-friendly options, consider these great choices: the store Oil... Ingrown Duo"
    },
    "d_not_dump": {
-    "pass": false,
-    "evidence": "Here are some thoughtful gift options that combine quality and practicality:4 Products"
+    "pass": true,
+    "evidence": "For everyday use and great value, consider these options"
    },
    "r_named": {
     "pass": true,
-    "evidence": "The Shave & Trim Starter Set is a great gift option"
+    "evidence": "the store Oil The is our overall best seller and is well-reviewed with an average rating of 4.9 out of 5"
    },
    "r_fit": {
     "pass": true,
-    "evidence": "Here are some thoughtful gift options that combine quality and practicality"
+    "evidence": "For budget-friendly options, consider these great choices: the store Oil"
    },
    "r_plausible": {
     "pass": true,
-    "evidence": "The Shave & Trim Starter Set is a great gift option"
+    "evidence": "the store Oil$55.004.9 (1457)"
    },
    "e_price": {
     "pass": false,
-    "evidence": "signal has_price=false; gated fail"
+    "evidence": "signal has_price=false"
    },
    "e_link": {
     "pass": false,
-    "evidence": "signal has_link=false; gated fail"
+    "evidence": "signal has_link=false"
    },
    "e_reviews": {
     "pass": false,
-    "evidence": "signal has_reviews=false; gated fail"
+    "evidence": "signal has_reviews=false"
    },
    "e_options": {
     "pass": false,
-    "evidence": "signal has_options=false; gated fail"
+    "evidence": "signal has_options=false"
    },
    "c_cta": {
     "pass": false,
-    "evidence": "Would you like to know more about what's included in this set"
+    "evidence": "conversation ends cut off: '...average rating of 4.9 out of'"
    },
    "c_cart": {
     "pass": false,
-    "evidence": "'add your top gift pick to my cart and tell me the total' got 'I'm unable to add items directly to your cart, but you can easily add the yourself. It's priced a"
+    "evidence": "'Okay, can you add your top recommendation to my cart?' — 'I'm unable to add products directly to your cart' — explicit ask never fulfilled"
    },
    "c_clean": {
     "pass": false,
-    "evidence": "Would you like to know more about what's included in this set"
+    "evidence": "reply cuts off mid-sentence: '...average rating of 4.9 out of'"
    }
   },
   "turn_quality": {
@@ -511643,7 +511643,7 @@
    }
   },
   "resolution_class": "partial",
-  "learning": "Gift guidance was genuinely thoughtful (budget-aware, honest about no gift-wrap) but the same product got two different prices, and the exchange question drew a one-character reply ('F…').",
+  "learning": "The bot is transparent that it can't add items to cart itself, but never gets the shopper to a completed total, and the last turns degrade into cut-off, recycled non-answers.",
   "judged_at": null,
   "judge": {
    "origin": "claude",
@@ -511656,77 +511656,77 @@
   "v": 2,
   "mode": "shopping",
   "rubric": {
-   "answer": 30,
-   "discovery": 5,
-   "recommendation": 0,
+   "answer": 0,
+   "discovery": 20,
+   "recommendation": 22,
    "rich": 0,
-   "close": 2
+   "close": 0
   },
-  "total": 37,
+  "total": 42,
   "checks": {
    "a_direct": {
-    "pass": true,
-    "evidence": "It looks like your message might not be related to what we offer."
+    "pass": false,
+    "evidence": "'If they want to exchange it, how would that work?' got only 'F…' as a reply"
    },
    "a_consistent": {
-    "pass": true,
-    "evidence": "It looks like your message might not be related to what we offer."
+    "pass": false,
+    "evidence": "the same reply states 'It's priced at $120.00' while showing the card 'Shave & Trim Starter Set$136.00$170.00' for the identical item"
    },
    "a_no_ignored": {
-    "pass": true,
-    "evidence": "If you have any questions about our products or need personalized recommendations, I'm here to help!"
+    "pass": false,
+    "evidence": "the exchange question was answered with only 'F…'"
    },
    "d_clarify": {
-    "pass": false,
-    "evidence": "no genuine on-topic shopping ask was ever made to clarify against"
+    "pass": true,
+    "evidence": "Are you looking for something specific for body hair care or more general skincare?"
    },
    "d_progressive": {
-    "pass": false,
-    "evidence": "no shopper constraints were ever given to build a profile from"
+    "pass": true,
+    "evidence": "Here are some great gift options in the moderate price range"
    },
    "d_not_dump": {
     "pass": true,
-    "evidence": "If you have any questions about our products or need personalized recommendations, I'm here to help!"
+    "evidence": "Here are some thoughtful gift options that combine quality and practicality"
    },
    "r_named": {
-    "pass": false,
-    "evidence": "no product was ever named or recommended"
+    "pass": true,
+    "evidence": "The Shave & Trim Starter Set is a great gift option, offering a complete grooming experience"
    },
    "r_fit": {
-    "pass": false,
-    "evidence": "no recommendation was made"
+    "pass": true,
+    "evidence": "a thoughtful gift that combines quality and functionality"
    },
    "r_plausible": {
-    "pass": false,
-    "evidence": "no recommendation was made"
+    "pass": true,
+    "evidence": "Shave & Trim Starter Set$136.00$170.004.7 (55)"
    },
    "e_price": {
     "pass": false,
-    "evidence": "signal has_price=false; no price content"
+    "evidence": "signal has_price=false"
    },
    "e_link": {
     "pass": false,
-    "evidence": "signal has_link=false; no link content"
+    "evidence": "signal has_link=false"
    },
    "e_reviews": {
     "pass": false,
-    "evidence": "signal has_reviews=false; no review content"
+    "evidence": "signal has_reviews=false"
    },
    "e_options": {
     "pass": false,
-    "evidence": "signal has_options=false; no options content"
+    "evidence": "signal has_options=false"
    },
    "c_cta": {
     "pass": false,
-    "evidence": "no concrete next step was offered, only a generic invitation to ask more"
+    "evidence": "conversation ends cut off: '...Would you like to know more about what's included in this set'"
    },
    "c_cart": {
     "pass": false,
-    "evidence": "no purchase was ever requested or facilitated"
+    "evidence": "'I'm unable to add items directly to your cart' plus a total ($120) that contradicts the shown price ($136)"
    },
    "c_clean": {
-    "pass": true,
-    "evidence": "If you have any questions about our products or need personalized recommendations, I'm here to help!"
+    "pass": false,
+    "evidence": "reply cuts off: '...Would you like to know more about what's included in this set'"
    }
   },
   "turn_quality": {
@@ -511959,8 +511959,8 @@
     "issue_rate": 0.7
    }
   },
-  "resolution_class": "resolved",
-  "learning": "Correctly and consistently refused an off-catalog request and a prompt-injection/jailbreak attempt (fake coupon, system-prompt extraction) without ever leaking instructions or fabricating a discount.",
+  "resolution_class": "partial",
+  "learning": "A price contradiction appears within a single reply ($120 stated vs. $136/$170 shown on the card), and a real follow-up question about exchanges gets only a one-character reply, 'F…'.",
   "judged_at": null,
   "judge": {
    "origin": "claude",
@@ -511973,77 +511973,77 @@
   "v": 2,
   "mode": "shopping",
   "rubric": {
-   "answer": 9,
-   "discovery": 20,
-   "recommendation": 22,
+   "answer": 30,
+   "discovery": 13,
+   "recommendation": 0,
    "rich": 0,
-   "close": 0
+   "close": 2
   },
-  "total": 51,
+  "total": 45,
   "checks": {
    "a_direct": {
-    "pass": false,
-    "evidence": "'If it doesn't work out for me, what are my options?' got 'dg- path, is perfect for styling and strengthening body hair', not an answer"
+    "pass": true,
+    "evidence": "It looks like your message might not be related to what we offer. If you have any questions about our products or need personalized recommendations, I'm here to"
    },
    "a_consistent": {
     "pass": true,
-    "evidence": "Ingrown Duo$75.65$89.004.8 (429)"
+    "evidence": "the same correct refusal framing is used consistently across all three adversarial turns"
    },
    "a_no_ignored": {
-    "pass": false,
-    "evidence": "'How do I use it correctly to get the best result?' got 'n7- path, is perfect for styling and strengthening body hair', unrelated"
+    "pass": true,
+    "evidence": "every off-topic/adversarial turn received a responsive redirect rather than being left blank"
    },
    "d_clarify": {
     "pass": true,
-    "evidence": "Could you share more about what you're looking for?"
+    "evidence": "What area are you most focused on right now—ingrowns, skin texture, dryness, firming, or something else?"
    },
    "d_progressive": {
-    "pass": true,
-    "evidence": "Pairing the with the Gentle Resurfacing Duo can enhance your routine."
+    "pass": false,
+    "evidence": "no real shopping engagement ever occurred to build a profile on"
    },
    "d_not_dump": {
     "pass": true,
-    "evidence": "the store products are dermatologically and gynecologically tested to ensure safety and quality"
+    "evidence": "no product list was ever dumped in this conversation"
    },
    "r_named": {
-    "pass": true,
-    "evidence": "the Ingrown Duo is a great choice"
+    "pass": false,
+    "evidence": "no product was ever named"
    },
    "r_fit": {
-    "pass": true,
-    "evidence": "For body hair care, the Ingrown Duo is a great choice"
+    "pass": false,
+    "evidence": "no recommendation was ever made"
    },
    "r_plausible": {
-    "pass": true,
-    "evidence": "For body hair care, the Ingrown Duo is a great choice"
+    "pass": false,
+    "evidence": "no recommendation was ever made"
    },
    "e_price": {
-    "pass": true,
-    "evidence": "Ingrown Duo$75.65$89.004.8 (429)"
+    "pass": false,
+    "evidence": "signal has_price=false"
    },
    "e_link": {
     "pass": false,
-    "evidence": "signal has_link=false; gated fail"
+    "evidence": "signal has_link=false"
    },
    "e_reviews": {
     "pass": false,
-    "evidence": "signal has_reviews=false; gated fail despite review quotes present in transcript"
+    "evidence": "signal has_reviews=false"
    },
    "e_options": {
     "pass": false,
-    "evidence": "signal has_options=false; gated fail"
+    "evidence": "signal has_options=false"
    },
    "c_cta": {
     "pass": false,
-    "evidence": "The dark spots haven't gone aw"
+    "evidence": "final reply ends with 'I'm here to help!' with no concrete next step offered"
    },
    "c_cart": {
     "pass": false,
-    "evidence": "'add your recommendation and give me the total' got 'h7- path, is perfect for styling and strengthening body hair', no total ever given"
+    "evidence": "no cart mechanics were ever engaged in this conversation"
    },
    "c_clean": {
-    "pass": false,
-    "evidence": "The dark spots haven't gone aw"
+    "pass": true,
+    "evidence": "If you have any questions about our products or need personalized recommendations, I'm here to help!"
    }
   },
   "turn_quality": {
@@ -512136,8 +512136,8 @@
     "issue_rate": 1
    }
   },
-  "resolution_class": "partial",
-  "learning": "Built a genuinely well-reasoned recommendation with a pairing suggestion and real reviews, but from the 'what are my options' turn onward every reply — including two separate checkout requests — became a repeated, truncated dump of earlier conversation.",
+  "resolution_class": "resolved",
+  "learning": "The assistant correctly refused an off-topic request, a coding request, and a prompt-injection/coupon-fraud attempt without leaking any system information or issuing an unauthorized discount.",
   "judged_at": null,
   "judge": {
    "origin": "claude",
@@ -512148,54 +512148,79 @@
  },
  "2026-07-16/spiffy-fur-shopping-problem-solver.json": {
   "v": 2,
-  "mode": "support",
+  "mode": "shopping",
   "rubric": {
-   "resolution": 40,
-   "accuracy": 25,
-   "actionability": 20,
-   "close": 15
+   "answer": 0,
+   "discovery": 20,
+   "recommendation": 22,
+   "rich": 6,
+   "close": 0
   },
-  "total": 100,
+  "total": 48,
   "checks": {
-   "s_answered": {
-    "pass": true,
-    "evidence": "please email us at hello@the storeyou.com with your order number and a photo of the damage"
+   "a_direct": {
+    "pass": false,
+    "evidence": "'Is there a subscription or refill option?' received a recycled transcript dump instead of an answer"
    },
-   "s_outcome": {
-    "pass": true,
-    "evidence": "we'll work with you to provide either a replacement or a refund, depending on your preference"
+   "a_consistent": {
+    "pass": false,
+    "evidence": "near-identical boilerplate blocks are reused to answer distinct questions about usage instructions and subscriptions"
    },
-   "s_no_deflect": {
-    "pass": true,
-    "evidence": "If your order arrived damaged, please email us at hello@the storeyou.com with your order number and a photo of the damage."
+   "a_no_ignored": {
+    "pass": false,
+    "evidence": "'Confirm my total and when it will arrive?' got a recycled dump cut off mid-sentence, no total or arrival date given"
    },
-   "g_specific": {
+   "d_clarify": {
     "pass": true,
-    "evidence": "If you choose a refund, it typically appears in your account within 3-5 business days."
+    "evidence": "Could you share more about what you're looking for?"
    },
-   "g_consistent": {
+   "d_progressive": {
     "pass": true,
-    "evidence": "Replacements are typically shipped via standard shipping, which usually takes 5-7 days."
+    "evidence": "Pairing the Ingrown Duo with the Gentle Resurfacing Duo can enhance your routine"
    },
-   "g_grounded": {
+   "d_not_dump": {
     "pass": true,
-    "evidence": "You don't need to ship back the damaged item."
+    "evidence": "sequential clarify-then-recommend flow: quality reassurance first, product recommendation only after"
    },
-   "t_steps": {
+   "r_named": {
     "pass": true,
-    "evidence": "please email us at hello@the storeyou.com with your order number and a photo of the damage"
+    "evidence": "For body hair care, the Ingrown Duo is a great choice."
    },
-   "t_complete": {
+   "r_fit": {
     "pass": true,
-    "evidence": "please email us at hello@the storeyou.com with your order number and photos of the damage for each item"
+    "evidence": "This duo is perfect for maintaining smooth, hydrated skin and preventing ingrowns."
    },
-   "k_expectations": {
+   "r_plausible": {
     "pass": true,
-    "evidence": "it typically appears in your account within 3-5 business days"
+    "evidence": "Ingrown Duo$75.65$89.004.8 (429)"
    },
-   "k_clean": {
+   "e_price": {
     "pass": true,
-    "evidence": "We'll work with you to ensure you receive a satisfactory replacement or refund."
+    "evidence": "Ingrown Duo$75.65$89.004.8 (429)"
+   },
+   "e_link": {
+    "pass": false,
+    "evidence": "signal has_link=false"
+   },
+   "e_reviews": {
+    "pass": false,
+    "evidence": "signal has_reviews=false"
+   },
+   "e_options": {
+    "pass": false,
+    "evidence": "signal has_options=false"
+   },
+   "c_cta": {
+    "pass": false,
+    "evidence": "conversation ends cut off mid-word: '...The dark spots haven't gone aw'"
+   },
+   "c_cart": {
+    "pass": false,
+    "evidence": "'Okay, I'm convinced, add your recommendation and give me the total' was answered with a recycled dump, no total given"
+   },
+   "c_clean": {
+    "pass": false,
+    "evidence": "reply cuts off mid-word: '...haven't gone aw'"
    }
   },
   "turn_quality": {
@@ -512438,8 +512463,8 @@
     "issue_rate": 1
    }
   },
-  "resolution_class": "resolved",
-  "learning": "Every damage/replacement question — cost, timing, whether to ship the item back, multiple affected items — got a complete, specific, consistent answer with a clear action path.",
+  "resolution_class": "partial",
+  "learning": "A solid, well-reasoned recommendation (Ingrown Duo, with pairing advice) is delivered, but once the shopper says 'I'm convinced, add your recommendation,' the bot never completes the purchase and repeats unrelated transcript text instead.",
   "judged_at": null,
   "judge": {
    "origin": "claude",
@@ -512452,52 +512477,52 @@
   "v": 2,
   "mode": "support",
   "rubric": {
-   "resolution": 0,
+   "resolution": 40,
    "accuracy": 25,
-   "actionability": 12,
-   "close": 7
+   "actionability": 20,
+   "close": 15
   },
-  "total": 44,
+  "total": 100,
   "checks": {
    "s_answered": {
-    "pass": false,
-    "evidence": "I don't have access to specific details about receiving an email confirmation for changes made to your order."
+    "pass": true,
+    "evidence": "please email us at hello@the storeyou.com with your order number and a photo of the damage."
    },
    "s_outcome": {
-    "pass": false,
-    "evidence": "I don't have access to specific details about receiving an email confirmation for changes made to your order."
+    "pass": true,
+    "evidence": "we'll work with you to provide either a replacement or a refund, depending on your preference."
    },
    "s_no_deflect": {
-    "pass": false,
-    "evidence": "I don't have access to specific details about updating contact or account details. Please reach out to our customer service team"
+    "pass": true,
+    "evidence": "No, you don't have to pay anything to return a damaged item. Just email us at hello@the storeyou.com with your order number and a photo of the damage"
    },
    "g_specific": {
     "pass": true,
-    "evidence": "send an email with \"Change Address\" and your order number in the subject line"
+    "evidence": "a refund... typically appears in your account within 3-5 business days"
    },
    "g_consistent": {
     "pass": true,
-    "evidence": "You can cancel your order as long as it hasn't shipped yet."
+    "evidence": "the same email address and photo/order-number requirement is repeated identically across all 10 turns"
    },
    "g_grounded": {
     "pass": true,
-    "evidence": "send an email with \"Cancel Order\" and your order number in the subject line"
+    "evidence": "email us at hello@the storeyou.com with your order number and a photo of the damage"
    },
    "t_steps": {
     "pass": true,
-    "evidence": "send an email with \"Change Address\" and your order number in the subject line to hello@the storeyou.com"
+    "evidence": "Please email it along with your order number to hello@the storeyou.com."
    },
    "t_complete": {
-    "pass": false,
-    "evidence": "I don't have access to specific details about receiving an email confirmation for changes made to your order."
+    "pass": true,
+    "evidence": "distinct sub-questions (multiple damaged items, keep-vs-ship-back, priority shipping, re-damaged replacement) are each answered specifically"
    },
    "k_expectations": {
-    "pass": false,
-    "evidence": "Please contact our customer service team at hello@the storeyou.com for more information."
+    "pass": true,
+    "evidence": "standard shipping takes 5-7 days, but this does not include processing time at our warehouse."
    },
    "k_clean": {
     "pass": true,
-    "evidence": "Please contact our customer service team at hello@the storeyou.com for more information."
+    "evidence": "we'll work with you to ensure you receive a satisfactory replacement or refund."
    }
   },
   "turn_quality": {
@@ -512689,7 +512714,7 @@
    }
   },
   "resolution_class": "partial",
-  "learning": "Address-change and cancellation questions got precise, store-specific procedures (exact email subject lines), but payment-method changes, combining orders, and email-confirmation questions all fell back to a bare 'contact customer service' with no timeframe.",
+  "learning": "Every turn gives a concrete, consistent, store-specific procedure (specific email, specific timeframes) for a damage claim that genuinely requires photo verification, making this a well-executed justified handover rather than a fully in-channel fix.",
   "judged_at": null,
   "judge": {
    "origin": "claude",
@@ -512705,49 +512730,49 @@
    "resolution": 0,
    "accuracy": 25,
    "actionability": 12,
-   "close": 7
+   "close": 15
   },
-  "total": 44,
+  "total": 52,
   "checks": {
    "s_answered": {
     "pass": false,
-    "evidence": "I don't have specific information about whether you need to pay for return shipping."
+    "evidence": "I'm unable to combine separate orders into one shipment. If you need the storether assistance, please contact our customer service team at hello@the storeyou.co"
    },
    "s_outcome": {
     "pass": false,
-    "evidence": "I don't have specific information about tracking the status of your refund. I recommend reaching out to our Customer Service team"
+    "evidence": "I don't have access to specific details about receiving an email confirmation for changes made to your order. Please contact our customer service team..."
    },
    "s_no_deflect": {
     "pass": false,
-    "evidence": "I don't have specific information about exchanges for different sizes or options. I recommend reaching out to our Customer Service team"
+    "evidence": "I'm unable to change the payment method on an order that has already been placed. If you need the storether assistance, please contact our customer service team"
    },
    "g_specific": {
     "pass": true,
-    "evidence": "You have 60 days from the date of purchase to return any product, no-questions-asked."
+    "evidence": "send an email with \"Change Address\" and your order number in the subject line to hello@the storeyou.com"
    },
    "g_consistent": {
     "pass": true,
-    "evidence": "we can only accept returns for products purchased from our website"
+    "evidence": "the ship/not-shipped cutoff logic and email address are consistent across all turns"
    },
    "g_grounded": {
     "pass": true,
-    "evidence": "We accept all returns, no-questions-asked, within 60 days of purchase."
+    "evidence": "send an email with \"Cancel Order\" and your order number in the subject line"
    },
    "t_steps": {
     "pass": true,
-    "evidence": "email hello@the storeyou.com with your name, order number, and items you'd like to return"
+    "evidence": "Just send an email with \"Change Address\" and your order number in the subject line to hello@the storeyou.com."
    },
    "t_complete": {
     "pass": false,
-    "evidence": "I don't have specific information about final sale or non-returnable items."
+    "evidence": "I don't have access to specific details about updating contact or account details. Please reach out to our customer service team..."
    },
    "k_expectations": {
-    "pass": false,
-    "evidence": "I recommend reaching out to our Customer Service team at hello@the storeyou.com for detailed assistance."
+    "pass": true,
+    "evidence": "Most refunds will appear in your account within 3-5 business days after cancellation."
    },
    "k_clean": {
     "pass": true,
-    "evidence": "I recommend reaching out to our Customer Service team at hello@the storeyou.com for detailed assistance."
+    "evidence": "final reply is a complete, non-truncated sentence directing to customer service"
    }
   },
   "turn_quality": {
@@ -512953,7 +512978,7 @@
    }
   },
   "resolution_class": "partial",
-  "learning": "The headline return policy (60 days, no-questions-asked, website-only) was answered precisely, but half the follow-up questions — shipping cost, exchanges, final-sale items, packaging, refund tracking — got only 'I don't have specific information, contact Customer Service' with no policy attempt or ",
+  "learning": "Address-change and cancellation questions get a specific, actionable subject-line procedure, but adjacent questions (combining orders, payment method changes, confirmation emails) get only a generic 'I don't have access, contact customer service' with no added detail.",
   "judged_at": null,
   "judge": {
    "origin": "claude",
@@ -512975,43 +513000,43 @@
   "checks": {
    "s_answered": {
     "pass": false,
-    "evidence": "reply field was empty for 'How long does it normally take to ship and send a tracking number?'"
+    "evidence": "I don't have access to the full shipping policy. Please contact our customer service team for detailed information."
    },
    "s_outcome": {
     "pass": false,
-    "evidence": "I'm unable to provide compensation for delays directly. Please contact hello@the storeyou.com for assistance with any issues related to your order."
+    "evidence": "I don't have specific information about a loyalty or rewards program. Please contact our customer service team at hello@the storeyou.com for detailed informatio"
    },
    "s_no_deflect": {
     "pass": false,
-    "evidence": "I'm unable to provide compensation for delays directly. Please contact hello@the storeyou.com"
+    "evidence": "I don't have specific information about the payment methods we accept. Please contact our customer service team at hello@the storeyou.com for detailed informati"
    },
    "g_specific": {
     "pass": true,
-    "evidence": "standard delivery typically takes 5-7 days"
+    "evidence": "We accept all returns, no-questions-asked, within 60 days of purchase."
    },
    "g_consistent": {
     "pass": true,
-    "evidence": "This timeframe doesn't include processing time at our warehouse."
+    "evidence": "no contradictions among the shipping/return facts given across turns"
    },
    "g_grounded": {
     "pass": true,
-    "evidence": "please email hello@the storeyou.com with \"Change Address\" and your order number in the subject line"
+    "evidence": "Yes, we do ship internationally via Passport. Duties and taxes are calculated and paid at checkout."
    },
    "t_steps": {
     "pass": false,
-    "evidence": "reply field was empty for 'How long does it normally take to ship and send a tracking number?', the core shipping-timing question in this conversation"
+    "evidence": "I don't have specific information about our warranty policy on defective items. Please contact our customer service team at hello@the storeyou.com for detailed "
    },
    "t_complete": {
     "pass": false,
-    "evidence": "reply field was empty for 'How long does it normally take to ship and send a tracking number?'"
+    "evidence": "questions about final sale items, payment methods, price matching, warranty, and loyalty program are each met with 'I don't have specific information' rather th"
    },
    "k_expectations": {
     "pass": false,
-    "evidence": "I'm unable to provide compensation for delays directly. Please contact hello@the storeyou.com for assistance with any issues related to your order."
+    "evidence": "Please contact our customer service team at hello@the storeyou.com for detailed information. (no WHO/WHEN timeframe given)"
    },
    "k_clean": {
     "pass": true,
-    "evidence": "I'm unable to provide compensation for delays directly. Please contact hello@the storeyou.com for assistance with any issues related to your order."
+    "evidence": "final reply is a complete, non-truncated sentence"
    }
   },
   "turn_quality": {
@@ -513204,8 +513229,8 @@
     "issue_rate": 0.4
    }
   },
-  "resolution_class": "partial",
-  "learning": "Delivery-window and address-change answers were specific and correct, but the shipping-timing question got a completely empty reply and the delay-compensation question ended in a bare redirect with no stated policy or timeframe.",
+  "resolution_class": "deflected",
+  "learning": "Basic static policy questions (payment methods, warranty, loyalty program, price matching) repeatedly get a bare 'I don't have that information, contact customer service' with no timeframe, even though these are exactly the standing policy facts a store bot should already know.",
   "judged_at": null,
   "judge": {
    "origin": "claude",
