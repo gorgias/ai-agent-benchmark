@@ -15,17 +15,16 @@
     "2026-07-15",
     "2026-07-16"
   ],
-  "scannedValid": 1574,
-  "flaggedTotal": 95,
+  "scannedValid": 1586,
+  "flaggedTotal": 101,
   "bySeverity": {
     "low": 93,
-    "high": 2
+    "high": 8
   },
   "byCode": {
-    "REPEATED_IDENTICAL_REPLY": 91,
+    "REPEATED_IDENTICAL_REPLY": 98,
     "IMPLAUSIBLY_FAST": 3,
-    "ECHO_USER_MESSAGE": 1,
-    "CHROME_ONLY_REPLY": 1
+    "PAGE_DUMP_REPLY": 8
   },
   "byVendor": {
     "Gorgias": 1,
@@ -35,47 +34,498 @@
     "Kodif": 4,
     "Ada": 6,
     "Decagon": 6,
-    "Klaviyo": 1,
-    "Sierra": 2,
-    "Envive": 7,
+    "Klaviyo": 9,
+    "Sierra": 1,
+    "Envive": 6,
     "Yuma": 1,
     "Intercom": 3,
     "Zendesk": 19
   },
   "flagged": [
     {
-      "id": "2026-07-16/sierra-sunandski-shopping-everyday-value.json",
-      "vendor": "Sierra",
-      "store": "Sun & Ski",
+      "id": "2026-07-16/klaviyo-happywax-shopping-beginner.json",
+      "vendor": "Klaviyo",
+      "store": "HappyWax",
       "mode": "shopping",
       "severity": "high",
       "codes": [
-        "ECHO_USER_MESSAGE"
+        "PAGE_DUMP_REPLY",
+        "REPEATED_IDENTICAL_REPLY"
       ],
       "flags": [
         {
-          "code": "ECHO_USER_MESSAGE",
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 2,
+          "evidence": "Skip to content Previous Spend $65 and get a FREE GIFT 🎁 Next Build a Starter Kit Subscri"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 3,
+          "evidence": "Skip to content Previous Don't miss out! Join our SMS Club 📱 Get Started Next Build a Sta"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 4,
+          "evidence": "Skip to content Previous Don't miss out! Join our SMS Club 📱 Get Started Next Build a Sta"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 5,
+          "evidence": "Skip to content Previous Looking for your perfect match? Take the quiz Next Build a Starte"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 6,
+          "evidence": "Skip to content Previous 📦 Free shipping on orders $50+ Next Build a Starter Kit Subscrib"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 7,
+          "evidence": "Skip to content Previous Spend $65 and get a FREE GIFT 🎁 Next Build a Starter Kit Subscri"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
           "severity": "high",
           "turn": 8,
-          "evidence": "You saidIs there a warranty or guarantee if something goes wrong?"
+          "evidence": "Skip to content Previous Spend $65 and get a FREE GIFT 🎁 Next Build a Starter Kit Subscri"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 9,
+          "evidence": "Skip to content Previous NEW: Laundry Collection 🧺 Shop now Next Build a Starter Kit Subs"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 10,
+          "evidence": "Skip to content Previous Don't miss out! Join our SMS Club 📱 Get Started Next Build a Sta"
+        },
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "3× \"Skip to content Previous Spend $65 and get a FREE GIFT 🎁 Ne\""
         }
       ]
     },
     {
-      "id": "2026-07-16/spiffy-fur-shopping-gift.json",
-      "vendor": "Envive",
-      "store": "Fur",
+      "id": "2026-07-16/klaviyo-happywax-shopping-compare-budget.json",
+      "vendor": "Klaviyo",
+      "store": "HappyWax",
       "mode": "shopping",
       "severity": "high",
       "codes": [
-        "CHROME_ONLY_REPLY"
+        "PAGE_DUMP_REPLY",
+        "REPEATED_IDENTICAL_REPLY"
       ],
       "flags": [
         {
-          "code": "CHROME_ONLY_REPLY",
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 4,
+          "evidence": "Skip to content Previous Spend $65 and get a FREE GIFT 🎁 Next Build a Starter Kit Subscri"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 5,
+          "evidence": "Skip to content Previous NEW: Laundry Collection 🧺 Shop now Next Build a Starter Kit Subs"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 6,
+          "evidence": "Skip to content Previous Don't miss out! Join our SMS Club 📱 Get Started Next Build a Sta"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 7,
+          "evidence": "Skip to content Previous Don't miss out! Join our SMS Club 📱 Get Started Next Build a Sta"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 8,
+          "evidence": "Skip to content Previous Looking for your perfect match? Take the quiz Next Build a Starte"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
           "severity": "high",
           "turn": 9,
-          "evidence": "p1- path, #widget-icon--rp1- rect { fill: var(--envive-colors-text-link) !important; } is "
+          "evidence": "Skip to content Previous Looking for your perfect match? Take the quiz Next Build a Starte"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 10,
+          "evidence": "Skip to content Previous Looking for your perfect match? Take the quiz Next Build a Starte"
+        },
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "3× \"Skip to content Previous Next Build a Starter Kit Subscribe \""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-16/klaviyo-happywax-shopping-everyday-value.json",
+      "vendor": "Klaviyo",
+      "store": "HappyWax",
+      "mode": "shopping",
+      "severity": "high",
+      "codes": [
+        "PAGE_DUMP_REPLY",
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 3,
+          "evidence": "Skip to content Previous Don't miss out! Join our SMS Club 📱 Get Started Next Build a Sta"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 4,
+          "evidence": "Skip to content Previous NEW: Laundry Collection 🧺 Shop now Next Build a Starter Kit Subs"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 5,
+          "evidence": "Skip to content Previous NEW: Laundry Collection 🧺 Shop now Next Build a Starter Kit Subs"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 6,
+          "evidence": "Skip to content Previous NEW: Laundry Collection 🧺 Shop now Next Build a Starter Kit Subs"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 7,
+          "evidence": "Skip to content Previous Don't miss out! Join our SMS Club 📱 Get Started Next Build a Sta"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 8,
+          "evidence": "Skip to content Previous Looking for your perfect match? Take the quiz Next Build a Starte"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 9,
+          "evidence": "Skip to content Previous 📦 Free shipping on orders $50+ Next Build a Starter Kit Subscrib"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 10,
+          "evidence": "Skip to content Previous Spend $65 and get a FREE GIFT 🎁 Next Build a Starter Kit Subscri"
+        },
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "3× \"Skip to content Previous NEW: Laundry Collection 🧺 Shop now\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-16/klaviyo-happywax-shopping-gift.json",
+      "vendor": "Klaviyo",
+      "store": "HappyWax",
+      "mode": "shopping",
+      "severity": "high",
+      "codes": [
+        "PAGE_DUMP_REPLY",
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 4,
+          "evidence": "Skip to content Previous 📦 Free shipping on orders $50+ Next Build a Starter Kit Subscrib"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 5,
+          "evidence": "Skip to content Previous 📦 Free shipping on orders $50+ Next Build a Starter Kit Subscrib"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 6,
+          "evidence": "Skip to content Previous 📦 Free shipping on orders $50+ Next Build a Starter Kit Subscrib"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 7,
+          "evidence": "Skip to content Previous Spend $65 and get a FREE GIFT 🎁 Next Build a Starter Kit Subscri"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 8,
+          "evidence": "Skip to content Previous 📦 Free shipping on orders $50+ Next Build a Starter Kit Subscrib"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 9,
+          "evidence": "Skip to content Previous Looking for your perfect match? Take the quiz Next Build a Starte"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 10,
+          "evidence": "Skip to content Previous Looking for your perfect match? Take the quiz Next Build a Starte"
+        },
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "4× \"Skip to content Previous 📦 Free shipping on orders $50+ Nex\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-16/klaviyo-happywax-shopping-problem-solver.json",
+      "vendor": "Klaviyo",
+      "store": "HappyWax",
+      "mode": "shopping",
+      "severity": "high",
+      "codes": [
+        "PAGE_DUMP_REPLY",
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 4,
+          "evidence": "Skip to content Previous Spend $65 and get a FREE GIFT 🎁 Next Build a Starter Kit Subscri"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 5,
+          "evidence": "Skip to content Previous 📦 Free shipping on orders $50+ Next Build a Starter Kit Subscrib"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 6,
+          "evidence": "Skip to content Previous Spend $65 and get a FREE GIFT 🎁 Next Build a Starter Kit Subscri"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 7,
+          "evidence": "Skip to content Previous Spend $65 and get a FREE GIFT 🎁 Next Build a Starter Kit Subscri"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 8,
+          "evidence": "Skip to content Previous Spend $65 and get a FREE GIFT 🎁 Next Build a Starter Kit Subscri"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 9,
+          "evidence": "Skip to content Previous NEW: Laundry Collection 🧺 Shop now Next Build a Starter Kit Subs"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 10,
+          "evidence": "Skip to content Previous NEW: Laundry Collection 🧺 Shop now Next Build a Starter Kit Subs"
+        },
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "4× \"Skip to content Previous Spend $65 and get a FREE GIFT 🎁 Ne\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-16/klaviyo-happywax-support-order-mgmt.json",
+      "vendor": "Klaviyo",
+      "store": "HappyWax",
+      "mode": "support",
+      "severity": "high",
+      "codes": [
+        "PAGE_DUMP_REPLY",
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 4,
+          "evidence": "Skip to content Previous Spend $65 and get a FREE GIFT 🎁 Next Build a Starter Kit Subscri"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 5,
+          "evidence": "Skip to content Previous Spend $65 and get a FREE GIFT 🎁 Next Build a Starter Kit Subscri"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 6,
+          "evidence": "Skip to content Previous Spend $65 and get a FREE GIFT 🎁 Next Build a Starter Kit Subscri"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 7,
+          "evidence": "Skip to content Previous NEW: Laundry Collection 🧺 Shop now Next Build a Starter Kit Subs"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 8,
+          "evidence": "Skip to content Previous Don't miss out! Join our SMS Club 📱 Get Started Next Build a Sta"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 9,
+          "evidence": "Skip to content Previous Looking for your perfect match? Take the quiz Next Build a Starte"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 10,
+          "evidence": "Skip to content Previous 📦 Free shipping on orders $50+ Next Build a Starter Kit Subscrib"
+        },
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "3× \"Skip to content Previous Spend $65 and get a FREE GIFT 🎁 Ne\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-16/klaviyo-happywax-support-returns.json",
+      "vendor": "Klaviyo",
+      "store": "HappyWax",
+      "mode": "support",
+      "severity": "high",
+      "codes": [
+        "PAGE_DUMP_REPLY",
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 4,
+          "evidence": "Skip to content Previous Spend $65 and get a FREE GIFT 🎁 Next Build a Starter Kit Subscri"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 5,
+          "evidence": "Skip to content Previous 📦 Free shipping on orders $50+ Next Build a Starter Kit Subscrib"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 6,
+          "evidence": "Skip to content Previous Spend $65 and get a FREE GIFT 🎁 Next Build a Starter Kit Subscri"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 7,
+          "evidence": "Skip to content Previous Spend $65 and get a FREE GIFT 🎁 Next Build a Starter Kit Subscri"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 8,
+          "evidence": "Skip to content Previous NEW: Laundry Collection 🧺 Shop now Next Build a Starter Kit Subs"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 9,
+          "evidence": "Skip to content Previous NEW: Laundry Collection 🧺 Shop now Next Build a Starter Kit Subs"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 10,
+          "evidence": "Skip to content Previous NEW: Laundry Collection 🧺 Shop now Next Build a Starter Kit Subs"
+        },
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "3× \"Skip to content Previous Spend $65 and get a FREE GIFT 🎁 Ne\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-16/klaviyo-happywax-support-tracking.json",
+      "vendor": "Klaviyo",
+      "store": "HappyWax",
+      "mode": "support",
+      "severity": "high",
+      "codes": [
+        "PAGE_DUMP_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 3,
+          "evidence": "Skip to content Previous Looking for your perfect match? Take the quiz Next Build a Starte"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 4,
+          "evidence": "Skip to content Previous Looking for your perfect match? Take the quiz Next Build a Starte"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 5,
+          "evidence": "Skip to content Previous 📦 Free shipping on orders $50+ Next Build a Starter Kit Subscrib"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 6,
+          "evidence": "Skip to content Previous 📦 Free shipping on orders $50+ Next Build a Starter Kit Subscrib"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 7,
+          "evidence": "Skip to content Previous 📦 Free shipping on orders $50+ Next Build a Starter Kit Subscrib"
         }
       ]
     },
