@@ -1160,6 +1160,16 @@ export const STORES = [
   { key: "meta-blundstone",   vendor: "Zendesk", store: "Blundstone",      url: "https://www.blundstone.com/",       widget: "zendesk", us: true },
   { key: "meta-next",         vendor: "Zendesk", store: "NEXT",            url: "https://www.next.co.uk/help",       widget: "zendesk", locale: "en-GB" }, // widget loads on /help route
   { key: "meta-petbarn",      vendor: "Zendesk", store: "Petbarn",         url: "https://www.petbarn.com.au/",       widget: "zendesk", locale: "en-AU" },
+  // New Zendesk-AI e-commerce storefronts sourced 2026-07-16 (web research; Cortex/Storeleads
+  // parked). NOBULL/Papier/New Look/Motel Rocks have PUBLISHED Zendesk AI-agent case studies;
+  // Body Shop/Gousto have the zdassets messaging widget live but AI-agent unconfirmed.
+  // candidate:true — capture self-filters any that only run human chat / a basic Answer Bot.
+  { key: "zendesk-nobull",     vendor: "Zendesk", store: "NOBULL",        url: "https://www.nobullproject.com/",  widget: "zendesk", us: true, candidate: true }, // zdassets + zE + ekr/snippet; case study ~50% AI resolution
+  { key: "zendesk-papier",     vendor: "Zendesk", store: "Papier",        url: "https://www.papier.com/",         widget: "zendesk", candidate: true },           // zdassets + zE; case study ~40% auto-resolved 24/7
+  { key: "zendesk-newlook",    vendor: "Zendesk", store: "New Look",      url: "https://www.newlook.com/uk",      widget: "zendesk", locale: "en-GB", candidate: true }, // case study: AI agents on chat+email, 42% resolution
+  { key: "zendesk-motelrocks", vendor: "Zendesk", store: "Motel Rocks",   url: "https://us.motelrocks.com/",      widget: "zendesk", us: true, candidate: true }, // case study: ~43% deflection, +9.44% CSAT
+  { key: "zendesk-bodyshop",   vendor: "Zendesk", store: "The Body Shop", url: "https://www.thebodyshop.com/en-gb", widget: "zendesk", locale: "en-GB", candidate: true }, // zdassets messaging widget live; AI unconfirmed
+  { key: "zendesk-gousto",     vendor: "Zendesk", store: "Gousto",        url: "https://www.gousto.co.uk/",       widget: "zendesk", locale: "en-GB", candidate: true }, // zdassets live; meal-kit (borderline ecom)
   { key: "sierra-babylist",   vendor: "Sierra", store: "Babylist",      url: "https://www.babylist.com/",       widget: "sierra" },          // sierraConfig
   // Sourced 2026-07-15 via the StoreLeads API (f:tech=Sierra, f:p=shopify) — signature-verified
   // live (sierra.chat / sierra_enable / enable_sierra_ai_chat in page source). casper/aloyoga/
