@@ -15,14 +15,17 @@
     "2026-07-15",
     "2026-07-16"
   ],
-  "scannedValid": 1370,
-  "flaggedTotal": 78,
+  "scannedValid": 1411,
+  "flaggedTotal": 94,
   "bySeverity": {
-    "low": 78
+    "low": 79,
+    "high": 15
   },
   "byCode": {
-    "REPEATED_IDENTICAL_REPLY": 76,
-    "IMPLAUSIBLY_FAST": 3
+    "REPEATED_IDENTICAL_REPLY": 85,
+    "IMPLAUSIBLY_FAST": 3,
+    "CHROME_ONLY_REPLY": 1,
+    "PAGE_DUMP_REPLY": 14
   },
   "byVendor": {
     "Gorgias": 1,
@@ -32,14 +35,736 @@
     "Kodif": 4,
     "Ada": 5,
     "Decagon": 4,
-    "Klaviyo": 1,
-    "Sierra": 1,
-    "Envive": 3,
+    "Klaviyo": 15,
+    "Sierra": 2,
+    "Envive": 4,
     "Yuma": 1,
     "Intercom": 3,
     "Zendesk": 16
   },
   "flagged": [
+    {
+      "id": "2026-07-15/sierra-bodi-shopping-everyday-value.json",
+      "vendor": "Sierra",
+      "store": "BODi",
+      "mode": "shopping",
+      "severity": "high",
+      "codes": [
+        "CHROME_ONLY_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "CHROME_ONLY_REPLY",
+          "severity": "high",
+          "turn": 7,
+          "evidence": "Virtual AssistantAgent said: The P90X Subscription is $9.99/month. Promo codes and discoun"
+        }
+      ]
+    },
+    {
+      "id": "2026-07-16/klaviyo-k9ballistics-shopping-beginner.json",
+      "vendor": "Klaviyo",
+      "store": "K9 Ballistics",
+      "mode": "shopping",
+      "severity": "high",
+      "codes": [
+        "PAGE_DUMP_REPLY",
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 1,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 2,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 3,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 4,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 5,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 6,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 7,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 8,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 9,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 10,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "5× \"Accessibility Screen-Reader Guide, Feedback, and Issue Repor\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-16/klaviyo-k9ballistics-shopping-compare-budget.json",
+      "vendor": "Klaviyo",
+      "store": "K9 Ballistics",
+      "mode": "shopping",
+      "severity": "high",
+      "codes": [
+        "PAGE_DUMP_REPLY",
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 1,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 5,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 6,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 8,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 9,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 10,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "3× \"Accessibility Screen-Reader Guide, Feedback, and Issue Repor\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-16/klaviyo-k9ballistics-shopping-everyday-value.json",
+      "vendor": "Klaviyo",
+      "store": "K9 Ballistics",
+      "mode": "shopping",
+      "severity": "high",
+      "codes": [
+        "PAGE_DUMP_REPLY",
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 1,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 2,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 3,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 5,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 6,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 7,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 8,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 9,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 10,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "3× \"Accessibility Screen-Reader Guide, Feedback, and Issue Repor\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-16/klaviyo-k9ballistics-shopping-gift.json",
+      "vendor": "Klaviyo",
+      "store": "K9 Ballistics",
+      "mode": "shopping",
+      "severity": "high",
+      "codes": [
+        "PAGE_DUMP_REPLY",
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 1,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 2,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 6,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 7,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 8,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 9,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 10,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "3× \"Accessibility Screen-Reader Guide, Feedback, and Issue Repor\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-16/klaviyo-k9ballistics-shopping-problem-solver.json",
+      "vendor": "Klaviyo",
+      "store": "K9 Ballistics",
+      "mode": "shopping",
+      "severity": "high",
+      "codes": [
+        "PAGE_DUMP_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 1,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 3,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        }
+      ]
+    },
+    {
+      "id": "2026-07-16/klaviyo-k9ballistics-support-order-mgmt.json",
+      "vendor": "Klaviyo",
+      "store": "K9 Ballistics",
+      "mode": "support",
+      "severity": "high",
+      "codes": [
+        "PAGE_DUMP_REPLY",
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 1,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 3,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 4,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 5,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 7,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 8,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 9,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 10,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "3× \"Accessibility Screen-Reader Guide, Feedback, and Issue Repor\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-16/klaviyo-k9ballistics-support-policy.json",
+      "vendor": "Klaviyo",
+      "store": "K9 Ballistics",
+      "mode": "support",
+      "severity": "high",
+      "codes": [
+        "PAGE_DUMP_REPLY",
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 1,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 2,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 4,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 5,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 6,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 7,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 8,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 9,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 10,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "5× \"Accessibility Screen-Reader Guide, Feedback, and Issue Repor\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-16/klaviyo-k9ballistics-support-returns.json",
+      "vendor": "Klaviyo",
+      "store": "K9 Ballistics",
+      "mode": "support",
+      "severity": "high",
+      "codes": [
+        "PAGE_DUMP_REPLY",
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 1,
+          "evidence": "Press Option+1 for screen-reader mode, Option+0 to cancel Accessibility Screen-Reader Guid"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 2,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 3,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 4,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 5,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 6,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 7,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 8,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 9,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 10,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "4× \"Accessibility Screen-Reader Guide, Feedback, and Issue Repor\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-16/klaviyo-k9ballistics-support-tracking.json",
+      "vendor": "Klaviyo",
+      "store": "K9 Ballistics",
+      "mode": "support",
+      "severity": "high",
+      "codes": [
+        "PAGE_DUMP_REPLY",
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 1,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 2,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 3,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 4,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 5,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 6,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 7,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 8,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 10,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "4× \"Accessibility Screen-Reader Guide, Feedback, and Issue Repor\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-16/klaviyo-naked-support-damaged.json",
+      "vendor": "Klaviyo",
+      "store": "Naked Wardrobe",
+      "mode": "support",
+      "severity": "high",
+      "codes": [
+        "PAGE_DUMP_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 8,
+          "evidence": "COOKIE CONSENT WE AND OUR PARTNERS, INCLUDING SHOPIFY, USE COOKIES AND OTHER TECHNOLOGIES "
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 9,
+          "evidence": "COOKIE CONSENT WE AND OUR PARTNERS, INCLUDING SHOPIFY, USE COOKIES AND OTHER TECHNOLOGIES "
+        }
+      ]
+    },
+    {
+      "id": "2026-07-16/klaviyo-naked-support-returns.json",
+      "vendor": "Klaviyo",
+      "store": "Naked Wardrobe",
+      "mode": "support",
+      "severity": "high",
+      "codes": [
+        "PAGE_DUMP_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 6,
+          "evidence": "COOKIE CONSENT WE AND OUR PARTNERS, INCLUDING SHOPIFY, USE COOKIES AND OTHER TECHNOLOGIES "
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 7,
+          "evidence": "COOKIE CONSENT WE AND OUR PARTNERS, INCLUDING SHOPIFY, USE COOKIES AND OTHER TECHNOLOGIES "
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 8,
+          "evidence": "COOKIE CONSENT WE AND OUR PARTNERS, INCLUDING SHOPIFY, USE COOKIES AND OTHER TECHNOLOGIES "
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 9,
+          "evidence": "COOKIE CONSENT WE AND OUR PARTNERS, INCLUDING SHOPIFY, USE COOKIES AND OTHER TECHNOLOGIES "
+        }
+      ]
+    },
+    {
+      "id": "2026-07-16/klaviyo-naked-support-tracking.json",
+      "vendor": "Klaviyo",
+      "store": "Naked Wardrobe",
+      "mode": "support",
+      "severity": "high",
+      "codes": [
+        "PAGE_DUMP_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 6,
+          "evidence": "COOKIE CONSENT WE AND OUR PARTNERS, INCLUDING SHOPIFY, USE COOKIES AND OTHER TECHNOLOGIES "
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 7,
+          "evidence": "COOKIE CONSENT WE AND OUR PARTNERS, INCLUDING SHOPIFY, USE COOKIES AND OTHER TECHNOLOGIES "
+        }
+      ]
+    },
+    {
+      "id": "2026-07-16/klaviyo-onefastcat-shopping-compare-budget.json",
+      "vendor": "Klaviyo",
+      "store": "One Fast Cat",
+      "mode": "shopping",
+      "severity": "high",
+      "codes": [
+        "PAGE_DUMP_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 5,
+          "evidence": "Are there any current promos, bundles, or ways to save? One Fast Cat • AI Assistant Yes — "
+        }
+      ]
+    },
+    {
+      "id": "2026-07-16/klaviyo-onefastcat-support-tracking.json",
+      "vendor": "Klaviyo",
+      "store": "One Fast Cat",
+      "mode": "support",
+      "severity": "high",
+      "codes": [
+        "PAGE_DUMP_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 7,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        }
+      ]
+    },
     {
       "id": "2026-07-01/gorgias-madura-shopping-beginner.json",
       "vendor": "Gorgias",
@@ -1448,6 +2173,24 @@
           "severity": "low",
           "turn": null,
           "evidence": "3× \"That's a great question! Connect with our Customer Experienc\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-16/spiffy-supergoop-support-tracking.json",
+      "vendor": "Envive",
+      "store": "Supergoop",
+      "mode": "support",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "3× \"Once your order ships, we'll send you a confirmation email w\""
         }
       ]
     }
