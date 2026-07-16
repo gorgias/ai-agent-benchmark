@@ -118,6 +118,23 @@ export function stripWidgetChrome(rawReplyTail, userQuestion, opts = {}) {
   // Assistant/Bot, then a space and the prose's capital. Requires the multi-word label so a
   // sentence merely mentioning an assistant is never eaten.
   text = text.replace(/^\s*[A-Z][\w!'"’&.-]*(?:\s[A-Z][\w!'"’&.-]*){1,3}\s+(?:Assistant|Bot)\s+(?=[A-Z“"'])/, "");
+  // "AGENT SAID" SENDER LABEL (audit 2026-07-16, Zendesk/Kustomer-style transcripts): the
+  // bot's turn is prefixed with an "[Optional Persona name]Agent said[:]" label glued to the
+  // prose — e.g. "…help me choose?Agent saidAbsolutely…", "Virtual AgentAgent said:…",
+  // "ScottsAgent said:…", "Duncan SmuthersAgent said:…". TWO forms (Max: always the two):
+  //  (1) with colon + optional glued persona prefix; (2) bare "Agent said" glued to a capital.
+  // Capital "Agent said" only — never touches lowercase prose ("the agent said the order…").
+  // (1) persona-prefixed at START — persona may contain lowercase connectors ("Sunny the
+  //     Virtual AgentAgent said:"), so match a bounded run of letters/spaces, not title-case.
+  text = text.replace(/^\s*[A-Za-z][A-Za-z0-9'’&.\- ]{0,40}?Agent said:?\s*/, "");
+  // (2) "Agent said:" (capital + colon) is NEVER English prose — always a label. Strip it plus
+  //     any glued persona word before it, anywhere in the string.
+  text = text.replace(/\s*[A-Za-z0-9'’&.\-]*Agent said:\s*/g, " ");
+  // (3) bare "Agent said" (capital, no colon) glued directly to the prose's opening capital.
+  text = text.replace(/(?:^|[.!?"'’)\s])\s*Agent said(?=[A-Z“"'])/g, " ");
+  // "You said:" is the ECHOED USER label, not the bot — drop it too (the following user text
+  // is already handled by the question-echo slice above; this catches leftovers).
+  text = text.replace(/(?:^|\s)You said:\s*/g, " ");
   // SENDER-LABEL SUFFIX (audit): a Title-Case persona label trailing the prose — "…Thanks!
   // Evry Customer Specialist", "…policy. Dermalogica's Virtual Assistant · AI says:".
   text = text.replace(/\s*[A-Z][\w!'"’&.-]*(?:\s[A-Z][\w!'"’&.-]*){0,3}\s(Customer (Specialist|Care Team)|Virtual Assistant(\s*[·•]\s*AI)?(\s+says:)?|AI Assistant)\s*$/, "");

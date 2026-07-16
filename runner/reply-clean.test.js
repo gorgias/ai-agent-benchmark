@@ -163,3 +163,13 @@ test("stripWidgetChrome: Title-case Bot/AI Agent labels are noise, lowercase pro
 test("stripWidgetChrome: COOKIE CONSENT banner line is noise (Klaviyo)", () => {
   assert.ok(!/cookie/i.test(stripWidgetChrome("COOKIE CONSENT\nWe ship worldwide from our LA warehouse.", "")));
 });
+
+// "Agent said" sender label (Max screenshot 2026-07-16): two forms — persona+colon prefix
+// and bare glued — must be stripped; lowercase "agent said" prose must NOT be.
+test("stripWidgetChrome: 'Agent said' sender labels (both forms) are stripped, prose kept", () => {
+  assert.equal(stripWidgetChrome("Agent saidThanks for sharing! For everyday use, Casper is great.", ""), "Thanks for sharing! For everyday use, Casper is great.");
+  assert.equal(stripWidgetChrome("Virtual AgentAgent said: Our returns window is 30 days from delivery.", ""), "Our returns window is 30 days from delivery.");
+  assert.equal(stripWidgetChrome("Duncan SmuthersAgent said: You can track your order in the app.", ""), "You can track your order in the app.");
+  assert.ok(/refund was approved/.test(stripWidgetChrome("Our support agent said your refund was approved on Tuesday.", "")));
+  assert.ok(!/Agent said/.test(stripWidgetChrome("...help me choose?Agent saidAbsolutely, I can help!", "help me choose?")));
+});
