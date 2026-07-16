@@ -105,7 +105,9 @@ while (added < BUDGET) {
 
   const before = counts[v] || 0;
   try {
-    const args = ["run.js", "--store", store.key, "--themes", "5", "--concurrency", "2"];
+    // CONCURRENCY was silently hardcoded at 2 (audit 2026-07-16) — the env var passed by
+    // campaign launchers was ignored. Max's directive: 5 parallel for these non-flagship runs.
+    const args = ["run.js", "--store", store.key, "--themes", "5", "--concurrency", String(Number(process.env.CONCURRENCY) || 5)];
     if (headed) args.push("--headed");
     execFileSync("node", args, { stdio: "inherit", timeout: STORE_TIMEOUT_MS,
       env: { ...process.env, RUN_DATE, BENCHMARK_CAPTURE_ORIGIN: "claude" } });
