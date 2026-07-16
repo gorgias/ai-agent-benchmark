@@ -17,7 +17,7 @@
 // renamed, or archived. This script only READS counts + shells out to run.js. Amazon Rufus
 // runs as its own headed/logged-in stream (secrets/rufus-capture.mjs), not here.
 import { execFileSync } from "node:child_process";
-import { readdirSync, readFileSync } from "node:fs";
+import { readdirSync, readFileSync, writeFileSync, existsSync } from "node:fs";
 import { STORES } from "../vendors.js";
 
 const RUN_DATE = process.env.RUN_DATE || "2026-07-08";
@@ -45,6 +45,14 @@ const L = (...a) => console.log(new Date().toISOString() + " " + a.join(" "));
 
 // per-vendor store rotation
 const byV = {};
+// SELF-IMPROVEMENT LOOP (Max, 2026-07-16): driver fails → auto-probe → classify → park →
+// (human patches the driver) → re-probe marks it fixed → store re-enters the next campaign.
+// driver-triage.json is the loop's ledger: stores parked with a structural class are skipped
+// until a --classify re-probe returns ANSWERED (probe-generic then sets fixed:true).
+const TRIAGE_FILE = new URL("../driver-triage.json", import.meta.url).pathname;
+const triage = existsSync(TRIAGE_FILE) ? JSON.parse(readFileSync(TRIAGE_FILE, "utf8")) : { stores: {} };
+const parked = new Set(Object.entries(triage.stores || {}).filter(([, e]) => !e.fixed).map(([k]) => k));
+
 for (const s of STORES) {
   if (EXCLUDE.has(s.vendor)) continue;
   if (INCLUDE.length && !INCLUDE.includes(s.vendor)) continue;
@@ -53,6 +61,7 @@ for (const s of STORES) {
   if (!s.url) continue;                    // placeholder / retired rows
   if (s.ecommerce === false) continue;     // excluded from the board by the e-commerce-only rule
   if (s.wall) continue;                    // probed structural wall (recaptcha, human front door…)
+  if (parked.has(s.key)) continue;         // parked by the self-improvement loop, awaiting a driver fix
   (byV[s.vendor] = byV[s.vendor] || []).push(s);
 }
 
@@ -118,6 +127,21 @@ while (added < BUDGET) {
   if (gained <= 0) {
     strikes[v]++;
     L(`  +0 valid from ${store.key} — strike ${strikes[v]}/${strikeLimit(v)} for ${v}`);
+    // SELF-IMPROVEMENT: auto-probe the failing store NOW and classify the failure.
+    // Structural classes park the store (skipped until a driver fix re-probes ANSWERED);
+    // fixable classes are queued for a driver patch. Never silently strike again.
+    try {
+      const out = execFileSync("node", ["tools/probe-generic.mjs", store.key, "--classify"],
+        { encoding: "utf8", timeout: 4 * 60 * 1000, env: { ...process.env } });
+      const m = out.match(/CLASSIFICATION:\s*(\w+)/);
+      const cls = m ? m[1] : "PROBE_FAILED";
+      const structural = ["HUMAN_FRONT_DOOR", "RECAPTCHA_WALL", "WIDGET_ABSENT"].includes(cls);
+      triage.stores[store.key] = { vendor: v, class: cls, at: new Date().toISOString(),
+        action: structural ? "parked-structural" : cls === "ANSWERED" ? "flaky-retry-ok" : "needs-driver-fix", fixed: cls === "ANSWERED" };
+      writeFileSync(TRIAGE_FILE, JSON.stringify(triage, null, 1));
+      if (structural) { parked.add(store.key); byV[v] = byV[v].filter((s) => s.key !== store.key); }
+      L(`  🔧 auto-probe ${store.key} → ${cls} → ${triage.stores[store.key].action}`);
+    } catch (e) { L(`  🔧 auto-probe ${store.key} failed: ${String(e.message || e).slice(0, 80)}`); }
     if (strikes[v] >= strikeLimit(v)) { retired.add(v); L(`  ⛔ retire ${v} (structural — can't add valid convs unattended)`); }
   } else { strikes[v] = 0; L(`  +${gained} valid ${v} · total added ${added}/${BUDGET}`); }
 }

@@ -45,8 +45,54 @@ console.log("status:", resp && resp.status(), "| title:", (await page.title().ca
 await page.waitForTimeout(6000);
 await widget.open(page);
 await dump(page, "after open");
+
+// ---- state snapshot helpers for --classify (self-improvement loop) ----
+async function snapshot() {
+  const out = { frames: [], composers: 0, text: "" };
+  for (const fr of page.frames()) {
+    out.frames.push((fr.name() || "") + " " + (fr.url() || ""));
+    const st = await fr.evaluate(() => ({
+      composers: [...document.querySelectorAll('textarea, [contenteditable="true"]')].filter((el) => { const r = el.getBoundingClientRect(); return r.width > 0 && r.height > 0; }).length,
+      text: document.body.innerText.slice(-1500),
+    })).catch(() => null);
+    if (st) { out.composers += st.composers; out.text += "\n" + st.text; }
+  }
+  return out;
+}
+const before = await snapshot();
+
 await widget.send(page, Q);
 console.log("\nsent:", Q);
 await page.waitForTimeout(30000);
 await dump(page, "30s after send");
+
+if (process.argv.includes("--classify")) {
+  const after = await snapshot();
+  const framesBlob = after.frames.join(" ");
+  // new substantive text = words present after that weren't before (crude but robust)
+  const beforeSet = new Set(before.text.toLowerCase().split(/[^a-z0-9]+/));
+  const newWords = after.text.toLowerCase().split(/[^a-z0-9]+/).filter((w) => w.length > 3 && !beforeSet.has(w) && !Q.toLowerCase().includes(w));
+  const HUMAN_RE = /waiting for a teammate|get notified by email|will be back (later|tomorrow|today)|leave your email|a (team member|teammate) will (reply|follow up|get back)/i;
+  let cls;
+  if (HUMAN_RE.test(after.text)) cls = "HUMAN_FRONT_DOOR";
+  else if (/recaptcha|hcaptcha/i.test(framesBlob) && after.composers === 0) cls = "RECAPTCHA_WALL";
+  else if (after.composers === 0) cls = after.frames.some((f) => /intercom|zendesk|messag|chat|widget|klaviyo|decagon|ada|siena|k-hub/i.test(f)) ? "COMPOSER_MISSING" : "WIDGET_ABSENT";
+  else if (newWords.length >= 12) cls = "ANSWERED";
+  else if (newWords.length < 4) cls = "SILENT";
+  else cls = "UNKNOWN";
+  console.log("\nCLASSIFICATION:", cls, `(newWords=${newWords.length}, composers ${before.composers}→${after.composers})`);
+  // Closed loop: a store previously parked in driver-triage.json that now ANSWERS is
+  // auto-unparked (marked fixed) so the balancer re-includes it on the next campaign.
+  try {
+    const fs = await import("fs");
+    const TRIAGE = new URL("../driver-triage.json", import.meta.url).pathname;
+    const t = fs.existsSync(TRIAGE) ? JSON.parse(fs.readFileSync(TRIAGE, "utf8")) : { stores: {} };
+    const entry = t.stores[site.key];
+    if (entry && !entry.fixed && cls === "ANSWERED") {
+      entry.fixed = true; entry.fixed_at = new Date().toISOString();
+      fs.writeFileSync(TRIAGE, JSON.stringify(t, null, 1));
+      console.log(`driver-triage: ${site.key} marked FIXED — re-enters rotation next campaign`);
+    }
+  } catch (e) { console.log("triage update failed:", String(e).slice(0, 80)); }
+}
 await browser.close();
