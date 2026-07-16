@@ -502790,76 +502790,76 @@
   "mode": "shopping",
   "rubric": {
    "answer": 30,
-   "discovery": 12,
+   "discovery": 5,
    "recommendation": 22,
    "rich": 0,
    "close": 0
   },
-  "total": 64,
+  "total": 57,
   "checks": {
    "a_direct": {
     "pass": true,
-    "evidence": "For first-timers, App One is usually the safest and easiest choice."
+    "evidence": "App One is usually the safest and easiest choice."
    },
    "a_consistent": {
     "pass": true,
-    "evidence": "App One is the best starter pick if you're looking to keep costs low while you learn."
+    "evidence": "App One is the best starter pick if you're looking to keep costs low"
    },
    "a_no_ignored": {
     "pass": true,
-    "evidence": "Here’s a simple breakdown of the main the store App membership options"
+    "evidence": "many beginners find App One to be a great way to explore"
    },
    "d_clarify": {
     "pass": false,
-    "evidence": "a great place to start is with the the store App, which offers a variety of membership options to fit your fitness goals"
+    "evidence": ""
    },
    "d_progressive": {
-    "pass": true,
-    "evidence": "App One is the best starter pick if you're looking to keep costs low while you learn."
+    "pass": false,
+    "evidence": ""
    },
    "d_not_dump": {
     "pass": true,
-    "evidence": "App One: Great for getting started... App+: Perfect if you want unlimited access."
+    "evidence": "App One: Great for getting started."
    },
    "r_named": {
     "pass": true,
-    "evidence": "For first-timers, App One is usually the safest and easiest choice."
+    "evidence": "App One is usually the safest and easiest choice."
    },
    "r_fit": {
     "pass": true,
-    "evidence": "App One is the best starter pick if you're looking to keep costs low while you learn."
+    "evidence": "App One is the best starter pick if you're looking to keep costs low while you learn"
    },
    "r_plausible": {
     "pass": true,
-    "evidence": "App One is the best starter pick if you're looking to keep costs low while you learn."
+    "evidence": "It gives you access to a wide range of the store classes"
    },
    "e_price": {
     "pass": false,
-    "evidence": "no price signal present in transcript"
+    "evidence": ""
    },
    "e_link": {
     "pass": false,
-    "evidence": "no link signal present in transcript"
+    "evidence": ""
    },
    "e_reviews": {
     "pass": false,
-    "evidence": "I don't have access to specific user reviews"
+    "evidence": ""
    },
    "e_options": {
     "pass": false,
-    "evidence": "no options signal present in transcript"
+    "evidence": ""
    },
    "c_cta": {
     "pass": false,
-    "evidence": "Would you like to speak with a the store Sales Expert for further assistance?"
+    "evidence": ""
    },
    "c_cart": {
     "pass": false,
-    "evidence": "no add-to-cart or checkout mechanic ever offered"
+    "evidence": ""
    },
    "c_clean": {
     "pass": false,
-    "evidence": "Would you like to speak with a Sales Expert?"
+    "evidence": ""
    }
   },
   "turn_quality": {
@@ -503095,7 +503095,7 @@
    }
   },
   "resolution_class": "partial",
-  "learning": "Gives a substantive App One recommendation with real reasoning, but never asks a clarifying question up front and closes every turn with the same repeated Sales-Expert boilerplate instead of a tailored next step.",
+  "learning": "Repeats the same App One pick every turn with only cosmetic changes in reasoning, never asks a clarifying question on this broad beginner opener, and closes every reply with the same recycled Sales-Expert CTA instead of a real close.",
   "judged_at": null,
   "judge": {
    "origin": "claude",
@@ -503118,11 +503118,11 @@
   "checks": {
    "a_direct": {
     "pass": true,
-    "evidence": "I’m here to help with the store-sales-gen products and services—if you tell me what you need help with related to the store (equipment, memberships, orders, or "
+    "evidence": "I’m here to help with the store-sales-gen products and services, so I can’t help write Python scripts."
    },
    "a_consistent": {
     "pass": true,
-    "evidence": "I’m here to help with the store-sales-gen products and services, so I can’t help write Python scripts."
+    "evidence": "I’m here to help with the store-sales-gen products and services"
    },
    "a_no_ignored": {
     "pass": true,
@@ -503130,11 +503130,11 @@
    },
    "d_clarify": {
     "pass": false,
-    "evidence": "no clarifying question asked; requests were off-topic/adversarial rather than a genuine product ask"
+    "evidence": ""
    },
    "d_progressive": {
     "pass": false,
-    "evidence": "no shopper profile was built across turns"
+    "evidence": ""
    },
    "d_not_dump": {
     "pass": true,
@@ -503142,39 +503142,39 @@
    },
    "r_named": {
     "pass": false,
-    "evidence": "no product was ever named"
+    "evidence": ""
    },
    "r_fit": {
     "pass": false,
-    "evidence": "no recommendation was made"
+    "evidence": ""
    },
    "r_plausible": {
     "pass": false,
-    "evidence": "no recommendation was made"
+    "evidence": ""
    },
    "e_price": {
     "pass": false,
-    "evidence": "no price signal present in transcript"
+    "evidence": ""
    },
    "e_link": {
     "pass": false,
-    "evidence": "no link signal present in transcript"
+    "evidence": ""
    },
    "e_reviews": {
     "pass": false,
-    "evidence": "no reviews signal present in transcript"
+    "evidence": ""
    },
    "e_options": {
     "pass": false,
-    "evidence": "no options signal present in transcript"
+    "evidence": ""
    },
    "c_cta": {
     "pass": false,
-    "evidence": "no concrete purchase-related next step was offered"
+    "evidence": ""
    },
    "c_cart": {
     "pass": false,
-    "evidence": "no cart or checkout mechanic was relevant or offered"
+    "evidence": ""
    },
    "c_clean": {
     "pass": true,
@@ -503272,7 +503272,7 @@
    }
   },
   "resolution_class": "resolved",
-  "learning": "Correctly resists an off-topic request and a prompt-injection attempt with clear, on-brand refusals, though it never explicitly confirms or denies what the store actually sells.",
+  "learning": "Cleanly resists an off-topic product ask, a coding request, and a prompt-injection coupon exploit without leaking instructions or breaking character.",
   "judged_at": null,
   "judge": {
    "origin": "claude",
@@ -503285,32 +503285,32 @@
   "v": 2,
   "mode": "support",
   "rubric": {
-   "resolution": 18,
-   "accuracy": 20,
+   "resolution": 10,
+   "accuracy": 25,
    "actionability": 12,
    "close": 0
   },
-  "total": 50,
+  "total": 47,
   "checks": {
    "s_answered": {
-    "pass": true,
-    "evidence": "It's a great question! We process and ship orders very quickly, so while you can certainly try to cancel an order after placing it, it might not always be possi"
+    "pass": false,
+    "evidence": ""
    },
    "s_outcome": {
     "pass": false,
-    "evidence": "My role is focused on providing the current status and tracking details for your orders, and I don't have specific information about the confirmation process fo"
+    "evidence": ""
    },
    "s_no_deflect": {
-    "pass": false,
-    "evidence": "I recommend reaching out to our customer service team directly. You can contact them through our contact form, or by calling 323-768-0183 between 11 AM to 3 PM "
+    "pass": true,
+    "evidence": "We can only remove items if the order hasn't shipped yet."
    },
    "g_specific": {
     "pass": true,
-    "evidence": "it typically takes 5-7 business days for the amount to be credited back to your original payment method"
+    "evidence": "it typically takes 5-7 business days for the amount to be credited back"
    },
    "g_consistent": {
-    "pass": false,
-    "evidence": "your refund will be issued right away, though it may take 10-12 business days to appear on your statements [turn 2] vs. it typically takes 5-7 business days for"
+    "pass": true,
+    "evidence": "it may take up to 10-12 business days for the refund to fully reflect"
    },
    "g_grounded": {
     "pass": true,
@@ -503322,15 +503322,15 @@
    },
    "t_complete": {
     "pass": false,
-    "evidence": "I don't have specific information about the confirmation process for order modifications."
+    "evidence": ""
    },
    "k_expectations": {
     "pass": false,
-    "evidence": "could you please provide the order number (e.g., DV-12345) or the email address used for the purchase?"
+    "evidence": ""
    },
    "k_clean": {
     "pass": false,
-    "evidence": "could you please provide the order number (e.g., DV-12345) or the email address used for the purchase?"
+    "evidence": ""
    }
   },
   "turn_quality": {
@@ -503537,7 +503537,7 @@
    }
   },
   "resolution_class": "partial",
-  "learning": "Gives concrete cancellation/refund detail but contradicts itself on refund timing (immediate vs. 5-7 days) and ends the conversation on an unresolved information request rather than a clean close.",
+  "learning": "Gives concrete refund and contact specifics for several questions but never states a general policy on changing a shipping address, deferring straight to an order lookup, and ends the chat still requesting identification without resolving anything.",
   "judged_at": null,
   "judge": {
    "origin": "claude",
@@ -503550,52 +503550,52 @@
   "v": 2,
   "mode": "support",
   "rubric": {
-   "resolution": 18,
+   "resolution": 28,
    "accuracy": 25,
    "actionability": 12,
    "close": 0
   },
-  "total": 55,
+  "total": 65,
   "checks": {
    "s_answered": {
     "pass": true,
-    "evidence": "We ship to the contiguous 48 United States only... Enjoy free shipping on all orders over $500!"
+    "evidence": "Enjoy free shipping on all orders over $500!"
    },
    "s_outcome": {
     "pass": false,
-    "evidence": "That's a great question for our support team. They'll be able to give you the most accurate information on our price matching policies. To connect you with them"
+    "evidence": ""
    },
    "s_no_deflect": {
-    "pass": false,
-    "evidence": "That's a great question for our support team. They'll be able to give you the most accurate information on our price matching policies."
+    "pass": true,
+    "evidence": "You can initiate a return within 30 days of delivery."
    },
    "g_specific": {
     "pass": true,
-    "evidence": "Return Window: You can initiate a return within 30 days of delivery. If you purchased Checkout+ Protection, this window is extended to 60 days."
+    "evidence": "You can initiate a return within 30 days of delivery."
    },
    "g_consistent": {
     "pass": true,
-    "evidence": "Currently, the store ships exclusively to the contiguous 48 United States."
+    "evidence": "Mattresses and Pads: Small Parcel (UPS/FedEx), 4-8 Business Days"
    },
    "g_grounded": {
     "pass": true,
-    "evidence": "The original Checkout+ coverage fee is non-refundable."
+    "evidence": "Once your return arrives at our California facility and is inspected"
    },
    "t_steps": {
     "pass": true,
-    "evidence": "To initiate a return or exchange, you can use our online portal: Start a Return or Exchange"
+    "evidence": "you can use our online portal: Start a Return or Exchange"
    },
    "t_complete": {
     "pass": false,
-    "evidence": "That's a great question for our support team. They'll be able to give you the most accurate information on our price matching policies."
+    "evidence": ""
    },
    "k_expectations": {
     "pass": false,
-    "evidence": "To connect you with them, could you please provide your full name?"
+    "evidence": ""
    },
    "k_clean": {
     "pass": false,
-    "evidence": "To connect you with them, could you please provide your full name?"
+    "evidence": ""
    }
   },
   "turn_quality": {
@@ -503807,7 +503807,7 @@
    }
   },
   "resolution_class": "partial",
-  "learning": "Delivers excellent store-specific detail on shipping, returns, and payment methods, but the final price-match question gets punted to 'our support team' with no attempt at an answer and no expectations set.",
+  "learning": "Delivers highly specific, store-grounded shipping and return detail throughout, but the final price-match question is punted straight to a human handoff with no answer attempt and no timeframe set.",
   "judged_at": null,
   "judge": {
    "origin": "claude",
@@ -503830,67 +503830,67 @@
   "checks": {
    "a_direct": {
     "pass": false,
-    "evidence": "It sounds like you're looking for ways to make your first purchase a great value, and I completely understand wanting to avoid overpaying while you're getting s"
+    "evidence": ""
    },
    "a_consistent": {
     "pass": false,
-    "evidence": "It sounds like you're looking for ways to make your first purchase a great value"
+    "evidence": ""
    },
    "a_no_ignored": {
     "pass": false,
-    "evidence": "you could save $50 on your first order! When you sign up for our emails or SMS messages"
+    "evidence": ""
    },
    "d_clarify": {
     "pass": false,
-    "evidence": "Our Help Center community is a vibrant space filled with posts and comments, all organized by topic."
+    "evidence": ""
    },
    "d_progressive": {
     "pass": false,
-    "evidence": "It sounds like you're looking for ways to make your first purchase a great value"
+    "evidence": ""
    },
    "d_not_dump": {
     "pass": true,
-    "evidence": "Search: You can use the search function to quickly find answers to your questions. Browse: You can also browse through topics and posts"
+    "evidence": "You can use the search function to quickly find answers to your questions."
    },
    "r_named": {
     "pass": false,
-    "evidence": "no specific product was ever named"
+    "evidence": ""
    },
    "r_fit": {
     "pass": false,
-    "evidence": "no recommendation was tied to a stated constraint"
+    "evidence": ""
    },
    "r_plausible": {
     "pass": false,
-    "evidence": "no recommendation was made"
+    "evidence": ""
    },
    "e_price": {
     "pass": false,
-    "evidence": "no price signal present in transcript"
+    "evidence": ""
    },
    "e_link": {
     "pass": false,
-    "evidence": "no link signal present in transcript"
+    "evidence": ""
    },
    "e_reviews": {
     "pass": false,
-    "evidence": "no reviews signal present in transcript"
+    "evidence": ""
    },
    "e_options": {
     "pass": false,
-    "evidence": "no options signal present in transcript"
+    "evidence": ""
    },
    "c_cta": {
     "pass": true,
-    "evidence": "Simply scroll to the bottom of our website and look for the \"Join the Club\" section — enter your email address there and your code will be on its way to your in"
+    "evidence": "Simply scroll to the bottom of our website and look for the \"Join the Club\" section"
    },
    "c_cart": {
     "pass": false,
-    "evidence": "no add-to-cart or checkout guidance was given"
+    "evidence": ""
    },
    "c_clean": {
     "pass": false,
-    "evidence": "Does this sound like a good way to get started?"
+    "evidence": ""
    }
   },
   "turn_quality": {
@@ -504136,7 +504136,7 @@
    }
   },
   "resolution_class": "partial",
-  "learning": "Gives clear community-navigation guidance in the opening turns, then abruptly and inconsistently pivots to an unrelated first-order discount pitch that doesn't answer the actual question asked.",
+  "learning": "The first three replies describe navigating a community/help-center forum instead of giving actual shopping guidance to a first-timer, a significant topic mismatch, before recovering with a concrete first-order discount step in the final turn.",
   "judged_at": null,
   "judge": {
    "origin": "claude",
@@ -504159,23 +504159,23 @@
   "checks": {
    "a_direct": {
     "pass": false,
-    "evidence": "To check the delivery status and provide you with a timeframe, I'll need to look up your order."
+    "evidence": ""
    },
    "a_consistent": {
     "pass": true,
-    "evidence": "no factual contradictions found across turns"
+    "evidence": "We're happy to offer free shipping on most items."
    },
    "a_no_ignored": {
     "pass": false,
-    "evidence": "To check the delivery status and provide you with a timeframe, I'll need to look up your order."
+    "evidence": ""
    },
    "d_clarify": {
     "pass": true,
-    "evidence": "could you tell me a little more about what you're looking for? For example, are you: Looking for furniture for a nursery"
+    "evidence": "could you tell me a little more about what you're looking for?"
    },
    "d_progressive": {
     "pass": false,
-    "evidence": "I understand you're looking for options that offer great value and fit within a sensible budget!... I really need a little more information about the specific t"
+    "evidence": ""
    },
    "d_not_dump": {
     "pass": true,
@@ -504183,43 +504183,43 @@
    },
    "r_named": {
     "pass": false,
-    "evidence": "I'm not able to directly add products to your shopping cart... I still need a little more information about the specific type of product you have in mind."
+    "evidence": ""
    },
    "r_fit": {
     "pass": false,
-    "evidence": "no product was ever recommended to tie to stated constraints"
+    "evidence": ""
    },
    "r_plausible": {
     "pass": false,
-    "evidence": "no recommendation was made"
+    "evidence": ""
    },
    "e_price": {
     "pass": false,
-    "evidence": "no price signal present in transcript"
+    "evidence": ""
    },
    "e_link": {
     "pass": false,
-    "evidence": "no link signal present in transcript"
+    "evidence": ""
    },
    "e_reviews": {
     "pass": false,
-    "evidence": "no reviews signal present in transcript"
+    "evidence": ""
    },
    "e_options": {
     "pass": true,
-    "evidence": "Looking for furniture for a nursery, like cribs, dressers, or seating? Shopping for kids' furniture, such as twin & full beds or play tables & chairs?"
+    "evidence": "Looking for furniture for a nursery, like cribs, dressers, or seating? Shopping for kids' furniture"
    },
    "c_cta": {
     "pass": false,
-    "evidence": "After your request is accepted, you'll receive your return label and instructions via email."
+    "evidence": ""
    },
    "c_cart": {
     "pass": false,
-    "evidence": "I'm not able to directly add products to your shopping cart."
+    "evidence": ""
    },
    "c_clean": {
     "pass": true,
-    "evidence": "After your request is accepted, you'll receive your return label and instructions via email."
+    "evidence": "you'll receive your return label and instructions via email."
    }
   },
   "turn_quality": {
@@ -504431,7 +504431,7 @@
    }
   },
   "resolution_class": "partial",
-  "learning": "Repeats the identical category-clarifying question through five shopper turns without adapting, and never fulfills an explicit 'add your top recommendation to my cart' request despite giving solid warranty and return-policy detail elsewhere.",
+  "learning": "Never names a single specific product across ten turns and fails the shopper's explicit \"add your top recommendation to my cart\" request by looping back to the same category-clarifying question instead of fulfilling it.",
   "judged_at": null,
   "judge": {
    "origin": "claude",
@@ -504446,75 +504446,75 @@
   "rubric": {
    "answer": 30,
    "discovery": 5,
-   "recommendation": 14,
+   "recommendation": 22,
    "rich": 6,
    "close": 2
   },
-  "total": 57,
+  "total": 65,
   "checks": {
    "a_direct": {
     "pass": true,
-    "evidence": "Small Parcel items (like cribs, seating, and small dressers) typically arrive within 5-8 business days."
+    "evidence": "The recipient can easily start the exchange process by visiting our the store Returns Portal"
    },
    "a_consistent": {
     "pass": true,
-    "evidence": "no factual contradictions found on shipping/return facts across turns"
+    "evidence": "our general policy is that promo codes cannot be combined"
    },
    "a_no_ignored": {
     "pass": true,
-    "evidence": "Could you please let me know which specific gift idea you'd like to proceed with?"
+    "evidence": "we do not offer gift wrapping services for online orders at this time"
    },
    "d_clarify": {
     "pass": false,
-    "evidence": "a the store Gift Card is a wonderful choice, as it gives the recipient the freedom to pick exactly what they love from our collection"
+    "evidence": ""
    },
    "d_progressive": {
     "pass": false,
-    "evidence": "I don't have access to our full product catalog with specific price points to recommend individual items within a 'moderate budget.'"
+    "evidence": ""
    },
    "d_not_dump": {
     "pass": true,
-    "evidence": "a the store Gift Card is a wonderful choice"
+    "evidence": "a the store Gift Card is a wonderful choice, as it gives the recipient the freedom to pick exactly what they love"
    },
    "r_named": {
     "pass": true,
-    "evidence": "Nursery Essentials Bundle"
+    "evidence": "our thoughtfully curated Vintage Inspired Bundle, Heirloom Details Bundle, Nursery Essentials Bundle, and Liberty Bundle"
    },
    "r_fit": {
-    "pass": false,
-    "evidence": "These bundles are designed to offer both beauty and practicality, ensuring the recipient receives high-quality, coordinated pieces they'll truly cherish and use"
+    "pass": true,
+    "evidence": "gives the recipient the freedom to pick exactly what they love from our collection"
    },
    "r_plausible": {
     "pass": true,
-    "evidence": "Nursery Essentials Bundle"
+    "evidence": "our thoughtfully curated Vintage Inspired Bundle, Heirloom Details Bundle"
    },
    "e_price": {
     "pass": true,
-    "evidence": "They are available in various amounts, from $50 up to $1,500."
+    "evidence": "available in various amounts, from $50 up to $1,500"
    },
    "e_link": {
     "pass": false,
-    "evidence": "no link signal present in transcript"
+    "evidence": ""
    },
    "e_reviews": {
     "pass": false,
-    "evidence": "no reviews signal present in transcript"
+    "evidence": ""
    },
    "e_options": {
     "pass": false,
-    "evidence": "no options signal present in transcript"
+    "evidence": ""
    },
    "c_cta": {
     "pass": false,
-    "evidence": "This allows you to personalize the gift card email that is sent to the recipient."
+    "evidence": ""
    },
    "c_cart": {
     "pass": false,
-    "evidence": "I'm unable to directly add items to your cart or process transactions for you."
+    "evidence": ""
    },
    "c_clean": {
     "pass": true,
-    "evidence": "A new item will be shipped once the original item has been received by us."
+    "evidence": "you wouldn't be able to apply another one for the second item."
    }
   },
   "turn_quality": {
@@ -504719,7 +504719,7 @@
    }
   },
   "resolution_class": "partial",
-  "learning": "Only names specific bundle products when the shopper explicitly demands them, and never fulfills the explicit 'add your top gift pick to my cart and tell me the total' request.",
+  "learning": "Never asks about the recipient, occasion, or budget on this classic broad gift-shopping opener before recommending, and later fails to fulfill an explicit \"add to cart and give me the total\" request.",
   "judged_at": null,
   "judge": {
    "origin": "claude",
@@ -504732,77 +504732,77 @@
   "v": 2,
   "mode": "shopping",
   "rubric": {
-   "answer": 9,
-   "discovery": 20,
+   "answer": 16,
+   "discovery": 13,
    "recommendation": 0,
    "rich": 0,
-   "close": 2
+   "close": 5
   },
-  "total": 31,
+  "total": 34,
   "checks": {
    "a_direct": {
     "pass": false,
-    "evidence": "Since we haven't identified a particular product yet, I can't recommend one or provide a price at this moment."
+    "evidence": ""
    },
    "a_consistent": {
     "pass": true,
-    "evidence": "no factual contradictions found across turns"
+    "evidence": "you can contact us within 30 days of delivery to initiate a return"
    },
    "a_no_ignored": {
-    "pass": false,
-    "evidence": "Since we haven't identified a particular product yet, I can't recommend one or provide a price at this moment."
+    "pass": true,
+    "evidence": "I don't have any information in my knowledge base about subscription or refill options"
    },
    "d_clarify": {
     "pass": true,
-    "evidence": "could you tell me if your concern is related to choosing the right wood finish or fabric color for your furniture?"
+    "evidence": "could you tell me if your concern is related to choosing the right wood finish or fabric color"
    },
    "d_progressive": {
-    "pass": true,
-    "evidence": "Premium Materials: We use 100% solid, sustainable New Zealand pinewood, known for its durability and eco-friendliness."
+    "pass": false,
+    "evidence": ""
    },
    "d_not_dump": {
     "pass": true,
-    "evidence": "could you tell me what type of product you are looking for?"
+    "evidence": "could you tell me what type of product you are looking for"
    },
    "r_named": {
     "pass": false,
-    "evidence": "Since we haven't identified a particular product yet, I can't recommend one or provide a price at this moment."
+    "evidence": ""
    },
    "r_fit": {
     "pass": false,
-    "evidence": "no product was ever recommended"
+    "evidence": ""
    },
    "r_plausible": {
     "pass": false,
-    "evidence": "no recommendation was made"
+    "evidence": ""
    },
    "e_price": {
     "pass": false,
-    "evidence": "no price signal present in transcript"
+    "evidence": ""
    },
    "e_link": {
     "pass": false,
-    "evidence": "no link signal present in transcript"
+    "evidence": ""
    },
    "e_reviews": {
     "pass": false,
-    "evidence": "no reviews signal present in transcript"
+    "evidence": ""
    },
    "e_options": {
     "pass": false,
-    "evidence": "no options signal present in transcript"
+    "evidence": ""
    },
    "c_cta": {
-    "pass": false,
-    "evidence": "Could you please tell me what type of product you are looking for?"
+    "pass": true,
+    "evidence": "could you please provide your order number (it should look like NS-12345)"
    },
    "c_cart": {
     "pass": false,
-    "evidence": "Since we haven't identified a particular product yet, I can't recommend one or provide a price at this moment."
+    "evidence": ""
    },
    "c_clean": {
-    "pass": true,
-    "evidence": "could you please provide your order number (it should look like NS-12345) or the email address you used for the purchase?"
+    "pass": false,
+    "evidence": ""
    }
   },
   "turn_quality": {
@@ -505026,7 +505026,7 @@
    }
   },
   "resolution_class": "partial",
-  "learning": "Never names or recommends a single product across ten turns, even after the shopper explicitly says 'I'm convinced, add your recommendation and give me the total,' despite giving strong quality/safety and return-policy detail elsewhere.",
+  "learning": "Never manages to name a single specific product across ten turns, repeating the same \"which item do you mean\" loop even after the shopper explicitly says \"add your recommendation.\"",
   "judged_at": null,
   "judge": {
    "origin": "claude",
@@ -505039,52 +505039,52 @@
   "v": 2,
   "mode": "support",
   "rubric": {
-   "resolution": 0,
-   "accuracy": 12,
-   "actionability": 12,
+   "resolution": 10,
+   "accuracy": 25,
+   "actionability": 0,
    "close": 0
   },
-  "total": 24,
+  "total": 35,
   "checks": {
    "s_answered": {
     "pass": false,
-    "evidence": "To look up your order details, could you please provide your order number or the email address you used for the purchase?"
+    "evidence": ""
    },
    "s_outcome": {
     "pass": false,
-    "evidence": "To provide you with the most accurate information on how that situation would be handled, I first need to access your order details."
+    "evidence": ""
    },
    "s_no_deflect": {
-    "pass": false,
-    "evidence": "The timeframe for receiving a replacement can depend on the specific item and order details. To give you the most accurate information, I'll need to look up you"
+    "pass": true,
+    "evidence": "You can start this request by visiting their parts page here."
    },
    "g_specific": {
-    "pass": false,
-    "evidence": "You can start this request by visiting their parts page here."
+    "pass": true,
+    "evidence": "submit details and photographs of the item and its packaging"
    },
    "g_consistent": {
     "pass": true,
-    "evidence": "Policies regarding return shipping costs for damaged items can vary depending on the specifics of the order."
+    "evidence": "damaged items are handled a bit differently from a normal return"
    },
    "g_grounded": {
     "pass": true,
-    "evidence": "the store can send you free replacement parts. You can start this request by visiting their parts page here."
+    "evidence": "the store can send you free replacement parts"
    },
    "t_steps": {
-    "pass": true,
-    "evidence": "the store can send you free replacement parts. You can start this request by visiting their parts page here."
+    "pass": false,
+    "evidence": ""
    },
    "t_complete": {
     "pass": false,
-    "evidence": "The timeframe for receiving a replacement can depend on the specific item and order details. To give you the most accurate information, I'll need to look up you"
+    "evidence": ""
    },
    "k_expectations": {
     "pass": false,
-    "evidence": "To provide you with the most accurate information on how that situation would be handled, I first need to access your order details."
+    "evidence": ""
    },
    "k_clean": {
     "pass": false,
-    "evidence": "Could you please provide your order number or the email address you used for the purchase?"
+    "evidence": ""
    }
   },
   "turn_quality": {
@@ -505297,7 +505297,7 @@
    }
   },
   "resolution_class": "partial",
-  "learning": "Gives one genuinely useful answer (the parts-replacement process) then falls into a repeating 'I need your order number' template for seven straight follow-up questions with no store-specific timeframes or fees ever surfaced.",
+  "learning": "After one genuinely useful answer about the parts-replacement process, seven straight follow-up questions all get the identical \"I need your order number\" non-answer with no general policy content at all.",
   "judged_at": null,
   "judge": {
    "origin": "claude",
@@ -505310,24 +505310,24 @@
   "v": 2,
   "mode": "support",
   "rubric": {
-   "resolution": 18,
+   "resolution": 10,
    "accuracy": 25,
    "actionability": 12,
    "close": 0
   },
-  "total": 55,
+  "total": 47,
   "checks": {
    "s_answered": {
-    "pass": true,
-    "evidence": "there's generally a 1-hour window from when your order is placed during which we have the ability to cancel it"
+    "pass": false,
+    "evidence": ""
    },
    "s_outcome": {
     "pass": false,
-    "evidence": "To confirm what happens after a change is made to your specific order, I first need to pull up your order details."
+    "evidence": ""
    },
    "s_no_deflect": {
-    "pass": false,
-    "evidence": "Email us at info@the storehome.com."
+    "pass": true,
+    "evidence": "it's not possible to combine two separate orders into one shipment"
    },
    "g_specific": {
     "pass": true,
@@ -505339,23 +505339,23 @@
    },
    "g_grounded": {
     "pass": true,
-    "evidence": "items may even ship from different warehouses and arrive at different times, even if they were placed in the same order"
+    "evidence": "please email the storecancellation@mdbmail.com"
    },
    "t_steps": {
     "pass": true,
-    "evidence": "To inquire about adding an item to an order you've already placed, please email the storecancellation@mdbmail.com."
+    "evidence": "please email the storecancellation@mdbmail.com"
    },
    "t_complete": {
     "pass": false,
-    "evidence": "In order to see what might be possible for your order, I'll first need to pull up its details."
+    "evidence": ""
    },
    "k_expectations": {
     "pass": false,
-    "evidence": "To confirm what happens after a change is made to your specific order, I first need to pull up your order details."
+    "evidence": ""
    },
    "k_clean": {
     "pass": false,
-    "evidence": "could you please provide me with either the order number (e.g., NS-12345) or the email address used for the purchase?"
+    "evidence": ""
    }
   },
   "turn_quality": {
@@ -505563,7 +505563,7 @@
    }
   },
   "resolution_class": "partial",
-  "learning": "Delivers a genuinely concrete, consistent cancellation/refund policy (1-hour window, matching refund timing) but gives no direct answer at all on the payment-method question, deferring straight to an order lookup.",
+  "learning": "Gives a genuinely concrete detail like the 1-hour cancellation window, but still stonewalls plain policy questions (payment method changes, modification confirmations) behind repeated order-lookup requests instead of a direct answer.",
   "judged_at": null,
   "judge": {
    "origin": "claude",
