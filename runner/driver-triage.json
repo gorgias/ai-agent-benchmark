@@ -1,0 +1,19 @@
+{
+ "stores": {
+  "decagon-oura": {
+   "vendor": "Decagon",
+   "class": "COMPOSER_MISSING",
+   "at": "2026-07-16T07:24:17.343Z",
+   "action": "needs-driver-fix",
+   "fixed": false
+  },
+  "decagon-oura#support": {
+   "vendor": "Decagon",
+   "class": "FORM_FLOW_FLAKY",
+   "at": "2026-07-16T07:42:44.275Z",
+   "action": "needs-driver-fix",
+   "fixed": false,
+   "intel": "Support lane only (shopping PDP fine). Finn answers Q1 with a MULTI-STEP form: (1) custom dropdown - options are plain BUTTONs in a .z-50 body portal, only reliable click = getByRole button by accessible name (proved once: Ring -> submit enabled); (2) then an 'Email *' identity step (fillEmailGate covers it). .chat-form-submit stays disabled until field registers. Portal rendering is non-deterministic headless run-to-run - needs a HEADED debug session to watch the state machine. Also handles-closed-state: off-topic msgs -> 'This conversation has been closed' + 'Start a new chat' btn (driver now reopens)."
+  }
+ }
+}

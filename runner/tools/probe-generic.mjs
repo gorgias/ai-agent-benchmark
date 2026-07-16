@@ -10,7 +10,7 @@ const { chromium } = pw;
 const site = STORES.find((s) => s.key === process.argv[2]);
 if (!site) { console.error("unknown store", process.argv[2]); process.exit(1); }
 const widget = WIDGETS[site.widget];
-const Q = process.argv[3] || "Hi! Do you ship to the US and how long does delivery take?";
+const Q = process.argv.slice(3).find((a) => !a.startsWith("--")) || "Hi! Do you ship to the US and how long does delivery take?";
 const REAL_UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36";
 const STEALTH = () => {
   Object.defineProperty(navigator, "webdriver", { get: () => undefined });
@@ -38,7 +38,8 @@ const ctx = await browser.newContext({ viewport: { width: 1366, height: 900 }, l
 await ctx.addInitScript(STEALTH);
 if (site.widget === "spiffy") await ctx.addInitScript(() => { try { localStorage.setItem("spiffy_on", "true"); } catch (e) {} });
 const page = await ctx.newPage();
-const url = (site.modeUrl && site.modeUrl.shopping) || site.url;
+const MODE = (process.argv.find((a) => a.startsWith("--mode=")) || "--mode=shopping").split("=")[1];
+const url = (site.modeUrl && site.modeUrl[MODE]) || site.url;
 console.log("goto", url);
 const resp = await page.goto(url, { waitUntil: "domcontentloaded", timeout: 45000 }).catch((e) => (console.log("goto err:", String(e).slice(0, 100)), null));
 console.log("status:", resp && resp.status(), "| title:", (await page.title().catch(() => "?")).slice(0, 70));
