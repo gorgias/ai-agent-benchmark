@@ -74,3 +74,13 @@ test("scanConversation: a nanuk-style dump conversation is HIGH severity", () =>
   assert.equal(v.severity, "high");
   assert.ok(v.flags.some(f => f.code === "PAGE_DUMP_REPLY"));
 });
+
+// FALSE-POSITIVE regression (2026-07-16): Zendesk's transcript DOM labels the user's message
+// "You say: <q>" as CHROME before the bot's real answer — 62 valid convs were mass-quarantined.
+// An echo label followed by a substantive answer must NOT be flagged.
+test("isUserEcho: 'You say:' chrome followed by a real answer is NOT flagged (Zendesk)", () => {
+  assert.equal(isUserEcho(ai({
+    q: "Can I change the shipping address on an order I just placed?",
+    replyText: "You say: Can I change the shipping address on an order I just placed? Sent · Just now Dermalogica's Virtual Assistant says: Yes — if your order hasn't shipped yet, contact us within 2 hours of placing it and we can update the address. After it ships, the carrier can sometimes redirect it via their delivery-manager tool.",
+  })), false);
+});

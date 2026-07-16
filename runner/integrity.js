@@ -23,16 +23,26 @@ export function cleanedReply(turn) {
 export function isUserEcho(turn) {
   // Work on the RAW reply: stripWidgetChrome already deletes echoed user text, so the echo
   // signature only survives before cleaning.
+  //
+  // FALSE-POSITIVE FIX 2026-07-16: "You say:" must NOT short-circuit to true — Zendesk's
+  // transcript DOM legitimately labels the user's message with "You say: <q>" as CHROME
+  // before the bot's real answer, so an unconditional match quarantined 62 perfectly valid
+  // Zendesk convs (incl. 100%-success ones) in one pass. An echo label is only a REAL echo
+  // when nothing substantive remains after stripping chrome + the quoted question.
   const raw = turn.replyText || turn.replyTail || "";
-  if (/\byou say:|\bvous dites?:/i.test(raw)) return true;      // explicit echo chrome
   const q = (turn.q || "").trim();
-  if (q.length < 12) return false;
+  const hasEchoLabel = /\byou say:|\bvous dites?:/i.test(raw);
   const qHead = q.toLowerCase().slice(0, Math.min(q.length, 60));
-  if (!raw.toLowerCase().includes(qHead)) return false;
-  // reply CONTAINS the question — flag only if little substantive text is left after removing
-  // chrome + the echoed question (i.e. the reply WAS the echo, not an answer quoting it back).
-  const remainder = raw.replace(new RegExp(UI_CHROME_RE.source, "gi"), " ")
-    .toLowerCase().split(qHead).join(" ").replace(/[^a-z0-9]+/g, " ").trim();
+  if (!hasEchoLabel) {
+    if (q.length < 12) return false;
+    if (!raw.toLowerCase().includes(qHead)) return false;
+  }
+  // reply carries echo chrome and/or the question — flag only if little substantive text is
+  // left after removing chrome + the echoed question (i.e. the reply WAS the echo, not an
+  // answer that the transcript happens to prefix with the user's own message).
+  let remainder = raw.replace(new RegExp(UI_CHROME_RE.source, "gi"), " ").toLowerCase();
+  if (qHead.length >= 12) remainder = remainder.split(qHead).join(" ");
+  remainder = remainder.replace(/\byou say:|\bvous dites?:/gi, " ").replace(/[^a-z0-9]+/g, " ").trim();
   return remainder.length < 30;
 }
 

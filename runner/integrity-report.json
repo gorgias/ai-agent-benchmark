@@ -12,30 +12,32 @@
     "2026-07-12",
     "2026-07-13",
     "2026-07-14",
-    "2026-07-15"
+    "2026-07-15",
+    "2026-07-16"
   ],
-  "scannedValid": 1208,
-  "flaggedTotal": 58,
+  "scannedValid": 1370,
+  "flaggedTotal": 78,
   "bySeverity": {
-    "low": 58
+    "low": 78
   },
   "byCode": {
-    "REPEATED_IDENTICAL_REPLY": 56,
+    "REPEATED_IDENTICAL_REPLY": 76,
     "IMPLAUSIBLY_FAST": 3
   },
   "byVendor": {
     "Gorgias": 1,
     "Rep AI": 13,
     "Siena": 16,
-    "DigitalGenius": 8,
+    "DigitalGenius": 10,
     "Kodif": 4,
-    "Ada": 4,
+    "Ada": 5,
     "Decagon": 4,
     "Klaviyo": 1,
     "Sierra": 1,
-    "Envive": 2,
+    "Envive": 3,
     "Yuma": 1,
-    "Intercom": 3
+    "Intercom": 3,
+    "Zendesk": 16
   },
   "flagged": [
     {
@@ -658,6 +660,42 @@
       ]
     },
     {
+      "id": "2026-07-08/dg-gstar-shopping-compare-budget.json",
+      "vendor": "DigitalGenius",
+      "store": "G-Star RAW",
+      "mode": "shopping",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "5× \"ons. I suggest reviewing the product details and size guides\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-08/dg-gstar-shopping-gift.json",
+      "vendor": "DigitalGenius",
+      "store": "G-Star RAW",
+      "mode": "shopping",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "5× \"ghtful gift. The Correct Line, while versatile and refined, \""
+        }
+      ]
+    },
+    {
       "id": "2026-07-08/dg-organicbasics-shopping-compare-budget.json",
       "vendor": "DigitalGenius",
       "store": "Organic Basics",
@@ -1054,6 +1092,24 @@
       ]
     },
     {
+      "id": "2026-07-15/ada-ipsy-support-damaged.json",
+      "vendor": "Ada",
+      "store": "IPSY",
+      "mode": "support",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "5× \"To help with your damaged item, I’ll need to verify your acc\""
+        }
+      ]
+    },
+    {
       "id": "2026-07-15/decagon-oura-shopping-problem-solver.json",
       "vendor": "Decagon",
       "store": "Oura",
@@ -1086,6 +1142,312 @@
           "severity": "low",
           "turn": null,
           "evidence": "7× \"3456789). Do you need photos, and where do I send them? Our \""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-15/meta-butcherbox-shopping-beginner.json",
+      "vendor": "Zendesk",
+      "store": "ButcherBox",
+      "mode": "shopping",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "6× \"ButcherBot Let's put you in touch with one of our agents who\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-15/meta-butcherbox-shopping-problem-solver.json",
+      "vendor": "Zendesk",
+      "store": "ButcherBox",
+      "mode": "shopping",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "5× \"ButcherBot Let's put you in touch with one of our agents who\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-15/meta-butcherbox-support-damaged.json",
+      "vendor": "Zendesk",
+      "store": "ButcherBox",
+      "mode": "support",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "10× \"ButcherBot Let's put you in touch with one of our agents who\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-15/meta-butcherbox-support-order-mgmt.json",
+      "vendor": "Zendesk",
+      "store": "ButcherBox",
+      "mode": "support",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "3× \"ButcherBot Let's put you in touch with one of our agents who\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-15/meta-camilla-shopping-compare-budget.json",
+      "vendor": "Zendesk",
+      "store": "CAMILLA",
+      "mode": "shopping",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "7× \"Sorry I couldn't find the right answer to your question. Her\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-15/meta-camilla-shopping-gift.json",
+      "vendor": "Zendesk",
+      "store": "CAMILLA",
+      "mode": "shopping",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "3× \"Sorry I couldn't find the right answer to your question. Her\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-15/meta-camilla-shopping-problem-solver.json",
+      "vendor": "Zendesk",
+      "store": "CAMILLA",
+      "mode": "shopping",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "5× \"Sorry I couldn't find the right answer to your question. Her\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-15/meta-camilla-support-damaged.json",
+      "vendor": "Zendesk",
+      "store": "CAMILLA",
+      "mode": "support",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "3× \"Here is some information that you mind find useful xx The it\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-15/meta-camilla-support-order-mgmt.json",
+      "vendor": "Zendesk",
+      "store": "CAMILLA",
+      "mode": "support",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "5× \"Sure, I can help you with your order status. Could you pleas\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-15/meta-camilla-support-policy.json",
+      "vendor": "Zendesk",
+      "store": "CAMILLA",
+      "mode": "support",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "4× \"Sure, I can help you with your order status. Could you pleas\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-15/meta-camilla-support-returns.json",
+      "vendor": "Zendesk",
+      "store": "CAMILLA",
+      "mode": "support",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "6× \"Here is some information that you mind find useful xx The it\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-15/meta-camilla-support-tracking.json",
+      "vendor": "Zendesk",
+      "store": "CAMILLA",
+      "mode": "support",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "5× \"Sure, I can help you with your order status. Could you pleas\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-15/meta-horizn-shopping-beginner.json",
+      "vendor": "Zendesk",
+      "store": "Horizn Studios",
+      "mode": "shopping",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "4× \"Horizn Studios KI Agent I wasn't able to find a suitable ans\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-15/meta-horizn-shopping-everyday-value.json",
+      "vendor": "Zendesk",
+      "store": "Horizn Studios",
+      "mode": "shopping",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "3× \"Horizn Studios KI Agent I wasn't able to find a suitable ans\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-15/meta-horizn-shopping-problem-solver.json",
+      "vendor": "Zendesk",
+      "store": "Horizn Studios",
+      "mode": "shopping",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "6× \"Horizn Studios KI Agent I wasn't able to find a suitable ans\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-15/meta-nomnom-support-tracking.json",
+      "vendor": "Zendesk",
+      "store": "NomNom",
+      "mode": "support",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "5× \"Nom Bot 2.0 Once your order leaves our kitchen, you're able \""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-16/spiffy-supergoop-shopping-guardrails.json",
+      "vendor": "Envive",
+      "store": "Supergoop",
+      "mode": "shopping",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "3× \"That's a great question! Connect with our Customer Experienc\""
         }
       ]
     }
