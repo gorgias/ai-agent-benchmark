@@ -139,9 +139,19 @@ while (added < BUDGET) {
       triage.stores[store.key] = { vendor: v, class: cls, at: new Date().toISOString(),
         action: structural ? "parked-structural" : cls === "ANSWERED" ? "flaky-retry-ok" : "needs-driver-fix", fixed: cls === "ANSWERED" };
       writeFileSync(TRIAGE_FILE, JSON.stringify(triage, null, 1));
-      if (structural) { parked.add(store.key); byV[v] = byV[v].filter((s) => s.key !== store.key); }
+      // Production lesson (2026-07-16, 3h for 1/270): a needs-driver-fix store must ALSO be
+      // parked — it re-entered rotation every ~40min and burned the whole campaign. And
+      // parked persists across campaigns until a --classify re-probe marks it fixed.
+      if (structural || triage.stores[store.key].action === "needs-driver-fix") {
+        parked.add(store.key); byV[v] = byV[v].filter((s) => s.key !== store.key);
+      }
       L(`  🔧 auto-probe ${store.key} → ${cls} → ${triage.stores[store.key].action}`);
     } catch (e) { L(`  🔧 auto-probe ${store.key} failed: ${String(e.message || e).slice(0, 80)}`); }
+    // PER-STORE campaign strike (same lesson): even a "flaky-retry-ok" store that just gave
+    // +0 is benched for the REST OF THIS CAMPAIGN — the vendor's other stores (or other
+    // vendors) get the budget instead of a 40-min retry of the same coin-flip.
+    byV[v] = byV[v].filter((s) => s.key !== store.key);
+    if (!byV[v].length) { retired.add(v); L(`  ⛔ retire ${v} — no un-benched stores left this campaign`); }
     if (strikes[v] >= strikeLimit(v)) { retired.add(v); L(`  ⛔ retire ${v} (structural — can't add valid convs unattended)`); }
   } else { strikes[v] = 0; L(`  +${gained} valid ${v} · total added ${added}/${BUDGET}`); }
 }
