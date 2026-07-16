@@ -20,7 +20,12 @@ import { execFileSync } from "node:child_process";
 import { readdirSync, readFileSync, writeFileSync, existsSync } from "node:fs";
 import { STORES } from "../vendors.js";
 
-const RUN_DATE = process.env.RUN_DATE || "2026-07-08";
+// Default to TODAY, not a pinned date. ROOT CAUSE of days of near-zero yield (2026-07-16):
+// this was hardcoded to "2026-07-08", where every producer store already had its 10 convs
+// on disk — run.js dedups by (store,mode,theme,date) and skipped them all ("ALL DONE"),
+// so the balancer only ever found room on incomplete/new/Decagon stores. A fresh date =
+// run.js writes NEW conversations and the producers actually capture.
+const RUN_DATE = process.env.RUN_DATE || new Date().toISOString().slice(0, 10);
 const TARGET   = Number(process.env.TARGET) || 82;    // per-vendor equality level (≈ Ada, the #2 leader)
 const BUDGET   = Number(process.env.BUDGET) || 345;   // max NEW valid non-Amazon convs to add (rest is Rufus)
 const HEADED   = new Set(["Rep AI", "Kodif", "Humind"]);            // these only capture cleanly headed
