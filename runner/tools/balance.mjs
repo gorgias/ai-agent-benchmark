@@ -124,6 +124,10 @@ while (added < BUDGET) {
     const args = ["run.js", "--store", store.key, "--themes", "5", "--concurrency", String(Number(process.env.CONCURRENCY) || 5)];
     if (headed) args.push("--headed");
     execFileSync("node", args, { stdio: "inherit", timeout: STORE_TIMEOUT_MS,
+      // SIGKILL, not the default SIGTERM: run.js spawns a Playwright chromium tree that can
+      // swallow SIGTERM and keep the store alive past the cap (happywax ran 43min under a
+      // 22min cap, 2026-07-16). SIGKILL guarantees the ceiling is real.
+      killSignal: "SIGKILL",
       env: { ...process.env, RUN_DATE, BENCHMARK_CAPTURE_ORIGIN: "claude" } });
   } catch (e) { L(`run.js error for ${store.key}: ${String(e.message || e).slice(0, 100)}`); }
 
@@ -140,9 +144,16 @@ while (added < BUDGET) {
         { encoding: "utf8", timeout: 4 * 60 * 1000, env: { ...process.env } });
       const m = out.match(/CLASSIFICATION:\s*(\w+)/);
       const cls = m ? m[1] : "PROBE_FAILED";
-      const structural = ["HUMAN_FRONT_DOOR", "RECAPTCHA_WALL", "WIDGET_ABSENT"].includes(cls);
-      triage.stores[store.key] = { vendor: v, class: cls, at: new Date().toISOString(),
-        action: structural ? "parked-structural" : cls === "ANSWERED" ? "flaky-retry-ok" : "needs-driver-fix", fixed: cls === "ANSWERED" };
+      // TRACK-RECORD GUARD (2026-07-16): never STRUCTURALLY park a store that has produced
+      // valid convs before — nanuk (10/10, 8/8, 7/10 historically) got parked WIDGET_ABSENT
+      // on ONE transient miss. A proven producer failing once is flaky, not structural;
+      // it stays in rotation and just gets a soft strike. Only park stores with NO history.
+      const hasTrackRecord = readdirSync("results").filter((d) => /^2026/.test(d)).some((d) => {
+        try { return readdirSync(`results/${d}/conv`).some((f) => f.startsWith(store.key + "-") && JSON.parse(readFileSync(`results/${d}/conv/${f}`, "utf8")).valid); } catch { return false; }
+      });
+      const structural = !hasTrackRecord && ["HUMAN_FRONT_DOOR", "RECAPTCHA_WALL", "WIDGET_ABSENT"].includes(cls);
+      const action = structural ? "parked-structural" : cls === "ANSWERED" ? "flaky-retry-ok" : hasTrackRecord ? "flaky-transient" : "needs-driver-fix";
+      triage.stores[store.key] = { vendor: v, class: cls, at: new Date().toISOString(), action, hadTrackRecord: hasTrackRecord, fixed: cls === "ANSWERED" || action === "flaky-transient" };
       writeFileSync(TRIAGE_FILE, JSON.stringify(triage, null, 1));
       // Production lesson (2026-07-16, 3h for 1/270): a needs-driver-fix store must ALSO be
       // parked — it re-entered rotation every ~40min and burned the whole campaign. And
