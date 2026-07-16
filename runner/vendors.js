@@ -1002,6 +1002,15 @@ export const STORES = [
   // personas: Yuma's AI replies under a human first name ("Lucas says:") — exclude it from the
   // named-human handover heuristic (verified automated: answers ~40s post-email-gate, salesAi on).
   { key: "yuma-atma",      vendor: "Yuma",    store: "Atma Kitchenware",   url: "https://atmakitchenware.fr/",   widget: "gorgias", locale: "fr-FR", personas: ["Lucas"] },
+  // Sourced 2026-07-16 from Gorgias's own product telemetry (dim_tickets joined to
+  // dim_accounts via the agent-email `%yuma%` pattern used by the internal "Gorgias vs
+  // Competitors Automation Rate Proxy" Metabase card, #14455) — ground truth on which real
+  // merchants use Yuma, not a guess. Confirmed these 3 run Yuma answers BEHIND the Gorgias
+  // widget (window.GorgiasChat present, no standalone app.yuma.ai script) — same pattern as
+  // yuma-atma above, not the native-widget pattern most other yuma-* stores use.
+  { key: "yuma-mfimedical", vendor: "Yuma", store: "MFI Medical",    url: "https://mfimedical.com/",       widget: "gorgias", us: true }, // 54k tickets/45d (Gorgias telemetry)
+  { key: "yuma-glossier",   vendor: "Yuma", store: "Glossier",       url: "https://www.glossier.com/",     widget: "gorgias", us: true }, // 22k tickets/45d
+  { key: "yuma-planttherapy", vendor: "Yuma", store: "Plant Therapy", url: "https://www.planttherapy.com/", widget: "gorgias", us: true }, // 8k tickets/45d
   { key: "envive-kut",     vendor: "Envive",  store: "Kut from the Kloth", url: "https://www.kutfromthekloth.com/", widget: "gorgias" }, // chat shell is Gorgias
   { key: "repai-fresh",    vendor: "Rep AI",  store: "Fresh Roasted Coffee", url: "https://www.freshroastedcoffee.com/", widget: "repai", candidate: true },
   { key: "kodif-dsc",      vendor: "Kodif",   store: "Dollar Shave Club",  url: "https://us.dollarshaveclub.com/", widget: "kodif", candidate: true },
@@ -1048,6 +1057,19 @@ export const STORES = [
   { key: "siena-brooklinen", candidate: true, vendor: "Siena", store: "Brooklinen",            url: "https://www.brooklinen.com/", widget: "siena" }, // bedding DTC, Shopify Plus, $1.5B/mo est. (Storeleads) — 0/2 valid, empty replies
   { key: "siena-plg",         vendor: "Siena", store: "Portland Leather Goods", url: "https://www.portlandleathergoods.com/", widget: "siena" }, // leather goods DTC, Shopify Plus, $842M/mo est. (Storeleads) — confirmed 2/2 valid
   { key: "siena-dandelion", candidate: true, vendor: "Siena", store: "Dandelion Chocolate",   url: "https://www.dandelionchocolate.com/", widget: "siena" }, // chocolate DTC, Shopify Plus, $193M/mo est. (Storeleads) — 0/2 valid, empty replies
+  // Sourced 2026-07-16, second StoreLeads pass (f:tech=Siena, f:p=shopify, f:ds=Active — 45
+  // total). Live-verified (window.SienaLaunchChat present): Heirloom Roses. Everydaydose,
+  // Live Momentous, Canopy, Bare Performance Nutrition all checked live and do NOT have
+  // Siena mounted despite matching the StoreLeads query — not registered.
+  { key: "siena-heirloomroses", vendor: "Siena", store: "Heirloom Roses", url: "https://heirloomroses.com/", widget: "siena" }, // garden/roses DTC, Shopify Plus, $609M/mo est. (Storeleads)
+  // Sourced 2026-07-16 from Gorgias's own product telemetry (same Metabase-card-14455 query
+  // as yuma-mfimedical above, agent-email `%siena.cx%` pattern, msg.via='api'). bboutique.co
+  // confirmed live (window.SienaLaunchChat present); several higher-ticket-volume Siena
+  // accounts from the same list (earthbreeze 90k tickets/45d, mellowsleep, comfrt, eskiin,
+  // madhappy) showed NO live chat widget on a cold check — their Siena usage there is likely
+  // email-channel only (the telemetry counts both channels; only chat has an on-site widget
+  // to capture), not a driver bug. Not registered.
+  { key: "siena-bboutique", vendor: "Siena", store: "B Boutique", url: "https://bboutique.co/", widget: "siena" }, // 51k tickets/45d (Gorgias telemetry)
   // Yuma (runs behind Gorgias helpdesk → drive the Gorgias widget)
   // Zendesk AI — messaging widgets re-verified 2026-07-05 via ekr.zdassets.com/compose/<key>
   // (a `messenger` product block = live conversational widget, not a help-center form).
@@ -1191,6 +1213,15 @@ export const STORES = [
   { key: "ada-americantall",  vendor: "Ada",    store: "American Tall",   url: "https://www.americantall.com/", widget: "ada", us: true }, // data-handle americantall-gen (sizing → shopping)
   { key: "ada-trx",           vendor: "Ada",    store: "TRX Training",    url: "https://www.trxtraining.com/",  widget: "ada", us: true }, // data-handle trx-gr
   { key: "ada-uaudio",        vendor: "Ada",    store: "Universal Audio", url: "https://www.uaudio.com/",       widget: "ada", us: true }, // data-handle universalaudio
+  // Sourced 2026-07-16 via the StoreLeads API (f:tech=Ada, f:p=shopify, f:ds=Active — 202
+  // total). Live-verified (window.adaEmbed present under STEALTH): Peloton, SodaStream,
+  // Loop Earplugs, Knix. yeti.com/au also matched this StoreLeads query but live-checks
+  // during this campaign confirmed it's actually Klaviyo now (see ada-yeti, registered
+  // earlier) — StoreLeads' tech detection can be stale; always live-verify before trusting it.
+  { key: "ada-peloton",  vendor: "Ada", store: "Peloton",       url: "https://www.onepeloton.com/", widget: "ada", us: true }, // fitness hardware DTC, Shopify Plus, $3.5B/mo est. (Storeleads)
+  { key: "ada-sodastream", vendor: "Ada", store: "SodaStream",  url: "https://sodastream.com/",     widget: "ada", us: true }, // home appliances DTC, Shopify Plus, $703M/mo est. (Storeleads)
+  { key: "ada-loop",     vendor: "Ada", store: "Loop Earplugs", url: "https://www.loopearplugs.com/", widget: "ada", us: false }, // earplugs DTC, Shopify Plus (Belgium HQ), $613M/mo est. (Storeleads)
+  { key: "ada-knix",     vendor: "Ada", store: "Knix",          url: "https://knix.com/",           widget: "ada", us: true }, // apparel DTC, Shopify Plus, $276M/mo est. (Storeleads)
   { key: "repai-vibae",       vendor: "Rep AI", store: "VIBAe",         url: "https://vibae.com/",              widget: "repai" },           // initRep
   { key: "repai-safishing",   vendor: "Rep AI", store: "SA Fishing",    url: "https://www.safishing.com/",      widget: "repai" },
   { key: "repai-fass",        vendor: "Rep AI", store: "FASS Motorsports", url: "https://www.fassmotorsports.com/", widget: "repai" },
