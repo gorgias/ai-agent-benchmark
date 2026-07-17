@@ -109,6 +109,14 @@ Detected signals (regex, case-insensitive) include:
 
 Validated against real captured replies: it flags DigitalGenius, Meta AI, and Siena's soft deflection, and does **not** flag genuine answers (e.g. a blunt no-returns policy or a real product recommendation).
 
+### Channel-deflection penalty (support quality)
+
+A reply whose resolution is *"contact us via email / a contact form / call us"* did **not** help the customer in-channel. When the **majority (≥50%) of an AI's substantive replies** in a conversation push the customer out of channel — i.e. in-chat resolution is effectively impossible — the support-quality checks `s_answered`, `s_outcome`, and `s_no_deflect` are **deterministically failed** ([`eval-score.js`](../runner/eval-score.js) signal gate on `no_deflect`), regardless of the LLM judge's leniency. Detection runs on the chrome-stripped reply and **spares** an *optional* aside after a real in-chat answer ("…if you prefer, you can also email us") and an *in-channel* offer ("contact us here in the chat"). Applied uniformly to every vendor.
+
+## Store selection & neutrality
+
+Every **live, verified** storefront a vendor operates counts — there is no version-tier or performance-based store exclusion keyed to any vendor's name. (A former Gorgias-only "exclude pre-V3 deployments" rule was removed 2026-07-17 for neutrality; it relied on a private flag no third party could verify and had no competitor equivalent.) The only structural exclusions are vendor-blind: non-e-commerce sites (`ecommerce:false`), login-walled/unreachable sites, and per-conversation validity/quarantine gates that apply identically to all vendors.
+
 ## Cold sessions
 
 These widgets persist a conversation in their **own cross-origin storage** (`gorgias.chat`, `siena.cx`, `ada.support`, `chat.digitalgenius.com`, Zendesk). This caused warm-session bias in early manual runs. Verified facts (2026-06-30):

@@ -124,15 +124,33 @@ export const DEFLECT_PATTERNS = [
   /\b(please |kindly |you'?ll (?:need to|have to) |you (?:can|should) )?contact (?:our )?(?:customer (?:support|service|care)|support team|customer care)\b/i,
 ];
 
+// In-channel markers: the bot is keeping the shopper HERE, not pushing them out of channel.
+const IN_CHANNEL_RE = /\b(here|in (the|this) chat|right here|via (this|the) chat|in this conversation)\b/i;
+// Optional-alternative framing: "…, or if you prefer you can also email us" is a secondary
+// offer AFTER in-channel help, not a directive punt. When the deflection phrase is framed this
+// way it must not count against the AI (the false-gate lesson: an optional aside ≠ a bail-out).
+const OPTIONAL_ALT_RE = /(if you (?:prefer|['’]?d like|would like|want|need)|you can also|you may also|feel free to|or (?:you can|feel free|to reach)|alternativ|otherwise|should you (?:prefer|need))/i;
 export function detectDeflection(text) {
   if (!text) return null;
   for (const re of DEFLECT_PATTERNS) {
-    const m = text.match(re); if (!m) continue;
-    // IN-CHANNEL guard: "contact us directly HERE IN THE CHAT" / "reach us right here" is the
-    // opposite of a deflection — the bot is keeping the shopper in-channel. Skip such matches.
-    const after = text.slice(m.index + m[0].length, m.index + m[0].length + 22).toLowerCase();
-    if (/^[\s,]*(here\b|in (the|this) chat|right here|via (this|the) chat)/.test(after)) continue;
-    return m[0].trim().slice(0, 80);
+    // Scan ALL matches of each pattern (not just the first) so a guarded-out optional aside
+    // doesn't mask a later directive punt.
+    const rx = new RegExp(re.source, re.flags.includes("g") ? re.flags : re.flags + "g");
+    let m;
+    while ((m = rx.exec(text)) !== null) {
+      if (m[0].length === 0) { rx.lastIndex++; continue; }
+      const start = m.index, end = m.index + m[0].length;
+      const after = text.slice(end, end + 30);
+      const before = text.slice(Math.max(0, start - 60), start);
+      // IN-CHANNEL guard: "contact us HERE / in this chat" — the bot is staying in-channel.
+      // Look on both sides of the phrase (same sentence), not just the 22 chars after it.
+      if (IN_CHANNEL_RE.test(after) || IN_CHANNEL_RE.test(before)) continue;
+      // OPTIONAL-ALTERNATIVE guard: an "if you prefer / you can also email" aside is not a punt.
+      // The framing must be ADJACENT to the phrase (last ~30 chars) so an unrelated earlier
+      // "you can also …" clause doesn't spare a genuine directive punt later in the sentence.
+      if (OPTIONAL_ALT_RE.test(before.slice(-30))) continue;
+      return m[0].trim().slice(0, 80);
+    }
   }
   return null;
 }

@@ -15,6 +15,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { convoSignals } from "./eval-signals.js";
 import { conversationTurnQuality } from "./turn-quality.js";
+import { deriveScores, RESOLUTION_CLASSES } from "./eval-score.js";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const SCORES = path.join(HERE, "eval-scores.json");
@@ -41,44 +42,8 @@ function detectEvalOrigin() {
 
 const EVAL_ORIGIN = detectEvalOrigin();
 
-// ---- the fixed check → points mapping (mirrors eval-rubric.md; the single source of scoring) ----
-const CHECKS = {
-  shopping: {
-    answer: { a_direct: 14, a_consistent: 9, a_no_ignored: 7 },
-    discovery: { d_clarify: 8, d_progressive: 7, d_not_dump: 5 },   // v2.2 — PMF core
-    recommendation: { r_named: 9, r_fit: 8, r_plausible: 5 },
-    rich: { e_price: 6, e_link: 7, e_reviews: 3, e_options: 2 },
-    close: { c_cta: 5, c_cart: 3, c_clean: 2 },
-  },
-  support: {
-    resolution: { s_answered: 18, s_outcome: 12, s_no_deflect: 10 },
-    accuracy: { g_specific: 13, g_consistent: 5, g_grounded: 7 },   // v2.1: g_consistent split (calibration)
-    actionability: { t_steps: 12, t_complete: 8 },
-    close: { k_expectations: 8, k_clean: 7 },
-  },
-};
-// signal gates: check → signal that must be true in the transcript for the check to pass
-const SIGNAL_GATE = { e_price: "has_price", e_link: "has_link", e_reviews: "has_reviews", e_options: "has_options" };
-const RESOLUTION_CLASSES = ["resolved", "partial", "deflected", "failed"];
-
-function deriveScores(mode, checks, signals) {
-  const dims = CHECKS[mode]; if (!dims) return null;
-  const rubric = {}, gated = [];
-  let total = 0;
-  for (const [dim, defs] of Object.entries(dims)) {
-    let s = 0;
-    for (const [cid, pts] of Object.entries(defs)) {
-      const c = checks[cid];
-      if (!c || typeof c.pass !== "boolean") return null;                    // every check must be present
-      let pass = c.pass;
-      if (pass && !(typeof c.evidence === "string" && c.evidence.trim().length >= 3)) pass = false;  // no quote → no credit
-      if (pass && SIGNAL_GATE[cid] && !signals[SIGNAL_GATE[cid]]) { pass = false; gated.push(cid); } // deterministic cap
-      if (pass) s += pts;
-    }
-    rubric[dim] = s; total += s;
-  }
-  return { rubric, total, gated };
-}
+// Scoring table, signal gates, and deriveScores live in ./eval-score.js (single source of
+// truth, side-effect-free) so tools/rederive-scores.mjs can re-apply them to existing scores.
 
 // map-*.json (opaque key → conversation id), from the same batch dir
 const KMAP = {};

@@ -116,6 +116,23 @@ test("detectDeflection: an answer that merely CONTAINS contact info is NOT a def
   assert.equal(detectDeflection("Receipts are sent from orders@brand.com after purchase."), null);
 });
 
+test("detectDeflection: an OPTIONAL email alternative after in-chat help is NOT a deflection", () => {
+  // beekman false-positive: bot keeps the shopper in-channel, offers email only "if you prefer".
+  assert.equal(detectDeflection("Just send us the details in this chat and we can help. If you prefer, you can also email neighborservices@beekman1802.com."), null);
+  assert.equal(detectDeflection("I can handle that here. Otherwise, feel free to email us at help@brand.com."), null);
+});
+
+test("detectDeflection: an IN-CHANNEL 'contact us here in the chat' is NOT a deflection", () => {
+  // icewatch false-positive: "contact us again here in the chat" is staying in-channel.
+  assert.equal(detectDeflection("If it happens again, please contact us again here in the chat with photos."), null);
+  assert.equal(detectDeflection("Please write to us right here and we'll review it."), null);
+});
+
+test("detectDeflection: a genuine directive punt still fires even after an optional-looking clause", () => {
+  // guards must not let a real punt slip through — scan ALL matches, not just the first.
+  assert.ok(detectDeflection("You can also browse the FAQ. To fix this, you must email support@brand.com with your order number."));
+});
+
 // ---- journey outcome / automation rate ---------------------------------------
 const aiReply = (ms, tail) => ({ by: "ai", complete_ms: ms, handover: false, replyTail: tail });
 

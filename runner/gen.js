@@ -433,11 +433,10 @@ async function buildMode(mode) {
     // e.g. Intercom on Synthesia/Kajabi, Decagon on Bilt/Hertz) are excluded from BOTH lanes;
     // `ecommerce:false` is set on those store rows in vendors.js.
     if (site.ecommerce === false) continue;
-    // Standing rule (Max): a Gorgias store confirmed NOT on AI Agent V3 (Evoli) is excluded
-    // from BOTH lanes — V2 isn't representative of the shipping product and drags the numbers
-    // down abnormally. `v3:false` is set from Cortex dim_accounts.v3_ai_agent_architecture_beta_phase
-    // (null = not V3). e.g. Jade (drags support to q41-49), Tommy John, Dr. Bronner's.
-    if (site.vendor === "Gorgias" && site.v3 === false) continue;
+    // NOTE (2026-07-17): the former version-tier store filter (Gorgias-only "v3:false → exclude
+    // from both lanes") was REMOVED for benchmark neutrality. It keyed off a private field with
+    // no cross-vendor equivalent — no vendor should have its non-latest deployments filtered out
+    // when others don't. Every live, verified store now counts (impact ~1 pt/lane).
     // Madura's SHOPPING lane is misconfigured — the agent treats shopping openers ("guide me")
     // as payment-method queries (card/PayPal/Alma), a store-specific config gap, NOT the V3 agent's
     // behavior (other Gorgias stores sell fine: Beekman 88, Addison Bay 86). Excluded from Shopping

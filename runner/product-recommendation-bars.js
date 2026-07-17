@@ -251,7 +251,7 @@ function siteByKey() {
 
 function includeStore(store, mode) {
   if (!store || !store.url) return false;
-  if (store.vendor === "Gorgias" && store.v3 === false) return false;
+  // Gorgias-only v3:false exclusion removed 2026-07-17 for neutrality (see gen.js note).
   if (store.key === "gorgias-madura" && mode === "shopping") return false;
   return true;
 }
