@@ -1627,7 +1627,7 @@ function renderConv(){
   renderConvFilters();
   const shown = CF_ITEMS.filter(passConvFilter);
   const feed=document.getElementById('conv-feed'); if(!feed) return;
-  const cnt=document.getElementById('conv-count'); if(cnt) cnt.textContent = shown.length+' of '+CF_ITEMS.length+' conversations';
+  const cnt=document.getElementById('conv-count'); if(cnt) cnt.textContent = shown.length.toLocaleString()+' of '+CF_ITEMS.length.toLocaleString()+' conversations';
   renderConvChart(shown);
   if(!shown.length){ feed.innerHTML='<div class="note" style="padding:16px">No conversations match the current filters (date window, vendor/website pills, or the feed filters above). <button class="datebtn" onclick="VFILTER.clear();WFILTER.clear();CF_FILTER={lane:\'all\',vendor:\'__all\',outcome:\'all\',lat:\'all\',q:\'\'};presetAll();renderFilterPops();renderAll();">Reset all filters</button></div>'; return; }
   // Lazy rendering: only the first CF_CHUNK rows are in the DOM; an IntersectionObserver
@@ -2315,11 +2315,13 @@ renderAll();
   // correct even if requestAnimationFrame never fires (it doesn't in a non-painting/
   // backgrounded tab) — then animate from 0 as a pure enhancement.
   const heroNums=[...document.querySelectorAll('#hero-stats [data-count]')];
-  heroNums.forEach(el=>{ el.textContent=el.dataset.count; });
+  // Locale-aware integers: US sees "1,556", FR "1 556", etc. — from the viewer's browser locale.
+  const NF=(n)=>Number(n).toLocaleString();
+  heroNums.forEach(el=>{ el.textContent=NF(el.dataset.count); });
   if(!reduced) heroNums.forEach(el=>{
     const target=+el.dataset.count, t0=performance.now(), dur=1000;
     const step=(t)=>{ const p=Math.min(1,(t-t0)/dur), ease=1-Math.pow(1-p,3);
-      el.textContent=Math.round(target*ease); if(p<1) requestAnimationFrame(step); };
+      el.textContent=NF(Math.round(target*ease)); if(p<1) requestAnimationFrame(step); };
     requestAnimationFrame(step);
   });
 })();
