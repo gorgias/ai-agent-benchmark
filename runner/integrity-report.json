@@ -13,24 +13,23 @@
     "2026-07-13",
     "2026-07-14",
     "2026-07-15",
-    "2026-07-16"
+    "2026-07-16",
+    "2026-07-17"
   ],
-  "scannedValid": 1606,
-  "flaggedTotal": 104,
+  "scannedValid": 1621,
+  "flaggedTotal": 110,
   "bySeverity": {
-    "low": 103,
-    "high": 1
+    "low": 110
   },
   "byCode": {
-    "REPEATED_IDENTICAL_REPLY": 101,
-    "IMPLAUSIBLY_FAST": 3,
-    "PAGE_DUMP_REPLY": 1
+    "REPEATED_IDENTICAL_REPLY": 108,
+    "IMPLAUSIBLY_FAST": 3
   },
   "byVendor": {
     "Gorgias": 1,
     "Rep AI": 13,
     "Siena": 22,
-    "DigitalGenius": 21,
+    "DigitalGenius": 20,
     "Kodif": 4,
     "Ada": 6,
     "Decagon": 6,
@@ -39,27 +38,9 @@
     "Envive": 6,
     "Yuma": 1,
     "Intercom": 3,
-    "Zendesk": 19
+    "Zendesk": 26
   },
   "flagged": [
-    {
-      "id": "2026-07-16/dg-gstar-shopping-compare-budget.json",
-      "vendor": "DigitalGenius",
-      "store": "G-Star RAW",
-      "mode": "shopping",
-      "severity": "high",
-      "codes": [
-        "PAGE_DUMP_REPLY"
-      ],
-      "flags": [
-        {
-          "code": "PAGE_DUMP_REPLY",
-          "severity": "high",
-          "turn": 5,
-          "evidence": "Are there any current promos, bundles, or ways to save? 22:20 G-Star AI Assistant • AI Age"
-        }
-      ]
-    },
     {
       "id": "2026-07-01/gorgias-madura-shopping-beginner.json",
       "vendor": "Gorgias",
@@ -1918,6 +1899,132 @@
           "severity": "low",
           "turn": null,
           "evidence": "3× \"Once your order ships, we'll send you a confirmation email w\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-17/meta-butcherbox-shopping-beginner.json",
+      "vendor": "Zendesk",
+      "store": "ButcherBox",
+      "mode": "shopping",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "6× \"ButcherBot Let's put you in touch with one of our agents who\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-17/meta-butcherbox-shopping-compare-budget.json",
+      "vendor": "Zendesk",
+      "store": "ButcherBox",
+      "mode": "shopping",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "4× \"ButcherBot Let's put you in touch with one of our agents who\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-17/meta-butcherbox-shopping-gift.json",
+      "vendor": "Zendesk",
+      "store": "ButcherBox",
+      "mode": "shopping",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "3× \"ButcherBot Let's put you in touch with one of our agents who\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-17/meta-butcherbox-shopping-problem-solver.json",
+      "vendor": "Zendesk",
+      "store": "ButcherBox",
+      "mode": "shopping",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "5× \"ButcherBot Let's put you in touch with one of our agents who\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-17/meta-butcherbox-support-damaged.json",
+      "vendor": "Zendesk",
+      "store": "ButcherBox",
+      "mode": "support",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "10× \"ButcherBot Let's put you in touch with one of our agents who\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-17/meta-butcherbox-support-order-mgmt.json",
+      "vendor": "Zendesk",
+      "store": "ButcherBox",
+      "mode": "support",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "3× \"ButcherBot Let's put you in touch with one of our agents who\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-17/meta-dermalogica-shopping-gift.json",
+      "vendor": "Zendesk",
+      "store": "Dermalogica",
+      "mode": "shopping",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "5× \"Tap to retry\""
         }
       ]
     }
