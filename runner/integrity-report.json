@@ -15,20 +15,22 @@
     "2026-07-15",
     "2026-07-16"
   ],
-  "scannedValid": 1594,
-  "flaggedTotal": 99,
+  "scannedValid": 1606,
+  "flaggedTotal": 104,
   "bySeverity": {
-    "low": 99
+    "low": 103,
+    "high": 1
   },
   "byCode": {
-    "REPEATED_IDENTICAL_REPLY": 97,
-    "IMPLAUSIBLY_FAST": 3
+    "REPEATED_IDENTICAL_REPLY": 101,
+    "IMPLAUSIBLY_FAST": 3,
+    "PAGE_DUMP_REPLY": 1
   },
   "byVendor": {
     "Gorgias": 1,
     "Rep AI": 13,
     "Siena": 22,
-    "DigitalGenius": 16,
+    "DigitalGenius": 21,
     "Kodif": 4,
     "Ada": 6,
     "Decagon": 6,
@@ -40,6 +42,24 @@
     "Zendesk": 19
   },
   "flagged": [
+    {
+      "id": "2026-07-16/dg-gstar-shopping-compare-budget.json",
+      "vendor": "DigitalGenius",
+      "store": "G-Star RAW",
+      "mode": "shopping",
+      "severity": "high",
+      "codes": [
+        "PAGE_DUMP_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 5,
+          "evidence": "Are there any current promos, bundles, or ways to save? 22:20 G-Star AI Assistant • AI Age"
+        }
+      ]
+    },
     {
       "id": "2026-07-01/gorgias-madura-shopping-beginner.json",
       "vendor": "Gorgias",
@@ -1560,6 +1580,24 @@
       ]
     },
     {
+      "id": "2026-07-16/dg-gstar-support-damaged.json",
+      "vendor": "DigitalGenius",
+      "store": "G-Star RAW",
+      "mode": "support",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "7× \"You can use our return portal to process the return and down\""
+        }
+      ]
+    },
+    {
       "id": "2026-07-16/dg-kukoon-shopping-beginner.json",
       "vendor": "DigitalGenius",
       "store": "Kukoon",
@@ -1592,6 +1630,60 @@
           "severity": "low",
           "turn": null,
           "evidence": "5× \"and spills. You can check out the collection here and see fo\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-16/dg-kukoon-support-returns.json",
+      "vendor": "DigitalGenius",
+      "store": "Kukoon",
+      "mode": "support",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "5× \"Kukoon Rugs Assistant Yes, return shipping costs depend on t\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-16/dg-kukoon-support-tracking.json",
+      "vendor": "DigitalGenius",
+      "store": "Kukoon",
+      "mode": "support",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "5× \"Kukoon Rugs Assistant Unfortunately, Kukoon Rugs cannot expe\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-16/dg-organicbasics-shopping-compare-budget.json",
+      "vendor": "DigitalGenius",
+      "store": "Organic Basics",
+      "mode": "shopping",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "5× \"h your needs. Let me know if there's anything specific you'd\""
         }
       ]
     },
