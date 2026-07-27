@@ -1113,10 +1113,66 @@ export const STORES = [
   // signature can match a demo/sandbox embed — signature ⇒ candidate, never ⇒ registered.
   { key: "decagon-eightsleep", wall: true, candidate: true, vendor: "Decagon", store: "Eight Sleep", url: "https://www.eightsleep.com/", widget: "decagon" },
   { key: "dg-scentbird",       wall: true, candidate: true, vendor: "DigitalGenius", store: "Scentbird",         url: "https://www.scentbird.com/",       widget: "dg" },
-  { key: "dg-blakely",         wall: true, candidate: true, vendor: "DigitalGenius", store: "Blakely Clothing",  url: "https://www.blakelyclothing.com/", widget: "dg", locale: "en-GB" },
+  // (dg-blakely was mistakenly re-added + walled by the 2026-07-27 sourcing pass — it was ALREADY
+  //  registered and working further down this file, verified 2026-07-07, and produced 4 valid convs
+  //  this run. Duplicate row removed; the original stands.)
   { key: "dg-kukoonrugs",      wall: true, candidate: true, vendor: "DigitalGenius", store: "Kukoon Rugs",       url: "https://www.kukoonrugs.com/",      widget: "dg", locale: "en-GB" },
   { key: "zendesk-grenade",    wall: true, candidate: true, vendor: "Zendesk",       store: "Grenade",           url: "https://www.grenade.com/",         widget: "zendesk", locale: "en-GB" },
   { key: "sierra-glowbiotics", wall: true, candidate: true, vendor: "Sierra",        store: "GLOWBIOTICS",       url: "https://glowbiotics.com/",         widget: "sierra" },  // claimed by Rep AI's marketing; storefront runs Sierra
+  // ---- Gorgias breadth pass 2026-07-27 (39 URLs supplied by Max) ----
+  // All 39 checked against the existing roster first: ZERO were already registered.
+  // detect.js verdict: 33 carry a REAL Gorgias signature (network + global:GorgiasChat +
+  // dom:iframe[id*="gorgias"] — all three, not a lone DOM guess). Registered below.
+  // Dropped, with reasons: novawood.dk and bsimerch.com (klaviyo marketing pixel only, no chat),
+  // 2rholding.com and awchang.com (no known vendor signature at all), roccibel.com (page failed
+  // to load), byvorda.com (genuine Rep AI — network + global:initRep, no Gorgias → filed under
+  // Rep AI below, not here).
+  // FALSE-POSITIVE NOTE: five of these also reported `ada`, but only via `dom:[id*="ada-" i]`
+  // with no network/global hit — that is an ACCESSIBILITY widget (ADA = Americans with
+  // Disabilities Act), extremely common on US storefronts, NOT Ada CX. Same for the lone
+  // `repai (dom:#ads-agent-host)` on suntory. Treated as single-vendor Gorgias; the repo's
+  // dual-vendor drop rule (cf. the quip/getquip note below) does NOT apply to a DOM-only match.
+  // Unproven end-to-end, so every row is `candidate: true` until it captures.
+  { key: "gorgias-youknowclothing", candidate: true, vendor: "Gorgias", store: "You Know Clothing NZ",     url: "https://nz.youknowclothing.com/",          widget: "gorgias", locale: "en-NZ" },
+  { key: "gorgias-pegpaste",        candidate: true, vendor: "Gorgias", store: "PegPaste",                 url: "https://pegpaste.com.au/",                 widget: "gorgias", locale: "en-AU" },
+  { key: "gorgias-aclassbuilding",  candidate: true, vendor: "Gorgias", store: "A Class Building Materials",url: "https://aclassbuildingmaterials.com.au/",  widget: "gorgias", locale: "en-AU" },
+  { key: "gorgias-shouldersleeper", candidate: true, vendor: "Gorgias", store: "Shoulder Sleeper",         url: "https://shouldersleeper.com/",             widget: "gorgias", us: true },
+  { key: "gorgias-olivelle",        candidate: true, vendor: "Gorgias", store: "Olivelle",                 url: "https://olivelle.com",                     widget: "gorgias", us: true },
+  { key: "gorgias-halfbakd",        candidate: true, vendor: "Gorgias", store: "Half Bakd",                url: "https://half-bakd.com",                    widget: "gorgias", us: true },
+  { key: "gorgias-vimhue",          candidate: true, vendor: "Gorgias", store: "VimHue",                   url: "https://vimhue.com",                       widget: "gorgias", us: true },
+  { key: "gorgias-yesday",          candidate: true, vendor: "Gorgias", store: "Yesday World",             url: "https://yesdayworld.com",                  widget: "gorgias" },
+  { key: "gorgias-lightstoreusa",   candidate: true, vendor: "Gorgias", store: "Light Store USA",          url: "https://lightstoreusa.com",                widget: "gorgias", us: true },
+  { key: "gorgias-butterworth",     candidate: true, vendor: "Gorgias", store: "Butterworth Health",       url: "https://butterworthhealth.com",            widget: "gorgias", us: true },
+  { key: "gorgias-glasswareuk",     candidate: true, vendor: "Gorgias", store: "Glassware UK",             url: "https://glasswareuk.co.uk",                widget: "gorgias", locale: "en-GB" },
+  { key: "gorgias-erikapena",       candidate: true, vendor: "Gorgias", store: "Erika Pena",               url: "https://erikapena.com",                    widget: "gorgias", us: true },
+  { key: "gorgias-imperialglass",   candidate: true, vendor: "Gorgias", store: "Imperial Glass & Timber",  url: "https://imperialglassandtimber.com",       widget: "gorgias" },
+  { key: "gorgias-mephistoca",      candidate: true, vendor: "Gorgias", store: "Mephisto Canada",          url: "https://mephistocanada.com",               widget: "gorgias", locale: "en-CA" },
+  { key: "gorgias-maisonclose",     candidate: true, vendor: "Gorgias", store: "Maison Close US",          url: "https://maison-close.us",                  widget: "gorgias", us: true },
+  { key: "gorgias-fansbrands",      candidate: true, vendor: "Gorgias", store: "FansBRANDS",               url: "https://fansbrands.com",                   widget: "gorgias" },
+  { key: "gorgias-saintjames",      candidate: true, vendor: "Gorgias", store: "Saint James Iced Tea",     url: "https://saintjamesicedtea.com",            widget: "gorgias", us: true },
+  { key: "gorgias-hats",            candidate: true, vendor: "Gorgias", store: "Hats.com",                 url: "https://hats.com",                         widget: "gorgias", us: true },
+  { key: "gorgias-needbeauty",      candidate: true, vendor: "Gorgias", store: "Need Beauty",              url: "https://needbeauty.com",                   widget: "gorgias", us: true },
+  { key: "gorgias-nordicoutdoor",   candidate: true, vendor: "Gorgias", store: "Nordic Outdoor",           url: "https://nordicoutdoor.co.uk",              widget: "gorgias", locale: "en-GB" },
+  { key: "gorgias-scrubangels",     candidate: true, vendor: "Gorgias", store: "Scrub Angels",             url: "https://scrubangels.com",                  widget: "gorgias", us: true },
+  { key: "gorgias-evdnce",          candidate: true, vendor: "Gorgias", store: "EVDNCE",                   url: "https://evdnce.com",                       widget: "gorgias" },
+  { key: "gorgias-sustainablevillage", candidate: true, vendor: "Gorgias", store: "Sustainable Village",   url: "https://sustainablevillage.com",           widget: "gorgias", us: true },
+  { key: "gorgias-benibeca",        candidate: true, vendor: "Gorgias", store: "Benibeca UAE",             url: "https://uae.benibeca.com",                 widget: "gorgias" },
+  { key: "gorgias-bbqaid",          candidate: true, vendor: "Gorgias", store: "BBQ Aid",                  url: "https://bbqaidtools.com",                  widget: "gorgias", us: true },
+  { key: "gorgias-armadamerch",     candidate: true, vendor: "Gorgias", store: "Armada Merch",             url: "https://armadamerch.com",                  widget: "gorgias", us: true },
+  { key: "gorgias-redlighttherapy", candidate: true, vendor: "Gorgias", store: "Red Light Therapy UK",     url: "https://red-light-therapy.co.uk",          widget: "gorgias", locale: "en-GB" },
+  { key: "gorgias-lensntrends",     candidate: true, vendor: "Gorgias", store: "Lens N Trends",            url: "https://lensntrends.com",                  widget: "gorgias", us: true },
+  { key: "gorgias-suntorywellness", candidate: true, vendor: "Gorgias", store: "Suntory Wellness",         url: "https://wellness.suntory.com",             widget: "gorgias" },
+  { key: "gorgias-spacegods",       candidate: true, vendor: "Gorgias", store: "Space Gods",               url: "https://shopspacegods.com",                widget: "gorgias", us: true },
+  { key: "gorgias-seastar",         candidate: true, vendor: "Gorgias", store: "Seastar Beachwear",        url: "https://seastarbeachwear.com",             widget: "gorgias" },
+  // Non-English storefronts: the driver sends ENGLISH themes, so these may answer in the local
+  // language. Kept (the roster already carries de-DE/fr-FR/es-ES rows) but watch them — a
+  // language mismatch is a judging-noise risk, not a vendor failure.
+  { key: "gorgias-evolutionpt",     candidate: true, vendor: "Gorgias", store: "Evolution Power Tools IT", url: "https://evolutionpowertools.it",           widget: "gorgias", locale: "it-IT" },
+  { key: "gorgias-roroh",           candidate: true, vendor: "Gorgias", store: "Roroh",                    url: "https://roroh.de",                         widget: "gorgias", locale: "de-DE" },
+  // From the same pass, but NOT Gorgias: byvorda.com carries a real Rep AI signature
+  // (network + global:initRep, no Gorgias hit). Rep AI had only 3 registered stores and a 100%
+  // invalid rate this run, so a 4th genuine store is worth having.
+  { key: "repai-vorda",             candidate: true, vendor: "Rep AI",  store: "Vorda",                    url: "https://byvorda.com",                      widget: "repai" },
   // Yuma (runs behind Gorgias helpdesk → drive the Gorgias widget)
   // Zendesk AI — messaging widgets re-verified 2026-07-05 via ekr.zdassets.com/compose/<key>
   // (a `messenger` product block = live conversational widget, not a help-center form).
