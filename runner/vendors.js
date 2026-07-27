@@ -1070,6 +1070,53 @@ export const STORES = [
   // email-channel only (the telemetry counts both channels; only chat has an on-site widget
   // to capture), not a driver bug. Not registered.
   { key: "siena-bboutique", vendor: "Siena", store: "B Boutique", url: "https://bboutique.co/", widget: "siena" }, // 51k tickets/45d (Gorgias telemetry)
+  // ---- sourcing pass 2026-07-26 (store-concentration fix) ----
+  // Motivation: top-store share was 100% Rep AI (1 store), 91% Decagon, 50% Siena, 49% Yuma —
+  // the thin vendors' whole volume was piling onto a single storefront each, while Gorgias (16%,
+  // 18 stores) and Sierra (14%) were well spread. Sourced from each vendor's own public
+  // customer/case-study pages, then LIVE signature-verified with detect.js.
+  // The pass is MOSTLY NEGATIVE and that is the finding: of 38 marketing-claimed customers,
+  // only 7 actually mount the vendor's widget on the storefront. AllSaints, Rapha, Beauty Pie,
+  // Holland & Barrett, World of Books, Boardriders, Odlo, BestSecret, Caraway, DreamCloud,
+  // Nectar, Bella & Duke, YouGarden (DG) + IPSY, Indigo (Ada) + Spanx, Wine Enthusiast (Envive)
+  // show NO vendor signature — consistent with DG/Ada/Envive automating the email/ticket channel
+  // rather than an on-site widget. Not registered (same call as the earthbreeze/Siena pass above).
+  // A bare `klaviyo` network hit was deliberately NOT treated as a Klaviyo-chat signal: Klaviyo's
+  // marketing pixel is ubiquitous on Shopify and would have polluted the vendor with widget-less
+  // stores (hexclad, k18hair, mykitsch, orlybeauty, ridge, waterdrop, coterie all hit that way).
+  // Verified-Gorgias finds (westernrise, beautypie, senitaathletics) were deliberately NOT added:
+  // a Gorgias row needs correct us/v3 flags to route the Shopping lane, and v3 phase comes from
+  // Cortex telemetry that wasn't reachable this session. Adding them blind would mis-assign lanes.
+  // PROBE RESULT for the 5 rows below (same evening, tools/probe-generic.mjs): NONE presents a
+  // drivable conversational widget from a cold headless load, so all are walled. A vendor network
+  // signature is NECESSARY BUT NOT SUFFICIENT — it also fires for demo embeds, email/ticket-channel
+  // installs, help-center launchers and marketing pixels:
+  //   dg-scentbird     — no chat frame mounts at all (DG installed for the email/ticket channel)
+  //   dg-blakely       — same class, untested end-to-end, walled with its siblings
+  //   dg-kukoonrugs    — same class, untested end-to-end, walled with its siblings
+  //   zendesk-grenade  — a launcher frame exists but its only button is "Help": a help-center
+  //                      form, not a `messenger` block (cf. the 2026-07-05 Zendesk re-verification
+  //                      note below) — no conversation window ever opens
+  //   sierra-glowbiotics — no chat frame at all, only Shopify pixels
+  // repai-ritualzero is left UNWALLED but candidate: Rep AI is headed-only, so it was never given
+  // a fair headless attempt here; it needs a `--headed` pass before any verdict.
+  // METHOD NOTE: sourcing from vendors' public customer/case-study pages is a poor proxy —
+  // 38 claimed customers → 7 signature hits → 0 drivable widgets. The passes that DID work in this
+  // file used StoreLeads (f:tech=<vendor>, f:p=shopify, f:ds=Active) and Gorgias's own telemetry
+  // (Metabase card 14455), then live-verified the launcher global. Prefer those.
+  { key: "repai-ritualzero",   candidate: true, vendor: "Rep AI",        store: "Ritual Zero Proof", url: "https://ritualzeroproof.com/",     widget: "repai" },   // repai network sig — Rep AI's 2nd sourced store (was 100% single-store); NEEDS a headed pass
+  // Eight Sleep: PROBED AND REJECTED same day. detect.js matched a real decagon.ai network
+  // signature, but probe-generic shows the iframe is `decagon.ai/demo/eight_sleep` — a DEMO
+  // embed, not a production widget: nothing is ever delivered into it and every turn captures
+  // —ms. The storefront also geo-redirects to /fr/ from an EU IP, so the sample wouldn't be
+  // comparable to the en-US cohort even if the widget answered. LESSON: a vendor network
+  // signature can match a demo/sandbox embed — signature ⇒ candidate, never ⇒ registered.
+  { key: "decagon-eightsleep", wall: true, candidate: true, vendor: "Decagon", store: "Eight Sleep", url: "https://www.eightsleep.com/", widget: "decagon" },
+  { key: "dg-scentbird",       wall: true, candidate: true, vendor: "DigitalGenius", store: "Scentbird",         url: "https://www.scentbird.com/",       widget: "dg" },
+  { key: "dg-blakely",         wall: true, candidate: true, vendor: "DigitalGenius", store: "Blakely Clothing",  url: "https://www.blakelyclothing.com/", widget: "dg", locale: "en-GB" },
+  { key: "dg-kukoonrugs",      wall: true, candidate: true, vendor: "DigitalGenius", store: "Kukoon Rugs",       url: "https://www.kukoonrugs.com/",      widget: "dg", locale: "en-GB" },
+  { key: "zendesk-grenade",    wall: true, candidate: true, vendor: "Zendesk",       store: "Grenade",           url: "https://www.grenade.com/",         widget: "zendesk", locale: "en-GB" },
+  { key: "sierra-glowbiotics", wall: true, candidate: true, vendor: "Sierra",        store: "GLOWBIOTICS",       url: "https://glowbiotics.com/",         widget: "sierra" },  // claimed by Rep AI's marketing; storefront runs Sierra
   // Yuma (runs behind Gorgias helpdesk → drive the Gorgias widget)
   // Zendesk AI — messaging widgets re-verified 2026-07-05 via ekr.zdassets.com/compose/<key>
   // (a `messenger` product block = live conversational widget, not a help-center form).
