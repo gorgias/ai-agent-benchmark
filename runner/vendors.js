@@ -999,7 +999,7 @@ export const STORES = [
 
   // Sierra
   { key: "sierra-casper",   vendor: "Sierra", store: "Casper",         url: "https://casper.com/",              widget: "sierra" },
-  { key: "sierra-sonos",    vendor: "Sierra", store: "Sonos",          url: "https://www.sonos.com/",           widget: "sierra", candidate: true },
+  { key: "sierra-sonos", wall: true,    vendor: "Sierra", store: "Sonos",          url: "https://www.sonos.com/",           widget: "sierra", candidate: true },  // walled 2026-07-27: 130 AI turns / 27 convs, ZERO reply content, 0 valid
   { key: "sierra-chubbies", vendor: "Sierra", store: "Chubbies",       url: "https://www.chubbiesshorts.com/", widget: "sierra", candidate: true },
 
   // Siena
@@ -1029,8 +1029,8 @@ export const STORES = [
   // Sourced from Gorgias backend (dim_integrations app 'Yuma AI' = active) 2026-07-07, then verified to carry the
   // NATIVE yuma-widget on-page (same dual pattern as Tediber). The Yuma handler targets the app.yuma.ai iframe, so
   // if only the Gorgias widget is live these yield no data & drop out — no Gorgias-as-Yuma mis-attribution.
-  { key: "yuma-rouje",     vendor: "Yuma",    store: "Rouje",              url: "https://www.rouje.com/",        widget: "yuma", locale: "fr-FR" }, // native yuma-widget + Gorgias
-  { key: "yuma-ledomaine", vendor: "Yuma",    store: "Le Domaine",         url: "https://le-domaine.com/",       widget: "yuma", locale: "fr-FR" }, // native yuma-widget + Gorgias
+  { key: "yuma-rouje", wall: true,     vendor: "Yuma",    store: "Rouje",              url: "https://www.rouje.com/",        widget: "yuma", locale: "fr-FR" }, // native yuma-widget + Gorgias | walled 2026-07-27: 183 AI turns / 29 convs, ZERO reply content, 0 valid
+  { key: "yuma-ledomaine", wall: true, vendor: "Yuma",    store: "Le Domaine",         url: "https://le-domaine.com/",       widget: "yuma", locale: "fr-FR" }, // native yuma-widget + Gorgias | walled 2026-07-27: 190 AI turns / 25 convs, ZERO reply content, 0 valid
   // Atma: DUAL-widget, but Yuma's own iframe stays 1×1 (its config has forceSingleChatWidget:true —
   // Yuma defers to Gorgias Chat and answers INSIDE it, replies tagged "Automatisé"). So unlike
   // Rouje/Le Domaine above, the Gorgias shell IS the Yuma surface here — attribution verified by
@@ -1046,7 +1046,7 @@ export const STORES = [
   // merchants use Yuma, not a guess. Confirmed these 3 run Yuma answers BEHIND the Gorgias
   // widget (window.GorgiasChat present, no standalone app.yuma.ai script) — same pattern as
   // yuma-atma above, not the native-widget pattern most other yuma-* stores use.
-  { key: "yuma-mfimedical", vendor: "Yuma", store: "MFI Medical",    url: "https://mfimedical.com/",       widget: "gorgias", us: true }, // 54k tickets/45d (Gorgias telemetry)
+  { key: "yuma-mfimedical", wall: true, vendor: "Yuma", store: "MFI Medical",    url: "https://mfimedical.com/",       widget: "gorgias", us: true }, // 54k tickets/45d (Gorgias telemetry) | walled 2026-07-27: 117 AI turns / 13 convs, ZERO reply content, 0 valid
   { key: "yuma-glossier",   vendor: "Yuma", store: "Glossier",       url: "https://www.glossier.com/",     widget: "gorgias", us: true }, // 22k tickets/45d
   { key: "yuma-planttherapy", vendor: "Yuma", store: "Plant Therapy", url: "https://www.planttherapy.com/", widget: "gorgias", us: true }, // 8k tickets/45d
   { key: "envive-kut",     vendor: "Envive",  store: "Kut from the Kloth", url: "https://www.kutfromthekloth.com/", widget: "gorgias" }, // chat shell is Gorgias
@@ -1059,25 +1059,25 @@ export const STORES = [
   // Spiffy = Envive (same company; on-site shopping assistant). widget=spiffy.
   { key: "envive-bandolier",  vendor: "Envive", store: "Bandolier",   url: "https://bandolierstyle.com/", widget: "spiffy" },
   { key: "envive-tushbaby",   vendor: "Envive", store: "Tushbaby",    url: "https://tushbaby.com/",       widget: "spiffy" },
-  { key: "envive-greenpan",   vendor: "Envive", store: "GreenPan",    url: "https://www.greenpan.us/",    widget: "spiffy" },
+  { key: "envive-greenpan", wall: true,   vendor: "Envive", store: "GreenPan",    url: "https://www.greenpan.us/",    widget: "spiffy" },  // walled 2026-07-27: 250 AI turns / 44 convs, ZERO reply content, 0 valid
   { key: "envive-fracture",   vendor: "Envive", store: "Fracture",    url: "https://fractureme.com/",     widget: "spiffy" }, // verified envive-injection on fractureme.com (2026-07-07)
   { key: "mavenoid-nanit",    vendor: "Mavenoid", store: "Nanit",     url: "https://nanit.com/",          widget: "mavenoid" }, // 2026-07-13: nanit's answering support widget is Mavenoid (decision-tree troubleshooting), not Envive — re-attributed. (An Envive shopping embed also loads, but Mavenoid is what serves support.)
   // Sierra (widget loads from sierra.chat; sierraConfig global)
   { key: "sierra-bark",       vendor: "Sierra", store: "BARK",        url: "https://bark.co/",            widget: "sierra" },
   { key: "sierra-sunandski",  vendor: "Sierra", store: "Sun & Ski",   url: "https://www.sunandski.com/",  widget: "sierra" },
-  { key: "sierra-madisonreed",vendor: "Sierra", store: "Madison Reed",url: "https://www.madison-reed.com/", widget: "sierra" },
+  { key: "sierra-madisonreed", wall: true,vendor: "Sierra", store: "Madison Reed",url: "https://www.madison-reed.com/", widget: "sierra" },  // walled 2026-07-27: 126 AI turns / 22 convs, ZERO reply content, 0 valid
   { key: "sierra-aloyoga",    vendor: "Sierra", store: "Alo Yoga",    url: "https://www.aloyoga.com/",    widget: "sierra" }, // confirmed 2026-07-03: enable_sierra_ai_chat + sierra_enable_customer_token (Gladly = underlying contact form)
   // ---- sourcing pass 2026-07-03 (all signature-verified via curl by research agent) ----
   { key: "sierra-thirdlove",  vendor: "Sierra", store: "ThirdLove",   url: "https://www.thirdlove.com/",  widget: "sierra" },          // sierra.chat + sierraConfig
   { key: "spiffy-carbahn",    vendor: "Envive", store: "CarBahn",     url: "https://carbahn.com/",        widget: "spiffy" },          // cdn.spiffy
-  { key: "siena-superfoods",  vendor: "Siena",  store: "Superfoods Company", url: "https://superfoodscompany.com/", widget: "siena" }, // siena.cx
+  { key: "siena-superfoods", wall: true,  vendor: "Siena",  store: "Superfoods Company", url: "https://superfoodscompany.com/", widget: "siena" }, // siena.cx | walled 2026-07-27: 100 AI turns / 19 convs, ZERO reply content, 0 valid
   { key: "ada-simba",         wall: true, vendor: "Ada",    store: "Simba Sleep", url: "https://simbasleep.com/",     widget: "ada", locale: "en-GB" }, // static.ada.support + adaEmbed
   { key: "dg-organicbasics",  vendor: "DigitalGenius", store: "Organic Basics", url: "https://organicbasics.com/",     widget: "dg" },                    // digitalgenius.com
-  { key: "dg-clubllondon",    vendor: "DigitalGenius", store: "Club L London",  url: "https://www.clubllondon.com/",   widget: "dg", locale: "en-GB" },   // digitalgenius.com
+  { key: "dg-clubllondon", wall: true,    vendor: "DigitalGenius", store: "Club L London",  url: "https://www.clubllondon.com/",   widget: "dg", locale: "en-GB" },   // digitalgenius.com | walled 2026-07-27: 60 AI turns / 17 convs, ZERO reply content, 0 valid
   { key: "dg-abbottlyon",     vendor: "DigitalGenius", store: "Abbott Lyon",    url: "https://www.abbottlyon.com/",    widget: "dg", locale: "en-GB" },   // digitalgenius.com
-  { key: "repai-masteringthemix", vendor: "Rep AI", store: "Mastering The Mix", url: "https://www.masteringthemix.com/", widget: "repai", locale: "en-GB" }, // initRep
+  { key: "repai-masteringthemix", wall: true, vendor: "Rep AI", store: "Mastering The Mix", url: "https://www.masteringthemix.com/", widget: "repai", locale: "en-GB" }, // initRep | walled 2026-07-27: 80 AI turns / 8 convs, ZERO reply content, 0 valid
   { key: "gorgias-tommyjohn", vendor: "Gorgias", store: "Tommy John",   url: "https://www.tommyjohn.com/",  widget: "gorgias", us: true, v3: false }, // config.gorgias — NOT on V3 (Cortex: v3 phase null, SA never enabled) → excluded from Shopping
-  { key: "gorgias-pepper",    vendor: "Gorgias", store: "Pepper",       url: "https://www.wearpepper.com/", widget: "gorgias", us: true, v3: true }, // config.gorgias + gorgias-chat — V3 (Cortex: beta_2_actions)
+  { key: "gorgias-pepper", wall: true,    vendor: "Gorgias", store: "Pepper",       url: "https://www.wearpepper.com/", widget: "gorgias", us: true, v3: true }, // config.gorgias + gorgias-chat — V3 (Cortex: beta_2_actions) | walled 2026-07-27: 70 AI turns / 7 convs, ZERO reply content, 0 valid
   { key: "gorgias-drbronner", vendor: "Gorgias", store: "Dr. Bronner's",url: "https://www.drbronner.com/",  widget: "gorgias", us: true, v3: false }, // config.gorgias — NOT on V3 (Cortex: v3 phase null; runs legacy/V2 Shopping Assistant) → excluded from Shopping
   { key: "gorgias-glamnetic", vendor: "Gorgias", store: "Glamnetic",    url: "https://www.glamnetic.com/",  widget: "gorgias", us: true, modes: ["support"] }, // config.gorgias — SUPPORT ONLY per Max (not Shopping Assistant)
   { key: "meta-butcherbox",   vendor: "Zendesk", store: "ButcherBox",   url: "https://www.butcherbox.com/", widget: "zendesk" },           // static.zdassets
@@ -1092,9 +1092,9 @@ export const STORES = [
   // mounted (inconsistent with the earlier signature check minutes prior — may be a
   // load-order/A-B-test flake rather than a stable driver bug). Left `candidate: true`
   // rather than chased further; do not re-attempt without new evidence.
-  { key: "siena-brooklinen", candidate: true, vendor: "Siena", store: "Brooklinen",            url: "https://www.brooklinen.com/", widget: "siena" }, // bedding DTC, Shopify Plus, $1.5B/mo est. (Storeleads) — 0/2 valid, empty replies
+  { key: "siena-brooklinen", wall: true, candidate: true, vendor: "Siena", store: "Brooklinen",            url: "https://www.brooklinen.com/", widget: "siena" }, // bedding DTC, Shopify Plus, $1.5B/mo est. (Storeleads) — 0/2 valid, empty replies | walled 2026-07-27: 40 AI turns / 4 convs, ZERO reply content, 0 valid
   { key: "siena-plg",         vendor: "Siena", store: "Portland Leather Goods", url: "https://www.portlandleathergoods.com/", widget: "siena" }, // leather goods DTC, Shopify Plus, $842M/mo est. (Storeleads) — confirmed 2/2 valid
-  { key: "siena-dandelion", candidate: true, vendor: "Siena", store: "Dandelion Chocolate",   url: "https://www.dandelionchocolate.com/", widget: "siena" }, // chocolate DTC, Shopify Plus, $193M/mo est. (Storeleads) — 0/2 valid, empty replies
+  { key: "siena-dandelion", wall: true, candidate: true, vendor: "Siena", store: "Dandelion Chocolate",   url: "https://www.dandelionchocolate.com/", widget: "siena" }, // chocolate DTC, Shopify Plus, $193M/mo est. (Storeleads) — 0/2 valid, empty replies | walled 2026-07-27: 72 AI turns / 12 convs, ZERO reply content, 0 valid
   // Sourced 2026-07-16, second StoreLeads pass (f:tech=Siena, f:p=shopify, f:ds=Active — 45
   // total). Live-verified (window.SienaLaunchChat present): Heirloom Roses. Everydaydose,
   // Live Momentous, Canopy, Bare Performance Nutrition all checked live and do NOT have
@@ -1142,7 +1142,7 @@ export const STORES = [
   // 38 claimed customers → 7 signature hits → 0 drivable widgets. The passes that DID work in this
   // file used StoreLeads (f:tech=<vendor>, f:p=shopify, f:ds=Active) and Gorgias's own telemetry
   // (Metabase card 14455), then live-verified the launcher global. Prefer those.
-  { key: "repai-ritualzero",   candidate: true, vendor: "Rep AI",        store: "Ritual Zero Proof", url: "https://ritualzeroproof.com/",     widget: "repai" },   // repai network sig — Rep AI's 2nd sourced store (was 100% single-store); NEEDS a headed pass
+  { key: "repai-ritualzero", wall: true,   candidate: true, vendor: "Rep AI",        store: "Ritual Zero Proof", url: "https://ritualzeroproof.com/",     widget: "repai" },   // repai network sig — Rep AI's 2nd sourced store (was 100% single-store); NEEDS a headed pass | walled 2026-07-27: 30 AI turns / 3 convs, ZERO reply content, 0 valid
   // Eight Sleep: PROBED AND REJECTED same day. detect.js matched a real decagon.ai network
   // signature, but probe-generic shows the iframe is `decagon.ai/demo/eight_sleep` — a DEMO
   // embed, not a production widget: nothing is ever delivered into it and every turn captures
@@ -1221,8 +1221,8 @@ export const STORES = [
   // Ada (often loads on the help/support page, not the homepage)
   { key: "ada-endy",          vendor: "Ada",    store: "Endy",        url: "https://www.endy.com/",       widget: "ada" },
   { key: "ada-ipsy",          vendor: "Ada",    store: "IPSY",        url: "https://help.ipsy.com/",      widget: "ada" },
-  { key: "ada-yeti",          vendor: "Ada",    store: "YETI",        url: "https://www.yeti.com/",       widget: "ada" },
-  { key: "ada-indigo",        vendor: "Ada",    store: "Indigo",      url: "https://www.indigo.ca/",      widget: "ada" },
+  { key: "ada-yeti", wall: true,          vendor: "Ada",    store: "YETI",        url: "https://www.yeti.com/",       widget: "ada" },  // walled 2026-07-27: 90 AI turns / 10 convs, ZERO reply content, 0 valid
+  { key: "ada-indigo", wall: true,        vendor: "Ada",    store: "Indigo",      url: "https://www.indigo.ca/",      widget: "ada" },  // walled 2026-07-27: 206 AI turns / 22 convs, ZERO reply content, 0 valid
   // top-ups to reach ≥5 sourced sites/vendor (most DG widgets lazy-load → may need headed)
   // Snipes / Beauty Pie — no DigitalGenius on-site widget (verified); DG on-site footprint = Bloom & Wild + G-Star only.
   // meta-motelrocks DROPPED 2026-07-05: help-center only — no live ekr snippet (legacy 2021 theme asset 404s); no drivable chat.
@@ -1230,7 +1230,7 @@ export const STORES = [
   // MESHKI — the only OTHER Yuma-native brand found (2026-07-03); 3 regional instances with DISTINCT
   // widget UUIDs (meshki.us shares meshki.com's UUID → skipped as redundant). Pushes Yuma to 6 stores.
   { key: "yuma-meshki",       vendor: "Yuma",   store: "MESHKI",      url: "https://meshki.com/",         widget: "yuma", locale: "en-AU" }, // app.yuma.ai/w/4f7a9401
-  { key: "yuma-meshki-au",    vendor: "Yuma",   store: "MESHKI AU",   url: "https://meshki.com.au/",      widget: "yuma", locale: "en-AU" }, // app.yuma.ai/w/df03b930
+  { key: "yuma-meshki-au", wall: true,    vendor: "Yuma",   store: "MESHKI AU",   url: "https://meshki.com.au/",      widget: "yuma", locale: "en-AU" }, // app.yuma.ai/w/df03b930 | walled 2026-07-27: 60 AI turns / 12 convs, ZERO reply content, 0 valid
   { key: "yuma-meshki-uk",    vendor: "Yuma",   store: "MESHKI UK",   url: "https://meshki.co.uk/",       widget: "yuma", locale: "en-GB" }, // app.yuma.ai/w/5d646ace
   // yuma-bombayhair removed 2026-07-06 — no live AI agent / on-site chat on this store (verified, Max)
   // yuma-tumble RESTORED 2026-07-07 — the 07-06 removal ("email-gated") predates the email-gate fix;
@@ -1245,8 +1245,8 @@ export const STORES = [
   // it to guests; a logged-in capture would need an explicit methodology exception (shopping-only,
   // modes:["shopping"]).
   // Headed-only vendors (widget loads only in real Chrome). candidate=excluded from headless runs.
-  { key: "humind-900care",    vendor: "Humind", store: "900.care",    url: "https://www.900.care/",       widget: "humind", candidate: true, locale: "fr-FR" },
-  { key: "humind-puressentiel",vendor:"Humind", store: "Puressentiel",url: "https://fr.puressentiel.com/",widget: "humind", candidate: true, locale: "fr-FR" },
+  { key: "humind-900care", wall: true,    vendor: "Humind", store: "900.care",    url: "https://www.900.care/",       widget: "humind", candidate: true, locale: "fr-FR" },  // walled 2026-07-27: 130 AI turns / 16 convs, ZERO reply content, 0 valid
+  { key: "humind-puressentiel", wall: true,vendor:"Humind", store: "Puressentiel",url: "https://fr.puressentiel.com/",widget: "humind", candidate: true, locale: "fr-FR" },  // walled 2026-07-27: 116 AI turns / 14 convs, ZERO reply content, 0 valid
   { key: "humind-yumi",       vendor: "Humind", store: "Yumi",        url: "https://www.yumi.fr/",        widget: "humind", candidate: true, locale: "fr-FR" },
   { key: "humind-stormrock",  vendor: "Humind", store: "Stormrock",   url: "https://stormrock.fr/",       widget: "humind", candidate: true, locale: "fr-FR" },
   { key: "humind-weedy",      vendor: "Humind", store: "Weedy",       url: "https://weedy.fr/",           widget: "humind", candidate: true, locale: "fr-FR" }, // signature-verified: humind
@@ -1279,7 +1279,7 @@ export const STORES = [
   { key: "klaviyo-nanuk",     vendor: "Klaviyo", store: "NANUK",           url: "https://nanuk.com/",             widget: "klaviyo", candidate: true },
   { key: "klaviyo-naked",     vendor: "Klaviyo", store: "Naked Wardrobe",  url: "https://www.nakedwardrobe.com/", widget: "klaviyo", candidate: true },
   { key: "klaviyo-happywax",  vendor: "Klaviyo", store: "HappyWax",        url: "https://happywax.com/",          widget: "klaviyo", candidate: true },
-  { key: "klaviyo-harney",    vendor: "Klaviyo", store: "Harney & Sons",   url: "https://www.harney.com/",        widget: "klaviyo", candidate: true }, // signature-verified: klaviyo-onsite
+  { key: "klaviyo-harney", wall: true,    vendor: "Klaviyo", store: "Harney & Sons",   url: "https://www.harney.com/",        widget: "klaviyo", candidate: true }, // signature-verified: klaviyo-onsite | walled 2026-07-27: 120 AI turns / 22 convs, ZERO reply content, 0 valid
   // Klaviyo public case study says K9 Ballistics adopted Customer Hub + K:AI Customer Agent across
   // both brand sites; raw served HTML verifies customer-hub-data + window.customerHub. Both also carry
   // a Gorgias live-chat block, so keep them candidate:true until a focused Klaviyo run confirms routing.
@@ -1296,8 +1296,8 @@ export const STORES = [
   { key: "shopify-thegivenget",  vendor: "Shopify Inbox", store: "The Given Get", url: "https://thegivenget.com/", widget: "shopify_inbox", candidate: true },
   { key: "shopify-globosyfiesta",vendor: "Shopify Inbox", store: "Globos y Fiesta", url: "https://globosyfiesta.mx/", widget: "shopify_inbox", candidate: true, locale: "es-MX" },
   // ---- sourcing pass 2 (2026-07-03) — signature-verified, to raise statistical significance ----
-  { key: "spiffy-clove",      vendor: "Envive", store: "Clove",         url: "https://goclove.com/",            widget: "spiffy" },          // cdn.spiffy.ai (2026-07-07: verified served-HTML signature on goclove.com, not clovebrand.com)
-  { key: "repai-gosun",       vendor: "Rep AI", store: "GoSun",         url: "https://gosun.co/",               widget: "repai" },           // hellorep-lazyload.js (verified 2026-07-07)
+  { key: "spiffy-clove", wall: true,      vendor: "Envive", store: "Clove",         url: "https://goclove.com/",            widget: "spiffy" },          // cdn.spiffy.ai (2026-07-07: verified served-HTML signature on goclove.com, not clovebrand.com) | walled 2026-07-27: 143 AI turns / 21 convs, ZERO reply content, 0 valid
+  { key: "repai-gosun", wall: true,       vendor: "Rep AI", store: "GoSun",         url: "https://gosun.co/",               widget: "repai" },           // hellorep-lazyload.js (verified 2026-07-07) | walled 2026-07-27: 83 AI turns / 10 convs, ZERO reply content, 0 valid
   { key: "spiffy-fur",        vendor: "Envive", store: "Fur",           url: "https://www.furyou.com/",         widget: "spiffy" },          // cdn.spiffy.ai
   { key: "dg-kukoon",         vendor: "DigitalGenius", store: "Kukoon", url: "https://kukoon.com/",             widget: "dg", locale: "en-GB" }, // chat.digitalgenius.com
   { key: "dg-blakely",        vendor: "DigitalGenius", store: "Blakely Clothing", url: "https://www.blakelyclothing.com/", widget: "dg", locale: "en-GB" }, // chat.digitalgenius.com/init.js (verified 2026-07-07)
@@ -1307,7 +1307,7 @@ export const STORES = [
   { key: "meta-typo", wall: true,         vendor: "Zendesk", store: "Typo",         url: "",        widget: "zendesk", locale: "en-AU" }, // verified messenger (ekr compose)
   { key: "meta-factorie", wall: true,     vendor: "Zendesk", store: "Factorie",     url: "https://www.factorie.com.au/",    widget: "zendesk", locale: "en-AU" }, // verified messenger
   { key: "meta-supre", wall: true,        vendor: "Zendesk", store: "Supre",        url: "https://www.supre.com.au/",       widget: "zendesk", locale: "en-AU" }, // verified messenger
-  { key: "meta-puma",         vendor: "Zendesk", store: "PUMA",         url: "https://us.puma.com/",            widget: "zendesk" }, // verified messenger
+  { key: "meta-puma", wall: true,         vendor: "Zendesk", store: "PUMA",         url: "https://us.puma.com/",            widget: "zendesk" }, // verified messenger | walled 2026-07-27: 153 AI turns / 16 convs, ZERO reply content, 0 valid
   { key: "meta-publicrec",    vendor: "Zendesk", store: "Public Rec",   url: "https://publicrec.com/",          widget: "zendesk" }, // verified messenger (Intercom strings on page are inert data, no loader)
   // meta-saatva DROPPED 2026-07-05: no chat-vendor snippet in served HTML (help-center links only) — not drivable headlessly.
   // NEW verified Zendesk-messenger retail storefronts (2026-07-05; ekr compose = messenger + endUserConversations):
@@ -1321,8 +1321,8 @@ export const STORES = [
   { key: "meta-nomnom",       vendor: "Zendesk", store: "NomNom",          url: "https://www.nomnomnow.com/",        widget: "zendesk", us: true },
   { key: "meta-hyperice",     vendor: "Zendesk", store: "Hyperice",        url: "https://www.hyperice.com/",         widget: "zendesk", us: true },
   { key: "meta-blundstone",   vendor: "Zendesk", store: "Blundstone",      url: "https://www.blundstone.com/",       widget: "zendesk", us: true },
-  { key: "meta-next",         vendor: "Zendesk", store: "NEXT",            url: "https://www.next.co.uk/help",       widget: "zendesk", locale: "en-GB" }, // widget loads on /help route
-  { key: "meta-petbarn",      vendor: "Zendesk", store: "Petbarn",         url: "https://www.petbarn.com.au/",       widget: "zendesk", locale: "en-AU" },
+  { key: "meta-next", wall: true,         vendor: "Zendesk", store: "NEXT",            url: "https://www.next.co.uk/help",       widget: "zendesk", locale: "en-GB" }, // widget loads on /help route | walled 2026-07-27: 153 AI turns / 16 convs, ZERO reply content, 0 valid
+  { key: "meta-petbarn", wall: true,      vendor: "Zendesk", store: "Petbarn",         url: "https://www.petbarn.com.au/",       widget: "zendesk", locale: "en-AU" },  // walled 2026-07-27: 93 AI turns / 11 convs, ZERO reply content, 0 valid
   // New Zendesk-AI e-commerce storefronts sourced 2026-07-16 (web research; Cortex/Storeleads
   // parked). NOBULL/Papier/New Look/Motel Rocks have PUBLISHED Zendesk AI-agent case studies;
   // Body Shop/Gousto have the zdassets messaging widget live but AI-agent unconfirmed.
@@ -1330,9 +1330,9 @@ export const STORES = [
   { key: "zendesk-nobull",     vendor: "Zendesk", store: "NOBULL",        url: "https://www.nobullproject.com/",  widget: "zendesk", us: true, candidate: true }, // zdassets + zE + ekr/snippet; case study ~50% AI resolution
   { key: "zendesk-papier",     vendor: "Zendesk", store: "Papier",        url: "https://www.papier.com/",         widget: "zendesk", candidate: true },           // zdassets + zE; case study ~40% auto-resolved 24/7
   { key: "zendesk-newlook",    vendor: "Zendesk", store: "New Look",      url: "https://www.newlook.com/uk",      widget: "zendesk", locale: "en-GB", candidate: true }, // case study: AI agents on chat+email, 42% resolution
-  { key: "zendesk-motelrocks", vendor: "Zendesk", store: "Motel Rocks",   url: "https://us.motelrocks.com/",      widget: "zendesk", us: true, candidate: true }, // case study: ~43% deflection, +9.44% CSAT
+  { key: "zendesk-motelrocks", wall: true, vendor: "Zendesk", store: "Motel Rocks",   url: "https://us.motelrocks.com/",      widget: "zendesk", us: true, candidate: true }, // case study: ~43% deflection, +9.44% CSAT | walled 2026-07-27: 50 AI turns / 5 convs, ZERO reply content, 0 valid
   { key: "zendesk-bodyshop",   vendor: "Zendesk", store: "The Body Shop", url: "https://www.thebodyshop.com/en-gb", widget: "zendesk", locale: "en-GB", candidate: true }, // zdassets messaging widget live; AI unconfirmed
-  { key: "zendesk-gousto",     vendor: "Zendesk", store: "Gousto",        url: "https://www.gousto.co.uk/",       widget: "zendesk", locale: "en-GB", candidate: true }, // zdassets live; meal-kit (borderline ecom)
+  { key: "zendesk-gousto", wall: true,     vendor: "Zendesk", store: "Gousto",        url: "https://www.gousto.co.uk/",       widget: "zendesk", locale: "en-GB", candidate: true }, // zdassets live; meal-kit (borderline ecom) | walled 2026-07-27: 50 AI turns / 5 convs, ZERO reply content, 0 valid
   { key: "sierra-babylist",   vendor: "Sierra", store: "Babylist",      url: "https://www.babylist.com/",       widget: "sierra" },          // sierraConfig
   // Sourced 2026-07-15 via the StoreLeads API (f:tech=Sierra, f:p=shopify) — signature-verified
   // live (sierra.chat / sierra_enable / enable_sierra_ai_chat in page source). casper/aloyoga/
@@ -1347,13 +1347,13 @@ export const STORES = [
   // Wider Ada target — NEW retail storefronts sourced + widget-verified 2026-07-05 (real
   // static.ada.support embed + data-handle on the public homepage; consumer brands, public chat).
   { key: "ada-sodastream",    vendor: "Ada",    store: "SodaStream",      url: "https://www.sodastream.com/",   widget: "ada", us: true }, // data-handle sodastream
-  { key: "ada-sodastream-uk", vendor: "Ada",    store: "SodaStream UK",   url: "https://sodastream.co.uk/",     widget: "ada", locale: "en-GB" },
-  { key: "ada-moroccanoil",   vendor: "Ada",    store: "Moroccanoil",     url: "https://www.moroccanoil.com/",  widget: "ada", us: true }, // data-handle moroccanoil
+  { key: "ada-sodastream-uk", wall: true, vendor: "Ada",    store: "SodaStream UK",   url: "https://sodastream.co.uk/",     widget: "ada", locale: "en-GB" },  // walled 2026-07-27: 40 AI turns / 17 convs, ZERO reply content, 0 valid
+  { key: "ada-moroccanoil", wall: true,   vendor: "Ada",    store: "Moroccanoil",     url: "https://www.moroccanoil.com/",  widget: "ada", us: true }, // data-handle moroccanoil | walled 2026-07-27: 123 AI turns / 13 convs, ZERO reply content, 0 valid
   { key: "ada-peets",         vendor: "Ada",    store: "Peet's Coffee",   url: "https://www.peets.com/",        widget: "ada", us: true }, // data-handle peetscoffee
   { key: "ada-alen",          vendor: "Ada",    store: "Alen",            url: "https://www.alen.com/",         widget: "ada", us: true }, // data-handle alen (air purifiers — considered purchase)
   { key: "ada-americantall",  vendor: "Ada",    store: "American Tall",   url: "https://www.americantall.com/", widget: "ada", us: true }, // data-handle americantall-gen (sizing → shopping)
   { key: "ada-trx",           vendor: "Ada",    store: "TRX Training",    url: "https://www.trxtraining.com/",  widget: "ada", us: true }, // data-handle trx-gr
-  { key: "ada-uaudio",        vendor: "Ada",    store: "Universal Audio", url: "https://www.uaudio.com/",       widget: "ada", us: true }, // data-handle universalaudio
+  { key: "ada-uaudio", wall: true,        vendor: "Ada",    store: "Universal Audio", url: "https://www.uaudio.com/",       widget: "ada", us: true }, // data-handle universalaudio | walled 2026-07-27: 63 AI turns / 11 convs, ZERO reply content, 0 valid
   // Sourced 2026-07-16 via the StoreLeads API (f:tech=Ada, f:p=shopify, f:ds=Active — 202
   // total). Live-verified (window.adaEmbed present under STEALTH): Peloton, SodaStream,
   // Loop Earplugs, Knix. yeti.com/au also matched this StoreLeads query but live-checks
@@ -1370,8 +1370,8 @@ export const STORES = [
   // Decagon — enterprise AI support agent (added 2026-07-04). All 6 signature-verified live
   // (decagon.ai/loaders/<client>.js embed or #decagon-iframe / CSP allowlist in page source).
   { key: "decagon-oura",     vendor: "Decagon", store: "Oura",      url: "https://support.ouraring.com/",  widget: "decagon", us: true, candidate: true, modeUrl: { shopping: "https://ouraring.com/store/rings/oura-ring-5/silver" } }, // support desk on support.ouraring.com; SHOPPING agent lives on the store PDP (verified working 2026-07-14) — loader oura.js + #decagon-embed-container
-  { key: "decagon-curology", vendor: "Decagon", store: "Curology",  url: "https://curology.com/",          widget: "decagon", us: true, candidate: true }, // #decagon-iframe site-wide
-  { key: "decagon-bilt", ecommerce: false,     vendor: "Decagon", store: "Bilt",      url: "https://www.bilt.com/",           widget: "decagon", us: true, candidate: true }, // loader bilt.js embedded
+  { key: "decagon-curology", wall: true, vendor: "Decagon", store: "Curology",  url: "https://curology.com/",          widget: "decagon", us: true, candidate: true }, // #decagon-iframe site-wide | walled 2026-07-27: 220 AI turns / 28 convs, ZERO reply content, 0 valid
+  { key: "decagon-bilt", wall: true, ecommerce: false,     vendor: "Decagon", store: "Bilt",      url: "https://www.bilt.com/",           widget: "decagon", us: true, candidate: true }, // loader bilt.js embedded | walled 2026-07-27: 40 AI turns / 22 convs, ZERO reply content, 0 valid
   { key: "decagon-quince",   wall: true, vendor: "Decagon", store: "Quince",    url: "https://www.quince.com/",         widget: "decagon", us: true, candidate: true }, // "Chat provider":"Decagon"
   { key: "decagon-substack", ecommerce: false, vendor: "Decagon", store: "Substack",  url: "https://substack.com/",           widget: "decagon", us: true, candidate: true }, // enable_decagon_chat:true
   { key: "decagon-hertz", ecommerce: false,    vendor: "Decagon", store: "Hertz",     url: "https://www.hertz.com/rentacar/misc/index.jsp?targetPage=contact_us.jsp", widget: "decagon", us: true, candidate: true }, // decagon.ai in CSP
@@ -1398,7 +1398,7 @@ export const STORES = [
   // (script present in page source under STEALTH): Little Spoon (baby-food subscription
   // DTC). Frame doesn't mount on cold load (same lazy-mount pattern as away/openfarm) —
   // registered candidate:true pending a real capture run to confirm the composer opens.
-  { key: "decagon-littlespoon", vendor: "Decagon", store: "Little Spoon", url: "https://www.littlespoon.com/", widget: "decagon", us: true, candidate: true }, // baby-food subscription DTC, $557M/mo est. (Storeleads) — tested 0/2 valid, empty replies; not chased further
+  { key: "decagon-littlespoon", wall: true, vendor: "Decagon", store: "Little Spoon", url: "https://www.littlespoon.com/", widget: "decagon", us: true, candidate: true }, // baby-food subscription DTC, $557M/mo est. (Storeleads) — tested 0/2 valid, empty replies; not chased further | walled 2026-07-27: 60 AI turns / 12 convs, ZERO reply content, 0 valid
 
   // Intercom (Fin AI Agent) — added 2026-07-09. All 6 signature-verified live via
   // widget.intercom.io / intercom-lightweight-app / api-iam.intercom.io in page source.
