@@ -359,9 +359,28 @@ async function runStoreMode(browser, store, mode, theme) {
     } catch (e) { /* detection is best-effort metadata; never fail a capture on it */ }
     let handedOver = false;
     let prevAiGated = false;   // did the immediately-preceding AI turn carry a login gate?
+    // DEAD-CONVERSATION ABORT (2026-07-27). Every turn we cannot time burns the FULL
+    // TURN_TIMEOUT_MS, so a store whose widget never answers still costs ~10 min per
+    // conversation and yields nothing. Measured over the whole dataset: 10 480 unmeasured
+    // turns sat inside conversations that were rejected anyway — 175 h of wall clock spent
+    // waiting for replies that never came (4.7 min of pure timeout per rejected conversation).
+    // Replaying this rule against every stored conversation: aborting after 4 CONSECUTIVE
+    // unmeasured AI turns saves ~98 h, cuts short 1 134 already-invalid conversations, keeps
+    // 130 valid ones valid, and loses only 10 valid conversations out of 2 277 (0.4%).
+    // K=3 saves more (120 h) but loses 14; K=5 loses 5 and saves 78 h. 4 is the knee.
+    // Remaining turns are marked `unsent` exactly like the handover bail above, so the
+    // full-journey denominator — and therefore the success rate — is preserved.
+    const DEAD_AFTER = Number(process.env.DEAD_TURNS_ABORT) || 4;
+    let deadRun = 0, aborted = false;
     const useNet = w.transport === "net" && w.net;
     for (let i = 0; i < pool.length; i++) {
       const q = normalizeUserMessage(pool[i]);
+      if (aborted) {
+        out.turns.push({ turn: i + 1, q, by: "human", ttft_ms: null, complete_ms: null,
+          ai_latency_ms: null, handover: false, handover_hit: null, unsent: true,
+          replyTail: `(not sent — abandoned after ${DEAD_AFTER} consecutive unmeasurable turns)` });
+        continue;
+      }
       // Handed to a human on an earlier turn → STOP talking to the human. We do NOT
       // keep sending scripted shopper messages to a live agent. The remaining turns
       // are recorded as "not sent" (by:human) so the full-journey denominator — and
@@ -507,6 +526,16 @@ async function runStoreMode(browser, store, mode, theme) {
 
       out.turns.push({ turn: i + 1, q, by, ...r, ai_latency_ms: by === "ai" ? r.complete_ms : null, handover: !!handover, handover_hit: handover, replyTail: replyTail.slice(-500), replyText: replyFull });
       console.log(`  [${store.key}/${mode}/${theme.key}] T${i + 1} ${by === "ai" ? (r.complete_ms ?? "—") + "ms" : "(human)"}${r.late ? " (late-flush)" : ""}${handover ? "  ⛔ HANDOVER: " + handover : ""}`);
+      // Dead-conversation abort: count CONSECUTIVE unmeasurable AI turns. Any timed turn
+      // resets the streak, so a slow-but-alive widget is never cut off. Only AI turns count
+      // (a human/handover turn is a different signal and is handled by `handedOver`).
+      if (by === "ai") {
+        if (r.complete_ms == null) deadRun++; else deadRun = 0;
+        if (deadRun >= DEAD_AFTER && !handedOver) {
+          aborted = true;
+          console.log(`  [${store.key}/${mode}/${theme.key}] ✖ ABANDONED — ${DEAD_AFTER} consecutive turns with no measurable reply; skipping the rest (saves ~${((pool.length - i - 1) * TURN_TIMEOUT_MS / 60000).toFixed(0)} min)`);
+        }
+      }
       await sleep(SETTLE_MS);
     }
   } catch (e) {

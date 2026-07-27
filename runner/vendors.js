@@ -59,6 +59,10 @@ async function dismiss(page) {
 
 // Drive a composer that lives inside an OPEN shadow root (headed Chrome). Pierces
 // nested shadow roots under `hostSel`, finds the first text input, types, hits Enter.
+// Rep AI ships two widget generations with different mount ids (see the `repai` widget note).
+// querySelector takes a selector LIST, so both are tried in document order.
+const REPAI_HOST = "#ads-agent-host, #repWebClientContainer";
+
 async function shadowSend(page, hostSel, text) {
   const handle = await page.evaluateHandle((sel) => {
     const host = document.querySelector(sel) || document.getElementsByTagName(sel)[0];
@@ -484,9 +488,24 @@ export const WIDGETS = {
   // Rep AI — HEADED only. In real Chrome the #ads-agent-host shadow is reachable, so we
   // drive the composer there; the assistant REPLY is read at the network layer
   // (server.myrepai.com/web/events carries it in sm[].t). transport:"net".
+  // Rep AI mounts under one of two ids depending on widget generation (see note below).
+  // querySelector accepts a selector list, so both are tried in document order.
   repai: {
     transport: "net",
-    scope: { kind: "shadowId", sel: "#ads-agent-host" },
+    // TWO WIDGET GENERATIONS (probed 2026-07-27). Rep AI ships an older shadow-DOM mount
+    // (`#ads-agent-host`) and a newer light-DOM one (`#repWebClientContainer`, sits alongside
+    // window.repAppV2). The driver only knew the old id, so on every store running the new
+    // generation `open()` and `send()` silently resolved to nothing: the message was never
+    // typed, the chat never opened, and server.myrepai.com/web/events only ever returned
+    // analytics beacons (`{"rbo":[],"fs":"HOMEPAGE"}`) with no `sm` messages — so 0 replies
+    // were captured, 0 turns were timed, and EVERY conversation was dropped as
+    // "no measurable latency". Live check across 4 stores: `#ads-agent-host` existed on
+    // Fresh Roasted Coffee ONLY — which is precisely the only Rep AI store that has ever
+    // produced valid conversations (16 of them; the other 14 stores yielded 0).
+    // querySelector takes a selector LIST, and the shadowSend/shadowClickLauncher walkers
+    // already descend through both light children and shadow roots, so accepting both ids is
+    // the whole fix.
+    scope: { kind: "shadowId", sel: "#ads-agent-host, #repWebClientContainer" },
     net: {
       match: /server\.myrepai\.com\/web\/events/i,
       parse(body) {
@@ -505,10 +524,29 @@ export const WIDGETS = {
       await page.waitForTimeout(4000); await dismiss(page);
       await page.evaluate(() => { try { window.initRep && window.initRep(); } catch (e) {} }).catch(() => {});
       await page.waitForTimeout(1500);
-      await shadowClickLauncher(page, "#ads-agent-host");
+      await shadowClickLauncher(page, REPAI_HOST);
       await page.waitForTimeout(4000);
+      // The new-generation container mounts EMPTY and only builds its composer once the
+      // launcher is clicked, and the launcher itself can render outside the container.
+      // If no input exists yet, click the page-level Rep launcher and wait again.
+      const hasInput = await page.evaluate((sel) => {
+        const host = document.querySelector(sel); if (!host) return false;
+        let f = false; const walk = (n) => { if (!n || f) return; if (n.shadowRoot) walk(n.shadowRoot);
+          for (const k of (n.children || [])) walk(k);
+          if (!f && n.nodeType === 1 && (n.tagName === "TEXTAREA" || (n.tagName === "INPUT" && /text|search/i.test(n.type || "text")) || n.getAttribute?.("contenteditable") === "true")) f = true; };
+        walk(host); return f;
+      }, REPAI_HOST).catch(() => false);
+      if (!hasInput) {
+        await page.evaluate(() => {
+          const isRep = (el) => /rep|ads-?agent/i.test((el.id || "") + " " + String(el.className?.baseVal ?? el.className ?? "") + " " + (el.getAttribute?.("aria-label") || ""));
+          for (const el of document.querySelectorAll('button,[role="button"],div[class*="launcher" i],div[id*="launcher" i]')) {
+            if (isRep(el)) { el.click(); return; }
+          }
+        }).catch(() => {});
+        await page.waitForTimeout(4000);
+      }
     },
-    async send(page, text) { await shadowSend(page, "#ads-agent-host", text); },
+    async send(page, text) { await shadowSend(page, REPAI_HOST, text); },
   },
   rufus: {
     scope: { kind: "dom", sel: "#rufus-conversation-container-inner" },
