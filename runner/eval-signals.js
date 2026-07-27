@@ -4,13 +4,24 @@
 import { detectDeflection } from "./classify.js";
 import { stripWidgetChrome } from "./reply-clean.js";
 export const SIGNALS = {
-  has_price: (t) => /(?:[$£€]\s?\d[\d,.]*|\d[\d,.]*\s?(?:USD|EUR|GBP|AUD|CAD))/.test(t),
+  // Trailing-symbol form ("85,00 €", "19,99€") is the European convention and was a silent
+  // false negative until 2026-07-27 — only the leading form ("€85,00") matched, so EU-locale
+  // stores lost e_price. Vendor-blind: it hit whichever vendor happened to run an EU storefront.
+  has_price: (t) => /(?:[$£€]\s?\d[\d,.]*|\d[\d,.]*\s?[$£€]|\d[\d,.]*\s?(?:USD|EUR|GBP|AUD|CAD))/.test(t),
   has_link: (t) => /(?:https?:\/\/|\/products\/|\/collections\/|view product|product card|add to cart|tap the product)/i.test(t),
   has_reviews: (t) => /(?:\d(?:\.\d)?\s?\/\s?5|\d(?:\.\d)?\s?stars?|★|\d[\d,]*\+?\s?reviews?)/i.test(t),
   has_options: (t) => /(?:option\s?[12]|1[.)]\s.+2[.)]\s|first option|second option|either|both of these|a few (?:options|picks))/i.test(t),
 };
 export function convoSignals(turns) {
-  const text = (turns || []).map((t) => t.replyTail || t.reply || "").join("\n");
+  // Scan the FULL per-turn reply. run.js:508 stores two fields: `replyTail` is deliberately
+  // capped at the LAST 500 chars, while `replyText` is the complete reply for that turn.
+  // Reading replyTail first meant any price/link/review stated early in a long reply fell
+  // outside the window and the rich-element check was hard-failed at merge even when the judge
+  // had quoted it verbatim (2026-07-27 audit: 483 such false-negative signals across 2004 convs
+  // — has_link 168, has_options 114, has_reviews 103, has_price 98). The gate is a CAP, not a
+  // grant, so the score impact was small (21 convs, +0.04 mean, no ranking change) — but the
+  // miss was systematic and correlated with reply LENGTH, i.e. it penalized verbose engines.
+  const text = (turns || []).map((t) => t.replyText || t.replyTail || t.reply || "").join("\n");
   const sig = Object.fromEntries(Object.entries(SIGNALS).map(([k, fn]) => [k, fn(text)]));
   // no_deflect: the AI resolved IN-CHANNEL and did NOT punt the customer out of channel
   // (email / contact form / call us / "contact support") when the ask was answerable in-chat.
