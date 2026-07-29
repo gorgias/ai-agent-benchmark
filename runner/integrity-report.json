@@ -16,39 +16,2225 @@
     "2026-07-16",
     "2026-07-17",
     "2026-07-26",
-    "2026-07-27"
+    "2026-07-27",
+    "2026-07-28"
   ],
-  "scannedValid": 2090,
-  "flaggedTotal": 166,
+  "scannedValid": 2935,
+  "flaggedTotal": 294,
   "bySeverity": {
-    "low": 165,
-    "high": 1
+    "low": 246,
+    "high": 48
   },
   "byCode": {
-    "REPEATED_IDENTICAL_REPLY": 163,
+    "REPEATED_IDENTICAL_REPLY": 267,
     "IMPLAUSIBLY_FAST": 3,
-    "ECHO_USER_MESSAGE": 1
+    "CHROME_ONLY_REPLY": 12,
+    "PAGE_DUMP_REPLY": 33,
+    "ECHO_USER_MESSAGE": 3
   },
   "byVendor": {
-    "Gorgias": 2,
+    "Gorgias": 1,
     "Rep AI": 13,
-    "Siena": 24,
-    "DigitalGenius": 46,
-    "Kodif": 4,
-    "Ada": 10,
+    "Siena": 40,
+    "DigitalGenius": 76,
+    "Kodif": 7,
+    "Ada": 23,
     "Decagon": 6,
-    "Klaviyo": 1,
-    "Sierra": 1,
-    "Envive": 7,
+    "Klaviyo": 33,
+    "Sierra": 5,
+    "Envive": 8,
     "Yuma": 1,
-    "Intercom": 3,
-    "Zendesk": 48
+    "Intercom": 4,
+    "Zendesk": 77
   },
   "flagged": [
     {
-      "id": "2026-07-27/gorgias-icewatch-shopping-everyday-value.json",
-      "vendor": "Gorgias",
-      "store": "Ice-Watch",
+      "id": "2026-07-27/ada-loop-shopping-beginner.json",
+      "vendor": "Ada",
+      "store": "Loop Earplugs",
+      "mode": "shopping",
+      "severity": "high",
+      "codes": [
+        "CHROME_ONLY_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "CHROME_ONLY_REPLY",
+          "severity": "high",
+          "turn": 8,
+          "evidence": "Settings Aura Minimize Chat Close Messages are taking longer than usual to arrive. Please "
+        }
+      ]
+    },
+    {
+      "id": "2026-07-27/ada-loop-shopping-compare-budget.json",
+      "vendor": "Ada",
+      "store": "Loop Earplugs",
+      "mode": "shopping",
+      "severity": "high",
+      "codes": [
+        "CHROME_ONLY_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "CHROME_ONLY_REPLY",
+          "severity": "high",
+          "turn": 7,
+          "evidence": "Settings Aura Minimize Chat Close Messages are taking longer than usual to arrive. Please "
+        }
+      ]
+    },
+    {
+      "id": "2026-07-27/ada-loop-shopping-everyday-value.json",
+      "vendor": "Ada",
+      "store": "Loop Earplugs",
+      "mode": "shopping",
+      "severity": "high",
+      "codes": [
+        "CHROME_ONLY_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "CHROME_ONLY_REPLY",
+          "severity": "high",
+          "turn": 7,
+          "evidence": "Settings Aura Minimize Chat Close Messages are taking longer than usual to arrive. Please "
+        }
+      ]
+    },
+    {
+      "id": "2026-07-27/envive-bandolier-support-policy.json",
+      "vendor": "Envive",
+      "store": "Bandolier",
+      "mode": "support",
+      "severity": "high",
+      "codes": [
+        "CHROME_ONLY_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "CHROME_ONLY_REPLY",
+          "severity": "high",
+          "turn": 1,
+          "evidence": "ere can I find your full shipping policy?Ask MaggieFor our full shipping policy, you can v"
+        }
+      ]
+    },
+    {
+      "id": "2026-07-27/klaviyo-happywax-support-order-mgmt.json",
+      "vendor": "Klaviyo",
+      "store": "HappyWax",
+      "mode": "support",
+      "severity": "high",
+      "codes": [
+        "PAGE_DUMP_REPLY",
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 4,
+          "evidence": "Skip to content Previous Looking for your perfect match? Take the quiz Next Build a Starte"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 5,
+          "evidence": "Skip to content Previous Looking for your perfect match? Take the quiz Next Build a Starte"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 6,
+          "evidence": "Skip to content Previous Looking for your perfect match? Take the quiz Next Build a Starte"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 7,
+          "evidence": "Skip to content Previous Looking for your perfect match? Take the quiz Next Build a Starte"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 8,
+          "evidence": "Skip to content Previous 📦 Free shipping on orders $50+ Next Build a Starter Kit Subscrib"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 9,
+          "evidence": "Skip to content Previous Looking for your perfect match? Take the quiz Next Build a Starte"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 10,
+          "evidence": "Skip to content Previous Looking for your perfect match? Take the quiz Next Build a Starte"
+        },
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "6× \"Skip to content Previous Next Build a Starter Kit Subscribe \""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-27/klaviyo-onefastcat-support-tracking.json",
+      "vendor": "Klaviyo",
+      "store": "One Fast Cat",
+      "mode": "support",
+      "severity": "high",
+      "codes": [
+        "PAGE_DUMP_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 7,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        }
+      ]
+    },
+    {
+      "id": "2026-07-27/sierra-pendulum-shopping-gift.json",
+      "vendor": "Sierra",
+      "store": "Pendulum",
+      "mode": "shopping",
+      "severity": "high",
+      "codes": [
+        "CHROME_ONLY_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "CHROME_ONLY_REPLY",
+          "severity": "high",
+          "turn": 6,
+          "evidence": "FloraAgent said: Pendulum bundles don’t arrive gift-wrapped, but the packaging is clean an"
+        }
+      ]
+    },
+    {
+      "id": "2026-07-28/ada-loop-shopping-beginner.json",
+      "vendor": "Ada",
+      "store": "Loop Earplugs",
+      "mode": "shopping",
+      "severity": "high",
+      "codes": [
+        "CHROME_ONLY_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "CHROME_ONLY_REPLY",
+          "severity": "high",
+          "turn": 7,
+          "evidence": "Settings Aura Minimize Chat Close Messages are taking longer than usual to arrive. Please "
+        }
+      ]
+    },
+    {
+      "id": "2026-07-28/ada-loop-shopping-gift.json",
+      "vendor": "Ada",
+      "store": "Loop Earplugs",
+      "mode": "shopping",
+      "severity": "high",
+      "codes": [
+        "CHROME_ONLY_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "CHROME_ONLY_REPLY",
+          "severity": "high",
+          "turn": 6,
+          "evidence": "Settings Aura Minimize Chat Close Messages are taking longer than usual to arrive. Please "
+        }
+      ]
+    },
+    {
+      "id": "2026-07-28/ada-loop-shopping-problem-solver.json",
+      "vendor": "Ada",
+      "store": "Loop Earplugs",
+      "mode": "shopping",
+      "severity": "high",
+      "codes": [
+        "CHROME_ONLY_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "CHROME_ONLY_REPLY",
+          "severity": "high",
+          "turn": 8,
+          "evidence": "Settings Aura Minimize Chat Close Messages are taking longer than usual to arrive. Please "
+        }
+      ]
+    },
+    {
+      "id": "2026-07-28/ada-loop-support-damaged.json",
+      "vendor": "Ada",
+      "store": "Loop Earplugs",
+      "mode": "support",
+      "severity": "high",
+      "codes": [
+        "CHROME_ONLY_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "CHROME_ONLY_REPLY",
+          "severity": "high",
+          "turn": 5,
+          "evidence": "Settings Aura Minimize Chat Close Messages are taking longer than usual to arrive. Please "
+        }
+      ]
+    },
+    {
+      "id": "2026-07-28/intercom-gymshark-shopping-compare-budget.json",
+      "vendor": "Intercom",
+      "store": "Gymshark",
+      "mode": "shopping",
+      "severity": "high",
+      "codes": [
+        "PAGE_DUMP_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 5,
+          "evidence": "Seen • Just now Was this helpful? Gymshark Bot • AI Agent • Just now Seen • Just now Are t"
+        }
+      ]
+    },
+    {
+      "id": "2026-07-28/klaviyo-happywax-shopping-beginner.json",
+      "vendor": "Klaviyo",
+      "store": "HappyWax",
+      "mode": "shopping",
+      "severity": "high",
+      "codes": [
+        "PAGE_DUMP_REPLY",
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 2,
+          "evidence": "Skip to content Previous Spend $65 and get a FREE GIFT 🎁 Next Build a Starter Kit Subscri"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 4,
+          "evidence": "Skip to content Previous Looking for your perfect match? Take the quiz Next Build a Starte"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 5,
+          "evidence": "Skip to content Previous Looking for your perfect match? Take the quiz Next Build a Starte"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 6,
+          "evidence": "Skip to content Previous Looking for your perfect match? Take the quiz Next Build a Starte"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 7,
+          "evidence": "Skip to content Previous 📦 Free shipping on orders $50+ Next Build a Starter Kit Subscrib"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 8,
+          "evidence": "Skip to content Previous 📦 Free shipping on orders $50+ Next Build a Starter Kit Subscrib"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 9,
+          "evidence": "Skip to content Previous Looking for your perfect match? Take the quiz Next Build a Starte"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 10,
+          "evidence": "Skip to content Previous 📦 Free shipping on orders $50+ Next Build a Starter Kit Subscrib"
+        },
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "4× \"Skip to content Previous Next Build a Starter Kit Subscribe \""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-28/klaviyo-happywax-shopping-compare-budget.json",
+      "vendor": "Klaviyo",
+      "store": "HappyWax",
+      "mode": "shopping",
+      "severity": "high",
+      "codes": [
+        "PAGE_DUMP_REPLY",
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 5,
+          "evidence": "Skip to content Previous 📦 Free shipping on orders $50+ Next Build a Starter Kit Subscrib"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 6,
+          "evidence": "Skip to content Previous 📦 Free shipping on orders $50+ Next Build a Starter Kit Subscrib"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 7,
+          "evidence": "Skip to content Previous 📦 Free shipping on orders $50+ Next Build a Starter Kit Subscrib"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 8,
+          "evidence": "Skip to content Previous Spend $65 and get a FREE GIFT 🎁 Next Build a Starter Kit Subscri"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 9,
+          "evidence": "Skip to content Previous Spend $65 and get a FREE GIFT 🎁 Next Build a Starter Kit Subscri"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 10,
+          "evidence": "Skip to content Previous Spend $65 and get a FREE GIFT 🎁 Next Build a Starter Kit Subscri"
+        },
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "3× \"Skip to content Previous 📦 Free shipping on orders $50+ Nex\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-28/klaviyo-happywax-shopping-everyday-value.json",
+      "vendor": "Klaviyo",
+      "store": "HappyWax",
+      "mode": "shopping",
+      "severity": "high",
+      "codes": [
+        "PAGE_DUMP_REPLY",
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 5,
+          "evidence": "Skip to content Previous Don't miss out! Join our SMS Club 📱 Get Started Next Build a Sta"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 6,
+          "evidence": "Skip to content Previous Looking for your perfect match? Take the quiz Next Build a Starte"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 7,
+          "evidence": "Skip to content Previous Looking for your perfect match? Take the quiz Next Build a Starte"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 8,
+          "evidence": "Skip to content Previous Looking for your perfect match? Take the quiz Next Build a Starte"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 9,
+          "evidence": "Skip to content Previous 📦 Free shipping on orders $50+ Next Build a Starter Kit Subscrib"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 10,
+          "evidence": "Skip to content Previous 📦 Free shipping on orders $50+ Next Build a Starter Kit Subscrib"
+        },
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "3× \"Skip to content Previous Next Build a Starter Kit Subscribe \""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-28/klaviyo-happywax-shopping-gift.json",
+      "vendor": "Klaviyo",
+      "store": "HappyWax",
+      "mode": "shopping",
+      "severity": "high",
+      "codes": [
+        "PAGE_DUMP_REPLY",
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 4,
+          "evidence": "Skip to content Previous Looking for your perfect match? Take the quiz Next Build a Starte"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 5,
+          "evidence": "Skip to content Previous Don't miss out! Join our SMS Club 📱 Get Started Next Build a Sta"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 6,
+          "evidence": "Skip to content Previous Looking for your perfect match? Take the quiz Next Build a Starte"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 7,
+          "evidence": "Skip to content Previous Looking for your perfect match? Take the quiz Next Build a Starte"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 8,
+          "evidence": "Skip to content Previous Looking for your perfect match? Take the quiz Next Build a Starte"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 9,
+          "evidence": "Skip to content Previous Looking for your perfect match? Take the quiz Next Build a Starte"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 10,
+          "evidence": "Skip to content Previous 📦 Free shipping on orders $50+ Next Build a Starter Kit Subscrib"
+        },
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "5× \"Skip to content Previous Next Build a Starter Kit Subscribe \""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-28/klaviyo-happywax-shopping-problem-solver.json",
+      "vendor": "Klaviyo",
+      "store": "HappyWax",
+      "mode": "shopping",
+      "severity": "high",
+      "codes": [
+        "PAGE_DUMP_REPLY",
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 3,
+          "evidence": "Skip to content Previous Christmas in July Sale 🎄 Shop now Next Build a Starter Kit Subsc"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 4,
+          "evidence": "Skip to content Previous Christmas in July Sale 🎄 Shop now Next Build a Starter Kit Subsc"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 5,
+          "evidence": "Skip to content Previous Spend $65 and get a FREE GIFT 🎁 Next Build a Starter Kit Subscri"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 6,
+          "evidence": "Skip to content Previous Spend $65 and get a FREE GIFT 🎁 Next Build a Starter Kit Subscri"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 7,
+          "evidence": "Skip to content Previous Spend $65 and get a FREE GIFT 🎁 Next Build a Starter Kit Subscri"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 8,
+          "evidence": "Skip to content Previous Spend $65 and get a FREE GIFT 🎁 Next Build a Starter Kit Subscri"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 9,
+          "evidence": "Skip to content Previous Spend $65 and get a FREE GIFT 🎁 Next Build a Starter Kit Subscri"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 10,
+          "evidence": "Skip to content Previous Christmas in July Sale 🎄 Shop now Next Build a Starter Kit Subsc"
+        },
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "5× \"Skip to content Previous Spend $65 and get a FREE GIFT 🎁 Ne\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-28/klaviyo-happywax-support-damaged.json",
+      "vendor": "Klaviyo",
+      "store": "HappyWax",
+      "mode": "support",
+      "severity": "high",
+      "codes": [
+        "PAGE_DUMP_REPLY",
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 3,
+          "evidence": "Skip to content Previous Don't miss out! Join our SMS Club 📱 Get Started Next Build a Sta"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 4,
+          "evidence": "Skip to content Previous Looking for your perfect match? Take the quiz Next Build a Starte"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 5,
+          "evidence": "Skip to content Previous Looking for your perfect match? Take the quiz Next Build a Starte"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 6,
+          "evidence": "Skip to content Previous Looking for your perfect match? Take the quiz Next Build a Starte"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 7,
+          "evidence": "Skip to content Previous Looking for your perfect match? Take the quiz Next Build a Starte"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 8,
+          "evidence": "Skip to content Previous Don't miss out! Join our SMS Club 📱 Get Started Next Build a Sta"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 9,
+          "evidence": "Skip to content Previous Looking for your perfect match? Take the quiz Next Build a Starte"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 10,
+          "evidence": "Skip to content Previous Looking for your perfect match? Take the quiz Next Build a Starte"
+        },
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "6× \"Skip to content Previous Next Build a Starter Kit Subscribe \""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-28/klaviyo-happywax-support-order-mgmt.json",
+      "vendor": "Klaviyo",
+      "store": "HappyWax",
+      "mode": "support",
+      "severity": "high",
+      "codes": [
+        "PAGE_DUMP_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 4,
+          "evidence": "Skip to content Previous 📦 Free shipping on orders $50+ Next Build a Starter Kit Subscrib"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 5,
+          "evidence": "Skip to content Previous Spend $65 and get a FREE GIFT 🎁 Next Build a Starter Kit Subscri"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 6,
+          "evidence": "Skip to content Previous Christmas in July Sale 🎄 Shop now Next Build a Starter Kit Subsc"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 7,
+          "evidence": "Skip to content Previous Christmas in July Sale 🎄 Shop now Next Build a Starter Kit Subsc"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 8,
+          "evidence": "Skip to content Previous Don't miss out! Join our SMS Club 📱 Get Started Next Build a Sta"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 9,
+          "evidence": "Skip to content Previous Looking for your perfect match? Take the quiz Next Build a Starte"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 10,
+          "evidence": "Skip to content Previous Looking for your perfect match? Take the quiz Next Build a Starte"
+        }
+      ]
+    },
+    {
+      "id": "2026-07-28/klaviyo-happywax-support-returns.json",
+      "vendor": "Klaviyo",
+      "store": "HappyWax",
+      "mode": "support",
+      "severity": "high",
+      "codes": [
+        "PAGE_DUMP_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 4,
+          "evidence": "Skip to content Previous Looking for your perfect match? Take the quiz Next Build a Starte"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 5,
+          "evidence": "Skip to content Previous 📦 Free shipping on orders $50+ Next Build a Starter Kit Subscrib"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 6,
+          "evidence": "Skip to content Previous Spend $65 and get a FREE GIFT 🎁 Next Build a Starter Kit Subscri"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 7,
+          "evidence": "Skip to content Previous Christmas in July Sale 🎄 Shop now Next Build a Starter Kit Subsc"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 8,
+          "evidence": "Skip to content Previous Christmas in July Sale 🎄 Shop now Next Build a Starter Kit Subsc"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 9,
+          "evidence": "Skip to content Previous Don't miss out! Join our SMS Club 📱 Get Started Next Build a Sta"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 10,
+          "evidence": "Skip to content Previous Looking for your perfect match? Take the quiz Next Build a Starte"
+        }
+      ]
+    },
+    {
+      "id": "2026-07-28/klaviyo-happywax-support-tracking.json",
+      "vendor": "Klaviyo",
+      "store": "HappyWax",
+      "mode": "support",
+      "severity": "high",
+      "codes": [
+        "PAGE_DUMP_REPLY",
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 4,
+          "evidence": "Skip to content Previous Don't miss out! Join our SMS Club 📱 Get Started Next Build a Sta"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 5,
+          "evidence": "Skip to content Previous Looking for your perfect match? Take the quiz Next Build a Starte"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 6,
+          "evidence": "Skip to content Previous Looking for your perfect match? Take the quiz Next Build a Starte"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 7,
+          "evidence": "Skip to content Previous Looking for your perfect match? Take the quiz Next Build a Starte"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 8,
+          "evidence": "Skip to content Previous 📦 Free shipping on orders $50+ Next Build a Starter Kit Subscrib"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 9,
+          "evidence": "Skip to content Previous 📦 Free shipping on orders $50+ Next Build a Starter Kit Subscrib"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 10,
+          "evidence": "Skip to content Previous 📦 Free shipping on orders $50+ Next Build a Starter Kit Subscrib"
+        },
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "3× \"Skip to content Previous Next Build a Starter Kit Subscribe \""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-28/klaviyo-k9ballistics-shopping-beginner.json",
+      "vendor": "Klaviyo",
+      "store": "K9 Ballistics",
+      "mode": "shopping",
+      "severity": "high",
+      "codes": [
+        "PAGE_DUMP_REPLY",
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 1,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 3,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 4,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 5,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 6,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 8,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 9,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 10,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "4× \"Accessibility Screen-Reader Guide, Feedback, and Issue Repor\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-28/klaviyo-k9ballistics-shopping-compare-budget.json",
+      "vendor": "Klaviyo",
+      "store": "K9 Ballistics",
+      "mode": "shopping",
+      "severity": "high",
+      "codes": [
+        "PAGE_DUMP_REPLY",
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 1,
+          "evidence": "Press Option+1 for screen-reader mode, Option+0 to cancel Accessibility Screen-Reader Guid"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 2,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 3,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 4,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 5,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 6,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 7,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 8,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 9,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 10,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "5× \"Accessibility Screen-Reader Guide, Feedback, and Issue Repor\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-28/klaviyo-k9ballistics-shopping-everyday-value.json",
+      "vendor": "Klaviyo",
+      "store": "K9 Ballistics",
+      "mode": "shopping",
+      "severity": "high",
+      "codes": [
+        "PAGE_DUMP_REPLY",
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 1,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 2,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 3,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 6,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 7,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 8,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 9,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 10,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "4× \"Accessibility Screen-Reader Guide, Feedback, and Issue Repor\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-28/klaviyo-k9ballistics-shopping-gift.json",
+      "vendor": "Klaviyo",
+      "store": "K9 Ballistics",
+      "mode": "shopping",
+      "severity": "high",
+      "codes": [
+        "PAGE_DUMP_REPLY",
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 1,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 2,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 3,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 4,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 5,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 6,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 7,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 8,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 9,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 10,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "7× \"Accessibility Screen-Reader Guide, Feedback, and Issue Repor\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-28/klaviyo-k9ballistics-shopping-problem-solver.json",
+      "vendor": "Klaviyo",
+      "store": "K9 Ballistics",
+      "mode": "shopping",
+      "severity": "high",
+      "codes": [
+        "PAGE_DUMP_REPLY",
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 1,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 2,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 3,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 4,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 5,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 6,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 7,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 8,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 9,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 10,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "6× \"Accessibility Screen-Reader Guide, Feedback, and Issue Repor\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-28/klaviyo-k9ballistics-support-damaged.json",
+      "vendor": "Klaviyo",
+      "store": "K9 Ballistics",
+      "mode": "support",
+      "severity": "high",
+      "codes": [
+        "PAGE_DUMP_REPLY",
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 1,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 2,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 3,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 4,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 5,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 7,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 8,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 9,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 10,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "5× \"Accessibility Screen-Reader Guide, Feedback, and Issue Repor\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-28/klaviyo-k9ballistics-support-order-mgmt.json",
+      "vendor": "Klaviyo",
+      "store": "K9 Ballistics",
+      "mode": "support",
+      "severity": "high",
+      "codes": [
+        "PAGE_DUMP_REPLY",
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 1,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 3,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 5,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 6,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 7,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 8,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 9,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 10,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "4× \"Accessibility Screen-Reader Guide, Feedback, and Issue Repor\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-28/klaviyo-k9ballistics-support-policy.json",
+      "vendor": "Klaviyo",
+      "store": "K9 Ballistics",
+      "mode": "support",
+      "severity": "high",
+      "codes": [
+        "PAGE_DUMP_REPLY",
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 1,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 3,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 4,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 5,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 6,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 7,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 8,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 9,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 10,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "4× \"Accessibility Screen-Reader Guide, Feedback, and Issue Repor\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-28/klaviyo-k9ballistics-support-returns.json",
+      "vendor": "Klaviyo",
+      "store": "K9 Ballistics",
+      "mode": "support",
+      "severity": "high",
+      "codes": [
+        "PAGE_DUMP_REPLY",
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 1,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 2,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 4,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 5,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 6,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 7,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 8,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 9,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 10,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "5× \"Accessibility Screen-Reader Guide, Feedback, and Issue Repor\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-28/klaviyo-k9ballistics-support-tracking.json",
+      "vendor": "Klaviyo",
+      "store": "K9 Ballistics",
+      "mode": "support",
+      "severity": "high",
+      "codes": [
+        "PAGE_DUMP_REPLY",
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 1,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 2,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 3,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 4,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 6,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 7,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 8,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 9,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 10,
+          "evidence": "Accessibility Screen-Reader Guide, Feedback, and Issue Reporting | New window Skip to cont"
+        },
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "5× \"Accessibility Screen-Reader Guide, Feedback, and Issue Repor\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-28/klaviyo-naked-support-tracking.json",
+      "vendor": "Klaviyo",
+      "store": "Naked Wardrobe",
+      "mode": "support",
+      "severity": "high",
+      "codes": [
+        "PAGE_DUMP_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 7,
+          "evidence": "COOKIE CONSENT WE AND OUR PARTNERS, INCLUDING SHOPIFY, USE COOKIES AND OTHER TECHNOLOGIES "
+        }
+      ]
+    },
+    {
+      "id": "2026-07-28/klaviyo-nanuk-shopping-beginner.json",
+      "vendor": "Klaviyo",
+      "store": "NANUK",
+      "mode": "shopping",
+      "severity": "high",
+      "codes": [
+        "PAGE_DUMP_REPLY",
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 3,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 4,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 5,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 6,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 7,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 8,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 9,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 10,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "3× \"Please select your shipping country. Please select your ship\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-28/klaviyo-nanuk-shopping-compare-budget.json",
+      "vendor": "Klaviyo",
+      "store": "NANUK",
+      "mode": "shopping",
+      "severity": "high",
+      "codes": [
+        "PAGE_DUMP_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 3,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 4,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 5,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 6,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 7,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 8,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 9,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 10,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        }
+      ]
+    },
+    {
+      "id": "2026-07-28/klaviyo-nanuk-shopping-everyday-value.json",
+      "vendor": "Klaviyo",
+      "store": "NANUK",
+      "mode": "shopping",
+      "severity": "high",
+      "codes": [
+        "PAGE_DUMP_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 3,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 4,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 5,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 6,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 7,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 8,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 9,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 10,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        }
+      ]
+    },
+    {
+      "id": "2026-07-28/klaviyo-nanuk-shopping-gift.json",
+      "vendor": "Klaviyo",
+      "store": "NANUK",
+      "mode": "shopping",
+      "severity": "high",
+      "codes": [
+        "PAGE_DUMP_REPLY",
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 3,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 4,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 5,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 6,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 7,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 8,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 9,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 10,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "3× \"Please select your shipping country. Please select your ship\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-28/klaviyo-nanuk-shopping-problem-solver.json",
+      "vendor": "Klaviyo",
+      "store": "NANUK",
+      "mode": "shopping",
+      "severity": "high",
+      "codes": [
+        "PAGE_DUMP_REPLY",
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 3,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 4,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 5,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 6,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 7,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 8,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 9,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 10,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "3× \"Please select your shipping country. Please select your ship\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-28/klaviyo-nanuk-support-damaged.json",
+      "vendor": "Klaviyo",
+      "store": "NANUK",
+      "mode": "support",
+      "severity": "high",
+      "codes": [
+        "PAGE_DUMP_REPLY",
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 3,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 4,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 5,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 6,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 7,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 8,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 9,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 10,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "4× \"Please select your shipping country. Please select your ship\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-28/klaviyo-nanuk-support-order-mgmt.json",
+      "vendor": "Klaviyo",
+      "store": "NANUK",
+      "mode": "support",
+      "severity": "high",
+      "codes": [
+        "PAGE_DUMP_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 4,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 5,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 6,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 7,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 8,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 9,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 10,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        }
+      ]
+    },
+    {
+      "id": "2026-07-28/klaviyo-nanuk-support-policy.json",
+      "vendor": "Klaviyo",
+      "store": "NANUK",
+      "mode": "support",
+      "severity": "high",
+      "codes": [
+        "PAGE_DUMP_REPLY",
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 4,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 5,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 6,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 7,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 8,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 9,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 10,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "3× \"Please select your shipping country. Please select your ship\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-28/klaviyo-nanuk-support-returns.json",
+      "vendor": "Klaviyo",
+      "store": "NANUK",
+      "mode": "support",
+      "severity": "high",
+      "codes": [
+        "PAGE_DUMP_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 3,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 4,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 5,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 6,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 7,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 8,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 9,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 10,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        }
+      ]
+    },
+    {
+      "id": "2026-07-28/klaviyo-nanuk-support-tracking.json",
+      "vendor": "Klaviyo",
+      "store": "NANUK",
+      "mode": "support",
+      "severity": "high",
+      "codes": [
+        "PAGE_DUMP_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 4,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 5,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 6,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 7,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 8,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 9,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        },
+        {
+          "code": "PAGE_DUMP_REPLY",
+          "severity": "high",
+          "turn": 10,
+          "evidence": "Please select your shipping country. Please select your shipping country. Buy from the cou"
+        }
+      ]
+    },
+    {
+      "id": "2026-07-28/meta-horizn-support-damaged.json",
+      "vendor": "Zendesk",
+      "store": "Horizn Studios",
+      "mode": "support",
+      "severity": "high",
+      "codes": [
+        "CHROME_ONLY_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "CHROME_ONLY_REPLY",
+          "severity": "high",
+          "turn": 6,
+          "evidence": "Horizn Studios Let's Go. Further. This chat is recorded using a cloud service and is subje"
+        }
+      ]
+    },
+    {
+      "id": "2026-07-28/siena-figs-shopping-compare-budget.json",
+      "vendor": "Siena",
+      "store": "FIGS",
       "mode": "shopping",
       "severity": "high",
       "codes": [
@@ -59,7 +2245,85 @@
           "code": "ECHO_USER_MESSAGE",
           "severity": "high",
           "turn": 10,
-          "evidence": "11:18 AM. You said: And if I change my mind, how easy is it to return? 11:18 AM"
+          "evidence": "Confirm my total and the fastest shipping option? Powered by Siena"
+        }
+      ]
+    },
+    {
+      "id": "2026-07-28/siena-figs-shopping-problem-solver.json",
+      "vendor": "Siena",
+      "store": "FIGS",
+      "mode": "shopping",
+      "severity": "high",
+      "codes": [
+        "ECHO_USER_MESSAGE"
+      ],
+      "flags": [
+        {
+          "code": "ECHO_USER_MESSAGE",
+          "severity": "high",
+          "turn": 8,
+          "evidence": "How do I use it correctly to get the best result? Routed to human agent Powered by Siena"
+        },
+        {
+          "code": "ECHO_USER_MESSAGE",
+          "severity": "high",
+          "turn": 9,
+          "evidence": "Is there a subscription or refill option? Routed to human agent Powered by Siena"
+        }
+      ]
+    },
+    {
+      "id": "2026-07-28/sierra-casper-support-damaged.json",
+      "vendor": "Sierra",
+      "store": "Casper",
+      "mode": "support",
+      "severity": "high",
+      "codes": [
+        "CHROME_ONLY_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "CHROME_ONLY_REPLY",
+          "severity": "high",
+          "turn": 6,
+          "evidence": "Virtual AgentAgent said: Once your claim is approved, the replacement process usually move"
+        }
+      ]
+    },
+    {
+      "id": "2026-07-28/sierra-melin-shopping-gift.json",
+      "vendor": "Sierra",
+      "store": "Melin",
+      "mode": "shopping",
+      "severity": "high",
+      "codes": [
+        "ECHO_USER_MESSAGE"
+      ],
+      "flags": [
+        {
+          "code": "ECHO_USER_MESSAGE",
+          "severity": "high",
+          "turn": 3,
+          "evidence": "You saidMy budget is moderate, what would make a good gift in that range?"
+        }
+      ]
+    },
+    {
+      "id": "2026-07-28/sierra-scotts-support-tracking.json",
+      "vendor": "Sierra",
+      "store": "Scotts Miracle-Gro",
+      "mode": "support",
+      "severity": "high",
+      "codes": [
+        "CHROME_ONLY_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "CHROME_ONLY_REPLY",
+          "severity": "high",
+          "turn": 9,
+          "evidence": "ScottsAgent said: I can help look into rerouting your package, but first, could you let me"
         }
       ]
     },
@@ -2735,6 +4999,60 @@
       ]
     },
     {
+      "id": "2026-07-27/ada-goodfood-support-damaged.json",
+      "vendor": "Ada",
+      "store": "Goodfood",
+      "mode": "support",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "7× \"Could you please provide your email address so I can assist \""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-27/ada-ipsy-support-order-mgmt.json",
+      "vendor": "Ada",
+      "store": "IPSY",
+      "mode": "support",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "4× \"To help with your order request, I’ll need to verify your ac\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-27/ada-loop-support-order-mgmt.json",
+      "vendor": "Ada",
+      "store": "Loop Earplugs",
+      "mode": "support",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "3× \"Could you please confirm the email address you used when you\""
+        }
+      ]
+    },
+    {
       "id": "2026-07-27/ada-sodastream-shopping-everyday-value.json",
       "vendor": "Ada",
       "store": "SodaStream",
@@ -2753,6 +5071,60 @@
       ]
     },
     {
+      "id": "2026-07-27/dg-abbottlyon-support-policy.json",
+      "vendor": "DigitalGenius",
+      "store": "Abbott Lyon",
+      "mode": "support",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "3× \"s well as other popular payment options. If you’re a student\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-27/dg-abbottlyon-support-returns.json",
+      "vendor": "DigitalGenius",
+      "store": "Abbott Lyon",
+      "mode": "support",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "4× \"handling fee will be deducted from your refund. For returns \""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-27/dg-blakely-support-tracking.json",
+      "vendor": "DigitalGenius",
+      "store": "Blakely Clothing",
+      "mode": "support",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "3× \"lder, as it may have been filtered there. The subject line o\""
+        }
+      ]
+    },
+    {
       "id": "2026-07-27/dg-gstar-shopping-beginner.json",
       "vendor": "DigitalGenius",
       "store": "G-Star RAW",
@@ -2767,6 +5139,24 @@
           "severity": "low",
           "turn": null,
           "evidence": "4× \"r status with UNiDAYS to get a 20% discount. For a starter p\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-27/dg-gstar-shopping-compare-budget.json",
+      "vendor": "DigitalGenius",
+      "store": "G-Star RAW",
+      "mode": "shopping",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "4× \"comparisons. However, I recommend checking the product detai\""
         }
       ]
     },
@@ -2861,6 +5251,150 @@
       ]
     },
     {
+      "id": "2026-07-27/dg-kukoon-shopping-beginner.json",
+      "vendor": "DigitalGenius",
+      "store": "Kukoon",
+      "mode": "shopping",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "4× \"r experimenting with your style. You can explore our collect\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-27/dg-kukoon-shopping-compare-budget.json",
+      "vendor": "DigitalGenius",
+      "store": "Kukoon",
+      "mode": "shopping",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "4× \"room or purpose in mind? Let me know, and I’ll help you narr\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-27/dg-kukoon-shopping-everyday-value.json",
+      "vendor": "DigitalGenius",
+      "store": "Kukoon",
+      "mode": "shopping",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "4× \"to compare them with another type, let me know what you're c\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-27/dg-kukoon-shopping-gift.json",
+      "vendor": "DigitalGenius",
+      "store": "Kukoon",
+      "mode": "shopping",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "4× \"ht be the way to go. Would you like help selecting a specifi\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-27/dg-kukoon-shopping-problem-solver.json",
+      "vendor": "DigitalGenius",
+      "store": "Kukoon",
+      "mode": "shopping",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "4× \"type of room, material preference, or any specific features \""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-27/dg-kukoon-support-policy.json",
+      "vendor": "DigitalGenius",
+      "store": "Kukoon",
+      "mode": "support",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "4× \"Kukoon Rugs Assistant Standard shipping usually takes 2-3 wo\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-27/dg-kukoon-support-returns.json",
+      "vendor": "DigitalGenius",
+      "store": "Kukoon",
+      "mode": "support",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "3× \"don’t offer them currently—just return your item for a refun\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-27/dg-kukoon-support-tracking.json",
+      "vendor": "DigitalGenius",
+      "store": "Kukoon",
+      "mode": "support",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "3× \"our order has been dispatched. Is there any way to speed it \""
+        }
+      ]
+    },
+    {
       "id": "2026-07-27/dg-organicbasics-shopping-gift.json",
       "vendor": "DigitalGenius",
       "store": "Organic Basics",
@@ -2875,6 +5409,24 @@
           "severity": "low",
           "turn": null,
           "evidence": "5× \"OBee Our virtual gift cards are sent directly to your inbox,\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-27/kodif-babyletto-support-damaged.json",
+      "vendor": "Kodif",
+      "store": "Babyletto",
+      "mode": "support",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "10× \"We understand you’re seeking assistance with a damaged crib.\""
         }
       ]
     },
@@ -3005,6 +5557,168 @@
       ]
     },
     {
+      "id": "2026-07-27/meta-camilla-shopping-beginner.json",
+      "vendor": "Zendesk",
+      "store": "CAMILLA",
+      "mode": "shopping",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "5× \"Sorry I couldn't find the right answer to your question. Her\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-27/meta-camilla-shopping-compare-budget.json",
+      "vendor": "Zendesk",
+      "store": "CAMILLA",
+      "mode": "shopping",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "7× \"Sorry I couldn't find the right answer to your question. Her\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-27/meta-camilla-shopping-gift.json",
+      "vendor": "Zendesk",
+      "store": "CAMILLA",
+      "mode": "shopping",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "4× \"Sorry I couldn't find the right answer to your question. Her\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-27/meta-camilla-shopping-problem-solver.json",
+      "vendor": "Zendesk",
+      "store": "CAMILLA",
+      "mode": "shopping",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "6× \"Sorry I couldn't find the right answer to your question. Her\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-27/meta-camilla-support-damaged.json",
+      "vendor": "Zendesk",
+      "store": "CAMILLA",
+      "mode": "support",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "3× \"Here is some information that you mind find useful xx The it\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-27/meta-camilla-support-order-mgmt.json",
+      "vendor": "Zendesk",
+      "store": "CAMILLA",
+      "mode": "support",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "5× \"Sure, I can help you with your order status. Could you pleas\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-27/meta-camilla-support-policy.json",
+      "vendor": "Zendesk",
+      "store": "CAMILLA",
+      "mode": "support",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "4× \"Sure, I can help you with your order status. Could you pleas\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-27/meta-camilla-support-returns.json",
+      "vendor": "Zendesk",
+      "store": "CAMILLA",
+      "mode": "support",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "6× \"Here is some information that you mind find useful xx The it\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-27/meta-camilla-support-tracking.json",
+      "vendor": "Zendesk",
+      "store": "CAMILLA",
+      "mode": "support",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "5× \"Sure, I can help you with your order status. Could you pleas\""
+        }
+      ]
+    },
+    {
       "id": "2026-07-27/siena-bboutique-support-policy.json",
       "vendor": "Siena",
       "store": "B Boutique",
@@ -3037,6 +5751,1014 @@
           "severity": "low",
           "turn": null,
           "evidence": "5× \"Got it. We routed your previous messages. If you haven't alr\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-27/siena-mudwtr-shopping-beginner.json",
+      "vendor": "Siena",
+      "store": "MUD\\WTR",
+      "mode": "shopping",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "3× \"Thanks for the update, I'm connecting you with one of our li\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-27/siena-mudwtr-shopping-compare-budget.json",
+      "vendor": "Siena",
+      "store": "MUD\\WTR",
+      "mode": "shopping",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "3× \"I’m connecting you with one of our live agents who can help \""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-27/siena-mudwtr-shopping-problem-solver.json",
+      "vendor": "Siena",
+      "store": "MUD\\WTR",
+      "mode": "shopping",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "3× \"Thanks for the update, I'm connecting you with one of our li\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-27/siena-mudwtr-support-damaged.json",
+      "vendor": "Siena",
+      "store": "MUD\\WTR",
+      "mode": "support",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "4× \"Thanks for the update, I'm connecting you with one of our li\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-27/siena-mudwtr-support-policy.json",
+      "vendor": "Siena",
+      "store": "MUD\\WTR",
+      "mode": "support",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "4× \"Thanks for asking, I'm connecting you with one of our live a\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-27/siena-mudwtr-support-returns.json",
+      "vendor": "Siena",
+      "store": "MUD\\WTR",
+      "mode": "support",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "8× \"Thanks for the update, I'm connecting you with one of our li\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-27/siena-mudwtr-support-tracking.json",
+      "vendor": "Siena",
+      "store": "MUD\\WTR",
+      "mode": "support",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "5× \"Thanks for the update, I'm connecting you with one of our li\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-28/ada-goodfood-support-damaged.json",
+      "vendor": "Ada",
+      "store": "Goodfood",
+      "mode": "support",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "9× \"Could you please provide your email address so I can assist \""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-28/ada-goodfood-support-tracking.json",
+      "vendor": "Ada",
+      "store": "Goodfood",
+      "mode": "support",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "4× \"Message from Fred: Could you please provide your order numbe\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-28/ada-peloton-support-order-mgmt.json",
+      "vendor": "Ada",
+      "store": "Peloton",
+      "mode": "support",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "7× \"Thanks for sharing that — give me just a moment to look into\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-28/dg-blakely-support-tracking.json",
+      "vendor": "DigitalGenius",
+      "store": "Blakely Clothing",
+      "mode": "support",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "3× \"a good idea to check your spam or junk folder, as sometimes \""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-28/dg-gstar-shopping-beginner.json",
+      "vendor": "DigitalGenius",
+      "store": "G-Star RAW",
+      "mode": "shopping",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "4× \"re our Straight Jeans collection for options. Additionally, \""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-28/dg-gstar-shopping-compare-budget.json",
+      "vendor": "DigitalGenius",
+      "store": "G-Star RAW",
+      "mode": "shopping",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "3× \"oduct details, reviews, and using available discounts like t\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-28/dg-gstar-shopping-everyday-value.json",
+      "vendor": "DigitalGenius",
+      "store": "G-Star RAW",
+      "mode": "shopping",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "4× \"le. Everyday Use: For versatile, durable options, raw denim \""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-28/dg-gstar-shopping-gift.json",
+      "vendor": "DigitalGenius",
+      "store": "G-Star RAW",
+      "mode": "shopping",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "4× \"onable price. Check the Men's Jeans Fit Guide or Women's Jea\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-28/dg-gstar-shopping-problem-solver.json",
+      "vendor": "DigitalGenius",
+      "store": "G-Star RAW",
+      "mode": "shopping",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "3× \"required. Please ensure the items are unused, undamaged, and\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-28/dg-gstar-support-damaged.json",
+      "vendor": "DigitalGenius",
+      "store": "G-Star RAW",
+      "mode": "support",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "4× \"s, where return costs may apply depending on the item or dis\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-28/dg-gstar-support-returns.json",
+      "vendor": "DigitalGenius",
+      "store": "G-Star RAW",
+      "mode": "support",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "4× \"nd within 7-12 days after handing your parcel to the carrier\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-28/dg-kukoon-shopping-beginner.json",
+      "vendor": "DigitalGenius",
+      "store": "Kukoon",
+      "mode": "shopping",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "4× \"ntain—perfect for experimenting with your space. Check them \""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-28/dg-kukoon-shopping-compare-budget.json",
+      "vendor": "DigitalGenius",
+      "store": "Kukoon",
+      "mode": "shopping",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "4× \"Rugs. Let me know if you need help comparing specific option\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-28/dg-kukoon-shopping-everyday-value.json",
+      "vendor": "DigitalGenius",
+      "store": "Kukoon",
+      "mode": "shopping",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "4× \"a fantastic choice. They're durable, stylish, and budget-fri\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-28/dg-kukoon-shopping-gift.json",
+      "vendor": "DigitalGenius",
+      "store": "Kukoon",
+      "mode": "shopping",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "4× \"runner rug. If practicality is key, flatweave rugs are the w\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-28/dg-kukoon-shopping-problem-solver.json",
+      "vendor": "DigitalGenius",
+      "store": "Kukoon",
+      "mode": "shopping",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "4× \"you're looking for—size, material, design, or any specific f\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-28/dg-kukoon-support-policy.json",
+      "vendor": "DigitalGenius",
+      "store": "Kukoon",
+      "mode": "support",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "4× \"Kukoon Rugs Assistant Standard shipping usually takes 2-3 wo\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-28/dg-kukoon-support-returns.json",
+      "vendor": "DigitalGenius",
+      "store": "Kukoon",
+      "mode": "support",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "4× \"e a new order! Kukoon Rugs Assistant Yes, return shipping co\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-28/dg-kukoon-support-tracking.json",
+      "vendor": "DigitalGenius",
+      "store": "Kukoon",
+      "mode": "support",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "4× \"Unfortunately, Kukoon Rugs cannot expedite delivery or speci\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-28/dg-organicbasics-shopping-beginner.json",
+      "vendor": "DigitalGenius",
+      "store": "Organic Basics",
+      "mode": "shopping",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "4× \". Reviews at the bottom of the product page can give you mor\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-28/dg-organicbasics-shopping-compare-budget.json",
+      "vendor": "DigitalGenius",
+      "store": "Organic Basics",
+      "mode": "shopping",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "4× \"questions about the features or details of our products, fee\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-28/kodif-babyletto-support-damaged.json",
+      "vendor": "Kodif",
+      "store": "Babyletto",
+      "mode": "support",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "5× \"Thank you for your continued patience! To help us determine \""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-28/kodif-babyletto-support-tracking.json",
+      "vendor": "Kodif",
+      "store": "Babyletto",
+      "mode": "support",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "8× \"Thank you for your question! To help you with your specific \""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-28/meta-butcherbox-shopping-beginner.json",
+      "vendor": "Zendesk",
+      "store": "ButcherBox",
+      "mode": "shopping",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "6× \"ButcherBot Let's put you in touch with one of our agents who\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-28/meta-butcherbox-shopping-compare-budget.json",
+      "vendor": "Zendesk",
+      "store": "ButcherBox",
+      "mode": "shopping",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "3× \"ButcherBot Let's put you in touch with one of our agents who\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-28/meta-butcherbox-shopping-gift.json",
+      "vendor": "Zendesk",
+      "store": "ButcherBox",
+      "mode": "shopping",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "3× \"ButcherBot Let's put you in touch with one of our agents who\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-28/meta-butcherbox-shopping-problem-solver.json",
+      "vendor": "Zendesk",
+      "store": "ButcherBox",
+      "mode": "shopping",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "5× \"ButcherBot Let's put you in touch with one of our agents who\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-28/meta-butcherbox-support-damaged.json",
+      "vendor": "Zendesk",
+      "store": "ButcherBox",
+      "mode": "support",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "10× \"ButcherBot Let's put you in touch with one of our agents who\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-28/meta-butcherbox-support-order-mgmt.json",
+      "vendor": "Zendesk",
+      "store": "ButcherBox",
+      "mode": "support",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "5× \"ButcherBot Let's put you in touch with one of our agents who\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-28/meta-butcherbox-support-policy.json",
+      "vendor": "Zendesk",
+      "store": "ButcherBox",
+      "mode": "support",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "8× \"ButcherBot Let's put you in touch with one of our agents who\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-28/meta-butcherbox-support-returns.json",
+      "vendor": "Zendesk",
+      "store": "ButcherBox",
+      "mode": "support",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "4× \"ButcherBot Let's put you in touch with one of our agents who\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-28/meta-camilla-shopping-beginner.json",
+      "vendor": "Zendesk",
+      "store": "CAMILLA",
+      "mode": "shopping",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "5× \"Sorry I couldn't find the right answer to your question. Her\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-28/meta-camilla-shopping-compare-budget.json",
+      "vendor": "Zendesk",
+      "store": "CAMILLA",
+      "mode": "shopping",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "8× \"Sorry I couldn't find the right answer to your question. Her\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-28/meta-camilla-shopping-gift.json",
+      "vendor": "Zendesk",
+      "store": "CAMILLA",
+      "mode": "shopping",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "4× \"Sorry I couldn't find the right answer to your question. Her\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-28/meta-camilla-shopping-problem-solver.json",
+      "vendor": "Zendesk",
+      "store": "CAMILLA",
+      "mode": "shopping",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "6× \"Sorry I couldn't find the right answer to your question. Her\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-28/meta-camilla-support-damaged.json",
+      "vendor": "Zendesk",
+      "store": "CAMILLA",
+      "mode": "support",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "3× \"Here is some information that you mind find useful xx The it\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-28/meta-camilla-support-order-mgmt.json",
+      "vendor": "Zendesk",
+      "store": "CAMILLA",
+      "mode": "support",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "5× \"Sure, I can help you with your order status. Could you pleas\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-28/meta-camilla-support-policy.json",
+      "vendor": "Zendesk",
+      "store": "CAMILLA",
+      "mode": "support",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "4× \"Sure, I can help you with your order status. Could you pleas\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-28/meta-camilla-support-returns.json",
+      "vendor": "Zendesk",
+      "store": "CAMILLA",
+      "mode": "support",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "7× \"Here is some information that you mind find useful xx The it\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-28/meta-camilla-support-tracking.json",
+      "vendor": "Zendesk",
+      "store": "CAMILLA",
+      "mode": "support",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "5× \"Sure, I can help you with your order status. Could you pleas\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-28/meta-horizn-shopping-beginner.json",
+      "vendor": "Zendesk",
+      "store": "Horizn Studios",
+      "mode": "shopping",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "3× \"Horizn Studios KI Agent I wasn't able to find a suitable ans\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-28/meta-horizn-shopping-problem-solver.json",
+      "vendor": "Zendesk",
+      "store": "Horizn Studios",
+      "mode": "shopping",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "5× \"Horizn Studios KI Agent I wasn't able to find a suitable ans\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-28/siena-bboutique-support-policy.json",
+      "vendor": "Siena",
+      "store": "B Boutique",
+      "mode": "support",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "3× \"Thanks for checking. We routed your previous messages. If yo\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-28/siena-bboutique-support-returns.json",
+      "vendor": "Siena",
+      "store": "B Boutique",
+      "mode": "support",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "9× \"Thanks for checking. We routed your previous messages. If yo\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-28/siena-mudwtr-shopping-beginner.json",
+      "vendor": "Siena",
+      "store": "MUD\\WTR",
+      "mode": "shopping",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "4× \"Thanks for the update, I'm connecting you with one of our li\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-28/siena-mudwtr-support-order-mgmt.json",
+      "vendor": "Siena",
+      "store": "MUD\\WTR",
+      "mode": "support",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "3× \"Thanks for the update, I'm connecting you with one of our li\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-28/siena-mudwtr-support-policy.json",
+      "vendor": "Siena",
+      "store": "MUD\\WTR",
+      "mode": "support",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "8× \"Thanks for asking, I'm connecting you with one of our live a\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-28/siena-mudwtr-support-returns.json",
+      "vendor": "Siena",
+      "store": "MUD\\WTR",
+      "mode": "support",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "7× \"Thanks for the update, I'm connecting you with one of our li\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-28/siena-mudwtr-support-tracking.json",
+      "vendor": "Siena",
+      "store": "MUD\\WTR",
+      "mode": "support",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "6× \"Thanks for the update, I'm connecting you with one of our li\""
         }
       ]
     }

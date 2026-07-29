@@ -15,6 +15,7 @@ import { STORES as SITES } from "./vendors.js";
 import { SHOPPING_THEMES, SUPPORT_THEMES } from "./pools.js";
 import { convoValidity, convoOutcome, connectivityFail } from "./classify.js";
 import { QUARANTINE_IDS } from "./conversation-quarantine.js";
+import { RANK_WINDOW_DAYS } from "./ranking-window.js";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.dirname(HERE);
@@ -22,7 +23,9 @@ const RESULTS = path.join(HERE, "results");
 const SCORES = path.join(HERE, "eval-scores.json");
 const TAKEAWAYS = path.join(ROOT, "takeaways.html");
 const MIN_RANK_CONVS = 5;
-const DEFAULT_WINDOW_DAYS = 14;
+// Must mirror the baker (gen.js). A diagnostic that answers a different question than the
+// published pipeline is worse than no diagnostic — see ranking-window.js.
+const DEFAULT_WINDOW_DAYS = RANK_WINDOW_DAYS;
 
 const PALETTE = {
   Gorgias: "#f0603f",
