@@ -33,6 +33,7 @@ const MIN_SUBSTANCE = 80;
 // in the turn loop below. It's the inverse of a trailing "Verify order details" button that
 // appears after a full answer (chrome): the wall is only real when the AI then STOPS.
 import { normalizeUserMessage } from "./message-style.js";
+import { novelLines } from "./reply-delta.js";
 
 // Prefix every log line with an ISO timestamp so run-status can render each activity event
 // in the viewer's local time. runstatus.parseLog strips/keeps the prefix.
@@ -467,7 +468,17 @@ async function runStoreMode(browser, store, mode, theme) {
           let p = 0; const m = Math.min(beforeNorm.normalized.length, transcriptNorm.normalized.length);
           while (p < m && beforeNorm.normalized[p] === transcriptNorm.normalized[p]) p++;
           const pOriginal = transcriptNorm.map[p];
-          replyFull = (p >= beforeNorm.normalized.length * 0.7 ? transcript.slice(pOriginal) : transcript).trim();
+          // When the gate clears, the delta is exact. When it does NOT clear the container was
+          // reshuffled/virtualized — and falling back to the whole transcript (the pre-2026-07-28
+          // behaviour) stored the entire storefront page plus every earlier message as this
+          // turn's reply. Eight blind judges in one night flagged those dumps as non-answers,
+          // which silently SUPPRESSES the affected vendor's quality score. Take the line-level
+          // difference instead: chrome and prior messages were already on screen, so only new
+          // lines survive. See reply-delta.js.
+          replyFull =
+            p >= beforeNorm.normalized.length * 0.7
+              ? transcript.slice(pOriginal).trim()
+              : novelLines(beforeText, transcript);
         }
       }
       // cap generously from the FRONT (keep the beginning; the tail is usually chrome)
