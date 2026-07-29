@@ -1369,7 +1369,13 @@ export const STORES = [
   { key: "decagon-oura",     vendor: "Decagon", store: "Oura",      url: "https://support.ouraring.com/",  widget: "decagon", us: true, candidate: true, modeUrl: { shopping: "https://ouraring.com/store/rings/oura-ring-5/silver" } }, // support desk on support.ouraring.com; SHOPPING agent lives on the store PDP (verified working 2026-07-14) — loader oura.js + #decagon-embed-container
   { key: "decagon-curology", wall: true, vendor: "Decagon", store: "Curology",  url: "https://curology.com/",          widget: "decagon", us: true, candidate: true }, // #decagon-iframe site-wide | walled 2026-07-27: 220 AI turns / 28 convs, ZERO reply content, 0 valid
   { key: "decagon-bilt", wall: true, ecommerce: false,     vendor: "Decagon", store: "Bilt",      url: "https://www.bilt.com/",           widget: "decagon", us: true, candidate: true }, // loader bilt.js embedded | walled 2026-07-27: 40 AI turns / 22 convs, ZERO reply content, 0 valid
-  { key: "decagon-quince",   wall: true, vendor: "Decagon", store: "Quince",    url: "https://www.quince.com/",         widget: "decagon", us: true, candidate: true }, // "Chat provider":"Decagon"
+  // MISATTRIBUTION, corrected 2026-07-28: quince.com does NOT serve Decagon. A Decagon tenant
+  // loader exists (decagon.ai/loaders/quince.js = 200) and the page config still says
+  // "Chat provider":"Decagon", but a live check found only Gladly on the network and
+  // window.duet (Decagon's runtime) absent — the widget actually served is Gladly, which is
+  // not a benchmarked vendor. `url:""` retires the row without deleting its history; the 22
+  // captured files were never scored, so the board is unaffected.
+  { key: "decagon-quince",   wall: true, vendor: "Decagon", store: "Quince",    url: "",         widget: "decagon", us: true, candidate: true, todo: "serves Gladly, not Decagon — do not re-enable without a live re-check" },
   { key: "decagon-substack", ecommerce: false, vendor: "Decagon", store: "Substack",  url: "https://substack.com/",           widget: "decagon", us: true, candidate: true }, // enable_decagon_chat:true
   { key: "decagon-hertz", ecommerce: false,    vendor: "Decagon", store: "Hertz",     url: "https://www.hertz.com/rentacar/misc/index.jsp?targetPage=contact_us.jsp", widget: "decagon", us: true, candidate: true }, // decagon.ai in CSP
   // Sourced 2026-07-15 via the StoreLeads API (f:tech=Decagon, f:p=shopify, f:ds=Active — 9

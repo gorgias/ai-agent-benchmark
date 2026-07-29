@@ -356,7 +356,9 @@ async function runStoreMode(browser, store, mode, theme) {
       out.detected_provider = pd.top;
       out.provider_detected = pd.detected;
       out.provider_mismatch = pd.mismatch;
+      out.provider_ambiguous = pd.ambiguous;   // expected vendor present but out-ranked by another chat vendor
       if (pd.mismatch) console.log(`  [${store.key}] ⚠ PROVIDER MISMATCH: expected ${store.vendor}, detected ${pd.detected.join(", ")}`);
+      else if (pd.ambiguous) console.log(`  [${store.key}] ⚠ PROVIDER AMBIGUOUS: expected ${store.vendor} but ${pd.top} out-ranks it — verify which widget answered`);
     } catch (e) { /* detection is best-effort metadata; never fail a capture on it */ }
     let handedOver = false;
     let prevAiGated = false;   // did the immediately-preceding AI turn carry a login gate?

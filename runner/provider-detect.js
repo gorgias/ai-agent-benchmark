@@ -20,7 +20,13 @@ export const PROVIDER_SIGNATURES = {
   "Zendesk":       { scripts: [/static\.zdassets\.com|zendesk\.com|zopim/i], ids: [/^(launcher|webWidget)/i], globals: ["zE", "zESettings", "$zopim"] },
   "DigitalGenius": { scripts: [/digitalgenius|chat\.digitalgenius/i], hosts: [/digitalgenius/i] },
   "Mavenoid":      { scripts: [/mavenoid\.com|mavenoid\.io/i], ids: [/mavenoid/i], hosts: [/mavenoid/i], globals: ["Mavenoid"] },
-  "Klaviyo":       { scripts: [/klaviyo\.com|static\.klaviyo/i], globals: ["klaviyo", "_klOnsite"] },
+  // PRECISION FIX (2026-07-28): the old signature matched Klaviyo's generic onsite pixel
+  // (static.klaviyo.com/onsite/js/klaviyo.js + window.klaviyo / _klOnsite), which ships on
+  // nearly every Shopify store for EMAIL capture and is NOT a chat surface. It scored
+  // script(2)+global(1)=3 and therefore outranked the real chat widget on ~500 captures,
+  // producing bogus "declared X → detected Klaviyo" audit rows across 8 vendors. Match only
+  // Klaviyo's Customer-Hub / chat assets, which is the surface this benchmark actually tests.
+  "Klaviyo":       { scripts: [/customerHubRoot|kServiceStyles|atlas-app\.services\.klaviyo/i], ids: [/^k-hub|customer-hub/i], globals: ["customerHub"] },
   "Decagon":       { scripts: [/decagon\.ai|decagon/i], ids: [/decagon/i], hosts: [/decagon/i], globals: ["Decagon"] },
   "Rep AI":        { scripts: [/hirep\.ai|getrep\.ai|rep-?ai|initrep/i], ids: [/rep-?ai/i], globals: ["initRep", "RepChat"] },
   "Yuma":          { scripts: [/yuma\.ai|getyuma/i], hosts: [/yuma/i], globals: ["Yuma"] },
@@ -66,11 +72,19 @@ export function detect(sig) {
 // result is NOT a mismatch — the widget may lazy-load / need interaction).
 export async function detectProviderOnPage(page, expectedVendor) {
   let hits = [];
-  try { hits = detect(await collectSignals(page)); } catch { return { detected: [], top: null, mismatch: false }; }
+  try { hits = detect(await collectSignals(page)); } catch { return { detected: [], top: null, mismatch: false, ambiguous: false }; }
   const provs = hits.map((h) => h.prov);
+  const top = provs[0] || null;
   return {
     detected: hits.map((h) => `${h.prov}(${h.via})`),
-    top: provs[0] || null,
+    top,
     mismatch: provs.length > 0 && expectedVendor != null && !provs.includes(expectedVendor),
+    // BLIND SPOT this closes: `mismatch` stays false whenever the expected vendor appears
+    // ANYWHERE in the hit list — so a store where the vendor only ships a non-chat bundle
+    // (e.g. Envive's search build) while a DIFFERENT vendor's widget actually answers looked
+    // perfectly clean. `ambiguous` marks "expected vendor detected but OUT-RANKED by another
+    // chat vendor on the same page", i.e. attribution needs a human/headed check before the
+    // conversation is trusted. Vendor-blind: it fires the same way whoever out-ranks whom.
+    ambiguous: expectedVendor != null && provs.includes(expectedVendor) && top !== expectedVendor,
   };
 }

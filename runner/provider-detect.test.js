@@ -33,3 +33,27 @@ test("detect: expected-vendor present among hits = no mismatch (Ada)", () => {
   const sig = { scripts: ["https://static.ada.support/embed.js"], ids: ["ada-button-frame"], hosts: [], globals: ["adaEmbed"] };
   assert.equal(detect(sig)[0].prov, "Ada");
 });
+
+// ── Klaviyo precision (2026-07-28) ──────────────────────────────────────────────
+// The old Klaviyo signature matched the generic onsite EMAIL pixel, which ships on nearly
+// every Shopify store. It out-ranked the real chat widget and produced ~509 bogus
+// "declared X → detected Klaviyo" audit rows across 8 vendors. Only Klaviyo's Customer-Hub
+// (chat) assets may count as a chat-provider hit.
+test("detect: Klaviyo's onsite EMAIL pixel is NOT a chat provider", () => {
+  const sig = { scripts: ["https://static.klaviyo.com/onsite/js/klaviyo.js"], ids: [], hosts: [], globals: ["klaviyo", "_klOnsite"] };
+  assert.equal(detect(sig).filter((h) => h.prov === "Klaviyo").length, 0);
+});
+
+test("detect: an email pixel must not out-rank the real chat widget on the same page", () => {
+  // Kodif's widget + Klaviyo's email pixel — the historical false-positive shape.
+  const sig = {
+    scripts: ["https://static.klaviyo.com/onsite/js/klaviyo.js", "https://autopilot.kodif.io/chat/v1/application/abc/widget-script"],
+    ids: ["kodif-chat-widget"], hosts: [], globals: ["klaviyo", "_klOnsite"],
+  };
+  assert.equal(detect(sig)[0].prov, "Kodif");
+});
+
+test("detect: Klaviyo Customer Hub (the actual chat surface) IS detected", () => {
+  const sig = { scripts: ["https://static.klaviyo.com/customerHubRoot.js"], ids: ["k-hub-root"], hosts: [], globals: ["customerHub"] };
+  assert.equal(detect(sig)[0].prov, "Klaviyo");
+});
