@@ -12,7 +12,7 @@ import { readdir, readFile, writeFile } from "node:fs/promises";
 import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { scanConversation } from "./integrity.js";
+import { scanConversation, isHollowCapture } from "./integrity.js";
 import { convoValidity } from "./classify.js";
 import { isQuarantinedConversation } from "./conversation-quarantine.js";
 
@@ -45,7 +45,7 @@ async function main() {
       if (HIGH_ONLY && severity !== "high") continue;
       flagged.push({
         id, vendor: conv.vendor || f.split("-")[0], store: conv.store || null,
-        mode: conv.mode || null, severity,
+        mode: conv.mode || null, severity, conv,
         codes: [...new Set(flags.map((x) => x.code))],
         flags,
       });
@@ -64,7 +64,7 @@ async function main() {
     scannedValid: scanned,
     flaggedTotal: flagged.length,
     bySeverity, byCode, byVendor,
-    flagged: flagged.sort((a, b) => ({ high: 3, medium: 2, low: 1 }[b.severity] - { high: 3, medium: 2, low: 1 }[a.severity])),
+    flagged: flagged.map(({ conv, ...rest }) => rest).sort((a, b) => ({ high: 3, medium: 2, low: 1 }[b.severity] - { high: 3, medium: 2, low: 1 }[a.severity])),
   };
   await writeFile(path.join(HERE, "integrity-report.json"), JSON.stringify(report, null, 2) + "\n");
 
@@ -77,8 +77,14 @@ async function main() {
   if (DO_QUARANTINE) {
     const QF = path.join(HERE, "conversation-quarantine.json");
     const q = JSON.parse(readFileSync(QF, "utf8"));
-    let added = 0;
+    let added = 0, spared = 0;
     for (const x of flagged.filter((f) => f.severity === "high")) {
+      // A high-severity flag means SOME turn was misread — not that the capture is worthless.
+      // Discarding the whole conversation on one bad turn threw away the other nine: of the 64
+      // conversations quarantined this way on 2026-07-28, 56 still carried genuine vendor prose.
+      // Quarantine only a capture with nothing in it; everything else stays flagged for review,
+      // which is what this file's header promises ("REVIEW signals, not auto-verdicts").
+      if (!isHollowCapture(x.conv)) { spared++; continue; }
       if (!q.conversations[x.id]) {
         q.conversations[x.id] = {
           reason: "capture_integrity_" + x.codes[0].toLowerCase(),
@@ -91,7 +97,7 @@ async function main() {
       }
     }
     await writeFile(QF, JSON.stringify(q, null, 2) + "\n");
-    console.log(`  → quarantined ${added} high-severity conversations`);
+    console.log(`  → quarantined ${added} hollow captures (spared ${spared} flagged-but-substantive)`);
   }
 }
 main();
