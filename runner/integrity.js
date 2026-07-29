@@ -72,6 +72,61 @@ export function isPageDump(cleanedReply) {
   return idx < t.length / 3 || hits >= 2;
 }
 
+// Storefront furniture that a lost transcript reader scrapes instead of the chat. Broader than
+// PAGE_DUMP_RE, which targets the specific country-selector signature; this one recognises a
+// generic page scrape by its landmarks.
+export const STOREFRONT_RE = /(accessibility screen-reader|skip to (main )?content|all rights reserved|shopping cart|main menu|previous\s+next|please select your (shipping )?country)/i;
+
+// Widget furniture that is not an answer even when it is short ("Settings", "End Chat", "Sent…").
+const FURNITURE_ONLY_RE = /^(settings|minimize chat|end chat|today|sent…?|typing…?|[\s•·|]*)$/i;
+
+/**
+ * How many of a conversation's AI turns carry REAL assistant prose?
+ *
+ * A turn is substantive when, after collapsing whitespace and removing a leading echo of the
+ * user's own question, what remains is neither a storefront scrape nor bare widget furniture.
+ *
+ * WHY THIS EXISTS (2026-07-29). The per-turn flags above are review signals, exactly as this
+ * file's header promises. `integrity-check --quarantine` nonetheless discarded a WHOLE
+ * conversation as soon as ANY single turn was flagged — so one misread turn threw away the
+ * other nine, which are valid data. Re-reading the 64 conversations quarantined on 2026-07-28
+ * showed 56 of them still carried genuine vendor prose: Ada's Aura running real discovery,
+ * Sierra's FloraAgent asking qualifying questions, Zendesk's Horizn agent answering a damage
+ * claim. Two whole rule classes (CHROME_ONLY_REPLY, ECHO_USER_MESSAGE) were firing on the
+ * PREFIX of a reply whose real answer followed immediately after.
+ *
+ * Discarding those conversations is not a neutral act: removing Siena's handoff loop deletes a
+ * genuine product weakness and flatters the vendor. So the remedy has to be proportional —
+ * discard a capture only when there is nothing in it, not when part of it was misread.
+ */
+export function substantiveTurnCount(conv) {
+  const turns = conv.turns || [];
+  let n = 0;
+  for (const t of turns) {
+    if (t.by !== "ai" || t.unsent) continue;
+    let s = String(t.replyText || t.replyTail || "").replace(/\s+/g, " ").trim();
+    const q = String(t.q || "").replace(/\s+/g, " ").trim();
+    // Transcripts commonly prefix a turn's reply with the user's own message. That prefix is
+    // chrome, not the answer — judge what comes AFTER it.
+    if (q.length >= 12 && s.toLowerCase().startsWith(q.toLowerCase().slice(0, 60))) {
+      s = s.slice(q.length).trim();
+    }
+    if (s.length > 1500 && STOREFRONT_RE.test(s)) continue; // page scrape, not a reply
+    if (s.length >= 40 && !FURNITURE_ONLY_RE.test(s)) n++;
+  }
+  return n;
+}
+
+/**
+ * A capture is HOLLOW when not one AI turn carries real assistant prose — the runner recorded
+ * something, but none of it came from the agent. Only these are safe to drop wholesale;
+ * anything else keeps data the report legitimately needs.
+ */
+export function isHollowCapture(conv) {
+  const ai = (conv.turns || []).filter((t) => t.by === "ai" && !t.unsent);
+  return ai.length > 0 && substantiveTurnCount(conv) === 0;
+}
+
 // Implausibly fast to be a generated answer — likely a cached/echoed/chrome element.
 export function isImplausiblyFast(turn, floorMs = 700) {
   const ms = turn.ai_latency_ms != null ? turn.ai_latency_ms : turn.complete_ms;

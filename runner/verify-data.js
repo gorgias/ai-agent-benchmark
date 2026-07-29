@@ -101,7 +101,11 @@ if (!fail.some((f) => /conflict markers/.test(f))) ok("no git conflict markers i
 try {
   const ir = JSON.parse(readFileSync(new URL("./integrity-report.json", import.meta.url), "utf8"));
   const high = (ir.bySeverity && ir.bySeverity.high) || 0;
-  if (high > 0) warn.push(`${high} conversation(s) flagged HIGH-severity by integrity-check (possible UI misreads still counting) — review integrity-report.json and quarantine confirmed ones`);
+  // NOTE: a HIGH flag marks a misread TURN, not a worthless capture. Most flagged conversations
+  // still carry real agent prose and must keep counting — on 2026-07-28 a blanket
+  // `integrity-check --quarantine` discarded 64 conversations of which 56 were substantive.
+  // `--quarantine` now only takes hollow captures; do not widen it back by hand.
+  if (high > 0) warn.push(`${high} conversation(s) have a HIGH-severity turn flag — review integrity-report.json. These are review signals, NOT deletion candidates: only hollow captures (no substantive turn at all) belong in the quarantine`);
   else ok(`capture integrity: 0 high-severity flags (${ir.flaggedTotal || 0} low/medium for review)`);
 } catch { warn.push("no integrity-report.json — run `node integrity-check.js` to scan for misread captures"); }
 
