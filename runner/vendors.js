@@ -1020,7 +1020,6 @@ export const STORES = [
   { key: "meta-2",           vendor: "Zendesk", store: "(2nd store)",   url: "",                                widget: "zendesk", candidate: true, todo: "find a 2nd Zendesk AI storefront" },
 
   // Ada
-  { key: "ada-loop", vendor: "Ada", store: "Loop Earplugs",            url: "https://www.loopearplugs.com/",    widget: "ada" },
   { key: "ada-2",    vendor: "Ada", store: "(2nd store)",             url: "",                                 widget: "ada", candidate: true, todo: "find a 2nd Ada retail storefront" },
 
   // ---- Added on request (refresh). Detected chat tech in comments. ----
@@ -1342,11 +1341,9 @@ export const STORES = [
   { key: "sierra-melin",       vendor: "Sierra", store: "Melin",         url: "https://melin.com/",          widget: "sierra", us: true, candidate: true }, // headwear DTC, Shopify Plus, $3.5M/mo est. (Storeleads)
   { key: "sierra-pendulum",    vendor: "Sierra", store: "Pendulum",      url: "https://pendulumlife.com/",   widget: "sierra", us: true, candidate: true }, // probiotics DTC, Shopify Plus, $1.4M/mo est. (Storeleads)
   { key: "sierra-bodi",        vendor: "Sierra", store: "BODi",         url: "https://www.bodi.com/",       widget: "sierra", us: true, candidate: true }, // fitness/wellness DTC (Beachbody), Shopify Plus, $4.4M/mo est. (Storeleads)
-  { key: "ada-knix",          vendor: "Ada",    store: "Knix",          url: "https://knix.com/",               widget: "ada" },             // static.ada.support
   { key: "ada-goodfood",      vendor: "Ada",    store: "Goodfood",      url: "https://www.makegoodfood.ca/",    widget: "ada", locale: "en-CA" },
   // Wider Ada target — NEW retail storefronts sourced + widget-verified 2026-07-05 (real
   // static.ada.support embed + data-handle on the public homepage; consumer brands, public chat).
-  { key: "ada-sodastream",    vendor: "Ada",    store: "SodaStream",      url: "https://www.sodastream.com/",   widget: "ada", us: true }, // data-handle sodastream
   { key: "ada-sodastream-uk", wall: true, vendor: "Ada",    store: "SodaStream UK",   url: "https://sodastream.co.uk/",     widget: "ada", locale: "en-GB" },  // walled 2026-07-27: 40 AI turns / 17 convs, ZERO reply content, 0 valid
   { key: "ada-moroccanoil", wall: true,   vendor: "Ada",    store: "Moroccanoil",     url: "https://www.moroccanoil.com/",  widget: "ada", us: true }, // data-handle moroccanoil | walled 2026-07-27: 123 AI turns / 13 convs, ZERO reply content, 0 valid
   { key: "ada-peets",         vendor: "Ada",    store: "Peet's Coffee",   url: "https://www.peets.com/",        widget: "ada", us: true }, // data-handle peetscoffee
@@ -1434,6 +1431,67 @@ export const STORES = [
   // brief. Ritual is a confirmed structural wall (0/20 timed turns, retested).
   { key: "intercom-gymshark", vendor: "Intercom", store: "Gymshark", url: "https://www.gymshark.com/", widget: "intercom", us: true, candidate: true }, // athleticwear DTC, $35M/mo est. sales (Storeleads)
   { key: "intercom-ritual",   wall: true, vendor: "Intercom", store: "Ritual",   url: "https://ritual.com/",       widget: "intercom", us: true, candidate: true }, // supplements DTC — wall: 0/20 timed turns
+
+  // ── Sourced 2026-07-28: 47 candidates researched, each VERIFIED BY LIVE DOM (widget host
+  // script loaded AND the launcher/container actually mounted on a cold anonymous visit) —
+  // not by marketing signature. A vendor case study alone was rejected: churn is heavy and
+  // many "customers" run the vendor for email/tickets only, behind an incumbent chat widget.
+  // Every row is e-commerce (sells physical goods). `candidate:true` = not yet proven
+  // end-to-end by the runner, so it can't burn balancer budget until a capture confirms it.
+
+  // Intercom Fin — all six confirmed: widget.intercom.io loaded + #intercom-frame mounted cold.
+  { key: "intercom-cakesbody",   vendor: "Intercom", store: "CAKES body",      url: "https://cakesbody.com/",      widget: "intercom", us: true, candidate: true }, // + official Fin-for-Ecommerce Shopify extension
+  { key: "intercom-nurosym",     vendor: "Intercom", store: "Nurosym",         url: "https://nurosym.com/",        widget: "intercom",          candidate: true }, // neuromodulation device, Fin Shopify-app reviewer
+  { key: "intercom-premierfab",  vendor: "Intercom", store: "Premier Fabrics", url: "https://premierfabrics.com/", widget: "intercom", us: true, candidate: true }, // fabric retailer
+  { key: "intercom-groupsumi",   vendor: "Intercom", store: "GroupSumi",       url: "https://groupsumi.be/en",     widget: "intercom",          candidate: true }, // BE electrical/plumbing, named Fin early adopter
+  { key: "intercom-easyplant",   vendor: "Intercom", store: "easyplant",       url: "https://easyplant.com/",      widget: "intercom", us: true, candidate: true }, // loader injected client-side (no static script src)
+  { key: "intercom-mpb",         vendor: "Intercom", store: "MPB",             url: "https://www.mpb.com/en-uk",   widget: "intercom",          candidate: true, todo: "default launcher HIDDEN — driver must click .intercom-trigger or call Intercom('show')" },
+
+  // Decagon — footprint is genuinely narrow. `decagon.ai/loaders/<tenant>.js` 200-vs-404 is a
+  // reliable vendor-side tenant fingerprint. The two consent-gated rows need a headed probe.
+  { key: "decagon-backbone",     vendor: "Decagon", store: "Backbone",         url: "https://help.backbone.com/hc/en-US", widget: "decagon", us: true, candidate: true }, // window.duet live (Decagon runtime); widget on help subdomain, same shape as decagon-oura
+  { key: "decagon-topps",        vendor: "Decagon", store: "Topps",            url: "https://www.topps.com/support",      widget: "decagon", us: true, candidate: true, todo: "DataGrail consent gate defers the loader — accept consent before send" },
+  { key: "decagon-rituals",      vendor: "Decagon", store: "Rituals",          url: "https://www.rituals.com/en-nl/home", widget: "decagon",          candidate: true, todo: "OneTrust consent gate; use en-nl (en-us has no Decagon ref)" },
+
+  // Kodif — strongest yield of the sweep; all six load autopilot.kodif.io widget-script.
+  { key: "kodif-whogivesacrap",  vendor: "Kodif", store: "Who Gives A Crap",   url: "https://whogivesacrap.org/",         widget: "kodif", candidate: true },
+  { key: "kodif-neurogum",       vendor: "Kodif", store: "NeuroGum",           url: "https://neurogum.com/",              widget: "kodif", us: true, candidate: true, todo: "Gorgias widget also on page — target the Kodif launcher explicitly" },
+  { key: "kodif-ivycityco",      vendor: "Kodif", store: "Ivy City Co",        url: "https://ivycityco.com/",             widget: "kodif", us: true, candidate: true, todo: "Gorgias also present — target Kodif launcher" },
+  { key: "kodif-clearlyfilter",  vendor: "Kodif", store: "Clearly Filtered",   url: "https://www.clearlyfiltered.com/",   widget: "kodif", us: true, candidate: true }, // sole chat vendor on page
+  { key: "kodif-justfood4dogs",  vendor: "Kodif", store: "JustFoodForDogs",    url: "https://www.justfoodfordogs.com/",   widget: "kodif", us: true, candidate: true }, // older chatwidget-new.kodif.io host
+
+  // Siena — runs ON TOP of Gorgias/Zendesk/Gladly, so only 3 of 35 case-study brands expose a
+  // Siena surface; the rest are incumbent widgets and were deliberately NOT added.
+  { key: "siena-spanx",          vendor: "Siena", store: "Spanx",              url: "https://spanx.com/",                 widget: "siena", us: true, candidate: true }, // SIENA_LIVE_CHAT_PUBLIC_APP_KEY in store config
+
+  // Envive — exposes a drivable window.spiffy API (openChat/toggleChat/openChatWithPrompt).
+  { key: "envive-nanit",         vendor: "Envive", store: "Nanit",             url: "https://www.nanit.com/",             widget: "envive", us: true, candidate: true }, // baby monitors
+  { key: "envive-carbahn",       vendor: "Envive", store: "CarBahn",           url: "https://carbahn.com/",               widget: "envive", us: true, candidate: true }, // BMW performance parts, sole conversational widget
+  { key: "envive-clove",         vendor: "Envive", store: "Clove",             url: "https://goclove.com/",               widget: "envive", us: true, candidate: true, todo: "Gorgias also present — verify attribution headed. NB clove.co is a parked domain, do not use" },
+
+  // DigitalGenius — heavy churn: only 6 of 24 case-study brands still load the widget.
+  { key: "dg-airup",             vendor: "DigitalGenius", store: "air up",          url: "https://shop.air-up.com/gb/en",    widget: "dg", candidate: true }, // #dg-chat-widget-launcher mounted, 4 locales verified
+
+  // Sierra — four storefront widgets; Sierra's launcher lives in a shadow root (driver handles it).
+  { key: "sierra-minted",        vendor: "Sierra", store: "Minted",            url: "https://www.minted.com/",            widget: "sierra", us: true, candidate: true }, // loads lazily — absent from raw HTML, present in DOM
+  { key: "sierra-lifeisgood",    vendor: "Sierra", store: "Life is Good",      url: "https://www.lifeisgood.com/",        widget: "sierra", us: true, candidate: true, todo: "site A/B-splits Sierra vs Kustomer (currently 100% Sierra) — re-verify if yields drop" },
+  { key: "sierra-mockingbird",   vendor: "Sierra", store: "Mockingbird",       url: "https://www.hellomockingbird.com/",  widget: "sierra", us: true, candidate: true },
+  { key: "sierra-faherty",       vendor: "Sierra", store: "Faherty Brand",     url: "https://www.fahertybrand.com/",      widget: "sierra", us: true, candidate: true },
+
+  // Zendesk — `ekr.zdassets.com/compose/<key>` returns the real config and cleanly separates
+  // modern messaging (AI-capable) from legacy Zopim and widget-off. That check killed 4 false
+  // positives a signature-only scan would have accepted. Only messaging accounts added.
+  { key: "zendesk-wildling",     vendor: "Zendesk", store: "Wildling Shoes",   url: "https://www.wildling.shoes/",        widget: "zendesk", candidate: true }, // widget titled "Foxbot" — bot front door; DE-language
+  { key: "zendesk-snocks",       vendor: "Zendesk", store: "SNOCKS",           url: "https://www.snocks.com/",            widget: "zendesk", candidate: true }, // DE-language messaging, independent account
+  { key: "zendesk-junglueck",    vendor: "Zendesk", store: "Junglück",         url: "https://www.junglueck.de/",          widget: "zendesk", candidate: true }, // DE-language messaging, independent account
+
+  // Klaviyo — Customer Hub is genuinely live on these (hub elements render), BUT the hub's CHAT
+  // tab sits behind Shopify customer login ("Shopify customer is not logged in, no token set"),
+  // so chat drivability is UNPROVEN. Kept as candidates + flagged: this is a structural
+  // constraint on Klaviyo's chat surface, worth knowing before spending capture slots.
+  { key: "klaviyo-respire",      vendor: "Klaviyo", store: "Respire",          url: "https://www.respire.co",             widget: "klaviyo", candidate: true, todo: "hub chat login-gated — confirm drivability before capture" },
+  { key: "klaviyo-baublebar",    vendor: "Klaviyo", store: "BaubleBar",        url: "https://www.baublebar.com",          widget: "klaviyo", us: true, candidate: true, todo: "hub chat login-gated" },
+  { key: "klaviyo-mathon",       vendor: "Klaviyo", store: "Mathon",           url: "https://www.mathon.fr",              widget: "klaviyo", candidate: true, todo: "hub chat login-gated; FR kitchenware" },
 ];
 
 // Find a frame by element id / title / name / url. `match` may be a string
