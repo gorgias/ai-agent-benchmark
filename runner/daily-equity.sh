@@ -32,8 +32,17 @@ fi
 git -C "$RUNNER/.." pull --rebase --autostash origin master >/dev/null 2>&1 || true
 
 echo "===== DAILY-EQUITY START $(date) =====" >> "$LOG"
-INCLUDE="Decagon,Klaviyo,Intercom,Zendesk,Yuma,Kodif,DigitalGenius,Ada" \
-  TARGET=100 BUDGET=80 CONCURRENCY=4 LOAD_CAP=9 STORE_TIMEOUT_MIN=4 \
+# TARGET is deliberately UNSET → the balancer's adaptive water-line (level everyone up to the
+# current leader). The old TARGET=100 went stale as the field grew: by 2026-07-28 every vendor
+# here except Decagon sat ABOVE 100, so this job silently captured nothing but Decagon — whose
+# driver was producing hollow captures. An adaptive line can never go stale this way.
+# INCLUDE is now the full drivable set. The previous list excluded "over-represented" vendors by
+# hand, which is redundant (a vendor above the water-line is already ineligible) and actively
+# harmful since the store-level water-fill needs those vendors eligible to reach their
+# never-captured storefronts. Still excluded: nothing here — headed-only and structural-wall
+# vendors are filtered inside balance.mjs (HEADED/EXCLUDE + wall + parked).
+INCLUDE="Decagon,Klaviyo,Intercom,Zendesk,Yuma,Kodif,DigitalGenius,Ada,Siena,Envive,Sierra,Gorgias" \
+  BUDGET=80 CONCURRENCY=5 LOAD_CAP=9 STORE_TIMEOUT_MIN=4 \
   RUN_DATE=$(date +%F) BENCHMARK_CAPTURE_ORIGIN=automation \
   node tools/balance.mjs >> "$LOG" 2>&1 &
 BAL=$!

@@ -26,7 +26,14 @@ import { STORES } from "../vendors.js";
 // so the balancer only ever found room on incomplete/new/Decagon stores. A fresh date =
 // run.js writes NEW conversations and the producers actually capture.
 const RUN_DATE = process.env.RUN_DATE || new Date().toISOString().slice(0, 10);
-const TARGET   = Number(process.env.TARGET) || 82;    // per-vendor equality level (≈ Ada, the #2 leader)
+// Per-vendor equality water-line. ADAPTIVE by default (2026-07-28): a hardcoded number goes
+// stale the moment the field grows past it, and then the whole run silently becomes a no-op —
+// the shipped default of 82 (and daily-equity.sh's TARGET=100) left EVERY vendor above the line
+// except one, so the daily automation only ever captured that single vendor. Unset TARGET means
+// "level everyone up to the current leader": the leader sits AT the line (not eligible) and
+// every other vendor is eligible, ordered by deficit. Self-maintaining, and equity by
+// construction. Pass TARGET explicitly only to force a specific ceiling.
+const TARGET_ENV = Number(process.env.TARGET) || 0;   // 0 / unset = adaptive
 const BUDGET   = Number(process.env.BUDGET) || 345;   // max NEW valid non-Amazon convs to add (rest is Rufus)
 const HEADED   = new Set(["Rep AI", "Kodif", "Humind"]);            // these only capture cleanly headed
 const EXCLUDE  = new Set(["Amazon Rufus", "Spiffy.ai", "Google Agentic", "Shopify Inbox"]); // separate/structural-zero
@@ -93,7 +100,7 @@ const strikes = {}, rot = {}, retired = new Set();
 Object.keys(byV).forEach(v => { strikes[v] = 0; rot[v] = 0; });
 const strikeLimit = v => Math.min(3, byV[v].length);   // one vendor gives up after ~a short losing streak
 
-L(`=== OVERNIGHT BALANCE start · RUN_DATE=${RUN_DATE} · TARGET=${TARGET}/vendor · BUDGET=${BUDGET} non-Amazon${DRY ? " · DRY-RUN" : ""} ===`);
+L(`=== OVERNIGHT BALANCE start · RUN_DATE=${RUN_DATE} · TARGET=${TARGET_ENV || "adaptive (level up to the leader)"}/vendor · BUDGET=${BUDGET} non-Amazon${DRY ? " · DRY-RUN" : ""} ===`);
 const c0 = validCounts();
 L("baseline: " + Object.keys(byV).sort().map(v => `${v}=${c0[v] || 0}`).join("  "));
 
@@ -111,7 +118,9 @@ let added = 0, step = 0;
 while (added < BUDGET) {
   await loadGuard();
   const counts = validCounts();
-  const cands = Object.keys(byV).filter(v => !retired.has(v) && (counts[v] || 0) < TARGET);
+  const live = Object.keys(byV).filter(v => !retired.has(v));
+  const TARGET = TARGET_ENV || Math.max(0, ...live.map(v => counts[v] || 0));
+  const cands = live.filter(v => (counts[v] || 0) < TARGET);
   if (!cands.length) { L("all reachable providers at TARGET — nothing left below the water line. done."); break; }
   cands.sort((a, b) => (counts[a] || 0) - (counts[b] || 0));   // always feed the furthest-behind
   const v = cands[0];
