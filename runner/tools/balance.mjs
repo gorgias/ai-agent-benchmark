@@ -159,8 +159,16 @@ while (added < BUDGET) {
   const gained = (validCounts()[v] || 0) - before;
   added += Math.max(0, gained);
   if (gained <= 0) {
-    strikes[v]++;
-    L(`  +0 valid from ${store.key} — strike ${strikes[v]}/${strikeLimit(v)} for ${v}`);
+    // Charge the vendor a strike ONLY when a store that has produced before now fails — that is
+    // a real regression. A NEVER-CAPTURED store failing says nothing about the vendor: it is an
+    // unproven storefront (sourced from a widget signature, not yet proven drivable end-to-end).
+    // Without this guard the store-level water-fill, which deliberately tries never-captured
+    // stores first, would retire perfectly healthy vendors — Siena hit strike 1/3 on a fresh
+    // store while siena-simplemodern sits on 108 valid convs. The store itself is still probed
+    // and recorded in driver-triage.json below, so nothing is lost; only the vendor is spared.
+    const unproven = (storeCounts[store.key] || 0) === 0;
+    if (!unproven) strikes[v]++;
+    L(`  +0 valid from ${store.key} — ${unproven ? `unproven store, no vendor strike (${v} stays ${strikes[v]}/${strikeLimit(v)})` : `strike ${strikes[v]}/${strikeLimit(v)} for ${v}`}`);
     // SELF-IMPROVEMENT: auto-probe the failing store NOW and classify the failure.
     // Structural classes park the store (skipped until a driver fix re-probes ANSWERED);
     // fixable classes are queued for a driver patch. Never silently strike again.
