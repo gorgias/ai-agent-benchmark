@@ -20,20 +20,20 @@
     "2026-07-28",
     "2026-07-29"
   ],
-  "scannedValid": 3310,
-  "flaggedTotal": 284,
+  "scannedValid": 3312,
+  "flaggedTotal": 286,
   "bySeverity": {
-    "low": 284
+    "low": 286
   },
   "byCode": {
-    "REPEATED_IDENTICAL_REPLY": 282,
+    "REPEATED_IDENTICAL_REPLY": 284,
     "IMPLAUSIBLY_FAST": 3
   },
   "byVendor": {
     "Gorgias": 1,
     "Rep AI": 13,
     "Siena": 48,
-    "DigitalGenius": 90,
+    "DigitalGenius": 92,
     "Kodif": 8,
     "Ada": 18,
     "Decagon": 6,
@@ -4517,6 +4517,24 @@
       ]
     },
     {
+      "id": "2026-07-29/dg-blakely-shopping-beginner.json",
+      "vendor": "DigitalGenius",
+      "store": "Blakely Clothing",
+      "mode": "shopping",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "3× \"To get started, create an account here and explore myBlakely\""
+        }
+      ]
+    },
+    {
       "id": "2026-07-29/dg-gstar-shopping-beginner.json",
       "vendor": "DigitalGenius",
       "store": "G-Star RAW",
@@ -4621,6 +4639,24 @@
           "severity": "low",
           "turn": null,
           "evidence": "4× \"n. You can explore our collection here. Perfect for experime\""
+        }
+      ]
+    },
+    {
+      "id": "2026-07-29/dg-kukoon-shopping-compare-budget.json",
+      "vendor": "DigitalGenius",
+      "store": "Kukoon",
+      "mode": "shopping",
+      "severity": "low",
+      "codes": [
+        "REPEATED_IDENTICAL_REPLY"
+      ],
+      "flags": [
+        {
+          "code": "REPEATED_IDENTICAL_REPLY",
+          "severity": "low",
+          "turn": null,
+          "evidence": "3× \"find the perfect rug within your budget! If you share your p\""
         }
       ]
     },
