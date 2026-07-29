@@ -70,9 +70,11 @@ for (const s of STORES) {
   (byV[s.vendor] = byV[s.vendor] || []).push(s);
 }
 
-// live valid-conv counts per vendor across ALL run dirs (baseline + everything added tonight)
+// live valid-conv counts per vendor AND per store across ALL run dirs (baseline + tonight).
+// Per-store counts drive store balance: see the store pick below.
+let storeCounts = {};
 function validCounts() {
-  const c = {};
+  const c = {}; const s = {};
   for (const d of readdirSync("results").filter(x => /^2026/.test(x))) {
     let fs; try { fs = readdirSync(`results/${d}/conv`); } catch { continue; }
     for (const f of fs) {
@@ -80,8 +82,10 @@ function validCounts() {
       let j; try { j = JSON.parse(readFileSync(`results/${d}/conv/${f}`, "utf8")); } catch { continue; }
       if (j.valid === false) continue;
       c[j.vendor] = (c[j.vendor] || 0) + 1;
+      if (j.key) s[j.key] = (s[j.key] || 0) + 1;
     }
   }
+  storeCounts = s;
   return c;
 }
 
@@ -111,7 +115,19 @@ while (added < BUDGET) {
   if (!cands.length) { L("all reachable providers at TARGET — nothing left below the water line. done."); break; }
   cands.sort((a, b) => (counts[a] || 0) - (counts[b] || 0));   // always feed the furthest-behind
   const v = cands[0];
-  const store = byV[v][rot[v] % byV[v].length]; rot[v]++;
+  // STORE BALANCE (fixed 2026-07-28): this used to be a round-robin `byV[v][rot[v] % len]`
+  // with `rot` starting at 0 in every fresh process. Every campaign therefore restarted at the
+  // SAME first store, so head-of-list stores were captured over and over while tail stores —
+  // including every newly sourced one, which is appended at the end — were never picked. The
+  // result was one store owning 40-100% of a vendor's conversations (Rep AI 100%, Meta 57%,
+  // Decagon 50%, Yuma 43%, Siena 42%), which makes a vendor's score a single storefront's score.
+  // Now: always feed the LEAST-captured store of the chosen vendor (same water-fill logic used
+  // across vendors, applied one level down), with the old rotation only as a tiebreak so equal
+  // stores still alternate. Vendor-blind.
+  const ranked = byV[v].slice().sort((a, b) => (storeCounts[a.key] || 0) - (storeCounts[b.key] || 0));
+  const floor = storeCounts[ranked[0].key] || 0;
+  const tied = ranked.filter(s => (storeCounts[s.key] || 0) === floor);
+  const store = tied[rot[v] % tied.length]; rot[v]++;
   const headed = HEADED.has(v);
   step++;
   L(`[step ${step}] pick ${v} (${counts[v] || 0}/${TARGET}) → ${store.key}${headed ? " [headed]" : ""} · added ${added}/${BUDGET}`);
