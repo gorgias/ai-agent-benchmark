@@ -33,6 +33,7 @@ const DELIVERY_OVERRIDE = {
 };
 import { extractRecommendedProducts } from "./product-recommendation-bars.js";
 import { normalizeUserMessage } from "./message-style.js";
+import { rankCutoff } from "./ranking-window.js";
 
 // Themes whose turns must NOT count toward latency / automation / quality (robustness only).
 const GUARDRAIL_KEYS = new Set(["guardrails"]);
@@ -57,7 +58,7 @@ const DATES = dateArg ? [dateArg] : (await allDates());
 const LATEST = DATES[DATES.length - 1];
 // Trailing 90-day window (inclusive) for RANKINGS — the point is that older runs matter less
 // as new ones accumulate. ISO date strings compare lexically, so a string cutoff is enough.
-const RANK_CUTOFF = (() => { const d = new Date(LATEST + "T00:00:00Z"); d.setUTCDate(d.getUTCDate() - 89); return d.toISOString().slice(0, 10); })();
+const RANK_CUTOFF = rankCutoff(LATEST);
 // Rankability floor: a vendor needs at least this many judged conversations IN A LANE (in the
 // window) to enter the scoreboard / head-to-head ranking. Set to 15 = at least THREE stores'
 // worth (5 themes each) — a board metric shouldn't rank a vendor #1 off a single store, and a
