@@ -58,7 +58,7 @@ git pull --rebase --autostash origin master >/dev/null 2>&1 || true
 # ── 1. sourcing (independent: a failure here must not stop capture) ────────────
 if [ "${SKIP_SOURCING:-0}" != "1" ]; then
   say "--- sourcing merchants (PER_VENDOR=${PER_VENDOR:-2}) ---"
-  node server/source-merchants.mjs >>"$LOG" 2>&1 || say "sourcing failed (non-fatal) — continuing to capture"
+  node server/source-merchants.mjs 2>&1 | tee -a "$LOG" || say "sourcing failed (non-fatal) — continuing to capture"
   git pull --rebase --autostash origin master >/dev/null 2>&1 || true
 fi
 
@@ -85,7 +85,7 @@ CORES="$(nproc 2>/dev/null || echo 4)"
 ( cd runner && INCLUDE="${INCLUDE:-Siena,Klaviyo,Intercom,DigitalGenius,Zendesk,Ada,Envive,Sierra,Gorgias}" \
     BUDGET="${BUDGET:-400}" CONCURRENCY="${CONCURRENCY:-5}" LOAD_CAP="$LOAD_CAP" \
     STORE_TIMEOUT_MIN="${STORE_TIMEOUT_MIN:-18}" RUN_DATE="$D" \
-    xvfb-run -a node tools/balance.mjs >>"$LOG" 2>&1 ) &
+    xvfb-run -a node tools/balance.mjs 2>&1 | tee -a "$LOG" ) &
 BAL=$!
 
 elapsed=0
@@ -103,6 +103,6 @@ push_convs                                                  # final push
 
 # ── 3. healthcheck → Slack ────────────────────────────────────────────────────
 say "--- healthcheck ---"
-RUN_DATE="$D" node server/healthcheck.mjs >>"$LOG" 2>&1; HC=$?
+RUN_DATE="$D" node server/healthcheck.mjs 2>&1 | tee -a "$LOG"; HC=${PIPESTATUS[0]}
 say "===== PIPELINE DONE (healthcheck exit $HC) ====="
 exit $HC
