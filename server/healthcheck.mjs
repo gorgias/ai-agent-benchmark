@@ -134,7 +134,14 @@ if (existsSync(scoresPath)) {
 // ── 7. PROVIDER ATTRIBUTION — a store that switched vendors, or where a second
 // widget answers, silently scores one vendor's behaviour as another's. ────────
 const mm = today.filter((c) => c.mismatch).length, amb = today.filter((c) => c.ambiguous).length;
-if (mm) CB(`*${mm} conversations with a provider MISMATCH today* — the widget that answered is not the vendor on record. Those scores belong to the wrong vendor until the store row is corrected.`);
+// NOT publish-blocking, despite sounding severe. gen.js already drops every provider_mismatch
+// conversation when baking (`if (obj.provider_mismatch) continue;`), so a mismatch never reaches a
+// vendor's published score — it is a data-hygiene signal telling you a store row needs correcting.
+// This was briefly a blocking critical and that was plainly wrong: mismatches are routine (139 of
+// 6700 conversations historically, across nearly every vendor), so blocking on ANY of them would
+// have frozen the board almost every night. A guard that never lets anything publish is worse than
+// the problem it prevents.
+if (mm) C(`*${mm} conversations with a provider MISMATCH today* — the widget that answered is not the vendor on record. Those scores belong to the wrong vendor until the store row is corrected.`);
 else if (amb) W(`${amb} conversations flagged provider-ambiguous (expected vendor present but out-ranked by another chat widget on the page).`);
 else OK("provider attribution clean");
 

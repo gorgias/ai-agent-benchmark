@@ -172,6 +172,27 @@ Create or update the machine at the hour you want the run to happen: Fly repeats
 that cadence. Aim for local night in the US (the market being measured), and remember the
 anti-collision lock means a stray extra trigger exits harmlessly instead of corrupting latencies.
 
+## Running a one-off by hand (read this first)
+
+```bash
+fly machine run <image> -a gorgias-benchmark-capture --rm --restart no \
+  --entrypoint /usr/bin/env -- <command>
+```
+
+Three traps, each of which cost a real incident:
+
+1. **`--restart no` is mandatory.** A one-off machine does NOT inherit the policy from `fly.toml`
+   or from the scheduled machine. Without it the default is `on-failure`, and since the pipeline
+   exits non-zero to *report* problems, the machine reboots and re-runs the whole capture in a
+   loop. Observed live: an integration run exited 1, rebooted, and started capturing again.
+2. **`fly machine run` silently ignores `--command`** and runs the image's default CMD — which is
+   the full pipeline. Pass the command positionally after `--`. Without `--`, flags like `--yes`
+   and `-c` are swallowed by flyctl's own parser (`-c` is `--config`).
+3. **A one-off has no volume**, so it never sees the anti-collision lock on `/data` and can start a
+   second concurrent capture — which inflates every measured latency. `pipeline.sh` refuses to run
+   without the volume for exactly this reason; only override with `REQUIRE_VOLUME=0` when you know
+   the scheduled machine is stopped.
+
 ## Why 70/day is comfortable
 
 Measured throughput over three real days: **20–39 valid conversations per hour** (mean ≈29), at
