@@ -49,8 +49,12 @@ primary_region = "iad"                 # US East: the market the benchmark measu
 # those as crashes and relaunch a THREE-HOUR capture immediately, in a loop, for as long as the
 # condition persists: a large bill and a pile of duplicate captures, caused by the job correctly
 # reporting a problem. For a scheduled batch job the schedule is the retry mechanism.
+#
+# NOTE the value: fly.toml spells this "never", while the Machines API spells the same policy "no"
+# (which is what `fly machine status --display-config` prints). Using "no" here fails config
+# validation and blocks every deploy.
 [[restart]]
-  policy = "no"
+  policy = "never"
 
 [[vm]]
   size      = "performance-2x"         # 2 dedicated vCPU / 4GB. DEDICATED matters more than core
