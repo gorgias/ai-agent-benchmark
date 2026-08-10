@@ -12,10 +12,16 @@ Every conversation is captured cold (fresh incognito context), driven with **fre
 | **Automation rate** | % of *engaged* conversations the AI handled with **zero human touch** — no handover, no "email/call us" deflection. The containment metric: the share of tickets a human never touches. |
 | **Answer quality** | An LLM judge scores every conversation `/100` on a per-lane rubric (Relevance for Shopping, Resolution for Support). |
 | **Latency** | True end-to-end — message sent → *final* answer rendered, past "let me check…" stalls. Plus **first signal** (TTFT) and delivery style (streaming vs atomic). |
-| **Composite** | `40% automation + 40% quality + 20% speed` (speed 100 at ≤3 s, 0 at ≥22 s), renormalized over available dimensions. Automation and quality are equal pillars — a fast deflection must not outrank substance; speed separates close vendors. One rankable number per lane. |
+| **Composite** | Lane-specific weights, because the lanes reward different things. **Shopping** `40% automation + 35% quality + 25% speed` — a shopper will not wait. **Support** `50% automation + 30% quality + 20% speed` — containment is the point. Speed scores 100 at ≤3 s and 0 at ≥22 s. A vendor needs a judged quality score and ≥15 conversations in the lane to be ranked at all. One rankable number per lane. |
 
-**Live report:** https://gorgias.github.io/ai-agent-benchmark/report.html — **Summary:** https://gorgias.github.io/ai-agent-benchmark/takeaways.html
-_(public URL, `noindex` + `robots.txt` so it is never search-indexed)_
+**Live board:** https://gorgias-ai-benchmark.vercel.app/report — **Summary:** https://gorgias-ai-benchmark.vercel.app/takeaways
+
+> **Access-controlled.** The site sits behind an edge middleware gate (`middleware.js`); the password
+> is the `SITE_PASSWORD` env var in Vercel and is never committed. The old
+> `gorgias.github.io/ai-agent-benchmark/*` URLs were **ungated** and now serve redirect stubs to the
+> gated site — do not re-publish anything to GitHub Pages. (`.github/workflows/deploy-pages.yml` was
+> deleted for exactly this reason: it fired on every push to master and uploaded the whole repo
+> root, conversation data included.)
 
 > Gorgias R&D competitive intelligence. Latency reflects specific capture windows and varies with load and query type — treat cross-vendor numbers as **directional**; read automation + quality alongside speed, never a single average.
 
@@ -41,7 +47,23 @@ The benchmark is deliberately conservative — it excludes noise rather than fla
 - **Non-functional deployments excluded, transparently** — e.g. a store returning business-hours boilerplate with no AI answering is dropped and disclosed in the method note.
 - **Automation on the engaged denominator** — early bails count *against* a vendor; they are never silently dropped.
 
-All decision logic lives in pure, unit-tested functions (`runner/classify.js`, `node --test` — 28 tests). Captured reply text is the **actual** transcript tail, never a fabricated summary. Summary "conversations" == "LLM-judged" by construction (`gen.js` counts judged over shown).
+- **Channel deflection penalised** — when ≥50% of a conversation's AI replies push the shopper to
+  email / a contact form / a phone call, the in-channel resolution checks deterministically fail. A
+  request to switch channels did not help the customer. Vendor-blind, and guarded so that a spare
+  in-chat answer or an optional "you can also email us" aside is not caught.
+- **Misattributed conversations dropped** — if the widget that answered is not the vendor on record
+  (`provider_mismatch`), `gen.js` excludes the conversation rather than scoring it against the wrong
+  vendor.
+
+All decision logic lives in pure, unit-tested functions (`runner/classify.js` and friends,
+`node --test` — **145 tests**). Captured reply text is the **actual** transcript tail, never a
+fabricated summary. Summary "conversations" == "LLM-judged" by construction (`gen.js` counts judged
+over shown).
+
+**Store selection is neutral.** Every vendor is held to the same ≥5 verified-storefront floor, and
+no vendor-specific store exclusion exists in the baking code. The balancer levels vendors up to the
+current leader and, inside a vendor, always feeds the least-captured storefront first — so no
+vendor's score collapses onto one merchant.
 
 ---
 
@@ -59,8 +81,10 @@ RUN_DATE=$(date +%F) node run.js --headed --concurrency 2
 node gen.js                 # rebuild report.html + takeaways.html + Pages stats from results/
 ```
 
-**Quality evals** (needs a Claude session; no API key on the machine). The judge
-specification is versioned in-repo: **`runner/eval-rubric.md`** (v2). Design, in short:
+**Quality evals.** The judge specification is versioned in-repo: **`runner/eval-rubric.md`** (v2.3).
+Two interchangeable judges read it — `runner/judge-api.mjs` (Anthropic API, what the automated loop
+uses) and Claude Code subagents (what a human session uses). Same blind batches in, same
+`scored-*.json` out. Design, in short:
 
 - **Binary, evidence-forced checks — the judge never picks a number.** Each rubric
   dimension decomposes into pass/fail checks; a passing check must quote the transcript.
@@ -71,6 +95,9 @@ specification is versioned in-repo: **`runner/eval-rubric.md`** (v2). Design, in
 - **Deterministic signals.** Price/link/review/option presence is regex-detected at pack
   time and enforced at merge — a rich-element check cannot pass without its signal in the
   actual transcript.
+- **Evidence verified in code.** A passing check must quote the transcript, and `judge-api.mjs`
+  checks every quote against the transcript, demoting the check to `fail` if it is not there.
+  Otherwise "no quote → no credit" only catches *empty* quotes, never invented ones.
 - **Outcome correctness.** A justified, well-executed handover is scored as correct support
   behavior; containment is measured separately by automation rate (never double-penalized).
 - **Audit loop.** `eval-audit.js` runs an adversarial second pass on sampled verdicts
@@ -80,7 +107,8 @@ specification is versioned in-repo: **`runner/eval-rubric.md`** (v2). Design, in
 
 ```bash
 node eval-pack.js /tmp/batches 12      # unscored valid conversations → BLIND batch files + map-*.json
-#   → hand each batch to LLM-judge subagents (spec: runner/eval-rubric.md)
+node judge-api.mjs /tmp/batches        # score them (ANTHROPIC_API_KEY; ~$0.09/conv on claude-opus-4-8)
+#   → or hand each batch to LLM-judge subagents instead (spec: runner/eval-rubric.md)
 node eval-merge.js /tmp/batches        # resolve keys, derive scores from checks, enforce signal gates
 node eval-audit.js pack /tmp/audit 24  # adversarial audit sample → audit batches
 #   → hand audit batches to an auditor subagent, outputs audited-*.json
@@ -89,7 +117,21 @@ node gen.js                            # bake the scores in
 node verify-data.js                    # QUALITY GATE — invariants + judge coverage; must pass before deploy
 ```
 
-**Weekly, zero-touch:** `runner/weekly-local.sh` runs via a launchd job (Monday 07:00) — capture → gen → commit → push. Costs zero GitHub Actions minutes. The cloud sharded workflow (`.github/workflows/benchmark-cloud.yml`) is a manual fallback only.
+**Daily, zero-touch — nothing runs on a laptop.** One scheduled Fly.io Machine
+(`gorgias-benchmark-capture`, `fly.toml` + `server/`) does the whole loop each day: source new
+merchants → balanced capture → healthcheck → judge → bake → **quality gate** → push → deploy →
+verify the live page matches what was baked. Full documentation, guards and failure modes:
+**`server/README.md`**.
+
+Because that box can now publish, the protection is explicit rather than architectural:
+`verify-data.js` is a hard gate ahead of any deploy, the healthcheck can veto a publish whose data
+is already known to be corrupt, and `server/verify-live.mjs` reads the deployed page back. A failed
+gate keeps the (expensive) judging work and reverts the baked artifacts. **Every guard prefers a
+stale board to a wrong one.**
+
+Before swapping the judge model or prompt, run `server/judge-calibrate.mjs` — rankings use a
+trailing 90-day window, so a systematically harsher or softer judge would move every vendor for a
+reason that is not vendor behaviour, and nothing else we check would notice.
 
 **Parallel capture** is safe by design: every conversation is claimed via a cross-process
 lock (`results/<date>/conv/.locks/`), so several `run.js` instances — the equalization
@@ -98,9 +140,15 @@ the same time without double-capturing. Operating limits (≤3 streams on a lapt
 `LOAD_CAP` pause, disjoint vendor lists, teardown by PID) are in **`docs/RUNBOOK.md`** —
 the end-to-end operations guide for this repo.
 
-**CI:** every PR runs the unit suites (classifier, reply-cleaner, turn-quality,
-message-style, product-recs — `runner/*.test.js`) plus the data quality gate
-(`.github/workflows/tests.yml`).
+**CI is not running.** GitHub Actions is **disabled for this repository by the `gorgias`
+organization** (the API returns `409 — GitHub Actions is disabled on this repository by the
+organization`); a repo admin cannot override it, only an org owner can. The workflows under
+`.github/workflows/` are therefore inert and kept only in case that changes. **Run the suites
+yourself before pushing:**
+
+```bash
+cd runner && node --test && node verify-data.js
+```
 
 ---
 
@@ -117,19 +165,44 @@ runner/
   classify.test.js  node --test suite
   gen.js            aggregate results/ → bake report.html + takeaways.html (single source of truth;
                     DELIVERY_OVERRIDE pins streaming/atomic per engine)
+  eval-rubric.md    THE judge specification (v2.3) — both judges read this file, nothing hardcodes it
   eval-pack.js / eval-merge.js   LLM-judge quality pipeline (blind batches → scored arrays)
+  judge-api.mjs     the API judge: one conversation per call, evidence verified against the transcript
+  eval-score.js     the check→points table + deterministic signal gates (single source of scoring)
+  eval-signals.js   regex signals (price/link/reviews/options, channel-deflection) used as hard caps
   verify-data.js    pre-deploy QUALITY GATE: baked-data invariants + judge-coverage threshold
+  integrity-check.js / boilerplate-audit.mjs   auto-detect whole classes of data-quality bugs
+  provider-detect.js  live DOM check that the widget answering IS the vendor on record
   reply-clean.js    isolates AI prose from widget-DOM scrape (display + judge input); unit-tested
-  tools/balance.mjs equalization balancer — water-fills the least-represented vendor (LOAD_CAP guard)
+  tools/balance.mjs equalization balancer — two nested water-fills: level vendors up to the leader,
+                    and inside a vendor always feed the least-captured storefront first
   results/<date>/conv/*.json      one file per conversation (durable, resumable, NEVER moved/archived)
-docs/RUNBOOK.md     end-to-end operations: capture → judge → merge → bake → verify → deploy,
-                    parallel-capture rules, teardown hygiene, troubleshooting, vendor quirks
-docs/OPERATOR-PROMPT.md   copy-paste prompt for a Claude Code session that runs the whole
-                    pipeline (add N convs → judge → merge → bake → gate → deploy)
+server/
+  pipeline.sh       the daily run: source → capture → healthcheck → publish (refuses to run without
+                    the volume, so it can never become a second concurrent capture)
+  publish.sh        judge → merge → bake → GATE → push → vercel deploy → prove live == local
+  healthcheck.mjs   7 anomaly checks → Slack; writes the machine-readable publish verdict
+  verify-live.mjs   reads the deployed page back through the access gate and diffs it against local
+  judge-calibrate.mjs   bias check before changing the judge (see server/README.md)
+  source-merchants.mjs  finds + live-verifies new storefronts per vendor
+  README.md         the operational guide for all of the above
+fly.toml            the scheduled Machine (daily, restart: never, persistent volume)
+middleware.js       edge access gate for the whole site (SITE_PASSWORD)
+docs/RUNBOOK.md     end-to-end operations, parallel-capture rules, troubleshooting, vendor quirks
+docs/METHODOLOGY.md scoring rules, channel-deflection penalty, store selection & neutrality
 report.html         detailed interactive report      takeaways.html   board summary
-index.html          Pages landing (noindex → Summary)
+index.html          landing (noindex → Summary)
 ```
 
 ## Coverage reality
 
-Vendor widgets differ wildly in drivability. **Measured** = a storefront that produced timed conversations; **targeted** = in the test set but not yet (or not) drivable. Gorgias, Envive, Sierra, Siena, Meta AI/Zendesk, Ada and Yuma-native drive well; Rep AI / Kodif / Humind are headed-only with hard cases; some competitor widgets load only client-side and resist cold capture. The **Coverage** section reports each store's real per-lane status honestly.
+Vendor widgets differ wildly in drivability. **Measured** = a storefront that produced timed conversations; **targeted** = in the test set but not yet (or not) drivable. Gorgias, Envive, Sierra, Siena, Zendesk, Ada and Yuma-native drive well; Rep AI / Kodif / Humind are headed-only with hard cases; some competitor widgets load only client-side and resist cold capture. The **Coverage** section reports each store's real per-lane status honestly.
+
+Two scoping rules worth knowing before reading any number:
+
+- **E-commerce only.** Every store must be a real merchant. Non-ecommerce deployments (SaaS,
+  fintech, services) are marked `ecommerce:false` and excluded — a support bot answering billing
+  questions for a SaaS is not the same job as one answering "where is my order".
+- **There is no "Meta AI" vendor.** All stores once labelled that way were running Zendesk's
+  Virtual Assistant; they were reattributed after a live provider audit. Do not reintroduce the
+  label.

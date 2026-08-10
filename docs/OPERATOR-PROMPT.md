@@ -11,7 +11,7 @@ No secrets needed (Amazon Rufus is optional and self-contained — see below).
 
 ```
 You are operating the Gorgias AI-agent competitive benchmark (repo: gorgias/ai-agent-benchmark,
-deployed at https://gorgias.github.io/ai-agent-benchmark/report.html). Your mission, end to end:
+deployed at https://gorgias-ai-benchmark.vercel.app/report — password-gated). Your mission, end to end:
 ADD ~300 NEW VALID CONVERSATIONS, get them blind-judged, merge the scores, rebake the report,
 pass the quality gate, and deploy. Everything you need is documented in docs/RUNBOOK.md — read
 it first and follow it over anything you'd improvise.
@@ -79,7 +79,7 @@ balancer — it does exactly this:
    push, open a PR with a body stating: convs added per vendor, new dataset totals
    (takeaways sync line prints them), judge batch means. Squash-merge it yourself
    (repo policy: PRs are merged immediately, no review wait), then force the Pages build:
-     gh api -X POST repos/gorgias/ai-agent-benchmark/pages/builds
+     vercel deploy --prod --yes     # Vercel, not Pages; then verify with server/verify-live.mjs
    and verify live (~15 s): curl the deployed takeaways.html and grep the new conv total.
 
 ## Cadence & reporting

@@ -105,12 +105,21 @@ git checkout -B <branch> origin/master
 git add -A          # bake outputs: report.html + conv-text.json (lazy turn text) + takeaways.html + eval-scores + convs
 git commit && git push -u origin <branch>
 gh pr create … && gh pr merge <pr> --squash --delete-branch
-gh api -X POST repos/gorgias/ai-agent-benchmark/pages/builds     # force Pages build
-curl -s https://gorgias.github.io/ai-agent-benchmark/report.html | grep <marker>  # verify live
+vercel deploy --prod --yes                                       # deploy the static site
+SITE_PASSWORD=… node ../server/verify-live.mjs                   # prove live == local
 ```
 
-Pages deploys from **master root**; the Actions trigger is unreliable — always force the
-build and verify with curl (usually live in ~15 s).
+**Deploys go to Vercel, not GitHub Pages.** Pages is dead: the old
+`gorgias.github.io/ai-agent-benchmark/*` URLs were ungated and now serve redirect stubs to the
+gated Vercel site. Never force a Pages build and never re-add a Pages workflow.
+
+`git push` alone does **not** update the board — the Vercel project is not git-connected, so a
+push without a deploy leaves the site stale. `verify-live.mjs` is what turns "deployed" into
+"proven deployed": it authenticates through the access gate and diffs the live page against the
+local bake. A plain `curl` only ever gets the login page.
+
+In normal operation you do not run any of this by hand — `server/publish.sh` does it on the
+scheduled Fly Machine. These commands are for a manual top-up or when the loop is blocked.
 
 ## 7. Teardown & hygiene
 
