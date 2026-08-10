@@ -1,0 +1,35 @@
+# Fly.io — nightly benchmark capture worker.
+#
+# Deliberately NOT a web service: there is nothing to serve. This is a scale-to-zero Machine that
+# wakes once a night, runs sourcing → capture → healthcheck, pushes raw conversations, and exits.
+# No [http_service] and no [[services]] block means Fly never routes traffic to it and never keeps
+# it warm — you pay for the ~3h it actually runs, not 720h a month.
+app = "gorgias-benchmark-capture"
+primary_region = "iad"                 # US East: the market the benchmark measures. Capturing US
+                                       # storefronts from the EU triggers GDPR consent gates that a
+                                       # US shopper never sees, and those were scoring as vendor
+                                       # failures (Topps, Rituals, Blakely all consent-gated).
+
+[build]
+  dockerfile = "server/Dockerfile"
+
+[env]
+  DAILY_TARGET   = "70"
+  PER_VENDOR     = "2"                 # new verified storefronts sourced per vendor per day
+  CONCURRENCY    = "5"                 # 5 conversations in parallel INSIDE one run.js process.
+                                       # Higher inflates measured latency, which is the headline
+                                       # metric — do not raise this to buy throughput.
+  CAPTURE_SECONDS = "10800"            # 3h; measured throughput is 20-39 valid convs/hour
+  PUSH_EVERY     = "600"               # incremental push: caps data loss at 10 min if killed
+  CAPTURE_LOG    = "/data/pipeline.log"
+
+# Persistent volume: the whole reason Fly beats a serverless container here. Conversations land on
+# disk before they are pushed, so a killed run leaves its work recoverable instead of vaporised.
+[mounts]
+  source      = "benchmark_data"
+  destination = "/data"
+
+[[vm]]
+  size      = "performance-2x"         # 2 dedicated vCPU / 4GB. DEDICATED matters more than core
+                                       # count: a throttled shared vCPU silently inflates latency.
+  memory    = "8gb"                    # 5 concurrent Chromium instances want headroom

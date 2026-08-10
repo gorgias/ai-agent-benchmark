@@ -13,4 +13,4 @@ COPY . .
 
 ENV BENCHMARK_CAPTURE_ORIGIN=server
 ENTRYPOINT ["/usr/bin/tini","--"]
-CMD ["bash","server/capture.sh"]
+CMD ["bash","server/pipeline.sh"]
