@@ -79,3 +79,84 @@ Everything that needs judgement: `eval-pack.js` → blind judge subagents → `e
 `vercel deploy --prod` → verify `live == local`. The gate refuses to deploy below 90% judge
 coverage, so a server that out-captures your judging simply queues work — it can never publish
 a half-evaluated board.
+
+---
+
+# The full daily stack
+
+Three independent services. Independent on purpose: sourcing must not be able to break capture,
+and neither can publish a board on its own.
+
+| # | Service | When | What it does | Fails how |
+|---|---|---|---|---|
+| 1 | `server/source-merchants.mjs` | 01:00 | Finds up to 2 NEW verified storefronts per vendor, appends them to `vendors.js`, pushes | Adds nothing. Capture continues on the existing store list. |
+| 2 | `server/capture.sh` | 02:00 | Balanced capture → pushes raw, unjudged conversations | No new conversations. Board unchanged. |
+| 3 | `server/healthcheck.mjs` | after capture | Detects anomalies, posts to Slack, exits 1 on critical | Cron/systemd surfaces the non-zero exit. |
+
+Judging, baking, the quality gate and the deploy stay on the laptop / the scheduled Claude task.
+That is the safety property: **a server that captures badly can never publish a bad board**,
+because publishing requires the gate, and the gate lives on the other side.
+
+```cron
+0 1 * * *  cd /home/bench/ai-agent-benchmark && SLACK_WEBHOOK_URL=$SLACK PER_VENDOR=2 node server/source-merchants.mjs >> /var/log/bench-sourcing.log 2>&1
+0 2 * * *  cd /home/bench/ai-agent-benchmark && bash server/capture.sh && SLACK_WEBHOOK_URL=$SLACK DAILY_TARGET=70 node server/healthcheck.mjs >> /var/log/bench-health.log 2>&1
+```
+
+## Why 70/day is comfortable
+
+Measured throughput over three real days: **20–39 valid conversations per hour** (mean ≈29), at
+concurrency 5, with a 20–30% hollow rate already netted out. 70 valid conversations therefore
+need roughly **2.5–3.5 hours** of capture. A 3-hour nightly window on a 4-vCPU box clears the
+target with margin, which is what you want — a run that has to sprint is a run that inflates its
+own latency measurements.
+
+## How equality is enforced (both dimensions)
+
+Two nested water-fills, both in `runner/tools/balance.mjs`, both vendor-blind:
+
+1. **Across vendors** — always feed the vendor furthest below the water-line. With `TARGET` unset
+   the line is the *current leader's count*, so the field levels up toward the front-runner and
+   the line can never go stale. (A hardcoded `TARGET` is what silently turned the daily job into
+   a no-op: every vendor had grown past it except one.)
+2. **Across stores, inside the chosen vendor** — always feed that vendor's *least-captured*
+   storefront, with rotation only as a tiebreak. Before this, the store pick was a round-robin
+   whose index reset every process, so head-of-list stores were captured repeatedly and 72
+   eligible storefronts had never been captured at all — one store owned 40–100% of several
+   vendors' data, which makes a vendor's score a single merchant's score.
+
+A never-captured store failing does **not** charge its vendor a strike: freshly sourced stores are
+unproven by construction, and penalising the vendor for them retired healthy vendors.
+
+## Slack alerts — what actually pages you
+
+Each check exists because that failure happened and produced *valid-looking logs with no error*.
+Silence is the enemy, so the alerter looks for the silence.
+
+| Check | Catches |
+|---|---|
+| Yield vs `DAILY_TARGET` | The silent no-op: stale ceiling, dead widget set, crashed balancer |
+| Hollow-capture rate | Our driver misreading a widget (text captured, no timed answer) |
+| Store concentration | A vendor's score collapsing onto one storefront |
+| Newly parked stores | Driver regressions — and 3+ at once means an environment problem, not 3 vendors breaking |
+| Latency drift vs 7-day p75 | **An undersized or throttled server** — the one failure that silently corrupts the headline metric |
+| Judge coverage | The queue growing before the gate blocks a deploy |
+| Provider mismatch/ambiguous | A store that switched vendors, or a second widget answering — scores landing on the wrong vendor |
+
+Set `SLACK_WEBHOOK_URL` (an incoming webhook — no MCP, no OAuth on the server). Without it the
+report prints to stdout, which is also what `--dry` does.
+
+## The candidate feed for sourcing
+
+Sourcing needs a **tech-detection dataset, not an LLM** — the server makes zero LLM calls.
+Preference order:
+
+1. `STORELEADS_API_KEY` — query merchants by *detected* chat technology. This is the right source:
+   it reflects what is installed, not what a vendor claims in marketing.
+2. `server/candidates.json` — `{ "Vendor": ["https://store.com", …] }`, a manual or exported seed.
+
+The feed only proposes. **Acceptance is always the same live check**, so a bad feed cannot reach
+the board: a real browser loads the storefront cold, the vendor's widget host must load, and a
+launcher must actually be **visible**. "Present" is not enough — a vendor can ship a non-chat
+bundle that mounts hidden containers with no chat API at all, and one such store had been scoring
+as that vendor's chat for 51 conversations. Stores where a second chat widget also loads are
+recorded with a note so the driver targets the right launcher rather than guessing.
