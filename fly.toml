@@ -44,6 +44,14 @@ primary_region = "iad"                 # US East: the market the benchmark measu
   source      = "benchmark_data"
   destination = "/data"
 
+# NEVER restart on failure. The pipeline exits non-zero on purpose — a critical healthcheck, a
+# failed quality gate, a deploy that did not take. Fly's default `on-failure` policy would read
+# those as crashes and relaunch a THREE-HOUR capture immediately, in a loop, for as long as the
+# condition persists: a large bill and a pile of duplicate captures, caused by the job correctly
+# reporting a problem. For a scheduled batch job the schedule is the retry mechanism.
+[[restart]]
+  policy = "no"
+
 [[vm]]
   size      = "performance-2x"         # 2 dedicated vCPU / 4GB. DEDICATED matters more than core
                                        # count: a throttled shared vCPU silently inflates latency.
