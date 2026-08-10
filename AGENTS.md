@@ -120,7 +120,7 @@ possible; wrappers set `automation`/`manual`. Override explicitly with
  eval-scores.json
       │  node gen.js                 (bake → report.html + takeaways.html + stats)
       ▼
- git commit + PR + auto-merge + `gh api ... /pages/builds`   (publish)
+ git commit + PR + auto-merge + `vercel deploy --prod` + verify-live   (publish)
 ```
 
 ### 3a. Capture (needs a real browser; you may not have a display — see note)
@@ -194,7 +194,8 @@ cd ..
 git checkout -b <branch> && git add -A && git commit -m "…"    # end commits with the Co-Authored-By trailer
 gh pr create --title "…" --body "…" && gh pr merge <url> --squash --admin
 git checkout master && git pull --ff-only origin master && git push personal master
-gh api -X POST repos/gorgias/ai-agent-benchmark/pages/builds   # force Pages rebuild (Actions can hang queued)
+vercel deploy --prod --yes                                     # Vercel, NOT GitHub Pages (Pages is dead)
+SITE_PASSWORD=… node ../server/verify-live.mjs                 # prove live == local; a push alone leaves it stale
 ```
 
 ---
