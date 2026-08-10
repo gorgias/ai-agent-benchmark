@@ -23,7 +23,7 @@ now explicit and in-band:
 | Guard | Refuses to publish when |
 |---|---|
 | `verify-data.js` — the hard gate | judge coverage < 90%, or any impossible statistic |
-| healthcheck verdict | latency inflated across ≥3 vendors (that is our box, not the vendors), or conversations attributed to the wrong vendor |
+| healthcheck verdict | latency inflated across ≥3 vendors — that is our box, not the vendors, and nothing downstream filters it |
 | evidence verification in `judge-api.mjs` | a passing check cites a quote that is not in the transcript |
 | `verify-live.mjs` | the deployed page does not match what was baked |
 
