@@ -1,23 +1,70 @@
-# Server capture (capture on a box, evals on your laptop)
+# The daily loop (one box, end to end)
 
-The pipeline already splits cleanly, so moving capture off the laptop is a hosting change, not
-a re-architecture:
+One scheduled Machine runs the whole thing and nothing needs a laptop:
 
 ```
-SERVER (this folder)                          LAPTOP / scheduled Claude task
-─────────────────────                         ──────────────────────────────
-balance.mjs → run.js → results/<date>/conv/   git pull
-      │                                       eval-pack → blind judges → eval-merge
-      └── git push  ──── raw, unjudged ──────▶ integrity-check → gen.js → verify-data (gate)
-                                              git push → vercel deploy → verify live==local
+source-merchants.mjs   +2 verified storefronts per vendor
+        ↓
+balance.mjs → run.js   balanced capture → results/<date>/conv/  ── git push every 10 min
+        ↓
+healthcheck.mjs        anomalies → Slack, and writes the publish verdict
+        ↓
+publish.sh             eval-pack → judge-api → eval-merge → integrity-check
+                       → gen.js → verify-data (HARD GATE) → git push
+                       → vercel deploy → verify-live.mjs (live == local)
 ```
 
-Raw conversations are additive and `gen.js` filters invalid ones, so the server pushing captures
-can **never** change the live board by itself. Judging, baking, the quality gate and the deploy
-stay where the judgement lives.
+## What stops a bad board going out
 
-**The server needs no Anthropic API key.** Capture is pure Playwright — zero LLM calls. Only the
-eval side spends tokens, and today that runs free through Claude Code subagents on the laptop.
+Capture used to push raw conversations and stop there, and publishing lived on a laptop — so the
+box *couldn't* publish a bad board. Closing the loop gives that separation up, so the protection is
+now explicit and in-band:
+
+| Guard | Refuses to publish when |
+|---|---|
+| `verify-data.js` — the hard gate | judge coverage < 90%, or any impossible statistic |
+| healthcheck verdict | latency inflated across ≥3 vendors (that is our box, not the vendors), or conversations attributed to the wrong vendor |
+| evidence verification in `judge-api.mjs` | a passing check cites a quote that is not in the transcript |
+| `verify-live.mjs` | the deployed page does not match what was baked |
+
+A failed gate still commits the judging work — scores cost money — but reverts the baked artifacts,
+so the repo never carries a board that did not pass. **A stale board is a far cheaper failure than
+a wrong one**, and every guard is written to prefer staleness.
+
+## The judge
+
+`runner/judge-api.mjs` scores conversations through the Anthropic API, reading the rubric from
+`runner/eval-rubric.md` so the spec stays versioned in one place. It is a drop-in for the Claude
+Code subagent judges: same blind batches in, same `scored-*.json` out.
+
+- **Blind by construction** — batches arrive anonymized from `eval-pack.js`; nothing re-introduces
+  vendor identity, and `map-*.json` is never shown to a judge.
+- **One conversation per call** — not for cost, for correctness: a batch-sized call invites scoring
+  relative to neighbours, and one truncation loses the whole batch.
+- **Evidence verified in code** — the rubric says a passing check must quote the transcript. Every
+  quote is checked against the transcript and the check is demoted to `fail` if it is not there.
+  Without this, "no quote → no credit" only catches *empty* quotes, not invented ones.
+
+Cost is roughly **$0.09/conversation** on `claude-opus-4-8` (~$6/night at 70/day), most of it
+output tokens. `JUDGE_MAX` caps a night. To trade cost for a different model, set `JUDGE_MODEL` —
+but run the calibration below first.
+
+### Before you change the judge model or prompt
+
+Rankings run over a trailing 90-day window, so the corpus always mixes conversations scored at
+different times. A judge that is systematically harsher or softer than the previous one moves every
+vendor for a reason that has nothing to do with vendor behaviour, and it lands hardest on whoever
+was captured most recently. Nothing else we check would catch it.
+
+```bash
+node runner/eval-pack.js /tmp/calib 6 --rejudge-file cohort.json   # already-scored conversations
+node runner/judge-api.mjs /tmp/calib
+node server/judge-calibrate.mjs /tmp/calib
+```
+
+The API judge was accepted on this basis: **bias −0.5 pts, r = 0.92** against a 22-conversation
+cohort spanning 0–100 in both lanes — indistinguishable from the subagent judges that built the
+corpus. Re-run it whenever the judge changes.
 
 ## What to run it on
 
@@ -72,30 +119,40 @@ Two things differ on a server and both can silently corrupt results. Check them 
    classifications versus the laptop baseline. If a vendor walls only on the server, that is an
    infrastructure artifact, not vendor behaviour — do not let it score as a failure.
 
-## What stays on the laptop
+## Secrets the box needs
 
-Everything that needs judgement: `eval-pack.js` → blind judge subagents → `eval-merge.js` →
-`integrity-check.js --quarantine` → `gen.js` → `verify-data.js` (hard gate) → push →
-`vercel deploy --prod` → verify `live == local`. The gate refuses to deploy below 90% judge
-coverage, so a server that out-captures your judging simply queues work — it can never publish
-a half-evaluated board.
+All via `fly secrets set` — never in a file, never in the image.
+
+| Secret | Without it |
+|---|---|
+| `GIT_SSH_KEY` (repo deploy key) or `GIT_TOKEN` | captures stay on the volume and never reach the board |
+| `ANTHROPIC_API_KEY` | nothing is judged, so nothing publishes; captures still accumulate |
+| `VERCEL_TOKEN` | the board is baked, gated and pushed, but the live site stays stale |
+| `SITE_PASSWORD` | the deploy happens but cannot be read back, so it reports **UNVERIFIED** rather than success |
+| `SLACK_WEBHOOK_URL` | alerts print to the log instead of reaching anyone |
+
+Each missing secret degrades one step and says so loudly — none of them fail silently.
 
 ---
 
 # The full daily stack
 
-Three independent services. Independent on purpose: sourcing must not be able to break capture,
-and neither can publish a board on its own.
+Four stages in one wake-up, run by `server/pipeline.sh`. Ordered, not independent — sourcing must
+finish before capture reads `vendors.js`, and publishing must not start until capture is done — but
+each stage fails without taking the next one down.
 
-| # | Service | When | What it does | Fails how |
-|---|---|---|---|---|
-| 1 | `server/source-merchants.mjs` | 01:00 | Finds up to 2 NEW verified storefronts per vendor, appends them to `vendors.js`, pushes | Adds nothing. Capture continues on the existing store list. |
-| 2 | `server/capture.sh` | 02:00 | Balanced capture → pushes raw, unjudged conversations | No new conversations. Board unchanged. |
-| 3 | `server/healthcheck.mjs` | after capture | Detects anomalies, posts to Slack, exits 1 on critical | Cron/systemd surfaces the non-zero exit. |
+| # | Stage | What it does | Fails how |
+|---|---|---|---|
+| 1 | `source-merchants.mjs` | Finds up to 2 NEW verified storefronts per vendor, appends them to `vendors.js` | Adds nothing. Capture continues on the existing store list. |
+| 2 | `balance.mjs` → `run.js` | Balanced capture → pushes raw conversations every 10 min | No new conversations. The board still republishes with what exists. |
+| 3 | `healthcheck.mjs` | Anomalies → Slack; writes the publish verdict | Publish proceeds; the verdict file is rewritten every run so it can never go stale. |
+| 4 | `publish.sh` | Judge → merge → bake → gate → push → deploy → verify | Board stays as it was. Judging work is still committed. |
 
-Judging, baking, the quality gate and the deploy stay on the laptop / the scheduled Claude task.
-That is the safety property: **a server that captures badly can never publish a bad board**,
-because publishing requires the gate, and the gate lives on the other side.
+Everything runs on one scale-to-zero Machine, so a whole day costs one boot.
+
+Why one script rather than four scheduled jobs: on scale-to-zero compute the container only exists
+for the length of one invocation, so sequencing in-process is both cheaper (one boot) and safer
+(no window where two stages overlap on the same volume).
 
 ## Scheduling: use Fly's own scheduler
 

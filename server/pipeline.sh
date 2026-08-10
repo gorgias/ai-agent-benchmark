@@ -3,10 +3,15 @@
 #
 #   1. source new merchants   (independent; adds verified storefronts, or adds nothing)
 #   2. capture                (balanced across vendors AND stores; pushes RAW convs)
-#   3. healthcheck            (anomaly detection → Slack; non-zero exit on critical)
+#   3. healthcheck            (anomaly detection → Slack; writes the publish verdict)
+#   4. publish                (judge → merge → bake → GATE → push → deploy → verify live)
 #
-# Judging, baking, the quality gate and the deploy are NOT here and never will be. That is the
-# safety property of this split: this box cannot publish a board, so it cannot publish a bad one.
+# Step 4 used to be deliberately absent: keeping publishing on a laptop meant this box could not
+# put a bad board in front of anyone. Closing the loop gives that up, so the protection had to move
+# in-band instead of being an org-chart accident — verify-data.js is a hard gate that runs before
+# any deploy, and the healthcheck can veto a publish whose data it already knows is wrong. See the
+# header of publish.sh. Capture still pushes raw conversations incrementally, so even a publish
+# that refuses to ship never loses a night's work.
 #
 # WHY ONE SCRIPT INSTEAD OF THREE CRON LINES: on a scale-to-zero Machine the container exists only
 # for the length of one invocation. Running the three services sequentially in a single wake-up is
@@ -21,7 +26,7 @@ PUSH_EVERY="${PUSH_EVERY:-600}"                 # incremental push interval (sec
 # rather than run blind.
 mkdir -p "$(dirname "$LOG")" 2>/dev/null || LOG=/tmp/pipeline.log
 touch "$LOG" 2>/dev/null || LOG=/tmp/pipeline.log
-say() { echo "$(date -Is) $*" | tee -a "$LOG"; }
+say() { echo "$(date -u +%Y-%m-%dT%H:%M:%SZ) $*" | tee -a "$LOG"; }
 
 git config --global user.email "${GIT_EMAIL:-benchmark-bot@gorgias.com}"
 git config --global user.name  "${GIT_NAME:-benchmark capture}"
@@ -62,7 +67,9 @@ if [ -f "$LOCK" ]; then
   LOCK_AGE=$(( $(date +%s) - $(stat -c %Y "$LOCK" 2>/dev/null || echo 0) ))
   # Stale lock: a machine killed mid-run leaves the file behind, so expire it past the longest
   # possible run rather than blocking every night forever.
-  if [ "$LOCK_AGE" -lt $(( CAPTURE_SECONDS + 1800 )) ]; then
+  # Budget for capture AND the publish phase that now follows it (judging ~70 conversations takes
+  # 20-40 min), or a still-healthy run would look stale and get trampled by the next trigger.
+  if [ "$LOCK_AGE" -lt $(( CAPTURE_SECONDS + 5400 )) ]; then
     say "another capture started ${LOCK_AGE}s ago (lock $LOCK) — exiting so latencies stay clean"
     exit 0
   fi
@@ -120,8 +127,22 @@ wait $BAL 2>/dev/null
 pkill -f 'chrome-headless-shell' 2>/dev/null
 push_convs                                                  # final push
 
-# ── 3. healthcheck → Slack ────────────────────────────────────────────────────
+# ── 3. healthcheck → Slack (also writes the publish verdict publish.sh reads) ──
 say "--- healthcheck ---"
 RUN_DATE="$D" node server/healthcheck.mjs 2>&1 | tee -a "$LOG"; HC=${PIPESTATUS[0]}
-say "===== PIPELINE DONE (healthcheck exit $HC) ====="
+
+# ── 4. publish ────────────────────────────────────────────────────────────────
+# Runs even when the healthcheck exited non-zero: most criticals are operational (nothing captured,
+# drivers regressed) and the right response is still to publish the judged backlog. The ones that
+# would put wrong numbers on the board set block_publish in the verdict, and publish.sh honours it.
+if [ "${SKIP_PUBLISH:-0}" != "1" ]; then
+  RUN_DATE="$D" bash server/publish.sh; PB=$?
+else
+  say "SKIP_PUBLISH=1 — capture only, board untouched"; PB=0
+fi
+
+say "===== PIPELINE DONE (healthcheck $HC, publish $PB) ====="
+# Surface the publish result first: a stale board is the failure a human needs to act on, whereas
+# a healthcheck warning about one night's yield usually resolves itself the next night.
+[ "$PB" -ne 0 ] && exit "$PB"
 exit $HC

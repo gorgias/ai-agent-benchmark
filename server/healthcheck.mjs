@@ -19,9 +19,16 @@ const DRY = process.argv.includes("--dry");
 const TODAY = process.env.RUN_DATE || new Date().toISOString().slice(0, 10);
 const DAILY_TARGET = Number(process.env.DAILY_TARGET || 70);   // valid convs expected per day
 const STATE = path.join(ROOT, "server", ".healthcheck-state.json");
+const VERDICT = path.join(ROOT, "server", ".healthcheck-verdict.json");
 
-const crit = [], warn = [], ok = [];
+const crit = [], warn = [], ok = [], block = [];
 const C = (m) => crit.push(m), W = (m) => warn.push(m), OK = (m) => ok.push(m);
+// CB = critical AND publish-blocking. The distinction matters now that publishing is automated:
+// most criticals are operational (a night captured nothing, drivers regressed) and the right
+// response is to publish the existing judged backlog anyway. Only failures that would put WRONG
+// NUMBERS on the board may block a deploy — a stale board beats a corrupted one, and a board
+// blocked for an operational hiccup is its own kind of failure.
+const CB = (m) => { crit.push(m); block.push(m); };
 
 // ── load every conversation once ───────────────────────────────────────────────
 const convs = [];
@@ -100,7 +107,7 @@ for (const v of Object.keys(byV)) {
   const d = Math.round(100 * (t - base) / base);
   if (d > 40) drift.push(`${v} p75 ${(t / 1000).toFixed(1)}s vs ${(base / 1000).toFixed(1)}s baseline (+${d}%)`);
 }
-if (drift.length >= 3) C(`*Latency inflated across ${drift.length} vendors*: ${drift.slice(0, 4).join(" · ")}. When several vendors slow at once the cause is almost always our box (CPU contention, too many parallel streams), not the vendors — do not publish this as vendor latency.`);
+if (drift.length >= 3) CB(`*Latency inflated across ${drift.length} vendors*: ${drift.slice(0, 4).join(" · ")}. When several vendors slow at once the cause is almost always our box (CPU contention, too many parallel streams), not the vendors — do not publish this as vendor latency.`);
 else if (drift.length) W(`Latency drift: ${drift.join(" · ")}.`);
 else OK("latency stable vs 7-day baseline");
 
@@ -127,7 +134,7 @@ if (existsSync(scoresPath)) {
 // ── 7. PROVIDER ATTRIBUTION — a store that switched vendors, or where a second
 // widget answers, silently scores one vendor's behaviour as another's. ────────
 const mm = today.filter((c) => c.mismatch).length, amb = today.filter((c) => c.ambiguous).length;
-if (mm) C(`*${mm} conversations with a provider MISMATCH today* — the widget that answered is not the vendor on record. Those scores belong to the wrong vendor until the store row is corrected.`);
+if (mm) CB(`*${mm} conversations with a provider MISMATCH today* — the widget that answered is not the vendor on record. Those scores belong to the wrong vendor until the store row is corrected.`);
 else if (amb) W(`${amb} conversations flagged provider-ambiguous (expected vendor present but out-ranked by another chat widget on the page).`);
 else OK("provider attribution clean");
 
@@ -139,11 +146,15 @@ const lines = [
   `${valid} valid / ${today.length} captured · ${Object.keys(byV).length} vendors`,
   ...crit.map((m) => `:red_circle: ${m}`),
   ...warn.map((m) => `:large_yellow_circle: ${m}`),
+  ...(block.length ? [`:no_entry: *Publish blocked* — the board will not be updated until this is resolved.`] : []),
   ...(crit.length || warn.length ? [] : [`_${ok.join(" · ")}_`]),
 ];
 const text = lines.join("\n");
 
 writeFileSync(STATE, JSON.stringify({ parked: parkedNow, at: new Date().toISOString() }, null, 1));
+// Machine-readable verdict for publish.sh. Written unconditionally (including on a clean run) so a
+// stale verdict from a previous night can never authorise or block today's publish.
+writeFileSync(VERDICT, JSON.stringify({ block_publish: block.length > 0, reasons: block, level, run_date: TODAY, at: new Date().toISOString() }, null, 1));
 
 if (DRY || !process.env.SLACK_WEBHOOK_URL) {
   console.log(text);
