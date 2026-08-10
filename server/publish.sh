@@ -150,9 +150,9 @@ git push origin HEAD:master >/dev/null 2>&1 && say "pushed board to master" || s
 # On the server the token is the only way in. On a laptop the CLI is usually already logged in, and
 # demanding a token there would make this script untestable outside the container — which is how
 # deploy bugs reach production in the first place.
-TOKEN_ARG=()
+USE_TOKEN=0
 if [ -n "${VERCEL_TOKEN:-}" ]; then
-  TOKEN_ARG=(--token "$VERCEL_TOKEN")
+  USE_TOKEN=1
 elif vercel whoami >/dev/null 2>&1; then
   say "no VERCEL_TOKEN, but the local Vercel CLI is authenticated — using that session"
 else
@@ -164,10 +164,20 @@ say "--- deploying to Vercel ---"
 # Prefer the CLI baked into the image. Falling back to npx would work, but it puts an npm download
 # on the critical path of an unattended 2am job — one registry hiccup and the board silently
 # doesn't ship.
-if command -v vercel >/dev/null 2>&1; then VC=(vercel); else VC=(npx --yes "vercel@${VERCEL_CLI_VERSION:-53}"); say "vercel CLI not in image — falling back to npx"; fi
-DEPLOY=$("${VC[@]}" deploy --prod --yes "${TOKEN_ARG[@]}" 2>&1 | tail -5)
-say "$DEPLOY"
-if ! echo "$DEPLOY" | grep -qE 'https://'; then
+if command -v vercel >/dev/null 2>&1; then VC="vercel"; else VC="npx --yes vercel@${VERCEL_CLI_VERSION:-53}"; say "vercel CLI not in image — falling back to npx"; fi
+# Written as two plain invocations rather than an argument array on purpose: bash 3.2 (the macOS
+# default) errors on an empty array under `set -u`, which would make this script impossible to test
+# outside the container — and an untestable deploy path is how deploy bugs reach production.
+# Capture the WHOLE output and search all of it for the URL. Tailing first and grepping the tail
+# looks equivalent and is not: the CLI prints a JSON footer after the deployment URL, so a tail-5
+# contains no URL at all and a successful deploy reads as a failure.
+if [ "$USE_TOKEN" = "1" ]; then
+  DEPLOY=$($VC deploy --prod --yes --token "$VERCEL_TOKEN" 2>&1)
+else
+  DEPLOY=$($VC deploy --prod --yes 2>&1)
+fi
+say "$(echo "$DEPLOY" | grep -E 'Production:|Aliased:|error|Error' | head -4)"
+if ! echo "$DEPLOY" | grep -qE '"readyState": *"READY"|Aliased: *https://'; then
   say "deploy produced no URL — treating as failed"
   slack ":red_circle: *Benchmark deploy failed* — the board passed the gate and is pushed to master, but \`vercel deploy\` did not return a URL. Live site unchanged.
 \`\`\`$(echo "$DEPLOY" | tail -3)\`\`\`"
