@@ -79,6 +79,23 @@ date +%s > "$LOCK"
 trap 'rm -f "$LOCK"' EXIT
 
 say "===== PIPELINE START ====="
+
+# REFUSE TO RUN WITHOUT THE VOLUME. This is not about losing data — it is the anti-collision lock.
+# The lock lives on /data so it is shared across machines of this app, which means a machine that
+# booted WITHOUT the volume never sees it and happily starts a second concurrent capture. Two
+# captures at once inflate every measured latency, and latency is the headline metric — so the
+# corruption is silent and lands directly on the board. (This happened: a one-off `fly machine run`
+# started the default CMD on a volumeless machine in another region while the real run was live.)
+# A missing volume means this machine is not the scheduled worker, so it must do nothing at all.
+# Read /proc/mounts rather than call `mountpoint`: if that binary were ever absent from the image,
+# the check would fail closed and silently stop the job running at all — a guard that can disable
+# the whole pipeline is worse than the collision it prevents.
+if [ "${REQUIRE_VOLUME:-1}" = "1" ] && ! grep -q " /data " /proc/mounts 2>/dev/null; then
+  say "/data is not a mounted volume — refusing to run so this cannot become a second concurrent capture."
+  say "         If you meant to run a one-off, set REQUIRE_VOLUME=0 and expect no cross-machine locking."
+  exit 0
+fi
+
 git pull --rebase --autostash origin master >/dev/null 2>&1 || true
 
 # ── 1. sourcing (independent: a failure here must not stop capture) ────────────
