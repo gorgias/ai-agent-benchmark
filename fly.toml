@@ -1,9 +1,12 @@
-# Fly.io — nightly benchmark capture worker.
+# Fly.io — nightly benchmark worker: capture, judge, bake, gate, deploy.
 #
 # Deliberately NOT a web service: there is nothing to serve. This is a scale-to-zero Machine that
-# wakes once a night, runs sourcing → capture → healthcheck, pushes raw conversations, and exits.
-# No [http_service] and no [[services]] block means Fly never routes traffic to it and never keeps
-# it warm — you pay for the ~3h it actually runs, not 720h a month.
+# wakes once a night, runs sourcing → capture → healthcheck → publish, and exits. No [http_service]
+# and no [[services]] block means Fly never routes traffic to it and never keeps it warm — you pay
+# for the ~4h it actually runs, not 720h a month.
+#
+# Secrets (fly secrets set …, never in this file): GIT_SSH_KEY or GIT_TOKEN, ANTHROPIC_API_KEY,
+# VERCEL_TOKEN, SITE_PASSWORD, SLACK_WEBHOOK_URL.
 app = "gorgias-benchmark-capture"
 primary_region = "iad"                 # US East: the market the benchmark measures. Capturing US
                                        # storefronts from the EU triggers GDPR consent gates that a
@@ -22,6 +25,18 @@ primary_region = "iad"                 # US East: the market the benchmark measu
   CAPTURE_SECONDS = "10800"            # 3h; measured throughput is 20-39 valid convs/hour
   PUSH_EVERY     = "600"               # incremental push: caps data loss at 10 min if killed
   CAPTURE_LOG    = "/data/pipeline.log"
+
+  # ── judging + deploy ────────────────────────────────────────────────────────
+  JUDGE_MODEL       = "claude-opus-4-8"
+  JUDGE_CONCURRENCY = "4"
+  JUDGE_MAX         = "150"            # cost ceiling per night (~$13 at ~$0.09/conversation).
+                                       # A normal night judges ~70; the headroom lets a backlog
+                                       # drain without letting a runaway bill run unattended.
+  EVAL_BATCH_DIR    = "/data/eb"       # on the volume: a killed run resumes instead of re-judging
+  # Vercel project identity. NOT secrets (the token is), and required because .vercel/ is
+  # gitignored, so the CLI has no project link to read inside the container.
+  VERCEL_ORG_ID     = "team_vYmSPwekFJOPhVoUuAGAMPGK"
+  VERCEL_PROJECT_ID = "prj_Y7hKwp6KD568yGRxReyr8xtggNrv"
 
 # Persistent volume: the whole reason Fly beats a serverless container here. Conversations land on
 # disk before they are pushed, so a killed run leaves its work recoverable instead of vaporised.
