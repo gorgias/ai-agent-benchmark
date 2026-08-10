@@ -22,6 +22,18 @@ git config --global user.email "${GIT_EMAIL:-benchmark-bot@gorgias.com}"
 git config --global user.name  "${GIT_NAME:-benchmark capture}"
 git config --global --add safe.directory "$(pwd)"
 
+# Git auth inside the container. The image is built from the local checkout, so `origin` is
+# whatever it was on the build machine — usually an SSH URL, and there is no SSH agent here.
+# A fine-grained token scoped to Contents:write on this one repo is the least-privilege way in;
+# it is passed as a Fly secret so it never lands in the image or the logs.
+if [ -n "${GIT_TOKEN:-}" ]; then
+  git remote set-url origin "https://x-access-token:${GIT_TOKEN}@github.com/${GIT_REPO:-gorgias/ai-agent-benchmark}.git"
+fi
+if ! git ls-remote --exit-code origin >/dev/null 2>&1; then
+  say "WARNING: cannot reach origin — captures will stay on the volume and never reach the board."
+  say "         Set the GIT_TOKEN secret (fine-grained PAT, Contents: write) and redeploy."
+fi
+
 say "===== PIPELINE START ====="
 git pull --rebase --autostash origin master >/dev/null 2>&1 || true
 
