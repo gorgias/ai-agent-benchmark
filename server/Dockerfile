@@ -3,7 +3,7 @@
 FROM mcr.microsoft.com/playwright:v1.49.0-jammy
 
 # xvfb: the headed-only vendors (Rep AI, Kodif, Humind) need a real display to capture cleanly.
-RUN apt-get update && apt-get install -y --no-install-recommends xvfb git tini \
+RUN apt-get update && apt-get install -y --no-install-recommends xvfb git tini openssh-client \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
