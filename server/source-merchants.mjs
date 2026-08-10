@@ -24,13 +24,15 @@ import { readFileSync, writeFileSync, existsSync } from "node:fs";
 import path from "node:path";
 import { execFileSync } from "node:child_process";
 import { createRequire } from "node:module";
+import { pathToFileURL } from "node:url";
 
 const ROOT = path.resolve(new URL(".", import.meta.url).pathname, "..");
 const RUNNER = path.join(ROOT, "runner");
 const require = createRequire(path.join(RUNNER, "package.json"));
-const { STORES } = require(path.join(RUNNER, "vendors.js"));
-const { SIGNATURES } = await import(path.join(RUNNER, "provider-detect.js"))
-  .then((m) => ({ SIGNATURES: m.SIGNATURES || null })).catch(() => ({ SIGNATURES: null }));
+// vendors.js is an ES module. require()-ing ESM only works on Node >= 22.12, and the container
+// runs 22.11 — so this threw ERR_REQUIRE_ESM on the server while working fine on a newer local
+// Node. Use a dynamic import so the version of Node stops mattering.
+const { STORES } = await import(pathToFileURL(path.join(RUNNER, "vendors.js")).href);
 
 const DRY = process.argv.includes("--dry");
 const PER_VENDOR = Number(process.env.PER_VENDOR || 2);
