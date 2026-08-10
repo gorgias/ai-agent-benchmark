@@ -16,6 +16,11 @@ cd "$(dirname "${BASH_SOURCE[0]}")/.." || exit 1
 LOG="${CAPTURE_LOG:-/data/pipeline.log}"
 CAPTURE_SECONDS="${CAPTURE_SECONDS:-10800}"     # 3h — measured throughput puts 70 valid convs at ~2.5-3h
 PUSH_EVERY="${PUSH_EVERY:-600}"                 # incremental push interval (seconds)
+# Robust logging: if the log directory is missing (e.g. a run without the volume attached), tee
+# fails and — because say() pipes through it — every line would vanish silently. Fall back to /tmp
+# rather than run blind.
+mkdir -p "$(dirname "$LOG")" 2>/dev/null || LOG=/tmp/pipeline.log
+touch "$LOG" 2>/dev/null || LOG=/tmp/pipeline.log
 say() { echo "$(date -Is) $*" | tee -a "$LOG"; }
 
 git config --global user.email "${GIT_EMAIL:-benchmark-bot@gorgias.com}"

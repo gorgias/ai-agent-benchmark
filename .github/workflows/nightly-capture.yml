@@ -21,8 +21,14 @@ jobs:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
         # The Machine runs the pipeline and exits on its own, so this returns immediately.
         # --restart no: a failed capture must NOT loop; the healthcheck already alerts on Slack.
+        # Fly tags images `deployment-<id>`, NOT `latest` — passing :latest fails with
+        # "Could not find image", which would have broken this on the very first night.
+        # Resolve the currently-deployed image instead of guessing a tag.
         run: |
-          flyctl machine run --app gorgias-benchmark-capture \
+          IMG=$(flyctl status --app gorgias-benchmark-capture \
+                | grep -oE 'gorgias-benchmark-capture:deployment-[A-Z0-9]+' | head -1)
+          if [ -z "$IMG" ]; then echo "could not resolve deployed image"; exit 1; fi
+          echo "starting registry.fly.io/$IMG"
+          flyctl machine run "registry.fly.io/$IMG" --app gorgias-benchmark-capture \
             --region iad --vm-size performance-2x --vm-memory 8192 \
-            --volume benchmark_data:/data --restart no --detach \
-            registry.fly.io/gorgias-benchmark-capture:latest
+            --volume benchmark_data:/data --restart no --detach
