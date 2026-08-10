@@ -97,10 +97,23 @@ Judging, baking, the quality gate and the deploy stay on the laptop / the schedu
 That is the safety property: **a server that captures badly can never publish a bad board**,
 because publishing requires the gate, and the gate lives on the other side.
 
-```cron
-0 1 * * *  cd /home/bench/ai-agent-benchmark && SLACK_WEBHOOK_URL=$SLACK PER_VENDOR=2 node server/source-merchants.mjs >> /var/log/bench-sourcing.log 2>&1
-0 2 * * *  cd /home/bench/ai-agent-benchmark && bash server/capture.sh && SLACK_WEBHOOK_URL=$SLACK DAILY_TARGET=70 node server/healthcheck.mjs >> /var/log/bench-health.log 2>&1
+## Scheduling: use Fly's own scheduler
+
+GitHub Actions is **disabled for this repository by the `gorgias` organization** (the API returns
+`409 — GitHub Actions is disabled on this repository by the organization`). A repo admin cannot
+override it; only an org owner can. `.github/workflows/nightly-capture.yml` is therefore inert
+and kept only in case that policy changes.
+
+Fly schedules Machines natively, which is better here anyway — no external scheduler, no Fly token
+stored in a third-party system, one less thing to expire:
+
+```bash
+fly machine update <machine-id> --schedule daily -a gorgias-benchmark-capture
 ```
+
+Create or update the machine at the hour you want the run to happen: Fly repeats it on roughly
+that cadence. Aim for local night in the US (the market being measured), and remember the
+anti-collision lock means a stray extra trigger exits harmlessly instead of corrupting latencies.
 
 ## Why 70/day is comfortable
 
