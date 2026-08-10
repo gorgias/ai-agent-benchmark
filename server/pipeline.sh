@@ -52,6 +52,25 @@ if ! git ls-remote --exit-code origin >/dev/null 2>&1; then
   say "         Set GIT_SSH_KEY (repo deploy key, write access) or GIT_TOKEN, then redeploy."
 fi
 
+# ANTI-COLLISION LOCK. Two captures running at once inflate every measured latency, which
+# corrupts the headline metric far more quietly than a missed night costs. This can happen easily:
+# a manual trigger while the scheduled run is still going, or a retry after a perceived failure.
+# The lock lives on the volume so it survives across machines of the same app.
+LOCK="${LOCK_FILE:-/data/capture.lock}"
+mkdir -p "$(dirname "$LOCK")" 2>/dev/null || LOCK=/tmp/capture.lock
+if [ -f "$LOCK" ]; then
+  LOCK_AGE=$(( $(date +%s) - $(stat -c %Y "$LOCK" 2>/dev/null || echo 0) ))
+  # Stale lock: a machine killed mid-run leaves the file behind, so expire it past the longest
+  # possible run rather than blocking every night forever.
+  if [ "$LOCK_AGE" -lt $(( CAPTURE_SECONDS + 1800 )) ]; then
+    say "another capture started ${LOCK_AGE}s ago (lock $LOCK) — exiting so latencies stay clean"
+    exit 0
+  fi
+  say "stale lock (${LOCK_AGE}s old) — taking over"
+fi
+date +%s > "$LOCK"
+trap 'rm -f "$LOCK"' EXIT
+
 say "===== PIPELINE START ====="
 git pull --rebase --autostash origin master >/dev/null 2>&1 || true
 
