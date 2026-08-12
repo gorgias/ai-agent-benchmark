@@ -914,17 +914,31 @@ export const WIDGETS = {
 };
 
 // Generic launcher-open: dismiss consent, then click the most chat-like control.
+// Poll for the launcher instead of one scan after a fixed sleep (bug found 2026-08-12, klaviyo-
+// happywax): run.js navigates with waitUntil:"commit" (returns on first byte, long before the
+// page's JS runs), so a single scan at a fixed 2500ms is a race against how fast THIS store's
+// scripts inject a clickable launcher — and it is a race some stores lose EVERY time, not
+// intermittently. Measured on happywax (6 web-pixel sandboxes competing for the main thread): the
+// launcher was not clickable until t=3000ms, just past the old deadline, so every single
+// conversation on that store failed identically: transcript never opens, complete_ms stays null
+// forever. That reads as "the vendor doesn't answer" when the vendor was never even asked.
+// Bounded at 9s so a genuinely launcher-less page (a store with no chat widget at all) still fails
+// fast rather than stalling every turn's budget.
 async function genericOpenChat(page) {
   await dismiss(page);
-  await page.waitForTimeout(2500);
-  const clicked = await page.evaluate(() => {
-    const rx = /chat|message|assistant|help|concierge|ask/i;
-    const cands = [...document.querySelectorAll('button,[role="button"],a,div[class*="launch" i],div[class*="chat" i],[aria-label]')]
-      .filter(el => rx.test(el.getAttribute("aria-label") || "") || rx.test(el.className || "") || rx.test(el.id || ""));
-    const btn = cands.find(el => el.offsetParent !== null) || cands[0];
-    if (btn) { btn.click(); return true; }
-    return false;
-  }).catch(() => false);
+  const deadline = Date.now() + 9000;
+  let clicked = false;
+  while (Date.now() < deadline && !clicked) {
+    await page.waitForTimeout(500);
+    clicked = await page.evaluate(() => {
+      const rx = /chat|message|assistant|help|concierge|ask/i;
+      const cands = [...document.querySelectorAll('button,[role="button"],a,div[class*="launch" i],div[class*="chat" i],[aria-label]')]
+        .filter(el => rx.test(el.getAttribute("aria-label") || "") || rx.test(el.className || "") || rx.test(el.id || ""));
+      const btn = cands.find(el => el.offsetParent !== null) || cands[0];
+      if (btn) { btn.click(); return true; }
+      return false;
+    }).catch(() => false);
+  }
   await page.waitForTimeout(4000);
   await fillAnyChatEmailGate(page).catch(() => {});
   return clicked;
