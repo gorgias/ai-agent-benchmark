@@ -17,21 +17,29 @@ primary_region = "iad"                 # US East: the market the benchmark measu
   dockerfile = "server/Dockerfile"
 
 [env]
-  DAILY_TARGET   = "70"
+  DAILY_TARGET   = "150"               # raised from 70 (2026-08-12, Max) — see CAPTURE_SECONDS note
   PER_VENDOR     = "2"                 # new verified storefronts sourced per vendor per day
   CONCURRENCY    = "5"                 # 5 conversations in parallel INSIDE one run.js process.
-                                       # Higher inflates measured latency, which is the headline
-                                       # metric — do not raise this to buy throughput.
-  CAPTURE_SECONDS = "10800"            # 3h; measured throughput is 20-39 valid convs/hour
+                                       # STRUCTURAL ceiling, not a CPU one: raising this risks
+                                       # inflating measured latency (the headline metric) by
+                                       # running more simultaneous sessions against the same
+                                       # store's backend than a real shopper ever would. A bigger
+                                       # machine cannot lift this — do not raise it to buy volume.
+  CAPTURE_SECONDS = "19800"            # 5.5h, raised from 3h to reach a 150/day target. At the
+                                       # historical mean of ~29 valid convs/hour this clears 150
+                                       # with margin; BUDGET below is a hard ceiling well above
+                                       # target, so an unexpectedly high throughput exits early
+                                       # via the adaptive water-line rather than overshooting.
   PUSH_EVERY     = "600"               # incremental push: caps data loss at 10 min if killed
   CAPTURE_LOG    = "/data/pipeline.log"
 
   # ── judging + deploy ────────────────────────────────────────────────────────
   JUDGE_MODEL       = "claude-opus-4-8"
   JUDGE_CONCURRENCY = "4"
-  JUDGE_MAX         = "150"            # cost ceiling per night (~$13 at ~$0.09/conversation).
-                                       # A normal night judges ~70; the headroom lets a backlog
-                                       # drain without letting a runaway bill run unattended.
+  JUDGE_MAX         = "300"            # cost ceiling per night (~$27 at ~$0.09/conversation).
+                                       # Kept at ~2x DAILY_TARGET, same ratio as before (150 vs a
+                                       # 70 target) — the headroom lets a backlog drain without
+                                       # letting a runaway bill run unattended.
   EVAL_BATCH_DIR    = "/data/eb"       # on the volume: a killed run resumes instead of re-judging
   # Vercel project identity. NOT secrets (the token is), and required because .vercel/ is
   # gitignored, so the CLI has no project link to read inside the container.

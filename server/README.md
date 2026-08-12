@@ -193,13 +193,33 @@ Three traps, each of which cost a real incident:
    without the volume for exactly this reason; only override with `REQUIRE_VOLUME=0` when you know
    the scheduled machine is stopped.
 
-## Why 70/day is comfortable
+## Why 150/day, and the two separate levers behind it
 
 Measured throughput over three real days: **20–39 valid conversations per hour** (mean ≈29), at
-concurrency 5, with a 20–30% hollow rate already netted out. 70 valid conversations therefore
-need roughly **2.5–3.5 hours** of capture. A 3-hour nightly window on a 4-vCPU box clears the
-target with margin, which is what you want — a run that has to sprint is a run that inflates its
-own latency measurements.
+concurrency 5. Two independent problems were found and fixed on 2026-08-12 after two unattended
+runs came in at 12 and 17 valid conversations against the *old* 70/day target — worth understanding
+because they point at two different knobs, and conflating them leads to the wrong fix:
+
+- **Yield (% of attempts that produce a valid conversation).** The store-least-captured-first pick
+  (below) kept re-selecting storefronts that were structurally dead, and `genericOpenChat` scanned
+  for the chat launcher once at a fixed 2500ms — a race some heavier stores lost *every* time, not
+  intermittently. Both fixed: dead stores auto-park after repeated 0-valid runs, and the launcher
+  scan now polls for up to 9s. On top of that, `CONCURRENCY=5` — 5 headless Chromium contexts
+  rendering modern storefronts at once — was starved on the original 2-vCPU machine; three
+  previously-100%-dead stores captured cleanly at `concurrency=1` with identical driver code,
+  isolating CPU contention rather than a driver bug. Fixed by moving to `performance-4x`.
+- **Throughput (total attempts within the window).** `CONCURRENCY` cannot be raised past 5 to buy
+  this — it is a structural ceiling, not a CPU one: more simultaneous sessions against the same
+  store's backend risks inflating the vendor's *measured* latency past what a real shopper would
+  see, and latency is the headline metric. A bigger machine cannot lift this ceiling, which is why
+  `performance-4x` (not 8x or 16x) is the right size — enough dedicated CPU per browser context,
+  no more. The only safe lever for more attempts is a longer wall-clock window:
+  `CAPTURE_SECONDS`, now 5.5h (was 3h). At the measured mean this clears 150/day with margin;
+  `BUDGET` (400, unchanged) is a hard ceiling well above target, so higher-than-expected post-fix
+  throughput exits early via the adaptive water-line rather than overshooting.
+
+A run that has to sprint is a run that inflates its own latency measurements — the 5.5h window, not
+a higher concurrency, is what buys the extra volume.
 
 ## How equality is enforced (both dimensions)
 
