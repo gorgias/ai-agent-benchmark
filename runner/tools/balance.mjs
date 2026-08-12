@@ -65,6 +65,51 @@ const TRIAGE_FILE = new URL("../driver-triage.json", import.meta.url).pathname;
 const triage = existsSync(TRIAGE_FILE) ? JSON.parse(readFileSync(TRIAGE_FILE, "utf8")) : { stores: {} };
 const parked = new Set(Object.entries(triage.stores || {}).filter(([, e]) => !e.fixed).map(([k]) => k));
 
+// DEAD-STORE AUTO-PARK. The triage ledger above only holds stores a human (or a probe) parked, and
+// nothing ever writes to it automatically — so a storefront that silently returns nothing keeps
+// being selected forever. Combined with the least-captured-first store pick below, that is actively
+// perverse: a store that never yields a valid conversation stays permanently at count 0, so it is
+// permanently FIRST in line, every single run, while the stores that do work accumulate counts and
+// get demoted behind it.
+//
+// Measured on the first two unattended runs: intercom-gymshark 0 valid/20 attempts, siena-spanx
+// 0/10, siena-plg 0/10, siena-mudwtr 0/6, siena-figs 0/5 — six of nine store slots produced nothing,
+// while siena-bboutique went 10/10. Roughly two of the three capture hours were spent on stores that
+// cannot produce data.
+//
+// Judged on RECENT attempts, not all-time, so a store that used to work and broke (gymshark has 50
+// lifetime valid conversations and 0 in the last 20 attempts) is caught too. A store parked this way
+// is retried once its last attempt is over RETRY_AFTER_DAYS old, so a vendor-side fix lets it back in
+// without anyone noticing it was parked — this must never become a permanent blacklist.
+const DEAD_WINDOW = Number(process.env.DEAD_WINDOW || 10);        // recent attempts to judge on
+const DEAD_MIN = Number(process.env.DEAD_MIN || 8);               // need this many before parking
+const RETRY_AFTER_DAYS = Number(process.env.RETRY_AFTER_DAYS || 7);
+function deadStores() {
+  const hist = {};                       // key → [{date, valid}] oldest→newest
+  for (const d of readdirSync("results").filter(x => /^2026/.test(x)).sort()) {
+    let files; try { files = readdirSync(`results/${d}/conv`); } catch { continue; }
+    for (const f of files) {
+      if (!f.endsWith(".json")) continue;
+      let j; try { j = JSON.parse(readFileSync(`results/${d}/conv/${f}`, "utf8")); } catch { continue; }
+      if (!j.key) continue;
+      (hist[j.key] = hist[j.key] || []).push({ date: d, valid: j.valid !== false });
+    }
+  }
+  const dead = new Map();
+  const cutoff = new Date(Date.now() - RETRY_AFTER_DAYS * 864e5).toISOString().slice(0, 10);
+  for (const [k, all] of Object.entries(hist)) {
+    const recent = all.slice(-DEAD_WINDOW);
+    if (recent.length < DEAD_MIN) continue;                       // too few attempts to condemn it
+    if (recent.some((r) => r.valid)) continue;                    // it still produces — keep it
+    if (all[all.length - 1].date < cutoff) continue;              // stale verdict → give it another go
+    dead.set(k, recent.length);
+  }
+  return dead;
+}
+const dead = deadStores();
+if (dead.size) L(`auto-parked ${dead.size} dead store(s) — 0 valid in their last ${DEAD_MIN}+ attempts: ` +
+  [...dead].map(([k, n]) => `${k} (0/${n})`).join(", "));
+
 for (const s of STORES) {
   if (EXCLUDE.has(s.vendor)) continue;
   if (INCLUDE.length && !INCLUDE.includes(s.vendor)) continue;
@@ -74,6 +119,7 @@ for (const s of STORES) {
   if (s.ecommerce === false) continue;     // excluded from the board by the e-commerce-only rule
   if (s.wall) continue;                    // probed structural wall (recaptcha, human front door…)
   if (parked.has(s.key)) continue;         // parked by the self-improvement loop, awaiting a driver fix
+  if (dead.has(s.key)) continue;           // auto-parked: 0 valid conversations in its recent attempts
   (byV[s.vendor] = byV[s.vendor] || []).push(s);
 }
 
