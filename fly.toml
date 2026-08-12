@@ -57,6 +57,13 @@ primary_region = "iad"                 # US East: the market the benchmark measu
   policy = "never"
 
 [[vm]]
-  size      = "performance-2x"         # 2 dedicated vCPU / 4GB. DEDICATED matters more than core
-                                       # count: a throttled shared vCPU silently inflates latency.
+  # Bumped 2x → 4x (2026-08-12, evidence-backed, not a guess): CONCURRENCY=5 means 5 headless
+  # Chromium contexts loading modern e-commerce sites (several run 5-6 tracking-pixel sandboxes
+  # each) at once. On 2x, three previously-"dead" stores (klaviyo-happywax, intercom-flaviar,
+  # klaviyo-onefastcat) went from 0/N valid at concurrency=5 to a clean, fully-measured
+  # conversation (T1/T2/T3 all timed) at concurrency=1, run with the IDENTICAL widget driver code
+  # — isolating CPU contention, not a driver bug, as the cause. DEDICATED vCPUs still matter more
+  # than raw count (a throttled shared vCPU silently inflates latency), but 2 dedicated cores for
+  # 5 concurrent browsers was simply undersized for the page weight these stores carry.
+  size      = "performance-4x"         # 4 dedicated vCPU / 8GB
   memory    = "8gb"                    # 5 concurrent Chromium instances want headroom
