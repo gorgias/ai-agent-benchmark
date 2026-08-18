@@ -187,7 +187,12 @@ async function tick(){
   }catch(e){ document.getElementById('upd').textContent='(offline — retrying)'; }
 }
 tick(); setInterval(tick, 8000);   // auto-refresh — the page updates itself, no rebuild needed
-</script></body></html>
+</script>
+<footer style="margin-top:60px;padding:34px 26px 46px;border-top:1px solid rgba(30,36,46,.10);text-align:center;font-size:12.5px;color:#5c6370">
+  <div style="font-family:'Inter Tight';font-weight:800;font-size:14px;margin-bottom:8px">GORGIAS · AI AGENT BENCHMARK</div>
+  <a href="takeaways.html" style="color:#683fcf;font-weight:600;text-decoration:none;margin:0 10px">Summary</a> · <a href="report.html" style="color:#683fcf;font-weight:600;text-decoration:none;margin:0 10px">Best AI Agent</a> · <a href="vendor-changes.html" style="color:#683fcf;font-weight:600;text-decoration:none;margin:0 10px">Vendor changes</a>
+</footer>
+</body></html>
 `;
 
 async function refresh() {
