@@ -158,7 +158,20 @@ if (accepted.length && !DRY) {
     + `  // real browser: the vendor's widget host loaded AND a launcher/container mounted on a cold\n`
     + `  // anonymous visit. candidate:true until a capture proves it drivable end-to-end.\n`
     + rows.join("\n") + "\n";
-  src = src.replace(/\n\];\s*$/, block + "];\n");
+  // Insert before STORES's OWN closing "];", not end-of-file: vendors.js has ~90 lines of helper
+  // functions (findFrame, readTranscript, …) AFTER the array, so a `$`-anchored end-of-file regex
+  // never matches and .replace() silently no-ops — the write looks like it worked (require() still
+  // parses the UNCHANGED file fine) but nothing is actually added, and the following `git commit`
+  // then fails on "nothing to commit" every single time. (Found 2026-08-18: two verification runs
+  // each reported N verified stores and then failed to commit, twice in a row, with vendors.js
+  // never actually gaining a byte.) Anchor on the STORES declaration itself and take the first
+  // standalone "];" after it — the only one in that span (checked: exactly one bare "];" line
+  // between "export const STORES = [" and the next export).
+  const storesAt = src.indexOf("export const STORES = [");
+  if (storesAt === -1) throw new Error("could not find `export const STORES = [` in vendors.js — insertion point missing");
+  const closeAt = src.indexOf("\n];", storesAt);
+  if (closeAt === -1) throw new Error("could not find STORES's closing `];` in vendors.js");
+  src = src.slice(0, closeAt) + block + "];" + src.slice(closeAt + 3);
   writeFileSync(vp, src);
   try { execFileSync("node", ["-e", `require("${vp}")`], { stdio: "pipe" }); }
   catch (e) { console.error("vendors.js broke — reverting"); execFileSync("git", ["checkout", "--", vp], { cwd: ROOT }); process.exit(1); }
