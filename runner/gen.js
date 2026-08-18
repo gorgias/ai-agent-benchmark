@@ -613,6 +613,10 @@ try {
          .replace(/<!--RANK_H-->[\s\S]*?<!--\/RANK_H-->/, `<!--RANK_H-->${RANK_H}<!--/RANK_H-->`);
   tk = tk.replace(/<!--RANK_OVERALL-->[\s\S]*?<!--\/RANK_OVERALL-->/, `<!--RANK_OVERALL-->${RANK_OVERALL}<!--/RANK_OVERALL-->`);
   tk = tk.replace(/<!--RANK_LANES-->[\s\S]*?<!--\/RANK_LANES-->/, `<!--RANK_LANES-->${RANK_LANES}<!--/RANK_LANES-->`);
+  // "Refreshed <Month Year>" in the hero eyebrow — was hand-typed and went stale; now derived
+  // from the actual latest run date every bake, same DATES/LATEST the rest of the page uses.
+  const REFRESHED = `Refreshed ${new Date(LATEST + "T00:00:00Z").toLocaleDateString("en-US", { month: "long", year: "numeric", timeZone: "UTC" })}`;
+  tk = tk.replace(/<!--REFRESHED-->[\s\S]*?<!--\/REFRESHED-->/, `<!--REFRESHED-->${REFRESHED}<!--/REFRESHED-->`);
   await writeFile(TK + ".tmp", tk); await rename(TK + ".tmp", TK);
   console.log(`Synced takeaways.html stats: ${STATS.convs} convs · ${STATS.judged} judged · ${STATS.vendors} vendors · ${STATS.stores} stores`);
 } catch (e) { console.log("takeaways sync skipped:", e.message); }
