@@ -1512,6 +1512,25 @@ export const STORES = [
   { key: "klaviyo-respire",      vendor: "Klaviyo", store: "Respire",          url: "https://www.respire.co",             widget: "klaviyo", candidate: true, todo: "hub chat login-gated — confirm drivability before capture" },
   { key: "klaviyo-baublebar",    vendor: "Klaviyo", store: "BaubleBar",        url: "https://www.baublebar.com",          widget: "klaviyo", us: true, candidate: true, todo: "hub chat login-gated" },
   { key: "klaviyo-mathon",       vendor: "Klaviyo", store: "Mathon",           url: "https://www.mathon.fr",              widget: "klaviyo", candidate: true, todo: "hub chat login-gated; FR kitchenware" },
+  // ── Auto-sourced 2026-08-18 by server/source-merchants.mjs. Each row was verified in a
+  // real browser: the vendor's widget host loaded AND a launcher/container mounted on a cold
+  // anonymous visit. candidate:true until a capture proves it drivable end-to-end.
+  { key: "ada-ohpolly", vendor: "Ada", store: "ohpolly", url: "https://www.ohpolly.com/", widget: "ada", candidate: true }, // auto-sourced 2026-08-18: host loaded + widget mounted on a cold visit
+  { key: "kodif-getjoyfood", vendor: "Kodif", store: "getjoyfood", url: "https://getjoyfood.com/", widget: "kodif", candidate: true }, // auto-sourced 2026-08-18: host loaded + widget mounted on a cold visit
+  { key: "kodif-dollarshaveclu", vendor: "Kodif", store: "dollarshaveclu", url: "https://www.dollarshaveclub.com/", widget: "kodif", candidate: true, todo: "also on page: Gorgias — driver must target the Kodif launcher" }, // auto-sourced 2026-08-18: host loaded + widget mounted on a cold visit
+  { key: "kodif-milliondollarb", vendor: "Kodif", store: "milliondollarb", url: "https://www.milliondollarbaby.com/", widget: "kodif", candidate: true }, // auto-sourced 2026-08-18: host loaded + widget mounted on a cold visit
+  { key: "kodif-themattresssho", vendor: "Kodif", store: "themattresssho", url: "https://www.themattressshop.com/", widget: "kodif", candidate: true }, // auto-sourced 2026-08-18: host loaded + widget mounted on a cold visit
+  { key: "zendesk-joshv", vendor: "Zendesk", store: "joshv", url: "https://www.joshv.com/", widget: "zendesk", candidate: true }, // auto-sourced 2026-08-18: host loaded + widget mounted on a cold visit
+  { key: "zendesk-pabo", vendor: "Zendesk", store: "pabo", url: "https://www.pabo.nl/", widget: "zendesk", candidate: true, todo: "also on page: Intercom — driver must target the Zendesk launcher" }, // auto-sourced 2026-08-18: host loaded + widget mounted on a cold visit
+  { key: "zendesk-orei", vendor: "Zendesk", store: "orei", url: "https://www.orei.com/", widget: "zendesk", candidate: true, todo: "also on page: Ada — driver must target the Zendesk launcher" }, // auto-sourced 2026-08-18: host loaded + widget mounted on a cold visit
+  { key: "zendesk-dreametech", vendor: "Zendesk", store: "dreametech", url: "https://www.dreametech.com/", widget: "zendesk", candidate: true }, // auto-sourced 2026-08-18: host loaded + widget mounted on a cold visit
+  { key: "dg-airup", vendor: "DigitalGenius", store: "airup", url: "https://www.air-up.com/", widget: "dg", candidate: true }, // auto-sourced 2026-08-18: host loaded + widget mounted on a cold visit
+  { key: "dg-dreamcloudslee", vendor: "DigitalGenius", store: "dreamcloudslee", url: "https://www.dreamcloudsleep.co.uk/", widget: "dg", candidate: true }, // auto-sourced 2026-08-18: host loaded + widget mounted on a cold visit
+  { key: "dg-mammaly", vendor: "DigitalGenius", store: "mammaly", url: "https://mammaly.de/", widget: "dg", candidate: true }, // auto-sourced 2026-08-18: host loaded + widget mounted on a cold visit
+  { key: "dg-kukoon", vendor: "DigitalGenius", store: "kukoon", url: "https://kukoon.co.uk/", widget: "dg", candidate: true }, // auto-sourced 2026-08-18: host loaded + widget mounted on a cold visit
+  { key: "decagon-selectblinds", vendor: "Decagon", store: "selectblinds", url: "https://www.selectblinds.com/", widget: "decagon", candidate: true }, // auto-sourced 2026-08-18: host loaded + widget mounted on a cold visit
+  { key: "decagon-blindsonline", vendor: "Decagon", store: "blindsonline", url: "https://www.blindsonline.com.au/", widget: "decagon", candidate: true }, // auto-sourced 2026-08-18: host loaded + widget mounted on a cold visit
+  { key: "yuma-petlibro", vendor: "Yuma", store: "petlibro", url: "https://www.petlibro.com/", widget: "yuma", candidate: true, todo: "also on page: Gorgias, Ada — driver must target the Yuma launcher" }, // auto-sourced 2026-08-18: host loaded + widget mounted on a cold visit
 ];
 
 // Find a frame by element id / title / name / url. `match` may be a string
