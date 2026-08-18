@@ -22,4 +22,3 @@ echo "▶ Focused Klaviyo + Decagon capture — date $RUN_DATE — mode ${MODE:-
 caffeinate -i node run.js --headed --concurrency "${CONCURRENCY:-2}" --vendor Klaviyo Decagon "${EXTRA_ARGS[@]}"
 
 node gen.js
-node runstatus.js || true

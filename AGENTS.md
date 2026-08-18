@@ -26,7 +26,7 @@ and measure three things:
 renormalized when a dimension is missing). One number per lane so vendors can be ranked.
 
 Deliverables (static site, GitHub Pages): `takeaways.html` (board Summary), `report.html`
-(Detailed report + Conversations tab), `run-status.html` (live run tracker).
+(Detailed report + Conversations tab), `vendor-changes.html` (footer-only vendor-reclassification log).
 
 Current headline (v2.2 eval): **Gorgias = #2 overall, behind Envive.** #2 Support (quality ~best
 in field), #3 Shopping (Yuma edges on richer answers), speed is the shopping gap.
@@ -74,8 +74,7 @@ in field), #3 Shopping (Yuma edges on richer answers), speed is the shopping gap
 ```
 report.html        Detailed report (self-contained; data injected by gen.js between markers).
 takeaways.html     Board Summary (hero stats + verdict + scoreboard D-object + provider profiles).
-run-status.html    Client-side live run tracker; fetches run-status.json every 8s (do not hand-edit; runstatus.js writes it).
-run-status.json    Run status data (written by runstatus.js).
+vendor-changes.html  Footer-only vendor-reclassification log (baked by runner/vendor-changes.mjs from vendors.js git history — not gen.js).
 live-feed.json     Live conversation feed for the report's Conversations tab.
 design-lab/        Throwaway UI restyle directions (v1 Axiom-native light, v2 editorial dark). Not the live site.
 README.md          Human-facing overview.
@@ -88,7 +87,7 @@ runner/
   run.js           The capture driver (Playwright, headed, resumable). Writes results/<date>/conv/*.json.
   classify.js      Pure, unit-tested decision logic (validity, handover, deflection, outcome). classify.test.js = `node --test`.
   gen.js           Reads results/ + eval-scores.json → bakes report.html + takeaways.html + Pages stats. Run after every capture or judge.
-  runstatus.js     Writes run-status.json + the client shell. `--watch` to keep it live during a run.
+  vendor-changes.mjs  Bakes vendor-changes.html from vendors.js git history. Run by hand after a reclassification.
   eval-rubric.md   THE judge specification (v2.2). Canonical. The judge prompt is assembled from this.
   eval-signals.js  Deterministic rich-element signal detection (price/link/reviews/options). Side-effect-free shared module.
   eval-pack.js     Packs valid conversations into BLIND batch files for judging (+ map-*.json = key→id, merge-side only).
@@ -189,7 +188,6 @@ node eval-audit.js merge .eval-wip/audit             # → eval-audit.json (trus
 ### 3c. Regenerate + publish
 ```bash
 node gen.js                                          # bakes report.html + takeaways.html + stats
-node runstatus.js                                    # refresh run-status snapshot
 cd ..
 git checkout -b <branch> && git add -A && git commit -m "…"    # end commits with the Co-Authored-By trailer
 gh pr create --title "…" --body "…" && gh pr merge <url> --squash --admin
@@ -206,7 +204,7 @@ Goal: grow coverage and keep data fresh, fairly, on a ~30-conversation/day budge
 
 1. **Plan**: `node runner/daily-plan.js` → prints `STORE_ARGS=` (never-captured stores first, then
    the stalest by last-capture date; recency matters because rankings use a **trailing 14-day**
-   window) and writes `run-next.json` (shown as "upcoming" on the run-status page).
+   window) and writes `run-next.json` (planning artifact only — no page renders it).
 2. **Capture** those stores (§3a), **judge** (§3b), **gen + publish** (§3c). `daily-run.sh` chains
    plan→capture→gen; you still run the judge step (you're the judge).
 3. **Widen under-exposed vendors** by sourcing NEW verified storefronts. A vendor is "under-exposed"
@@ -260,7 +258,6 @@ signals only. Ground every query in the knowledge graph first (`get_node('/metri
   and rank spuriously. "Not measurable" vendors live in the prose profiles, not the scoreboard.
 - **Scales must not mix.** v1 (scalar) vs v2 (checks) vs v2.2 (shopping+discovery) are different
   scales; re-judge a whole lane before swapping, keep a backup (`.eval-wip/eval-scores-*-backup.json`).
-- **run-status must stay client-side** (fetches run-status.json); don't revert it to a baked snapshot.
 - **The conversations feed view** is URL-driven (`report.html?view=conversations`) and per-tab
   sticky; don't make it a modebar tab again.
 - **Local preview**: `python3 -m http.server 8080` from repo root serves everything; run it
@@ -271,6 +268,6 @@ signals only. Ground every query in the knowledge graph first (`get_node('/metri
 ## 7. Definition of done for a cycle
 
 Captured → judged (every valid conv, evidence-backed) → audited (≥90%) → `gen.js` run →
-report + takeaways + run-status consistent (scoreboard auto-renders from the injected `D`; check the
+report + takeaways consistent (scoreboard auto-renders from the injected `D`; check the
 prose numbers match) → committed + PR'd + merged + Pages rebuilt → mirror pushed. No fabricated
 data, no Gorgias-favoring language, blind judging preserved.

@@ -35,7 +35,6 @@ caffeinate -i node run.js --headed --concurrency 2 --store $STORE_ARGS || true
 node gen.js                 # rebuild report + takeaways + Pages stats
 # recompute the plan AFTER capture so "Upcoming runs" reflects the next-stalest set for tomorrow
 node daily-plan.js 30 "$(date -v+1d +%F 2>/dev/null || date +%F)" || true
-node runstatus.js || true   # refresh run-status.html (idle snapshot + upcoming)
 
 cd ..
 git add -A

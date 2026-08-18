@@ -18,4 +18,3 @@ if [ "${NO_RESUME:-0}" = "1" ]; then EXTRA_ARGS+=(--no-resume); fi
 
 caffeinate -i node run.js --headed --concurrency "${CONCURRENCY:-2}" --vendor Klaviyo "${EXTRA_ARGS[@]}"
 node gen.js
-node runstatus.js || true
