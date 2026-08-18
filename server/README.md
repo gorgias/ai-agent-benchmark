@@ -193,12 +193,11 @@ Three traps, each of which cost a real incident:
    without the volume for exactly this reason; only override with `REQUIRE_VOLUME=0` when you know
    the scheduled machine is stopped.
 
-## Why 150/day, and the two separate levers behind it
+## Why 200/day, and the two separate levers behind it
 
-Measured throughput over three real days: **20–39 valid conversations per hour** (mean ≈29), at
-concurrency 5. Two independent problems were found and fixed on 2026-08-12 after two unattended
-runs came in at 12 and 17 valid conversations against the *old* 70/day target — worth understanding
-because they point at two different knobs, and conflating them leads to the wrong fix:
+Two independent problems were found and fixed on 2026-08-12 after two unattended runs came in at
+12 and 17 valid conversations against the then-70/day target — worth understanding because they
+point at two different knobs, and conflating them leads to the wrong fix:
 
 - **Yield (% of attempts that produce a valid conversation).** The store-least-captured-first pick
   (below) kept re-selecting storefronts that were structurally dead, and `genericOpenChat` scanned
@@ -213,10 +212,26 @@ because they point at two different knobs, and conflating them leads to the wron
   store's backend risks inflating the vendor's *measured* latency past what a real shopper would
   see, and latency is the headline metric. A bigger machine cannot lift this ceiling, which is why
   `performance-4x` (not 8x or 16x) is the right size — enough dedicated CPU per browser context,
-  no more. The only safe lever for more attempts is a longer wall-clock window:
-  `CAPTURE_SECONDS`, now 5.5h (was 3h). At the measured mean this clears 150/day with margin;
-  `BUDGET` (400, unchanged) is a hard ceiling well above target, so higher-than-expected post-fix
-  throughput exits early via the adaptive water-line rather than overshooting.
+  no more. The only safe lever for more attempts is a longer wall-clock window.
+
+**The first sizing pass (2026-08-12, 5.5h for a 150/day target) undershot.** It assumed a ~29
+valid/hour historical mean; actual production yield over the following week ran 68–90/day (mean
+~80), because total attempts/hour is itself capped around **26–31/hr** — a structural ceiling from
+`STORE_TIMEOUT_MIN` (18min) × ~10 conversations per store-call, independent of window length — and
+yield only climbed from 46% to 67% over the week as dead-store auto-park matured. A longer window
+multiplies whatever the achieved valid/hour rate is; it does not fix a low rate.
+
+**2026-08-18 resize (200/day, `CAPTURE_SECONDS` 5.5h → 11h)** is sized off that observed rate
+(~15–17.5 valid/hour late in the week) with a margin, not off the same optimistic theoretical calc
+that missed last time — and it ships alongside ~30 newly-verified storefronts
+(`server/source-merchants.mjs`, see the "Auto-sourced" blocks in `runner/vendors.js`) and a couple
+of individual driver fixes, both of which should lift the achieved rate further but were not yet
+measured at resize time. **Check actual yield after a few days and retune `CAPTURE_SECONDS` rather
+than trusting either sizing pass blindly** — the historical-mean and the observed-rate methods have
+each been wrong once now.
+
+A run that has to sprint is a run that inflates its own latency measurements — window length, not
+concurrency, is the only lever that buys more volume without corrupting the headline metric.
 
 A run that has to sprint is a run that inflates its own latency measurements — the 5.5h window, not
 a higher concurrency, is what buys the extra volume.

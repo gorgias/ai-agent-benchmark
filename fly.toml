@@ -17,7 +17,10 @@ primary_region = "iad"                 # US East: the market the benchmark measu
   dockerfile = "server/Dockerfile"
 
 [env]
-  DAILY_TARGET   = "150"               # raised from 70 (2026-08-12, Max) — see CAPTURE_SECONDS note
+  DAILY_TARGET   = "200"               # raised from 150 (2026-08-18) — see CAPTURE_SECONDS note.
+                                       # The 150 target (set 2026-08-12) was NEVER actually hit:
+                                       # daily yield over the following week ran 68-90/day (mean
+                                       # ~80). Sizing 200 off the 150 miss, not off theory again.
   PER_VENDOR     = "2"                 # new verified storefronts sourced per vendor per day
   CONCURRENCY    = "5"                 # 5 conversations in parallel INSIDE one run.js process.
                                        # STRUCTURAL ceiling, not a CPU one: raising this risks
@@ -25,21 +28,34 @@ primary_region = "iad"                 # US East: the market the benchmark measu
                                        # running more simultaneous sessions against the same
                                        # store's backend than a real shopper ever would. A bigger
                                        # machine cannot lift this — do not raise it to buy volume.
-  CAPTURE_SECONDS = "19800"            # 5.5h, raised from 3h to reach a 150/day target. At the
-                                       # historical mean of ~29 valid convs/hour this clears 150
-                                       # with margin; BUDGET below is a hard ceiling well above
-                                       # target, so an unexpectedly high throughput exits early
-                                       # via the adaptive water-line rather than overshooting.
+  CAPTURE_SECONDS = "39600"            # 11h, raised from 5.5h. The 5.5h/150 sizing (2026-08-12)
+                                       # assumed a ~29 valid/hour historical mean that never held
+                                       # up in production: actual attempts/hour is capped around
+                                       # 26-31/hr — a STRUCTURAL ceiling from STORE_TIMEOUT_MIN
+                                       # (18min) x ~10 conversations per store-call, independent of
+                                       # window length — and yield only climbed to 46-67% over the
+                                       # week as dead-store auto-park matured. This sizing uses the
+                                       # week's OBSERVED valid/hour (~15-17.5, best day so far ~18)
+                                       # with a conservative margin, not a repeat of the optimistic
+                                       # theoretical calc that undershot last time. 2026-08-18 also
+                                       # shipped ~30 newly-sourced stores and a couple of driver
+                                       # fixes (see runner/vendors.js "Auto-sourced" + git log),
+                                       # which should lift the achieved rate somewhat, but that is
+                                       # not yet measured — verify actual yield over the next few
+                                       # days and retune rather than trusting this number blindly.
+                                       # BUDGET below is a hard ceiling well above target, so
+                                       # higher-than-expected throughput exits early via the
+                                       # adaptive water-line rather than overshooting.
   PUSH_EVERY     = "600"               # incremental push: caps data loss at 10 min if killed
   CAPTURE_LOG    = "/data/pipeline.log"
 
   # ── judging + deploy ────────────────────────────────────────────────────────
   JUDGE_MODEL       = "claude-opus-4-8"
   JUDGE_CONCURRENCY = "4"
-  JUDGE_MAX         = "300"            # cost ceiling per night (~$27 at ~$0.09/conversation).
-                                       # Kept at ~2x DAILY_TARGET, same ratio as before (150 vs a
-                                       # 70 target) — the headroom lets a backlog drain without
-                                       # letting a runaway bill run unattended.
+  JUDGE_MAX         = "400"            # cost ceiling per night (~$36 at ~$0.09/conversation).
+                                       # Kept at ~2x DAILY_TARGET, same ratio as before — the
+                                       # headroom lets a backlog drain without letting a runaway
+                                       # bill run unattended.
   EVAL_BATCH_DIR    = "/data/eb"       # on the volume: a killed run resumes instead of re-judging
   # Vercel project identity. NOT secrets (the token is), and required because .vercel/ is
   # gitignored, so the CLI has no project link to read inside the container.
