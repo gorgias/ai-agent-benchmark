@@ -50,7 +50,8 @@ primary_region = "iad"                 # US East: the market the benchmark measu
   CAPTURE_LOG    = "/data/pipeline.log"
 
   # ── judging + deploy ────────────────────────────────────────────────────────
-  JUDGE_MODEL       = "claude-opus-4-8"
+  JUDGE_MODEL       = "claude-sonnet-5"  # moved from claude-opus-4-8 (2026-08-18) — see
+                                       # judge-api.mjs for the explicit effort:"high" pairing.
   JUDGE_CONCURRENCY = "4"
   JUDGE_MAX         = "400"            # cost ceiling per night (~$36 at ~$0.09/conversation).
                                        # Kept at ~2x DAILY_TARGET, same ratio as before — the

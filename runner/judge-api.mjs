@@ -38,6 +38,7 @@ const DRY = process.argv.includes("--dry");
 if (!dir) { console.error("usage: node judge-api.mjs <batchDir> [--dry]"); process.exit(1); }
 
 const MODEL = process.env.JUDGE_MODEL || "claude-opus-4-8";
+const EFFORT = process.env.JUDGE_EFFORT || "high";
 const CONC = Number(process.env.JUDGE_CONCURRENCY || 4);
 const MAX_CONVS = Number(process.env.JUDGE_MAX || 0);         // 0 = no cap (cost ceiling for a night)
 
@@ -149,7 +150,7 @@ async function judgeOne(conv) {
       { type: "text", text: INSTRUCTIONS },
     ],
     messages: [{ role: "user", content: `Score this conversation (lane: ${mode}).\n\n${body}` }],
-    output_config: { format: { type: "json_schema", schema: schemaFor(mode) } },
+    output_config: { format: { type: "json_schema", schema: schemaFor(mode) }, effort: EFFORT },
   });
   const msg = await stream.finalMessage();
 
@@ -234,7 +235,14 @@ for (const [nn, arr] of Object.entries(results)) {
   fs.writeFileSync(path.join(dir, `scored-${nn}.json`), JSON.stringify(arr, null, 1));
 }
 
-const cost = (usageTotals.in * 5 + usageTotals.cache_write * 6.25 + usageTotals.cache_read * 0.5 + usageTotals.out * 25) / 1e6;
+// Per-MTok list rates, input/output — cache write is 1.25x input, cache read is 0.1x input.
+const RATES = {
+  "claude-opus-4-8": [5, 25], "claude-opus-4-7": [5, 25], "claude-opus-4-6": [5, 25],
+  "claude-opus-5": [5, 25], "claude-sonnet-5": [3, 15], "claude-sonnet-4-6": [3, 15],
+  "claude-haiku-4-5": [1, 5],
+};
+const [rateIn, rateOut] = RATES[MODEL] || RATES["claude-opus-4-8"];
+const cost = (usageTotals.in * rateIn + usageTotals.cache_write * rateIn * 1.25 + usageTotals.cache_read * rateIn * 0.1 + usageTotals.out * rateOut) / 1e6;
 console.log(`\nscored ${done} conversations → ${Object.keys(results).length} scored-*.json in ${dir}`);
 console.log(`evidence guard: ${demotedTotal} passing checks demoted for an unverifiable quote`);
 console.log(`tokens: ${usageTotals.in} in · ${usageTotals.cache_read} cache-read · ${usageTotals.cache_write} cache-write · ${usageTotals.out} out`);
