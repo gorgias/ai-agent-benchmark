@@ -4,6 +4,39 @@
 # run, and the headline metric is p75 latency). But they are a perfectly good clock: this workflow
 # does nothing but make one API call to start the Fly Machine at a fixed hour, which Fly's own
 # `--schedule daily` cannot pin down.
+#
+# ── THIS FILE IS INERT AND MUST STAY THAT WAY UNTIL A DELIBERATE DECISION SAYS OTHERWISE ────────
+# GitHub Actions is disabled on this repository by the `gorgias` organization (the API returns
+# `409 — GitHub Actions is disabled on this repository by the organization`); only an org owner can
+# change that. Production scheduling is Fly-native: `fly machine update <id> --schedule daily`.
+#
+# It is kept because the policy might change — but if it ever does, READ THIS FIRST, because
+# enabling Actions arms a SECOND scheduler against the same app while `--schedule daily` is still
+# live on the worker machine. Pick one trigger and remove the other. Two are worse than either.
+#
+# The downstream mirror (max-pruv/ai-chat-latency-benchmark) ran into all three of the bugs below
+# while trying to make this file work there. They are recorded here, in the canonical copy, so
+# whoever re-enables Actions starts from the corrected version instead of rediscovering them:
+#
+#   1. FLY_API_TOKEN was never set, so the workflow failed 8 nights running. A scheduler whose
+#      only job is one API call fails ENTIRELY on a missing token — verify the secret exists
+#      before trusting the schedule.
+#   2. No `actions/checkout` step, so there is no fly.toml in the working directory and its [env]
+#      block is silently dropped: CAPTURE_SECONDS falls back to pipeline.sh's 3h default instead
+#      of the configured 11h, and VERCEL_ORG_ID / VERCEL_PROJECT_ID go missing entirely. The run
+#      still "succeeds" — it just captures a third of the night and cannot deploy.
+#   3. `--vm-size performance-2x` contradicts fly.toml's `performance-4x`. That is not a cost
+#      tweak: 2 dedicated vCPUs for CONCURRENCY=5 headless Chromium contexts is the exact
+#      undersizing that inflated measured latency and made three healthy stores look dead
+#      (see the [[vm]] note in fly.toml). Any override here must track fly.toml.
+#
+# One more, unfixed and worth deciding before this is ever switched on: the step below uses
+# `flyctl machine run`, which CREATES A NEW MACHINE every night rather than starting the scheduled
+# one. Without `--rm` those accumulate, and each one wants `benchmark_data` — which attaches to a
+# single machine at a time. `flyctl machine start <machine-id>` is almost certainly what is meant.
+# The one point in `machine run`'s favour: it is immune to the failure that caused the 2026-08-24
+# outage, where a machine left STATE=started could not be started again and every following night
+# was a silent no-op. `PIPELINE_MAX_SECONDS` in pipeline.sh now closes that hole from the other end.
 name: Nightly benchmark capture
 on:
   schedule:
