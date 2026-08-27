@@ -20,6 +20,7 @@ set -uo pipefail
 cd "$(dirname "${BASH_SOURCE[0]}")/.." || exit 1
 LOG="${CAPTURE_LOG:-/data/pipeline.log}"
 CAPTURE_SECONDS="${CAPTURE_SECONDS:-10800}"     # 3h — measured throughput puts 70 valid convs at ~2.5-3h
+SOURCING_TIMEOUT="${SOURCING_TIMEOUT:-1800}"    # 30m wall clock on stage 1 — see the sourcing stage
 PUSH_EVERY="${PUSH_EVERY:-600}"                 # incremental push interval (seconds)
 # Robust logging: if the log directory is missing (e.g. a run without the volume attached), tee
 # fails and — because say() pipes through it — every line would vanish silently. Fall back to /tmp
@@ -69,6 +70,9 @@ if [ -f "$LOCK" ]; then
   # possible run rather than blocking every night forever.
   # Budget for capture AND the publish phase that now follows it (judging ~70 conversations takes
   # 20-40 min), or a still-healthy run would look stale and get trampled by the next trigger.
+  # The 5400s of slack also has to cover bounded sourcing (SOURCING_TIMEOUT, 1800s default) now
+  # that stage 1 has a wall clock: 1800 + a 40-min publish is 4200s, so the margin still holds.
+  # Raise SOURCING_TIMEOUT past ~3000s and this needs raising with it.
   if [ "$LOCK_AGE" -lt $(( CAPTURE_SECONDS + 5400 )) ]; then
     say "another capture started ${LOCK_AGE}s ago (lock $LOCK) — exiting so latencies stay clean"
     exit 0
@@ -99,9 +103,68 @@ fi
 git pull --rebase --autostash origin master >/dev/null 2>&1 || true
 
 # ── 1. sourcing (independent: a failure here must not stop capture) ────────────
+# BOUNDED, and that is the whole point. "A failure here must not stop capture" used to be enforced
+# by `|| say ...`, which catches a non-zero EXIT and nothing else — a HANG is not a failure the
+# shell can see. On 2026-08-24 sourcing wedged here (a storefront that never settles: goto() is
+# capped at 45s but page.evaluate()/ctx.close() on a stuck renderer are not) and the run never
+# reached capture. Cost: FOUR nights of no data, not one.
+#
+# WHY A HANG IS SO MUCH WORSE THAN A CRASH HERE: this Machine is scheduled with `--schedule daily`,
+# and Fly starts a STOPPED machine. A machine still STATE=started has nothing to start, so every
+# subsequent night was a silent no-op — the process that was supposed to produce data was also the
+# thing holding the schedule slot shut. Stage 2 has had a wall clock since day one (backgrounded,
+# PID captured, elapsed polled against CAPTURE_SECONDS); stage 1 simply never got one.
+#
+# `timeout` is coreutils, so it is present in the image. If it ever were not, the missing binary
+# exits 127, which lands on the "sourcing failed (non-fatal)" branch below and capture still runs —
+# this guard degrades to skipping sourcing, never to blocking the pipeline.
+sweep_sourcing_browsers() {
+  # AGENTS.md rule 8 ("never pkill / SIGKILL a capture driver") protects a driver that is MID-
+  # CONVERSATION: killing one corrupts the conversation it is timing, and that data is the product.
+  # This sweep is a different case and only that case:
+  #   - it runs BEFORE capture starts, so there is no in-flight conversation to corrupt;
+  #   - it targets headless Chromium only — sourcing verifies storefronts with a headless browser
+  #     (source-merchants.mjs: chromium.launch({ headless: true })), while capture drives a HEADED
+  #     browser under xvfb, so the patterns below cannot match a capture driver;
+  #   - it refuses to run at all if a driver or the balancer is somehow alive anyway (belt and
+  #     braces: the rule is load-bearing, so this fails safe rather than trusting the patterns);
+  #   - each Fly Machine has its own PID namespace, so it can never reach another machine's run.
+  # WHY SWEEP AT ALL: `timeout` signals the node process, not the browsers it spawned, so they are
+  # orphaned. Stray Chromium competing for CPU inflates measured p75 latency — the headline metric,
+  # and the corruption fly.toml's own [[vm]] sizing note and healthcheck #5 exist to prevent. The
+  # incident left one spinning at 30% CPU and one holding 1.4GB RSS for three days.
+  if pgrep -f 'node run.js' >/dev/null 2>&1 || pgrep -f 'tools/balance.mjs' >/dev/null 2>&1; then
+    say "capture driver alive — NOT sweeping browsers (AGENTS.md rule 8); stray sourcing browsers may inflate latency"
+    return 0
+  fi
+  # `pgrep -c` prints 0 AND exits 1 when nothing matches, so a `|| echo 0` fallback would append a
+  # SECOND line and turn the count into "0\n0" — which fails `-eq` and takes the wrong branch.
+  # Take the first line, keep only digits, and default an empty result to 0.
+  local n; n=$(pgrep -fc 'chrome-headless-shell|headless_shell' 2>/dev/null | head -1 | tr -dc '0-9')
+  [ -n "$n" ] || n=0
+  if [ "$n" -eq 0 ]; then say "no orphaned sourcing browsers to sweep"; return 0; fi
+  pkill    -f 'chrome-headless-shell|headless_shell' 2>/dev/null
+  sleep 2
+  pkill -9 -f 'chrome-headless-shell|headless_shell' 2>/dev/null
+  say "swept ${n} orphaned sourcing browser process(es) before capture"
+}
+
 if [ "${SKIP_SOURCING:-0}" != "1" ]; then
-  say "--- sourcing merchants (PER_VENDOR=${PER_VENDOR:-2}) ---"
-  node server/source-merchants.mjs 2>&1 | tee -a "$LOG" || say "sourcing failed (non-fatal) — continuing to capture"
+  say "--- sourcing merchants (PER_VENDOR=${PER_VENDOR:-2}, timeout ${SOURCING_TIMEOUT}s) ---"
+  # -k 30: SIGTERM first so playwright can close its browsers itself, SIGKILL 30s later if it does
+  # not. PIPESTATUS[0] because the exit status of the pipeline is tee's, not the node process's.
+  timeout -k 30 "$SOURCING_TIMEOUT" node server/source-merchants.mjs 2>&1 | tee -a "$LOG"
+  SRC=${PIPESTATUS[0]}
+  # 124 = timed out (SIGTERM took), 137 = SIGKILL after -k. Either way it hung.
+  if [ "$SRC" -eq 124 ] || [ "$SRC" -eq 137 ]; then
+    say "sourcing TIMED OUT after ${SOURCING_TIMEOUT}s — killed (non-fatal), continuing to capture"
+    sweep_sourcing_browsers
+  elif [ "$SRC" -ne 0 ]; then
+    say "sourcing failed (exit $SRC, non-fatal) — continuing to capture"
+    # A crash exits before source-merchants.mjs reaches its own browser.close(), so it orphans
+    # browsers exactly like a timeout does. Same sweep, same reason.
+    sweep_sourcing_browsers
+  fi
   git pull --rebase --autostash origin master >/dev/null 2>&1 || true
 fi
 
