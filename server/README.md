@@ -102,8 +102,8 @@ Nightly, via cron (02:00 server time):
 ```
 
 Knobs (all optional — the defaults are the balanced ones): `INCLUDE`, `BUDGET`, `CONCURRENCY`,
-`STORE_TIMEOUT_MIN`, `LOAD_CAP`, `BUDGET_SECONDS`, `SOURCING_TIMEOUT`. **Leave `TARGET` unset** so
-the adaptive water-line applies: level every vendor up to the current leader, and inside each
+`STORE_TIMEOUT_MIN`, `LOAD_CAP`, `BUDGET_SECONDS`, `SOURCING_TIMEOUT`, `PIPELINE_MAX_SECONDS`.
+**Leave `TARGET` unset** so the adaptive water-line applies: level every vendor up to the current leader, and inside each
 vendor feed the least-captured storefront first.
 
 ## Validate before you trust the data
@@ -130,8 +130,15 @@ All via `fly secrets set` — never in a file, never in the image.
 | `VERCEL_TOKEN` | the board is baked, gated and pushed, but the live site stays stale |
 | `SITE_PASSWORD` | the deploy happens but cannot be read back, so it reports **UNVERIFIED** rather than success |
 | `SLACK_WEBHOOK_URL` | alerts print to the log instead of reaching anyone |
+| `DEADMAN_URL` | **a stall is silent again** — the heartbeat pings are skipped, so nothing outside the box notices a run that never finishes |
 
 Each missing secret degrades one step and says so loudly — none of them fail silently.
+
+`DEADMAN_URL` is the odd one out and worth understanding: it is the only alerting path that does
+not run on this box. Every other alert here is in-band, which means none of them can fire when the
+box itself is the thing that failed. It is also the least privileged secret in the table — the
+worst anyone can do with the URL is post a healthy ping and suppress an alert; it grants no access
+to the machine, the repo or the board.
 
 ---
 
@@ -143,6 +150,7 @@ each stage fails without taking the next one down.
 
 | # | Stage | What it does | Fails how |
 |---|---|---|---|
+| 0 | missed-night check | Compares the last capture on disk to today; reports a gap to Slack | Silent. It is a report, not a gate. |
 | 1 | `source-merchants.mjs` | Finds up to 2 NEW verified storefronts per vendor, appends them to `vendors.js` | Adds nothing. Capture continues on the existing store list — **bounded by `SOURCING_TIMEOUT` (30m), see below.** |
 | 2 | `balance.mjs` → `run.js` | Balanced capture → pushes raw conversations every 10 min | No new conversations. The board still republishes with what exists. |
 | 3 | `healthcheck.mjs` | Anomalies → Slack; writes the publish verdict | Publish proceeds; the verdict file is rewritten every run so it can never go stale. |
@@ -196,9 +204,25 @@ which is the headline metric. That sweep is deliberately narrow, because AGENTS.
 never `pkill` a capture driver: it runs pre-capture, matches headless Chromium only (sourcing is
 headless; capture is headed under xvfb), and refuses to act at all if a driver is somehow alive.
 
-The residual gap — point 3 — is a **stall that nobody is told about**. Nothing in-band can page you
-when the box itself is wedged or never boots; that needs an out-of-band dead-man's switch, which is
-not yet implemented.
+Point 3 needed a different shape of fix, because **nothing in-band can page you when the box
+itself is the thing that failed** — any alerter living in `pipeline.sh` reproduces cause 3 in a new
+form. Three layers now cover it, and only the first is a real dead-man's switch:
+
+| Layer | Catches | Cannot catch |
+|---|---|---|
+| `DEADMAN_URL` heartbeat (`/start`, done, `/fail`) — **out-of-band** | Everything, including a machine that never booted, a scheduler that stopped firing, or a Fly outage. The service pages when the ping does not arrive. | Nothing, as long as the service itself is up. |
+| `PIPELINE_MAX_SECONDS` global wall clock | Any stall inside the run. Guarantees the Machine EXITS, so the schedule slot always reopens. | A machine that never started. It is containment, not detection. |
+| Stage-0 missed-night report | Announces the size of a gap on the recovery run. | The gap itself — it can only speak when a run happens. A complement, never the answer. |
+
+The wall clock's default sits just **under** the anti-collision lock's staleness threshold
+(`CAPTURE_SECONDS + 5400`), which buys a property the lock could not previously promise: a run can
+never outlive its own lock, so "stale lock — taking over" can no longer fire against a run that is
+still alive.
+
+The heartbeat pings **done on any exit code**, not just zero. It measures whether the run
+*finished*, which is a different question from whether the run was *happy* — and the second
+question already has an answer in Slack. A pager that duplicates a channel you already read is a
+pager you learn to ignore.
 
 **The rule this leaves behind: every unattended stage gets a wall clock, and a stage that can hang
 must be able to be killed without taking the run with it.** `||` is not a timeout.
@@ -298,6 +322,14 @@ Silence is the enemy, so the alerter looks for the silence.
 | Latency drift vs 7-day p75 | **An undersized or throttled server** — the one failure that silently corrupts the headline metric |
 | Judge coverage | The queue growing before the gate blocks a deploy |
 | Provider mismatch/ambiguous | A store that switched vendors, or a second widget answering — scores landing on the wrong vendor |
+
+Two more come from `pipeline.sh` itself rather than from the healthcheck, because they describe
+failures that stop the run before stage 3 is ever reached:
+
+| Check | Catches |
+|---|---|
+| Missed-night report (stage 0) | A gap since the last capture — the recovery run says how many nights were lost |
+| Wall-clock kill (`PIPELINE_MAX_SECONDS`) | A stage that hung, announced as the Machine is stopped so tomorrow's run can start |
 
 Set `SLACK_WEBHOOK_URL` (an incoming webhook — no MCP, no OAuth on the server). Without it the
 report prints to stdout, which is also what `--dry` does.

@@ -22,12 +22,68 @@ LOG="${CAPTURE_LOG:-/data/pipeline.log}"
 CAPTURE_SECONDS="${CAPTURE_SECONDS:-10800}"     # 3h — measured throughput puts 70 valid convs at ~2.5-3h
 SOURCING_TIMEOUT="${SOURCING_TIMEOUT:-1800}"    # 30m wall clock on stage 1 — see the sourcing stage
 PUSH_EVERY="${PUSH_EVERY:-600}"                 # incremental push interval (seconds)
+# GLOBAL WALL CLOCK. Every stage now has a bound; this is the backstop for the stage that does not
+# yet, and for the one nobody has written. It is not primarily about saving the night — it is about
+# GUARANTEEING THE MACHINE EXITS. `--schedule daily` starts a STOPPED machine, so a run that never
+# ends holds the schedule slot shut and costs every following night too (2026-08-24: one hang, four
+# nights). Whatever goes wrong, this caps the blast radius at a single night.
+#
+# The default is deliberately just UNDER the anti-collision lock's staleness threshold
+# (CAPTURE_SECONDS + 5400, see the lock below), which buys a property the lock could not previously
+# promise: a run can never outlive its own lock, so "stale lock — taking over" can no longer fire
+# against a run that is still alive. Budget inside it: sourcing <= SOURCING_TIMEOUT (1800) +
+# capture <= CAPTURE_SECONDS + publish (~2400 for a 40-min judge pass) = ~4200 < 5100.
+PIPELINE_MAX_SECONDS="${PIPELINE_MAX_SECONDS:-$(( CAPTURE_SECONDS + 5100 ))}"
 # Robust logging: if the log directory is missing (e.g. a run without the volume attached), tee
 # fails and — because say() pipes through it — every line would vanish silently. Fall back to /tmp
 # rather than run blind.
 mkdir -p "$(dirname "$LOG")" 2>/dev/null || LOG=/tmp/pipeline.log
 touch "$LOG" 2>/dev/null || LOG=/tmp/pipeline.log
 say() { echo "$(date -u +%Y-%m-%dT%H:%M:%SZ) $*" | tee -a "$LOG"; }
+
+# Slack straight from the pipeline, for the things healthcheck.mjs structurally cannot report —
+# it is stage 3, so anything that stops the run before it never gets announced. Best-effort by
+# design: an alerter that can fail the run it is watching is worse than no alerter.
+# node (not python/jq) does the JSON escaping because node is the one interpreter this image is
+# guaranteed to have — a message with a quote or a newline in it must not produce invalid JSON.
+slack() {
+  [ -n "${SLACK_WEBHOOK_URL:-}" ] || { say "(no SLACK_WEBHOOK_URL — not posted: $1)"; return 0; }
+  local body; body=$(node -e 'process.stdout.write(JSON.stringify({text:process.argv[1],mrkdwn:true}))' "$1" 2>/dev/null) || return 0
+  curl -fsS -m 15 -X POST -H 'content-type: application/json' --data "$body" "$SLACK_WEBHOOK_URL" >/dev/null 2>&1 \
+    || say "Slack post failed (non-fatal)"
+}
+
+# ── DEAD-MAN'S SWITCH ─────────────────────────────────────────────────────────
+# THE ONE THING THAT CANNOT LIVE IN THIS FILE. Every alert we had was downstream of the failure:
+# healthcheck.mjs is stage 3, SLACK_WEBHOOK_URL was set and working, and a hang in stage 1 meant it
+# simply never ran — four days of total silence with functioning alerting. No amount of in-band
+# checking fixes that, because the process that would raise the alarm is the process that is dead.
+# So the watcher has to be OUTSIDE: this pings a heartbeat service, and the SERVICE pages when the
+# ping does not arrive. Silence stops being indistinguishable from success.
+#
+# DEADMAN_URL is a healthchecks.io-style check URL (Better Stack and Cronitor use the same
+# convention): "$URL/start" when a run begins, "$URL" when it finishes, "$URL/fail" when it dies.
+# Configure the check for a 1-day period with a grace longer than a full run (~15h covers
+# CAPTURE_SECONDS=11h + sourcing + publish), and point it at the same Slack channel.
+#
+# It is a Fly secret, but a low-privilege one: the worst an attacker can do with the URL is post a
+# healthy ping, i.e. suppress an alert. It grants no access to the box, the repo, or the board.
+# Unset = pings skipped, same "degrades one step and says so" convention as every other secret.
+DEADMAN_URL="${DEADMAN_URL:-}"
+DEADMAN_STARTED=0
+DEADMAN_FINISHED=0
+deadman() {
+  [ -n "$DEADMAN_URL" ] || return 0
+  local ep="$1" url="$DEADMAN_URL"
+  case "$ep" in
+    start) url="$DEADMAN_URL/start" ;;
+    fail)  url="$DEADMAN_URL/fail" ;;
+  esac
+  # --retry 3: a single dropped ping must not page a healthy run. Bounded so it can never become
+  # the thing that hangs the pipeline (the failure mode this whole change exists to prevent).
+  curl -fsS -m 15 --retry 3 --retry-max-time 60 -o /dev/null "$url" 2>/dev/null \
+    || say "dead-man ping ($ep) FAILED — the switch may fire even though this run is healthy"
+}
 
 git config --global user.email "${GIT_EMAIL:-benchmark-bot@gorgias.com}"
 git config --global user.name  "${GIT_NAME:-benchmark capture}"
@@ -80,7 +136,21 @@ if [ -f "$LOCK" ]; then
   say "stale lock (${LOCK_AGE}s old) — taking over"
 fi
 date +%s > "$LOCK"
-trap 'rm -f "$LOCK"' EXIT
+# The lock release is UNCHANGED and stays FIRST: releasing it must never be blocked by, or made
+# conditional on, anything added after it. Everything else in the handler is best-effort.
+# The dead-man "fail" ping lives here so an ABNORMAL exit (a stage exiting the script early, a
+# SIGTERM from the host) pages immediately instead of waiting out the heartbeat's grace period.
+# DEADMAN_STARTED gates it so the two guards below — both of which exit 0 on purpose, before the
+# run has begun — never announce a failure that did not happen.
+on_exit() {
+  rm -f "$LOCK"
+  kill "${WATCHDOG:-}" 2>/dev/null
+  if [ "$DEADMAN_STARTED" = 1 ] && [ "$DEADMAN_FINISHED" = 0 ]; then
+    say "pipeline exited without reaching the end — pinging the dead-man switch"
+    deadman fail
+  fi
+}
+trap on_exit EXIT
 
 say "===== PIPELINE START ====="
 
@@ -100,7 +170,54 @@ if [ "${REQUIRE_VOLUME:-1}" = "1" ] && ! grep -q " /data " /proc/mounts 2>/dev/n
   exit 0
 fi
 
+# BOTH EARLY-EXIT GUARDS ARE BEHIND US (the lock said no other run is live, and the volume is
+# mounted), so from here the run is real and the dead-man switch should expect a finish. Pinging
+# any earlier would page every time a stray trigger exited harmlessly at the lock.
+deadman start; DEADMAN_STARTED=1
+
+# The global wall clock (see PIPELINE_MAX_SECONDS). Deliberately NOT `kill $$`: bash defers a trap
+# until the foreground command returns, so signalling the script while it is blocked in a wedged
+# `node` would do nothing — which is exactly the situation this exists for. It does the cleanup
+# itself, in the order that matters (page first, release the lock, then kill), and SIGKILLs the
+# script. Fly stops the Machine once the entrypoint process is gone, which is the point: the
+# schedule slot reopens no matter what state the run was in.
+(
+  sleep "$PIPELINE_MAX_SECONDS"
+  kill -0 $$ 2>/dev/null || exit 0
+  say "PIPELINE WALL CLOCK reached (${PIPELINE_MAX_SECONDS}s) — killing this run so the Machine exits and tomorrow's schedule can start it"
+  slack ":red_circle: *Benchmark pipeline killed at its wall clock* (${PIPELINE_MAX_SECONDS}s) — a stage hung. The Machine is being stopped so tonight's stall cannot swallow tomorrow's run too. Check \`/data/pipeline.log\` for the last stage that logged."
+  deadman fail
+  rm -f "$LOCK"
+  kill -9 $$ 2>/dev/null
+) &
+WATCHDOG=$!
+
 git pull --rebase --autostash origin master >/dev/null 2>&1 || true
+
+# ── 0. DID WE MISS A NIGHT? ──────────────────────────────────────────────
+# Runs after the pull, so it reads what the last successful run actually pushed. This is the CHEAP
+# half of the stall problem and explicitly NOT the dead-man switch: it can only speak when a run
+# happens, and in the 2026-08-24 stall no run happened for four days — it would have reported the
+# gap only once a human had already found it. Its job is to make the RECOVERY run state plainly how
+# much was lost, so a silent multi-night gap cannot be mistaken for a quiet week on the board.
+missed_nights() {
+  local today last="" d gap
+  today=$(date +%F)
+  for d in $(ls -1 runner/results 2>/dev/null | grep -E '^[0-9]{4}-[0-9]{2}-[0-9]{2}$' | sort -r); do
+    [ "$d" = "$today" ] && continue
+    if compgen -G "runner/results/$d/conv/*.json" >/dev/null; then last="$d"; break; fi
+  done
+  [ -n "$last" ] || { say "no previous capture on disk — first run, nothing to compare"; return 0; }
+  gap=$(( ( $(date -d "$today" +%s 2>/dev/null || echo 0) - $(date -d "$last" +%s 2>/dev/null || echo 0) ) / 86400 ))
+  # 1 = yesterday, the normal nightly cadence. 2+ means at least one night produced nothing.
+  if [ "$gap" -ge 2 ]; then
+    say "MISSED NIGHTS: last capture $last, today $today ($((gap - 1)) night(s) with no data)"
+    slack ":red_circle: *Benchmark pipeline missed $((gap - 1)) night(s)* — last capture was *$last*, today is *$today*. This run is the first since then. A gap this size is a stalled or unstarted run, not a slow night; check \`/data/pipeline.log\` and whether the Machine was left STATE=started."
+  else
+    say "last capture $last — nightly cadence intact"
+  fi
+}
+missed_nights
 
 # ── 1. sourcing (independent: a failure here must not stop capture) ────────────
 # BOUNDED, and that is the whole point. "A failure here must not stop capture" used to be enforced
@@ -224,5 +341,14 @@ fi
 say "===== PIPELINE DONE (healthcheck $HC, publish $PB) ====="
 # Surface the publish result first: a stale board is the failure a human needs to act on, whereas
 # a healthcheck warning about one night's yield usually resolves itself the next night.
-[ "$PB" -ne 0 ] && exit "$PB"
-exit $HC
+if [ "$PB" -ne 0 ]; then RC="$PB"; else RC="$HC"; fi
+
+# "done", even on a non-zero exit. The dead-man switch measures whether the run FINISHED, which is
+# a different question from whether the run was HAPPY — and the second question already has an
+# answer: healthcheck.mjs posts every critical to Slack, and publish.sh reports its own verdict.
+# Pinging /fail for a healthcheck critical would page twice for one thing that is already covered,
+# and a pager that duplicates a channel you already read is a pager you learn to ignore. Reaching
+# this line at all is the signal — the failure this switch exists for is the run that never got
+# here. DEADMAN_FINISHED stops the exit handler from contradicting it a moment later.
+deadman done; DEADMAN_FINISHED=1
+exit "$RC"
