@@ -102,9 +102,9 @@ Nightly, via cron (02:00 server time):
 ```
 
 Knobs (all optional — the defaults are the balanced ones): `INCLUDE`, `BUDGET`, `CONCURRENCY`,
-`STORE_TIMEOUT_MIN`, `LOAD_CAP`, `BUDGET_SECONDS`. **Leave `TARGET` unset** so the adaptive
-water-line applies: level every vendor up to the current leader, and inside each vendor feed the
-least-captured storefront first.
+`STORE_TIMEOUT_MIN`, `LOAD_CAP`, `BUDGET_SECONDS`, `SOURCING_TIMEOUT`. **Leave `TARGET` unset** so
+the adaptive water-line applies: level every vendor up to the current leader, and inside each
+vendor feed the least-captured storefront first.
 
 ## Validate before you trust the data
 
@@ -143,7 +143,7 @@ each stage fails without taking the next one down.
 
 | # | Stage | What it does | Fails how |
 |---|---|---|---|
-| 1 | `source-merchants.mjs` | Finds up to 2 NEW verified storefronts per vendor, appends them to `vendors.js` | Adds nothing. Capture continues on the existing store list. |
+| 1 | `source-merchants.mjs` | Finds up to 2 NEW verified storefronts per vendor, appends them to `vendors.js` | Adds nothing. Capture continues on the existing store list — **bounded by `SOURCING_TIMEOUT` (30m), see below.** |
 | 2 | `balance.mjs` → `run.js` | Balanced capture → pushes raw conversations every 10 min | No new conversations. The board still republishes with what exists. |
 | 3 | `healthcheck.mjs` | Anomalies → Slack; writes the publish verdict | Publish proceeds; the verdict file is rewritten every run so it can never go stale. |
 | 4 | `publish.sh` | Judge → merge → bake → gate → push → deploy → verify | Board stays as it was. Judging work is still committed. |
@@ -171,6 +171,37 @@ fly machine update <machine-id> --schedule daily -a gorgias-benchmark-capture
 Create or update the machine at the hour you want the run to happen: Fly repeats it on roughly
 that cadence. Aim for local night in the US (the market being measured), and remember the
 anti-collision lock means a stray extra trigger exits harmlessly instead of corrupting latencies.
+
+## Every stage needs a wall clock, not just capture
+
+**2026-08-24 → 2026-08-27: four nights with no data, no alert, nothing in the log.** Worth reading
+before adding a stage, because the shape of the failure generalises.
+
+Sourcing wedged inside stage 1 — a storefront that never settles, and while `page.goto()` is capped
+at 45s, `page.evaluate()` and `ctx.close()` on a stuck renderer are not. Stage 1's "a failure here
+must not stop capture" was enforced by `|| say …`, which catches a non-zero **exit** and cannot see
+a **hang**. Three things then compounded:
+
+1. **The run never ended**, so it never reached capture, the healthcheck, or publish.
+2. **The machine stayed `STATE=started`**, and `--schedule daily` starts a *stopped* machine. An
+   already-started one has nothing to start, so every following night was a silent no-op. The
+   wedged process was also the thing holding the schedule slot shut — one hang cost four nights.
+3. **Alerting is downstream of the hang.** `healthcheck.mjs` is stage 3 and `SLACK_WEBHOOK_URL` was
+   set and working; it simply never ran. Working alerting produced four days of total silence.
+
+Fixed by bounding stage 1 the way stage 2 was always bounded (`SOURCING_TIMEOUT`, default 1800s;
+capture uses `CAPTURE_SECONDS`), and by sweeping the orphaned Chromium a killed sourcing run leaves
+behind **before** capture starts — stray browsers competing for CPU inflate measured p75 latency,
+which is the headline metric. That sweep is deliberately narrow, because AGENTS.md rule 8 says
+never `pkill` a capture driver: it runs pre-capture, matches headless Chromium only (sourcing is
+headless; capture is headed under xvfb), and refuses to act at all if a driver is somehow alive.
+
+The residual gap — point 3 — is a **stall that nobody is told about**. Nothing in-band can page you
+when the box itself is wedged or never boots; that needs an out-of-band dead-man's switch, which is
+not yet implemented.
+
+**The rule this leaves behind: every unattended stage gets a wall clock, and a stage that can hang
+must be able to be killed without taking the run with it.** `||` is not a timeout.
 
 ## Running a one-off by hand (read this first)
 
