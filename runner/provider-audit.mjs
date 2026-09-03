@@ -11,10 +11,12 @@
 //   node provider-audit.mjs --store envive-nanit envive-fracture
 // Writes provider-audit.json (per store: expected, detected[], verdict) + prints a summary.
 import pw from "./node_modules/playwright/index.js";
-import { createRequire } from "module";
 import { writeFileSync } from "fs";
-const require = createRequire(import.meta.url);
-const { STORES } = require("./vendors.js");
+// vendors.js is an ES module (package.json declares "type": "module"). Importing it through
+// createRequire worked on the Node 22.22 laptop, where require(esm) is unflagged, and threw
+// ERR_REQUIRE_ESM on the Node 22.11 capture server — so every auto-probe silently failed in
+// production while passing locally. Import it directly; that works on every version.
+import { STORES } from "./vendors.js";
 const { chromium } = pw;
 
 // Signature registry — strongest signal first (script host), then distinctive element/shadow

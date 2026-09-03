@@ -34,6 +34,8 @@ const DELIVERY_OVERRIDE = {
 import { extractRecommendedProducts } from "./product-recommendation-bars.js";
 import { normalizeUserMessage } from "./message-style.js";
 import { rankCutoff } from "./ranking-window.js";
+import { LANE_W, speedScore } from "./lane-weights.js";
+import { deriveOutcome } from "./conversation-outcome.js";
 
 // Themes whose turns must NOT count toward latency / automation / quality (robustness only).
 const GUARDRAIL_KEYS = new Set(["guardrails"]);
@@ -245,15 +247,11 @@ async function loadAgg(key, mode, date) {
       // isHandoffOnly so a real answer that merely offers a human in passing is untouched
       // (false-gate lesson). Symmetric across vendors — chiefly corrects pure-deflection
       // Zendesk stores that were being scored as 100%-success ~2s automated answers.
-      for (const t of (obj.turns || [])) {
-        if (t.by !== "ai") continue;
-        // Clean once and stash it: convoOutcome reads t.replyClean so deflection detection runs
-        // on the AI's prose, not on suggested-reply chips that survive in the raw replyTail.
-        const clean = stripWidgetChrome(t.replyText || t.replyTail || "", t.q || "");
-        t.replyClean = clean;
-        if (!t.handover && isHandoffOnly(clean)) { t.handoff_cta = true; t.complete_ms = null; t.ai_latency_ms = null; }
-      }
-      auto[convoOutcome(obj.turns || []).outcome]++;
+      // Outcome derivation (incl. the handoff-only re-derivation described above) lives in
+      // conversation-outcome.js so the dry-run preview cannot diverge from it. It did:
+      // skipping this step made the preview read Gorgias support automation as 76% while the
+      // published report showed the correct 74%.
+      auto[deriveOutcome(obj).outcome]++;
       const ev = EVALS[id];
       obj._eval = ev || null;   // carry the eval (incl. per-turn turn_quality) onto the theme
       if (ev && ev.total != null) {
@@ -531,11 +529,14 @@ const STATS = {
 const PALETTE = { Gorgias:"#f0603f", Envive:"#22c55e", Ada:"#64748b", Siena:"#a855f7", Sierra:"#0ea5e9",
   Kodif:"#eab308", "Zendesk":"#3b82f6", "Rep AI":"#ef4444", DigitalGenius:"#8b5cf6", Yuma:"#14b8a6",
   Humind:"#f59e0b", "Google Agentic":"#4285F4", Klaviyo:"#111", "Shopify Inbox":"#95BF47" };
-const speedScoreG = (l) => Math.max(0, Math.min(100, (22 - l) / 19 * 100));
+const speedScoreG = speedScore;   // shared with the dry-run preview — see lane-weights.js
 const latNumG = (s) => { const m = (s.lat || "").match(/[\d.]+/); return m ? parseFloat(m[0]) : null; };
-function laneScores(arr) {
-  // rankings use only the trailing 90 days (recency-weighted — older runs age out)
-  const byV = {}; arr.filter(s => !s.date || s.date >= RANK_CUTOFF).forEach(s => { (byV[s.vendor] = byV[s.vendor] || []).push(s); });
+function laneScores(arr, cutoff = RANK_CUTOFF) {
+  // rankings use only the trailing window (recency-weighted — older runs age out). The cutoff
+  // is a parameter so the summary page can bake 30/60/90-day views from the SAME function:
+  // recomputing them in the page's own JS is how the dry-run preview drifted from this file
+  // three separate times on 2026-09-03 (window, lane weights, outcome derivation).
+  const byV = {}; arr.filter(s => !s.date || s.date >= cutoff).forEach(s => { (byV[s.vendor] = byV[s.vendor] || []).push(s); });
   const out = {};
   for (const [v, es] of Object.entries(byV)) {
     const ag = es.reduce((a, s) => { if (s.auto) { a.a += s.auto.automated; a.e += s.auto.engaged; } return a; }, { a: 0, e: 0 });
@@ -564,30 +565,26 @@ for (const v of new Set([...Object.keys(shopS), ...Object.keys(supS)])) {
   D_OBJ[v] = { ...(us ? { us: 1 } : {}), col: PALETTE[v] || "#888",
     s: shopS[v] || null, p: supS[v] || null };
 }
-const D_JSON = " const D = " + JSON.stringify(D_OBJ) + ";";
+// Three windows, all baked here so the toggle only ever SWITCHES a precomputed view.
+const WINDOWS = [30, 60, 90];
+const D_WINDOWS = {};
+for (const days of WINDOWS) {
+  const cut = rankCutoff(LATEST, days);
+  const sh = laneScores(STORES, cut), su = laneScores(SUPPORT, cut);
+  const obj = {};
+  for (const v of new Set([...Object.keys(sh), ...Object.keys(su)])) {
+    const us = allEntries.find(s => s.vendor === v && s.us) ? 1 : 0;
+    obj[v] = { ...(us ? { us: 1 } : {}), col: PALETTE[v] || "#888", s: sh[v] || null, p: su[v] || null };
+  }
+  D_WINDOWS[days] = obj;
+}
+const D_JSON = " const D = " + JSON.stringify(D_OBJ) + "; const D_WINDOWS = " + JSON.stringify(D_WINDOWS) + ";";
 
 // ---- AUTO-GENERATED VERDICT: rank claims are derived from the same lane composites, never
 // hand-typed — so the Summary headline can never contradict the scoreboard again. ----
 const OUTLIER_V = new Set(["Amazon Rufus"]);  // references, not ranked head-to-head
-// LANE-SPECIFIC composite weights (2026-07-10, Max): SHOPPING weights speed higher — latency
-// is critical to conversion (a shopper won't wait); SUPPORT weights automation higher —
-// containment (not handing off to a human) is the point. Quality stays 0.3 in both.
-// LANE-SPECIFIC weights. Shopping weights speed up (latency drives conversion); support
-// weights automation up (containment is the job). Must match report.html + takeaways.html —
-// locked by lane-weights.test.js.
-//
-// SUPPORT REWEIGHT (2026-09-03): speed 20% -> 10%, quality 30% -> 40%. Rationale: latency
-// tolerance in support is materially higher than in shopping — a customer waiting on a
-// return-policy answer is not a shopper abandoning a cart — so 20% overweighted speed in the
-// lane where it matters least. Quality absorbs it: at 30%, answer quality was too weak a
-// check on containment, and a vendor that contains tickets with poor answers should not
-// outrank one that actually resolves them.
-//
-// DISCLOSURE: this moves Gorgias #3 -> #2 in support, and moves Yuma #2 -> #1. Adopted with
-// the effect on every vendor computed first (notes/lane-weights-2026-09-03.md); it does not
-// hand Gorgias the top position. Per the rule in ranking-window.js, a weighting change must
-// be validated across every vendor and must never be adopted because it favours Gorgias.
-const LANE_W = { shopping: { a: 0.4, q: 0.35, s: 0.25 }, support: { a: 0.5, q: 0.4, s: 0.1 } };
+// Lane weights live in lane-weights.js so the dry-run preview scores identically. Do not
+// re-declare them here (2026-09-03 regression: the preview had its own flat 0.4/0.4/0.2).
 const laneRank = (scores, w) => Object.entries(scores)
   .filter(([v, sc]) => sc && sc.q != null && sc.n >= MIN_RANK_CONVS && !OUTLIER_V.has(v))
   .map(([v, sc]) => ({ v, comp: Math.round(w.a * sc.a + w.q * sc.q + w.s * speedScoreG(sc.l)) }))

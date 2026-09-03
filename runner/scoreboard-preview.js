@@ -16,6 +16,8 @@ import { SHOPPING_THEMES, SUPPORT_THEMES } from "./pools.js";
 import { convoValidity, convoOutcome, connectivityFail } from "./classify.js";
 import { QUARANTINE_IDS } from "./conversation-quarantine.js";
 import { RANK_WINDOW_DAYS } from "./ranking-window.js";
+import { composite, speedScore } from "./lane-weights.js";
+import { deriveOutcome } from "./conversation-outcome.js";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.dirname(HERE);
@@ -109,20 +111,8 @@ function percentile(arr, p) {
   return s[Math.min(s.length - 1, Math.floor((p / 100) * s.length))];
 }
 
-function speedScore(lat) {
-  return Math.max(0, Math.min(100, ((22 - lat) / 19) * 100));
-}
-
-function composite(m) {
-  if (!m) return null;
-  const parts = [
-    [0.4, m.a],
-    [0.4, m.q],
-    [0.2, m.l != null ? speedScore(m.l) : null],
-  ].filter((p) => p[1] != null);
-  const w = parts.reduce((a, p) => a + p[0], 0);
-  return w ? Math.round(parts.reduce((a, p) => a + p[0] * p[1], 0) / w) : null;
-}
+// Composite + weights come from lane-weights.js so this dry-run scores exactly the way the
+// published report does. Do not re-implement them here (2026-09-03 regression).
 
 function host(url) {
   try {
@@ -214,8 +204,15 @@ async function loadAgg({ site, mode, date, evals, excluded }) {
     }
     if (obj.theme === "guardrails") continue;
     if (connectivityFail(obj.turns || [])) continue;
+    // The baker excludes these from EVERY aggregate; the dry-run did not, so it counted
+    // conversations the published report deliberately drops — including provider_mismatch,
+    // which exists so a conversation is never credited to the wrong vendor. That gap put the
+    // preview 2 points above the report on Gorgias support automation (76 vs the correct 74),
+    // the exact distance between #2 and #3 in that lane.
+    if (obj.gate_blocked) continue;
+    if (obj.provider_mismatch) continue;
 
-    auto[convoOutcome(obj.turns || []).outcome]++;
+    auto[deriveOutcome(obj).outcome]++;
     const ev = evals[id];
     if (ev && ev.total != null) {
       evalAgg.n++;
@@ -411,8 +408,8 @@ async function compute({ dates, latest, windowDays, evals, excluded }) {
 
 function rowList(D) {
   return Object.entries(D).map(([vendor, d]) => {
-    const cs = composite(d.s);
-    const cp = composite(d.p);
+    const cs = composite(d.s, "shopping");
+    const cp = composite(d.p, "support");
     const comps = [cs, cp].filter((x) => x != null);
     return {
       vendor,
@@ -457,8 +454,11 @@ function laneDelta(before, after, laneKey) {
     const av = a && a[k] != null ? a[k] : null;
     if (JSON.stringify(bv) !== JSON.stringify(av)) out[k] = { before: bv, after: av, delta: bv != null && av != null ? round1(av - bv) : null };
   }
-  const bc = composite(b);
-  const ac = composite(a);
+  // laneKey is the scoreboard's short key ("s" = shopping, "p" = support); the composite needs
+  // the lane NAME because the weights differ per lane.
+  const lane = laneKey === "s" ? "shopping" : "support";
+  const bc = composite(b, lane);
+  const ac = composite(a, lane);
   if (JSON.stringify(bc) !== JSON.stringify(ac)) out.comp = { before: bc, after: ac, delta: bc != null && ac != null ? ac - bc : null };
   return Object.keys(out).length ? out : null;
 }
