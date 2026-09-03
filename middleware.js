@@ -13,7 +13,21 @@ async function expectedToken(pass) {
   return [...new Uint8Array(digest)].map((b) => b.toString(16).padStart(2, "0")).join("");
 }
 
+// PUBLIC SINCE 2026-09-03, by explicit decision: the benchmark is open, no sign-in.
+//
+// Note the gate below is fail-CLOSED — with no SITE_PASSWORD it redirects everyone to /login
+// rather than serving the site. So opening the report cannot be done by removing the secret;
+// it takes this early return. Everything under it is intact: delete these three lines and the
+// styled login gate is back exactly as it was, no other change needed.
+//
+// What being open means, since it cannot be quietly undone once the URL is shared: the report
+// names eighteen vendors and publishes numbers several of them will not like, and it is now
+// readable by all of them. It is also now verifiable from outside, which is the point — a
+// competitive benchmark nobody can check is only an assertion.
+const SITE_IS_PUBLIC = true;
+
 export default async function middleware(request) {
+  if (SITE_IS_PUBLIC) return;
   const url = new URL(request.url);
   const PASS = process.env.SITE_PASSWORD || "";
   const good = PASS ? await expectedToken(PASS) : null;

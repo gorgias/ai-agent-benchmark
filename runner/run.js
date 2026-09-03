@@ -40,7 +40,14 @@ import { novelLines } from "./reply-delta.js";
 { const _log = console.log.bind(console); console.log = (...a) => _log(new Date().toISOString() + " " + a.join(" ")); }
 
 const POLL_MS = 250, STABLE_MS = 5000, GROWTH = 60, SETTLE_MS = 2500;
-const TURN_TIMEOUT_MS = Number(process.env.TURN_TIMEOUT_MS) || 60000;
+// 120s, raised from 60s (2026-09-03). A turn that outruns this is recorded as UNANSWERED and
+// drops out of the latency mean entirely — which silently flatters the slowest agents by
+// deleting their slowest answers. Measured across the 90-day window, the share of AI turns with
+// no timing runs 12% (Sierra) to 46% (Yuma) and 63% (Decagon), so the ceiling was not neutral
+// between vendors: it removed far more evidence from slow engines than from fast ones. Recorded
+// maxima already reach ~114s via lateFlush, so answers really do arrive out past a minute.
+// Cost: a stalled turn now blocks twice as long, so captures/hour fall somewhat.
+const TURN_TIMEOUT_MS = Number(process.env.TURN_TIMEOUT_MS) || 120000;
 // Real desktop UA — some chat widgets refuse to load for the default headless UA.
 const REAL_UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36";
 // Some AI widgets (Rep AI, Kodif, Humind…) refuse to load in headless — they

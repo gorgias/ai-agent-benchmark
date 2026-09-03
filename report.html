@@ -239,6 +239,8 @@
   .best-sub{font-size:12.5px;color:var(--on-muted);margin-top:3px}
   .best-score{font-size:30px;font-weight:800;line-height:1;color:var(--primary)}
   .best-score span{font-size:13px;font-weight:600;color:var(--on-faint)}
+  .ci{font-size:12px;font-weight:600;color:var(--on-faint);margin-left:5px;white-space:nowrap}
+  .best-row .ci{font-size:11px}
   .best-list{margin-top:10px;display:flex;flex-direction:column}
   .best-row{display:flex;flex-direction:column;gap:5px;padding:11px 4px;border-top:1px solid var(--line);font-size:13px}
   .br-top{display:flex;align-items:center;gap:10px}
@@ -452,8 +454,8 @@
   <a class="brand" href="takeaways.html"><span class="mark"></span>Gorgias<span class="sub">· AI Agent Benchmark</span></a>
   <button class="nav-burger" aria-label="Menu" onclick="event.stopPropagation();this.closest('.sitenav').classList.toggle('nav-open')">☰</button>
   <div class="links">
-    <a href="takeaways.html">Summary</a>
-    <a href="report.html" id="nav-report" class="active" aria-current="page">Best AI Agent</a>
+    <a href="takeaways.html">Best AI Agent</a>
+    <a href="report.html" id="nav-report" class="active" aria-current="page">Head-to-head</a>
     <a href="report.html?view=conversations" id="nav-conversations">Conversations</a>
     <a href="report.html#how" onclick="openModal();return false;">How it works</a>
   </div>
@@ -1866,6 +1868,30 @@ function aggVendors(dataset, lane){
       timed, attempted, cov,
     };
     r.eligible = (r.autoRate!=null || r.avgS!=null) && r.avgL!=null && timed>=MIN_TIMED && cov>=MIN_COV && r.convs>=MIN_CONVS;
+    // ±: how far this composite would move on a different sample of THIS VENDOR'S STORES.
+    // The unit of replication is the store, not the conversation — ten conversations against
+    // one storefront share a knowledge base and a config, so they succeed and fail together;
+    // counting them as independent would shrink the interval by ~sqrt(convs per store) and
+    // manufacture confidence. A vendor measured on 44 stores earns a tight interval; one
+    // measured on 4 does not, however many conversations it ran. 95% t-interval.
+    const byStore={}; arr.forEach(x=>{ const k=x.store||x.site||'?'; (byStore[k]=byStore[k]||[]).push(x); });
+    const pts=[];
+    for(const rowsS of Object.values(byStore)){
+      const a2=rowsS.reduce((acc,x)=>{ if(x.auto){acc.a+=x.auto.automated;acc.e+=x.auto.engaged;} return acc; },{a:0,e:0});
+      const l2=rowsS.map(latNum).filter(x=>x!=null), q2=rowsS.map(qNum).filter(x=>x!=null);
+      if(!a2.e || !l2.length || !q2.length) continue;   // a store missing a dimension is not comparable
+      const c=composite({autoRate:100*a2.a/a2.e, avgQ:q2.reduce((x,y)=>x+y,0)/q2.length,
+                         avgL:l2.reduce((x,y)=>x+y,0)/l2.length}, lane);
+      if(c!=null) pts.push(c);
+    }
+    r.ciStores=pts.length;
+    if(pts.length>=3){
+      const m=pts.reduce((a,b)=>a+b,0)/pts.length;
+      const sd=Math.sqrt(pts.reduce((a,x)=>a+(x-m)*(x-m),0)/(pts.length-1));
+      const T=[12.71,4.303,3.182,2.776,2.571,2.447,2.365,2.306,2.262,2.228,2.201,2.179,2.160,2.145,2.131,2.120,2.110,2.101,2.093,2.086,2.080,2.074,2.069,2.064,2.060,2.056,2.052,2.048,2.045,2.042];
+      const df=pts.length-1, t=df<=30?T[df-1]:1.96;
+      r.ci=Math.round(t*sd/Math.sqrt(pts.length)*10)/10;
+    } else r.ci=null;
     return r;
   }).filter(r=>r.autoRate!=null || r.avgS!=null)
     .map(r=>({...r, comp: composite(r, lane)}))
@@ -1995,6 +2021,14 @@ function renderCompositeTrend(){
     : '';
   initTrendTips();
 }
+// ±X next to a composite: the 95% interval across this vendor's STORES. Rendered only when
+// at least three stores could produce all three dimensions — below that the spread is not
+// estimable and a number would be theatre. Overlapping intervals mean the ranking between
+// those two vendors is not resolved by this data, which the tooltip says out loud.
+function ciHtml(r){
+  if(r==null || r.ci==null) return '';
+  return '<span class="ci" data-tip="95% interval across this vendor&#39;s '+r.ciStores+' measured storefronts. Conversations from one store share a knowledge base and a config, so the store — not the conversation — is the unit of replication. Two vendors whose intervals overlap are not separated by this data.">±'+r.ci+'</span>';
+}
 function renderBestPanel(elId, allRows, laneData){
   const el=document.getElementById(elId); if(!el) return;
   const lane = elId==='best-shopping' ? 'shopping' : 'support';
@@ -2016,7 +2050,7 @@ function renderBestPanel(elId, allRows, laneData){
   let h='<div class="best-winner"><div class="best-medal">#1 · winner</div>'+
     '<div class="best-wmain"><div class="best-name"><span class="vdot" style="background:'+col(w.v)+'"></span>'+w.v+(w.us?'<span class="us-tag">US</span>':'')+iChip(w,1)+'</div>'+
     '<div class="best-sub">'+(w.autoRate!=null?w.autoRate+'% automation':Math.round(w.avgS)+'% success (legacy)')+' · <span data-tip="Average (mean) full-answer latency across this vendor&#39;s measured turns in this lane — not the median. See the Answer latency cards below for median vs p75.">~'+s1(w.avgL)+'s</span>'+(w.avgQ!=null?' · quality '+w.avgQ+'/100':'')+' · '+w.convs+' conversation'+(w.convs>1?'s':'')+' · <span data-tip="'+covTip(w)+'">'+pct(w.cov)+' coverage</span>'+ssTag(w.convs)+'</div>'+dnaLine(w.v)+'</div>'+
-    '<div class="best-score" data-tip="'+compTip(w)+'">'+w.comp+'<span>/100</span></div></div>';
+    '<div class="best-score" data-tip="'+compTip(w)+'">'+w.comp+'<span>/100</span>'+ciHtml(w)+'</div></div>';
   if(rows.length>1){
     h+='<div class="best-list">'+rows.slice(1).map((r,i)=>
       '<div class="best-row">'+
@@ -2024,7 +2058,7 @@ function renderBestPanel(elId, allRows, laneData){
           '<span class="best-rank">#'+(i+2)+'</span>'+
           '<span class="best-rname"><span class="vdot" style="background:'+col(r.v)+'"></span>'+r.v+(r.us?'<span class="us-tag">US</span>':'')+iChip(r,i+2)+'</span>'+
           '<span class="bar best-bar"><i style="width:'+r.comp+'%;background:'+col(r.v)+'"></i></span>'+
-          '<span class="best-rnum mono" data-tip="'+compTip(r)+'">'+r.comp+'</span>'+
+          '<span class="best-rnum mono" data-tip="'+compTip(r)+'">'+r.comp+ciHtml(r)+'</span>'+
         '</div>'+
         '<div class="br-meta mono">'+(r.autoRate!=null?'<b>'+r.autoRate+'%</b> auto':'')+' · <b data-tip="Average (mean) full-answer latency across this vendor&#39;s measured turns in this lane — not the median. See the Answer latency cards below for median vs p75.">'+s1(r.avgL)+'s</b>'+(r.avgQ!=null?' · <b>q'+r.avgQ+'</b>':'')+' · '+r.convs+' conv · <span data-tip="'+covTip(r)+'">'+pct(r.cov)+' cov</span>'+ssTag(r.convs)+'</div>'+
         dnaLine(r.v)+
@@ -2316,7 +2350,7 @@ renderAll();
 </script>
 <footer class="sitefoot">
   <div style="font-family:'Inter Tight';font-weight:800;font-size:14px;margin-bottom:8px">GORGIAS · AI AGENT BENCHMARK</div>
-  <a href="takeaways.html">Summary</a> · <a href="vendor-changes.html">Vendor changes</a>
+  <a href="takeaways.html">Best AI Agent</a> · <a href="vendor-changes.html">Vendor changes</a>
 </footer>
 
 <script>

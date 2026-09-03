@@ -113,15 +113,22 @@ async function fillVisibleInput(frame, selector, value, timeout = 3000) {
 // from reserved example.com and submit so the conversation can start.
 async function fillEmailGate(page, frame) {
   try {
-    const emailSel = 'input[type="email"], input[placeholder*="@"], input[placeholder*="mail" i], input[name*="mail" i], input[aria-label*="mail" i]';
+    const emailSel = 'input[type="email"], input[placeholder*="@"], input[placeholder*="mail" i], input[name*="mail" i], input[aria-label*="mail" i], input[id*="mail" i]';
     const email = frame.locator(emailSel).first();
     if (!(await email.count().catch(() => 0))) return false;
     if (!(await email.isVisible().catch(() => false))) return false;
 
     const identity = makeDummyIdentity();
-    await fillVisibleInput(frame, 'input[placeholder*="first" i], input[name*="first" i], input[aria-label*="first" i]', identity.firstName);
-    await fillVisibleInput(frame, 'input[placeholder*="last" i], input[name*="last" i], input[aria-label*="last" i]', identity.lastName);
-    await fillVisibleInput(frame, 'input[placeholder*="name" i], input[name*="name" i], input[aria-label*="name" i]', identity.name);
+    // Match on id= too. MESHKI US (2026-09-03) renders the gate as
+    //   <input id="yuma-contact-name"  placeholder="Lucy Smith">
+    //   <input id="yuma-contact-email" placeholder="lucysmith@mail.com">
+    // with no name=, no aria-label, and a placeholder that is a sample VALUE rather than the
+    // field label — so every selector here missed the name field, the form answered "Name is
+    // required", Start chat never fired, and all ten conversations came back unanswered while
+    // the widget looked healthy. Placeholders are copy; ids are structure.
+    await fillVisibleInput(frame, 'input[placeholder*="first" i], input[name*="first" i], input[aria-label*="first" i], input[id*="first" i]', identity.firstName);
+    await fillVisibleInput(frame, 'input[placeholder*="last" i], input[name*="last" i], input[aria-label*="last" i], input[id*="last" i]', identity.lastName);
+    await fillVisibleInput(frame, 'input[placeholder*="name" i], input[name*="name" i], input[aria-label*="name" i], input[id*="name" i]', identity.name);
     await fillVisibleInput(frame, emailSel, identity.email);
 
     const btn = frame.locator([
@@ -1243,8 +1250,12 @@ export const STORES = [
   // MESHKI — the only OTHER Yuma-native brand found (2026-07-03); 3 regional instances with DISTINCT
   // widget UUIDs (meshki.us shares meshki.com's UUID → skipped as redundant). Pushes Yuma to 6 stores.
   { key: "yuma-meshki",       vendor: "Yuma",   store: "MESHKI",      url: "https://meshki.com/",         widget: "yuma", locale: "en-AU" }, // app.yuma.ai/w/4f7a9401
-  { key: "yuma-meshki-au", wall: true,    vendor: "Yuma",   store: "MESHKI AU",   url: "https://meshki.com.au/",      widget: "yuma", locale: "en-AU" }, // app.yuma.ai/w/df03b930 | walled 2026-07-27: 60 AI turns / 12 convs, ZERO reply content, 0 valid
-  { key: "yuma-meshki-uk",    vendor: "Yuma",   store: "MESHKI UK",   url: "https://meshki.co.uk/",       widget: "yuma", locale: "en-GB" }, // app.yuma.ai/w/5d646ace
+  { key: "yuma-meshki-au",    vendor: "Yuma",   store: "MESHKI AU",   url: "https://meshki.com.au/",      widget: "yuma", locale: "en-AU" }, // app.yuma.ai/w/df03b930 | walled 2026-07-27: 60 AI turns / 12 convs, ZERO reply content, 0 valid  // un-walled 2026-09-03: detect-engine.mjs sees 99 requests to yuma.ai; the wall was stale
+  { key: "yuma-meshki-uk",    vendor: "Yuma",   store: "MESHKI UK",   url: "https://meshki.co.uk/",       widget: "yuma", locale: "en-GB" },
+  // Verified 2026-09-03 by tools/detect-engine.mjs: the chat answers from a Yuma endpoint
+  // (98 requests to yuma.ai, ahead of Klaviyo and Zendesk on the same page). A source scan
+  // would have missed it — meshki.us serves the widget without naming Yuma in its HTML.
+  { key: "yuma-meshki-us",    vendor: "Yuma",   store: "MESHKI US",   url: "https://www.meshki.us/",      widget: "yuma", locale: "en-US", us: true }, // app.yuma.ai/w/4f7a9401-94f0-44fa-8a37-6324700a4291 // app.yuma.ai/w/5d646ace
   // yuma-bombayhair removed 2026-07-06 — no live AI agent / on-site chat on this store (verified, Max)
   // yuma-tumble RESTORED 2026-07-07 — the 07-06 removal ("email-gated") predates the email-gate fix;
   // today's run: 9/10 valid with real timed answers (16-31s). Without a roster entry gen.js silently
