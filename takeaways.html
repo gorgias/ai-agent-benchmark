@@ -466,7 +466,7 @@ td.n{text-align:right}
               <th class="n"><span class="tt" data-tip="Overall position — vendors ordered by the sum of their two lane composites. The small #n next to each composite is the rank within that lane.">#</span></th>
               <th>Vendor</th>
               <th class="n"><span class="tt" data-tip="Shopping composite = 40% automation + 35% quality + 25% speed — shopping weights speed higher because latency drives conversion (a shopper won't wait). Speed scored 100 at ≤3s, 0 at ≥22s.">Composite · Shopping</span></th>
-              <th class="n"><span class="tt" data-tip="Support composite = 50% automation + 30% quality + 20% speed — support weights automation higher because containment (no human handover) is the job. Speed scored 100 at ≤3s, 0 at ≥22s.">Composite · Support</span></th>
+              <th class="n"><span class="tt" data-tip="Support composite = 50% automation + 40% quality + 10% speed — support weights automation highest because containment (no human handover) is the job, and speed lowest because a customer waiting on a policy answer is far more patient than a shopper mid-purchase. Reweighted 2026-09-03 from 30/20; rationale and full before/after in notes/lane-weights-2026-09-03.md. Speed scored 100 at ≤3s, 0 at ≥22s.">Composite · Support</span></th>
               <th><span class="tt" data-tip="Automation rate = % of engaged conversations the AI handled with ZERO human touch: no human handover AND no deflection out of the channel. Early bails count against it. This is the ticket-containment metric.">Automation · S/Su</span></th>
               <th><span class="tt" data-tip="Quality = an LLM judge scores every captured conversation /100 on a per-lane rubric, judged BLIND via binary evidence-forced checks — the score is derived from the checks, never picked by the judge. Shopping: answer relevance /30, discovery (smart clarifying questions on broad asks) /20, recommendation /22, rich elements /18, close /10. Support: resolution /40, accuracy /25, actionability /20, close /15. Spec: runner/eval-rubric.md.">Quality · S/Su</span></th>
               <th class="n"><span class="tt" data-tip="Latency = mean time from a free-typed message to the assistant's COMPLETE final answer (never stopped on a stall, never on chips), cold session. p75 = 75th-percentile latency across all timed turns.">Latency + p75</span></th>
@@ -506,7 +506,7 @@ td.n{text-align:right}
         <div class="vcell mid">
           <div class="kpi tnum"><!--RANK_OVERALL-->#2<!--/RANK_OVERALL--></div>
           <span class="tag">Overall position</span>
-          <div class="desc"><span class="tt" data-tip="Overall = mean of the two lane composites. Composite is lane-specific: SUPPORT = 50% automation + 30% quality + 20% speed (containment is the job); SHOPPING = 40% automation + 35% quality + 25% speed (a shopper will not wait). Speed scores 100 at ≤3s and 0 at ≥22s."><!--RANK_LANES-->#3 support (68), #2 shopping (65)<!--/RANK_LANES--></span>, now #1 overall — ahead of Envive. Shopping quality (85) beats Envive and Yuma on shopping composite; only Siena edges ahead at #1. <b>We win the quality argument.</b></div>
+          <div class="desc"><span class="tt" data-tip="Overall = mean of the two lane composites. Composite is lane-specific: SUPPORT = 50% automation + 40% quality + 10% speed (containment is the job; latency tolerance is higher than in shopping, so speed carries least — reweighted 2026-09-03, see notes/lane-weights-2026-09-03.md); SHOPPING = 40% automation + 35% quality + 25% speed (a shopper will not wait). Speed scores 100 at ≤3s and 0 at ≥22s."><!--RANK_LANES-->#3 support (68), #2 shopping (65)<!--/RANK_LANES--></span>, now #1 overall — ahead of Envive. Shopping quality (85) beats Envive and Yuma on shopping composite; only Siena edges ahead at #1. <b>We win the quality argument.</b></div>
         </div>
         <div class="vcell warn">
           <div class="kpi tnum">~18<span style="font-size:.5em;font-weight:600">s</span></div>
@@ -738,7 +738,7 @@ td.n{text-align:right}
       </div>
       <div class="col">
         <h4>Composite</h4>
-        <p><b>Weighted per lane.</b> Shopping = 40% automation + 35% quality + 25% speed (latency drives conversion); Support = 50% automation + 30% quality + 20% speed (containment is the job). Speed scored 100 at ≤3s, 0 at ≥22s.</p>
+        <p><b>Weighted per lane.</b> Shopping = 40% automation + 35% quality + 25% speed (latency drives conversion); Support = 50% automation + 40% quality + 10% speed (containment is the job; latency tolerance is higher than in shopping, so speed carries least). Speed scored 100 at ≤3s, 0 at ≥22s. Reweighted 2026-09-03 from 30/20 — see notes/lane-weights-2026-09-03.md.</p>
       </div>
       <div class="col">
         <h4>Latency</h4>
@@ -766,7 +766,8 @@ td.n{text-align:right}
 const speed=l=>Math.max(0,Math.min(100,(22-l)/19*100));
 // LANE-SPECIFIC weights (2026-07-10): shopping weights speed↑ (latency drives conversion),
 // support weights automation↑ (containment). Must match gen.js LANE_W + report.html.
-const LANE_W={s:{a:.4,q:.35,sp:.25},p:{a:.5,q:.3,sp:.2}};
+// SUPPORT REWEIGHT (2026-09-03): speed 20%→10%, quality 30%→40%. See notes/lane-weights-2026-09-03.md.
+const LANE_W={s:{a:.4,q:.35,sp:.25},p:{a:.5,q:.4,sp:.1}};
 function comp(m,lane){ if(!m) return null; const w=LANE_W[lane]||LANE_W.p; const parts=[[w.a,m.a],[w.q,m.q],[w.sp,m.l!=null?speed(m.l):null]].filter(p=>p[1]!=null); const tw=parts.reduce((a,p)=>a+p[0],0); return tw?Math.round(parts.reduce((a,p)=>a+p[0]*p[1],0)/tw):null; }
 // The 30/60/90-day views are BAKED by gen.js (D_WINDOWS) from the same laneScores() the
 // report ranks with. The toggle only switches a precomputed view — it never recomputes a
