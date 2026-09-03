@@ -734,7 +734,7 @@
 <section id="summary-sec">
   <div id="lat-cards-holder"></div>
   <div id="ctrend-holder"></div>
-  <h2 class="sec">Summary — by vendor</h2>
+  <h2 class="sec">Best AI Agent</h2>
   <p class="lead">One line per vendor, <strong>averaged across the stores tested in this mode</strong>. Drill into individual stores in the table below. Hover any column header for the metric's exact definition — <strong>Automation rate</strong> is the single containment dimension (conversations a human never touches); answer substance is scored separately by the LLM-judge <strong>Quality</strong> column.</p>
   <div class="card table-scroll">
     <table><thead><tr>
@@ -781,7 +781,7 @@
 </section>
 
 <section id="best-sec">
-  <h2 class="sec" id="best-sec-h">Best AI agent</h2>
+  <h2 class="sec" id="best-sec-h">Head-to-head — who wins each lane</h2>
   <p class="lead">The single best chat AI agent for each job — use the toggle above to switch lane. Ranked by a composite of <strong>automation</strong> + <strong>quality</strong> + <strong>speed</strong>, gated on measurement coverage. <button class="linklike" onclick="openModal()">How the ranking works ↗</button></p>
   <div class="card best-card" id="best-card-shopping" style="margin-bottom:16px">
     <div class="best-cat">Shopping Assistant — product discovery &amp; recommendation</div>
@@ -2190,7 +2190,7 @@ function applyView(){
   const _bcs=document.getElementById('best-card-shopping'), _bcp=document.getElementById('best-card-support');
   if(_bcs) _bcs.hidden = MODE!=='shopping';
   if(_bcp) _bcp.hidden = MODE!=='support';
-  const _bh=document.getElementById('best-sec-h'); if(_bh) _bh.textContent = 'Scoreboard — Shopping Assistant & Support Agent';
+  const _bh=document.getElementById('best-sec-h'); if(_bh) _bh.textContent = 'Head-to-head — who wins each lane';
   // method & caveats stays visible in every view
   document.getElementById('mode-note').textContent = isConv
       ? 'Every captured conversation across both lanes — filter, search, and open the full transcript. Gorgias conversations link to their ticket.'
