@@ -233,6 +233,7 @@ tbody tr:hover{background:var(--surface-neutral-primary)}
 tbody tr.us:hover{background:var(--surface-neutral-primary)}
 td.n{text-align:right}
 .vdot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:var(--xs);vertical-align:middle;flex:none}
+.vlogo{display:inline-block;width:20px;height:20px;border-radius:6px;margin-right:var(--xs);vertical-align:middle;flex:none;object-fit:contain;background:#fff;border:1px solid var(--line,#e5e7eb)}
 .vname{font-weight:600;color:var(--content-neutral-default)}
 .rankbadge{
   display:inline-grid;place-items:center;min-width:24px;height:22px;padding:0 var(--xxs);
@@ -773,6 +774,19 @@ function comp(m,lane){ if(!m) return null; const w=LANE_W[lane]||LANE_W.p; const
 // report ranks with. The toggle only switches a precomputed view — it never recomputes a
 // composite here. Recomputing the baker's arithmetic in page JS is precisely how the dry-run
 // preview drifted from the published report three times on 2026-09-03.
+// Vendor logos — Google favicon service (cached, no per-vendor scraping). Domain map is
+// explicit (not inferred from vendor names) so a rebrand can't silently 404; a missing
+// favicon falls back to the colored dot, never a broken image.
+const VLOGOS = {
+  "Gorgias":"gorgias.com","Envive":"envive.ai","Sierra":"sierra.ai","Siena":"siena.ai",
+  "Yuma":"yuma.ai","Kodif":"kodif.com","Ada":"ada.support","Zendesk":"zendesk.com",
+  "Intercom":"intercom.com","DigitalGenius":"digitalgenius.com","Rep AI":"hellorep.ai",
+  "Klaviyo":"klaviyo.com","Decagon":"decagon.ai","Amazon Rufus":"amazon.com",
+  "Shopify Inbox":"shopify.com","Google Agentic":"google.com","Humind":"humind.fr","Mavenoid":"mavenoid.com"
+};
+const vlogo = v => VLOGOS[v]
+  ? '<img class="vlogo" src="https://www.google.com/s2/favicons?domain='+VLOGOS[v]+'&sz=64" alt="" loading="lazy" onerror="this.remove()">'
+  : '';
 let SB_DATA = (typeof D_WINDOWS !== 'undefined' && D_WINDOWS['90']) ? D_WINDOWS['90'] : D;
 function renderScoreTable(DATA){
 const rows=Object.entries(DATA).map(([v,d])=>({v,...d,cs:comp(d.s,'s'),cp:comp(d.p,'p')}))
@@ -785,7 +799,7 @@ const cell=(m,f)=> m&&m[f]!=null? m[f] : '—';
 function latCell(m){ return (m&&m.l!=null)? m.l+'s' : '—'; }
 document.querySelector('#score-table tbody').innerHTML=rows.map((r,i)=>
  '<tr'+(r.us?' class="us"':'')+'><td class="n" style="width:34px"><span class="rankbadge tnum">#'+(i+1)+'</span></td>'+
- '<td><span class="vdot" style="background:'+r.col+'"></span><span class="vname">'+r.v+'</span>'+(r.us?'<span class="us-tag">US</span>':'')+'</td>'+
+ '<td><span class="vdot" style="background:'+r.col+'"></span>'+vlogo(r.v)+'<span class="vname">'+r.v+'</span>'+(r.us?'<span class="us-tag">US</span>':'')+'</td>'+
  '<td class="n tnum"><span class="comp">'+(r.cs!=null?r.cs:'—')+'</span>'+rk(RS[r.v])+'</td>'+
  '<td class="n tnum"><span class="comp">'+(r.cp!=null?r.cp:'—')+'</span>'+rk(RP[r.v])+'</td>'+
  '<td>'+pill(r.s&&r.s.a,90,70)+' / '+pill(r.p&&r.p.a,90,70)+'</td>'+
