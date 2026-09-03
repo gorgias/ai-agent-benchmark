@@ -609,7 +609,7 @@
 
     <div class="mblock">
       <h3>Then: quality → ranking</h3>
-      <p>Each vendor's per-conversation scores are pooled per lane, then combined into the headline composite, <strong>weighted per lane</strong> because the two jobs value speed differently: <span class="mono">Shopping = 40% automation + 35% quality + 25% speed</span> (a shopper won't wait — latency drives conversion) and <span class="mono">Support = 50% automation + 30% quality + 20% speed</span> (containment is the point — a handover to a human is the failure). Speed scored 100 at ≤3s, 0 at ≥22s; renormalized when a dimension is unavailable. Ranking is <strong>gated on measurement coverage</strong>: a vendor needs enough cleanly-timed turns across enough stores to hold a confident rank; thin-coverage vendors are listed separately, not ranked as if fully sampled. The rubric is versioned in git (<span class="mono">runner/eval-rubric.md</span>, currently v2.3) so every score is traceable to the exact text that produced it.</p>
+      <p>Each vendor's per-conversation scores are pooled per lane, then combined into the headline composite, <strong>weighted per lane</strong> because the two jobs value speed differently: <span class="mono">Shopping = 40% automation + 35% quality + 25% speed</span> (a shopper won't wait — latency drives conversion) and <span class="mono">Support = 50% automation + 40% quality + 10% speed</span> (containment is the point — a handover to a human is the failure; latency tolerance is higher than in shopping, so speed carries less). Speed scored 100 at ≤3s, 0 at ≥22s; renormalized when a dimension is unavailable. Ranking is <strong>gated on measurement coverage</strong>: a vendor needs enough cleanly-timed turns across enough stores to hold a confident rank; thin-coverage vendors are listed separately, not ranked as if fully sampled. The rubric is versioned in git (<span class="mono">runner/eval-rubric.md</span>, currently v2.3) so every score is traceable to the exact text that produced it.</p>
     </div>
     </div>
 
@@ -621,7 +621,7 @@
 
     <div class="mblock">
       <h3>Best AI agent — how the ranking works</h3>
-      <p>The two jobs an on-site assistant is hired for are ranked by a composite of three things: <strong>automation rate</strong> (does the AI carry the whole conversation in-channel — no human handover, no email/phone deflection; early bails count against it), <strong>answer quality</strong> (an LLM-judge scores every conversation /100 on a per-lane rubric — relevance, discovery, recommendation &amp; rich elements for Shopping; resolution, accuracy &amp; actionability for Support), and <strong>speed</strong> (latency to the full final answer). The three are <strong>weighted per lane</strong> because the two jobs value them differently: <span class="mono">Shopping = 40% automation + 35% quality + 25% speed</span> — a shopper won't wait, so latency is weighted as heavily as quality (it drives conversion); <span class="mono">Support = 50% automation + 30% quality + 20% speed</span> — the job is to contain the ticket, so automation carries the most weight and a handover to a human is the failure. Speed scored 100 at ≤3s, 0 at ≥22s; renormalized when a dimension is unavailable. Pooled per vendor across its stores; respects the date window. <strong>Ranking is gated on statistical significance</strong> (see Method &amp; caveats): a vendor needs ≥15 judged conversations in a lane to be ranked; those with too few are shown but listed separately, never ranked as if fully sampled.</p>
+      <p>The two jobs an on-site assistant is hired for are ranked by a composite of three things: <strong>automation rate</strong> (does the AI carry the whole conversation in-channel — no human handover, no email/phone deflection; early bails count against it), <strong>answer quality</strong> (an LLM-judge scores every conversation /100 on a per-lane rubric — relevance, discovery, recommendation &amp; rich elements for Shopping; resolution, accuracy &amp; actionability for Support), and <strong>speed</strong> (latency to the full final answer). The three are <strong>weighted per lane</strong> because the two jobs value them differently: <span class="mono">Shopping = 40% automation + 35% quality + 25% speed</span> — a shopper won't wait, so latency is weighted as heavily as quality (it drives conversion); <span class="mono">Support = 50% automation + 40% quality + 10% speed</span> — the job is to contain the ticket, so automation carries the most weight and a handover to a human is the failure; a customer waiting on a policy answer is far more patient than a shopper mid-purchase, so speed carries least here and quality does the work of keeping containment honest. Speed scored 100 at ≤3s, 0 at ≥22s; renormalized when a dimension is unavailable. Pooled per vendor across its stores; respects the date window. <strong>Ranking is gated on statistical significance</strong> (see Method &amp; caveats): a vendor needs ≥15 judged conversations in a lane to be ranked; those with too few are shown but listed separately, never ranked as if fully sampled.</p>
     </div>
     </div>
 
@@ -1822,7 +1822,10 @@ function filterBy(v){
 function speedScore(lat){ return Math.max(0, Math.min(100, (22-lat)/(22-3)*100)); }   // ≤3s→100, ≥22s→0
 // LANE-SPECIFIC weights (2026-07-10, Max): shopping weights speed↑ (latency drives
 // conversion), support weights automation↑ (containment). Must match gen.js + takeaways.
-const LANE_W={shopping:{a:0.4,q:0.35,s:0.25}, support:{a:0.5,q:0.3,s:0.2}};
+// SUPPORT REWEIGHT (2026-09-03): speed 20%→10%, quality 30%→40% — support latency tolerance
+// is far higher than shopping's, and 30% made quality too weak a check on containment.
+// Effect published in notes/lane-weights-2026-09-03.md (Gorgias #3→#2, Yuma #2→#1).
+const LANE_W={shopping:{a:0.4,q:0.35,s:0.25}, support:{a:0.5,q:0.4,s:0.1}};
 function composite(r, lane){
   const w=LANE_W[lane]||LANE_W.support;
   const parts=[[w.a, r.autoRate!=null? r.autoRate : (r.avgS!=null? r.avgS : null)],   // automation (success as legacy fallback)
@@ -1976,7 +1979,7 @@ function compositeTrendSeries(laneArr, lane){
 function renderCompositeTrend(){
   const el=document.getElementById('ctrend-holder'); if(!el) return;
   const tr=compositeTrendSeries(AS(), MODE);
-  const wlabel = MODE==='shopping' ? '40% automation + 35% quality + 25% speed' : '50% automation + 30% quality + 20% speed';
+  const wlabel = MODE==='shopping' ? '40% automation + 35% quality + 25% speed' : '50% automation + 40% quality + 10% speed';
   el.innerHTML = (tr.dates.length>=2 && tr.series.length)
     ? trendChart('Composite score /100 — daily evolution per provider ('+wlabel+')', tr.dates, tr.series, {max:100, unit:'', W:760, H:230})
     : '';

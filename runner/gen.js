@@ -572,7 +572,22 @@ const OUTLIER_V = new Set(["Amazon Rufus"]);  // references, not ranked head-to-
 // LANE-SPECIFIC composite weights (2026-07-10, Max): SHOPPING weights speed higher — latency
 // is critical to conversion (a shopper won't wait); SUPPORT weights automation higher —
 // containment (not handing off to a human) is the point. Quality stays 0.3 in both.
-const LANE_W = { shopping: { a: 0.4, q: 0.35, s: 0.25 }, support: { a: 0.5, q: 0.3, s: 0.2 } };
+// LANE-SPECIFIC weights. Shopping weights speed up (latency drives conversion); support
+// weights automation up (containment is the job). Must match report.html + takeaways.html —
+// locked by lane-weights.test.js.
+//
+// SUPPORT REWEIGHT (2026-09-03): speed 20% -> 10%, quality 30% -> 40%. Rationale: latency
+// tolerance in support is materially higher than in shopping — a customer waiting on a
+// return-policy answer is not a shopper abandoning a cart — so 20% overweighted speed in the
+// lane where it matters least. Quality absorbs it: at 30%, answer quality was too weak a
+// check on containment, and a vendor that contains tickets with poor answers should not
+// outrank one that actually resolves them.
+//
+// DISCLOSURE: this moves Gorgias #3 -> #2 in support, and moves Yuma #2 -> #1. Adopted with
+// the effect on every vendor computed first (notes/lane-weights-2026-09-03.md); it does not
+// hand Gorgias the top position. Per the rule in ranking-window.js, a weighting change must
+// be validated across every vendor and must never be adopted because it favours Gorgias.
+const LANE_W = { shopping: { a: 0.4, q: 0.35, s: 0.25 }, support: { a: 0.5, q: 0.4, s: 0.1 } };
 const laneRank = (scores, w) => Object.entries(scores)
   .filter(([v, sc]) => sc && sc.q != null && sc.n >= MIN_RANK_CONVS && !OUTLIER_V.has(v))
   .map(([v, sc]) => ({ v, comp: Math.round(w.a * sc.a + w.q * sc.q + w.s * speedScoreG(sc.l)) }))
