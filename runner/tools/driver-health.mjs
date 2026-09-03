@@ -11,9 +11,11 @@
 //   DAYS=14 node tools/driver-health.mjs    # wider window
 //   MIN_N=5 node tools/driver-health.mjs    # only flag stores with ≥5 attempts
 import { readdirSync, readFileSync } from "fs";
-import { createRequire } from "module";
-const require = createRequire(import.meta.url);
-const { STORES } = require("../vendors.js");
+// vendors.js is an ES module (package.json declares "type": "module"). Importing it through
+// createRequire worked on the Node 22.22 laptop, where require(esm) is unflagged, and threw
+// ERR_REQUIRE_ESM on the Node 22.11 capture server — so every auto-probe silently failed in
+// production while passing locally. Import it directly; that works on every version.
+import { STORES } from "../vendors.js";
 
 const DAYS = Number(process.env.DAYS) || 7;
 const MIN_N = Number(process.env.MIN_N) || 3;

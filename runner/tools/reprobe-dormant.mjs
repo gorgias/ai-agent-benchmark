@@ -12,10 +12,12 @@
 //
 // Usage: node tools/reprobe-dormant.mjs <store-key> [more keys...] [--headed] [--out FILE]
 import pw from "../node_modules/playwright/index.js";
-import { createRequire } from "module";
 import fs from "fs";
-const require = createRequire(import.meta.url);
-const { STORES, WIDGETS } = require("../vendors.js");
+// vendors.js is an ES module (package.json declares "type": "module"). Importing it through
+// createRequire worked on the Node 22.22 laptop, where require(esm) is unflagged, and threw
+// ERR_REQUIRE_ESM on the Node 22.11 capture server — so every auto-probe silently failed in
+// production while passing locally. Import it directly; that works on every version.
+import { STORES, WIDGETS } from "../vendors.js";
 const { chromium } = pw;
 
 const args = process.argv.slice(2);

@@ -9,9 +9,11 @@
 // Usage: node tools/probe-net.mjs <store-key> [--headed] [question]
 // Read-only: writes nothing to results/.
 import pw from "../node_modules/playwright/index.js";
-import { createRequire } from "module";
-const require = createRequire(import.meta.url);
-const { STORES, WIDGETS } = require("../vendors.js");
+// vendors.js is an ES module (package.json declares "type": "module"). Importing it through
+// createRequire worked on the Node 22.22 laptop, where require(esm) is unflagged, and threw
+// ERR_REQUIRE_ESM on the Node 22.11 capture server — so every auto-probe silently failed in
+// production while passing locally. Import it directly; that works on every version.
+import { STORES, WIDGETS } from "../vendors.js";
 const { chromium } = pw;
 
 const key = process.argv[2];
