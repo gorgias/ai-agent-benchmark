@@ -220,12 +220,12 @@
   .dp-day.edge{background:linear-gradient(135deg,var(--primary),var(--primary-2));color:#fff;font-weight:700;border-radius:8px}
   .dp-day.has-data::after{content:'';position:absolute;left:50%;bottom:4px;transform:translateX(-50%);width:4px;height:4px;border-radius:50%;background:var(--accent)}
   .dp-day.edge.has-data::after{background:#fff}
-  .dp-presets{display:flex;gap:6px;margin-top:10px;border-top:1px solid var(--line);padding-top:10px}
-  .datebtn{font-size:11.5px;font-weight:600;padding:5px 9px;border-radius:8px;border:1px solid var(--line);background:var(--surface);cursor:pointer;color:var(--on-muted);flex:1}
+  .dp-presets{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;border-top:1px solid var(--line);padding-top:10px}
+  .datebtn{font-size:11.5px;font-weight:600;padding:5px 9px;border-radius:8px;border:1px solid var(--line);background:var(--surface);cursor:pointer;color:var(--on-muted);flex:1 1 auto;white-space:nowrap}
   .datebtn:hover{border-color:var(--primary);color:var(--on)}
   .datebar-note{font-size:11.5px;color:var(--on-faint)}
   .datebtn-default{font-weight:600;border-color:var(--accent,#f0603f);color:var(--accent,#f0603f)}
-  .dp-fair{display:block;padding:7px 9px 2px;font-size:11px;line-height:1.45;color:var(--on-faint)}
+  .dp-fair{flex:0 0 100%;margin-top:4px;font-size:10.5px;line-height:1.4;color:var(--on-faint)}
   .snap{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;color:var(--on-muted);background:var(--surface-2);border:1px solid var(--line);padding:3px 9px;border-radius:999px}
   /* Best-agent-by-category section */
   .best-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
@@ -668,9 +668,9 @@
             <div class="dp-presets">
               <button class="datebtn" onclick="presetDays(7)">Last 7 days</button>
               <button class="datebtn" onclick="presetDays(30)">Last 30 days</button>
-              <button class="datebtn datebtn-default" onclick="presetDays(90)">Last 90 days · recommended</button>
+              <button class="datebtn datebtn-default" onclick="presetDays(90)">Last 90 days</button>
               <button class="datebtn" onclick="presetAll()">All dates</button>
-              <span class="dp-fair"><strong>Recommended: last 90&nbsp;days.</strong> This is the window the ranking is computed on, and it is restored on every page load. Shorter ranges are available for inspection, but they thin each vendor's sample until the order depends on which stores happened to be captured that week rather than on agent quality — measured on 2026-07-29, one vendor's sample fell from 18 stores to 4 and its score moved 11 points on identical behaviour. Every vendor is scored over the same window, so no reader — us included — is looking at a range picked to flatter a result.</span>
+              <span class="dp-fair"><strong>90 days is the recommended window</strong> — it is what the ranking is computed on, and it is restored on every page load. Shorter ranges thin each vendor's sample.</span>
             </div>
           </div>
         </div>
@@ -705,9 +705,9 @@
       <div class="dp-presets">
         <button class="datebtn" onclick="presetDays(7)">Last 7 days</button>
         <button class="datebtn" onclick="presetDays(30)">Last 30 days</button>
-        <button class="datebtn datebtn-default" onclick="presetDays(90)">Last 90 days · recommended</button>
+        <button class="datebtn datebtn-default" onclick="presetDays(90)">Last 90 days</button>
         <button class="datebtn" onclick="presetAll()">All dates</button>
-        <span class="dp-fair"><strong>Recommended: last 90&nbsp;days.</strong> This is the window the ranking is computed on, and it is restored on every page load. Shorter ranges are available for inspection, but they thin each vendor's sample until the order depends on which stores happened to be captured that week rather than on agent quality — measured on 2026-07-29, one vendor's sample fell from 18 stores to 4 and its score moved 11 points on identical behaviour. Every vendor is scored over the same window, so no reader — us included — is looking at a range picked to flatter a result.</span>
+        <span class="dp-fair"><strong>90 days is the recommended window</strong> — it is what the ranking is computed on, and it is restored on every page load. Shorter ranges thin each vendor's sample.</span>
       </div>
     </div>
   </div>
@@ -782,7 +782,7 @@
 
 <section id="best-sec">
   <h2 class="sec" id="best-sec-h">Best AI agent</h2>
-  <p class="lead">The single best chat AI agent for each job, ranked by a composite of <strong>automation</strong> + <strong>quality</strong> + <strong>speed</strong>, gated on measurement coverage. <button class="linklike" onclick="openModal()">How the ranking works ↗</button></p>
+  <p class="lead">Both lanes side by side — the best chat AI agent for each job, ranked by a composite of <strong>automation</strong> + <strong>quality</strong> + <strong>speed</strong>, gated on measurement coverage. <button class="linklike" onclick="openModal()">How the ranking works ↗</button></p>
   <div class="card best-card" id="best-card-shopping" style="margin-bottom:16px">
     <div class="best-cat">Shopping Assistant — product discovery &amp; recommendation</div>
     <div id="best-shopping"></div>
@@ -2183,11 +2183,13 @@ function applyView(){
   show('trend-sec', isData);               // trends/coverage belong to the detailed views
   show('coverage-sec', isData);
   show('caps-sec', isData && MODE==='shopping');
-  // Best-sec shows ONLY the current lane's ranking card (no more "Best category" tab / sub-toggle)
+  // SCOREBOARD: both lanes together, always. Showing one lane at a time made the reader carry
+  // the other half in their head — and a vendor that leads one lane while trailing the other
+  // (Envive: #2 shopping, #13 support) reads as a straight winner until you switch tabs.
   const _bcs=document.getElementById('best-card-shopping'), _bcp=document.getElementById('best-card-support');
-  if(_bcs) _bcs.hidden = MODE!=='shopping';
-  if(_bcp) _bcp.hidden = MODE!=='support';
-  const _bh=document.getElementById('best-sec-h'); if(_bh) _bh.textContent = MODE==='shopping' ? 'Best Shopping Assistant' : 'Best Support Agent';
+  if(_bcs) _bcs.hidden = isConv;
+  if(_bcp) _bcp.hidden = isConv;
+  const _bh=document.getElementById('best-sec-h'); if(_bh) _bh.textContent = 'Scoreboard — Shopping Assistant & Support Agent';
   // method & caveats stays visible in every view
   document.getElementById('mode-note').textContent = isConv
       ? 'Every captured conversation across both lanes — filter, search, and open the full transcript. Gorgias conversations link to their ticket.'

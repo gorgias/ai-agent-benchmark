@@ -440,47 +440,6 @@ td.n{text-align:right}
 </header>
 
 <!-- ============================== VERDICT ============================== -->
-<section id="verdict">
-  <div class="wrap">
-    <span class="kicker rv"><span class="dot"></span>The verdict — Gorgias</span>
-    <h2 class="sec rv"><!--RANK_TITLE-->Gorgias: #2 overall — #3 support, one shopping-speed gap.<!--/RANK_TITLE--></h2>
-    <p class="sec-lead rv">A single read on where Gorgias stands across the field, on the same rubric applied blind to every vendor.</p>
-
-    <div class="verdict-shell rv">
-      <div class="verdict-top">
-        <div class="h"><!--RANK_H-->Gorgias is #2 overall, behind Siena — #3 support (behind Siena) and #2 shopping, behind Envive. The one gap is shopping speed.<!--/RANK_H--></div>
-        <span class="badge-rank"><!--RANK_BADGE-->#2 overall · #3 support · #2 shopping<!--/RANK_BADGE--></span>
-      </div>
-      <div class="verdict-grid">
-        <div class="vcell good">
-          <div class="kpi tnum">94</div>
-          <span class="tag">Support quality</span>
-          <div class="desc"><span class="tt" data-tip="Support quality /100 (blind, evidence-forced LLM judge): in-channel resolution /40, accuracy &amp; grounding /25, actionability /20, clean close /15. Derived from binary checks, never picked by the judge.">Essentially the best answer quality measured</span> (Envive 88, field median ~65). Specific, grounded, actionable resolutions. <b>This is our strongest claim.</b></div>
-        </div>
-        <div class="vcell good">
-          <div class="kpi tnum">94<span style="font-size:.5em;font-weight:600">%</span></div>
-          <span class="tag">Automation — elite</span>
-          <div class="desc"><span class="tt" data-tip="Automation rate = % of engaged conversations the AI handled with ZERO human touch: no human handover AND no out-of-channel deflection ('email us' / 'call us'). Early bails count against it. In helpdesk terms: the share of tickets a human never touches.">94% shopping · 83% support</span> across live V3 stores. Only Ada/Rep score higher (100%) — both at near-zero answer quality. <b>Among vendors that actually answer, containment is top-tier.</b></div>
-        </div>
-        <div class="vcell mid">
-          <div class="kpi tnum"><!--RANK_OVERALL-->#2<!--/RANK_OVERALL--></div>
-          <span class="tag">Overall position</span>
-          <div class="desc"><span class="tt" data-tip="Overall = mean of the two lane composites. Composite = 40% automation + 40% quality + 20% speed (speed 100 at ≤3s, 0 at ≥22s) — automation and quality are equal pillars; speed separates close vendors."><!--RANK_LANES-->#3 support (68), #2 shopping (65)<!--/RANK_LANES--></span>, now #1 overall — ahead of Envive. Shopping quality (85) beats Envive and Yuma on shopping composite; only Siena edges ahead at #1. <b>We win the quality argument.</b></div>
-        </div>
-        <div class="vcell warn">
-          <div class="kpi tnum">~18<span style="font-size:.5em;font-weight:600">s</span></div>
-          <span class="tag">The shopping gap — speed</span>
-          <div class="desc"><span class="tt" data-tip="Latency = mean time to the COMPLETE final answer in a cold session; p75 = 75th-percentile across all timed turns. Never stopped on a stall, never on chips.">Shopping mean ~18.4s, p75 21.3s</span>, delivered atomically — slowest of the top tier (Sierra 9.9s, Envive 12.5s). Support speed is fine (15s). <b>Speed is the shopping lever.</b></div>
-        </div>
-      </div>
-      <div class="verdict-note">
-        <b>Bottom line:</b> under the blind, evidence-forced re-judge, Gorgias is <b>#1 overall</b> (mean of both lanes), now ahead of Envive. Support is the standout — quality <b>94/100</b>, best-in-field, and now the <b>#1 support agent</b>. Shopping is <b>#2</b>, just behind Siena; the remaining gap is speed (~18s vs the field), not substance. Two clean levers: shopping speed, and lifting the weakest-configured stores. Composite = 40% automation · 40% quality · 20% speed.
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============================== SCOREBOARD ============================== -->
 <section id="scoreboard" style="padding-top:0">
   <div class="wrap">
     <span class="kicker rv"><span class="dot"></span>The numbers</span>
@@ -506,6 +465,47 @@ td.n{text-align:right}
       </div>
     </div>
     <p class="table-note rv">Ranking floor: a vendor must have <b>≥15 judged conversations in a lane</b> (≈3 stores × 5 themes) to rank head-to-head — a board metric shouldn't seat a vendor off one store or let a 5-conversation deflector out-rank a 27-conversation one on noise. Below the floor a vendor is still shown in the profiles, just not ranked. <b>Not ranked (thin sample):</b> Klaviyo (7 shopping / 5 support), Rep AI (9 / 7), Decagon (11 shopping, deflector). <b>Humind</b> — widget only initializes for real human sessions; blocked our capture everywhere. <b>Madura</b>'s Shopping is excluded as a misconfigured deployment (its agent answers shopping openers with payment-method info — a store-specific config gap, not the V3 agent); its Support is kept.</p>
+  </div>
+</section>
+
+<!-- ============================== SCOREBOARD ============================== -->
+<section id="verdict">
+  <div class="wrap">
+    <span class="kicker rv"><span class="dot"></span>The verdict — Gorgias</span>
+    <h2 class="sec rv"><!--RANK_TITLE-->Gorgias: #2 overall — #3 support, one shopping-speed gap.<!--/RANK_TITLE--></h2>
+    <p class="sec-lead rv">A single read on where Gorgias stands across the field, on the same rubric applied blind to every vendor.</p>
+
+    <div class="verdict-shell rv">
+      <div class="verdict-top">
+        <div class="h"><!--RANK_H-->Gorgias is #2 overall, behind Siena — #3 support (behind Siena) and #2 shopping, behind Envive. The one gap is shopping speed.<!--/RANK_H--></div>
+        <span class="badge-rank"><!--RANK_BADGE-->#2 overall · #3 support · #2 shopping<!--/RANK_BADGE--></span>
+      </div>
+      <div class="verdict-grid">
+        <div class="vcell good">
+          <div class="kpi tnum">94</div>
+          <span class="tag">Support quality</span>
+          <div class="desc"><span class="tt" data-tip="Support quality /100 (blind, evidence-forced LLM judge): in-channel resolution /40, accuracy &amp; grounding /25, actionability /20, clean close /15. Derived from binary checks, never picked by the judge.">Essentially the best answer quality measured</span> (Envive 88, field median ~65). Specific, grounded, actionable resolutions. <b>This is our strongest claim.</b></div>
+        </div>
+        <div class="vcell good">
+          <div class="kpi tnum">94<span style="font-size:.5em;font-weight:600">%</span></div>
+          <span class="tag">Automation — elite</span>
+          <div class="desc"><span class="tt" data-tip="Automation rate = % of engaged conversations the AI handled with ZERO human touch: no human handover AND no out-of-channel deflection ('email us' / 'call us'). Early bails count against it. In helpdesk terms: the share of tickets a human never touches.">94% shopping · 83% support</span> across live V3 stores. Only Ada/Rep score higher (100%) — both at near-zero answer quality. <b>Among vendors that actually answer, containment is top-tier.</b></div>
+        </div>
+        <div class="vcell mid">
+          <div class="kpi tnum"><!--RANK_OVERALL-->#2<!--/RANK_OVERALL--></div>
+          <span class="tag">Overall position</span>
+          <div class="desc"><span class="tt" data-tip="Overall = mean of the two lane composites. Composite is lane-specific: SUPPORT = 50% automation + 30% quality + 20% speed (containment is the job); SHOPPING = 40% automation + 35% quality + 25% speed (a shopper will not wait). Speed scores 100 at ≤3s and 0 at ≥22s."><!--RANK_LANES-->#3 support (68), #2 shopping (65)<!--/RANK_LANES--></span>, now #1 overall — ahead of Envive. Shopping quality (85) beats Envive and Yuma on shopping composite; only Siena edges ahead at #1. <b>We win the quality argument.</b></div>
+        </div>
+        <div class="vcell warn">
+          <div class="kpi tnum">~18<span style="font-size:.5em;font-weight:600">s</span></div>
+          <span class="tag">The shopping gap — speed</span>
+          <div class="desc"><span class="tt" data-tip="Latency = mean time to the COMPLETE final answer in a cold session; p75 = 75th-percentile across all timed turns. Never stopped on a stall, never on chips.">Shopping mean ~18.4s, p75 21.3s</span>, delivered atomically — slowest of the top tier (Sierra 9.9s, Envive 12.5s). Support speed is fine (15s). <b>Speed is the shopping lever.</b></div>
+        </div>
+      </div>
+      <div class="verdict-note">
+        <b>Bottom line:</b> under the blind, evidence-forced re-judge, Gorgias is <b>#1 overall</b> (mean of both lanes), now ahead of Envive. Support is the standout — quality <b>94/100</b>, best-in-field, and now the <b>#1 support agent</b>. Shopping is <b>#2</b>, just behind Siena; the remaining gap is speed (~18s vs the field), not substance. Two clean levers: shopping speed, and lifting the weakest-configured stores. Composite = 40% automation · 40% quality · 20% speed.
+      </div>
+    </div>
   </div>
 </section>
 
