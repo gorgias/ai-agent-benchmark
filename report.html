@@ -782,7 +782,7 @@
 
 <section id="best-sec">
   <h2 class="sec" id="best-sec-h">Best AI agent</h2>
-  <p class="lead">Both lanes side by side — the best chat AI agent for each job, ranked by a composite of <strong>automation</strong> + <strong>quality</strong> + <strong>speed</strong>, gated on measurement coverage. <button class="linklike" onclick="openModal()">How the ranking works ↗</button></p>
+  <p class="lead">The single best chat AI agent for each job — use the toggle above to switch lane. Ranked by a composite of <strong>automation</strong> + <strong>quality</strong> + <strong>speed</strong>, gated on measurement coverage. <button class="linklike" onclick="openModal()">How the ranking works ↗</button></p>
   <div class="card best-card" id="best-card-shopping" style="margin-bottom:16px">
     <div class="best-cat">Shopping Assistant — product discovery &amp; recommendation</div>
     <div id="best-shopping"></div>
@@ -2183,12 +2183,13 @@ function applyView(){
   show('trend-sec', isData);               // trends/coverage belong to the detailed views
   show('coverage-sec', isData);
   show('caps-sec', isData && MODE==='shopping');
-  // SCOREBOARD: both lanes together, always. Showing one lane at a time made the reader carry
-  // the other half in their head — and a vendor that leads one lane while trailing the other
-  // (Envive: #2 shopping, #13 support) reads as a straight winner until you switch tabs.
+  // SCOREBOARD: the lane toggle FILTERS — selecting "Support Agent" must show the support
+  // ranking only. (2026-09-03: briefly showed both cards at once, so the shopping ranking
+  // appeared under the Support tab and the toggle looked broken.) The section title names both
+  // lanes because it is the scoreboard for both; the toggle chooses which one you are reading.
   const _bcs=document.getElementById('best-card-shopping'), _bcp=document.getElementById('best-card-support');
-  if(_bcs) _bcs.hidden = isConv;
-  if(_bcp) _bcp.hidden = isConv;
+  if(_bcs) _bcs.hidden = MODE!=='shopping';
+  if(_bcp) _bcp.hidden = MODE!=='support';
   const _bh=document.getElementById('best-sec-h'); if(_bh) _bh.textContent = 'Scoreboard — Shopping Assistant & Support Agent';
   // method & caveats stays visible in every view
   document.getElementById('mode-note').textContent = isConv
