@@ -35,6 +35,7 @@ import { extractRecommendedProducts } from "./product-recommendation-bars.js";
 import { normalizeUserMessage } from "./message-style.js";
 import { rankCutoff } from "./ranking-window.js";
 import { LANE_W, speedScore } from "./lane-weights.js";
+import { deriveOutcome } from "./conversation-outcome.js";
 
 // Themes whose turns must NOT count toward latency / automation / quality (robustness only).
 const GUARDRAIL_KEYS = new Set(["guardrails"]);
@@ -246,15 +247,11 @@ async function loadAgg(key, mode, date) {
       // isHandoffOnly so a real answer that merely offers a human in passing is untouched
       // (false-gate lesson). Symmetric across vendors — chiefly corrects pure-deflection
       // Zendesk stores that were being scored as 100%-success ~2s automated answers.
-      for (const t of (obj.turns || [])) {
-        if (t.by !== "ai") continue;
-        // Clean once and stash it: convoOutcome reads t.replyClean so deflection detection runs
-        // on the AI's prose, not on suggested-reply chips that survive in the raw replyTail.
-        const clean = stripWidgetChrome(t.replyText || t.replyTail || "", t.q || "");
-        t.replyClean = clean;
-        if (!t.handover && isHandoffOnly(clean)) { t.handoff_cta = true; t.complete_ms = null; t.ai_latency_ms = null; }
-      }
-      auto[convoOutcome(obj.turns || []).outcome]++;
+      // Outcome derivation (incl. the handoff-only re-derivation described above) lives in
+      // conversation-outcome.js so the dry-run preview cannot diverge from it. It did:
+      // skipping this step made the preview read Gorgias support automation as 76% while the
+      // published report showed the correct 74%.
+      auto[deriveOutcome(obj).outcome]++;
       const ev = EVALS[id];
       obj._eval = ev || null;   // carry the eval (incl. per-turn turn_quality) onto the theme
       if (ev && ev.total != null) {

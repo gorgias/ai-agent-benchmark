@@ -17,6 +17,7 @@ import { convoValidity, convoOutcome, connectivityFail } from "./classify.js";
 import { QUARANTINE_IDS } from "./conversation-quarantine.js";
 import { RANK_WINDOW_DAYS } from "./ranking-window.js";
 import { composite, speedScore } from "./lane-weights.js";
+import { deriveOutcome } from "./conversation-outcome.js";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.dirname(HERE);
@@ -203,8 +204,15 @@ async function loadAgg({ site, mode, date, evals, excluded }) {
     }
     if (obj.theme === "guardrails") continue;
     if (connectivityFail(obj.turns || [])) continue;
+    // The baker excludes these from EVERY aggregate; the dry-run did not, so it counted
+    // conversations the published report deliberately drops — including provider_mismatch,
+    // which exists so a conversation is never credited to the wrong vendor. That gap put the
+    // preview 2 points above the report on Gorgias support automation (76 vs the correct 74),
+    // the exact distance between #2 and #3 in that lane.
+    if (obj.gate_blocked) continue;
+    if (obj.provider_mismatch) continue;
 
-    auto[convoOutcome(obj.turns || []).outcome]++;
+    auto[deriveOutcome(obj).outcome]++;
     const ev = evals[id];
     if (ev && ev.total != null) {
       evalAgg.n++;
