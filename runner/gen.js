@@ -531,9 +531,12 @@ const PALETTE = { Gorgias:"#f0603f", Envive:"#22c55e", Ada:"#64748b", Siena:"#a8
   Humind:"#f59e0b", "Google Agentic":"#4285F4", Klaviyo:"#111", "Shopify Inbox":"#95BF47" };
 const speedScoreG = speedScore;   // shared with the dry-run preview — see lane-weights.js
 const latNumG = (s) => { const m = (s.lat || "").match(/[\d.]+/); return m ? parseFloat(m[0]) : null; };
-function laneScores(arr) {
-  // rankings use only the trailing 90 days (recency-weighted — older runs age out)
-  const byV = {}; arr.filter(s => !s.date || s.date >= RANK_CUTOFF).forEach(s => { (byV[s.vendor] = byV[s.vendor] || []).push(s); });
+function laneScores(arr, cutoff = RANK_CUTOFF) {
+  // rankings use only the trailing window (recency-weighted — older runs age out). The cutoff
+  // is a parameter so the summary page can bake 30/60/90-day views from the SAME function:
+  // recomputing them in the page's own JS is how the dry-run preview drifted from this file
+  // three separate times on 2026-09-03 (window, lane weights, outcome derivation).
+  const byV = {}; arr.filter(s => !s.date || s.date >= cutoff).forEach(s => { (byV[s.vendor] = byV[s.vendor] || []).push(s); });
   const out = {};
   for (const [v, es] of Object.entries(byV)) {
     const ag = es.reduce((a, s) => { if (s.auto) { a.a += s.auto.automated; a.e += s.auto.engaged; } return a; }, { a: 0, e: 0 });
@@ -562,7 +565,20 @@ for (const v of new Set([...Object.keys(shopS), ...Object.keys(supS)])) {
   D_OBJ[v] = { ...(us ? { us: 1 } : {}), col: PALETTE[v] || "#888",
     s: shopS[v] || null, p: supS[v] || null };
 }
-const D_JSON = " const D = " + JSON.stringify(D_OBJ) + ";";
+// Three windows, all baked here so the toggle only ever SWITCHES a precomputed view.
+const WINDOWS = [30, 60, 90];
+const D_WINDOWS = {};
+for (const days of WINDOWS) {
+  const cut = rankCutoff(LATEST, days);
+  const sh = laneScores(STORES, cut), su = laneScores(SUPPORT, cut);
+  const obj = {};
+  for (const v of new Set([...Object.keys(sh), ...Object.keys(su)])) {
+    const us = allEntries.find(s => s.vendor === v && s.us) ? 1 : 0;
+    obj[v] = { ...(us ? { us: 1 } : {}), col: PALETTE[v] || "#888", s: sh[v] || null, p: su[v] || null };
+  }
+  D_WINDOWS[days] = obj;
+}
+const D_JSON = " const D = " + JSON.stringify(D_OBJ) + "; const D_WINDOWS = " + JSON.stringify(D_WINDOWS) + ";";
 
 // ---- AUTO-GENERATED VERDICT: rank claims are derived from the same lane composites, never
 // hand-typed — so the Summary headline can never contradict the scoreboard again. ----

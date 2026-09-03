@@ -407,6 +407,11 @@ td.n{text-align:right}
   .eyebrow .live::after{animation:none!important}
   html{scroll-behavior:auto}
 }
+  .winbar{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin:0 0 12px}
+  .winbar-l{font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--on-faint,#6b7280);margin-right:2px}
+  .winbtn{font-size:12.5px;font-weight:600;padding:6px 12px;border-radius:999px;border:1px solid var(--line,#e5e7eb);background:#fff;color:var(--on-muted,#4b5563);cursor:pointer}
+  .winbtn[aria-selected="true"]{border-color:#7e55f6;color:#7e55f6;background:rgba(126,85,246,.07)}
+  .winbar-note{flex-basis:100%;font-size:11.5px;color:var(--on-faint,#6b7280)}
 </style>
 </head>
 <body>
@@ -430,12 +435,12 @@ td.n{text-align:right}
     <h1 class="rv">We benchmarked every<br><span class="accent">chat AI agent.</span></h1>
     <p class="sub rv">Real merchants, cold sessions, free-typed questions — measured, judged and repeated weekly. <a href="report.html">Explore the full interactive report →</a></p>
     <div class="statstrip rv-stagger">
-      <div class="statcell"><div class="num tnum" data-count="6761" data-stat="convs">0</div><div class="lbl">Conversations captured</div></div>
+      <div class="statcell"><div class="num tnum" data-count="6767" data-stat="convs">0</div><div class="lbl">Conversations captured</div></div>
       <div class="statcell"><div class="num tnum" data-count="6663" data-stat="judged">0</div><div class="lbl">LLM-judged</div></div>
       <div class="statcell"><div class="num tnum" data-count="18" data-stat="vendors">0</div><div class="lbl">Vendors</div></div>
-      <div class="statcell"><div class="num tnum" data-count="161" data-suffix="+" data-stat="stores">0</div><div class="lbl">Live stores measured</div></div>
+      <div class="statcell"><div class="num tnum" data-count="162" data-suffix="+" data-stat="stores">0</div><div class="lbl">Live stores measured</div></div>
     </div>
-    <!-- STATS_JSON:{"convs":6761,"judged":6663,"vendors":18,"stores":161,"runs":40} -->
+    <!-- STATS_JSON:{"convs":6767,"judged":6663,"vendors":18,"stores":162,"runs":40} -->
   </div>
 </header>
 
@@ -446,6 +451,13 @@ td.n{text-align:right}
     <h2 class="sec rv">Scoreboard — Shopping Assistant &amp; Support Agent.</h2>
     <p class="sec-lead rv">Automation = share of engaged conversations the AI handled end-to-end in-channel (handovers and email/phone deflections count against; early bails included). Quality = LLM-judge rubric /100. All free-text, cold sessions, no quick-reply chips. Hover any header for the exact definition.</p>
 
+    <div class="winbar rv">
+      <span class="winbar-l">Window</span>
+      <button class="winbtn" aria-selected="false" onclick="setScoreWindow('30',this)">Last 30 days</button>
+      <button class="winbtn" aria-selected="false" onclick="setScoreWindow('60',this)">Last 60 days</button>
+      <button class="winbtn" aria-selected="true" onclick="setScoreWindow('90',this)">Last 90 days</button>
+      <span class="winbar-note">90 days is the window the ranking is computed on. Shorter views thin each vendor's sample.</span>
+    </div>
     <div class="tablecard rv">
       <div class="table-scroll">
         <table id="score-table">
@@ -750,13 +762,19 @@ td.n{text-align:right}
 
 <script>
 /* ---------- scoreboard data — copied verbatim from takeaways.html ---------- */
-/*SCORES_START*/ const D = {"Gorgias":{"us":1,"col":"#f0603f","s":{"a":85,"q":76,"l":18.4,"l75":20.6,"n":448},"p":{"a":74,"q":77,"l":14.2,"l75":15.2,"n":351}},"Envive":{"col":"#22c55e","s":{"a":81,"q":63,"l":8.3,"l75":10.3,"n":370},"p":{"a":20,"q":56,"l":6.7,"l75":6.6,"n":382}},"Amazon Rufus":{"col":"#888","s":{"a":97,"q":77,"l":13,"l75":15.1,"n":69},"p":null},"Sierra":{"us":1,"col":"#0ea5e9","s":{"a":69,"q":58,"l":9.9,"l75":11.7,"n":439},"p":{"a":53,"q":81,"l":9.7,"l75":11.7,"n":317}},"Siena":{"us":1,"col":"#a855f7","s":{"a":77,"q":59,"l":12.5,"l75":15.2,"n":282},"p":{"a":82,"q":55,"l":9.7,"l75":10.8,"n":280}},"Yuma":{"us":1,"col":"#14b8a6","s":{"a":82,"q":74,"l":20.2,"l75":23.3,"n":126},"p":{"a":82,"q":74,"l":16,"l75":17.4,"n":103}},"DigitalGenius":{"col":"#8b5cf6","s":{"a":77,"q":43,"l":15.6,"l75":20.4,"n":540},"p":{"a":69,"q":62,"l":13.1,"l75":15.9,"n":349}},"Zendesk":{"us":1,"col":"#3b82f6","s":{"a":46,"q":37,"l":12,"l75":15.7,"n":408},"p":{"a":39,"q":63,"l":11,"l75":12.2,"n":366}},"Kodif":{"us":1,"col":"#eab308","s":{"a":66,"q":55,"l":20.6,"l75":25.6,"n":182},"p":{"a":53,"q":61,"l":14.6,"l75":17.6,"n":151}},"Ada":{"us":1,"col":"#64748b","s":{"a":70,"q":51,"l":11.3,"l75":13.3,"n":411},"p":{"a":73,"q":52,"l":10.4,"l75":12.2,"n":335}},"Decagon":{"us":1,"col":"#888","s":{"a":81,"q":61,"l":29.8,"l75":43,"n":42},"p":{"a":63,"q":73,"l":12.8,"l75":12.8,"n":25}},"Klaviyo":{"us":1,"col":"#111","s":{"a":41,"q":69,"l":13.5,"l75":15.5,"n":206},"p":{"a":34,"q":72,"l":9,"l75":9.9,"n":235}},"Intercom":{"us":1,"col":"#888","s":{"a":88,"q":69,"l":18.3,"l75":19.8,"n":177},"p":{"a":62,"q":71,"l":14.8,"l75":17.8,"n":151}}};/*SCORES_END*/
+/*SCORES_START*/ const D = {"Gorgias":{"us":1,"col":"#f0603f","s":{"a":85,"q":76,"l":18.4,"l75":20.6,"n":448},"p":{"a":74,"q":77,"l":14.2,"l75":15.2,"n":351}},"Envive":{"col":"#22c55e","s":{"a":81,"q":63,"l":8.3,"l75":10.3,"n":370},"p":{"a":20,"q":56,"l":6.7,"l75":6.6,"n":382}},"Amazon Rufus":{"col":"#888","s":{"a":97,"q":77,"l":13,"l75":15.1,"n":69},"p":null},"Sierra":{"us":1,"col":"#0ea5e9","s":{"a":69,"q":58,"l":9.9,"l75":11.7,"n":439},"p":{"a":53,"q":81,"l":9.7,"l75":11.7,"n":317}},"Siena":{"us":1,"col":"#a855f7","s":{"a":77,"q":59,"l":12.5,"l75":15.2,"n":282},"p":{"a":82,"q":55,"l":9.7,"l75":10.8,"n":280}},"Yuma":{"us":1,"col":"#14b8a6","s":{"a":82,"q":74,"l":20.2,"l75":23.3,"n":128},"p":{"a":82,"q":74,"l":16,"l75":17.4,"n":103}},"DigitalGenius":{"col":"#8b5cf6","s":{"a":77,"q":43,"l":15.6,"l75":20.4,"n":540},"p":{"a":69,"q":62,"l":13.1,"l75":15.9,"n":349}},"Zendesk":{"us":1,"col":"#3b82f6","s":{"a":46,"q":37,"l":12.1,"l75":15.9,"n":412},"p":{"a":39,"q":63,"l":11,"l75":12.2,"n":366}},"Kodif":{"us":1,"col":"#eab308","s":{"a":66,"q":55,"l":20.6,"l75":25.6,"n":182},"p":{"a":53,"q":61,"l":14.6,"l75":17.6,"n":151}},"Ada":{"us":1,"col":"#64748b","s":{"a":70,"q":51,"l":11.3,"l75":13.3,"n":411},"p":{"a":73,"q":52,"l":10.4,"l75":12.2,"n":335}},"Decagon":{"us":1,"col":"#888","s":{"a":81,"q":61,"l":29.8,"l75":43,"n":42},"p":{"a":63,"q":73,"l":12.8,"l75":12.8,"n":25}},"Klaviyo":{"us":1,"col":"#111","s":{"a":41,"q":69,"l":13.5,"l75":15.5,"n":206},"p":{"a":34,"q":72,"l":9,"l75":9.9,"n":235}},"Intercom":{"us":1,"col":"#888","s":{"a":88,"q":69,"l":18.3,"l75":19.8,"n":177},"p":{"a":62,"q":71,"l":14.8,"l75":17.8,"n":151}}}; const D_WINDOWS = {"30":{"Gorgias":{"us":1,"col":"#f0603f","s":{"a":83,"q":71,"l":17.9,"l75":19.8,"n":282},"p":{"a":75,"q":67,"l":13.7,"l75":14.3,"n":223}},"Envive":{"col":"#22c55e","s":{"a":78,"q":60,"l":6.4,"l75":7.6,"n":183},"p":{"a":14,"q":44,"l":4.9,"l75":5.4,"n":211}},"Siena":{"us":1,"col":"#a855f7","s":{"a":74,"q":57,"l":11.8,"l75":13.2,"n":135},"p":{"a":88,"q":46,"l":8.8,"l75":8.7,"n":155}},"DigitalGenius":{"col":"#8b5cf6","s":{"a":81,"q":43,"l":15.5,"l75":20.4,"n":342},"p":{"a":72,"q":59,"l":12.7,"l75":15.4,"n":228}},"Yuma":{"us":1,"col":"#14b8a6","s":{"a":82,"q":48,"l":20.7,"l75":24.8,"n":16},"p":{"a":94,"q":71,"l":18.5,"l75":19.8,"n":15}},"Sierra":{"us":1,"col":"#0ea5e9","s":{"a":63,"q":54,"l":10,"l75":11.6,"n":171},"p":{"a":49,"q":73,"l":9.9,"l75":11.8,"n":132}},"Ada":{"us":1,"col":"#64748b","s":{"a":62,"q":46,"l":10.9,"l75":12.4,"n":177},"p":{"a":69,"q":41,"l":10.2,"l75":11.3,"n":146}},"Zendesk":{"us":1,"col":"#3b82f6","s":{"a":38,"q":31,"l":12.1,"l75":15.2,"n":230},"p":{"a":33,"q":58,"l":11.3,"l75":13.6,"n":167}},"Klaviyo":{"us":1,"col":"#111","s":{"a":20,"q":80,"l":14.7,"l75":16.7,"n":65},"p":{"a":24,"q":76,"l":8.9,"l75":9.8,"n":108}},"Intercom":{"us":1,"col":"#888","s":{"a":92,"q":71,"l":18.3,"l75":19.3,"n":92},"p":{"a":57,"q":75,"l":14.8,"l75":16.9,"n":73}},"Kodif":{"us":1,"col":"#eab308","s":{"a":56,"q":58,"l":24.6,"l75":29.4,"n":18},"p":null}},"60":{"Gorgias":{"us":1,"col":"#f0603f","s":{"a":84,"q":75,"l":18.4,"l75":20.5,"n":409},"p":{"a":74,"q":75,"l":14.1,"l75":15.1,"n":325}},"Envive":{"col":"#22c55e","s":{"a":81,"q":62,"l":8.2,"l75":10.1,"n":356},"p":{"a":19,"q":55,"l":6.6,"l75":6.5,"n":372}},"Amazon Rufus":{"col":"#888","s":{"a":97,"q":77,"l":13,"l75":15.1,"n":69},"p":null},"Sierra":{"us":1,"col":"#0ea5e9","s":{"a":67,"q":59,"l":10,"l75":11.7,"n":406},"p":{"a":53,"q":81,"l":9.7,"l75":11.7,"n":297}},"Siena":{"us":1,"col":"#a855f7","s":{"a":77,"q":59,"l":12.5,"l75":15.2,"n":258},"p":{"a":82,"q":54,"l":9.5,"l75":10.4,"n":258}},"Yuma":{"us":1,"col":"#14b8a6","s":{"a":81,"q":72,"l":20.4,"l75":23.3,"n":118},"p":{"a":83,"q":74,"l":16,"l75":17.4,"n":94}},"DigitalGenius":{"col":"#8b5cf6","s":{"a":79,"q":43,"l":15.5,"l75":20.1,"n":525},"p":{"a":69,"q":61,"l":13,"l75":15.9,"n":337}},"Zendesk":{"us":1,"col":"#3b82f6","s":{"a":46,"q":37,"l":12.1,"l75":15.9,"n":412},"p":{"a":38,"q":63,"l":11,"l75":12.3,"n":362}},"Kodif":{"us":1,"col":"#eab308","s":{"a":62,"q":56,"l":20.8,"l75":25.7,"n":172},"p":{"a":51,"q":61,"l":14.7,"l75":17.5,"n":137}},"Ada":{"us":1,"col":"#64748b","s":{"a":69,"q":50,"l":11.3,"l75":13.1,"n":374},"p":{"a":72,"q":51,"l":10.3,"l75":12,"n":304}},"Decagon":{"us":1,"col":"#888","s":{"a":81,"q":61,"l":29.8,"l75":43,"n":42},"p":{"a":63,"q":73,"l":12.8,"l75":12.8,"n":25}},"Klaviyo":{"us":1,"col":"#111","s":{"a":41,"q":69,"l":13.5,"l75":15.5,"n":206},"p":{"a":34,"q":72,"l":9,"l75":9.9,"n":235}},"Intercom":{"us":1,"col":"#888","s":{"a":88,"q":69,"l":18.3,"l75":19.8,"n":177},"p":{"a":62,"q":71,"l":14.8,"l75":17.8,"n":151}}},"90":{"Gorgias":{"us":1,"col":"#f0603f","s":{"a":85,"q":76,"l":18.4,"l75":20.6,"n":448},"p":{"a":74,"q":77,"l":14.2,"l75":15.2,"n":351}},"Envive":{"col":"#22c55e","s":{"a":81,"q":63,"l":8.3,"l75":10.3,"n":370},"p":{"a":20,"q":56,"l":6.7,"l75":6.6,"n":382}},"Amazon Rufus":{"col":"#888","s":{"a":97,"q":77,"l":13,"l75":15.1,"n":69},"p":null},"Sierra":{"us":1,"col":"#0ea5e9","s":{"a":69,"q":58,"l":9.9,"l75":11.7,"n":439},"p":{"a":53,"q":81,"l":9.7,"l75":11.7,"n":317}},"Siena":{"us":1,"col":"#a855f7","s":{"a":77,"q":59,"l":12.5,"l75":15.2,"n":282},"p":{"a":82,"q":55,"l":9.7,"l75":10.8,"n":280}},"Yuma":{"us":1,"col":"#14b8a6","s":{"a":82,"q":74,"l":20.2,"l75":23.3,"n":128},"p":{"a":82,"q":74,"l":16,"l75":17.4,"n":103}},"DigitalGenius":{"col":"#8b5cf6","s":{"a":77,"q":43,"l":15.6,"l75":20.4,"n":540},"p":{"a":69,"q":62,"l":13.1,"l75":15.9,"n":349}},"Zendesk":{"us":1,"col":"#3b82f6","s":{"a":46,"q":37,"l":12.1,"l75":15.9,"n":412},"p":{"a":39,"q":63,"l":11,"l75":12.2,"n":366}},"Kodif":{"us":1,"col":"#eab308","s":{"a":66,"q":55,"l":20.6,"l75":25.6,"n":182},"p":{"a":53,"q":61,"l":14.6,"l75":17.6,"n":151}},"Ada":{"us":1,"col":"#64748b","s":{"a":70,"q":51,"l":11.3,"l75":13.3,"n":411},"p":{"a":73,"q":52,"l":10.4,"l75":12.2,"n":335}},"Decagon":{"us":1,"col":"#888","s":{"a":81,"q":61,"l":29.8,"l75":43,"n":42},"p":{"a":63,"q":73,"l":12.8,"l75":12.8,"n":25}},"Klaviyo":{"us":1,"col":"#111","s":{"a":41,"q":69,"l":13.5,"l75":15.5,"n":206},"p":{"a":34,"q":72,"l":9,"l75":9.9,"n":235}},"Intercom":{"us":1,"col":"#888","s":{"a":88,"q":69,"l":18.3,"l75":19.8,"n":177},"p":{"a":62,"q":71,"l":14.8,"l75":17.8,"n":151}}}};/*SCORES_END*/
 const speed=l=>Math.max(0,Math.min(100,(22-l)/19*100));
 // LANE-SPECIFIC weights (2026-07-10): shopping weights speed↑ (latency drives conversion),
 // support weights automation↑ (containment). Must match gen.js LANE_W + report.html.
 const LANE_W={s:{a:.4,q:.35,sp:.25},p:{a:.5,q:.3,sp:.2}};
 function comp(m,lane){ if(!m) return null; const w=LANE_W[lane]||LANE_W.p; const parts=[[w.a,m.a],[w.q,m.q],[w.sp,m.l!=null?speed(m.l):null]].filter(p=>p[1]!=null); const tw=parts.reduce((a,p)=>a+p[0],0); return tw?Math.round(parts.reduce((a,p)=>a+p[0]*p[1],0)/tw):null; }
-const rows=Object.entries(D).map(([v,d])=>({v,...d,cs:comp(d.s,'s'),cp:comp(d.p,'p')}))
+// The 30/60/90-day views are BAKED by gen.js (D_WINDOWS) from the same laneScores() the
+// report ranks with. The toggle only switches a precomputed view — it never recomputes a
+// composite here. Recomputing the baker's arithmetic in page JS is precisely how the dry-run
+// preview drifted from the published report three times on 2026-09-03.
+let SB_DATA = (typeof D_WINDOWS !== 'undefined' && D_WINDOWS['90']) ? D_WINDOWS['90'] : D;
+function renderScoreTable(DATA){
+const rows=Object.entries(DATA).map(([v,d])=>({v,...d,cs:comp(d.s,'s'),cp:comp(d.p,'p')}))
   .sort((a,b)=>((b.cs||0)+(b.cp||0))-((a.cs||0)+(a.cp||0)));
 const rankIn=key=>{ const order=[...rows].filter(r=>r[key]!=null).sort((a,b)=>b[key]-a[key]); const m={}; order.forEach((r,i)=>m[r.v]=i+1); return m; };
 const RS=rankIn('cs'), RP=rankIn('cp');
@@ -772,6 +790,15 @@ document.querySelector('#score-table tbody').innerHTML=rows.map((r,i)=>
  '<td>'+pill(r.s&&r.s.a,90,70)+' / '+pill(r.p&&r.p.a,90,70)+'</td>'+
  '<td>'+pill(r.s&&r.s.q,60,40)+' / '+pill(r.p&&r.p.q,60,40)+'</td>'+
  '<td class="n tnum">'+latCell(r.s)+' / '+latCell(r.p)+'<div class="p75">p75 '+cell(r.s,'l75')+(r.s&&r.s.l75!=null?'s':'')+' / '+cell(r.p,'l75')+(r.p&&r.p.l75!=null?'s':'')+'</div></td></tr>').join('');
+}
+renderScoreTable(SB_DATA);
+function setScoreWindow(days, btn){
+  if (typeof D_WINDOWS === 'undefined' || !D_WINDOWS[days]) return;
+  SB_DATA = D_WINDOWS[days];
+  renderScoreTable(SB_DATA);
+  document.querySelectorAll('.winbtn').forEach(b=>b.setAttribute('aria-selected', b===btn));
+}
+
 
 /* ---------- provider-profile ranking: inject #N badge + reorder by overall composite ---------- */
 (function(){
