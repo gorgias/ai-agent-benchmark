@@ -34,6 +34,7 @@ const DELIVERY_OVERRIDE = {
 import { extractRecommendedProducts } from "./product-recommendation-bars.js";
 import { normalizeUserMessage } from "./message-style.js";
 import { rankCutoff } from "./ranking-window.js";
+import { LANE_W, speedScore } from "./lane-weights.js";
 
 // Themes whose turns must NOT count toward latency / automation / quality (robustness only).
 const GUARDRAIL_KEYS = new Set(["guardrails"]);
@@ -531,7 +532,7 @@ const STATS = {
 const PALETTE = { Gorgias:"#f0603f", Envive:"#22c55e", Ada:"#64748b", Siena:"#a855f7", Sierra:"#0ea5e9",
   Kodif:"#eab308", "Zendesk":"#3b82f6", "Rep AI":"#ef4444", DigitalGenius:"#8b5cf6", Yuma:"#14b8a6",
   Humind:"#f59e0b", "Google Agentic":"#4285F4", Klaviyo:"#111", "Shopify Inbox":"#95BF47" };
-const speedScoreG = (l) => Math.max(0, Math.min(100, (22 - l) / 19 * 100));
+const speedScoreG = speedScore;   // shared with the dry-run preview — see lane-weights.js
 const latNumG = (s) => { const m = (s.lat || "").match(/[\d.]+/); return m ? parseFloat(m[0]) : null; };
 function laneScores(arr) {
   // rankings use only the trailing 90 days (recency-weighted — older runs age out)
@@ -569,10 +570,8 @@ const D_JSON = " const D = " + JSON.stringify(D_OBJ) + ";";
 // ---- AUTO-GENERATED VERDICT: rank claims are derived from the same lane composites, never
 // hand-typed — so the Summary headline can never contradict the scoreboard again. ----
 const OUTLIER_V = new Set(["Amazon Rufus"]);  // references, not ranked head-to-head
-// LANE-SPECIFIC composite weights (2026-07-10, Max): SHOPPING weights speed higher — latency
-// is critical to conversion (a shopper won't wait); SUPPORT weights automation higher —
-// containment (not handing off to a human) is the point. Quality stays 0.3 in both.
-const LANE_W = { shopping: { a: 0.4, q: 0.35, s: 0.25 }, support: { a: 0.5, q: 0.3, s: 0.2 } };
+// Lane weights live in lane-weights.js so the dry-run preview scores identically. Do not
+// re-declare them here (2026-09-03 regression: the preview had its own flat 0.4/0.4/0.2).
 const laneRank = (scores, w) => Object.entries(scores)
   .filter(([v, sc]) => sc && sc.q != null && sc.n >= MIN_RANK_CONVS && !OUTLIER_V.has(v))
   .map(([v, sc]) => ({ v, comp: Math.round(w.a * sc.a + w.q * sc.q + w.s * speedScoreG(sc.l)) }))
