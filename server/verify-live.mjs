@@ -42,6 +42,11 @@ const bakedRegion = (html) => {
 const PAGES = [
   { route: "/report", file: "report.html" },
   { route: "/takeaways", file: "takeaways.html" },
+  // "/" is a vercel.json rewrite onto takeaways.html, not a file of its own. It is checked
+  // separately because a rewrite is exactly the kind of thing that breaks without anyone
+  // noticing: /takeaways keeps working, so every existing check stays green while the address
+  // people actually visit serves a 404.
+  { route: "/", file: "takeaways.html" },
 ];
 
 let bad = 0;
