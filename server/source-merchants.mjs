@@ -36,6 +36,17 @@ const { STORES } = await import(pathToFileURL(path.join(RUNNER, "vendors.js")).h
 
 const DRY = process.argv.includes("--dry");
 const PER_VENDOR = Number(process.env.PER_VENDOR || 2);
+// The caller (server/pipeline.sh) kills this stage at SOURCING_TIMEOUT, 1800s by default. Everything
+// here used to be written only at the very end, so being killed threw away every storefront verified
+// in those thirty minutes — the 2026-09-04 run logged exactly two lines and produced nothing. Hold an
+// internal deadline slightly INSIDE the caller's, stop verifying when it passes, and write what was
+// accepted. Partial progress beats a clean slate.
+const BUDGET_MS = Number(process.env.SOURCING_BUDGET_MS || (Number(process.env.SOURCING_TIMEOUT || 1800) - 240) * 1000);
+const T0 = Date.now();
+const budgetLeft = () => BUDGET_MS - (Date.now() - T0);
+// Verification is per-URL independent work in its own cold context, so it parallelises safely. This
+// is NOT the capture concurrency cap: nothing here is timed, so there is no latency to distort.
+const VERIFY_CONC = Number(process.env.VERIFY_CONCURRENCY || 4);
 const WIDGET_OF = { Gorgias: "gorgias", Envive: "envive", Siena: "siena", Ada: "ada", Sierra: "sierra",
   Kodif: "kodif", Intercom: "intercom", Zendesk: "zendesk", DigitalGenius: "dg", Klaviyo: "klaviyo",
   Decagon: "decagon", "Rep AI": "repai", Yuma: "yuma" };
@@ -93,6 +104,7 @@ async function verify(browser, vendor, url) {
     viewport: { width: 1366, height: 900 },
     userAgent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
   });
+  try {
   const page = await ctx.newPage();
   let hostSeen = false;
   page.on("request", (r) => { if (sig.host.test(r.url())) hostSeen = true; });
@@ -112,7 +124,6 @@ async function verify(browser, vendor, url) {
     for (const [n, t] of Object.entries(probes)) if (html.includes(t)) hits.push(n);
     return hits;
   }).catch(() => []);
-  await ctx.close();
   const competing = others.filter((o) => o !== vendor);
   if (!hostSeen) return { ok: false, why: "vendor host never loaded (installed for email/tickets, or churned)" };
   if (!mount.found) return { ok: false, why: "host loaded but no widget element mounted" };
@@ -123,6 +134,16 @@ async function verify(browser, vendor, url) {
   if (!mount.visible) return { ok: false, why: "widget present but nothing visible — inert/search-only bundle or consent-gated launcher" };
   return { ok: true, visible: mount.visible, competing,
     note: competing.length ? `also on page: ${competing.join(", ")} — driver must target the ${vendor} launcher` : "" };
+  } catch (e) {
+    // One unreachable storefront must not end the run. Before this, a throw here (typically
+    // "Target page, context or browser has been closed") propagated out of the loop and killed
+    // the process, losing every vendor's sourcing, not just this URL's.
+    return { ok: false, why: `verification error: ${String(e).split("\n")[0].slice(0, 90)}` };
+  } finally {
+    // The context was closed only on the success path, so every throw leaked one. Enough leaks
+    // exhaust the browser and turn a single bad URL into a run-wide failure.
+    await ctx.close().catch(() => {});
+  }
 }
 
 // ── run ───────────────────────────────────────────────────────────────────────
@@ -131,16 +152,46 @@ const pw = require("playwright");
 const browser = await pw.chromium.launch({ headless: true });
 const accepted = [], rejected = [];
 
+// Verify VERIFY_CONC URLs at a time, and stop cleanly when the budget runs out rather than being
+// killed mid-flight with nothing written. Vendors are interleaved rather than drained one at a time:
+// a deadline hit halfway through an alphabetical pass would otherwise give the last vendors nothing,
+// every single run — the same concentration bias the whole sourcing stage exists to fix.
+const queue = [];
 for (const [vendor, urls] of Object.entries(feed)) {
-  let taken = 0;
+  let queued = 0;
   for (const url of urls) {
-    if (taken >= PER_VENDOR) break;
     if (known.has(norm(url))) continue;                   // already in the benchmark
-    const v = await verify(browser, vendor, url);
-    if (v.ok) { accepted.push({ vendor, url, ...v }); taken++; }
-    else rejected.push({ vendor, url, why: v.why });
+    // A little headroom over PER_VENDOR: most candidates are rejected, so queueing exactly
+    // PER_VENDOR per vendor would almost always accept zero.
+    if (queued >= PER_VENDOR * 6) break;
+    queue.push({ vendor, url, rank: queued }); queued++;
   }
 }
+queue.sort((a, b) => a.rank - b.rank || a.vendor.localeCompare(b.vendor));
+const takenBy = {};
+let checked = 0, skippedForBudget = 0, cursor = 0;
+console.log(`sourcing: ${queue.length} candidates queued across ${Object.keys(feed).length} vendors, ` +
+  `concurrency ${VERIFY_CONC}, budget ${Math.round(BUDGET_MS / 1000)}s`);
+
+async function worker() {
+  for (;;) {
+    const i = cursor++;
+    if (i >= queue.length) return;
+    const { vendor, url } = queue[i];
+    if ((takenBy[vendor] || 0) >= PER_VENDOR) continue;   // this vendor is already satisfied
+    if (budgetLeft() <= 60000) { skippedForBudget++; continue; }
+    const v = await verify(browser, vendor, url);
+    checked++;
+    if (v.ok) { accepted.push({ vendor, url, ...v }); takenBy[vendor] = (takenBy[vendor] || 0) + 1; }
+    else rejected.push({ vendor, url, why: v.why });
+    // Per-URL logging: the previous version printed nothing until it finished, so a stage that
+    // was killed at its timeout left a thirty-minute hole in the log with no way to tell whether
+    // it had verified 3 storefronts or 300.
+    console.log(`  [${String(checked).padStart(3)}/${queue.length}] ${v.ok ? "OK  " : "no  "} ${vendor} ${url} ${v.ok ? "" : "— " + v.why}`);
+  }
+}
+await Promise.all(Array.from({ length: Math.max(1, VERIFY_CONC) }, worker));
+if (skippedForBudget) console.log(`sourcing: budget spent — ${skippedForBudget} candidates left unchecked, writing the ${accepted.length} verified so far`);
 await browser.close();
 
 // ── write verified stores into vendors.js ─────────────────────────────────────
