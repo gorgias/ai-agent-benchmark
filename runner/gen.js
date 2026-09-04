@@ -575,26 +575,6 @@ function laneScores(arr, lane, cutoff = RANK_CUTOFF) {
 }
 const shopS = laneScores(STORES, "shopping"), supS = laneScores(SUPPORT, "support");
 const D_OBJ = {};
-for (const v of new Set([...Object.keys(shopS), ...Object.keys(supS)])) {
-  const us = allEntries.find(s => s.vendor === v && s.us) ? 1 : 0;
-  D_OBJ[v] = { ...(us ? { us: 1 } : {}), col: PALETTE[v] || "#888",
-    s: shopS[v] || null, p: supS[v] || null };
-}
-// Three windows, all baked here so the toggle only ever SWITCHES a precomputed view.
-const WINDOWS = [30, 60, 90];
-const D_WINDOWS = {};
-for (const days of WINDOWS) {
-  const cut = rankCutoff(LATEST, days);
-  const sh = laneScores(STORES, "shopping", cut), su = laneScores(SUPPORT, "support", cut);
-  const obj = {};
-  for (const v of new Set([...Object.keys(sh), ...Object.keys(su)])) {
-    const us = allEntries.find(s => s.vendor === v && s.us) ? 1 : 0;
-    obj[v] = { ...(us ? { us: 1 } : {}), col: PALETTE[v] || "#888", s: sh[v] || null, p: su[v] || null };
-  }
-  D_WINDOWS[days] = obj;
-}
-const D_JSON = " const D = " + JSON.stringify(D_OBJ) + "; const D_WINDOWS = " + JSON.stringify(D_WINDOWS) + ";";
-
 // ---- AUTO-GENERATED VERDICT: rank claims are derived from the same lane composites, never
 // hand-typed — so the Summary headline can never contradict the scoreboard again. ----
 const OUTLIER_V = new Set(["Amazon Rufus"]);  // references, not ranked head-to-head
@@ -609,6 +589,22 @@ const shopC = Object.fromEntries(rShop.map(r => [r.v, r.comp])), suppC = Object.
 // overall = mean of the two lane composites, for vendors ranked in BOTH lanes
 const rOverall = Object.keys(shopC).filter(v => v in suppC)
   .map(v => ({ v, mean: (shopC[v] + suppC[v]) / 2 })).sort((a, b) => b.mean - a.mean);
+// Overall score + its ± interval, baked into D_OBJ so the scoreboard can show the number the
+// ranking actually orders by (mean of the two lane composites) with the same storefront-level
+// 95% interval the lane composites carry. The interval is combined in quadrature from the two
+// lane intervals (independent lanes: shopping and support conversations are different stores
+// and sessions), then rounded to 1dp like the lane intervals. Null when either lane lacks a
+// baked interval — an overall interval narrower than its own inputs would manufacture
+// confidence. The page renders it only when both lane intervals exist.
+const overallCI = (v) => {
+  const s = shopS[v], p = supS[v];
+  if (!s || !p || s.ci == null || p.ci == null) return null;
+  return Math.round(Math.sqrt(s.ci * s.ci + p.ci * p.ci) * 10) / 10;
+};
+const OVERALL = Object.fromEntries(rOverall.map(r => {
+  const ci = overallCI(r.v);
+  return [r.v, { score: Math.round(r.mean), ...(ci != null ? { ci } : {}) }];
+}));
 const gShop = rShop.findIndex(r => r.v === "Gorgias") + 1;
 const gSupp = rSupp.findIndex(r => r.v === "Gorgias") + 1;
 const gOv = rOverall.findIndex(r => r.v === "Gorgias") + 1;
@@ -619,6 +615,27 @@ const RANK_LANES = `${suppTxt} (${suppC["Gorgias"] != null ? suppC["Gorgias"] : 
 const RANK_TITLE = `Gorgias: ${ovTxt} \u2014 ${gSupp === 1 ? "best-in-class support" : suppTxt}, ${gShop === 1 ? "top shopping" : "one shopping-speed gap"}.`;
 const RANK_BADGE = `${ovTxt} \u00b7 ${suppTxt} \u00b7 ${shopTxt}`;
 const RANK_H = `Gorgias is ${gOv === 1 ? "the #1 AI agent overall in the field (mean of both lanes)" : (ovTxt + ", behind " + ovLeader)} \u2014 ${gSupp === 1 ? "#1 in support (best-in-field answer quality + elite automation)" : (suppTxt + " (behind " + suppLeader + ")")} and ${gShop === 1 ? "#1 in shopping" : (shopTxt + ", behind " + shopLeader)}. The one gap is shopping speed.`;
+
+for (const v of new Set([...Object.keys(shopS), ...Object.keys(supS)])) {
+  const us = allEntries.find(s => s.vendor === v && s.us) ? 1 : 0;
+  D_OBJ[v] = { ...(us ? { us: 1 } : {}), col: PALETTE[v] || "#888",
+    s: shopS[v] || null, p: supS[v] || null, ...(OVERALL[v] ? { ov: OVERALL[v] } : {}) };
+}
+// Three windows, all baked here so the toggle only ever SWITCHES a precomputed view.
+const WINDOWS = [30, 60, 90];
+const D_WINDOWS = {};
+for (const days of WINDOWS) {
+  const cut = rankCutoff(LATEST, days);
+  const sh = laneScores(STORES, "shopping", cut), su = laneScores(SUPPORT, "support", cut);
+  const obj = {};
+  for (const v of new Set([...Object.keys(sh), ...Object.keys(su)])) {
+    const us = allEntries.find(s => s.vendor === v && s.us) ? 1 : 0;
+    obj[v] = { ...(us ? { us: 1 } : {}), col: PALETTE[v] || "#888", s: sh[v] || null, p: su[v] || null,
+      ...(OVERALL[v] ? { ov: OVERALL[v] } : {}) };
+  }
+  D_WINDOWS[days] = obj;
+}
+const D_JSON = " const D = " + JSON.stringify(D_OBJ) + "; const D_WINDOWS = " + JSON.stringify(D_WINDOWS) + ";";
 
 try {
   const TK = new URL("../takeaways.html", import.meta.url).pathname;
