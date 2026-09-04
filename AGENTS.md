@@ -26,7 +26,7 @@ and measure three things:
 renormalized when a dimension is missing). One number per lane so vendors can be ranked.
 
 Deliverables (static site, GitHub Pages): `takeaways.html` (board Summary), `report.html`
-(Detailed report + Conversations tab), `vendor-changes.html` (footer-only vendor-reclassification log).
+(Detailed report + Conversations tab), `vendor-changes.html` (unlisted vendor-reclassification log — deployed and reachable at /vendor-changes, but deliberately not linked from any page since 2026-09-04).
 
 Current headline (v2.2 eval): **Gorgias = #2 overall, behind Envive.** #2 Support (quality ~best
 in field), #3 Shopping (Yuma edges on richer answers), speed is the shopping gap.
@@ -74,7 +74,8 @@ in field), #3 Shopping (Yuma edges on richer answers), speed is the shopping gap
 ```
 report.html        Detailed report (self-contained; data injected by gen.js between markers).
 takeaways.html     Board Summary (hero stats + verdict + scoreboard D-object + provider profiles).
-vendor-changes.html  Footer-only vendor-reclassification log (baked by runner/vendor-changes.mjs from vendors.js git history — not gen.js).
+vendor-changes.html  UNLISTED vendor-reclassification log (baked by runner/vendor-changes.mjs from vendors.js git history — not gen.js).
+                     Still deployed and reachable at /vendor-changes; the footer links to it were removed 2026-09-04, so nothing navigates there. Re-add a link in the report and takeaways footers to surface it again.
 live-feed.json     Live conversation feed for the report's Conversations tab.
 design-lab/        Throwaway UI restyle directions (v1 Axiom-native light, v2 editorial dark). Not the live site.
 README.md          Human-facing overview.
