@@ -8,6 +8,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
+import { RANK_WINDOW_DAYS } from "./ranking-window.js";
 
 const read = (p) => readFileSync(new URL(p, import.meta.url), "utf8");
 const ARTIFACTS = ["../report.html", "../takeaways.html", "../conv-text.json"];
@@ -35,37 +36,60 @@ test("takeaways.html has exactly one STATS_JSON marker", () => {
   assert.equal((h.match(/STATS_JSON:\{/g) || []).length, 1, "expected one STATS_JSON marker");
 });
 
-// ---- 3. the SCORES scoreboard parses to a non-empty object ----------------------
-test("takeaways.html SCORES object parses and is non-empty", () => {
-  const h = read("../takeaways.html");
-  const m = h.match(/\/\*SCORES_START\*\/([\s\S]*?)\/\*SCORES_END\*\//);
-  assert.ok(m, "SCORES markers missing");
-  const D = JSON.parse(m[1].replace(/^\s*const D =\s*/, "").replace(/;\s*$/, ""));
-  assert.ok(Object.keys(D).length > 0, "scoreboard D is empty");
-  // Gorgias must be present with both lanes shaped as {a,q,l,...} or null
-  assert.ok(D.Gorgias, "Gorgias missing from scoreboard");
-});
-
-// ---- 4. report.html data arrays appear exactly once and parse (string-aware) -----
-function grabArrays(html, name) {
-  // return every `const NAME = [ ... ]` block parsed (should be exactly one)
+// String-aware literal grabber: returns every `const NAME = <literal>` parsed. Used for both
+// the report's arrays and the takeaways SCORES objects, so one brace/bracket scanner covers
+// both surfaces instead of two half-correct regexes.
+function grabLiterals(html, name, open, close) {
   const out = [];
   let from = 0, i;
-  while ((i = html.indexOf(`const ${name} = [`, from)) >= 0) {
-    const s = html.indexOf("[", i);
+  while ((i = html.indexOf(`const ${name} = ${open}`, from)) >= 0) {
+    const s = html.indexOf(open, i);
     let d = 0, j = s, inStr = false, esc = false;
     for (; j < html.length; j++) {
       const c = html[j];
       if (inStr) { if (esc) esc = false; else if (c === "\\") esc = true; else if (c === '"') inStr = false; continue; }
       if (c === '"') inStr = true;
-      else if (c === "[") d++;
-      else if (c === "]") { d--; if (d === 0) { j++; break; } }
+      else if (c === open) d++;
+      else if (c === close) { d--; if (d === 0) { j++; break; } }
     }
     out.push(JSON.parse(html.slice(s, j)));
     from = j;
   }
   return out;
 }
+const grabArrays = (html, name) => grabLiterals(html, name, "[", "]");
+const grabObjects = (html, name) => grabLiterals(html, name, "{", "}");
+
+// ---- 3. the SCORES scoreboard parses to a non-empty object ----------------------
+// The block holds more than one declaration since the per-window scoreboards landed (D plus
+// D_WINDOWS), so each is grabbed by name rather than parsing the whole block as one JSON
+// document — which silently broke this test the moment a second const appeared.
+test("takeaways.html SCORES object parses and is non-empty", () => {
+  const h = read("../takeaways.html");
+  const m = h.match(/\/\*SCORES_START\*\/([\s\S]*?)\/\*SCORES_END\*\//);
+  assert.ok(m, "SCORES markers missing");
+  const found = grabObjects(m[1], "D");
+  assert.equal(found.length, 1, "expected exactly one D scoreboard (a conflict duplicates it)");
+  const D = found[0];
+  assert.ok(Object.keys(D).length > 0, "scoreboard D is empty");
+  // Gorgias must be present with both lanes shaped as {a,q,l,...} or null
+  assert.ok(D.Gorgias, "Gorgias missing from scoreboard");
+});
+
+test("takeaways.html per-window scoreboards parse and cover the ranking window", () => {
+  const h = read("../takeaways.html");
+  const m = h.match(/\/\*SCORES_START\*\/([\s\S]*?)\/\*SCORES_END\*\//);
+  const found = grabObjects(m[1], "D_WINDOWS");
+  if (found.length === 0) return;   // optional surface — absent is fine, malformed is not
+  assert.equal(found.length, 1, "expected exactly one D_WINDOWS object");
+  const W = found[0];
+  assert.ok(W[String(RANK_WINDOW_DAYS)], `D_WINDOWS is missing the ${RANK_WINDOW_DAYS}-day ranking window`);
+  for (const [days, board] of Object.entries(W)) {
+    assert.ok(Object.keys(board).length > 0, `D_WINDOWS[${days}] is empty`);
+  }
+});
+
+// ---- 4. report.html data arrays appear exactly once and parse (string-aware) -----
 for (const name of ["STORES", "SUPPORT"]) {
   test(`report.html ${name} appears once and parses`, () => {
     const arrs = grabArrays(read("../report.html"), name);

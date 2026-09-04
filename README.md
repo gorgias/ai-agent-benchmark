@@ -12,7 +12,7 @@ Every conversation is captured cold (fresh incognito context), driven with **fre
 | **Automation rate** | % of *engaged* conversations the AI handled with **zero human touch** — no handover, no "email/call us" deflection. The containment metric: the share of tickets a human never touches. |
 | **Answer quality** | An LLM judge scores every conversation `/100` on a per-lane rubric (Relevance for Shopping, Resolution for Support). |
 | **Latency** | True end-to-end — message sent → *final* answer rendered, past "let me check…" stalls. Plus **first signal** (TTFT) and delivery style (streaming vs atomic). |
-| **Composite** | Lane-specific weights, because the lanes reward different things. **Shopping** `40% automation + 35% quality + 25% speed` — a shopper will not wait. **Support** `50% automation + 30% quality + 20% speed` — containment is the point. Speed scores 100 at ≤3 s and 0 at ≥22 s. A vendor needs a judged quality score and ≥15 conversations in the lane to be ranked at all. One rankable number per lane. |
+| **Composite** | Lane-specific weights, because the lanes reward different things. **Shopping** `40% automation + 35% quality + 25% speed` — a shopper will not wait. **Support** `50% automation + 40% quality + 10% speed` — containment is the point, and support latency tolerance is far higher than shopping's ([reweighted 2026-09-03](notes/lane-weights-2026-09-03.md)). Speed scores 100 at ≤3 s and 0 at ≥22 s. A vendor needs a judged quality score and ≥15 conversations in the lane to be ranked at all. One rankable number per lane. |
 
 **Live board:** https://gorgias-ai-benchmark.vercel.app/report — **Summary:** https://gorgias-ai-benchmark.vercel.app/takeaways
 
