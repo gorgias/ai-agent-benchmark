@@ -35,6 +35,7 @@ import { extractRecommendedProducts } from "./product-recommendation-bars.js";
 import { normalizeUserMessage } from "./message-style.js";
 import { rankCutoff } from "./ranking-window.js";
 import { LANE_W, speedScore } from "./lane-weights.js";
+import { compositeCI } from "./composite-ci.js";
 import { deriveOutcome } from "./conversation-outcome.js";
 
 // Themes whose turns must NOT count toward latency / automation / quality (robustness only).
@@ -531,7 +532,7 @@ const PALETTE = { Gorgias:"#f0603f", Envive:"#22c55e", Ada:"#64748b", Siena:"#a8
   Humind:"#f59e0b", "Google Agentic":"#4285F4", Klaviyo:"#111", "Shopify Inbox":"#95BF47" };
 const speedScoreG = speedScore;   // shared with the dry-run preview — see lane-weights.js
 const latNumG = (s) => { const m = (s.lat || "").match(/[\d.]+/); return m ? parseFloat(m[0]) : null; };
-function laneScores(arr, cutoff = RANK_CUTOFF, w0 = LANE_W.support) {
+function laneScores(arr, lane, cutoff = RANK_CUTOFF) {
   // rankings use only the trailing window (recency-weighted — older runs age out). The cutoff
   // is a parameter so the summary page can bake 30/60/90-day views from the SAME function:
   // recomputing them in the page's own JS is how the dry-run preview drifted from this file
@@ -554,37 +555,25 @@ function laneScores(arr, cutoff = RANK_CUTOFF, w0 = LANE_W.support) {
     // Those vendors live in the prose profiles as "not measurable / capture in progress", not the scoreboard.
     const convN = es.reduce((n, s) => n + ((s.themes && s.themes.length) || 0), 0);
     if (q == null || convN < MIN_RANK_CONVS) continue;   // no judged quality, or thin sample → not rankable
-    // ± on the composite: 95% interval across this vendor's STORES. The store is the unit of
-    // replication, not the conversation — ten conversations against one storefront share a
-    // knowledge base and a config, so they move together; treating them as independent would
-    // shrink the interval by ~sqrt(convs per store) and manufacture confidence. Computed here,
-    // in the baker, so the summary page only ever RENDERS it (see lane-weights.js for why the
-    // page must not recompute the baker's arithmetic).
+    // ± on the composite, baked here rather than recomputed in the page. The unit of replication
+    // is the STOREFRONT, not the conversation (see composite-ci.js): conversations against one
+    // store share a knowledge base and a config, so counting them as independent would shrink the
+    // interval by ~sqrt(convs per store) and manufacture confidence. Same method report.html uses
+    // for its Best-AI-Agent panel — imported, not re-implemented, so the two pages cannot drift.
     const byStore = {};
-    for (const e of es) { const k = e.store || e.site || "?"; (byStore[k] = byStore[k] || []).push(e); }
-    const pts = [];
-    for (const rows of Object.values(byStore)) {
-      const ag2 = rows.reduce((x, r) => { if (r.auto) { x.a += r.auto.automated; x.e += r.auto.engaged; } return x; }, { a: 0, e: 0 });
-      const q2 = rows.map(r => r.evalq && r.evalq.total).filter(x => x != null);
-      const l2 = rows.map(latNumG).filter(x => x != null);
-      if (!ag2.e || !q2.length || !l2.length) continue;   // a store missing a dimension is not comparable
-      const mean = z => z.reduce((x, y) => x + y, 0) / z.length;
-      pts.push(w0.a * (100 * ag2.a / ag2.e) + w0.q * mean(q2) + w0.s * speedScoreG(mean(l2)));
-    }
-    let ci = null;
-    if (pts.length >= 3) {
-      const m = pts.reduce((x, y) => x + y, 0) / pts.length;
-      const sd = Math.sqrt(pts.reduce((x, z) => x + (z - m) ** 2, 0) / (pts.length - 1));
-      const T = [12.71, 4.303, 3.182, 2.776, 2.571, 2.447, 2.365, 2.306, 2.262, 2.228, 2.201, 2.179, 2.160,
-        2.145, 2.131, 2.120, 2.110, 2.101, 2.093, 2.086, 2.080, 2.074, 2.069, 2.064, 2.060, 2.056, 2.052, 2.048, 2.045, 2.042];
-      const df = pts.length - 1;
-      ci = Math.round(((df <= 30 ? T[df - 1] : 1.96) * sd) / Math.sqrt(pts.length) * 10) / 10;
-    }
-    out[v] = { a, q, l, l75, n: convN, ...(ci != null ? { ci, cis: pts.length } : {}) };
+    for (const s of es) { const k = s.store || s.site || "?"; (byStore[k] = byStore[k] || []).push(s); }
+    const ciRes = compositeCI(Object.values(byStore).map((rows) => ({
+      automated: rows.reduce((n, s) => n + (s.auto ? s.auto.automated : 0), 0),
+      engaged: rows.reduce((n, s) => n + (s.auto ? s.auto.engaged : 0), 0),
+      quality: rows.map((s) => s.evalq && s.evalq.total).filter((x) => x != null),
+      latencies: rows.map(latNumG).filter((x) => x != null).map((sec) => sec * 1000),   // latNumG is seconds
+    })), lane);
+    const ci = ciRes && ciRes.ci != null ? Math.round(ciRes.ci * 10) / 10 : null;
+    out[v] = { a, q, l, l75, n: convN, ...(ci != null ? { ci, ciStores: ciRes.stores } : {}) };
   }
   return out;
 }
-const shopS = laneScores(STORES, RANK_CUTOFF, LANE_W.shopping), supS = laneScores(SUPPORT, RANK_CUTOFF, LANE_W.support);
+const shopS = laneScores(STORES, "shopping"), supS = laneScores(SUPPORT, "support");
 const D_OBJ = {};
 for (const v of new Set([...Object.keys(shopS), ...Object.keys(supS)])) {
   const us = allEntries.find(s => s.vendor === v && s.us) ? 1 : 0;
@@ -596,7 +585,7 @@ const WINDOWS = [30, 60, 90];
 const D_WINDOWS = {};
 for (const days of WINDOWS) {
   const cut = rankCutoff(LATEST, days);
-  const sh = laneScores(STORES, cut, LANE_W.shopping), su = laneScores(SUPPORT, cut, LANE_W.support);
+  const sh = laneScores(STORES, "shopping", cut), su = laneScores(SUPPORT, "support", cut);
   const obj = {};
   for (const v of new Set([...Object.keys(sh), ...Object.keys(su)])) {
     const us = allEntries.find(s => s.vendor === v && s.us) ? 1 : 0;

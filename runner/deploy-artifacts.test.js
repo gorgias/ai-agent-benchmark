@@ -76,6 +76,29 @@ test("takeaways.html SCORES object parses and is non-empty", () => {
   assert.ok(D.Gorgias, "Gorgias missing from scoreboard");
 });
 
+// The scoreboard renders a ± beside each lane composite, baked by gen.js via composite-ci.js.
+// A malformed interval is worse than none: it is a confidence claim the page makes on the
+// board's behalf, so the shape is asserted rather than trusted.
+test("baked composite intervals are well formed", () => {
+  const h = read("../takeaways.html");
+  const m = h.match(/\/\*SCORES_START\*\/([\s\S]*?)\/\*SCORES_END\*\//);
+  const [D] = grabObjects(m[1], "D");
+  let seen = 0;
+  for (const [vendor, d] of Object.entries(D)) {
+    for (const lane of ["s", "p"]) {
+      const v = d[lane];
+      if (!v || v.ci == null) continue;
+      seen++;
+      assert.ok(v.ci >= 0, `${vendor}.${lane}: negative interval ${v.ci}`);
+      assert.ok(Number.isFinite(v.ci), `${vendor}.${lane}: non-finite interval`);
+      // composite-ci.js refuses to bound fewer than three storefronts; a baked interval that
+      // claims otherwise means the two disagree about the unit of replication.
+      assert.ok(v.ciStores >= 3, `${vendor}.${lane}: interval on ${v.ciStores} storefront(s)`);
+    }
+  }
+  assert.ok(seen > 0, "no vendor carries an interval — gen.js stopped baking them");
+});
+
 test("takeaways.html per-window scoreboards parse and cover the ranking window", () => {
   const h = read("../takeaways.html");
   const m = h.match(/\/\*SCORES_START\*\/([\s\S]*?)\/\*SCORES_END\*\//);
