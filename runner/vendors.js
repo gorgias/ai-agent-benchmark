@@ -22,7 +22,15 @@ import { randomBytes } from "node:crypto";
 // inbox collision vanishingly unlikely. Dummy PII, not a real person.
 const DUMMY_FIRST_NAMES = ["John", "Maya", "Nora", "Evan", "Lina", "Adam", "Sofia", "Noah"];
 const DUMMY_LAST_NAMES = ["Minser", "Carrow", "Bellin", "Harper", "Linton", "Rossi", "Parker", "Madden"];
-const DUMMY_EMAIL_HOSTS = ["gmail.com", "gmail.com", "gmail.com", "outlook.com", "icloud.com", "hotmail.com"];
+// RFC 2606 reserves example.com/net/org so they can never be registered by anyone: an address
+// built here cannot reach a real mailbox. This list used to hold gmail.com, outlook.com,
+// icloud.com and hotmail.com — "realistic + unique enough" — which meant every gated storefront
+// received a plausible consumer address on a live mail provider. Sixteen distinct ones went out
+// on 2026-09-04 alone, and names like john.madden59@gmail.com belong to somebody. That is a real
+// person receiving a signup they never made, and AGENTS.md rule 5 forbids it in as many words.
+// If a gate ever rejects a reserved domain, that shows up as a failed capture we can see and
+// handle — strictly better than a silent one that lands in a stranger's inbox.
+const DUMMY_EMAIL_HOSTS = ["example.com", "example.net", "example.org"];
 
 function pickDummy(xs) {
   return xs[randomBytes(1)[0] % xs.length];
@@ -31,13 +39,16 @@ function pickDummy(xs) {
 function makeDummyIdentity() {
   const firstName = pickDummy(DUMMY_FIRST_NAMES);
   const lastName = pickDummy(DUMMY_LAST_NAMES);
-  const num = (randomBytes(1)[0] % 90) + 10;                 // 2-digit — realistic + unique enough
-  const sep = randomBytes(1)[0] % 2 ? "." : "";
+  // firstname.lastname.NNNNNN — six digits, so even on a live mail provider the odds of landing
+  // on somebody's real address are negligible. Combined with the reserved domain above it is not
+  // merely improbable but impossible, and the digits still give every capture a unique address,
+  // which is what a merchant's deduplication needs to treat them as separate visitors.
+  const num = String(randomBytes(4).readUInt32BE(0) % 1000000).padStart(6, "0");
   return {
     firstName,
     lastName,
     name: `${firstName} ${lastName}`,
-    email: `${firstName}${sep}${lastName}${num}`.toLowerCase() + `@${pickDummy(DUMMY_EMAIL_HOSTS)}`,
+    email: `${firstName}.${lastName}.${num}`.toLowerCase() + `@${pickDummy(DUMMY_EMAIL_HOSTS)}`,
   };
 }
 
@@ -884,6 +895,24 @@ export const WIDGETS = {
       await dismiss(page);
       const f = await findFrame(page, /intercom-messenger-frame/);
       if (!f) return;
+      // IN-CHAT EMAIL GATE (2026-09-04). Gymshark's bot answers turn 1 and then asks for an
+      // address — "Please could I just take some details from you… Email" — rendering a single
+      // input[type=email] with no submit button inside the thread. Until it is filled the
+      // composer accepts nothing, so turns 2-10 all came back with the same text and a null
+      // latency: 0 valid conversations from 5 captures, recorded as vendor silence.
+      //
+      // This is NOT the pre-chat identity form the other drivers handle. It arrives mid
+      // conversation, as a reply, which is why fillEmailGate was never reached from here —
+      // the Intercom driver simply never called it. It already handles the no-button case by
+      // pressing Enter, and returns false cheaply when no email input is visible, so calling
+      // it before every turn costs nothing on the storefronts that do not gate.
+      // Once per conversation, not once per turn: the gate input stays in the thread after it is
+      // answered, so re-filling it submitted a fresh address at every subsequent turn — more
+      // addresses out, and a transcript littered with them.
+      if (!page.__intercomGateDone) {
+        const done = await fillEmailGate(page, f).catch(() => false);
+        if (done) page.__intercomGateDone = true;
+      }
       // Newer Fin builds render the composer as a contenteditable div, not a <textarea>.
       const inp = f.locator('textarea, [contenteditable="true"]').first();
       await inp.waitFor({ state: "visible", timeout: 10000 }).catch(() => {});
