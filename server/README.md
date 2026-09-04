@@ -162,6 +162,30 @@ Why one script rather than four scheduled jobs: on scale-to-zero compute the con
 for the length of one invocation, so sequencing in-process is both cheaper (one boot) and safer
 (no window where two stages overlap on the same volume).
 
+## Deploy-on-merge: merged PRs go live within minutes
+
+The nightly publish is the only writer of the board, which used to mean a merged PR — even a
+presentation-only one — sat invisible until tonight's run. `DEPLOY_ON_MERGE=1` (fly.toml) closes
+that gap: at the start of each nightly wake-up, a bounded poller (15 min) watches for a master
+commit that changed the BAKED artifacts (report.html / takeaways.html / conv-text.json) since the
+last deploy marker, and runs `server/deploy-on-merge.sh`:
+
+1. re-bake from committed data (gen.js reads runner/results + eval-scores, both on master),
+2. run the SAME quality gate the nightly publish runs (verify-data.js) — a PR that breaks the
+   bake is blocked and the live site keeps the last good board,
+3. deploy to Vercel, verify live == local, post to Slack.
+
+Keyed on the baked files, not "master moved": capture pushes raw conversations to master every
+10 minutes, and those never change the live site — keying on them would re-deploy all night.
+Judging stays nightly-only, so a merge deploy can never put unscored conversations on the board;
+it re-bakes from already-scored data. The script never pushes to git.
+
+To deploy a merged PR immediately (outside the nightly window), SSH/Fly-console in and run:
+
+```bash
+bash server/deploy-on-merge.sh
+```
+
 ## Scheduling: use Fly's own scheduler
 
 GitHub Actions is **disabled for this repository by the `gorgias` organization** (the API returns

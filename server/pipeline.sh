@@ -6,6 +6,15 @@
 #   3. healthcheck            (anomaly detection → Slack; writes the publish verdict)
 #   4. publish                (judge → merge → bake → GATE → push → deploy → verify live)
 #
+# DEPLOY-ON-MERGE (DEPLOY_ON_MERGE=1): between the missed-night check and sourcing, a bounded
+# poller watches for a master commit that changed the BAKED artifacts (report/takeaways/
+# conv-text) since the last deploy marker, and runs server/deploy-on-merge.sh — re-bake from
+# committed data, same gate, deploy, verify. This is how a merged PR reaches the live site
+# within minutes instead of waiting for tonight's publish. The poller is bounded (DEPLOY_POLL_
+# SECONDS, default 900s) so it can never eat the capture window; the marker lives on the volume
+# so it survives across machines. Judging stays nightly-only: a merge deploy re-bakes from
+# ALREADY-SCORED data, so it can never put unscored conversations on the board.
+#
 # Step 4 used to be deliberately absent: keeping publishing on a laptop meant this box could not
 # put a bad board in front of anyone. Closing the loop gives that up, so the protection had to move
 # in-band instead of being an org-chart accident — verify-data.js is a hard gate that runs before
@@ -218,6 +227,53 @@ missed_nights() {
   fi
 }
 missed_nights
+
+# ── 0.5 DEPLOY-ON-MERGE poller (bounded; skipped when disabled) ───────────────
+# Watches for a master commit that changed the baked artifacts since the last deploy marker.
+# BOUNDED like every other stage (the 2026-08-24 lesson): DEPLOY_POLL_SECONDS caps the whole
+# poller, and each deploy-on-merge run inherits publish.sh's own bounded shape (bake → gate →
+# deploy → verify, no judging). The marker lives on /data so it survives across machines.
+#
+# WHY MARKER-BASED AND NOT "EVERY PUSH": capture pushes raw convs to master many times per
+# night (PUSH_EVERY=600s). Those change master but not the baked artifacts, so keying on
+# "master moved" would re-bake and re-deploy all night for nothing. Keying on "the baked
+# files changed" means exactly the pushes that can change the live site trigger a deploy —
+# a merged PR, or the nightly publish's own board commit (which deploys itself anyway; the
+# marker update makes the poller a no-op for it).
+if [ "${DEPLOY_ON_MERGE:-0}" = "1" ]; then
+  say "--- deploy-on-merge poller (window ${DEPLOY_POLL_SECONDS:-900}s) ---"
+  MARKER="/data/.last-deployed-bake-hash"
+  POLL_END=$(( $(date +%s) + ${DEPLOY_POLL_SECONDS:-900} ))
+  while [ "$(date +%s)" -lt "$POLL_END" ]; do
+    git fetch origin master >/dev/null 2>&1 || { sleep 30; continue; }
+    LOCAL=$(git rev-parse HEAD 2>/dev/null || echo "")
+    REMOTE=$(git rev-parse origin/master 2>/dev/null || echo "")
+    if [ -n "$LOCAL" ] && [ -n "$REMOTE" ] && [ "$LOCAL" != "$REMOTE" ]; then
+      # master moved — pull and check whether the BAKED files changed since the marker
+      git pull --rebase --autostash origin master >/dev/null 2>&1 || { sleep 30; continue; }
+      BAKE_HASH=$(git hash-object report.html takeaways.html conv-text.json 2>/dev/null | md5sum | cut -d' ' -f1)
+      LAST_HASH=$(cat "$MARKER" 2>/dev/null || echo "")
+      if [ "$BAKE_HASH" != "$LAST_HASH" ]; then
+        say "baked artifacts changed on master — running deploy-on-merge"
+        RUN_DATE="$D" bash server/deploy-on-merge.sh; DOM=$?
+        if [ "$DOM" -eq 0 ]; then
+          echo "$BAKE_HASH" > "$MARKER"
+          say "deploy-on-merge OK — marker updated"
+        else
+          say "deploy-on-merge FAILED (exit $DOM) — will retry on next poll while the window is open"
+        fi
+      else
+        say "master moved but baked artifacts unchanged — no deploy needed"
+        echo "$BAKE_HASH" > "$MARKER"   # marker catches up so this push stops re-checking
+      fi
+      break   # one deploy attempt per poller window is enough; the nightly publish is the backstop
+    fi
+    sleep 30
+  done
+  say "deploy-on-merge poller done"
+else
+  say "deploy-on-merge disabled (DEPLOY_ON_MERGE=0) — merged PRs go live at tonight's publish"
+fi
 
 # ── 1. sourcing (independent: a failure here must not stop capture) ────────────
 # BOUNDED, and that is the whole point. "A failure here must not stop capture" used to be enforced
