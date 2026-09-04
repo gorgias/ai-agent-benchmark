@@ -1462,6 +1462,7 @@ export const STORES = [
   // brief. Ritual is a confirmed structural wall (0/20 timed turns, retested).
   { key: "intercom-gymshark", vendor: "Intercom", store: "Gymshark", url: "https://www.gymshark.com/", widget: "intercom", us: true, candidate: true }, // athleticwear DTC, $35M/mo est. sales (Storeleads)
   { key: "intercom-livingspaces", vendor: "Intercom", store: "Living Spaces", url: "https://www.livingspaces.com/", widget: "intercom", us: true, candidate: true }, // furniture retailer; engine probe 2026-09-04 saw Intercom and no competing answering endpoint
+  { key: "intercom-littleformula", vendor: "Intercom", store: "Little Formula", url: "https://littleformula.com/", widget: "intercom", us: true, candidate: true }, // named in the Fin Shopify app-store reviews as a Fin for Ecommerce merchant
   { key: "intercom-ritual",   wall: true, vendor: "Intercom", store: "Ritual",   url: "https://ritual.com/",       widget: "intercom", us: true, candidate: true }, // supplements DTC — wall: 0/20 timed turns
 
   // ── Sourced 2026-07-28: 47 candidates researched, each VERIFIED BY LIVE DOM (widget host
