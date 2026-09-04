@@ -811,7 +811,7 @@ export const WIDGETS = {
     handover: [/connect you (with|to) (a|one of our)?\s*(teammate|human|agent|team member)/i,
                /I'?ll (get|find) (you )?a teammate/i, /pass(ing)? (this|you) (on|over) to/i,
                /a teammate will (reply|follow up|get back)/i],
-    async open(page) {
+    async open(page, mode) {
       await dismiss(page);
       await page.waitForFunction(() => typeof window.Intercom !== "undefined", null, { timeout: 15000 }).catch(() => {});
       await page.evaluate(() => { try { window.Intercom && window.Intercom("show"); } catch (e) {} }).catch(() => {});
@@ -845,6 +845,40 @@ export const WIDGETS = {
         await page.waitForTimeout(3000);
       }
       await f.locator('textarea, [contenteditable="true"]').first().waitFor({ state: "visible", timeout: 12000 }).catch(() => {});
+
+      // TOPIC CHOOSER (2026-09-04). A growing share of Fin installs answer nothing until the
+      // visitor picks a lane from quick replies — livingspaces' "Lia" offers Sales Assistance /
+      // Customer Support, easyplant's "Ivy" offers Question before purchasing / Need help with my
+      // plant or order. The composer is present the whole time, so the runner happily typed into
+      // it; the message posted, sat at "Not seen yet", and every turn came back with the chooser
+      // text and a null latency. That is 0 valid conversations from 130 captures across these
+      // stores — read as vendor silence when it was an unanswered question on our side.
+      //
+      // The branch depends on the lane, which is why open() now takes `mode`: sending a shopping
+      // question down the support branch would measure the wrong agent.
+      const CHOICE = {
+        shopping: /sales|shopping|before purchas|pre-?purchase|product question|buy|browse|find a product/i,
+        support: /customer support|support|help with my|my order|existing order|returns?|issue|problem|track/i,
+      };
+      const rx = CHOICE[mode === "support" ? "support" : "shopping"];
+      try {
+        // Quick replies are short, standalone controls at the foot of the thread. Match on the
+        // innermost control and require a SHORT label: "Customer Support" is a chooser, a
+        // paragraph merely containing the word "support" is not.
+        const btn = f.locator('[role="button"], button, li').filter({ hasText: rx });
+        const n = await btn.count().catch(() => 0);
+        for (let i = 0; i < n; i++) {
+          const el = btn.nth(i);
+          const t = ((await el.innerText().catch(() => "")) || "").trim();
+          if (!t || t.length > 40 || !rx.test(t)) continue;
+          // A real click, not el.click() in page context: these quick replies ignore
+          // synthetic events.
+          await el.click({ timeout: 6000 });
+          await page.waitForTimeout(2500);
+          break;
+        }
+      } catch {}
+      await f.locator('textarea, [contenteditable="true"]').first().waitFor({ state: "visible", timeout: 8000 }).catch(() => {});
     },
     async send(page, text) {
       await dismiss(page);
@@ -1463,6 +1497,7 @@ export const STORES = [
   { key: "intercom-gymshark", vendor: "Intercom", store: "Gymshark", url: "https://www.gymshark.com/", widget: "intercom", us: true, candidate: true }, // athleticwear DTC, $35M/mo est. sales (Storeleads)
   { key: "intercom-livingspaces", vendor: "Intercom", store: "Living Spaces", url: "https://www.livingspaces.com/", widget: "intercom", us: true, candidate: true }, // furniture retailer; engine probe 2026-09-04 saw Intercom and no competing answering endpoint
   { key: "intercom-littleformula", vendor: "Intercom", store: "Little Formula", url: "https://littleformula.com/", widget: "intercom", us: true, candidate: true }, // named in the Fin Shopify app-store reviews as a Fin for Ecommerce merchant
+  { key: "intercom-easyplanteu", vendor: "Intercom", store: "easyplant (EU)", url: "https://easyplant.com/en-EU", widget: "intercom", us: false, locale: "en-EU", candidate: true }, // EU locale of easyplant; the .com locale posts messages that stay unanswered, so the EU install is tested separately rather than assumed identical
   { key: "intercom-ritual",   wall: true, vendor: "Intercom", store: "Ritual",   url: "https://ritual.com/",       widget: "intercom", us: true, candidate: true }, // supplements DTC — wall: 0/20 timed turns
 
   // ── Sourced 2026-07-28: 47 candidates researched, each VERIFIED BY LIVE DOM (widget host

@@ -352,7 +352,9 @@ async function runStoreMode(browser, store, mode, theme) {
     // "commit" returns as soon as navigation starts (not full DOM) so widget-open begins ASAP.
     await page.goto(openUrl, { waitUntil: "commit", timeout: 45000 });
     console.log(`  [${store.key}/${mode}/${theme.key}] page @${_el()} → opening widget…`);
-    await withTimeout(w.open(page), 90000, "open");
+    // The lane is passed to open(): some widgets gate the conversation behind a topic
+    // chooser whose correct branch depends on whether we are shopping or asking support.
+    await withTimeout(w.open(page, mode), 90000, "open");
     console.log(`  [${store.key}/${mode}/${theme.key}] widget open @${_el()} → first message`);
     // PROVIDER VERIFICATION: stamp the provider ACTUALLY serving the widget onto the
     // conversation (the widget is loaded+open now, so this is reliable — unlike a cold
