@@ -50,6 +50,52 @@ mkdir -p "$(dirname "$LOG")" 2>/dev/null || LOG=/tmp/pipeline.log
 touch "$LOG" 2>/dev/null || LOG=/tmp/pipeline.log
 say() { echo "$(date -u +%Y-%m-%dT%H:%M:%SZ) $*" | tee -a "$LOG"; }
 
+# sync_master — pull master WITHOUT silently giving up.
+#
+# WHY (2026-09-04): every pull site here was `git pull --rebase --autostash … || true`, and the
+# machine sat 12 commits behind master for days while every run looked healthy. --autostash stashes
+# TRACKED modifications only; this machine also holds UNTRACKED capture files, and when master
+# carries a file of the same name git aborts with "untracked working tree files would be overwritten
+# … Aborting". The `|| true` swallowed it, so fixes pushed to master never reached the worker — a
+# sourcing fix pushed nine minutes before a run still ran the old code.
+#
+# Captures are the product, so nothing here deletes them: stash INCLUDING untracked, pull, restore.
+# If the restore conflicts, the working copy wins (checkout --ours) — a local capture is real data,
+# the incoming copy is the same conversation already committed from elsewhere.
+sync_master() {
+  local before after stashed=0
+  before=$(git rev-parse --short HEAD 2>/dev/null || echo "?")
+  if [ -n "$(git status --porcelain 2>/dev/null)" ]; then
+    git stash push -u -q -m "pipeline-prepull-$(date -u +%s)" >/dev/null 2>&1 && stashed=1
+  fi
+  if git pull --rebase origin master >/dev/null 2>&1; then
+    after=$(git rev-parse --short HEAD 2>/dev/null || echo "?")
+    [ "$before" != "$after" ] && say "synced master $before -> $after" || true
+  else
+    git rebase --abort >/dev/null 2>&1 || true
+    say "WARN sync_master: pull failed, staying on $before (behind $(git rev-list --count HEAD..origin/master 2>/dev/null || echo '?') commits)"
+  fi
+  if [ "$stashed" = "1" ]; then
+    if ! git stash pop -q >/dev/null 2>&1; then
+      # The pop collided with a file master now carries. Untracked files stashed with -u live in
+      # the stash's third parent, so that is where a local capture has to be recovered from —
+      # `git checkout stash@{0} -- .` reads the TRACKED tree and silently restores nothing.
+      local restored=0 kept=0 f
+      for f in $(git show --name-only --pretty=format: "stash@{0}^3" 2>/dev/null); do
+        if git cat-file -e "HEAD:$f" 2>/dev/null; then
+          kept=$((kept+1))          # master already carries this conversation; its copy stands
+        else
+          git checkout "stash@{0}^3" -- "$f" >/dev/null 2>&1 && restored=$((restored+1))
+        fi
+      done
+      git checkout --theirs . >/dev/null 2>&1 || true
+      git reset -q >/dev/null 2>&1 || true
+      git stash drop -q >/dev/null 2>&1 || true
+      say "sync_master: stash restore collided — restored $restored local capture(s), $kept already on master"
+    fi
+  fi
+}
+
 # Slack straight from the pipeline, for the things healthcheck.mjs structurally cannot report —
 # it is stage 3, so anything that stops the run before it never gets announced. Best-effort by
 # design: an alerter that can fail the run it is watching is worse than no alerter.
@@ -201,7 +247,7 @@ deadman start; DEADMAN_STARTED=1
 ) &
 WATCHDOG=$!
 
-git pull --rebase --autostash origin master >/dev/null 2>&1 || true
+sync_master
 
 # ── 0. DID WE MISS A NIGHT? ──────────────────────────────────────────────
 # Runs after the pull, so it reads what the last successful run actually pushed. This is the CHEAP
@@ -250,7 +296,8 @@ if [ "${DEPLOY_ON_MERGE:-0}" = "1" ]; then
     REMOTE=$(git rev-parse origin/master 2>/dev/null || echo "")
     if [ -n "$LOCAL" ] && [ -n "$REMOTE" ] && [ "$LOCAL" != "$REMOTE" ]; then
       # master moved — pull and check whether the BAKED files changed since the marker
-      git pull --rebase --autostash origin master >/dev/null 2>&1 || { sleep 30; continue; }
+      sync_master
+      [ "$(git rev-parse HEAD)" = "$(git rev-parse origin/master)" ] || { sleep 30; continue; }
       BAKE_HASH=$(git hash-object report.html takeaways.html conv-text.json 2>/dev/null | md5sum | cut -d' ' -f1)
       LAST_HASH=$(cat "$MARKER" 2>/dev/null || echo "")
       if [ "$BAKE_HASH" != "$LAST_HASH" ]; then
@@ -338,7 +385,7 @@ if [ "${SKIP_SOURCING:-0}" != "1" ]; then
     # browsers exactly like a timeout does. Same sweep, same reason.
     sweep_sourcing_browsers
   fi
-  git pull --rebase --autostash origin master >/dev/null 2>&1 || true
+  sync_master
 fi
 
 # ── 2. capture, with INCREMENTAL push ─────────────────────────────────────────
