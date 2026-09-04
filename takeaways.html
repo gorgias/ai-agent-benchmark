@@ -414,6 +414,22 @@ td.n{text-align:right}
   .winbtn{font-size:12.5px;font-weight:600;padding:6px 12px;border-radius:999px;border:1px solid var(--line,#e5e7eb);background:#fff;color:var(--on-muted,#4b5563);cursor:pointer}
   .winbtn[aria-selected="true"]{border-color:#7e55f6;color:#7e55f6;background:rgba(126,85,246,.07)}
   .winbar-note{flex-basis:100%;font-size:11.5px;color:var(--on-faint,#6b7280)}
+  .winbtn .rec{font-weight:700;opacity:.9}
+  .winbtn[aria-selected="false"] .rec{opacity:.55}
+  .inspect-banner{margin:0 0 12px;padding:8px 12px;border-radius:10px;font-size:12.5px;font-weight:600;color:#8a5a00;background:rgba(240,176,0,.10);border:1px solid rgba(240,176,0,.35)}
+  /* `display:flex` on the class outranks the UA's [hidden]{display:none}, so the modal would
+     render open on every page load. The attribute has to win explicitly. Same for the banner,
+     which .rv could otherwise reveal. */
+  .wm-overlay[hidden], .inspect-banner[hidden]{display:none !important}
+  .wm-overlay{position:fixed;inset:0;z-index:80;background:rgba(17,17,20,.44);backdrop-filter:blur(3px);display:flex;align-items:center;justify-content:center;padding:20px}
+  .wm-card{max-width:520px;width:100%;background:#fff;border-radius:16px;padding:22px 24px;box-shadow:0 18px 60px rgba(0,0,0,.22)}
+  .wm-card h3{margin:0 0 12px;font-size:19px;line-height:1.3}
+  .wm-card p{margin:0 0 11px;font-size:14px;line-height:1.55;color:var(--on-muted,#4b5563)}
+  .wm-actions{display:flex;gap:9px;justify-content:flex-end;margin-top:18px}
+  .wm-ghost,.wm-go{font-size:13.5px;font-weight:650;padding:9px 15px;border-radius:10px;cursor:pointer;border:1px solid var(--line,#e5e7eb)}
+  .wm-ghost{background:#fff;color:var(--on-muted,#4b5563)}
+  .wm-go{background:#7e55f6;border-color:#7e55f6;color:#fff}
+  .wm-foot{margin-top:14px;padding-top:12px;border-top:1px solid var(--line,#e5e7eb);font-size:11.5px;color:var(--on-faint,#6b7280)}
 </style>
 </head>
 <body>
@@ -437,12 +453,12 @@ td.n{text-align:right}
     <h1 class="rv">We benchmarked every<br><span class="accent">chat AI agent.</span></h1>
     <p class="sub rv">Real merchants, cold sessions, free-typed questions — measured, judged and repeated weekly. <a href="report.html">Explore the full interactive report →</a></p>
     <div class="statstrip rv-stagger">
-      <div class="statcell"><div class="num tnum" data-count="6817" data-stat="convs">0</div><div class="lbl">Conversations captured</div></div>
+      <div class="statcell"><div class="num tnum" data-count="6858" data-stat="convs">0</div><div class="lbl">Conversations captured</div></div>
       <div class="statcell"><div class="num tnum" data-count="6817" data-stat="judged">0</div><div class="lbl">LLM-judged</div></div>
       <div class="statcell"><div class="num tnum" data-count="18" data-stat="vendors">0</div><div class="lbl">Vendors</div></div>
-      <div class="statcell"><div class="num tnum" data-count="162" data-suffix="+" data-stat="stores">0</div><div class="lbl">Live stores measured</div></div>
+      <div class="statcell"><div class="num tnum" data-count="164" data-suffix="+" data-stat="stores">0</div><div class="lbl">Live stores measured</div></div>
     </div>
-    <!-- STATS_JSON:{"convs":6817,"judged":6817,"vendors":18,"stores":162,"runs":40} -->
+    <!-- STATS_JSON:{"convs":6858,"judged":6817,"vendors":18,"stores":164,"runs":40} -->
   </div>
 </header>
 
@@ -455,11 +471,12 @@ td.n{text-align:right}
 
     <div class="winbar rv">
       <span class="winbar-l">Window</span>
-      <button class="winbtn" aria-selected="false" onclick="setScoreWindow('30',this)">Last 30 days</button>
-      <button class="winbtn" aria-selected="false" onclick="setScoreWindow('60',this)">Last 60 days</button>
-      <button class="winbtn" aria-selected="true" onclick="setScoreWindow('90',this)">Last 90 days</button>
-      <span class="winbar-note">90 days is the window the ranking is computed on. Shorter views thin each vendor's sample.</span>
+      <button class="winbtn" data-days="30" aria-selected="false" onclick="setScoreWindow('30',this)">Last 30 days</button>
+      <button class="winbtn" data-days="60" aria-selected="false" onclick="setScoreWindow('60',this)">Last 60 days</button>
+      <button class="winbtn winbtn-rec" data-days="90" aria-selected="true" onclick="setScoreWindow('90',this)">Last 90 days <span class="rec">&middot; recommended</span></button>
+      <span class="winbar-note"><strong>90 days is the recommended window</strong> &mdash; it is what the ranking is computed on, and what gives every vendor enough storefronts to be measured fairly.</span>
     </div>
+    <div class="inspect-banner rv" id="inspect-banner" hidden>Inspection view &middot; <span id="inspect-days">30</span> days &mdash; not the published ranking.</div>
     <div class="tablecard rv">
       <div class="table-scroll">
         <table id="score-table">
@@ -583,7 +600,13 @@ td.n{text-align:right}
 </section>
 
 <!-- ============================== PROVIDER PROFILES ============================== -->
-<section id="providers" style="padding-top:0">
+<!-- HIDDEN 2026-09-03. The prose in these cards is hand-written and frozen at the date it was
+     written, while the #N badge below is computed live from D. The two drift apart as data lands,
+     and the badge is the OVERALL rank (mean of both lanes) sitting next to per-lane copy — so a
+     vendor ranked #1 on support reads "#2" here and looks like a contradiction of the scoreboard.
+     Kept in the DOM, not deleted: the copy is worth reviving once it is generated from the data
+     rather than typed. -->
+<section id="providers" style="padding-top:0;display:none" hidden>
   <div class="wrap">
     <span class="kicker rv"><span class="dot"></span>Provider profiles</span>
     <h2 class="sec rv">What each provider does differently.</h2>
@@ -757,13 +780,12 @@ td.n{text-align:right}
     <div class="flinks">
       <a href="report.html">Head-to-head</a>
     </div>
-    <div class="fmeta">Generated from the ai-chat-latency-benchmark pipeline · data runs 2026-07-01 → 2026-07-06 · refreshed weekly</div>
   </div>
 </div>
 
 <script>
 /* ---------- scoreboard data — copied verbatim from takeaways.html ---------- */
-/*SCORES_START*/ const D = {"Gorgias":{"us":1,"col":"#f0603f","s":{"a":85,"q":76,"l":18.4,"l75":20.6,"n":448,"ci":2.4,"ciStores":43},"p":{"a":74,"q":77,"l":14.2,"l75":15.2,"n":351,"ci":3.8,"ciStores":47}},"Envive":{"col":"#22c55e","s":{"a":81,"q":62,"l":8.3,"l75":10.2,"n":375,"ci":4.3,"ciStores":7},"p":{"a":21,"q":55,"l":6.7,"l75":6.6,"n":383,"ci":13,"ciStores":7}},"Amazon Rufus":{"col":"#888","s":{"a":97,"q":77,"l":13,"l75":15.1,"n":69},"p":null},"Sierra":{"us":1,"col":"#0ea5e9","s":{"a":69,"q":59,"l":9.9,"l75":11.7,"n":444,"ci":8,"ciStores":16},"p":{"a":53,"q":81,"l":9.7,"l75":11.7,"n":324,"ci":7.1,"ciStores":16}},"Siena":{"us":1,"col":"#a855f7","s":{"a":77,"q":59,"l":12.5,"l75":15.2,"n":282,"ci":15.9,"ciStores":7},"p":{"a":82,"q":55,"l":9.7,"l75":10.8,"n":280,"ci":27.6,"ciStores":6}},"Yuma":{"us":1,"col":"#14b8a6","s":{"a":82,"q":72,"l":20.2,"l75":23.3,"n":128,"ci":10,"ciStores":6},"p":{"a":82,"q":74,"l":16,"l75":17.4,"n":104,"ci":9.8,"ciStores":6}},"DigitalGenius":{"col":"#8b5cf6","s":{"a":78,"q":43,"l":15.6,"l75":20.3,"n":545,"ci":10.7,"ciStores":11},"p":{"a":68,"q":61,"l":13,"l75":15.9,"n":351,"ci":8.6,"ciStores":12}},"Zendesk":{"us":1,"col":"#3b82f6","s":{"a":46,"q":37,"l":12.1,"l75":15.8,"n":417,"ci":9,"ciStores":14},"p":{"a":39,"q":63,"l":11,"l75":12.4,"n":370,"ci":10.4,"ciStores":15}},"Kodif":{"us":1,"col":"#eab308","s":{"a":66,"q":55,"l":20.6,"l75":25.6,"n":182,"ci":9,"ciStores":12},"p":{"a":53,"q":61,"l":14.6,"l75":17.6,"n":151,"ci":7.9,"ciStores":11}},"Ada":{"us":1,"col":"#64748b","s":{"a":69,"q":51,"l":11.3,"l75":13.3,"n":420,"ci":10.7,"ciStores":12},"p":{"a":73,"q":51,"l":10.4,"l75":12.1,"n":341,"ci":7.4,"ciStores":12}},"Decagon":{"us":1,"col":"#888","s":{"a":81,"q":61,"l":29.8,"l75":43,"n":42,"ci":38,"ciStores":4},"p":{"a":63,"q":73,"l":12.8,"l75":12.8,"n":25,"ci":21.5,"ciStores":4}},"Klaviyo":{"us":1,"col":"#111","s":{"a":41,"q":69,"l":13.5,"l75":15.5,"n":206,"ci":11.6,"ciStores":5},"p":{"a":34,"q":72,"l":9,"l75":9.9,"n":235,"ci":11,"ciStores":5}},"Intercom":{"us":1,"col":"#888","s":{"a":88,"q":69,"l":18.3,"l75":19.8,"n":177,"ci":15.9,"ciStores":4},"p":{"a":62,"q":71,"l":14.8,"l75":17.8,"n":151,"ci":16.2,"ciStores":4}}}; const D_WINDOWS = {"30":{"Gorgias":{"us":1,"col":"#f0603f","s":{"a":83,"q":71,"l":17.9,"l75":19.8,"n":282,"ci":2.9,"ciStores":32},"p":{"a":75,"q":67,"l":13.7,"l75":14.3,"n":223,"ci":4.4,"ciStores":35}},"Envive":{"col":"#22c55e","s":{"a":78,"q":60,"l":6.4,"l75":7.6,"n":188,"ci":7.9,"ciStores":6},"p":{"a":15,"q":44,"l":4.9,"l75":5.4,"n":212,"ci":11.8,"ciStores":7}},"Siena":{"us":1,"col":"#a855f7","s":{"a":74,"q":57,"l":11.8,"l75":13.2,"n":135,"ci":30.1,"ciStores":3},"p":{"a":88,"q":46,"l":8.8,"l75":8.7,"n":155,"ci":15.9,"ciStores":3}},"DigitalGenius":{"col":"#8b5cf6","s":{"a":82,"q":43,"l":15.4,"l75":20.2,"n":347,"ci":11.4,"ciStores":10},"p":{"a":71,"q":58,"l":12.7,"l75":15.3,"n":230,"ci":9.9,"ciStores":11}},"Yuma":{"us":1,"col":"#14b8a6","s":{"a":82,"q":46,"l":20.7,"l75":24.8,"n":16,"ci":29.9,"ciStores":4},"p":{"a":94,"q":74,"l":18.1,"l75":19.8,"n":16,"ci":14.8,"ciStores":5}},"Sierra":{"us":1,"col":"#0ea5e9","s":{"a":64,"q":55,"l":10,"l75":11.6,"n":176,"ci":10.5,"ciStores":13},"p":{"a":50,"q":72,"l":9.8,"l75":11.7,"n":139,"ci":9.2,"ciStores":12}},"Ada":{"us":1,"col":"#64748b","s":{"a":61,"q":45,"l":10.9,"l75":12.4,"n":186,"ci":13.9,"ciStores":9},"p":{"a":69,"q":42,"l":10.1,"l75":11.2,"n":152,"ci":12.3,"ciStores":9}},"Zendesk":{"us":1,"col":"#3b82f6","s":{"a":38,"q":31,"l":12.1,"l75":15.2,"n":235,"ci":11.7,"ciStores":11},"p":{"a":33,"q":58,"l":11.4,"l75":13.7,"n":171,"ci":11.8,"ciStores":12}},"Klaviyo":{"us":1,"col":"#111","s":{"a":20,"q":80,"l":14.7,"l75":16.7,"n":65,"ci":13.1,"ciStores":3},"p":{"a":24,"q":76,"l":8.9,"l75":9.8,"n":108,"ci":12.8,"ciStores":4}},"Intercom":{"us":1,"col":"#888","s":{"a":92,"q":71,"l":18.3,"l75":19.3,"n":92,"ci":21.9,"ciStores":3},"p":{"a":57,"q":75,"l":14.8,"l75":16.9,"n":73,"ci":21.8,"ciStores":3}},"Kodif":{"us":1,"col":"#eab308","s":{"a":56,"q":58,"l":24.6,"l75":29.4,"n":18,"ci":22.7,"ciStores":4},"p":null}},"60":{"Gorgias":{"us":1,"col":"#f0603f","s":{"a":84,"q":75,"l":18.4,"l75":20.5,"n":409,"ci":2.4,"ciStores":43},"p":{"a":74,"q":75,"l":14.1,"l75":15.1,"n":325,"ci":3.9,"ciStores":46}},"Envive":{"col":"#22c55e","s":{"a":81,"q":62,"l":8.1,"l75":10.1,"n":361,"ci":4.4,"ciStores":7},"p":{"a":20,"q":54,"l":6.5,"l75":6.5,"n":373,"ci":12.4,"ciStores":7}},"Amazon Rufus":{"col":"#888","s":{"a":97,"q":77,"l":13,"l75":15.1,"n":69},"p":null},"Sierra":{"us":1,"col":"#0ea5e9","s":{"a":68,"q":59,"l":9.9,"l75":11.7,"n":411,"ci":8.3,"ciStores":16},"p":{"a":53,"q":80,"l":9.7,"l75":11.7,"n":304,"ci":7.2,"ciStores":16}},"Siena":{"us":1,"col":"#a855f7","s":{"a":77,"q":59,"l":12.5,"l75":15.2,"n":258,"ci":15.8,"ciStores":7},"p":{"a":82,"q":54,"l":9.5,"l75":10.4,"n":258,"ci":27.8,"ciStores":6}},"Yuma":{"us":1,"col":"#14b8a6","s":{"a":81,"q":70,"l":20.4,"l75":23.3,"n":118,"ci":9.8,"ciStores":6},"p":{"a":83,"q":74,"l":16,"l75":17.6,"n":95,"ci":10.1,"ciStores":6}},"DigitalGenius":{"col":"#8b5cf6","s":{"a":79,"q":42,"l":15.5,"l75":20,"n":530,"ci":10.7,"ciStores":11},"p":{"a":69,"q":61,"l":13,"l75":15.9,"n":339,"ci":8.6,"ciStores":12}},"Zendesk":{"us":1,"col":"#3b82f6","s":{"a":46,"q":37,"l":12.1,"l75":15.8,"n":417,"ci":8.9,"ciStores":14},"p":{"a":38,"q":63,"l":11,"l75":12.4,"n":366,"ci":10.4,"ciStores":15}},"Kodif":{"us":1,"col":"#eab308","s":{"a":62,"q":56,"l":20.8,"l75":25.7,"n":172,"ci":9.5,"ciStores":12},"p":{"a":51,"q":61,"l":14.7,"l75":17.5,"n":137,"ci":8.6,"ciStores":11}},"Ada":{"us":1,"col":"#64748b","s":{"a":68,"q":49,"l":11.3,"l75":13.1,"n":383,"ci":10.6,"ciStores":12},"p":{"a":72,"q":51,"l":10.3,"l75":11.9,"n":310,"ci":7.7,"ciStores":12}},"Decagon":{"us":1,"col":"#888","s":{"a":81,"q":61,"l":29.8,"l75":43,"n":42,"ci":38,"ciStores":4},"p":{"a":63,"q":73,"l":12.8,"l75":12.8,"n":25,"ci":21.5,"ciStores":4}},"Klaviyo":{"us":1,"col":"#111","s":{"a":41,"q":69,"l":13.5,"l75":15.5,"n":206,"ci":11.6,"ciStores":5},"p":{"a":34,"q":72,"l":9,"l75":9.9,"n":235,"ci":11,"ciStores":5}},"Intercom":{"us":1,"col":"#888","s":{"a":88,"q":69,"l":18.3,"l75":19.8,"n":177,"ci":15.9,"ciStores":4},"p":{"a":62,"q":71,"l":14.8,"l75":17.8,"n":151,"ci":16.2,"ciStores":4}}},"90":{"Gorgias":{"us":1,"col":"#f0603f","s":{"a":85,"q":76,"l":18.4,"l75":20.6,"n":448,"ci":2.4,"ciStores":43},"p":{"a":74,"q":77,"l":14.2,"l75":15.2,"n":351,"ci":3.8,"ciStores":47}},"Envive":{"col":"#22c55e","s":{"a":81,"q":62,"l":8.3,"l75":10.2,"n":375,"ci":4.3,"ciStores":7},"p":{"a":21,"q":55,"l":6.7,"l75":6.6,"n":383,"ci":13,"ciStores":7}},"Amazon Rufus":{"col":"#888","s":{"a":97,"q":77,"l":13,"l75":15.1,"n":69},"p":null},"Sierra":{"us":1,"col":"#0ea5e9","s":{"a":69,"q":59,"l":9.9,"l75":11.7,"n":444,"ci":8,"ciStores":16},"p":{"a":53,"q":81,"l":9.7,"l75":11.7,"n":324,"ci":7.1,"ciStores":16}},"Siena":{"us":1,"col":"#a855f7","s":{"a":77,"q":59,"l":12.5,"l75":15.2,"n":282,"ci":15.9,"ciStores":7},"p":{"a":82,"q":55,"l":9.7,"l75":10.8,"n":280,"ci":27.6,"ciStores":6}},"Yuma":{"us":1,"col":"#14b8a6","s":{"a":82,"q":72,"l":20.2,"l75":23.3,"n":128,"ci":10,"ciStores":6},"p":{"a":82,"q":74,"l":16,"l75":17.4,"n":104,"ci":9.8,"ciStores":6}},"DigitalGenius":{"col":"#8b5cf6","s":{"a":78,"q":43,"l":15.6,"l75":20.3,"n":545,"ci":10.7,"ciStores":11},"p":{"a":68,"q":61,"l":13,"l75":15.9,"n":351,"ci":8.6,"ciStores":12}},"Zendesk":{"us":1,"col":"#3b82f6","s":{"a":46,"q":37,"l":12.1,"l75":15.8,"n":417,"ci":9,"ciStores":14},"p":{"a":39,"q":63,"l":11,"l75":12.4,"n":370,"ci":10.4,"ciStores":15}},"Kodif":{"us":1,"col":"#eab308","s":{"a":66,"q":55,"l":20.6,"l75":25.6,"n":182,"ci":9,"ciStores":12},"p":{"a":53,"q":61,"l":14.6,"l75":17.6,"n":151,"ci":7.9,"ciStores":11}},"Ada":{"us":1,"col":"#64748b","s":{"a":69,"q":51,"l":11.3,"l75":13.3,"n":420,"ci":10.7,"ciStores":12},"p":{"a":73,"q":51,"l":10.4,"l75":12.1,"n":341,"ci":7.4,"ciStores":12}},"Decagon":{"us":1,"col":"#888","s":{"a":81,"q":61,"l":29.8,"l75":43,"n":42,"ci":38,"ciStores":4},"p":{"a":63,"q":73,"l":12.8,"l75":12.8,"n":25,"ci":21.5,"ciStores":4}},"Klaviyo":{"us":1,"col":"#111","s":{"a":41,"q":69,"l":13.5,"l75":15.5,"n":206,"ci":11.6,"ciStores":5},"p":{"a":34,"q":72,"l":9,"l75":9.9,"n":235,"ci":11,"ciStores":5}},"Intercom":{"us":1,"col":"#888","s":{"a":88,"q":69,"l":18.3,"l75":19.8,"n":177,"ci":15.9,"ciStores":4},"p":{"a":62,"q":71,"l":14.8,"l75":17.8,"n":151,"ci":16.2,"ciStores":4}}}};/*SCORES_END*/
+/*SCORES_START*/ const D = {"Gorgias":{"us":1,"col":"#f0603f","s":{"a":85,"q":76,"l":18.4,"l75":20.6,"n":448,"ci":2.4,"ciStores":43},"p":{"a":74,"q":77,"l":14.2,"l75":15.2,"n":351,"ci":3.8,"ciStores":47}},"Envive":{"col":"#22c55e","s":{"a":81,"q":62,"l":8.3,"l75":10.2,"n":375,"ci":4.3,"ciStores":7},"p":{"a":21,"q":55,"l":6.7,"l75":6.6,"n":383,"ci":13,"ciStores":7}},"Amazon Rufus":{"col":"#888","s":{"a":97,"q":77,"l":13,"l75":15.1,"n":69},"p":null},"Sierra":{"us":1,"col":"#0ea5e9","s":{"a":69,"q":59,"l":9.9,"l75":11.7,"n":444,"ci":8,"ciStores":16},"p":{"a":53,"q":81,"l":9.7,"l75":11.7,"n":324,"ci":7.1,"ciStores":16}},"Siena":{"us":1,"col":"#a855f7","s":{"a":77,"q":59,"l":12.5,"l75":15.2,"n":282,"ci":15.9,"ciStores":7},"p":{"a":82,"q":55,"l":9.7,"l75":10.8,"n":280,"ci":27.6,"ciStores":6}},"Yuma":{"us":1,"col":"#14b8a6","s":{"a":82,"q":72,"l":20.4,"l75":23.3,"n":136,"ci":9.7,"ciStores":6},"p":{"a":82,"q":74,"l":16.8,"l75":18.1,"n":115,"ci":9.3,"ciStores":6}},"DigitalGenius":{"col":"#8b5cf6","s":{"a":78,"q":43,"l":15.6,"l75":20.3,"n":545,"ci":10.7,"ciStores":11},"p":{"a":68,"q":61,"l":13,"l75":15.9,"n":351,"ci":8.6,"ciStores":12}},"Zendesk":{"us":1,"col":"#3b82f6","s":{"a":46,"q":37,"l":12.1,"l75":15.8,"n":417,"ci":9,"ciStores":14},"p":{"a":39,"q":63,"l":11,"l75":12.4,"n":370,"ci":10.4,"ciStores":15}},"Kodif":{"us":1,"col":"#eab308","s":{"a":65,"q":55,"l":20.4,"l75":25.5,"n":192,"ci":9,"ciStores":12},"p":{"a":52,"q":61,"l":14.3,"l75":17.2,"n":161,"ci":7.9,"ciStores":11}},"Ada":{"us":1,"col":"#64748b","s":{"a":69,"q":51,"l":11.3,"l75":13.3,"n":420,"ci":10.7,"ciStores":12},"p":{"a":73,"q":51,"l":10.4,"l75":12.1,"n":341,"ci":7.4,"ciStores":12}},"Decagon":{"us":1,"col":"#888","s":{"a":82,"q":61,"l":28.2,"l75":43,"n":44,"ci":38,"ciStores":4},"p":{"a":63,"q":73,"l":12.8,"l75":12.8,"n":25,"ci":21.5,"ciStores":4}},"Klaviyo":{"us":1,"col":"#111","s":{"a":41,"q":69,"l":13.5,"l75":15.5,"n":206,"ci":11.6,"ciStores":5},"p":{"a":34,"q":72,"l":9,"l75":9.9,"n":235,"ci":11,"ciStores":5}},"Intercom":{"us":1,"col":"#888","s":{"a":88,"q":69,"l":18.3,"l75":19.8,"n":177,"ci":15.9,"ciStores":4},"p":{"a":62,"q":71,"l":14.8,"l75":17.8,"n":151,"ci":16.2,"ciStores":4}}}; const D_WINDOWS = {"30":{"Gorgias":{"us":1,"col":"#f0603f","s":{"a":83,"q":71,"l":17.9,"l75":19.8,"n":282,"ci":2.9,"ciStores":32},"p":{"a":75,"q":67,"l":13.7,"l75":14.3,"n":223,"ci":4.4,"ciStores":35}},"Envive":{"col":"#22c55e","s":{"a":78,"q":60,"l":6.4,"l75":7.6,"n":188,"ci":7.9,"ciStores":6},"p":{"a":15,"q":44,"l":4.9,"l75":5.4,"n":212,"ci":11.8,"ciStores":7}},"Siena":{"us":1,"col":"#a855f7","s":{"a":74,"q":57,"l":11.8,"l75":13.2,"n":135,"ci":30.1,"ciStores":3},"p":{"a":88,"q":46,"l":8.8,"l75":8.7,"n":155,"ci":15.9,"ciStores":3}},"Yuma":{"us":1,"col":"#14b8a6","s":{"a":84,"q":46,"l":21.4,"l75":25.2,"n":24,"ci":29.9,"ciStores":4},"p":{"a":90,"q":74,"l":20.4,"l75":21.5,"n":27,"ci":14.4,"ciStores":5}},"DigitalGenius":{"col":"#8b5cf6","s":{"a":82,"q":43,"l":15.4,"l75":20.2,"n":347,"ci":11.4,"ciStores":10},"p":{"a":71,"q":58,"l":12.7,"l75":15.3,"n":230,"ci":9.9,"ciStores":11}},"Sierra":{"us":1,"col":"#0ea5e9","s":{"a":64,"q":55,"l":10,"l75":11.6,"n":176,"ci":10.5,"ciStores":13},"p":{"a":50,"q":72,"l":9.8,"l75":11.7,"n":139,"ci":9.2,"ciStores":12}},"Ada":{"us":1,"col":"#64748b","s":{"a":61,"q":45,"l":10.9,"l75":12.4,"n":186,"ci":13.9,"ciStores":9},"p":{"a":69,"q":42,"l":10.1,"l75":11.2,"n":152,"ci":12.3,"ciStores":9}},"Zendesk":{"us":1,"col":"#3b82f6","s":{"a":38,"q":31,"l":12.1,"l75":15.2,"n":235,"ci":11.7,"ciStores":11},"p":{"a":33,"q":58,"l":11.4,"l75":13.7,"n":171,"ci":11.8,"ciStores":12}},"Klaviyo":{"us":1,"col":"#111","s":{"a":20,"q":80,"l":14.7,"l75":16.7,"n":65,"ci":13.1,"ciStores":3},"p":{"a":24,"q":76,"l":8.9,"l75":9.8,"n":108,"ci":12.8,"ciStores":4}},"Intercom":{"us":1,"col":"#888","s":{"a":92,"q":71,"l":18.3,"l75":19.3,"n":92,"ci":21.9,"ciStores":3},"p":{"a":57,"q":75,"l":14.8,"l75":16.9,"n":73,"ci":21.8,"ciStores":3}},"Kodif":{"us":1,"col":"#eab308","s":{"a":54,"q":58,"l":21.8,"l75":26.9,"n":28,"ci":22.7,"ciStores":4},"p":{"a":39,"q":41,"l":12,"l75":15.7,"n":24,"ci":21.4,"ciStores":4}}},"60":{"Gorgias":{"us":1,"col":"#f0603f","s":{"a":84,"q":75,"l":18.4,"l75":20.5,"n":409,"ci":2.4,"ciStores":43},"p":{"a":74,"q":75,"l":14.1,"l75":15.1,"n":325,"ci":3.9,"ciStores":46}},"Envive":{"col":"#22c55e","s":{"a":81,"q":62,"l":8.1,"l75":10.1,"n":361,"ci":4.4,"ciStores":7},"p":{"a":20,"q":54,"l":6.5,"l75":6.5,"n":373,"ci":12.4,"ciStores":7}},"Amazon Rufus":{"col":"#888","s":{"a":97,"q":77,"l":13,"l75":15.1,"n":69},"p":null},"Sierra":{"us":1,"col":"#0ea5e9","s":{"a":68,"q":59,"l":9.9,"l75":11.7,"n":411,"ci":8.3,"ciStores":16},"p":{"a":53,"q":80,"l":9.7,"l75":11.7,"n":304,"ci":7.2,"ciStores":16}},"Siena":{"us":1,"col":"#a855f7","s":{"a":77,"q":59,"l":12.5,"l75":15.2,"n":258,"ci":15.8,"ciStores":7},"p":{"a":82,"q":54,"l":9.5,"l75":10.4,"n":258,"ci":27.8,"ciStores":6}},"Yuma":{"us":1,"col":"#14b8a6","s":{"a":82,"q":70,"l":20.6,"l75":23.4,"n":126,"ci":9.4,"ciStores":6},"p":{"a":83,"q":74,"l":16.8,"l75":18.1,"n":106,"ci":9.7,"ciStores":6}},"DigitalGenius":{"col":"#8b5cf6","s":{"a":79,"q":42,"l":15.5,"l75":20,"n":530,"ci":10.7,"ciStores":11},"p":{"a":69,"q":61,"l":13,"l75":15.9,"n":339,"ci":8.6,"ciStores":12}},"Zendesk":{"us":1,"col":"#3b82f6","s":{"a":46,"q":37,"l":12.1,"l75":15.8,"n":417,"ci":8.9,"ciStores":14},"p":{"a":38,"q":63,"l":11,"l75":12.4,"n":366,"ci":10.4,"ciStores":15}},"Kodif":{"us":1,"col":"#eab308","s":{"a":62,"q":56,"l":20.6,"l75":25.6,"n":182,"ci":9.4,"ciStores":12},"p":{"a":50,"q":61,"l":14.4,"l75":17.2,"n":147,"ci":8.5,"ciStores":11}},"Ada":{"us":1,"col":"#64748b","s":{"a":68,"q":49,"l":11.3,"l75":13.1,"n":383,"ci":10.6,"ciStores":12},"p":{"a":72,"q":51,"l":10.3,"l75":11.9,"n":310,"ci":7.7,"ciStores":12}},"Decagon":{"us":1,"col":"#888","s":{"a":82,"q":61,"l":28.2,"l75":43,"n":44,"ci":38,"ciStores":4},"p":{"a":63,"q":73,"l":12.8,"l75":12.8,"n":25,"ci":21.5,"ciStores":4}},"Klaviyo":{"us":1,"col":"#111","s":{"a":41,"q":69,"l":13.5,"l75":15.5,"n":206,"ci":11.6,"ciStores":5},"p":{"a":34,"q":72,"l":9,"l75":9.9,"n":235,"ci":11,"ciStores":5}},"Intercom":{"us":1,"col":"#888","s":{"a":88,"q":69,"l":18.3,"l75":19.8,"n":177,"ci":15.9,"ciStores":4},"p":{"a":62,"q":71,"l":14.8,"l75":17.8,"n":151,"ci":16.2,"ciStores":4}}},"90":{"Gorgias":{"us":1,"col":"#f0603f","s":{"a":85,"q":76,"l":18.4,"l75":20.6,"n":448,"ci":2.4,"ciStores":43},"p":{"a":74,"q":77,"l":14.2,"l75":15.2,"n":351,"ci":3.8,"ciStores":47}},"Envive":{"col":"#22c55e","s":{"a":81,"q":62,"l":8.3,"l75":10.2,"n":375,"ci":4.3,"ciStores":7},"p":{"a":21,"q":55,"l":6.7,"l75":6.6,"n":383,"ci":13,"ciStores":7}},"Amazon Rufus":{"col":"#888","s":{"a":97,"q":77,"l":13,"l75":15.1,"n":69},"p":null},"Sierra":{"us":1,"col":"#0ea5e9","s":{"a":69,"q":59,"l":9.9,"l75":11.7,"n":444,"ci":8,"ciStores":16},"p":{"a":53,"q":81,"l":9.7,"l75":11.7,"n":324,"ci":7.1,"ciStores":16}},"Siena":{"us":1,"col":"#a855f7","s":{"a":77,"q":59,"l":12.5,"l75":15.2,"n":282,"ci":15.9,"ciStores":7},"p":{"a":82,"q":55,"l":9.7,"l75":10.8,"n":280,"ci":27.6,"ciStores":6}},"Yuma":{"us":1,"col":"#14b8a6","s":{"a":82,"q":72,"l":20.4,"l75":23.3,"n":136,"ci":9.7,"ciStores":6},"p":{"a":82,"q":74,"l":16.8,"l75":18.1,"n":115,"ci":9.3,"ciStores":6}},"DigitalGenius":{"col":"#8b5cf6","s":{"a":78,"q":43,"l":15.6,"l75":20.3,"n":545,"ci":10.7,"ciStores":11},"p":{"a":68,"q":61,"l":13,"l75":15.9,"n":351,"ci":8.6,"ciStores":12}},"Zendesk":{"us":1,"col":"#3b82f6","s":{"a":46,"q":37,"l":12.1,"l75":15.8,"n":417,"ci":9,"ciStores":14},"p":{"a":39,"q":63,"l":11,"l75":12.4,"n":370,"ci":10.4,"ciStores":15}},"Kodif":{"us":1,"col":"#eab308","s":{"a":65,"q":55,"l":20.4,"l75":25.5,"n":192,"ci":9,"ciStores":12},"p":{"a":52,"q":61,"l":14.3,"l75":17.2,"n":161,"ci":7.9,"ciStores":11}},"Ada":{"us":1,"col":"#64748b","s":{"a":69,"q":51,"l":11.3,"l75":13.3,"n":420,"ci":10.7,"ciStores":12},"p":{"a":73,"q":51,"l":10.4,"l75":12.1,"n":341,"ci":7.4,"ciStores":12}},"Decagon":{"us":1,"col":"#888","s":{"a":82,"q":61,"l":28.2,"l75":43,"n":44,"ci":38,"ciStores":4},"p":{"a":63,"q":73,"l":12.8,"l75":12.8,"n":25,"ci":21.5,"ciStores":4}},"Klaviyo":{"us":1,"col":"#111","s":{"a":41,"q":69,"l":13.5,"l75":15.5,"n":206,"ci":11.6,"ciStores":5},"p":{"a":34,"q":72,"l":9,"l75":9.9,"n":235,"ci":11,"ciStores":5}},"Intercom":{"us":1,"col":"#888","s":{"a":88,"q":69,"l":18.3,"l75":19.8,"n":177,"ci":15.9,"ciStores":4},"p":{"a":62,"q":71,"l":14.8,"l75":17.8,"n":151,"ci":16.2,"ciStores":4}}}};/*SCORES_END*/
 const speed=l=>Math.max(0,Math.min(100,(22-l)/19*100));
 // LANE-SPECIFIC weights (2026-07-10): shopping weights speed↑ (latency drives conversion),
 // support weights automation↑ (containment). Must match gen.js LANE_W + report.html.
@@ -787,6 +809,10 @@ const VLOGOS = {
 const vlogo = v => VLOGOS[v]
   ? '<img class="vlogo" src="https://www.google.com/s2/favicons?domain='+VLOGOS[v]+'&sz=64" alt="" loading="lazy" onerror="this.remove()">'
   : '';
+// ±X beside a composite: the 95% interval across this vendor's STORES, computed by the baker
+// (gen.js laneScores) — the page only renders it. Shown from three measured storefronts up;
+// below that the spread is not estimable and a number would be theatre. Two vendors whose
+// intervals overlap are not separated by this data, however different their ranks look.
 let SB_DATA = (typeof D_WINDOWS !== 'undefined' && D_WINDOWS['90']) ? D_WINDOWS['90'] : D;
 function renderScoreTable(DATA){
 const rows=Object.entries(DATA).map(([v,d])=>({v,...d,cs:comp(d.s,'s'),cp:comp(d.p,'p')}))
@@ -815,12 +841,30 @@ document.querySelector('#score-table tbody').innerHTML=rows.map((r,i)=>
  '<td class="n tnum">'+latCell(r.s)+' / '+latCell(r.p)+'<div class="p75">p75 '+cell(r.s,'l75')+(r.s&&r.s.l75!=null?'s':'')+' / '+cell(r.p,'l75')+(r.p&&r.p.l75!=null?'s':'')+'</div></td></tr>').join('');
 }
 renderScoreTable(SB_DATA);
-function setScoreWindow(days, btn){
+// Narrowing is offered, not silenced: short views are for inspection, and now that the site is
+// public a screenshot of one must not circulate as the ranking. Warn ONCE per session — a modal
+// on every click becomes a toll people stop reading.
+let WIN_WARNED = false, WIN_PENDING = null;
+function applyScoreWindow(days){
   if (typeof D_WINDOWS === 'undefined' || !D_WINDOWS[days]) return;
   SB_DATA = D_WINDOWS[days];
   renderScoreTable(SB_DATA);
-  document.querySelectorAll('.winbtn').forEach(b=>b.setAttribute('aria-selected', b===btn));
+  document.querySelectorAll('.winbtn').forEach(b=>b.setAttribute('aria-selected', b.dataset.days===days));
+  const ban=document.getElementById('inspect-banner');
+  if(ban){ ban.hidden = (days === '90'); const d=document.getElementById('inspect-days'); if(d) d.textContent=days; }
 }
+function setScoreWindow(days, btn){
+  if (days !== '90' && !WIN_WARNED){
+    WIN_PENDING = days;
+    const t=document.getElementById('wm-days'); if(t) t.textContent=days;
+    const m=document.getElementById('win-modal'); if(m){ m.hidden=false; document.body.style.overflow='hidden'; return; }
+  }
+  applyScoreWindow(days);
+}
+function winModalClose(){ const m=document.getElementById('win-modal'); if(m) m.hidden=true; document.body.style.overflow=''; }
+function winModalYes(){ WIN_WARNED = true; winModalClose(); if(WIN_PENDING) applyScoreWindow(WIN_PENDING); WIN_PENDING=null; }
+function winModalNo(){ winModalClose(); WIN_PENDING=null; applyScoreWindow('90'); }
+document.addEventListener('keydown', e=>{ if(e.key==='Escape') winModalNo(); });
 
 
 /* ---------- provider-profile ranking: inject #N badge + reorder by overall composite ---------- */
@@ -883,5 +927,19 @@ if(!reduced){
   document.querySelectorAll('[data-count]').forEach(el=>{ el.textContent=NF(el.dataset.count)+(el.dataset.suffix||''); });
 }
 </script>
+
+<div class="wm-overlay" id="win-modal" hidden onclick="if(event.target===this)winModalNo()">
+  <div class="wm-card" role="dialog" aria-modal="true" aria-labelledby="wm-title">
+    <h3 id="wm-title">You&rsquo;re narrowing the window to <span id="wm-days">30</span> days</h3>
+    <p>A shorter window doesn&rsquo;t zoom in &mdash; it removes evidence. Every vendor loses storefronts, and the ranking starts depending on which stores happened to be captured that fortnight rather than on how good the agents are.</p>
+    <p>A narrow margin on a thin sample isn&rsquo;t precision &mdash; it&rsquo;s not having looked yet.</p>
+    <p>Use the short windows to inspect: spot a recent regression, check whether a fix landed. The ranking stays on 90&nbsp;days.</p>
+    <div class="wm-actions">
+      <button class="wm-ghost" onclick="winModalNo()">Stay on 90 days</button>
+      <button class="wm-go" onclick="winModalYes()">View anyway</button>
+    </div>
+    <div class="wm-foot">Every vendor is scored over the same window, whichever you choose.</div>
+  </div>
+</div>
 </body>
 </html>
