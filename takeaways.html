@@ -833,7 +833,7 @@ const cell=(m,f)=> m&&m[f]!=null? m[f] : '—';
 function latCell(m){ return (m&&m.l!=null)? m.l+'s' : '—'; }
 document.querySelector('#score-table tbody').innerHTML=rows.map((r,i)=>
  '<tr'+(r.us?' class="us"':'')+'><td class="n" style="width:34px"><span class="rankbadge tnum">#'+(i+1)+'</span></td>'+
- '<td><span class="vdot" style="background:'+r.col+'"></span>'+vlogo(r.v)+'<span class="vname">'+r.v+'</span>'+(r.us?'<span class="us-tag">US</span>':'')+'</td>'+
+ '<td>'+vlogo(r.v)+'<span class="vname">'+r.v+'</span>'+(r.us?'<span class="us-tag">US</span>':'')+'</td>'+
  '<td class="n tnum"><span class="comp">'+(r.cs!=null?r.cs:'—')+'</span>'+rk(RS[r.v])+ci(r.s)+'</td>'+
  '<td class="n tnum"><span class="comp">'+(r.cp!=null?r.cp:'—')+'</span>'+rk(RP[r.v])+ci(r.p)+'</td>'+
  '<td>'+pill(r.s&&r.s.a,90,70)+' / '+pill(r.p&&r.p.a,90,70)+'</td>'+
