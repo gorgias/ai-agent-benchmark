@@ -49,6 +49,14 @@ primary_region = "iad"                 # US East: the market the benchmark measu
   PUSH_EVERY     = "600"               # incremental push: caps data loss at 10 min if killed
   CAPTURE_LOG    = "/data/pipeline.log"
 
+  # Deploy-on-merge: after a PR merges, a bounded poller at the start of the nightly run checks
+  # whether the baked board changed on master and deploys it immediately (server/deploy-on-merge.sh
+  # — re-bake from committed data, same quality gate, deploy, verify). Without this a merged PR
+  # only goes live at tonight's publish. The poller window is 15 min so it can never eat capture;
+  # judging stays nightly-only. Set 0 to disable.
+  DEPLOY_ON_MERGE   = "1"
+  DEPLOY_POLL_SECONDS = "900"
+
   # ── judging + deploy ────────────────────────────────────────────────────────
   JUDGE_MODEL       = "claude-sonnet-5"  # moved from claude-opus-4-8 (2026-08-18) — see
                                        # judge-api.mjs for the explicit effort:"high" pairing.
