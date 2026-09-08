@@ -9,44 +9,68 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Inter+Tight:wght@600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
+  /* Feature Deck is the display serif — licensed, self-hosted, not on Google Fonts */
+  @font-face{font-family:'Feature Deck';src:url('/brand/fonts/FeatureDeck-Regular-Web.woff2') format('woff2');font-weight:400;font-style:normal;font-display:block}
+  @font-face{font-family:'Feature Deck';src:url('/brand/fonts/FeatureDeck-RegularItalic-Web.woff2') format('woff2');font-weight:400;font-style:italic;font-display:block}
+  /* Ecom Lab system — same tokens as takeaways.html / report.html */
   :root{
-    --bg:#fafafa;--surface:#ffffff;--line:rgba(30,36,46,.10);--glass-border:rgba(30,36,46,.10);
-    --on:#1e242e;--on-muted:#5c6370;--on-faint:#8a929e;
-    --primary:#683fcf;--primary-2:#7e55f6;
-    --e8:0 1px 2px rgba(30,36,46,.05),0 6px 24px rgba(30,36,46,.06);--r:16px;
+    --gr-canvas:#F6F4F2; --gr-surface:#FFFFFF; --gr-tint:#EFE9E2;
+    --gr-ink:#1A1E23;    --gr-body:#3A3E43;   --gr-muted:#5C6066;
+    --gr-rule:#CAC7C2;   --gr-border:#DDD9D4;
+    --gr-lilac:#F5D4FF;
+    --gr-success-ink:#1C7130; --gr-success-bg:#DFF3E4;
+    --gr-error-ink:#B53939;   --gr-error-bg:#FDE9E9;
+    --r:10px;
   }
   *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--on);-webkit-font-smoothing:antialiased;min-height:100vh}
-  .mono{font-family:'JetBrains Mono',ui-monospace,Menlo,monospace;font-variant-numeric:tabular-nums}
-  .wrap{max-width:820px;margin:0 auto;padding:48px 24px 24px}
-  .back{font-size:13px;font-weight:600;color:var(--on-muted);text-decoration:none}
-  .back:hover{color:var(--primary)}
-  h1{font-family:'Inter Tight','Inter',sans-serif;font-size:30px;font-weight:800;letter-spacing:-.02em;margin:18px 0 8px}
-  p.sub{color:var(--on-muted);font-size:14.5px;line-height:1.6;margin-bottom:28px;max-width:640px}
-  table{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;box-shadow:var(--e8)}
-  th{text-align:left;font-size:11.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--on-faint);padding:12px 16px;border-bottom:1px solid var(--line)}
-  td{padding:12px 16px;font-size:13.5px;border-bottom:1px solid var(--line);vertical-align:middle}
+  body{font-family:'Geist',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--gr-canvas);
+    color:var(--gr-ink);-webkit-font-smoothing:antialiased;min-height:100vh;position:relative}
+  /* the continuous dashed gutter, identical to the benchmark pages */
+  body::before,body::after{content:"";position:absolute;top:0;bottom:0;width:0;z-index:0;pointer-events:none;
+    border-left:1px dashed var(--gr-rule)}
+  body::before{left:max(0px, calc(50% - 600px))}
+  body::after{right:max(0px, calc(50% - 600px))}
+  @media(max-width:720px){body::before,body::after{display:none}}
+  .mono{font-family:'Geist Mono',ui-monospace,Menlo,monospace;font-variant-numeric:tabular-nums}
+  .wrap{max-width:1200px;margin:0 auto;padding:56px 40px 24px;position:relative;z-index:1}
+  @media(max-width:720px){.wrap{padding:40px 20px 20px}}
+  .back{display:inline-block;font-family:'Geist Mono',ui-monospace,monospace;font-size:13px;
+    text-transform:uppercase;color:var(--gr-ink);text-decoration:none;
+    background:var(--gr-tint);padding:6px 16px;border-radius:40px}
+  .back:hover{background:var(--gr-lilac)}
+  h1{font-family:'Feature Deck',Georgia,serif;font-size:clamp(32px,3.4vw,52px);font-weight:400;
+    letter-spacing:0;line-height:1.14;margin:22px 0 12px}
+  p.sub{color:var(--gr-body);font-size:16px;line-height:1.6;margin-bottom:32px}
+  table{width:100%;border-collapse:collapse;background:var(--gr-surface);border:1px solid var(--gr-border);
+    border-radius:var(--r);overflow:hidden}
+  th{text-align:left;font-family:'Geist Mono',ui-monospace,monospace;font-size:11.5px;font-weight:400;
+    text-transform:uppercase;color:var(--gr-muted);padding:13px 16px;border-bottom:1px solid var(--gr-border);
+    background:var(--gr-tint)}
+  td{padding:13px 16px;font-size:14px;border-bottom:1px solid var(--gr-border);vertical-align:middle}
   tr:last-child td{border-bottom:none}
-  tr:hover td{background:#fbfaff}
-  .pill{display:inline-block;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:600}
-  .pill.from{background:#fdecec;color:#a3213a}
-  .pill.to{background:#eaf7ef;color:#147656}
-  .empty{padding:40px 16px;text-align:center;color:var(--on-faint);font-size:13.5px}
-  .moves{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin-bottom:32px}
-  .move-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;box-shadow:var(--e8)}
-  .move-n{font-family:'Inter Tight','Inter',sans-serif;font-size:26px;font-weight:800;letter-spacing:-.02em;line-height:1}
-  .move-label{font-size:11.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--on-faint);margin:2px 0 10px}
+  tr:hover td{background:var(--gr-canvas)}
+  .pill{display:inline-block;padding:4px 12px;border-radius:40px;font-size:12.5px;font-weight:500}
+  .pill.from{background:var(--gr-error-bg);color:var(--gr-error-ink)}
+  .pill.to{background:var(--gr-success-bg);color:var(--gr-success-ink)}
+  .empty{padding:40px 16px;text-align:center;color:var(--gr-muted);font-size:14px}
+  .moves{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(220px,100%),1fr));gap:14px;margin-bottom:36px}
+  .move-card{background:var(--gr-surface);border:1px solid var(--gr-border);border-radius:var(--r);padding:18px 20px}
+  .move-n{font-family:'Feature Deck',Georgia,serif;font-size:38px;font-weight:400;letter-spacing:0;line-height:1;
+    font-variant-numeric:proportional-nums;font-feature-settings:"tnum" 0}
+  .move-label{font-family:'Geist Mono',ui-monospace,monospace;font-size:11.5px;font-weight:400;
+    text-transform:uppercase;color:var(--gr-muted);margin:6px 0 12px}
   .move-arrow{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-  .move-arrow .arrow{color:var(--on-faint);font-weight:700}
-  .sitefoot{margin-top:60px;padding:34px 26px 46px;border-top:1px solid var(--glass-border);text-align:center;font-size:12.5px;color:var(--on-muted)}
-  .sitefoot a{color:var(--primary);font-weight:600;text-decoration:none;margin:0 10px}
+  .move-arrow .arrow{color:var(--gr-muted)}
+  .sitefoot{margin-top:64px;padding:34px 26px 46px;border-top:1px dashed var(--gr-rule);text-align:center;
+    font-size:13px;color:var(--gr-body);position:relative;z-index:1}
+  .sitefoot a{color:var(--gr-ink);font-weight:500;text-decoration:none;margin:0 10px;border-bottom:1px solid var(--gr-ink)}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <a class="back" href="takeaways.html">← Back to Summary</a>
+  <a class="back" href="takeaways.html">← Back to summary</a>
   <h1>Vendor reclassifications</h1>
   <p class="sub">Every merchant whose detected vendor was corrected after further verification — a
   mislabeled widget, a vendor merge (e.g. Spiffy.ai → Envive), or a provider audit finding the wrong
@@ -205,7 +229,7 @@
   </table>
 </div>
 <footer class="sitefoot">
-  <div style="font-family:'Inter Tight';font-weight:800;font-size:14px;margin-bottom:8px">GORGIAS · AI AGENT BENCHMARK</div>
+  <div style="font-family:'Geist Mono',ui-monospace,monospace;font-size:12px;text-transform:uppercase;color:#5C6066;margin-bottom:10px">Gorgias · AI Agent Benchmark</div>
   <a href="takeaways.html">Summary</a> · <a href="report.html">Best AI Agent</a>
 </footer>
 </body>
