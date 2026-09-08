@@ -11,7 +11,7 @@ No secrets needed (Amazon Rufus is optional and self-contained — see below).
 
 ```
 You are operating the Gorgias AI-agent competitive benchmark (repo: gorgias/ai-agent-benchmark,
-deployed at https://gorgias-ai-benchmark.vercel.app/report — password-gated). Your mission, end to end:
+deployed at https://gorgias-ai-benchmark.vercel.app/report — public since 2026-09-03). Your mission, end to end:
 ADD ~300 NEW VALID CONVERSATIONS, get them blind-judged, merge the scores, rebake the report,
 pass the quality gate, and deploy. Everything you need is documented in docs/RUNBOOK.md — read
 it first and follow it over anything you'd improvise.

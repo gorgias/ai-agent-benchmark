@@ -16,12 +16,19 @@ Every conversation is captured cold (fresh incognito context), driven with **fre
 
 **Live board:** https://gorgias-ai-benchmark.vercel.app/report — **Summary:** https://gorgias-ai-benchmark.vercel.app/takeaways
 
-> **Access-controlled.** The site sits behind an edge middleware gate (`middleware.js`); the password
-> is the `SITE_PASSWORD` env var in Vercel and is never committed. The old
-> `gorgias.github.io/ai-agent-benchmark/*` URLs were **ungated** and now serve redirect stubs to the
-> gated site — do not re-publish anything to GitHub Pages. (`.github/workflows/deploy-pages.yml` was
-> deleted for exactly this reason: it fired on every push to master and uploaded the whole repo
-> root, conversation data included.)
+> **The board is public.** Since 2026-09-03 there is no sign-in: `middleware.js` returns early on
+> `SITE_IS_PUBLIC = true`. That was a deliberate call — the report names eighteen vendors and
+> publishes numbers several of them will not like, and a competitive benchmark nobody outside can
+> check is only an assertion. Write for that audience.
+>
+> The gate itself is intact underneath, dormant rather than removed: delete the three
+> `SITE_IS_PUBLIC` lines and set `SITE_PASSWORD` in Vercel and the styled login is back exactly as
+> it was. It is fail-closed, so an unset password locks everyone out rather than opening the site.
+>
+> The old `gorgias.github.io/ai-agent-benchmark/*` URLs serve redirect stubs to the Vercel site —
+> do not re-publish anything to GitHub Pages. (`.github/workflows/deploy-pages.yml` was deleted
+> because it fired on every push to master and uploaded the whole repo root, conversation data
+> included. That stays true whether or not the board is gated.)
 
 > Gorgias R&D competitive intelligence. Latency reflects specific capture windows and varies with load and query type — treat cross-vendor numbers as **directional**; read automation + quality alongside speed, never a single average.
 
@@ -187,7 +194,7 @@ server/
   source-merchants.mjs  finds + live-verifies new storefronts per vendor
   README.md         the operational guide for all of the above
 fly.toml            the scheduled Machine (daily, restart: never, persistent volume)
-middleware.js       edge access gate for the whole site (SITE_PASSWORD)
+middleware.js       edge access gate — currently open (SITE_IS_PUBLIC), gate dormant but intact
 docs/RUNBOOK.md     end-to-end operations, parallel-capture rules, troubleshooting, vendor quirks
 docs/METHODOLOGY.md scoring rules, channel-deflection penalty, store selection & neutrality
 report.html         detailed interactive report      takeaways.html   board summary
