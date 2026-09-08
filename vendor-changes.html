@@ -9,23 +9,27 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+
 <style>
   /* Feature Deck is the display serif — licensed, self-hosted, not on Google Fonts */
   @font-face{font-family:'Feature Deck';src:url('/brand/fonts/FeatureDeck-Regular-Web.woff2') format('woff2');font-weight:400;font-style:normal;font-display:block}
   @font-face{font-family:'Feature Deck';src:url('/brand/fonts/FeatureDeck-RegularItalic-Web.woff2') format('woff2');font-weight:400;font-style:italic;font-display:block}
+@font-face{font-family:'Inter';src:url('/brand/fonts/InterVariable.woff2') format('woff2');font-weight:100 900;font-style:normal;font-display:block}
+@font-face{font-family:'Inter';src:url('/brand/fonts/InterVariable-Italic.woff2') format('woff2');font-weight:100 900;font-style:italic;font-display:block}
+@font-face{font-family:'Red Hat Mono';src:url('/brand/fonts/RedHatMono-VF.woff2') format('woff2');font-weight:300 700;font-display:block}
+
   /* Ecom Lab system — same tokens as takeaways.html / report.html */
   :root{
-    --gr-canvas:#F6F4F2; --gr-surface:#FFFFFF; --gr-tint:#EFE9E2;
-    --gr-ink:#1A1E23;    --gr-body:#3A3E43;   --gr-muted:#5C6066;
-    --gr-rule:#CAC7C2;   --gr-border:#DDD9D4;
-    --gr-lilac:#F5D4FF;
+    --gr-canvas:#FCFAF8; --gr-surface:#FFFFFF; --gr-tint:#F8F5F1;
+    --gr-ink:#1B1A19;    --gr-body:#363433;   --gr-muted:#5F5C59;
+    --gr-rule:#DFD9D3;   --gr-border:#E8E2DC;
+    --gr-coral:#FB6B4B;  --gr-peach:#FFEAE6;
     --gr-success-ink:#1C7130; --gr-success-bg:#DFF3E4;
     --gr-error-ink:#B53939;   --gr-error-bg:#FDE9E9;
     --r:10px;
   }
   *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:'Geist',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--gr-canvas);
+  body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--gr-canvas);
     color:var(--gr-ink);-webkit-font-smoothing:antialiased;min-height:100vh;position:relative}
   /* the continuous dashed gutter, identical to the benchmark pages */
   body::before,body::after{content:"";position:absolute;top:0;bottom:0;width:0;z-index:0;pointer-events:none;
@@ -33,19 +37,20 @@
   body::before{left:max(0px, calc(50% - 600px))}
   body::after{right:max(0px, calc(50% - 600px))}
   @media(max-width:720px){body::before,body::after{display:none}}
-  .mono{font-family:'Geist Mono',ui-monospace,Menlo,monospace;font-variant-numeric:tabular-nums}
+  .mono{font-family:'Red Hat Mono',ui-monospace,Menlo,monospace;font-variant-numeric:tabular-nums}
   .wrap{max-width:1200px;margin:0 auto;padding:56px 40px 24px;position:relative;z-index:1}
   @media(max-width:720px){.wrap{padding:40px 20px 20px}}
-  .back{display:inline-block;font-family:'Geist Mono',ui-monospace,monospace;font-size:13px;
+  .back{display:inline-block;font-family:'Red Hat Mono',ui-monospace,monospace;font-size:13px;
     text-transform:uppercase;color:var(--gr-ink);text-decoration:none;
     background:var(--gr-tint);padding:6px 16px;border-radius:40px}
-  .back:hover{background:var(--gr-lilac)}
+  .back::before{content:"\10035";color:var(--gr-coral);margin-right:6px}
+  .back:hover{background:var(--gr-peach)}
   h1{font-family:'Feature Deck',Georgia,serif;font-size:clamp(32px,3.4vw,52px);font-weight:400;
     letter-spacing:0;line-height:1.14;margin:22px 0 12px}
   p.sub{color:var(--gr-body);font-size:16px;line-height:1.6;margin-bottom:32px}
   table{width:100%;border-collapse:collapse;background:var(--gr-surface);border:1px solid var(--gr-border);
     border-radius:var(--r);overflow:hidden}
-  th{text-align:left;font-family:'Geist Mono',ui-monospace,monospace;font-size:11.5px;font-weight:400;
+  th{text-align:left;font-family:'Red Hat Mono',ui-monospace,monospace;font-size:11.5px;font-weight:400;
     text-transform:uppercase;color:var(--gr-muted);padding:13px 16px;border-bottom:1px solid var(--gr-border);
     background:var(--gr-tint)}
   td{padding:13px 16px;font-size:14px;border-bottom:1px solid var(--gr-border);vertical-align:middle}
@@ -59,7 +64,7 @@
   .move-card{background:var(--gr-surface);border:1px solid var(--gr-border);border-radius:var(--r);padding:18px 20px}
   .move-n{font-family:'Feature Deck',Georgia,serif;font-size:38px;font-weight:400;letter-spacing:0;line-height:1;
     font-variant-numeric:proportional-nums;font-feature-settings:"tnum" 0}
-  .move-label{font-family:'Geist Mono',ui-monospace,monospace;font-size:11.5px;font-weight:400;
+  .move-label{font-family:'Red Hat Mono',ui-monospace,monospace;font-size:11.5px;font-weight:400;
     text-transform:uppercase;color:var(--gr-muted);margin:6px 0 12px}
   .move-arrow{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
   .move-arrow .arrow{color:var(--gr-muted)}
@@ -229,7 +234,7 @@
   </table>
 </div>
 <footer class="sitefoot">
-  <div style="font-family:'Geist Mono',ui-monospace,monospace;font-size:12px;text-transform:uppercase;color:#5C6066;margin-bottom:10px">Gorgias · AI Agent Benchmark</div>
+  <div style="font-family:'Red Hat Mono',ui-monospace,monospace;font-size:12px;text-transform:uppercase;color:#5C6066;margin-bottom:10px">Gorgias · AI Agent Benchmark</div>
   <a href="takeaways.html">Summary</a> · <a href="report.html">Best AI Agent</a>
 </footer>
 </body>

@@ -8,26 +8,30 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+
 <style>
   /* Feature Deck is the display serif — licensed, self-hosted, not on Google Fonts */
   @font-face{font-family:'Feature Deck';src:url('/brand/fonts/FeatureDeck-Regular-Web.woff2') format('woff2');font-weight:400;font-style:normal;font-display:block}
   @font-face{font-family:'Feature Deck';src:url('/brand/fonts/FeatureDeck-RegularItalic-Web.woff2') format('woff2');font-weight:400;font-style:italic;font-display:block}
+@font-face{font-family:'Inter';src:url('/brand/fonts/InterVariable.woff2') format('woff2');font-weight:100 900;font-style:normal;font-display:block}
+@font-face{font-family:'Inter';src:url('/brand/fonts/InterVariable-Italic.woff2') format('woff2');font-weight:100 900;font-style:italic;font-display:block}
+@font-face{font-family:'Red Hat Mono';src:url('/brand/fonts/RedHatMono-VF.woff2') format('woff2');font-weight:300 700;font-display:block}
+
   /* Ecom Lab system — values taken from gorgias.com/ecom-lab's computed styles.
-     Warm canvas, ink type, Feature Deck display, Geist body, Geist Mono labels,
+     Warm canvas, ink type, Feature Deck display, Inter body, Red Hat Mono labels,
      lilac accent, 40px pills, hairline rules. No gradients, no elevation. */
   :root{
-    --canvas:#F6F4F2; --surface:#FFFFFF; --tint:#EFE9E2;
-    --ink:#1A1E23;    --body:#3A3E43;    --muted:#5C6066;
-    --rule:#CAC7C2;   --border:#DDD9D4;
-    --lilac:#F5D4FF;  --lilac-soft:#FAF1FE;
+    --canvas:#FCFAF8; --surface:#FFFFFF; --tint:#F8F5F1;
+    --ink:#1B1A19;    --body:#363433;    --muted:#5F5C59;
+    --rule:#DFD9D3;   --border:#E8E2DC;
+    --coral:#FB6B4B;  --coral-soft:#FFEAE6;
     --error:#BD3C3C;  --error-bg:#FDE9E9;
     --r:10px;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html,body{height:100%}
   body{
-    font-family:'Geist',-apple-system,BlinkMacSystemFont,sans-serif;
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
     color:var(--ink);background:var(--canvas);
     display:flex;align-items:center;justify-content:center;min-height:100dvh;padding:24px;
     -webkit-font-smoothing:antialiased;
@@ -42,7 +46,7 @@
   .sub{color:var(--body);font-size:15px;line-height:1.55;margin-bottom:26px}
   form{display:flex;flex-direction:column;gap:10px}
   .field{position:relative;text-align:left}
-  label{display:block;font-family:'Geist Mono',ui-monospace,monospace;font-size:12px;font-weight:400;
+  label{display:block;font-family:'Red Hat Mono',ui-monospace,monospace;font-size:12px;font-weight:400;
     text-transform:uppercase;color:var(--muted);margin:0 0 8px 2px}
   input[type=password]{
     width:100%;font:inherit;font-size:16px;padding:13px 14px;border:1px solid var(--border);
@@ -50,9 +54,9 @@
   }
   input[type=password]:focus{outline:none;border-color:var(--ink);background:var(--surface)}
   button{
-    margin-top:6px;font-family:'Geist Mono',ui-monospace,monospace;font-weight:400;font-size:14px;
+    margin-top:6px;font-family:'Red Hat Mono',ui-monospace,monospace;font-weight:400;font-size:14px;
     text-transform:uppercase;color:var(--ink);cursor:pointer;min-height:48px;
-    padding:14px;border:0;border-radius:40px;background:var(--lilac);transition:filter .15s;
+    padding:14px;border:0;border-radius:40px;background:var(--coral);color:var(--canvas);transition:filter .15s;
   }
   button:hover{filter:brightness(.96)}
   button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
@@ -60,13 +64,14 @@
     border:1px solid var(--error);border-radius:var(--r);padding:10px 13px}
   .err.show{display:block}
   .foot{margin-top:24px;padding-top:18px;border-top:1px dashed var(--rule);
-    font-family:'Geist Mono',ui-monospace,monospace;font-size:12px;text-transform:uppercase;color:var(--muted)}
+    font-family:'Red Hat Mono',ui-monospace,monospace;font-size:12px;text-transform:uppercase;color:var(--muted)}
+  .foot::before{content:"\10035";color:var(--coral);margin-right:6px}
   /* The source page ships light only; this keeps the dark preference working by
      reusing the same ink field the benchmark pages use for their dark section. */
   @media (prefers-color-scheme: dark){
-    :root{--canvas:#1A1E23;--surface:#22262B;--tint:#2C3036;--ink:#F6F4F2;--body:#C9C6C1;
+    :root{--canvas:#1B1A19;--surface:#252423;--tint:#2C2B2A;--ink:#FCFAF8;--body:#C9C6C1;
           --muted:#A5A29D;--rule:#3A3E43;--border:#3A3E43;--error:#F0A0A0;--error-bg:#3A2626}
-    button{color:#1A1E23}
+    button{color:#1B1A19}
   }
 </style>
 </head>
