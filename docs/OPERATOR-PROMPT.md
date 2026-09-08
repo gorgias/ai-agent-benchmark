@@ -34,7 +34,8 @@ balancer — it does exactly this:
   and treat Klaviyo/Decagon/Rep AI as low-yield probes (≤1 store attempt each, then move on).
 - Amazon Rufus is a special headed+logged-in stream (secrets/rufus-capture.mjs) — skip it
   unless you specifically need it; it requires regenerating secrets/amazon-state.json via
-  secrets/amazon-login.mjs (credentials in .amazon-creds — dummy account, committed).
+  secrets/amazon-login.mjs (credentials from AMAZON_EMAIL/AMAZON_PASSWORD, or a local
+  gitignored .amazon-creds — disposable account, never committed).
 
 ## Capture safety rules (non-negotiable — they protect the MEASUREMENT)
 - Max 3 parallel streams (≈6 headless pages) on a laptop; give each stream a DISJOINT

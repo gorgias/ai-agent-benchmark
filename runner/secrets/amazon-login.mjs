@@ -1,8 +1,29 @@
 // One-shot Amazon login → saves storageState (session cookies) to amazon-state.json.
-// Reads creds from ../../.amazon-creds (gitignored). Headed real Chrome. Never logs the password.
+// Headed real Chrome. Never logs the password.
+//
+// Credentials come from AMAZON_EMAIL / AMAZON_PASSWORD, falling back to a local
+// .amazon-creds file (email on line 1, password on line 2). That file is gitignored:
+// it used to be committed, which published the account to a public repo for two months.
+// Provision it out of band on the capture box, or set the env vars there instead.
 import { chromium } from "playwright";
-import { readFileSync, writeFileSync } from "node:fs";
-const [EMAIL, PW] = readFileSync(new URL("../../.amazon-creds", import.meta.url), "utf8").trim().split("\n");
+import { readFileSync, writeFileSync, existsSync } from "node:fs";
+
+function creds() {
+  if (process.env.AMAZON_EMAIL && process.env.AMAZON_PASSWORD) {
+    return [process.env.AMAZON_EMAIL, process.env.AMAZON_PASSWORD];
+  }
+  const file = new URL("../../.amazon-creds", import.meta.url);
+  if (existsSync(file)) {
+    const [e, p] = readFileSync(file, "utf8").trim().split("\n");
+    if (e && p) return [e, p];
+  }
+  console.error(
+    "No Amazon credentials. Set AMAZON_EMAIL and AMAZON_PASSWORD, or create .amazon-creds\n" +
+    "at the repo root with the email on line 1 and the password on line 2 (never commit it)."
+  );
+  process.exit(1);
+}
+const [EMAIL, PW] = creds();
 const OUT = new URL("./amazon-state.json", import.meta.url).pathname;
 const b = await chromium.launch({ headless: false, channel: "chrome", args: ["--disable-blink-features=AutomationControlled"] });
 const ctx = await b.newContext({ viewport: { width: 1440, height: 900 }, locale: "en-US", timezoneId: "America/New_York" });

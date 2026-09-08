@@ -4,7 +4,9 @@ Amazon's on-PDP shopping AI ("Ask Alexa" / Rufus) only appears for a **logged-in
 session — guests see no module (verified headed + headless). So this vendor runs
 against a **dedicated dummy Amazon account** with a saved session.
 
-- **Account:** `max.pruvost+amazon@gorgias.com` (disposable benchmark account — creds in `../../.amazon-creds`)
+- **Account:** a disposable benchmark account. Credentials come from `AMAZON_EMAIL` /
+  `AMAZON_PASSWORD`, or a local gitignored `../../.amazon-creds` (email line 1, password
+  line 2). Never commit that file — it was tracked in this public repo until 2026-09-08.
 - **Login (one-shot / when session expires):** `node runner/secrets/amazon-login.mjs`
   → writes `amazon-state.json` (session cookies; gitignored, regenerable).
 - **Run (must be HEADED):** `HEADED=1 node runner/run.js --store rufus-amazon --mode shopping`
