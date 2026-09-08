@@ -268,7 +268,13 @@ h1 .accent{color:var(--gr-mute)}
 /* =========================================================================
    SCOREBOARD TABLE
    ========================================================================= */
-.tablecard{background:var(--gr-white);border:1px solid var(--gr-border);border-radius:var(--r-lg);overflow:hidden;margin-top:var(--lg)}
+.tablecard{background:var(--gr-white);border:1px solid var(--gr-border);border-radius:var(--r-lg);overflow:hidden;margin-top:var(--lg);
+  /* The scoreboard breaks out past the container edge, so it crosses the dashed gutter.
+     The gutter rules are positioned elements on <body>, which paint above an ordinary
+     card background — the line was drawing across the table. Give the card its own
+     stacking context so the rule passes behind it. Scoped here rather than lifting all
+     content, which would hide the rule behind the ink band and break its continuity. */
+  position:relative;z-index:1}
 .table-scroll{overflow-x:auto;scrollbar-width:thin;scrollbar-color:var(--gr-rule) transparent}
 .table-scroll::-webkit-scrollbar{height:9px}
 .table-scroll::-webkit-scrollbar-thumb{background:var(--gr-rule);border-radius:5px}
