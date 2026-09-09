@@ -324,7 +324,7 @@ async function buildMode({ mode, dates, evals, excluded }) {
     if (!site.url) continue;
     if (site.ecommerce === false) continue;   // e-commerce-only benchmark (matches gen.js gate)
     // Gorgias-only v3:false exclusion removed 2026-07-17 for neutrality (see gen.js note).
-    if (site.key === "gorgias-madura" && mode === "shopping") continue;
+    // NO STORE-SPECIFIC EXCLUSIONS — see gen.js. Removed 2026-09-09.
     let anyMeasured = false;
     for (const date of dates) {
       const agg = await loadAgg({ site, mode, date, evals, excluded });

@@ -437,12 +437,14 @@ async function buildMode(mode) {
     // from both lanes") was REMOVED for benchmark neutrality. It keyed off a private field with
     // no cross-vendor equivalent — no vendor should have its non-latest deployments filtered out
     // when others don't. Every live, verified store now counts (impact ~1 pt/lane).
-    // Madura's SHOPPING lane is misconfigured — the agent treats shopping openers ("guide me")
-    // as payment-method queries (card/PayPal/Alma), a store-specific config gap, NOT the V3 agent's
-    // behavior (other Gorgias stores sell fine: Beekman 88, Addison Bay 86). Excluded from Shopping
-    // as a non-representative shopping deployment per the standing prune-misconfigured-stores rule.
-    // Its SUPPORT is a valid, strong deployment (100/100/100) and is kept.
-    if (site.key === "gorgias-madura" && mode === "shopping") continue;
+    // NO STORE-SPECIFIC EXCLUSIONS. gorgias-madura's shopping lane was dropped here as a
+    // "misconfigured deployment": its agent answers shopping openers with payment-method replies.
+    // That may well be true, but it was the only such carve-out in the file, it named one vendor's
+    // store, and it removed exactly that vendor's weakest lane. A benchmark cannot keep a rule it
+    // applies to one competitor and not the others — every rival has storefronts whose configuration
+    // serves shoppers badly, and measuring that IS the point. Removed 2026-09-09 at Max's
+    // instruction. If a deployment is genuinely not the product under test, the disqualifier has to
+    // be a property every vendor is tested against, not a name.
     // Accumulate: one dated entry per run that actually captured this store.
     let anyMeasured = false;
     for (const date of DATES) {
@@ -612,9 +614,22 @@ const suppLeader = rSupp[0] && rSupp[0].v, shopLeader = rShop[0] && rShop[0].v, 
 const suppTxt = "#" + gSupp + " support", shopTxt = "#" + gShop + " shopping", ovTxt = "#" + gOv + " overall";
 const RANK_OVERALL = gOv ? ("#" + gOv) : "\u2014";
 const RANK_LANES = `${suppTxt} (${suppC["Gorgias"] != null ? suppC["Gorgias"] : "\u2014"}), ${shopTxt} (${shopC["Gorgias"] != null ? shopC["Gorgias"] : "\u2014"})`;
-const RANK_TITLE = `Gorgias: ${ovTxt} \u2014 ${gSupp === 1 ? "best-in-class support" : suppTxt}, ${gShop === 1 ? "top shopping" : "one shopping-speed gap"}.`;
-const RANK_BADGE = `${ovTxt} \u00b7 ${suppTxt} \u00b7 ${shopTxt}`;
-const RANK_H = `Gorgias is ${gOv === 1 ? "the #1 AI agent overall in the field (mean of both lanes)" : (ovTxt + ", behind " + ovLeader)} \u2014 ${gSupp === 1 ? "#1 in support (best-in-field answer quality + elite automation)" : (suppTxt + " (behind " + suppLeader + ")")} and ${gShop === 1 ? "#1 in shopping" : (shopTxt + ", behind " + shopLeader)}. The one gap is shopping speed.`;
+const RANK_TITLE = `Gorgias: ${ovTxt} — ${suppTxt}, ${shopTxt}.`;
+const RANK_BADGE = `${ovTxt} · ${suppTxt} · ${shopTxt}`;
+const RANK_H = `Gorgias ranks ${ovTxt} by the mean of both lane composites — ${suppTxt}${gSupp > 1 ? ` (behind ${suppLeader})` : ""} and ${shopTxt}${gShop > 1 ? ` (behind ${shopLeader})` : ""}. These are point-estimate ranks for the measured sample.`;
+const SUMMARY_VALUES = {
+  SUPPORT_QUALITY: supS.Gorgias?.q,
+  SHOPPING_QUALITY: shopS.Gorgias?.q,
+  SHOPPING_AUTO: shopS.Gorgias?.a,
+  SUPPORT_AUTO: supS.Gorgias?.a,
+  SHOPPING_LAT: shopS.Gorgias?.l,
+  SUPPORT_LAT: supS.Gorgias?.l,
+  SHOPPING_P75: shopS.Gorgias?.l75,
+  SUPPORT_P75: supS.Gorgias?.l75,
+  SHOPPING_POSITION: `${shopTxt} · composite ${shopC.Gorgias ?? "—"} · quality ${shopS.Gorgias?.q ?? "—"}/100`,
+  SUPPORT_POSITION: `${suppTxt} · composite ${suppC.Gorgias ?? "—"} · quality ${supS.Gorgias?.q ?? "—"}/100`,
+  SUMMARY_WEIGHTS: `Support: ${LANE_W.support.a * 100}% automation, ${LANE_W.support.q * 100}% quality, ${LANE_W.support.s * 100}% speed. Shopping: ${LANE_W.shopping.a * 100}% automation, ${LANE_W.shopping.q * 100}% quality, ${LANE_W.shopping.s * 100}% speed.`,
+};
 
 for (const v of new Set([...Object.keys(shopS), ...Object.keys(supS)])) {
   const us = allEntries.find(s => s.vendor === v && s.us) ? 1 : 0;
@@ -653,10 +668,15 @@ try {
   tk = tk.replace(/\b\d{3}\s+LLM-judged conversations\b/g, `${STATS.judged} LLM-judged conversations`);
   // generated verdict — replace between markers so the headline rank claims stay in sync
   tk = tk.replace(/<!--RANK_TITLE-->[\s\S]*?<!--\/RANK_TITLE-->/, `<!--RANK_TITLE-->${RANK_TITLE}<!--/RANK_TITLE-->`)
-         .replace(/<!--RANK_BADGE-->[\s\S]*?<!--\/RANK_BADGE-->/, `<!--RANK_BADGE-->${RANK_BADGE}<!--/RANK_BADGE-->`)
+         .replace(/<!--RANK_BADGE-->[\s\S]*?<!--\/RANK_BADGE-->/g, `<!--RANK_BADGE-->${RANK_BADGE}<!--/RANK_BADGE-->`)
          .replace(/<!--RANK_H-->[\s\S]*?<!--\/RANK_H-->/, `<!--RANK_H-->${RANK_H}<!--/RANK_H-->`);
   tk = tk.replace(/<!--RANK_OVERALL-->[\s\S]*?<!--\/RANK_OVERALL-->/, `<!--RANK_OVERALL-->${RANK_OVERALL}<!--/RANK_OVERALL-->`);
-  tk = tk.replace(/<!--RANK_LANES-->[\s\S]*?<!--\/RANK_LANES-->/, `<!--RANK_LANES-->${RANK_LANES}<!--/RANK_LANES-->`);
+  tk = tk.replace(/<!--RANK_LANES-->[\s\S]*?<!--\/RANK_LANES-->/g, `<!--RANK_LANES-->${RANK_LANES}<!--/RANK_LANES-->`);
+  // Every repeated summary metric comes from the same 90-day lane data as the scoreboard.
+  for (const [key, value] of Object.entries(SUMMARY_VALUES)) {
+    const pattern = new RegExp(`<!--${key}-->[\\s\\S]*?<!--/${key}-->`, "g");
+    tk = tk.replace(pattern, () => `<!--${key}-->${value ?? "—"}<!--/${key}-->`);
+  }
   // "Refreshed <Month Year>" in the hero eyebrow — was hand-typed and went stale; now derived
   // from the actual latest run date every bake, same DATES/LATEST the rest of the page uses.
   const REFRESHED = `Refreshed ${new Date(LATEST + "T00:00:00Z").toLocaleDateString("en-US", { month: "long", year: "numeric", timeZone: "UTC" })}`;
