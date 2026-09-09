@@ -7,9 +7,12 @@
 <title>Gorgias AI Agent Benchmark — Sign in</title>
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/brand/tokens.css">
+<link rel="stylesheet" href="/brand/components.css">
+<link rel="stylesheet" href="/brand/tw.css">
 <style>
   body{
     font-family:var(--font-sans);
+    font-size:16px;
     color:var(--color-foreground);background:var(--color-background);
     display:flex;align-items:center;justify-content:center;min-height:100dvh;padding:24px;
     -webkit-font-smoothing:antialiased;
@@ -20,11 +23,12 @@
     width:100%;max-width:420px;background:var(--color-card);border:1px solid var(--color-border);
     border-radius:var(--radius-3xl);padding:36px 34px 30px;text-align:center;
   }
-  .brand{display:inline-flex;align-items:center;justify-content:center;margin-bottom:26px}
+  .brand{display:inline-flex;align-items:center;justify-content:center;margin:0}
+  .brand a{display:inline-flex;line-height:0}
   .brand .mark{height:22px;width:auto;display:block}
-  h1{font-family:var(--font-display);font-size:34px;font-weight:400;letter-spacing:0;line-height:1.15;margin-bottom:10px}
-  .sub{color:var(--color-foreground-secondary);font-size:15px;line-height:1.55;margin-bottom:26px}
-  form{display:flex;flex-direction:column;gap:10px}
+  h1{font-family:var(--font-display);font-size:34px;font-weight:400;letter-spacing:0;line-height:1.15;margin:0}
+  .sub{color:var(--color-foreground-secondary);font-size:15px;line-height:1.55;margin:0}
+  form{display:flex;flex-direction:column;gap:16px}
   .field{position:relative;text-align:left}
   label{display:block;font-family:var(--font-mono);font-size:12px;font-weight:500;
     letter-spacing:var(--font-label-tracking);text-transform:uppercase;color:var(--color-muted-foreground);margin:0 0 8px 2px}
@@ -34,15 +38,15 @@
   }
   input[type=password]:focus{outline:none;border-color:var(--color-ring);background:var(--color-card)}
   button{
-    margin-top:6px;font-family:var(--font-sans);font-weight:500;font-size:14px;
+    margin-top:0;font-family:var(--font-sans);font-weight:500;font-size:14px;
     color:var(--color-primary-foreground);cursor:pointer;min-height:48px;
     padding:14px;border:0;border-radius:var(--radius-pill);background:var(--color-primary);transition:background .15s;
   }
   button:hover{background:var(--color-primary-hover)}
-  .err{display:none;margin-bottom:16px;font-size:13.5px;color:var(--gr-error-ink);background:var(--gr-error-bg);
+  .err{display:none;margin:0;font-size:13.5px;color:var(--gr-error-ink);background:var(--gr-error-bg);
     border:1px solid var(--color-coral-100);border-radius:var(--radius-xl);padding:10px 13px}
   .err.show{display:block}
-  .foot{margin-top:24px;padding-top:18px;border-top:1px dashed var(--color-border-bold);
+  .foot{margin:0;padding-top:18px;border-top:1px dashed var(--color-border-bold);
     font-family:var(--font-mono);font-size:12px;font-weight:500;letter-spacing:var(--font-label-tracking);text-transform:uppercase;color:var(--color-muted-foreground)}
   @media (prefers-color-scheme: dark){
     body{background:var(--color-neutral-950);color:var(--color-neutral-10)}
@@ -58,8 +62,8 @@
 </style>
 </head>
 <body>
-  <main class="card">
-    <div class="brand"><img class="mark" src="/brand/gorgias-logo.svg" alt="Gorgias" width="139" height="37"></div>
+  <main class="card stack-center gap-6">
+    <div class="brand"><a href="https://www.gorgias.com" target="_blank" rel="noopener noreferrer"><img class="mark" src="/brand/gorgias-logo.svg" alt="Gorgias" width="139" height="37"></a></div>
     <h1>AI Agent Benchmark</h1>
     <p class="sub">Internal competitive intelligence — Gorgias R&amp;D.<br>Enter the access password to continue.</p>
     <div class="err" id="err">Incorrect password. Please try again.</div>
