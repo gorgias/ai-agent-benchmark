@@ -125,3 +125,26 @@ for (const name of ["STORES", "SUPPORT"]) {
 test("conv-text.json parses as JSON", () => {
   assert.doesNotThrow(() => JSON.parse(read("../conv-text.json")));
 });
+
+// Regression: the verdict used to claim quality 94 while its own scoreboard said 77.
+// Check every occurrence, including head-to-head and provider-profile copy.
+test("summary metrics match the scoreboard and have no unfilled placeholders", () => {
+  const html = read("../takeaways.html");
+  const [D] = grabObjects(html, "D");
+  const g = D.Gorgias;
+  const expected = {
+    SUPPORT_QUALITY: g.p.q, SHOPPING_QUALITY: g.s.q,
+    SUPPORT_AUTO: g.p.a, SHOPPING_AUTO: g.s.a,
+    SUPPORT_LAT: g.p.l, SHOPPING_LAT: g.s.l,
+    SUPPORT_P75: g.p.l75, SHOPPING_P75: g.s.l75,
+  };
+  for (const [key, value] of Object.entries(expected)) {
+    const matches = [...html.matchAll(new RegExp(`<!--${key}-->(.*?)<!--/${key}-->`, "g"))];
+    assert.ok(matches.length, `missing summary metric ${key}`);
+    for (const match of matches) assert.equal(match[1], String(value), `stale ${key}`);
+  }
+  const badges = [...html.matchAll(/<!--RANK_BADGE-->(.*?)<!--\/RANK_BADGE-->/g)];
+  assert.ok(badges.length >= 3);
+  for (const badge of badges) assert.equal(badge[1], badges[0][1], "contradictory summary rank");
+  assert.ok(!/<!--(?:SUPPORT_POSITION|SHOPPING_POSITION|SUMMARY_WEIGHTS)-->—/.test(html));
+});

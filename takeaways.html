@@ -593,38 +593,38 @@ html.anim .hero .rv-stagger.in>*:nth-child(4){transition-delay:.23s}
 <section id="verdict">
   <div class="wrap">
     <span class="kicker rv"><span class="dot"></span>The verdict — Gorgias</span>
-    <h2 class="sec rv"><!--RANK_TITLE-->Gorgias: #1 overall — #2 support, one shopping-speed gap.<!--/RANK_TITLE--></h2>
+    <h2 class="sec rv"><!--RANK_TITLE-->Gorgias: #1 overall — #2 support, #2 shopping.<!--/RANK_TITLE--></h2>
     <p class="sec-lead rv">A single read on where Gorgias stands across the field, on the same rubric applied blind to every vendor.</p>
 
     <div class="verdict-shell rv">
       <div class="verdict-top">
-        <div class="h"><!--RANK_H-->Gorgias is the #1 AI agent overall in the field (mean of both lanes) — #2 support (behind Yuma) and #2 shopping, behind Envive. The one gap is shopping speed.<!--/RANK_H--></div>
+        <div class="h"><!--RANK_H-->Gorgias ranks #1 overall by the mean of both lane composites — #2 support (behind Yuma) and #2 shopping (behind Envive). These are point-estimate ranks for the measured sample.<!--/RANK_H--></div>
         <span class="badge-rank"><!--RANK_BADGE-->#1 overall · #2 support · #2 shopping<!--/RANK_BADGE--></span>
       </div>
       <div class="verdict-grid">
         <div class="vcell good">
-          <div class="kpi tnum">94</div>
+          <div class="kpi tnum"><!--SUPPORT_QUALITY-->77<!--/SUPPORT_QUALITY--></div>
           <span class="tag">Support quality</span>
-          <div class="desc"><span class="tt" data-tip="Support quality /100 (blind, evidence-forced LLM judge): in-channel resolution /40, accuracy &amp; grounding /25, actionability /20, clean close /15. Derived from binary checks, never picked by the judge.">Essentially the best answer quality measured</span> (Envive 88, field median ~65). Specific, grounded, actionable resolutions. <b>This is our strongest claim.</b></div>
+          <div class="desc">Quality /100 from evidence-backed checks. This is a component of the Support composite, not the composite itself. Figures in this section use the trailing 90-day window.</div>
         </div>
         <div class="vcell good">
-          <div class="kpi tnum">94<span style="font-size:.5em;font-weight:600">%</span></div>
-          <span class="tag">Automation — elite</span>
-          <div class="desc"><span class="tt" data-tip="Automation rate = % of engaged conversations the AI handled with ZERO human touch: no human handover AND no out-of-channel deflection ('email us' / 'call us'). Early bails count against it. In helpdesk terms: the share of tickets a human never touches.">94% shopping · 83% support</span> across live V3 stores. Only Ada/Rep score higher (100%) — both at near-zero answer quality. <b>Among vendors that actually answer, containment is top-tier.</b></div>
+          <div class="kpi tnum"><!--SHOPPING_AUTO-->85<!--/SHOPPING_AUTO--><span style="font-size:.5em;font-weight:600">%</span></div>
+          <span class="tag">Shopping automation</span>
+          <div class="desc"><!--SHOPPING_AUTO-->85<!--/SHOPPING_AUTO-->% shopping · <!--SUPPORT_AUTO-->75<!--/SUPPORT_AUTO-->% support. Share of engaged conversations with no human handover or out-of-channel deflection.</div>
         </div>
         <div class="vcell mid">
           <div class="kpi tnum"><!--RANK_OVERALL-->#1<!--/RANK_OVERALL--></div>
           <span class="tag">Overall position</span>
-          <div class="desc"><span class="tt" data-tip="Overall = mean of the two lane composites. Composite is lane-specific: SUPPORT = 50% automation + 40% quality + 10% speed (containment is the job; latency tolerance is higher than in shopping, so speed carries least — reweighted 2026-09-03, see notes/lane-weights-2026-09-03.md); SHOPPING = 40% automation + 35% quality + 25% speed (a shopper will not wait). Speed scores 100 at ≤3s and 0 at ≥22s."><!--RANK_LANES-->#2 support (72), #2 shopping (65)<!--/RANK_LANES--></span>, now #1 overall — ahead of Envive. Shopping quality (85) beats Envive and Yuma on shopping composite; only Siena edges ahead at #1. <b>We win the quality argument.</b></div>
+          <div class="desc"><!--RANK_LANES-->#2 support (72), #2 shopping (65)<!--/RANK_LANES-->. Lane scores are composites of automation, quality, and speed. Overall is the mean of both lane composites.</div>
         </div>
         <div class="vcell warn">
-          <div class="kpi tnum">~18<span style="font-size:.5em;font-weight:600">s</span></div>
+          <div class="kpi tnum"><!--SHOPPING_LAT-->18.4<!--/SHOPPING_LAT--><span style="font-size:.5em;font-weight:600">s</span></div>
           <span class="tag">The shopping gap — speed</span>
-          <div class="desc"><span class="tt" data-tip="Latency = mean time to the COMPLETE final answer in a cold session; p75 = 75th-percentile across all timed turns. Never stopped on a stall, never on chips.">Shopping mean ~18.4s, p75 21.3s</span>, delivered atomically — slowest of the top tier (Sierra 9.9s, Envive 12.5s). Support speed is fine (15s). <b>Speed is the shopping lever.</b></div>
+          <div class="desc">Shopping mean <!--SHOPPING_LAT-->18.4<!--/SHOPPING_LAT-->s, p75 <!--SHOPPING_P75-->20.6<!--/SHOPPING_P75-->s. Support mean <!--SUPPORT_LAT-->14.2<!--/SUPPORT_LAT-->s, p75 <!--SUPPORT_P75-->15.2<!--/SUPPORT_P75-->s. Latency measures time to the complete answer.</div>
         </div>
       </div>
       <div class="verdict-note">
-        <b>Bottom line:</b> under the blind, evidence-forced re-judge, Gorgias is <b>#1 overall</b> (mean of both lanes), now ahead of Envive. Support is the standout — quality <b>94/100</b>, best-in-field, and now the <b>#1 support agent</b>. Shopping is <b>#2</b>, just behind Siena; the remaining gap is speed (~18s vs the field), not substance. Two clean levers: shopping speed, and lifting the weakest-configured stores. Composite = 40% automation · 40% quality · 20% speed.
+        <b>Measured position:</b> <!--RANK_BADGE-->#1 overall · #2 support · #2 shopping<!--/RANK_BADGE-->. <!--SUMMARY_WEIGHTS-->Support: 50% automation, 40% quality, 10% speed. Shopping: 40% automation, 35% quality, 25% speed.<!--/SUMMARY_WEIGHTS--> Rankings describe this sample under these weights; they do not establish statistically resolved superiority. See the scoreboard intervals.
       </div>
     </div>
   </div>
@@ -641,23 +641,23 @@ html.anim .hero .rv-stagger.in>*:nth-child(4){transition-delay:.23s}
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
       </span>
       <h3>Shopping Assistant</h3>
-      <span class="meta">composite #2 of 11 · just behind Siena, ahead of Envive and Yuma · we beat Envive on quality, trail on speed</span>
+      <span class="meta"><!--SHOPPING_POSITION-->#2 shopping · composite 65 · quality 76/100<!--/SHOPPING_POSITION--></span>
     </div>
     <div class="wl-grid rv-stagger">
       <div class="wl-card win">
         <div class="head"><span class="chip">✓</span>Wins</div>
         <ul>
-          <li><b>Automation 94% — top-tier.</b> Across 6 live V3 stores; only Ada/Rep go higher (100%) and both at near-zero answer quality. Sierra loses 15% of shopping conversations to humans, DigitalGenius 72%.</li>
-          <li><b>It actually sells — quality (85) beats Envive (80).</b> Head-to-head comparisons, promo terms cited correctly, consistent purchase nudges. Most support-first vendors refuse to recommend at all (DG). Now ahead of Yuma — which runs on a thin 14-conversation, 2-store sample.</li>
-          <li><b>Zero out-of-channel deflections</b> — never punts the shopper to email/phone (Kodif and Siena both do).</li>
+          <li><b>Automation <!--SHOPPING_AUTO-->85<!--/SHOPPING_AUTO-->%.</b> Share of engaged shopping conversations handled without handover or out-of-channel deflection.</li>
+          <li><b>Shopping quality <!--SHOPPING_QUALITY-->76<!--/SHOPPING_QUALITY-->/100.</b> Assessed on answers, discovery, recommendations, rich elements, and purchase guidance.</li>
+          <li>Compare automation with quality: remaining in chat does not by itself establish successful resolution.</li>
         </ul>
       </div>
       <div class="wl-card lose">
         <div class="head"><span class="chip">✕</span>Gaps</div>
         <ul>
-          <li><b>Speed — 8th of 9 (~18.3s).</b> Sierra 9.5s, Envive 12.6s. Delivery is atomic: the shopper stares at a typing indicator while streaming vendors show substance in 1–5s. The credible bar is 10–12s.</li>
-          <li><b>Perceived speed, not substance.</b> The V3 Shopping Assistant renders product cards + prices and answer quality now beats Envive (83 vs 80) — but delivery is atomic, so the shopper waits ~18s at a typing indicator while streaming rivals paint substance in 1–5s.</li>
-          <li><b>The sale is won on merit, lost on speed.</b> Right answer and rich cards — just delivered too slowly.</li>
+          <li><b>Complete-answer latency:</b> <!--SHOPPING_LAT-->18.4<!--/SHOPPING_LAT-->s mean; <!--SHOPPING_P75-->20.6<!--/SHOPPING_P75-->s p75.</li>
+          <li>Latency and quality measure different aspects of the experience; inspect both in the scoreboard.</li>
+          <li>These cold-session scripts do not establish conversion lift or completed sales.</li>
         </ul>
       </div>
     </div>
@@ -667,15 +667,15 @@ html.anim .hero .rv-stagger.in>*:nth-child(4){transition-delay:.23s}
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11a9 9 0 0 1 18 0"/><path d="M21 15v2a3 3 0 0 1-3 3h-4"/><rect x="1" y="11" width="4" height="7" rx="1.5"/><rect x="19" y="11" width="4" height="7" rx="1.5"/></svg>
       </span>
       <h3>Support</h3>
-      <span class="meta">composite #2 of 10 · 78 · best answer quality in field (94)</span>
+      <span class="meta"><!--SUPPORT_POSITION-->#2 support · composite 72 · quality 77/100<!--/SUPPORT_POSITION--></span>
     </div>
     <div class="wl-grid rv-stagger">
       <div class="wl-card win">
         <div class="head"><span class="chip">✓</span>Wins</div>
         <ul>
-          <li><b>Answer quality 94/100 — best in the field.</b> Under blind, evidence-forced judging it's the highest support quality measured (Envive 88, field median ~65): exact policy terms, concrete timeframes, executable next steps — not warm boilerplate.</li>
-          <li><b>Automation 83% — top-tier among vendors that actually answer.</b> Sierra hands over ~37% of support conversations; the field ranges 55–92%. Ada/Rep contain more but resolve almost nothing.</li>
-          <li><b>Latency fine here (15s)</b> — mid-pack vs a 7–43s field, and faster than our own shopping lane. Support is not where the speed problem lives.</li>
+          <li><b>Support quality <!--SUPPORT_QUALITY-->77<!--/SUPPORT_QUALITY-->/100.</b> Separate from the weighted Support composite.</li>
+          <li><b>Support automation <!--SUPPORT_AUTO-->75<!--/SUPPORT_AUTO-->%.</b> Share of engaged conversations handled without handover or out-of-channel deflection.</li>
+          <li><b>Complete-answer latency:</b> <!--SUPPORT_LAT-->14.2<!--/SUPPORT_LAT-->s mean; <!--SUPPORT_P75-->15.2<!--/SUPPORT_P75-->s p75.</li>
         </ul>
       </div>
       <div class="wl-card lose">
@@ -706,10 +706,10 @@ html.anim .hero .rv-stagger.in>*:nth-child(4){transition-delay:.23s}
 
       <div class="prof-card">
         <div class="prof-head"><span class="vdot" style="background:#f0603f"></span><span class="vname">Gorgias<span class="us-tag">US</span></span></div>
-        <div class="prof-metrics">94/83% auto · <b>q85/94</b> · 18.4s/15s · p75 21.3s/15.9s</div>
-        <div class="pp plus"><b>+ Best-in-class support, never lets go.</b> Support answer quality 94/100 — highest in the field; elite automation (94% shopping, 83% support). Sales instinct is real: head-to-head comparisons, promo terms, purchase nudges, product cards; shopping quality <b>beats Envive</b> and Yuma; only Siena edges ahead.</div>
+        <div class="prof-metrics"><!--SHOPPING_AUTO-->85<!--/SHOPPING_AUTO-->/<!--SUPPORT_AUTO-->75<!--/SUPPORT_AUTO-->% auto · <b>q<!--SHOPPING_QUALITY-->76<!--/SHOPPING_QUALITY-->/<!--SUPPORT_QUALITY-->77<!--/SUPPORT_QUALITY--></b> · <!--SHOPPING_LAT-->18.4<!--/SHOPPING_LAT-->s/<!--SUPPORT_LAT-->14.2<!--/SUPPORT_LAT-->s · p75 <!--SHOPPING_P75-->20.6<!--/SHOPPING_P75-->s/<!--SUPPORT_P75-->15.2<!--/SUPPORT_P75-->s (shopping/support, 90 days)</div>
+        <div class="pp plus"><b>Measured results.</b> <!--RANK_BADGE-->#1 overall · #2 support · #2 shopping<!--/RANK_BADGE-->. Quality, automation, and latency are shown separately above; compare them with the other providers in the scoreboard.</div>
         <div class="quote">"Cited specific clinical stats (94% firmer) and the exact return policy (30-day, €8 fee vs free store credit) to reassure a skeptical shopper" — judge, 84/100</div>
-        <div class="pp minus"><b>− Slow on shopping.</b> 18.4s to a full shopping answer (p75 21.3s) — slowest of the top tier, delivered atomically (no streaming). Speed, not substance, is the gap: quality is consistent across live V3 stores (Beekman 88, Addison Bay &amp; Amicci 86).</div>
+        <div class="pp minus"><b>Shopping latency.</b> <!--SHOPPING_LAT-->18.4<!--/SHOPPING_LAT-->s to a complete answer (p75 <!--SHOPPING_P75-->20.6<!--/SHOPPING_P75-->s). Review individual conversations to assess differences between stores.</div>
         <div class="quote">"All seven turns return support-hours boilerplate with no policy details" — judge, 15/100</div>
       </div>
 
