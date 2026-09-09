@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The Rubric — Gorgias Ecommerce AI Agent Benchmark</title>
+<style>
+@page{size:A4;margin:18mm 16mm}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;color:#1A1E23;line-height:1.5;font-size:12px}
+h1{font-size:30px;font-weight:700;letter-spacing:-.01em;margin-bottom:6px}
+.sub{color:#5C6066;font-size:13px;margin-bottom:22px;max-width:70ch}
+h2{font-size:17px;font-weight:700;margin:26px 0 10px;padding-top:16px;border-top:2px solid #1A1E23}
+.eyebrow{font-family:ui-monospace,Menlo,monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:#7C8085;margin-bottom:14px}
+.weights{display:flex;gap:12px;margin:8px 0 4px}
+.wcard{flex:1;border:1px solid #DDD9D4;border-radius:8px;padding:12px 14px;background:#F6F4F2}
+.wcard .wl{font-family:ui-monospace,Menlo,monospace;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:#7C8085;margin-bottom:8px}
+.wrow{display:flex;justify-content:space-between;padding:4px 0;border-top:1px solid #E6E1DB;font-size:12px}
+.wrow:first-of-type{border-top:none}
+.wrow b{font-family:ui-monospace,Menlo,monospace}
+table{width:100%;border-collapse:collapse;margin:6px 0 4px;font-size:11.5px}
+th{text-align:left;font-family:ui-monospace,Menlo,monospace;font-size:9.5px;letter-spacing:.05em;text-transform:uppercase;color:#7C8085;padding:7px 8px;border-bottom:1px solid #CAC7C2}
+th.n,td.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+td{padding:7px 8px;border-bottom:1px solid #EFE9E2;vertical-align:top}
+tr.grp td{background:#EFE9E2;font-weight:700;border-bottom:1px solid #CAC7C2}
+td.chk{font-weight:600;width:26%}
+td.pw{color:#3A3E43;width:62%}
+.pass{color:#1C7130;font-weight:700}.fail{color:#B53939;font-weight:700}
+.foot{margin-top:24px;padding-top:12px;border-top:1px solid #DDD9D4;color:#7C8085;font-size:10.5px}
+.ex-h{display:flex;justify-content:space-between;align-items:baseline}
+.ex-score{font-family:ui-monospace,Menlo,monospace;font-weight:700;font-size:15px}
+</style>
+</head>
+<body>
+<div class="eyebrow">Gorgias · Ecommerce AI Agent Benchmark</div>
+<h1>The rubric</h1>
+<p class="sub">Every conversation is scored out of 100 by a blind LLM judge against fixed, binary checks. Each passing check must quote the transcript. The judge never picks a number; the score is derived from the checks. Two rubrics, one per job.</p>
+
+<div class="weights">
+  <div class="wcard"><div class="wl">Pre-sale weighting</div>
+    <div class="wrow"><span>Answered you</span><b>30</b></div>
+    <div class="wrow"><span>Recommended well</span><b>22</b></div>
+    <div class="wrow"><span>Worked out your need</span><b>20</b></div>
+    <div class="wrow"><span>Showed the product</span><b>18</b></div>
+    <div class="wrow"><span>Helped you buy</span><b>10</b></div>
+  </div>
+  <div class="wcard"><div class="wl">Post-sale weighting</div>
+    <div class="wrow"><span>Solved the problem</span><b>40</b></div>
+    <div class="wrow"><span>Was accurate</span><b>25</b></div>
+    <div class="wrow"><span>Could act on it</span><b>20</b></div>
+    <div class="wrow"><span>Closed properly</span><b>15</b></div>
+  </div>
+</div>
+
+<h2>Pre-sale · 16 checks in 5 groups</h2>
+<table>
+<thead><tr><th>Check</th><th>Passes when</th><th class="n">Points</th></tr></thead>
+<tbody>
+<tr class="grp"><td colspan="2">Did it answer you</td><td class="n">30</td></tr>
+<tr><td class="chk">Answered the question</td><td class="pw">Every question got a real reply. A greeting or brand waffle does not count.</td><td class="n">14</td></tr>
+<tr><td class="chk">Didn't contradict itself</td><td class="pw">No conflicting claims, and no policies or specs it made up.</td><td class="n">9</td></tr>
+<tr><td class="chk">Left nothing unanswered</td><td class="pw">No question skipped or answered with something unrelated.</td><td class="n">7</td></tr>
+<tr class="grp"><td colspan="2">Did it work out what you needed</td><td class="n">20</td></tr>
+<tr><td class="chk">Asked before recommending</td><td class="pw">On a vague opener, found out what the shopper needed first.</td><td class="n">8</td></tr>
+<tr><td class="chk">Built on your answers</td><td class="pw">Used what the shopper said to narrow things down, instead of repeating a generic pick.</td><td class="n">7</td></tr>
+<tr><td class="chk">Didn't dump a product list</td><td class="pw">No wall of best-sellers before understanding the need.</td><td class="n">5</td></tr>
+<tr class="grp"><td colspan="2">Did it recommend well</td><td class="n">22</td></tr>
+<tr><td class="chk">Named a specific product</td><td class="pw">Recommended something real, not a category.</td><td class="n">9</td></tr>
+<tr><td class="chk">Explained why it fits</td><td class="pw">Tied the recommendation to what the shopper actually said they needed.</td><td class="n">8</td></tr>
+<tr><td class="chk">Suited the store and the ask</td><td class="pw">The pick makes sense for that catalog and that request.</td><td class="n">5</td></tr>
+<tr class="grp"><td colspan="2">Did it show you the product</td><td class="n">18</td></tr>
+<tr><td class="chk">Gave a link to open</td><td class="pw">A product link or card the shopper can click.</td><td class="n">7</td></tr>
+<tr><td class="chk">Showed a price</td><td class="pw">A real price attached to the recommendation.</td><td class="n">6</td></tr>
+<tr><td class="chk">Backed it with reviews</td><td class="pw">Ratings or review counts supporting the pick.</td><td class="n">3</td></tr>
+<tr><td class="chk">Offered a comparison</td><td class="pw">More than one option laid out side by side.</td><td class="n">2</td></tr>
+<tr class="grp"><td colspan="2">Did it help you buy</td><td class="n">10</td></tr>
+<tr><td class="chk">Gave a next step</td><td class="pw">Ended with something concrete to do.</td><td class="n">5</td></tr>
+<tr><td class="chk">Completed the purchase</td><td class="pw">Actually added to cart or checked out when asked to.</td><td class="n">3</td></tr>
+<tr><td class="chk">Finished cleanly</td><td class="pw">No dangling question, no mid-thought stop.</td><td class="n">2</td></tr>
+</tbody></table>
+
+<h2>Post-sale · 10 checks in 4 groups</h2>
+<table>
+<thead><tr><th>Check</th><th>Passes when</th><th class="n">Points</th></tr></thead>
+<tbody>
+<tr class="grp"><td colspan="2">Did it solve the problem</td><td class="n">40</td></tr>
+<tr><td class="chk">Answered it in the chat</td><td class="pw">A complete answer specific to that store. Pointing at a help page does not count.</td><td class="n">18</td></tr>
+<tr><td class="chk">Ended the right way</td><td class="pw">Sorted it, or handed to a person properly with the details collected first.</td><td class="n">12</td></tr>
+<tr><td class="chk">Didn't send you away</td><td class="pw">No "email us" or "call us" when it could have just answered.</td><td class="n">10</td></tr>
+<tr class="grp"><td colspan="2">Was it accurate</td><td class="n">25</td></tr>
+<tr><td class="chk">Gave real facts</td><td class="pw">At least two concrete details: a number, a timeframe, a named policy.</td><td class="n">13</td></tr>
+<tr><td class="chk">Sounded like this store</td><td class="pw">The claims read as that shop's actual policy, not generic advice.</td><td class="n">7</td></tr>
+<tr><td class="chk">Didn't contradict itself</td><td class="pw">No conflicting claims across the conversation.</td><td class="n">5</td></tr>
+<tr class="grp"><td colspan="2">Could you act on it</td><td class="n">20</td></tr>
+<tr><td class="chk">Told you what to do</td><td class="pw">Steps you can carry out right now, without an account.</td><td class="n">12</td></tr>
+<tr><td class="chk">Answered all of it</td><td class="pw">Covered the whole question, not just part.</td><td class="n">8</td></tr>
+<tr class="grp"><td colspan="2">Did it close properly</td><td class="n">15</td></tr>
+<tr><td class="chk">Said what happens next</td><td class="pw">Named who acts and when. "Soon" does not count.</td><td class="n">8</td></tr>
+<tr><td class="chk">Finished cleanly</td><td class="pw">Nothing left hanging.</td><td class="n">7</td></tr>
+</tbody></table>
+
+<h2>Worked example · Conversation #1841 · Pre-sale lane</h2>
+<div class="ex-h"><div class="pw">How a single conversation scores, check by check.</div><div class="ex-score">36 / 43</div></div>
+<table>
+<thead><tr><th>Verdict</th><th>Check</th><th>Evidence</th><th class="n">Points</th></tr></thead>
+<tbody>
+<tr><td class="pass">Pass</td><td class="chk">Product fact match</td><td class="pw">"Order #88421 is in our warehouse" matches order-system data.</td><td class="n">5</td></tr>
+<tr><td class="pass">Pass</td><td class="chk">Policy accuracy</td><td class="pw">"5-7 days standard" matches the published policy page.</td><td class="n">5</td></tr>
+<tr><td class="pass">Pass</td><td class="chk">No hallucinated SKUs</td><td class="pw">No product identifiers or variant names invented.</td><td class="n">5</td></tr>
+<tr><td class="pass">Pass</td><td class="chk">Price precision</td><td class="pw">No price stated, so no penalty.</td><td class="n">5</td></tr>
+<tr><td><span class="fail">Fail</span></td><td class="chk">Query fully addressed</td><td class="pw">"What can I do?" got no actionable path for the deadline.</td><td class="n">0</td></tr>
+<tr><td class="pass">Pass</td><td class="chk">Actionable next step</td><td class="pw">Contact again after shipment. Minimal but acceptable.</td><td class="n">3</td></tr>
+<tr><td class="pass">Pass</td><td class="chk">No over-apology</td><td class="pw">Apology appears once, attached to a real error.</td><td class="n">3</td></tr>
+<tr><td class="pass">Pass</td><td class="chk">Scannable format</td><td class="pw">Short paragraphs, information chunked clearly.</td><td class="n">4</td></tr>
+<tr><td class="pass">Pass</td><td class="chk">Sentence economy</td><td class="pw">All sentences under 25 words, no padding.</td><td class="n">3</td></tr>
+<tr><td class="pass">Pass</td><td class="chk">Escalation threshold</td><td class="pw">Did not escalate a routine shipping-status query.</td><td class="n">3</td></tr>
+<tr class="grp"><td colspan="3">Accuracy 20 · Completeness 8 · Tone 7 · Structure 7</td><td class="n">36</td></tr>
+</tbody></table>
+
+<div class="foot">Gorgias Ecommerce AI Agent Benchmark · Rubric v2.3 · Full pipeline, judge prompts, and inter-rater reliability report available on request. Every score in the report traces back to these checks.</div>
+</body>
+</html>
