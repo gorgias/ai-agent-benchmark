@@ -1,0 +1,95 @@
+/*
+ * Tailwind v4 — layout utilities (no Preflight).
+ * wrap-x / section-y are UNLAYERED so they beat page `* { padding: 0 }`.
+ * Do not @source takeaways.html / report.html — they contain baked JSON.
+ * Rebuild: npm run css
+ */
+
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities);
+
+@source "./tw-safelist.html";
+
+@theme {
+  --breakpoint-md: 768px;
+}
+
+@utility stack {
+  display: flex;
+  flex-direction: column;
+}
+@utility stack-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+@utility stack-start {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+}
+
+/* Unlayered so page `* { padding: 0 }` and missing utilities can't collapse rhythm. */
+.stack{
+  display:flex;
+  flex-direction:column;
+}
+.stack-center{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  text-align:center;
+}
+.stack-start{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  text-align:left;
+}
+.wrap-x{
+  padding-inline:1rem;
+}
+/* Midpoint between 240px stacked section padding and the ~48px collapse. */
+.section-y{
+  padding-top:4.5rem;
+  padding-bottom:4.5rem;
+}
+.hero.section-y,
+header.section-y{
+  padding-top:3.5rem;
+  padding-bottom:4.5rem;
+}
+.wrap.section-y{
+  padding-top:4.5rem;
+  padding-bottom:4.5rem;
+}
+.section-follow{
+  padding-top:4.5rem;
+  padding-bottom:4.5rem;
+}
+.footer.section-y,
+.sitefoot.section-y{
+  padding-top:3.5rem;
+  padding-bottom:3.5rem;
+}
+@media (min-width:768px){
+  .wrap-x{padding-inline:5rem}
+  .section-y,
+  .section-follow,
+  .wrap.section-y{
+    padding-top:4.5rem;
+    padding-bottom:4.5rem;
+  }
+  .hero.section-y,
+  header.section-y{
+    padding-top:4rem;
+    padding-bottom:4.5rem;
+  }
+  .footer.section-y,
+  .sitefoot.section-y{
+    padding-top:4rem;
+    padding-bottom:4rem;
+  }
+}

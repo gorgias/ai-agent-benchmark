@@ -52,7 +52,7 @@ jobs:
           - { vendor: "Humind",        key: humind,  headed: "true"  }
           - { vendor: "Meta AI",       key: meta,    headed: "true"  }
           - { vendor: "Yuma",          key: yuma,    headed: "true"  }
-    runs-on: ubuntu-latest
+    runs-on: gh-actions-4cpu8gb-dind-runner-set
     timeout-minutes: 110
     # vendors filter: blank = all; otherwise only the comma-listed keys capture. The `sel` env
     # (evaluated per matrix cell, where `matrix` IS in scope) guards the heavy steps below, so a
@@ -103,7 +103,7 @@ jobs:
   aggregate:
     needs: capture
     if: always()
-    runs-on: ubuntu-latest
+    runs-on: gh-actions-2cpu4gb-runner-set
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
