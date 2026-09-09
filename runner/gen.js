@@ -437,12 +437,14 @@ async function buildMode(mode) {
     // from both lanes") was REMOVED for benchmark neutrality. It keyed off a private field with
     // no cross-vendor equivalent — no vendor should have its non-latest deployments filtered out
     // when others don't. Every live, verified store now counts (impact ~1 pt/lane).
-    // Madura's SHOPPING lane is misconfigured — the agent treats shopping openers ("guide me")
-    // as payment-method queries (card/PayPal/Alma), a store-specific config gap, NOT the V3 agent's
-    // behavior (other Gorgias stores sell fine: Beekman 88, Addison Bay 86). Excluded from Shopping
-    // as a non-representative shopping deployment per the standing prune-misconfigured-stores rule.
-    // Its SUPPORT is a valid, strong deployment (100/100/100) and is kept.
-    if (site.key === "gorgias-madura" && mode === "shopping") continue;
+    // NO STORE-SPECIFIC EXCLUSIONS. gorgias-madura's shopping lane was dropped here as a
+    // "misconfigured deployment": its agent answers shopping openers with payment-method replies.
+    // That may well be true, but it was the only such carve-out in the file, it named one vendor's
+    // store, and it removed exactly that vendor's weakest lane. A benchmark cannot keep a rule it
+    // applies to one competitor and not the others — every rival has storefronts whose configuration
+    // serves shoppers badly, and measuring that IS the point. Removed 2026-09-09 at Max's
+    // instruction. If a deployment is genuinely not the product under test, the disqualifier has to
+    // be a property every vendor is tested against, not a name.
     // Accumulate: one dated entry per run that actually captured this store.
     let anyMeasured = false;
     for (const date of DATES) {
