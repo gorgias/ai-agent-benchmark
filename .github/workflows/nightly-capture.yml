@@ -45,7 +45,7 @@ on:
 
 jobs:
   start-capture:
-    runs-on: ubuntu-latest
+    runs-on: gh-actions-0.5cpu1gb-runner-set
     timeout-minutes: 10
     steps:
       - uses: superfly/flyctl-actions/setup-flyctl@master

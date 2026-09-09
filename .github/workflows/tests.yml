@@ -7,7 +7,7 @@ on:
     branches: [master]
 jobs:
   unit:
-    runs-on: ubuntu-latest
+    runs-on: gh-actions-2cpu2gb-runner-set
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
