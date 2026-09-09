@@ -7,86 +7,24 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Industry Takeaways — Gorgias AI Agent Competitive Benchmark</title>
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/brand/tokens.css">
 <script>if(!matchMedia('(prefers-reduced-motion:reduce)').matches)document.documentElement.classList.add('anim');</script>
 <style>
-/* Feature Deck is the display serif — licensed, self-hosted, not on Google Fonts */
-@font-face{font-family:'Feature Deck';src:url('/brand/fonts/FeatureDeck-Regular-Web.woff2') format('woff2');font-weight:400;font-style:normal;font-display:block}
-@font-face{font-family:'Feature Deck';src:url('/brand/fonts/FeatureDeck-RegularItalic-Web.woff2') format('woff2');font-weight:400;font-style:italic;font-display:block}
+
 /* =========================================================================
-   GORGIAS BRAND — values verbatim from the brand html-templates base.
-   Warm canvas, ink type, Feature Deck titles, Geist body, Geist Mono labels.
-   Coral is punctuation; the pastels carry surfaces; stats are ink, never coral.
-   No gradients, no glass, no drop shadows — depth is hairline rules and
-   paper-versus-white contrast.
+   Brand Web System 2.0 overlay. Color/type tokens live in /brand/tokens.css.
+   Coral is punctuation; pastels are surfaces; stats stay ink. No gradients,
+   no glass, no drop shadows — depth is hairline rules and paper-versus-white.
    ========================================================================= */
 
 :root{
-  --gr-paper:#F6F4F2; --gr-cream:#EFE9E2; --gr-white:#FFFFFF;
-  --gr-ink:#1A1E23;   --gr-head:#1A1E23;  --gr-body:#3A3E43;
-  --gr-text:#5C6066;  --gr-mute:#7C8085;
-  --gr-border:#DDD9D4; --gr-faded:#EFE9E2; --gr-rule:#CAC7C2;
-  --gr-coral:#1A1E23; --gr-coral-mid:#F5D4FF; --gr-coral-soft:#FAE9FF;
-  --gr-rose:#FEB4B4;  --gr-peach:#F5D4FF;  --gr-blush:#FAF1FE;
-  --gr-sky:#CEDEFF;   --gr-sky-deep:#A9C4FA;
-  --gr-peri:#CEDEFF;  --gr-peri-deep:#A9C4FA;
-  --gr-orchid:#F5D4FF;--gr-orchid-deep:#E7B0F5;
-  --gr-amber:#F3E3B4; --gr-amber-deep:#E4CE87;
-  --gr-sage:#B2E6BE;  --gr-sage-deep:#8FD3A0;
-  --gr-dark-text:#F6F4F2; --gr-dark-mute:#B9B6B1; --gr-dark-line:#3A3E43;
-  /* semantic — meaning only, never decoration */
-  --gr-success:#289E43; --gr-success-bg:#DFF3E4;
-  --gr-warning:#CD721D; --gr-warning-bg:#FAEEDB;
-  --gr-error:#C54040;   --gr-error-bg:#FDE9E9;
-  /* text-safe semantic inks: the brand's #289E43 / #CD721D / #C54040 on their own
-     tint backgrounds land at 3.2 / 3.0 / 4.4 : 1, which fails AA at the 10-12px these
-     labels actually render at. Same hues, darkened to clear 4.5:1. */
-  --gr-success-ink:#1C7130; --gr-warning-ink:#9F5816; --gr-error-ink:#B53939;
-
-  /* ---- compatibility layer -------------------------------------------------
-     The markup carries Axiom-era class names. Rather than rename ~90 classes in
-     two files, the old semantic variables are re-pointed at brand values, so any
-     rule not rewritten below still resolves to the brand.
-     Note: --content-accent-default is INK, not coral. Coral at 13px on paper is
-     2.9:1 and fails WCAG AA; it is a mark colour, not a text colour. */
-  --content-neutral-default:var(--gr-head);
-  --content-neutral-secondary:var(--gr-body);
-  --content-neutral-tertiary:var(--gr-text);
-  --content-accent-default:var(--gr-head);
-  --content-success-default:var(--gr-success-ink);
-  --content-error-default:var(--gr-error-ink);
-  --content-warning-default:var(--gr-warning-ink);
-  --content-inverted-default:var(--gr-dark-text);
-  --surface-neutral-primary:var(--gr-cream);
-  --surface-neutral-secondary:var(--gr-faded);
-  --surface-accent-default:var(--gr-peach);
-  --surface-accent-primary:var(--gr-coral);
-  --surface-success-default:var(--gr-success-bg);
-  --surface-error-default:var(--gr-error-bg);
-  --surface-warning-default:var(--gr-warning-bg);
-  --surface-inverted-default:var(--gr-ink);
-  --border-neutral-default:var(--gr-border);
-  --border-neutral-tertiary:var(--gr-rule);
-  --border-accent-default:var(--gr-coral);
-  --elevation-neutral-bg:var(--gr-paper);
-  --elevation-neutral-default:var(--gr-white);
-  --line:var(--gr-border); --on-muted:var(--gr-body); --on-faint:var(--gr-text);
-  /* shadows retired — the brand builds depth from rules, not elevation */
-  --shadow-component:none; --shadow-container:none; --shadow-lift:none;
-  /* spacing (4/8) and radii */
-  --xxxxs:2px; --xxxs:4px; --xxs:6px; --xs:8px; --sm:12px; --md:16px;
-  --lg:24px; --xl:32px; --xxl:48px; --xxxl:64px;
-  --r-sm:8px; --r-md:12px; --r-lg:16px; --r-xl:20px;
-  /* z-index scale */
-  --z-sticky:60; --z-overlay:80; --z-tooltip:999;
+  /* colors, type, radii, and --gr-* remap: brand/tokens.css */
 }
 
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{
-  font-family:'Geist',-apple-system,BlinkMacSystemFont,sans-serif;
+  font-family:var(--font-sans);
   background:var(--gr-paper);
   color:var(--gr-head);
   -webkit-font-smoothing:antialiased;
@@ -96,29 +34,28 @@ body{
 }
 a{color:inherit;text-decoration:none}
 ::selection{background:var(--gr-peach);color:var(--gr-ink)}
-:focus-visible{outline:2px solid var(--gr-ink);outline-offset:2px;border-radius:var(--xxxs)}
+
 
 .tnum{font-variant-numeric:tabular-nums;font-feature-settings:"tnum" 1}
-.mono{font-family:'Geist Mono',ui-monospace,Menlo,monospace;font-size:.92em;color:var(--gr-text)}
+.mono{font-family:var(--font-mono);font-size:.92em;color:var(--gr-text)}
 
 /* the brand's display serif — always weight 400, never bold */
 .display,h1,h2.sec,.verdict-top .h,.wm-card h3{
-  font-family:'Feature Deck',Georgia,serif;font-weight:400;letter-spacing:0;
+  font-family:var(--font-display);font-weight:400;letter-spacing:0;
 }
 
 /* =========================================================================
    TOP NAV
    ========================================================================= */
-.nav-burger{display:none;margin-left:auto;background:none;border:1px solid var(--gr-border);border-radius:9px;font-size:17px;line-height:1;padding:6px 11px;cursor:pointer;color:var(--gr-body)}
+.nav-burger{display:none;margin-left:auto;background:none;border:1px solid var(--gr-border);border-radius:var(--radius-xs);font-size:17px;line-height:1;padding:6px 11px;cursor:pointer;color:var(--gr-body)}
 .sitenav{position:sticky;top:16px;z-index:var(--z-sticky);display:flex;align-items:center;gap:20px;
   width:max-content;max-width:calc(100% - 32px);margin:16px auto 0;padding:14px 28px;height:auto;
-  background:var(--gr-white);border-radius:20px;box-shadow:0 4px 8px -2px rgba(0,0,0,.1)}
-.sitenav.scrolled{box-shadow:0 6px 14px -4px rgba(0,0,0,.14)}
+  background:var(--gr-white);border:1px solid var(--gr-border);border-radius:20px}
 .sitenav .brand{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--gr-head);white-space:nowrap}
 .sitenav .brand .mark{height:19px;width:auto;display:block;flex:none}
-.sitenav .brand .sub{font-family:'Geist Mono',monospace;font-size:11px;font-weight:500;letter-spacing:0;text-transform:uppercase;color:var(--gr-text)}
+.sitenav .brand .sub{font-family:var(--font-mono);font-size:11px;font-weight:500;letter-spacing:var(--font-label-tracking);text-transform:uppercase;color:var(--gr-text)}
 .sitenav .links{display:flex;align-items:center;gap:2px;margin-left:auto;flex-wrap:wrap}
-.sitenav .links a{font-size:13px;font-weight:500;color:var(--gr-text);padding:7px 12px;border-radius:8px;transition:background .14s,color .14s;white-space:nowrap;cursor:pointer;background:none;border:none;font-family:inherit}
+.sitenav .links a{font-size:13px;font-weight:500;color:var(--gr-text);padding:7px 12px;border-radius:var(--radius-pill);transition:background .14s,color .14s;white-space:nowrap;cursor:pointer;background:none;border:none;font-family:inherit}
 .sitenav .links a:hover{background:var(--gr-cream);color:var(--gr-head)}
 .sitenav .links a.active{color:var(--gr-head);font-weight:600;background:var(--gr-peach)}
 @media(max-width:820px){.sitenav .brand .sub{display:none}.sitenav .links a{padding:6px 9px;font-size:12px}}
@@ -153,8 +90,8 @@ body::after{right:max(0px, calc(50% - 600px))}
 section{padding:var(--xxxl) 0}
 .kicker,.eyebrow{
   display:inline-flex;align-items:center;gap:var(--xs);
-  font-family:'Geist Mono',ui-monospace,Menlo,monospace;
-  font-size:13px;font-weight:400;letter-spacing:0;text-transform:uppercase;
+  font-family:var(--font-mono);
+  font-size:12px;font-weight:500;letter-spacing:var(--font-label-tracking);text-transform:uppercase;
   color:var(--gr-ink);background:var(--gr-cream);border:none;padding:6px 16px;border-radius:40px;
   margin-bottom:var(--md);flex-wrap:wrap;row-gap:2px;
 }
@@ -176,9 +113,9 @@ h2.sec{font-size:clamp(30px,3.4vw,52px);line-height:1.12;margin-bottom:var(--sm)
    `padding: y 0 y` here is declared after .wrap at equal specificity, so it was
    zeroing the container's 40px gutter and dropping the content onto the dashed rule. */
 .hero-inner{max-width:940px}
-.eyebrow{margin-bottom:var(--lg);background:var(--gr-peach)}   /* the lilac accent pill */
+.eyebrow{margin-bottom:var(--lg);background:var(--gr-peach)}
 .eyebrow .live{position:relative;width:8px;height:8px;display:grid;place-items:center;flex:none}
-.eyebrow .live::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--gr-ink)}
+.eyebrow .live::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--gr-coral)}
 .eyebrow b{color:var(--gr-body);font-weight:500}
 h1{
   font-size:clamp(38px,5vw,60px);line-height:1.1;
@@ -186,15 +123,15 @@ h1{
 }
 h1 .accent{color:var(--gr-mute)}
 .hero .sub{color:var(--gr-body);font-size:18px;max-width:62ch;margin:0 0 var(--xxl);line-height:1.55;text-wrap:pretty}
-.hero .sub a{color:var(--gr-ink);border-bottom:1px solid var(--gr-ink);font-weight:500}
-.hero .sub a:hover{background:var(--gr-blush)}
+.hero .sub a{color:var(--gr-ink);font-weight:500}
+.hero .sub a:hover{color:var(--color-neutral-500)}
 
 /* Stat band — the brand's full-height pastel columns. Ink serif numerals. */
 .statstrip{
   display:grid;grid-template-columns:repeat(4,1fr);gap:var(--md);
 }
 .statcell{
-  padding:var(--lg) var(--md);border-radius:10px;
+  padding:var(--lg) var(--md);border-radius:var(--radius-3xl);
   background:var(--gr-white);border:1px solid var(--gr-border);
   display:flex;flex-direction:column;gap:var(--xxs);
   min-height:150px;justify-content:center;align-items:center;text-align:center;
@@ -209,11 +146,11 @@ h1 .accent{color:var(--gr-mute)}
  letter-spacing. Display numerals are standalone, not a column, so they take
  proportional figures and kern properly. Table columns keep tnum for alignment. */
 .statcell .num,.statcell .num.tnum{
-  font-family:'Feature Deck',Georgia,serif;font-weight:400;
+  font-family:var(--font-display);font-weight:400;
   font-size:clamp(38px,4.6vw,58px);line-height:1;letter-spacing:0;color:var(--gr-ink);
   font-variant-numeric:proportional-nums;font-feature-settings:"tnum" 0;
 }
-.statcell .lbl{display:inline-flex;align-items:center;gap:7px;font-family:'Geist Mono',ui-monospace,monospace;font-size:11.5px;font-weight:400;text-transform:uppercase;color:var(--gr-text);line-height:1.4;white-space:nowrap}
+.statcell .lbl{display:inline-flex;align-items:center;gap:7px;font-family:var(--font-mono);font-size:11.5px;font-weight:400;text-transform:uppercase;color:var(--gr-text);line-height:1.4;white-space:nowrap}
 .statcell .lbl::before{content:"";width:7px;height:7px;border-radius:50%;flex:none}
 @media(max-width:640px){.statstrip{grid-template-columns:repeat(2,1fr)}.statcell{min-height:140px}
   /* nowrap keeps the label on one line at desktop widths; in a 2-up mobile grid it
@@ -235,7 +172,7 @@ h1 .accent{color:var(--gr-mute)}
 .verdict-top .h{font-size:23px;line-height:1.25;max-width:52ch;color:var(--gr-head)}
 .badge-rank{
   display:inline-flex;align-items:center;gap:var(--xs);flex:none;
-  font-family:'Geist Mono',monospace;font-size:11px;font-weight:500;letter-spacing:0;text-transform:uppercase;
+  font-family:var(--font-mono);font-size:11px;font-weight:500;letter-spacing:var(--font-label-tracking);text-transform:uppercase;
   color:var(--gr-body);background:var(--gr-peach);
   padding:var(--xxs) var(--sm);border-radius:999px;white-space:nowrap;
 }
@@ -244,15 +181,15 @@ h1 .accent{color:var(--gr-mute)}
 .vcell{padding:var(--lg);border-right:1px solid var(--gr-border);position:relative}
 .vcell:last-child{border-right:none}
 .vcell .kpi,.vcell .kpi.tnum{
-  font-family:'Feature Deck',Georgia,serif;font-weight:400;
+  font-family:var(--font-display);font-weight:400;
   font-size:clamp(34px,4vw,46px);line-height:1;letter-spacing:0;
   color:var(--gr-ink);display:flex;align-items:baseline;gap:var(--xxs);
   font-variant-numeric:proportional-nums;font-feature-settings:"tnum" 0;
 }
 .vcell.good .kpi,.vcell.mid .kpi,.vcell.warn .kpi{color:var(--gr-ink)}
 .vcell .tag{
-  display:inline-block;font-family:'Geist Mono',monospace;
-  font-size:11px;font-weight:500;letter-spacing:0;text-transform:uppercase;
+  display:inline-block;font-family:var(--font-mono);
+  font-size:11px;font-weight:500;letter-spacing:var(--font-label-tracking);text-transform:uppercase;
   padding:3px var(--xs);border-radius:var(--xxs);margin:var(--sm) 0 var(--xs);
 }
 .vcell.good .tag{background:var(--gr-success-bg);color:var(--gr-success-ink)}
@@ -282,12 +219,12 @@ h1 .accent{color:var(--gr-mute)}
 /* macOS hides overlay scrollbars until you scroll, so a clipped latency column read as
    the end of the table. Give the scroller a permanent bar, and say so in words at the
    widths where it actually clips. */
-.table-hint{display:none;font-family:'Geist Mono',ui-monospace,monospace;font-size:11px;font-weight:500;letter-spacing:0;text-transform:uppercase;color:var(--gr-text);margin-top:var(--sm)}
+.table-hint{display:none;font-family:var(--font-mono);font-size:11px;font-weight:500;letter-spacing:var(--font-label-tracking);text-transform:uppercase;color:var(--gr-text);margin-top:var(--sm)}
 @media(max-width:1179px){.table-hint{display:block}}
 table{width:100%;border-collapse:collapse;font-size:13px}
 thead th{
-  font-family:'Geist Mono',monospace;
-  font-size:11.5px;font-weight:500;letter-spacing:0;text-transform:uppercase;
+  font-family:var(--font-mono);
+  font-size:11.5px;font-weight:500;letter-spacing:var(--font-label-tracking);text-transform:uppercase;
   color:var(--gr-text);text-align:left;
   padding:var(--sm) var(--md);background:var(--gr-cream);
   border-bottom:1px solid var(--gr-border);white-space:nowrap;position:sticky;top:0;
@@ -304,10 +241,10 @@ td.n{text-align:right}
 .rankbadge{
   display:inline-grid;place-items:center;min-width:24px;height:22px;padding:0 var(--xxs);
   border-radius:var(--xxs);background:var(--gr-cream);
-  color:var(--gr-body);font-weight:500;font-size:12px;font-family:'Geist Mono',monospace;
+  color:var(--gr-body);font-weight:500;font-size:12px;font-family:var(--font-mono);
 }
 .comp{font-weight:600;color:var(--gr-head)}
-.rk{font-size:11px;font-weight:500;color:var(--gr-text);margin-left:var(--xxs);font-family:'Geist Mono',monospace}
+.rk{font-size:11px;font-weight:500;color:var(--gr-text);margin-left:var(--xxs);font-family:var(--font-mono)}
 .ci{font-size:11px;font-weight:400;color:var(--gr-text);margin-left:var(--xxs);white-space:nowrap;cursor:help}
 .us-tag{display:none}
 .p75{font-size:11px;color:var(--gr-text);margin-top:2px}
@@ -326,7 +263,7 @@ td.n{text-align:right}
 
 /* window control */
 .winbar{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin:var(--lg) 0 var(--sm)}
-.winbar-l{font-family:'Geist Mono',monospace;font-size:11px;font-weight:500;letter-spacing:0;text-transform:uppercase;color:var(--gr-text);margin-right:2px}
+.winbar-l{font-family:var(--font-mono);font-size:11px;font-weight:500;letter-spacing:var(--font-label-tracking);text-transform:uppercase;color:var(--gr-text);margin-right:2px}
 .winbtn{font-size:12.5px;font-weight:500;padding:6px 12px;border-radius:999px;border:1px solid var(--gr-border);background:var(--gr-white);color:var(--gr-body);cursor:pointer;font-family:inherit;transition:border-color .14s,background .14s}
 .winbtn:hover{border-color:var(--gr-rule)}
 .winbtn[aria-selected="true"]{border-color:var(--gr-ink);color:var(--gr-ink);background:var(--gr-peach);font-weight:500}
@@ -342,7 +279,7 @@ td.n{text-align:right}
 .lane-head .icon{display:grid;place-items:center;flex:none;color:var(--gr-ink)}  /* no icon tile: a 32px rounded square behind a glyph above a heading is the
      generic dashboard reflex, and the brand keeps decorative marks off data pages.
      The glyph still does the wayfinding; coral carries it. */
-.lane-head h3{font-family:'Feature Deck',Georgia,serif;font-weight:400;font-size:24px;letter-spacing:0;color:var(--gr-head)}
+.lane-head h3{font-family:var(--font-display);font-weight:400;font-size:24px;letter-spacing:0;color:var(--gr-head)}
 .lane-head .meta{flex:0 0 100%;font-size:13px;color:var(--gr-text);font-weight:400;line-height:1.5}  /* sentence case, not mono caps: these run to 90+ characters, and long uppercase
      tracked text is a reading tax the brand's terse label style never anticipated. */
 .wl-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--md)}
@@ -368,7 +305,7 @@ td.n{text-align:right}
 .prof-head{display:flex;align-items:center;gap:var(--xs)}
 .prof-head .vname{font-size:15px;font-weight:600;display:flex;align-items:center}
 .prof-head .tail{margin-left:auto}
-.tag-soft{font-family:'Geist Mono',monospace;font-size:11px;font-weight:500;letter-spacing:0;text-transform:uppercase;padding:3px var(--xs);border-radius:var(--xxs);background:var(--gr-faded);color:var(--gr-text)}
+.tag-soft{font-family:var(--font-mono);font-size:11px;font-weight:500;letter-spacing:var(--font-label-tracking);text-transform:uppercase;padding:3px var(--xs);border-radius:var(--xxs);background:var(--gr-faded);color:var(--gr-text)}
 .tag-new{background:var(--gr-peach);color:var(--gr-body)}
 .prof-metrics{font-size:12.5px;color:var(--gr-text);font-weight:500;padding-bottom:var(--xs);border-bottom:1px solid var(--gr-faded);margin-bottom:var(--xxs)}
 .prof-metrics b{color:var(--gr-head);font-weight:600}
@@ -385,7 +322,7 @@ td.n{text-align:right}
 .prank-inline{
   display:inline-grid;place-items:center;min-width:22px;height:20px;padding:0 var(--xxs);
   border-radius:var(--xxs);background:var(--gr-ink);color:var(--gr-dark-text);
-  font-family:'Geist Mono',monospace;font-weight:500;font-size:11px;margin-right:var(--xs);flex:none;
+  font-family:var(--font-mono);font-weight:500;font-size:11px;margin-right:var(--xs);flex:none;
 }
 
 /* =========================================================================
@@ -399,10 +336,10 @@ td.n{text-align:right}
 .learn-row{display:flex;gap:var(--lg);padding:var(--lg) 0;border-bottom:1px solid var(--gr-dark-line);background:none;border-radius:0}
 .learn-num{
   flex:none;width:auto;height:auto;border-radius:0;background:none;
-  font-family:'Geist Mono',monospace;font-weight:500;font-size:12px;letter-spacing:0;
+  font-family:var(--font-mono);font-weight:500;font-size:12px;letter-spacing:0;
   color:var(--gr-dark-mute);padding-top:4px;min-width:32px;   /* on the ink field: --gr-mute was 4.2:1 */
 }
-.learn-body .t{font-family:'Feature Deck',Georgia,serif;font-weight:400;font-size:20px;line-height:1.25;letter-spacing:0;margin-bottom:var(--xxs);color:var(--gr-dark-text)}
+.learn-body .t{font-family:var(--font-display);font-weight:400;font-size:20px;line-height:1.25;letter-spacing:0;margin-bottom:var(--xxs);color:var(--gr-dark-text)}
 .learn-body .why{font-size:14px;color:var(--gr-dark-mute);line-height:1.6;max-width:76ch}
 #learnings .method{background:transparent;border-color:var(--gr-dark-line)}
 #learnings .method .col h3{color:var(--gr-dark-mute)}
@@ -419,13 +356,13 @@ td.n{text-align:right}
   border-radius:var(--r-lg);padding:var(--lg);margin-top:var(--lg);
   display:grid;grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr));gap:var(--lg);
 }
-.method .col h3{font-family:'Geist Mono',monospace;font-size:11px;font-weight:500;letter-spacing:0;text-transform:uppercase;color:var(--gr-text);margin-bottom:var(--xs)}
+.method .col h3{font-family:var(--font-mono);font-size:11px;font-weight:500;letter-spacing:var(--font-label-tracking);text-transform:uppercase;color:var(--gr-text);margin-bottom:var(--xs)}
 .method .col p{font-size:13px;color:var(--gr-body);line-height:1.6}
 .method .col b{color:var(--gr-head);font-weight:600}
 .footer{padding:var(--xl) var(--lg) var(--xxl);text-align:center;border-top:1px solid var(--gr-border);margin-top:var(--xxl)}
-.footer .fbrand{font-family:'Feature Deck',Georgia,serif;font-weight:400;font-size:18px;margin-bottom:var(--xs);color:var(--gr-head)}
+.footer .fbrand{font-family:var(--font-display);font-weight:400;font-size:18px;margin-bottom:var(--xs);color:var(--gr-head)}
 .footer .flinks{font-size:13px;color:var(--gr-body);display:flex;gap:var(--sm);justify-content:center;flex-wrap:wrap;margin-bottom:var(--xs)}
-.footer .flinks a{color:var(--gr-ink);border-bottom:1px solid var(--gr-ink)}
+.footer .flinks a{color:var(--gr-ink)}.footer .flinks a:hover{color:var(--color-neutral-500)}
 .footer .fmeta{font-size:12px;color:var(--gr-text)}
 
 /* =========================================================================
@@ -473,12 +410,12 @@ html.anim .hero .rv-stagger.in>*:nth-child(4){transition-delay:.23s}
 .lab-badge{
   position:fixed;right:var(--lg);bottom:var(--lg);z-index:var(--z-overlay);
   display:inline-flex;align-items:center;gap:var(--xs);
-  font-family:'Geist Mono',monospace;font-size:11px;font-weight:500;letter-spacing:0;text-transform:uppercase;
+  font-family:var(--font-mono);font-size:11px;font-weight:500;letter-spacing:var(--font-label-tracking);text-transform:uppercase;
   color:var(--gr-dark-text);background:var(--gr-ink);
   padding:var(--xs) var(--sm);border-radius:999px;transition:transform .18s ease;
 }
 .lab-badge:hover{transform:translateY(-2px)}
-.lab-badge .d{width:7px;height:7px;border-radius:50%;background:var(--gr-peach)}
+.lab-badge .d{width:7px;height:7px;border-radius:50%;background:var(--gr-coral)}
 
 /* Touch targets. Keyed to pointer type rather than width, so a narrow desktop window
    keeps the compact controls and only real touch input gets the 44px minimum. */
@@ -515,9 +452,9 @@ html.anim .hero .rv-stagger.in>*:nth-child(4){transition-delay:.23s}
 .wm-actions{display:flex;gap:9px;justify-content:flex-end;margin-top:18px}
 .wm-ghost,.wm-go{font-size:13.5px;font-weight:500;padding:9px 15px;border-radius:10px;cursor:pointer;border:1px solid var(--gr-border);font-family:inherit}
 .wm-ghost{background:var(--gr-white);color:var(--gr-body)}
-.wm-ghost:hover{background:var(--gr-cream)}
-.wm-go{background:var(--gr-ink);border-color:var(--gr-ink);color:var(--gr-dark-text)}
-.wm-go:hover{background:var(--gr-body)}
+.wm-ghost:hover{background:var(--color-secondary-hover)}
+.wm-go{background:var(--color-primary);border-color:var(--color-primary);color:var(--color-primary-foreground)}
+.wm-go:hover{background:var(--color-primary-hover)}
 .wm-foot{margin-top:14px;padding-top:12px;border-top:1px solid var(--gr-border);font-size:11.5px;color:var(--gr-text)}
 </style>
 </head>

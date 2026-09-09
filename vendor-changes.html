@@ -7,65 +7,54 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Vendor changes — Gorgias AI Agent Benchmark</title>
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/brand/tokens.css">
 <style>
-  /* Feature Deck is the display serif — licensed, self-hosted, not on Google Fonts */
-  @font-face{font-family:'Feature Deck';src:url('/brand/fonts/FeatureDeck-Regular-Web.woff2') format('woff2');font-weight:400;font-style:normal;font-display:block}
-  @font-face{font-family:'Feature Deck';src:url('/brand/fonts/FeatureDeck-RegularItalic-Web.woff2') format('woff2');font-weight:400;font-style:italic;font-display:block}
-  /* Ecom Lab system — same tokens as takeaways.html / report.html */
-  :root{
-    --gr-canvas:#F6F4F2; --gr-surface:#FFFFFF; --gr-tint:#EFE9E2;
-    --gr-ink:#1A1E23;    --gr-body:#3A3E43;   --gr-muted:#5C6066;
-    --gr-rule:#CAC7C2;   --gr-border:#DDD9D4;
-    --gr-lilac:#F5D4FF;
-    --gr-success-ink:#1C7130; --gr-success-bg:#DFF3E4;
-    --gr-error-ink:#B53939;   --gr-error-bg:#FDE9E9;
-    --r:10px;
-  }
   *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:'Geist',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--gr-canvas);
-    color:var(--gr-ink);-webkit-font-smoothing:antialiased;min-height:100vh;position:relative}
-  /* the continuous dashed gutter, identical to the benchmark pages */
+  body{font-family:var(--font-sans);background:var(--color-background);
+    color:var(--color-foreground);-webkit-font-smoothing:antialiased;min-height:100vh;position:relative}
   body::before,body::after{content:"";position:absolute;top:0;bottom:0;width:0;z-index:0;pointer-events:none;
-    border-left:1px dashed var(--gr-rule)}
+    border-left:1px dashed var(--color-border-bold)}
   body::before{left:max(0px, calc(50% - 600px))}
   body::after{right:max(0px, calc(50% - 600px))}
   @media(max-width:720px){body::before,body::after{display:none}}
-  .mono{font-family:'Geist Mono',ui-monospace,Menlo,monospace;font-variant-numeric:tabular-nums}
-  .wrap{max-width:1200px;margin:0 auto;padding:56px 40px 24px;position:relative;z-index:1}
-  @media(max-width:720px){.wrap{padding:40px 20px 20px}}
-  .back{display:inline-block;font-family:'Geist Mono',ui-monospace,monospace;font-size:13px;
-    text-transform:uppercase;color:var(--gr-ink);text-decoration:none;
-    background:var(--gr-tint);padding:6px 16px;border-radius:40px}
-  .back:hover{background:var(--gr-lilac)}
-  h1{font-family:'Feature Deck',Georgia,serif;font-size:clamp(32px,3.4vw,52px);font-weight:400;
+  .mono{font-family:var(--font-mono);font-variant-numeric:tabular-nums}
+  .wrap{max-width:1200px;width:100%;margin:0 auto;padding:56px 40px 24px;position:relative;z-index:1;overflow-x:auto}
+  @media(max-width:720px){
+    .wrap{padding:40px 20px 20px;overflow-x:auto}
+    th,td{padding:12px 10px}
+    table{width:100%}
+  }
+  .back{display:inline-block;font-family:var(--font-mono);font-size:12px;font-weight:500;
+    letter-spacing:var(--font-label-tracking);text-transform:uppercase;color:var(--color-foreground);text-decoration:none;
+    background:var(--color-card);border:1px solid var(--color-border);padding:10px 16px;border-radius:var(--radius-pill);min-height:40px}
+  .back:hover{background:var(--color-secondary-hover)}
+  h1{font-family:var(--font-display);font-size:clamp(32px,3.4vw,52px);font-weight:400;
     letter-spacing:0;line-height:1.14;margin:22px 0 12px}
-  p.sub{color:var(--gr-body);font-size:16px;line-height:1.6;margin-bottom:32px}
-  table{width:100%;border-collapse:collapse;background:var(--gr-surface);border:1px solid var(--gr-border);
-    border-radius:var(--r);overflow:hidden}
-  th{text-align:left;font-family:'Geist Mono',ui-monospace,monospace;font-size:11.5px;font-weight:400;
-    text-transform:uppercase;color:var(--gr-muted);padding:13px 16px;border-bottom:1px solid var(--gr-border);
-    background:var(--gr-tint)}
-  td{padding:13px 16px;font-size:14px;border-bottom:1px solid var(--gr-border);vertical-align:middle}
+  p.sub{color:var(--color-foreground-secondary);font-size:16px;line-height:1.6;margin-bottom:32px}
+  table{width:100%;border-collapse:collapse;background:var(--color-card);border:1px solid var(--color-border);
+    border-radius:var(--radius-3xl);overflow:hidden}
+  th{text-align:left;font-family:var(--font-mono);font-size:12px;font-weight:500;
+    letter-spacing:var(--font-label-tracking);text-transform:uppercase;color:var(--color-muted-foreground);padding:13px 16px;border-bottom:1px solid var(--color-border);
+    background:var(--color-surface-sunken)}
+  td{padding:13px 16px;font-size:14px;border-bottom:1px solid var(--color-border);vertical-align:middle}
   tr:last-child td{border-bottom:none}
-  tr:hover td{background:var(--gr-canvas)}
-  .pill{display:inline-block;padding:4px 12px;border-radius:40px;font-size:12.5px;font-weight:500}
+  tr:hover td{background:var(--color-background)}
+  .pill{display:inline-block;padding:4px 12px;border-radius:var(--radius-pill);font-size:12.5px;font-weight:500}
   .pill.from{background:var(--gr-error-bg);color:var(--gr-error-ink)}
   .pill.to{background:var(--gr-success-bg);color:var(--gr-success-ink)}
-  .empty{padding:40px 16px;text-align:center;color:var(--gr-muted);font-size:14px}
+  .empty{padding:40px 16px;text-align:center;color:var(--color-muted-foreground);font-size:14px}
   .moves{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(220px,100%),1fr));gap:14px;margin-bottom:36px}
-  .move-card{background:var(--gr-surface);border:1px solid var(--gr-border);border-radius:var(--r);padding:18px 20px}
-  .move-n{font-family:'Feature Deck',Georgia,serif;font-size:38px;font-weight:400;letter-spacing:0;line-height:1;
+  .move-card{background:var(--color-card);border:1px solid var(--color-border);border-radius:var(--radius-3xl);padding:18px 20px}
+  .move-n{font-family:var(--font-display);font-size:38px;font-weight:400;letter-spacing:0;line-height:1;
     font-variant-numeric:proportional-nums;font-feature-settings:"tnum" 0}
-  .move-label{font-family:'Geist Mono',ui-monospace,monospace;font-size:11.5px;font-weight:400;
-    text-transform:uppercase;color:var(--gr-muted);margin:6px 0 12px}
+  .move-label{font-family:var(--font-mono);font-size:12px;font-weight:500;
+    letter-spacing:var(--font-label-tracking);text-transform:uppercase;color:var(--color-muted-foreground);margin:6px 0 12px}
   .move-arrow{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-  .move-arrow .arrow{color:var(--gr-muted)}
-  .sitefoot{margin-top:64px;padding:34px 26px 46px;border-top:1px dashed var(--gr-rule);text-align:center;
-    font-size:13px;color:var(--gr-body);position:relative;z-index:1}
-  .sitefoot a{color:var(--gr-ink);font-weight:500;text-decoration:none;margin:0 10px;border-bottom:1px solid var(--gr-ink)}
+  .move-arrow .arrow{color:var(--color-muted-foreground)}
+  .sitefoot{margin-top:64px;padding:34px 26px 46px;border-top:1px dashed var(--color-border-bold);text-align:center;
+    font-size:13px;color:var(--color-foreground-secondary);position:relative;z-index:1}
+  .sitefoot a{color:var(--color-foreground);font-weight:500;text-decoration:none;margin:0 10px}
+  .sitefoot a:hover{color:var(--color-neutral-500)}
 </style>
 </head>
 <body>
@@ -229,7 +218,7 @@
   </table>
 </div>
 <footer class="sitefoot">
-  <div style="font-family:'Geist Mono',ui-monospace,monospace;font-size:12px;text-transform:uppercase;color:#5C6066;margin-bottom:10px">Gorgias · AI Agent Benchmark</div>
+  <div style="font-family:var(--font-mono);font-size:12px;font-weight:500;letter-spacing:var(--font-label-tracking);text-transform:uppercase;color:var(--color-muted-foreground);margin-bottom:10px">Gorgias · AI Agent Benchmark</div>
   <a href="takeaways.html">Summary</a> · <a href="report.html">Best AI Agent</a>
 </footer>
 </body>

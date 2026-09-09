@@ -1,0 +1,186 @@
+/*
+ * Brand Web System 2.0 — CSS source of truth for the public board UI.
+ *
+ * Copied from gorgias-website-components src/tokens/brand.css
+ * (Figma "Brand Web System 2.0", file ET1hAjupVTbKbM2Pg1P8k3).
+ * Hex values are canonical; do not invent replacements.
+ *
+ * Coral is punctuation / marks only — never 13px body text (fails AA).
+ * Stats and rankings stay ink. White is for cards; the page canvas is warm.
+ */
+
+@font-face{
+  font-family:'Feature Deck';
+  src:url('/brand/fonts/FeatureDeck-Regular-Web.woff2') format('woff2');
+  font-weight:400;font-style:normal;font-display:block;
+}
+@font-face{
+  font-family:'Feature Deck';
+  src:url('/brand/fonts/FeatureDeck-RegularItalic-Web.woff2') format('woff2');
+  font-weight:400;font-style:italic;font-display:block;
+}
+@font-face{
+  font-family:'Inter Variable';
+  src:url('/brand/fonts/InterVariable.woff2') format('woff2');
+  font-weight:100 900;font-style:normal;font-display:swap;
+}
+@font-face{
+  font-family:'Red Hat Mono';
+  src:url('/brand/fonts/RedHatMono-Variable.woff2') format('woff2');
+  font-weight:300 700;font-style:normal;font-display:swap;
+}
+
+:root{
+  /* ── Canonical 2.0 tokens ─────────────────────────────────────────── */
+  --color-coral-25:#FEF4F3;
+  --color-coral-50:#FFEAE6;
+  --color-coral-100:#FFD2C9;
+  --color-coral-300:#FF9780;
+  --color-coral-400:#FF8266;
+  --color-coral-500:#FB6B4B;
+
+  --color-neutral-0:#FFFFFF;
+  --color-neutral-10:#FCFAF8;
+  --color-neutral-20:#F8F5F1;
+  --color-neutral-50:#F0EBE5;
+  --color-neutral-100:#E8E2DC;
+  --color-neutral-200:#DFD9D3;
+  --color-neutral-300:#C0BBB5;
+  --color-neutral-400:#8E8985;
+  --color-neutral-500:#74706C;
+  --color-neutral-600:#5F5C59;
+  --color-neutral-700:#474543;
+  --color-neutral-800:#363433;
+  --color-neutral-900:#252423;
+  --color-neutral-950:#1B1A19;
+
+  --color-blue-100:#D1E9FC;
+  --color-blue-200:#AED6F5;
+  --color-purple-100:#C7CCFD;
+  --color-purple-200:#9FA7F8;
+  --color-pink-100:#F7D1FB;
+  --color-pink-200:#EFB1F6;
+  --color-yellow-100:#FFD896;
+  --color-yellow-200:#F8C97B;
+  --color-green-100:#C7EBC2;
+  --color-green-200:#A9DCA2;
+
+  --color-background:#FCFAF8;
+  --color-foreground:#1B1A19;
+  --color-foreground-secondary:#474543;
+  --color-foreground-inverted:#FCFAF8;
+  --color-muted-foreground:#5F5C59;
+  --color-border:#E8E2DC;
+  --color-border-faint:#F8F5F1;
+  --color-border-soft:#F0EBE5;
+  --color-border-bold:#DFD9D3;
+  --color-border-loud:#1B1A19;
+  --color-surface:#FCFAF8;
+  --color-surface-raised:#F8F5F1;
+  --color-surface-sunken:#F0EBE5;
+  --color-card:#FFFFFF;
+  --color-card-foreground:#1B1A19;
+  --color-primary:#1B1A19;
+  --color-primary-hover:#74706C;
+  --color-primary-foreground:#FCFAF8;
+  --color-secondary:#FFFFFF;
+  --color-secondary-hover:#F0EBE5;
+  --color-tertiary-hover:#F8F5F1;
+  --color-accent:#FF9780;
+  --color-accent-mark:#FB6B4B;
+  --color-ring:#1981D1;
+
+  --font-sans:'Inter Variable','Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
+  --font-display:'Feature Deck',Georgia,serif;
+  --font-mono:'Red Hat Mono',ui-monospace,Menlo,monospace;
+  --font-label-tracking:.72px;
+
+  --radius-xs:4px;
+  --radius-md:8px;
+  --radius-lg:10px;
+  --radius-xl:12px;
+  --radius-3xl:20px;
+  --radius-pill:9999px;
+
+  /* ── Compatibility: existing --gr-* / Axiom-era names ─────────────── */
+  --gr-paper:var(--color-background);
+  --gr-cream:var(--color-surface-sunken);
+  --gr-white:var(--color-card);
+  --gr-ink:var(--color-foreground);
+  --gr-head:var(--color-foreground);
+  --gr-body:var(--color-foreground-secondary);
+  --gr-text:var(--color-muted-foreground);
+  --gr-mute:var(--color-neutral-400);
+  --gr-border:var(--color-border);
+  --gr-faded:var(--color-surface-sunken);
+  --gr-rule:var(--color-border-bold);
+  --gr-coral:var(--color-accent-mark);
+  --gr-coral-mid:var(--color-coral-300);
+  --gr-coral-soft:var(--color-coral-50);
+  --gr-rose:var(--color-coral-300);
+  --gr-peach:var(--color-pink-100);
+  --gr-blush:var(--color-pink-100);
+  --gr-sky:var(--color-blue-100);
+  --gr-sky-deep:var(--color-blue-200);
+  --gr-peri:var(--color-blue-100);
+  --gr-peri-deep:var(--color-blue-200);
+  --gr-orchid:var(--color-purple-100);
+  --gr-orchid-deep:var(--color-purple-200);
+  --gr-amber:var(--color-yellow-100);
+  --gr-amber-deep:var(--color-yellow-200);
+  --gr-sage:var(--color-green-100);
+  --gr-sage-deep:var(--color-green-200);
+  --gr-dark-text:var(--color-foreground-inverted);
+  --gr-dark-mute:var(--color-neutral-400);
+  --gr-dark-line:var(--color-neutral-700);
+
+  --gr-success:#289E43;
+  --gr-success-bg:var(--color-green-100);
+  --gr-warning:#CD721D;
+  --gr-warning-bg:var(--color-yellow-100);
+  --gr-error:#C54040;
+  --gr-error-bg:var(--color-coral-50);
+  --gr-success-ink:#1C7130;
+  --gr-warning-ink:#9F5816;
+  --gr-error-ink:#B53939;
+
+  --content-neutral-default:var(--gr-head);
+  --content-neutral-secondary:var(--gr-body);
+  --content-neutral-tertiary:var(--gr-text);
+  --content-accent-default:var(--gr-head);
+  --content-success-default:var(--gr-success-ink);
+  --content-error-default:var(--gr-error-ink);
+  --content-warning-default:var(--gr-warning-ink);
+  --content-inverted-default:var(--gr-dark-text);
+  --surface-neutral-primary:var(--gr-cream);
+  --surface-neutral-secondary:var(--gr-faded);
+  --surface-accent-default:var(--gr-peach);
+  --surface-accent-primary:var(--color-primary);
+  --surface-success-default:var(--gr-success-bg);
+  --surface-error-default:var(--gr-error-bg);
+  --surface-warning-default:var(--gr-warning-bg);
+  --surface-inverted-default:var(--gr-ink);
+  --border-neutral-default:var(--gr-border);
+  --border-neutral-tertiary:var(--gr-rule);
+  --border-accent-default:var(--color-primary);
+  --elevation-neutral-bg:var(--gr-paper);
+  --elevation-neutral-default:var(--gr-white);
+  --line:var(--gr-border);
+  --on-muted:var(--gr-body);
+  --on-faint:var(--gr-text);
+  --shadow-component:none;
+  --shadow-container:none;
+  --shadow-lift:none;
+
+  --xxxxs:2px; --xxxs:4px; --xxs:6px; --xs:8px; --sm:12px; --md:16px;
+  --lg:24px; --xl:32px; --xxl:48px; --xxxl:64px;
+  --r-sm:8px; --r-md:12px; --r-lg:20px; --r-xl:20px;
+  --z-sticky:60; --z-overlay:80; --z-tooltip:999;
+}
+
+:focus-visible{
+  outline:2px solid var(--color-ring);
+  outline-offset:2px;
+  border-radius:var(--radius-xs);
+}
+::selection{background:var(--color-pink-100);color:var(--color-foreground)}
