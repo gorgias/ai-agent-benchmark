@@ -1495,6 +1495,23 @@ export const STORES = [
   { key: "repai-puursmile", vendor: "Rep AI", store: "Puur Smile", url: "https://puursmile.com/", widget: "repai", candidate: true },
   { key: "repai-heavys", vendor: "Rep AI", store: "Heavys", url: "https://www.heavys.com/", widget: "repai", candidate: true },
   { key: "repai-vallon", vendor: "Rep AI", store: "Vallon", url: "https://www.vallon.com/", widget: "repai", candidate: true },
+  // Sourced 2026-09-10 from Cortex (StoreLeads detects Rep AI on ~970 storefronts) and verified drivable
+  // headless: the composer mounts after the interaction nudge + rep.open(). No message sent while verifying.
+  { key: "repai-xmondohair", vendor: "Rep AI", store: "XMONDO Hair", url: "https://xmondohair.com/", widget: "repai", candidate: true },
+  { key: "repai-bedthreads", vendor: "Rep AI", store: "Bed Threads", url: "https://bedthreads.com/", widget: "repai", candidate: true },
+  { key: "repai-meatnbone", vendor: "Rep AI", store: "Meat N' Bone", url: "https://meatnbone.com/", widget: "repai", candidate: true },
+  { key: "repai-cross", vendor: "Rep AI", store: "A.T. Cross", url: "https://cross.com/", widget: "repai", candidate: true },
+  { key: "repai-smartypants", vendor: "Rep AI", store: "SmartyPants Vitamins", url: "https://smartypantsvitamins.com/", widget: "repai", candidate: true },
+  { key: "repai-makesy", vendor: "Rep AI", store: "makesy", url: "https://makesy.com/", widget: "repai", candidate: true },
+  { key: "repai-chalet", vendor: "Rep AI", store: "Chalet Nursery", url: "https://chaletnursery.com/", widget: "repai", candidate: true },
+  { key: "repai-myfairmahjong", vendor: "Rep AI", store: "My Fair Mahjong", url: "https://myfairmahjong.com/", widget: "repai", candidate: true },
+  { key: "repai-phenomelite", vendor: "Rep AI", store: "Phenom Elite Brand", url: "https://phenomelitebrand.com/", widget: "repai", candidate: true },
+  { key: "repai-backontrack", vendor: "Rep AI", store: "Back on Track USA", url: "https://backontrackusa.com/", widget: "repai", candidate: true },
+  { key: "repai-magnoliapearl", vendor: "Rep AI", store: "Magnolia Pearl", url: "https://magnoliapearl.com/", widget: "repai", candidate: true },
+  { key: "repai-theradome", vendor: "Rep AI", store: "Theradome", url: "https://theradome.com/", widget: "repai", candidate: true },
+  { key: "repai-moddedzone", vendor: "Rep AI", store: "ModdedZone", url: "https://moddedzone.com/", widget: "repai", candidate: true },
+  { key: "repai-peterthomasroth", vendor: "Rep AI", store: "Peter Thomas Roth", url: "https://www.peterthomasroth.com/", widget: "repai", candidate: true },
+  { key: "repai-beastgrip", vendor: "Rep AI", store: "Beastgrip", url: "https://beastgrip.com/", widget: "repai", candidate: true },
 
   // Decagon — enterprise AI support agent (added 2026-07-04). All 6 signature-verified live
   // (decagon.ai/loaders/<client>.js embed or #decagon-iframe / CSP allowlist in page source).
