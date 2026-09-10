@@ -143,8 +143,9 @@ h2.sec{
   letter-spacing:0;
   color:var(--color-foreground);
   margin:0;
-  max-width:none;
+  max-width:40rem;
   text-transform:none;
+  text-wrap:pretty;
 }
 @media (min-width:768px){
   h1{
@@ -181,7 +182,7 @@ h2.sec{
 .hero .sub,
 .gr-section-header .sub,
 .lead{
-  max-width:36rem;
+  max-width:40rem;
   font-size:16px;
   line-height:1.5;
   color:var(--color-foreground);
@@ -486,11 +487,17 @@ a.back:hover{
   margin:0 auto;
   max-width:18ch;
 }
-.gr-section-header > h1,
 .gr-section-header > h2.sec,
-h2.sec{
+.gr-section-header > .lead,
+.gr-section-header > .sec-lead{
   margin:0;
-  max-width:none;
+  max-width:40rem;
+}
+.gr-section-header.stack-center > h2.sec,
+.gr-section-header.stack-center > .lead,
+.gr-section-header.stack-center > .sec-lead{
+  margin-left:auto;
+  margin-right:auto;
 }
 .hero .sub{
   margin-left:auto;
@@ -797,7 +804,7 @@ h2.sec::before{content:none !important}
 .trend-podium .lead{
   margin:0 0 20px;
   text-align:left;
-  max-width:none;
+  max-width:40rem;
 }
 .trend-podium .trend-leaders{
   width:100%;
@@ -817,6 +824,7 @@ h2.sec::before{content:none !important}
   text-align:left;
   margin-left:0;
   margin-right:0;
+  max-width:40rem;
 }
 #results-sec .toggle-tabs{
   justify-content:flex-start;
@@ -929,6 +937,19 @@ h2.sec::before{content:none !important}
 #h2h-intro h2.sec{text-align:left;margin:0}
 .winbar-panel .datebar{margin:0}
 #best-sec.section-y{padding-top:1.25rem}
+#conv-sec.section-y{
+  padding-top:1.25rem;
+  gap:1.25rem;
+}
+#conv-sec .gr-section-header{
+  align-items:flex-start;
+  text-align:left;
+}
+#conv-sec h2.sec{
+  margin-left:0;
+  margin-right:auto;
+  text-align:left;
+}
 
 .lat-cards{gap:24px}
 .lat-card{
@@ -966,6 +987,12 @@ h2.sec::before{content:none !important}
   text-transform:uppercase;
   padding:4px 14px;
   border-radius:var(--radius-xs);
+  white-space:nowrap;
+}
+.pill[data-tip]::after,
+#coverage-sec .pill[data-tip]::after{
+  content:none !important;
+  display:none;
 }
 .p-ok{background:var(--color-green-100);color:var(--gr-success-ink)}
 .p-mid{background:var(--color-yellow-100);color:var(--gr-warning-ink)}
@@ -984,6 +1011,154 @@ h2.sec::before{content:none !important}
 .cf-ticketbar{
   background:var(--color-coral-50);
   border-color:var(--color-coral-100);
+}
+
+/* Ranking cards: one rank column so #1 lines up with #2/#3, not a wide medal. */
+#best-sec .best-card{padding:16px 18px}
+#best-sec .best-cat{margin-bottom:10px}
+#best-sec .best-winner{
+  display:grid;
+  grid-template-columns:4.5rem minmax(0,1fr) auto;
+  align-items:start;
+  gap:6px 12px;
+  padding:14px 12px;
+  background:var(--color-card);
+  border:1px solid var(--color-border);
+}
+#best-sec .best-medal{
+  justify-self:start;
+  align-self:start;
+  margin-top:2px;
+  width:4.5rem;
+  padding:0;
+  background:transparent;
+  border:none;
+  border-radius:0;
+  font-size:13px;
+  font-weight:700;
+  letter-spacing:0;
+  text-transform:none;
+  color:var(--on-faint);
+  line-height:1.2;
+}
+#best-sec .best-winner:not(.is-ref) .best-medal::after{
+  content:"Winner";
+  display:block;
+  margin-top:2px;
+  font-size:9px;
+  font-weight:500;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+  color:var(--on-faint);
+}
+#best-sec .best-wmain{min-width:0}
+#best-sec .best-name{gap:6px}
+#best-sec .best-sub{
+  margin-top:4px;
+  line-height:1.45;
+  text-wrap:pretty;
+}
+#best-sec .best-winner .best-dna{
+  grid-column:2 / -1;
+  padding:2px 0 0;
+  max-width:none;
+  text-wrap:pretty;
+}
+#best-sec .best-score{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:baseline;
+  justify-content:flex-end;
+  gap:2px 4px;
+  font-size:32px;
+  padding-top:2px;
+  white-space:normal;
+  flex:none;
+}
+#best-sec .best-list{margin-top:4px}
+#best-sec .best-list .best-row{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+  padding:12px 12px;
+}
+#best-sec .best-list .br-top{
+  display:grid;
+  grid-template-columns:4.5rem 12rem minmax(0,1fr) 4.75rem;
+  align-items:center;
+  gap:8px 12px;
+  min-width:0;
+}
+#best-sec .best-list .best-rank{
+  width:auto;
+  font-variant-numeric:tabular-nums;
+}
+#best-sec .best-list .best-rname{
+  flex:none;
+  flex-basis:auto;
+  min-width:0;
+}
+#best-sec .best-list .br-meta,
+#best-sec .best-list .best-dna{
+  padding-left:calc(4.5rem + 12px);
+  padding-right:4px;
+  padding-bottom:0;
+  white-space:normal;
+  overflow:visible;
+  text-wrap:pretty;
+}
+#best-sec .best-list .best-dna{max-width:none}
+#best-sec .best-list .best-rnum{
+  text-align:right;
+  font-variant-numeric:tabular-nums;
+}
+/* ⓘ next to 38px scores was ~26px; next to 13px scores was ~9px. One size. */
+#best-sec [data-tip]:not(.why-i):not(.modebtn):not(.ld-bar):not(.ci)::after{
+  font-size:11px;
+  font-style:normal;
+  line-height:1;
+  vertical-align:2px;
+  margin-left:4px;
+}
+#best-sec .why-i{
+  width:15px;
+  height:15px;
+  font-size:10px;
+  margin-left:4px;
+}
+#jstip{
+  max-width:min(22rem,calc(100vw - 24px));
+  width:max-content;
+  font-size:13px;
+  line-height:1.5;
+  font-weight:400;
+  padding:10px 12px;
+}
+#best-sec .best-winner.is-ref{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+#best-sec .best-winner.is-ref .best-medal{
+  width:auto;
+  white-space:nowrap;
+  font-size:11px;
+  letter-spacing:.04em;
+  text-transform:uppercase;
+}
+@media (max-width:720px){
+  #best-sec .best-winner{
+    grid-template-columns:auto minmax(0,1fr);
+  }
+  #best-sec .best-score{grid-column:2;grid-row:1;align-self:start}
+  #best-sec .best-wmain{grid-column:1/-1}
+  #best-sec .best-winner .best-dna{grid-column:1 / -1}
+  #best-sec .best-list .br-top{
+    grid-template-columns:2.5rem minmax(0,1fr) auto;
+  }
+  #best-sec .best-list .br-top .best-bar{grid-column:1/-1;order:4}
+  #best-sec .best-list .br-meta,
+  #best-sec .best-list .best-dna{padding-left:calc(2.5rem + 12px)}
 }
 
 .trend-card{
