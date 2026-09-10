@@ -115,24 +115,131 @@ section{
 .hero .eyebrow{background:transparent;padding:0}
 .eyebrow b{color:var(--color-foreground);font-weight:500}
 
-/* Dark ink band (Market learnings) */
+@keyframes gr-eyebrow-in{
+  from{opacity:0;transform:translateY(18px)}
+  to{opacity:1;transform:none}
+}
+@keyframes gr-live-pulse{
+  0%{box-shadow:0 0 0 0 rgba(251,107,75,.45)}
+  70%{box-shadow:0 0 0 8px rgba(251,107,75,0)}
+  100%{box-shadow:0 0 0 0 rgba(251,107,75,0)}
+}
+html.anim #rubric-sec .eyebrow.rv{
+  opacity:1;
+  transform:none;
+  animation:gr-eyebrow-in .6s cubic-bezier(.22,1,.36,1) both;
+}
+html.anim .eyebrow .live{
+  animation:gr-live-pulse 1.8s ease-out infinite;
+}
+@media (prefers-reduced-motion:reduce){
+  html.anim #rubric-sec .eyebrow.rv,
+  html.anim .eyebrow .live{animation:none}
+}
+
+/* Dark ink band (Market learnings). Use Brand 2.0 foreground (#1B1A19),
+   not the cooler Ecom Lab --gr-ink (#1A1E23) some page :roots still set. */
+#learnings{
+  background:var(--color-foreground);
+  color:var(--color-foreground-inverted);
+}
+#learnings .wrap{
+  max-width:800px;
+  margin-left:auto;
+  margin-right:auto;
+}
 #learnings .kicker,
 #learnings .gr-tag{
-  color:var(--color-foreground-inverted);
+  color:var(--color-neutral-400);
   border-color:var(--color-neutral-700);
 }
 #learnings .kicker .dot{background:var(--color-accent-mark)}
 
-/* ── Type: 16px body is the scale. Display sits one step under marketing 72/64. ── */
+/* Inverted rubric CTA card — same ink as Market learnings, Brand type scale. */
+.rubric-cta .rc-inner{
+  background:var(--color-foreground);
+  color:var(--color-foreground-inverted);
+  border-radius:var(--radius-3xl);
+  padding:48px 40px;
+  text-align:center;
+}
+.rubric-cta .kicker{
+  color:var(--color-neutral-400);
+  background:transparent;
+  padding:0;
+  border-radius:0;
+}
+.rubric-cta .kicker .dot{background:var(--color-accent-mark)}
+.rubric-cta .rc-h{
+  font-family:var(--font-display);
+  font-weight:400;
+  font-style:normal;
+  font-size:var(--text-h5);
+  line-height:var(--text-h5-line);
+  letter-spacing:0;
+  margin:0;
+  color:var(--color-foreground-inverted);
+  max-width:18ch;
+  text-wrap:balance;
+}
+.rubric-cta .rc-h em{
+  font-family:var(--font-display);
+  font-style:italic;
+  font-weight:400;
+  color:inherit;
+}
+.rubric-cta .rc-sub{
+  font-family:var(--font-sans);
+  font-size:16px;
+  font-weight:400;
+  line-height:1.5;
+  color:var(--color-neutral-400);
+  max-width:40rem;
+  margin:0;
+  text-wrap:pretty;
+}
+.rubric-cta .gr-btn-primary{
+  background:var(--color-foreground-inverted);
+  color:var(--color-foreground);
+  border-color:var(--color-foreground-inverted);
+}
+.rubric-cta .gr-btn-primary:hover{
+  background:var(--color-neutral-100);
+  color:var(--color-foreground);
+  border-color:var(--color-neutral-100);
+}
+.rubric-cta .gr-btn-secondary{
+  background:transparent;
+  color:var(--color-foreground-inverted);
+  border:1px solid var(--color-neutral-700);
+  box-shadow:none;
+}
+.rubric-cta .gr-btn-secondary:hover{
+  background:rgba(252,250,248,.06);
+  color:var(--color-foreground-inverted);
+  border-color:var(--color-neutral-400);
+}
+@media (min-width:768px){
+  .rubric-cta .rc-h{
+    font-size:var(--text-h4);
+    line-height:var(--text-h4-line);
+  }
+}
+@media (max-width:560px){
+  .rubric-cta .rc-inner{padding:40px 22px}
+}
+
+/* ── Type: 16px body. Page titles (h1) use the H1 token; section titles stay H4/H5. ── */
 html{font-size:16px}
 body{font-size:16px;line-height:1.5}
 h1{
   font-family:var(--font-display);
   font-weight:400;
-  font-size:var(--text-h4);
-  line-height:var(--text-h4-line);
+  font-size:var(--text-h3);
+  line-height:var(--text-h3-line);
   letter-spacing:0;
   color:var(--color-foreground);
+  margin:0;
   text-wrap:balance;
 }
 h2.sec{
@@ -149,9 +256,9 @@ h2.sec{
 }
 @media (min-width:768px){
   h1{
-    font-size:var(--text-h3);
-    line-height:var(--text-h3-line);
-    letter-spacing:0;
+    font-size:var(--text-h1);
+    line-height:var(--text-h1-line);
+    letter-spacing:var(--text-h1-tracking);
   }
   h2.sec{
     font-size:var(--text-h4);
@@ -487,10 +594,15 @@ a.back:hover{
   margin:0 auto;
   max-width:18ch;
 }
+.gr-section-header > h1,
 .gr-section-header > h2.sec,
 .gr-section-header > .lead,
 .gr-section-header > .sec-lead{
   margin:0;
+}
+.gr-section-header > h2.sec,
+.gr-section-header > .lead,
+.gr-section-header > .sec-lead{
   max-width:40rem;
 }
 .gr-section-header.stack-center > h2.sec,
@@ -572,20 +684,13 @@ a.back:hover{
 .hero-stats .hs:nth-child(3) .l::before{background:var(--color-blue-200)}
 .statcell:nth-child(4) .lbl::before,
 .hero-stats .hs:nth-child(4) .l::before{background:var(--color-green-200)}
-/* Report hero has 3 stats (takeaways has 4). Don't leave a 4th empty column. */
-#hero-stats{
-  grid-template-columns:repeat(3,minmax(0,1fr));
-  max-width:48rem;
-  margin-inline:auto;
-}
-#hero-stats .hs .l{white-space:nowrap}
 @media (max-width:640px){
   .statstrip,
   .hero-stats{grid-template-columns:repeat(2,1fr)}
-  #hero-stats{grid-template-columns:1fr;max-width:20rem}
   .statcell,
   .hero-stats .hs{min-height:140px;padding:20px 12px}
-  .statcell .lbl{white-space:normal;text-align:center;align-items:flex-start}
+  .statcell .lbl,
+  .hero-stats .hs .l{white-space:normal;text-align:center;align-items:flex-start}
   .statcell .lbl::before,
   .hero-stats .hs .l::before{margin-top:5px}
 }
@@ -785,10 +890,13 @@ h2.sec::before{content:none !important}
   display:flex;
   flex-direction:column;
   align-items:stretch;
-  gap:0;
+  gap:1rem; /* gap-4: header group → leader cards */
   width:100%;
-  margin-top:28px;
+  margin:0;
   text-align:left;
+}
+.trend-podium .stack-start{
+  gap:0.75rem; /* gap-3: h3 → lead */
 }
 .trend-podium h3{
   font-family:var(--font-display);
@@ -797,12 +905,12 @@ h2.sec::before{content:none !important}
   font-weight:400;
   letter-spacing:0;
   color:var(--color-foreground);
-  margin:0 0 8px;
+  margin:0;
   text-align:left;
   text-transform:none;
 }
 .trend-podium .lead{
-  margin:0 0 20px;
+  margin:0;
   text-align:left;
   max-width:40rem;
 }
@@ -936,7 +1044,43 @@ h2.sec::before{content:none !important}
 #h2h-intro .lead,
 #h2h-intro h2.sec{text-align:left;margin:0}
 .winbar-panel .datebar{margin:0}
+/* Report sections: takeaways rhythm. Vertical space is gap + section-y, not heading margins. */
+#best-sec,
+#summary-sec,
+#cbc-sec,
+#product-rec-sec,
+#trend-sec,
+#results-sec,
+#rubric-sec,
+#caps-sec,
+#coverage-sec,
+#conv-sec{
+  display:flex;
+  flex-direction:column;
+  align-items:stretch;
+  gap:2.5rem;
+}
+#best-sec .h2h,
+#cbc-sec .cbc-card,
+#rubric-sec .rubric-block{
+  display:flex;
+  flex-direction:column;
+  gap:1.5rem;
+  margin:0;
+}
+#cbc-sec .cbc-legend,
+#cbc-sec .cbc-cap,
+#cbc-sec .cbc-foot,
+#cbc-sec .cbc-h,
+.h2h-top,
+.h2h-sub,
+.h2h-lane,
+.hrw-h,
+.hrw-cards{
+  margin:0;
+}
 #best-sec.section-y{padding-top:1.25rem}
+body.report-v2 #best-sec.section-y{padding-top:4.5rem}
 #conv-sec.section-y{
   padding-top:1.25rem;
   gap:1.25rem;

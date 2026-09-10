@@ -7,86 +7,24 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>The Real Test for Ecommerce AI Agents | Gorgias Benchmark</title>
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/brand/tokens.css">
 <script>if(!matchMedia('(prefers-reduced-motion:reduce)').matches)document.documentElement.classList.add('anim');</script>
 <style>
-/* Feature Deck is the display serif - licensed, self-hosted, not on Google Fonts */
-@font-face{font-family:'Feature Deck';src:url('/brand/fonts/FeatureDeck-Regular-Web.woff2') format('woff2');font-weight:400;font-style:normal;font-display:block}
-@font-face{font-family:'Feature Deck';src:url('/brand/fonts/FeatureDeck-RegularItalic-Web.woff2') format('woff2');font-weight:400;font-style:italic;font-display:block}
 /* =========================================================================
-   GORGIAS BRAND - values verbatim from the brand html-templates base.
-   Warm canvas, ink type, Feature Deck titles, Geist body, Geist Mono labels.
+   Brand Web System 2.0 overlay. Color/type tokens live in /brand/tokens.css.
    Coral is punctuation; the pastels carry surfaces; stats are ink, never coral.
    No gradients, no glass, no drop shadows - depth is hairline rules and
    paper-versus-white contrast.
    ========================================================================= */
 
 :root{
-  --gr-paper:#F6F4F2; --gr-cream:#EFE9E2; --gr-white:#FFFFFF;
-  --gr-ink:#1A1E23;   --gr-head:#1A1E23;  --gr-body:#3A3E43;
-  --gr-text:#5C6066;  --gr-mute:#7C8085;
-  --gr-border:#DDD9D4; --gr-faded:#EFE9E2; --gr-rule:#CAC7C2;
-  --gr-coral:#1A1E23; --gr-coral-mid:#F5D4FF; --gr-coral-soft:#FAE9FF;
-  --gr-rose:#FEB4B4;  --gr-peach:#F5D4FF;  --gr-blush:#FAF1FE;
-  --gr-sky:#CEDEFF;   --gr-sky-deep:#A9C4FA;
-  --gr-peri:#CEDEFF;  --gr-peri-deep:#A9C4FA;
-  --gr-orchid:#F5D4FF;--gr-orchid-deep:#E7B0F5;
-  --gr-amber:#F3E3B4; --gr-amber-deep:#E4CE87;
-  --gr-sage:#B2E6BE;  --gr-sage-deep:#8FD3A0;
-  --gr-dark-text:#F6F4F2; --gr-dark-mute:#B9B6B1; --gr-dark-line:#3A3E43;
-  /* semantic - meaning only, never decoration */
-  --gr-success:#289E43; --gr-success-bg:#DFF3E4;
-  --gr-warning:#CD721D; --gr-warning-bg:#FAEEDB;
-  --gr-error:#C54040;   --gr-error-bg:#FDE9E9;
-  /* text-safe semantic inks: the brand's #289E43 / #CD721D / #C54040 on their own
-     tint backgrounds land at 3.2 / 3.0 / 4.4 : 1, which fails AA at the 10-12px these
-     labels actually render at. Same hues, darkened to clear 4.5:1. */
-  --gr-success-ink:#1C7130; --gr-warning-ink:#9F5816; --gr-error-ink:#B53939;
-
-  /* ---- compatibility layer -------------------------------------------------
-     The markup carries Axiom-era class names. Rather than rename ~90 classes in
-     two files, the old semantic variables are re-pointed at brand values, so any
-     rule not rewritten below still resolves to the brand.
-     Note: --content-accent-default is INK, not coral. Coral at 13px on paper is
-     2.9:1 and fails WCAG AA; it is a mark colour, not a text colour. */
-  --content-neutral-default:var(--gr-head);
-  --content-neutral-secondary:var(--gr-body);
-  --content-neutral-tertiary:var(--gr-text);
-  --content-accent-default:var(--gr-head);
-  --content-success-default:var(--gr-success-ink);
-  --content-error-default:var(--gr-error-ink);
-  --content-warning-default:var(--gr-warning-ink);
-  --content-inverted-default:var(--gr-dark-text);
-  --surface-neutral-primary:var(--gr-cream);
-  --surface-neutral-secondary:var(--gr-faded);
-  --surface-accent-default:var(--gr-peach);
-  --surface-accent-primary:var(--gr-coral);
-  --surface-success-default:var(--gr-success-bg);
-  --surface-error-default:var(--gr-error-bg);
-  --surface-warning-default:var(--gr-warning-bg);
-  --surface-inverted-default:var(--gr-ink);
-  --border-neutral-default:var(--gr-border);
-  --border-neutral-tertiary:var(--gr-rule);
-  --border-accent-default:var(--gr-coral);
-  --elevation-neutral-bg:var(--gr-paper);
-  --elevation-neutral-default:var(--gr-white);
-  --line:var(--gr-border); --on-muted:var(--gr-body); --on-faint:var(--gr-text);
-  /* shadows retired - the brand builds depth from rules, not elevation */
-  --shadow-component:none; --shadow-container:none; --shadow-lift:none;
-  /* spacing (4/8) and radii */
-  --xxxxs:2px; --xxxs:4px; --xxs:6px; --xs:8px; --sm:12px; --md:16px;
-  --lg:24px; --xl:32px; --xxl:48px; --xxxl:64px;
-  --r-sm:8px; --r-md:12px; --r-lg:16px; --r-xl:20px;
-  /* z-index scale */
-  --z-sticky:60; --z-overlay:80; --z-tooltip:999;
+  /* colors, type, radii, and --gr-* remap: brand/tokens.css */
 }
 
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{
-  font-family:'Geist',-apple-system,BlinkMacSystemFont,sans-serif;
+  font-family:var(--font-sans);
   background:var(--gr-paper);
   color:var(--gr-head);
   -webkit-font-smoothing:antialiased;
@@ -99,11 +37,11 @@ a{color:inherit;text-decoration:none}
 :focus-visible{outline:2px solid var(--gr-ink);outline-offset:2px;border-radius:var(--xxxs)}
 
 .tnum{font-variant-numeric:tabular-nums;font-feature-settings:"tnum" 1}
-.mono{font-family:'Geist Mono',ui-monospace,Menlo,monospace;font-size:.92em;color:var(--gr-text)}
+.mono{font-family:var(--font-mono);font-size:.92em;color:var(--gr-text)}
 
 /* the brand's display serif - always weight 400, never bold */
 .display,h1,h2.sec,.verdict-top .h,.wm-card h3{
-  font-family:'Feature Deck',Georgia,serif;font-weight:400;letter-spacing:0;
+  font-family:var(--font-display);font-weight:400;letter-spacing:0;
 }
 
 /* =========================================================================
@@ -116,7 +54,7 @@ a{color:inherit;text-decoration:none}
 .sitenav.scrolled{box-shadow:0 6px 14px -4px rgba(0,0,0,.14)}
 .sitenav .brand{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--gr-head);white-space:nowrap}
 .sitenav .brand .mark{height:19px;width:auto;display:block;flex:none}
-.sitenav .brand .sub{font-family:'Geist Mono',monospace;font-size:11px;font-weight:500;letter-spacing:0;text-transform:uppercase;color:var(--gr-text)}
+.sitenav .brand .sub{font-family:var(--font-mono);font-size:11px;font-weight:500;letter-spacing:var(--font-label-tracking);text-transform:uppercase;color:var(--gr-text)}
 .sitenav .links{display:flex;align-items:center;gap:2px;margin-left:auto;flex-wrap:wrap}
 .sitenav .links a{font-size:13px;font-weight:500;color:var(--gr-text);padding:7px 12px;border-radius:8px;transition:background .14s,color .14s;white-space:nowrap;cursor:pointer;background:none;border:none;font-family:inherit}
 .sitenav .links a:hover{background:var(--gr-cream);color:var(--gr-head)}
@@ -153,8 +91,8 @@ body::after{right:max(0px, calc(50% - 600px))}
 section{padding:var(--xxxl) 0}
 .kicker,.eyebrow{
   display:inline-flex;align-items:center;gap:var(--xs);
-  font-family:'Geist Mono',ui-monospace,Menlo,monospace;
-  font-size:13px;font-weight:400;letter-spacing:0;text-transform:uppercase;
+  font-family:var(--font-mono);
+  font-size:13px;font-weight:400;letter-spacing:var(--font-label-tracking);text-transform:uppercase;
   color:var(--gr-ink);background:var(--gr-cream);border:none;padding:6px 16px;border-radius:40px;
   margin-bottom:var(--md);flex-wrap:wrap;row-gap:2px;
 }
@@ -181,8 +119,7 @@ h2.sec{font-size:clamp(30px,3.4vw,52px);line-height:1.12;margin-bottom:var(--sm)
 .eyebrow .live::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--gr-ink)}
 .eyebrow b{color:var(--gr-body);font-weight:500}
 h1{
-  font-size:clamp(38px,5vw,60px);line-height:1.1;
-  margin-bottom:var(--lg);text-wrap:balance;color:var(--gr-head);max-width:22ch;
+  margin:0;text-wrap:balance;max-width:22ch;
 }
 h1 .accent{color:var(--gr-mute)}
 .hero .sub{color:var(--gr-body);font-size:18px;max-width:62ch;margin:0 0 var(--xxl);line-height:1.55;text-wrap:pretty}
@@ -209,11 +146,11 @@ h1 .accent{color:var(--gr-mute)}
  letter-spacing. Display numerals are standalone, not a column, so they take
  proportional figures and kern properly. Table columns keep tnum for alignment. */
 .statcell .num,.statcell .num.tnum{
-  font-family:'Feature Deck',Georgia,serif;font-weight:400;
+  font-family:var(--font-display);font-weight:400;
   font-size:clamp(38px,4.6vw,58px);line-height:1;letter-spacing:0;color:var(--gr-ink);
   font-variant-numeric:proportional-nums;font-feature-settings:"tnum" 0;
 }
-.statcell .lbl{display:inline-flex;align-items:center;gap:7px;font-family:'Geist Mono',ui-monospace,monospace;font-size:11.5px;font-weight:400;text-transform:uppercase;color:var(--gr-text);line-height:1.4;white-space:nowrap}
+.statcell .lbl{display:inline-flex;align-items:center;gap:7px;font-family:var(--font-mono);font-size:11.5px;font-weight:400;text-transform:uppercase;color:var(--gr-text);line-height:1.4;white-space:nowrap}
 .statcell .lbl::before{content:"";width:7px;height:7px;border-radius:50%;flex:none}
 @media(max-width:640px){.statstrip{grid-template-columns:repeat(2,1fr)}.statcell{min-height:140px}
   /* nowrap keeps the label on one line at desktop widths; in a 2-up mobile grid it
@@ -235,7 +172,7 @@ h1 .accent{color:var(--gr-mute)}
 .verdict-top .h{font-size:23px;line-height:1.25;max-width:52ch;color:var(--gr-head)}
 .badge-rank{
   display:inline-flex;align-items:center;gap:var(--xs);flex:none;
-  font-family:'Geist Mono',monospace;font-size:11px;font-weight:500;letter-spacing:0;text-transform:uppercase;
+  font-family:var(--font-mono);font-size:11px;font-weight:500;letter-spacing:0;text-transform:uppercase;
   color:var(--gr-body);background:var(--gr-peach);
   padding:var(--xxs) var(--sm);border-radius:999px;white-space:nowrap;
 }
@@ -244,14 +181,14 @@ h1 .accent{color:var(--gr-mute)}
 .vcell{padding:var(--lg);border-right:1px solid var(--gr-border);position:relative}
 .vcell:last-child{border-right:none}
 .vcell .kpi,.vcell .kpi.tnum{
-  font-family:'Feature Deck',Georgia,serif;font-weight:400;
+  font-family:var(--font-display);font-weight:400;
   font-size:clamp(34px,4vw,46px);line-height:1;letter-spacing:0;
   color:var(--gr-ink);display:flex;align-items:baseline;gap:var(--xxs);
   font-variant-numeric:proportional-nums;font-feature-settings:"tnum" 0;
 }
 .vcell.good .kpi,.vcell.mid .kpi,.vcell.warn .kpi{color:var(--gr-ink)}
 .vcell .tag{
-  display:inline-block;font-family:'Geist Mono',monospace;
+  display:inline-block;font-family:var(--font-mono);
   font-size:11px;font-weight:500;letter-spacing:0;text-transform:uppercase;
   padding:3px var(--xs);border-radius:var(--xxs);margin:var(--sm) 0 var(--xs);
 }
@@ -282,11 +219,11 @@ h1 .accent{color:var(--gr-mute)}
 /* macOS hides overlay scrollbars until you scroll, so a clipped latency column read as
    the end of the table. Give the scroller a permanent bar, and say so in words at the
    widths where it actually clips. */
-.table-hint{display:none;font-family:'Geist Mono',ui-monospace,monospace;font-size:11px;font-weight:500;letter-spacing:0;text-transform:uppercase;color:var(--gr-text);margin-top:var(--sm)}
+.table-hint{display:none;font-family:var(--font-mono);font-size:11px;font-weight:500;letter-spacing:0;text-transform:uppercase;color:var(--gr-text);margin-top:var(--sm)}
 @media(max-width:1179px){.table-hint{display:block}}
 table{width:100%;border-collapse:collapse;font-size:13px}
 thead th{
-  font-family:'Geist Mono',monospace;
+  font-family:var(--font-mono);
   font-size:11.5px;font-weight:500;letter-spacing:0;text-transform:uppercase;
   color:var(--gr-text);text-align:left;
   padding:var(--sm) var(--md);background:var(--gr-cream);
@@ -304,10 +241,10 @@ td.n{text-align:right}
 .rankbadge{
   display:inline-grid;place-items:center;min-width:24px;height:22px;padding:0 var(--xxs);
   border-radius:var(--xxs);background:var(--gr-cream);
-  color:var(--gr-body);font-weight:500;font-size:12px;font-family:'Geist Mono',monospace;
+  color:var(--gr-body);font-weight:500;font-size:12px;font-family:var(--font-mono);
 }
 .comp{font-weight:600;color:var(--gr-head)}
-.rk{font-size:11px;font-weight:500;color:var(--gr-text);margin-left:var(--xxs);font-family:'Geist Mono',monospace}
+.rk{font-size:11px;font-weight:500;color:var(--gr-text);margin-left:var(--xxs);font-family:var(--font-mono)}
 .ci{font-size:11px;font-weight:400;color:var(--gr-text);margin-left:var(--xxs);white-space:nowrap;cursor:help}
 .us-tag{display:none}
 .p75{font-size:11px;color:var(--gr-text);margin-top:2px}
@@ -326,7 +263,7 @@ td.n{text-align:right}
 
 /* window control */
 .winbar{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin:var(--lg) 0 var(--sm)}
-.winbar-l{font-family:'Geist Mono',monospace;font-size:11px;font-weight:500;letter-spacing:0;text-transform:uppercase;color:var(--gr-text);margin-right:2px}
+.winbar-l{font-family:var(--font-mono);font-size:11px;font-weight:500;letter-spacing:0;text-transform:uppercase;color:var(--gr-text);margin-right:2px}
 .winbtn{font-size:12.5px;font-weight:500;padding:6px 12px;border-radius:999px;border:1px solid var(--gr-border);background:var(--gr-white);color:var(--gr-body);cursor:pointer;font-family:inherit;transition:border-color .14s,background .14s}
 .winbtn:hover{border-color:var(--gr-rule)}
 .winbtn[aria-selected="true"]{border-color:var(--gr-ink);color:var(--gr-ink);background:var(--gr-peach);font-weight:500}
@@ -342,7 +279,7 @@ td.n{text-align:right}
 .lane-head .icon{display:grid;place-items:center;flex:none;color:var(--gr-ink)}  /* no icon tile: a 32px rounded square behind a glyph above a heading is the
      generic dashboard reflex, and the brand keeps decorative marks off data pages.
      The glyph still does the wayfinding; coral carries it. */
-.lane-head h3{font-family:'Feature Deck',Georgia,serif;font-weight:400;font-size:24px;letter-spacing:0;color:var(--gr-head)}
+.lane-head h3{font-family:var(--font-display);font-weight:400;font-size:24px;letter-spacing:0;color:var(--gr-head)}
 .lane-head .meta{flex:0 0 100%;font-size:13px;color:var(--gr-text);font-weight:400;line-height:1.5}  /* sentence case, not mono caps: these run to 90+ characters, and long uppercase
      tracked text is a reading tax the brand's terse label style never anticipated. */
 .wl-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--md)}
@@ -368,7 +305,7 @@ td.n{text-align:right}
 .prof-head{display:flex;align-items:center;gap:var(--xs)}
 .prof-head .vname{font-size:15px;font-weight:600;display:flex;align-items:center}
 .prof-head .tail{margin-left:auto}
-.tag-soft{font-family:'Geist Mono',monospace;font-size:11px;font-weight:500;letter-spacing:0;text-transform:uppercase;padding:3px var(--xs);border-radius:var(--xxs);background:var(--gr-faded);color:var(--gr-text)}
+.tag-soft{font-family:var(--font-mono);font-size:11px;font-weight:500;letter-spacing:0;text-transform:uppercase;padding:3px var(--xs);border-radius:var(--xxs);background:var(--gr-faded);color:var(--gr-text)}
 .tag-new{background:var(--gr-peach);color:var(--gr-body)}
 .prof-metrics{font-size:12.5px;color:var(--gr-text);font-weight:500;padding-bottom:var(--xs);border-bottom:1px solid var(--gr-faded);margin-bottom:var(--xxs)}
 .prof-metrics b{color:var(--gr-head);font-weight:600}
@@ -385,31 +322,47 @@ td.n{text-align:right}
 .prank-inline{
   display:inline-grid;place-items:center;min-width:22px;height:20px;padding:0 var(--xxs);
   border-radius:var(--xxs);background:var(--gr-ink);color:var(--gr-dark-text);
-  font-family:'Geist Mono',monospace;font-weight:500;font-size:11px;margin-right:var(--xs);flex:none;
+  font-family:var(--font-mono);font-weight:500;font-size:11px;margin-right:var(--xs);flex:none;
 }
 
 /* =========================================================================
    LEARNINGS - the ink field. One dark chapter break per deliverable.
    ========================================================================= */
-#learnings{background:var(--gr-ink);color:var(--gr-dark-text);margin-top:var(--xxl);padding:var(--xxxl) 0}
-#learnings h2.sec{color:var(--gr-dark-text)}
-#learnings .sec-lead{color:var(--gr-dark-mute)}
-#learnings .kicker{color:var(--gr-dark-mute)}
-.learn-list{display:flex;flex-direction:column;margin-top:var(--xl);border-top:1px solid var(--gr-dark-line)}
-.learn-row{display:flex;gap:var(--lg);padding:var(--lg) 0;border-bottom:1px solid var(--gr-dark-line);background:none;border-radius:0}
+#learnings{background:var(--color-foreground);color:var(--color-foreground-inverted);margin:0}
+#learnings .wrap{max-width:800px;margin-left:auto;margin-right:auto}
+#learnings h2.sec{color:var(--color-foreground-inverted)}
+#learnings .sec-lead{color:var(--color-neutral-400)}
+#learnings .kicker{color:var(--color-neutral-400)}
+.learn-list{display:flex;flex-direction:column;width:100%;margin:0;border-top:1px solid var(--color-neutral-700);text-align:left}
+.learn-row{display:flex;gap:var(--md);width:100%;padding:2rem 0;border-bottom:1px solid var(--color-neutral-700);background:none;border-radius:0;text-align:left}
 .learn-num{
   flex:none;width:auto;height:auto;border-radius:0;background:none;
-  font-family:'Geist Mono',monospace;font-weight:500;font-size:12px;letter-spacing:0;
-  color:var(--gr-dark-mute);padding-top:4px;min-width:32px;   /* on the ink field: --gr-mute was 4.2:1 */
+  font-family:var(--font-mono);font-weight:500;font-size:12px;letter-spacing:0;
+  color:var(--color-neutral-400);padding-top:4px;min-width:1.5rem;
 }
-.learn-body .t{font-family:'Feature Deck',Georgia,serif;font-weight:400;font-size:20px;line-height:1.25;letter-spacing:0;margin-bottom:var(--xxs);color:var(--gr-dark-text)}
-.learn-body .why{font-size:14px;color:var(--gr-dark-mute);line-height:1.6;max-width:76ch}
-#learnings .method{background:transparent;border-color:var(--gr-dark-line)}
-#learnings .method .col h3{color:var(--gr-dark-mute)}
-#learnings .method .col p{color:var(--gr-dark-mute)}
-#learnings .method .col b{color:var(--gr-dark-text)}
-#learnings .tt{border-bottom-color:var(--gr-dark-mute)}
-#learnings .mono{color:var(--gr-dark-mute)}
+.learn-body{flex:1;min-width:0;width:100%;text-align:left}
+.learn-body .t{font-family:var(--font-display);font-weight:400;font-size:20px;line-height:1.25;letter-spacing:0;margin-bottom:var(--xxs);color:var(--color-foreground-inverted)}
+.learn-body .why{font-size:14px;color:var(--color-neutral-400);line-height:1.6;max-width:none}
+#learnings .method{
+  background:transparent;border:none;
+  width:100%;max-width:none;padding:0;margin-top:0;text-align:left;
+  display:grid;grid-template-columns:1fr 1fr;gap:12px;
+}
+#learnings .method .col{
+  background:rgba(255,255,255,.04);
+  border:1px solid var(--color-neutral-700);
+  border-radius:var(--r-lg);
+  padding:1.25rem;
+  text-align:left;
+}
+@media(max-width:600px){
+  #learnings .method{grid-template-columns:1fr}
+}
+#learnings .method .col h3{color:var(--color-neutral-400)}
+#learnings .method .col p{color:var(--color-neutral-400)}
+#learnings .method .col b{color:var(--color-foreground-inverted)}
+#learnings .tt{border-bottom-color:var(--color-neutral-400)}
+#learnings .mono{color:var(--color-neutral-400)}
 
 /* =========================================================================
    METHOD + FOOTER
@@ -421,11 +374,11 @@ td.n{text-align:right}
 }
 @media(max-width:860px){.method{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:520px){.method{grid-template-columns:1fr}}
-.method .col h3{font-family:'Geist Mono',monospace;font-size:11px;font-weight:500;letter-spacing:0;text-transform:uppercase;color:var(--gr-text);margin-bottom:var(--xs)}
+.method .col h3{font-family:var(--font-mono);font-size:11px;font-weight:500;letter-spacing:0;text-transform:uppercase;color:var(--gr-text);margin-bottom:var(--xs)}
 .method .col p{font-size:13px;color:var(--gr-body);line-height:1.6}
 .method .col b{color:var(--gr-head);font-weight:600}
 .footer{padding:var(--xl) var(--lg) var(--xxl);text-align:center;border-top:1px solid var(--gr-border);margin-top:var(--xxl)}
-.footer .fbrand{font-family:'Feature Deck',Georgia,serif;font-weight:400;font-size:18px;margin-bottom:var(--xs);color:var(--gr-head)}
+.footer .fbrand{font-family:var(--font-display);font-weight:400;font-size:18px;margin-bottom:var(--xs);color:var(--gr-head)}
 .footer .flinks{font-size:13px;color:var(--gr-body);display:flex;gap:var(--sm);justify-content:center;flex-wrap:wrap;margin-bottom:var(--xs)}
 .footer .flinks a{color:var(--gr-ink);border-bottom:1px solid var(--gr-ink)}
 .footer .fmeta{font-size:12px;color:var(--gr-text)}
@@ -460,14 +413,8 @@ td.n{text-align:right}
    and this page exists to be screenshotted into decks. A staggered entrance is
    also the wrong idea repeated: one entrance for the opening, then get out of
    the way. */
-html.anim .hero .rv{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s cubic-bezier(.22,1,.36,1)}
-html.anim .hero .rv.in{opacity:1;transform:none}
-html.anim .hero .rv-stagger>*{opacity:0;transform:translateY(14px);transition:opacity .5s ease,transform .5s cubic-bezier(.22,1,.36,1)}
-html.anim .hero .rv-stagger.in>*{opacity:1;transform:none}
-html.anim .hero .rv-stagger.in>*:nth-child(1){transition-delay:.05s}
-html.anim .hero .rv-stagger.in>*:nth-child(2){transition-delay:.11s}
-html.anim .hero .rv-stagger.in>*:nth-child(3){transition-delay:.17s}
-html.anim .hero .rv-stagger.in>*:nth-child(4){transition-delay:.23s}
+html.anim .hero .rv,html.anim .hero .rv-stagger>*{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s cubic-bezier(.22,1,.36,1)}
+html.anim .hero .rv.in,html.anim .hero .rv-stagger.in>*{opacity:1;transform:none}
 
 /* =========================================================================
    FLOATING LAB BADGE
@@ -475,7 +422,7 @@ html.anim .hero .rv-stagger.in>*:nth-child(4){transition-delay:.23s}
 .lab-badge{
   position:fixed;right:var(--lg);bottom:var(--lg);z-index:var(--z-overlay);
   display:inline-flex;align-items:center;gap:var(--xs);
-  font-family:'Geist Mono',monospace;font-size:11px;font-weight:500;letter-spacing:0;text-transform:uppercase;
+  font-family:var(--font-mono);font-size:11px;font-weight:500;letter-spacing:0;text-transform:uppercase;
   color:var(--gr-dark-text);background:var(--gr-ink);
   padding:var(--xs) var(--sm);border-radius:999px;transition:transform .18s ease;
 }
@@ -521,29 +468,108 @@ html.anim .hero .rv-stagger.in>*:nth-child(4){transition-delay:.23s}
 .wm-go{background:var(--gr-ink);border-color:var(--gr-ink);color:var(--gr-dark-text)}
 .wm-go:hover{background:var(--gr-body)}
 .wm-foot{margin-top:14px;padding-top:12px;border-top:1px solid var(--gr-border);font-size:11.5px;color:var(--gr-text)}
+
+.rubric-cta .rc-inner{
+  background:var(--color-foreground);
+  color:var(--color-foreground-inverted);
+  border-radius:var(--radius-3xl);
+  padding:48px 40px;
+  text-align:center;
+}
+.rubric-cta .kicker{
+  color:var(--color-neutral-400);
+  background:transparent;
+  padding:0;
+  border-radius:0;
+}
+.rubric-cta .rc-h{
+  font-family:var(--font-display);
+  font-weight:400;
+  font-style:normal;
+  font-size:var(--text-h5);
+  line-height:var(--text-h5-line);
+  letter-spacing:0;
+  margin:0;
+  color:var(--color-foreground-inverted);
+  max-width:18ch;
+  text-wrap:balance;
+}
+.rubric-cta .rc-h em{
+  font-family:var(--font-display);
+  font-style:italic;
+  font-weight:400;
+  color:inherit;
+}
+.rubric-cta .rc-sub{
+  font-family:var(--font-sans);
+  font-size:16px;
+  font-weight:400;
+  line-height:1.5;
+  color:var(--color-neutral-400);
+  max-width:40rem;
+  margin:0;
+  text-wrap:pretty;
+}
+.rubric-cta .gr-btn-primary{
+  background:var(--color-foreground-inverted);
+  color:var(--color-foreground);
+  border-color:var(--color-foreground-inverted);
+}
+.rubric-cta .gr-btn-primary:hover{
+  background:var(--color-neutral-100);
+  color:var(--color-foreground);
+  border-color:var(--color-neutral-100);
+}
+.rubric-cta .gr-btn-secondary{
+  background:transparent;
+  color:var(--color-foreground-inverted);
+  border:1px solid var(--color-neutral-700);
+  box-shadow:none;
+}
+.rubric-cta .gr-btn-secondary:hover{
+  background:rgba(252,250,248,.06);
+  color:var(--color-foreground-inverted);
+  border-color:var(--color-neutral-400);
+}
+@media (min-width:768px){
+  .rubric-cta .rc-h{font-size:var(--text-h4);line-height:var(--text-h4-line)}
+}
+@media (max-width:560px){
+  .rubric-cta .rc-inner{padding:40px 22px}
+}
 </style>
+<link rel="stylesheet" href="/brand/components.css">
+<link rel="stylesheet" href="/brand/tw.css">
 </head>
 <body>
 
 <!-- ============================== APP BAR ============================== -->
 <nav class="sitenav" id="appbar">
-  <a class="brand" href="takeaways-v2.html"><img class="mark" src="brand/gorgias-logo.svg" alt="Gorgias" width="139" height="37"><span class="sub">AI Agent Benchmark</span></a>
+  <a class="brand" href="https://www.gorgias.com" target="_blank" rel="noopener noreferrer"><img class="mark" src="/brand/gorgias-logo.svg" alt="Gorgias" width="139" height="37"></a>
   <button class="nav-burger" aria-label="Menu" onclick="event.stopPropagation();this.closest('.sitenav').classList.toggle('nav-open')">☰</button>
   <div class="links">
     <a href="takeaways-v2.html" class="active" aria-current="page">Overview</a>
     <a href="report-v2.html">Full results</a>
-    <a href="report-v2.html#how">How it works</a>
     <a href="report-v2.html?view=rubric">Rubric</a>
   </div>
+  <a class="nav-cta" href="report-v2.html#how">How it works</a>
 </nav>
 
 <!-- ============================== HERO ============================== -->
-<header class="hero wrap">
-  <div class="hero-inner">
+<header class="hero wrap wrap-x section-y stack-center">
+  <div class="hero-inner stack-center w-full gap-8">
+    <div class="gr-section-header stack-center w-full gap-6">
+      <div class="stack-center gap-4">
     <span class="eyebrow rv"><span class="live"></span>Industry benchmark&nbsp;·&nbsp;<b><!--REFRESHED-->September 2026<!--/REFRESHED--></b></span>
     <h1 class="rv"><span class="accent">The real test for</span><br> ecommerce AI agents.</h1>
-    <p class="sub rv">We tested the AI agents ecommerce brands actually run, on live Shopify stores, the way a real shopper does. No one measures these agents the same way, so we built one rubric and scored every vendor on the two jobs that matter: helping shoppers buy, and resolving support without a human. Independent, blind-scored, re-run weekly. <a href="report-v2.html">See where every vendor lands →</a></p>
-    <div class="statstrip rv-stagger">
+      </div>
+    <p class="sub rv">We tested the AI agents ecommerce brands actually run, on live Shopify stores, the way a real shopper does. No one measures these agents the same way, so we built one rubric and scored every vendor on the two jobs that matter: helping shoppers buy, and resolving support without a human. Independent, blind-scored, re-run weekly.</p>
+    <div class="gr-cta-row rv">
+      <a class="gr-btn gr-btn-primary gr-btn-md" href="report-v2.html">See where every vendor lands</a>
+      <a class="gr-btn gr-btn-secondary gr-btn-md" href="report-v2.html?view=rubric">See how the scoring works</a>
+    </div>
+    </div>
+    <div class="statstrip rv-stagger grid w-full grid-cols-2 gap-4 md:grid-cols-4">
       <div class="statcell"><div class="num tnum" data-count="7116" data-stat="convs">7,116</div><div class="lbl">Conversations captured</div></div>
       <div class="statcell"><div class="num tnum" data-count="6817" data-stat="judged">6,817</div><div class="lbl">Blind-judged</div></div>
       <div class="statcell"><div class="num tnum" data-count="18" data-stat="vendors">18</div><div class="lbl">Vendors tested</div></div>
@@ -554,11 +580,15 @@ html.anim .hero .rv-stagger.in>*:nth-child(4){transition-delay:.23s}
 </header>
 
 <!-- ============================== HOW WE TEST ============================== -->
-<section id="how">
-  <div class="wrap">
+<section id="how" class="section-y">
+  <div class="wrap wrap-x stack gap-10">
+    <div class="gr-section-header stack-start w-full gap-4">
+      <div class="stack-start gap-3">
     <span class="kicker rv"><span class="dot"></span>How it works</span>
     <h2 class="sec rv">One rubric, applied the same way to every vendor.</h2>
+      </div>
     <p class="sec-lead rv">We measure two jobs separately: a <b>Shopping Assistant</b> that helps a shopper find and buy, and a <b>Support Agent</b> that resolves shipping, returns, and policy questions without a human. Every agent gets the same questions, under the same conditions, scored the same way.</p>
+    </div>
     <div class="method rv">
       <div class="col"><h3>Same test for all</h3><p>One standard set of questions, adapted only to each store's catalog.</p></div>
       <div class="col"><h3>No easy way out</h3><p>No question asks for a human, so every handoff is the agent's own choice.</p></div>
@@ -569,21 +599,28 @@ html.anim .hero .rv-stagger.in>*:nth-child(4){transition-delay:.23s}
 </section>
 
 <!-- ============================== VERDICT ============================== -->
-<section id="scoreboard" style="padding-top:0">
-  <div class="wrap">
+<section id="scoreboard" class="section-y">
+  <div class="wrap wrap-x stack gap-10">
+    <div class="grid w-full grid-cols-1 items-start gap-10 md:grid-cols-2 md:gap-16">
+    <div class="gr-section-header stack-start w-full min-w-0 gap-4">
+      <div class="stack-start gap-3">
     <span class="kicker rv"><span class="dot"></span>The numbers</span>
     <h2 class="sec rv">How every vendor performs, on both jobs.</h2>
+      </div>
     <p class="sec-lead rv">Two scores per vendor, one for each job. <b>Automation</b> is the share of conversations resolved with no human and no "email us" deflection. <b>Quality</b> is a blind 0 to 100 score for how well the answer sells or resolves. <b>Speed</b> is the time to a complete answer. Hover any column for the exact definition.</p>
-
-    <div class="winbar rv">
+    </div>
+    <div class="winbar winbar-panel rv stack-start w-full min-w-0 gap-3">
       <span class="winbar-l">Window</span>
+      <div class="flex flex-wrap items-center gap-2">
       <button class="winbtn" data-days="30" aria-selected="false" onclick="setScoreWindow('30',this)">Last 30 days</button>
       <button class="winbtn" data-days="60" aria-selected="false" onclick="setScoreWindow('60',this)">Last 60 days</button>
       <button class="winbtn winbtn-rec" data-days="90" aria-selected="true" onclick="setScoreWindow('90',this)">Last 90 days <span class="rec">&middot; recommended</span></button>
+      </div>
       <span class="winbar-note"><strong>90 days is the ranked window.</strong> It is what the leaderboard is computed on, and it gives every vendor enough stores to be measured fairly.</span>
     </div>
+    </div>
     <div class="inspect-banner rv" id="inspect-banner" hidden>Inspection view &middot; <span id="inspect-days">30</span> days. Not the published ranking.</div>
-    <div class="tablecard rv">
+    <div class="tablecard rv w-full">
       <div class="table-scroll">
         <table id="score-table">
           <thead>
@@ -602,16 +639,20 @@ html.anim .hero .rv-stagger.in>*:nth-child(4){transition-delay:.23s}
       </div>
     </div>
     <p class="table-hint">Scroll the table sideways for latency →</p>
-    <p class="table-note rv">Ranking requires a minimum sample. A vendor must record <b>at least 15 judged conversations in a given job</b> (roughly three storefronts) to qualify for a head-to-head rank, so that no single storefront can distort the result. Vendors below this threshold remain visible in the profiles but are not ranked. Currently unranked on sample size: Klaviyo (7 shopping, 5 support), Rep AI (9 shopping, 7 support), and Decagon (11 shopping). One misconfigured Shopping deployment is excluded, with its Support results retained.</p>
+    <p class="table-note rv w-full">Ranking requires a minimum sample. A vendor must record <b>at least 15 judged conversations in a given job</b> (roughly three storefronts) to qualify for a head-to-head rank, so that no single storefront can distort the result. Vendors below this threshold remain visible in the profiles but are not ranked. Currently unranked on sample size: Klaviyo (7 shopping, 5 support), Rep AI (9 shopping, 7 support), and Decagon (11 shopping). One misconfigured Shopping deployment is excluded, with its Support results retained.</p>
   </div>
 </section>
 
 <!-- ============================== SCOREBOARD ============================== -->
-<section id="verdict">
-  <div class="wrap">
+<section id="verdict" class="section-y">
+  <div class="wrap wrap-x stack gap-10">
+    <div class="gr-section-header stack-start w-full gap-8">
+      <div class="stack-start gap-6">
     <span class="kicker rv"><span class="dot"></span>Where Gorgias lands</span>
     <h2 class="sec rv"><!--RANK_TITLE-->We put ourselves through the same test.<!--/RANK_TITLE--></h2>
+      </div>
     <p class="sec-lead rv">Gorgias is one of the 18 vendors, on the identical blind rubric. Here is where we land, gap included, because a benchmark that hides its own is not worth reading.</p>
+    </div>
 
     <div class="verdict-shell rv">
       <div class="verdict-top">
@@ -647,12 +688,17 @@ html.anim .hero .rv-stagger.in>*:nth-child(4){transition-delay:.23s}
 </section>
 
 <!-- ============================== WIN / LOSE ============================== -->
-<section id="winlose" style="padding-top:0">
-  <div class="wrap">
+<section id="winlose" class="section-follow">
+  <div class="wrap wrap-x stack gap-10">
+    <div class="gr-section-header stack-start w-full gap-4">
+      <div class="stack-start gap-3">
     <span class="kicker rv"><span class="dot"></span>Wins and gaps</span>
     <h2 class="sec rv">Where Gorgias wins, and where it does not.</h2>
+      </div>
+    </div>
 
-    <div class="lane-head rv">
+    <div class="wl-lane stack-start w-full gap-4">
+    <div class="lane-head rv w-full">
       <span class="icon" aria-hidden="true">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11a9 9 0 0 1 18 0"/><path d="M21 15v2a3 3 0 0 1-3 3h-4"/><rect x="1" y="11" width="4" height="7" rx="1.5"/><rect x="19" y="11" width="4" height="7" rx="1.5"/></svg>
       </span>
@@ -676,8 +722,10 @@ html.anim .hero .rv-stagger.in>*:nth-child(4){transition-delay:.23s}
         </ul>
       </div>
     </div>
+    </div>
 
-    <div class="lane-head rv">
+    <div class="wl-lane stack-start w-full gap-4">
+    <div class="lane-head rv w-full">
       <span class="icon" aria-hidden="true">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
       </span>
@@ -702,16 +750,21 @@ html.anim .hero .rv-stagger.in>*:nth-child(4){transition-delay:.23s}
         </ul>
       </div>
     </div>
+    </div>
   </div>
 </section>
 
 <!-- ============================== LEARNINGS ============================== -->
-<section id="learnings">
-  <div class="wrap">
+<section id="learnings" class="section-y">
+  <div class="wrap wrap-x stack gap-10">
+    <div class="gr-section-header stack-center w-full gap-8">
+      <div class="stack-center gap-6">
     <span class="kicker rv"><span class="dot"></span>Market learnings</span>
     <h2 class="sec rv">Five things every leader evaluating an AI agent should know.</h2>
+      </div>
+    </div>
 
-    <div class="learn-list rv-stagger">
+    <div class="learn-list rv-stagger stack-start w-full">
       <div class="learn-row">
         <div class="learn-num tnum">1</div>
         <div class="learn-body">
@@ -775,36 +828,25 @@ html.anim .hero .rv-stagger.in>*:nth-child(4){transition-delay:.23s}
 </section>
 
 <!-- Rubric CTA band -->
-<style>
-.rubric-cta{max-width:1120px;margin:72px auto 0;padding:0 24px}
-.rubric-cta .rc-inner{background:#1A1E23;border-radius:24px;padding:64px 40px;text-align:center;color:#fff}
-.rubric-cta .rc-eyebrow{font-family:ui-monospace,Menlo,monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#A9ADB2;margin-bottom:22px}
-.rubric-cta .rc-h{font-family:'Feature Deck',Georgia,serif;font-weight:400;font-size:clamp(30px,5vw,52px);line-height:1.06;letter-spacing:-.01em;margin:0 0 20px;color:#fff}
-.rubric-cta .rc-h .ac{color:#FF9780}
-.rubric-cta .rc-sub{font-size:16px;color:#C7C9CC;max-width:56ch;margin:0 auto 30px;line-height:1.6}
-.rubric-cta .rc-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
-.rubric-cta .rc-btn{display:inline-block;padding:15px 26px;border-radius:999px;font-size:15px;font-weight:600;text-decoration:none;cursor:pointer;transition:background .15s,border-color .15s}
-.rubric-cta .rc-btn.primary{background:#fff;color:#1A1E23}
-.rubric-cta .rc-btn.primary:hover{background:#F3EEE9}
-.rubric-cta .rc-btn.ghost{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.28)}
-.rubric-cta .rc-btn.ghost:hover{border-color:#fff}
-@media(max-width:560px){.rubric-cta .rc-inner{padding:48px 22px}}
-</style>
-<section class="rubric-cta">
-  <div class="rc-inner">
-    <div class="rc-eyebrow">The rubric</div>
-    <h2 class="rc-h">Measure your own <span class="ac">AI agent</span></h2>
-    <p class="rc-sub">Download the same 26-check rubric we scored every vendor against, and grade your own AI on the two jobs that move revenue: helping shoppers buy, and resolving support without a human.</p>
-    <div class="rc-actions">
-      <a class="rc-btn primary" href="rubric.pdf" download>Download the rubric (PDF)</a>
-      <a class="rc-btn ghost" href="report-v2.html?view=rubric">See how the scoring works</a>
+<section class="rubric-cta section-y">
+  <div class="wrap wrap-x">
+    <div class="rc-inner stack-center gap-8">
+      <div class="stack-center gap-6">
+        <span class="kicker"><span class="dot"></span>The rubric</span>
+        <h2 class="rc-h">Measure your own <em>AI agent</em></h2>
+        <p class="rc-sub">Download the same 26-check rubric we scored every vendor against, and grade your own AI on the two jobs that move revenue: helping shoppers buy, and resolving support without a human.</p>
+      </div>
+      <div class="gr-cta-row">
+        <a class="gr-btn gr-btn-primary gr-btn-md" href="rubric.pdf" download>Download the rubric (PDF)</a>
+        <a class="gr-btn gr-btn-secondary gr-btn-md" href="report-v2.html?view=rubric">See how the scoring works</a>
+      </div>
     </div>
   </div>
 </section>
 
 <!-- ============================== FOOTER ============================== -->
-<div class="footer">
-  <div class="wrap">
+<div class="footer section-y">
+  <div class="wrap wrap-x stack-center gap-3">
     <div class="fbrand">Gorgias · AI Agent Benchmark</div>
     <div class="flinks">
       <a href="report-v2.html">Full results</a>
@@ -934,6 +976,9 @@ document.addEventListener('scroll',()=>tip.classList.remove('on'),{passive:true}
 
 /* ---------- reveal on scroll ---------- */
 const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+requestAnimationFrame(()=>requestAnimationFrame(()=>{
+  document.querySelectorAll('.hero .rv,.hero .rv-stagger').forEach(el=>el.classList.add('in'));
+}));
 if(!reduced){
   const io=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} }),{threshold:.12});
   document.querySelectorAll('.rv,.rv-stagger').forEach(el=>io.observe(el));
