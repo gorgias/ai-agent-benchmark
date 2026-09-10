@@ -35,7 +35,8 @@ const RUN_DATE = process.env.RUN_DATE || new Date().toISOString().slice(0, 10);
 // construction. Pass TARGET explicitly only to force a specific ceiling.
 const TARGET_ENV = Number(process.env.TARGET) || 0;   // 0 / unset = adaptive
 const BUDGET   = Number(process.env.BUDGET) || 345;   // max NEW valid non-Amazon convs to add (rest is Rufus)
-const HEADED   = new Set(["Rep AI", "Kodif", "Humind"]);            // these only capture cleanly headed
+const HEADED   = new Set(["Kodif", "Humind"]);                      // these only capture cleanly headed.
+// Rep AI removed 2026-09-10: 0 valid from 104 headed captures, and its fixed driver is verified headless.
 const EXCLUDE  = new Set(["Amazon Rufus", "Spiffy.ai", "Google Agentic", "Shopify Inbox"]); // separate/structural-zero
 // INCLUDE (optional whitelist): when set, ONLY these vendors are candidates — used to target the
 // productive, automatable tier (Envive/Yuma/DG/Siena) instead of draining the night into vendors

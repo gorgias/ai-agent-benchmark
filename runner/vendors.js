@@ -72,7 +72,21 @@ async function dismiss(page) {
 // nested shadow roots under `hostSel`, finds the first text input, types, hits Enter.
 // Rep AI ships two widget generations with different mount ids (see the `repai` widget note).
 // querySelector takes a selector LIST, so both are tried in document order.
-const REPAI_HOST = "#ads-agent-host, #repWebClientContainer";
+// Rep AI's V2 client (#repWebClientContainer) is the live one on every registered store. fresh also
+// carries the legacy #ads-agent-host, and a selector LIST resolves to whichever mount comes first in the
+// DOM, which aimed the driver at the dead one there. No registered store runs the legacy mount alone.
+const REPAI_HOST = "#repWebClientContainer";
+// True once the chat composer is mounted AND visible inside the (forced-open) shadow root.
+async function repaiComposerVisible(page) {
+  return page.evaluate((sel) => {
+    const host = document.querySelector(sel); if (!host) return false;
+    let f = false;
+    const walk = (n) => { if (!n || f) return; if (n.shadowRoot) walk(n.shadowRoot);
+      for (const k of (n.children || [])) walk(k);
+      if (!f && n.nodeType === 1 && (n.tagName === "TEXTAREA" || (n.tagName === "INPUT" && /text|search/i.test(n.type || "text")) || n.getAttribute?.("contenteditable") === "true") && n.getBoundingClientRect().width > 0) f = true; };
+    walk(host); return f;
+  }, REPAI_HOST).catch(() => false);
+}
 
 async function shadowSend(page, hostSel, text) {
   const handle = await page.evaluateHandle((sel) => {
@@ -502,69 +516,73 @@ export const WIDGETS = {
   },
 
   // ---- NEW vendor harnesses (best-effort scaffolds; verify per widget) ----
-  // Rep AI — loads via initRep(); widget usually in a rep.ai / hellorep iframe.
-  // Rep AI — HEADED only. In real Chrome the #ads-agent-host shadow is reachable, so we
-  // drive the composer there; the assistant REPLY is read at the network layer
-  // (server.myrepai.com/web/events carries it in sm[].t). transport:"net".
-  // Rep AI mounts under one of two ids depending on widget generation (see note below).
-  // querySelector accepts a selector list, so both are tried in document order.
+  // Rep AI (hellorep.ai) — V2 client #repWebClientContainer, captured headless, replies read from the DOM.
   repai: {
-    transport: "net",
-    // TWO WIDGET GENERATIONS (probed 2026-07-27). Rep AI ships an older shadow-DOM mount
-    // (`#ads-agent-host`) and a newer light-DOM one (`#repWebClientContainer`, sits alongside
-    // window.repAppV2). The driver only knew the old id, so on every store running the new
-    // generation `open()` and `send()` silently resolved to nothing: the message was never
-    // typed, the chat never opened, and server.myrepai.com/web/events only ever returned
-    // analytics beacons (`{"rbo":[],"fs":"HOMEPAGE"}`) with no `sm` messages — so 0 replies
-    // were captured, 0 turns were timed, and EVERY conversation was dropped as
-    // "no measurable latency". Live check across 4 stores: `#ads-agent-host` existed on
-    // Fresh Roasted Coffee ONLY — which is precisely the only Rep AI store that has ever
-    // produced valid conversations (16 of them; the other 14 stores yielded 0).
-    // querySelector takes a selector LIST, and the shadowSend/shadowClickLauncher walkers
-    // already descend through both light children and shadow roots, so accepting both ids is
-    // the whole fix.
-    scope: { kind: "shadowId", sel: "#ads-agent-host, #repWebClientContainer" },
-    net: {
-      match: /server\.myrepai\.com\/web\/events/i,
-      parse(body) {
-        const out = [];
-        try {
-          const arr = JSON.parse(body);
-          for (const el of (Array.isArray(arr) ? arr : [arr])) {
-            const sm = el && el.sm;
-            if (Array.isArray(sm)) for (const m of sm) { const t = typeof m === "string" ? m : (m && (m.t || m.text || m.message)); if (typeof t === "string" && t.trim()) out.push(t.trim()); }
-          }
-        } catch {}
-        return out;
-      },
-    },
+    // CLOSED SHADOW ROOT + WRONG CHANNEL (fixed 2026-09-10). Two faults that together meant the
+    // benchmark never captured a single Rep AI answer, on any store, in any mode.
+    //
+    // 1. The V2 client (`#repWebClientContainer`, window.repAppV2 — 14 of 15 registered stores)
+    //    mounts its UI inside a CLOSED shadow root. The container reads 0x0, no children,
+    //    `shadowRoot === null`, so every walker found no launcher and no composer: open() clicked
+    //    nothing and send() typed nothing. run.js now forces shadow roots open for this widget
+    //    only, which exposes the real UI.
+    // 2. Replies were read from `server.myrepai.com/web/events`. Verified live: that channel carries
+    //    the PROACTIVE greeting ("Hello beautiful soul, what are you seeking today?") and nothing
+    //    else — real answers travel elsewhere. So whenever a conversation "worked", what got timed
+    //    was the greeting re-emitted each turn: 25 conversations passed the >=3-timed-turns gate on
+    //    greetings alone, and the blind judge failed all 16 it scored for looping the same pitch.
+    //    Replies are now read from the DOM, which holds the real exchange.
+    //
+    // Verified on satyajewelry.com, headless: rep.open() -> "Type anything here..." composer ->
+    // question sent -> on-topic reply with a product carousel, the question visible in the thread.
+    // Headless is what was verified; headed yielded 0 valid from 104 attempts.
+    // order:"visual" — the thread is column-reverse in the DOM; see readTranscript.
+    scope: { kind: "shadowId", sel: "#repWebClientContainer", order: "visual" },
     async open(page) {
-      await page.waitForTimeout(4000); await dismiss(page);
-      await page.evaluate(() => { try { window.initRep && window.initRep(); } catch (e) {} }).catch(() => {});
-      await page.waitForTimeout(1500);
-      await shadowClickLauncher(page, REPAI_HOST);
-      await page.waitForTimeout(4000);
-      // The new-generation container mounts EMPTY and only builds its composer once the
-      // launcher is clicked, and the launcher itself can render outside the container.
-      // If no input exists yet, click the page-level Rep launcher and wait again.
-      const hasInput = await page.evaluate((sel) => {
-        const host = document.querySelector(sel); if (!host) return false;
-        let f = false; const walk = (n) => { if (!n || f) return; if (n.shadowRoot) walk(n.shadowRoot);
-          for (const k of (n.children || [])) walk(k);
-          if (!f && n.nodeType === 1 && (n.tagName === "TEXTAREA" || (n.tagName === "INPUT" && /text|search/i.test(n.type || "text")) || n.getAttribute?.("contenteditable") === "true")) f = true; };
-        walk(host); return f;
-      }, REPAI_HOST).catch(() => false);
-      if (!hasInput) {
-        await page.evaluate(() => {
-          const isRep = (el) => /rep|ads-?agent/i.test((el.id || "") + " " + String(el.className?.baseVal ?? el.className ?? "") + " " + (el.getAttribute?.("aria-label") || ""));
-          for (const el of document.querySelectorAll('button,[role="button"],div[class*="launcher" i],div[id*="launcher" i]')) {
-            if (isRep(el)) { el.click(); return; }
-          }
-        }).catch(() => {});
-        await page.waitForTimeout(4000);
+      await dismiss(page);
+      // LAZY-LOAD GATE (2026-09-10). Some storefronts inject the Rep AI client only after a first user
+      // interaction (scroll / pointer / key), the way Yuma's embed does. With no interaction the client
+      // never loads: lashify.com showed no Rep AI signal at all in a headless capture, while the same
+      // store mounted the composer in a probe that had scrolled first. Past captures that detected no
+      // chat provider at all (8/8 masteringthemix, 10/10 nutrabio, 31/47 fresh) fit the same pattern.
+      // A shopper always moves the mouse and scrolls, so the nudge only restores what a visitor does.
+      const nudge = async () => {
+        await page.mouse.move(420, 380).catch(() => {});
+        await page.mouse.wheel(0, 600).catch(() => {});
+        await page.waitForTimeout(800);
+        await page.mouse.wheel(0, -600).catch(() => {});
+        await page.keyboard.press("Tab").catch(() => {});
+      };
+      await nudge();
+      // The client injects ~12-15s after load and only mounts its composer once the chat is open.
+      // Poll for a VISIBLE composer, re-issuing rep.open() as the API comes up, instead of checking
+      // once: returning early is exactly what lost turn 1. The runner then quiesces on an empty and
+      // therefore perfectly still transcript, sends into a composer that does not exist yet, and
+      // shadowSend fails without a sound. Turn 2 worked only because the client had loaded by then.
+      const deadline = Date.now() + 40000;
+      let lastOpen = 0;
+      while (Date.now() < deadline && !(await repaiComposerVisible(page))) {
+        if (Date.now() - lastOpen > 4000) {
+          // Still no client API: the gate may have missed the first nudge, so interact again.
+          if (!(await page.evaluate(() => typeof window.rep !== "undefined").catch(() => false))) await nudge();
+          await page.evaluate(() => { try { window.rep && typeof window.rep.open === "function" && window.rep.open(); } catch (e) {} }).catch(() => {});
+          lastOpen = Date.now();
+        }
+        await page.waitForTimeout(1000);
       }
+      if (!(await repaiComposerVisible(page))) { await shadowClickLauncher(page, REPAI_HOST); await page.waitForTimeout(3000); }
+      // Let the proactive greeting land first, so it sits in the baseline instead of reading as
+      // growth caused by turn 1.
+      await page.waitForTimeout(2500);
     },
-    async send(page, text) { await shadowSend(page, REPAI_HOST, text); },
+    async send(page, text) {
+      // Never fire into a composer that is not there: shadowSend returns false silently.
+      for (let i = 0; i < 20 && !(await repaiComposerVisible(page)); i++) {
+        if (i === 5) await page.evaluate(() => { try { window.rep && window.rep.open && window.rep.open(); } catch (e) {} }).catch(() => {});
+        await page.waitForTimeout(1000);
+      }
+      await shadowSend(page, REPAI_HOST, text);
+    },
   },
   rufus: {
     scope: { kind: "dom", sel: "#rufus-conversation-container-inner" },
@@ -1342,7 +1360,8 @@ export const STORES = [
   { key: "humind-cbdfr",      vendor: "Humind", store: "CBD.fr",      url: "https://cbd.fr/",             widget: "humind", candidate: true, locale: "fr-FR" }, // embed.thehumind.com + humind-widget
   { key: "humind-hemphash",   vendor: "Humind", store: "Hemphash",    url: "https://hemphash.co.uk/",     widget: "humind", candidate: true, locale: "en-GB" }, // humind-gift-finder + humind-widget
   // NOTE: lamaisonconvertible.fr requested for Humind but is actually iAdvize (no humind signature) — skipped to avoid mislabeling.
-  // Rep AI — headed-only (concierge injects ~12-15s after load). candidate=excluded from headless runs.
+  // Rep AI — captured HEADLESS (verified 2026-09-10). The "headed-only" note that stood here was wrong
+  // twice over: headed yielded 0 valid from 104 captures, and `candidate` excludes nothing from any run.
   { key: "repai-olly",        vendor: "Rep AI", store: "OLLY",            url: "https://www.olly.com/",          widget: "repai", candidate: true },
   { key: "repai-higherdose",  vendor: "Rep AI", store: "HigherDOSE",      url: "https://higherdose.com/",        widget: "repai", candidate: true },
   { key: "repai-nutrabio",    vendor: "Rep AI", store: "NutraBio",        url: "https://nutrabio.com/",          widget: "repai", candidate: true },
@@ -1384,7 +1403,6 @@ export const STORES = [
   { key: "shopify-globosyfiesta",vendor: "Shopify Inbox", store: "Globos y Fiesta", url: "https://globosyfiesta.mx/", widget: "shopify_inbox", candidate: true, locale: "es-MX" },
   // ---- sourcing pass 2 (2026-07-03) — signature-verified, to raise statistical significance ----
   { key: "spiffy-clove", wall: true,      vendor: "Envive", store: "Clove",         url: "https://goclove.com/",            widget: "spiffy" },          // cdn.spiffy.ai (2026-07-07: verified served-HTML signature on goclove.com, not clovebrand.com) | walled 2026-07-27: 143 AI turns / 21 convs, ZERO reply content, 0 valid
-  { key: "repai-gosun", wall: true,       vendor: "Rep AI", store: "GoSun",         url: "https://gosun.co/",               widget: "repai" },           // hellorep-lazyload.js (verified 2026-07-07) | walled 2026-07-27: 83 AI turns / 10 convs, ZERO reply content, 0 valid
   { key: "spiffy-fur",        vendor: "Envive", store: "Fur",           url: "https://www.furyou.com/",         widget: "spiffy" },          // cdn.spiffy.ai
   { key: "dg-kukoon",         vendor: "DigitalGenius", store: "Kukoon", url: "https://kukoon.com/",             widget: "dg", locale: "en-GB" }, // chat.digitalgenius.com
   { key: "dg-blakely",        vendor: "DigitalGenius", store: "Blakely Clothing", url: "https://www.blakelyclothing.com/", widget: "dg", locale: "en-GB" }, // chat.digitalgenius.com/init.js (verified 2026-07-07)
@@ -1451,6 +1469,32 @@ export const STORES = [
   { key: "repai-vibae",       vendor: "Rep AI", store: "VIBAe",         url: "https://vibae.com/",              widget: "repai" },           // initRep
   { key: "repai-safishing",   vendor: "Rep AI", store: "SA Fishing",    url: "https://www.safishing.com/",      widget: "repai" },
   { key: "repai-fass",        vendor: "Rep AI", store: "FASS Motorsports", url: "https://www.fassmotorsports.com/", widget: "repai" },
+  // Rep AI — 22 storefronts sourced 2026-09-10 from hellorep.ai (case studies, homepage logo wall) and the
+  // Shopify App Store reviews, then verified live one at a time: myrepai.com traffic + #repWebClientContainer +
+  // window.repAppV2 on a cold visit. 18 other named customers failed that check (churned, script stub only, or
+  // dead domain) and are not added. candidate until each one captures end to end.
+  { key: "repai-isotunes", vendor: "Rep AI", store: "ISOtunes", url: "https://isotunes.com/", widget: "repai", candidate: true },
+  { key: "repai-lashify", vendor: "Rep AI", store: "Lashify", url: "https://www.lashify.com/", widget: "repai", candidate: true },
+  { key: "repai-capstonegames", vendor: "Rep AI", store: "Capstone Games", url: "https://capstone-games.com/", widget: "repai", candidate: true },
+  { key: "repai-homespice", vendor: "Rep AI", store: "Homespice", url: "https://homespice.com/", widget: "repai", candidate: true },
+  { key: "repai-couturecandy", vendor: "Rep AI", store: "Couture Candy", url: "https://www.couturecandy.com/", widget: "repai", candidate: true },
+  { key: "repai-americanhomefurniture", vendor: "Rep AI", store: "American Home Furniture", url: "https://americanhomefurniture.com/", widget: "repai", candidate: true },
+  { key: "repai-blingcartel", vendor: "Rep AI", store: "Bling Cartel", url: "https://www.blingcartel.com/", widget: "repai", candidate: true },
+  { key: "repai-clothandpaper", vendor: "Rep AI", store: "Cloth & Paper", url: "https://www.clothandpaper.com/", widget: "repai", candidate: true },
+  { key: "repai-crownbees", vendor: "Rep AI", store: "Crown Bees", url: "https://crownbees.com/", widget: "repai", candidate: true },
+  { key: "repai-mossballpets", vendor: "Rep AI", store: "Moss Ball Pets", url: "https://mossballpets.com/", widget: "repai", candidate: true },
+  { key: "repai-underoutfit", vendor: "Rep AI", store: "Underoutfit", url: "https://www.underoutfit.com/", widget: "repai", candidate: true },
+  { key: "repai-oozelife", vendor: "Rep AI", store: "Ooze", url: "https://www.oozelife.com/", widget: "repai", candidate: true },
+  { key: "repai-mitoredlight", vendor: "Rep AI", store: "Mito Red Light", url: "https://mitoredlight.com/", widget: "repai", candidate: true },
+  { key: "repai-neosabers", vendor: "Rep AI", store: "NeoSabers", url: "https://neosabers.com/", widget: "repai", candidate: true },
+  { key: "repai-scentiment", vendor: "Rep AI", store: "Scentiment", url: "https://www.scentiment.com/", widget: "repai", candidate: true },
+  { key: "repai-plunge", vendor: "Rep AI", store: "Plunge", url: "https://plunge.com/", widget: "repai", candidate: true },
+  { key: "repai-venusetfleur", vendor: "Rep AI", store: "Venus et Fleur", url: "https://www.venusetfleur.com/", widget: "repai", candidate: true },
+  { key: "repai-charliebcollection", vendor: "Rep AI", store: "Charlie B Collection", url: "https://www.charliebcollection.com/", widget: "repai", candidate: true },
+  { key: "repai-verticalspice", vendor: "Rep AI", store: "Vertical Spice", url: "https://verticalspice.com/", widget: "repai", candidate: true },
+  { key: "repai-puursmile", vendor: "Rep AI", store: "Puur Smile", url: "https://puursmile.com/", widget: "repai", candidate: true },
+  { key: "repai-heavys", vendor: "Rep AI", store: "Heavys", url: "https://www.heavys.com/", widget: "repai", candidate: true },
+  { key: "repai-vallon", vendor: "Rep AI", store: "Vallon", url: "https://www.vallon.com/", widget: "repai", candidate: true },
 
   // Decagon — enterprise AI support agent (added 2026-07-04). All 6 signature-verified live
   // (decagon.ai/loaders/<client>.js embed or #decagon-iframe / CSP allowlist in page source).
@@ -1639,20 +1683,27 @@ export async function readTranscript(page, scope) {
     try {
       // Deep-walk the OPEN shadow tree under the host, gathering innerText from leaf
       // elements only, skipping <style>/<script> (the old first-<div> read leaked CSS).
-      const text = await page.evaluate((sel) => {
+      const text = await page.evaluate(({ sel, visual }) => {
         const host = document.querySelector(sel) || document.getElementsByTagName(sel)[0];
         const root = host && host.shadowRoot ? host.shadowRoot : host;
         if (!root) return "";
-        let out = "";
+        let out = ""; const items = [];
         const walk = (n) => {
           if (!n) return;
           if (n.nodeType === 1) { const tag = n.tagName; if (tag === "STYLE" || tag === "SCRIPT" || tag === "NOSCRIPT") return; if (n.shadowRoot) walk(n.shadowRoot); }
-          if (n.nodeType === 1 && !n.shadowRoot && n.childElementCount === 0) { const t = (n.innerText || n.textContent || "").trim(); if (t) out += t + "\n"; return; }
+          if (n.nodeType === 1 && !n.shadowRoot && n.childElementCount === 0) { const t = (n.innerText || n.textContent || "").trim(); if (t) { if (visual) { const r = n.getBoundingClientRect(); const shown = r.width > 1 && r.height > 1 && (!n.checkVisibility || n.checkVisibility({ checkOpacity: true, checkVisibilityCSS: true, opacityProperty: true, visibilityProperty: true })); if (shown) items.push({ t, y: r.top, x: r.left, i: items.length }); } else out += t + "\n"; } return; }
           for (const k of (n.childNodes || [])) walk(k);
         };
         walk(root);
+        // order:"visual" (opt-in per widget) — read top-to-bottom as the shopper SEES it. Rep AI stacks
+        // its thread in flex column-reverse containers, so DOM order is newest-first: answer lines,
+        // then OUR question, then the greeting. The runner keeps only text after the echoed
+        // question, which erased every answer and left turns that never closed (substance stuck at
+        // 73 chars on satya while a complete reply sat in the DOM). 1px nodes are screen-reader-only
+        // announcements (an aria-live "New message: …" duplicate parked off-screen) and are dropped.
+        if (visual) { items.sort((a, b) => (a.y - b.y) || (a.x - b.x) || (a.i - b.i)); out = items.map((o) => o.t).join("\n") + (items.length ? "\n" : ""); }
         return out;
-      }, scope.sel);
+      }, { sel: scope.sel, visual: scope.order === "visual" });
       return { len: text.length, text };
     } catch { return { len: 0, text: "" }; }
   }
