@@ -48,24 +48,8 @@ a{color:inherit;text-decoration:none}
    TOP NAV
    ========================================================================= */
 .nav-burger{display:none;margin-left:auto;background:none;border:1px solid var(--gr-border);border-radius:9px;font-size:17px;line-height:1;padding:6px 11px;cursor:pointer;color:var(--gr-body)}
-.sitenav{position:sticky;top:16px;z-index:var(--z-sticky);display:flex;align-items:center;gap:20px;
-  width:max-content;max-width:calc(100% - 32px);margin:16px auto 0;padding:14px 28px;height:auto;
-  background:var(--gr-white);border-radius:20px;box-shadow:0 4px 8px -2px rgba(0,0,0,.1)}
-.sitenav.scrolled{box-shadow:0 6px 14px -4px rgba(0,0,0,.14)}
-.sitenav .brand{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--gr-head);white-space:nowrap}
-.sitenav .brand .mark{height:19px;width:auto;display:block;flex:none}
-.sitenav .brand .sub{font-family:var(--font-mono);font-size:11px;font-weight:500;letter-spacing:var(--font-label-tracking);text-transform:uppercase;color:var(--gr-text)}
-.sitenav .links{display:flex;align-items:center;gap:2px;margin-left:auto;flex-wrap:wrap}
-.sitenav .links a{font-size:13px;font-weight:500;color:var(--gr-text);padding:7px 12px;border-radius:8px;transition:background .14s,color .14s;white-space:nowrap;cursor:pointer;background:none;border:none;font-family:inherit}
-.sitenav .links a:hover{background:var(--gr-cream);color:var(--gr-head)}
-.sitenav .links a.active{color:var(--gr-head);font-weight:600;background:var(--gr-peach)}
-@media(max-width:820px){.sitenav .brand .sub{display:none}.sitenav .links a{padding:6px 9px;font-size:12px}}
-@media(max-width:720px){
-  .nav-burger{display:block}
-  .sitenav .links{display:none}
-  .sitenav.nav-open .links{display:flex;flex-direction:column;align-items:stretch;position:absolute;top:calc(100% + 6px);right:10px;background:var(--gr-white);border:1px solid var(--gr-border);border-radius:14px;padding:8px;min-width:200px}
-  .sitenav.nav-open .links a{padding:11px 14px;font-size:14px;border-radius:9px;text-align:left}
-}
+
+/* Nav + hero chrome live in /brand/components.css + /brand/site-nav.js */
 
 /* =========================================================================
    LAYOUT + THE BRAND LABEL (mono caps, opened by the coral asterisk)
@@ -126,37 +110,6 @@ h1 .accent{color:var(--gr-mute)}
 .hero .sub a{color:var(--gr-ink);border-bottom:1px solid var(--gr-ink);font-weight:500}
 .hero .sub a:hover{background:var(--gr-blush)}
 
-/* Stat band - the brand's full-height pastel columns. Ink serif numerals. */
-.statstrip{
-  display:grid;grid-template-columns:repeat(4,1fr);gap:var(--md);
-}
-.statcell{
-  padding:var(--lg) var(--md);border-radius:10px;
-  background:var(--gr-white);border:1px solid var(--gr-border);
-  display:flex;flex-direction:column;gap:var(--xxs);
-  min-height:150px;justify-content:center;align-items:center;text-align:center;
-}
-/* the pastels stay pills and accents here, the way they are on the source page */
-.statcell:nth-child(1) .lbl::before{background:var(--gr-rose)}
-.statcell:nth-child(2) .lbl::before{background:var(--gr-amber)}
-.statcell:nth-child(3) .lbl::before{background:var(--gr-sky)}
-.statcell:nth-child(4) .lbl::before{background:var(--gr-sage)}
-/* Feature Deck's tabular figures sit in boxes far wider than the glyphs - "7,116"
- measures 159px tabular against 104px proportional at 58px, which reads as broken
- letter-spacing. Display numerals are standalone, not a column, so they take
- proportional figures and kern properly. Table columns keep tnum for alignment. */
-.statcell .num,.statcell .num.tnum{
-  font-family:var(--font-display);font-weight:400;
-  font-size:clamp(38px,4.6vw,58px);line-height:1;letter-spacing:0;color:var(--gr-ink);
-  font-variant-numeric:proportional-nums;font-feature-settings:"tnum" 0;
-}
-.statcell .lbl{display:inline-flex;align-items:center;gap:7px;font-family:var(--font-mono);font-size:11.5px;font-weight:400;text-transform:uppercase;color:var(--gr-text);line-height:1.4;white-space:nowrap}
-.statcell .lbl::before{content:"";width:7px;height:7px;border-radius:50%;flex:none}
-@media(max-width:640px){.statstrip{grid-template-columns:repeat(2,1fr)}.statcell{min-height:140px}
-  /* nowrap keeps the label on one line at desktop widths; in a 2-up mobile grid it
-     pushed the cards 27px past the viewport, so it has to give here. */
-  .statcell .lbl{white-space:normal;text-align:center;align-items:flex-start}
-  .statcell .lbl::before{margin-top:5px}}
 /* the hard break is a desktop line-break decision; below 600px let balance do it */
 @media(max-width:600px){h1 br{display:none}h1{max-width:none}}
 
@@ -544,52 +497,36 @@ html.anim .hero .rv.in,html.anim .hero .rv-stagger.in>*{opacity:1;transform:none
 <body>
 
 <!-- ============================== APP BAR ============================== -->
-<nav class="sitenav" id="appbar">
-  <a class="brand" href="https://www.gorgias.com" target="_blank" rel="noopener noreferrer"><img class="mark" src="/brand/gorgias-logo.svg" alt="Gorgias" width="139" height="37"></a>
-  <button class="nav-burger" aria-label="Menu" onclick="event.stopPropagation();this.closest('.sitenav').classList.toggle('nav-open')">☰</button>
-  <div class="links">
-    <a href="takeaways-v2.html" class="active" aria-current="page">Overview</a>
-    <a href="report-v2.html">Full results</a>
-    <a href="report-v2.html?view=rubric">Rubric</a>
-  </div>
-  <a class="nav-cta" href="report-v2.html#how">How it works</a>
-</nav>
+<nav class="sitenav wrap-x" id="appbar" data-active="overview" data-how="anchor"></nav>
+<script src="/brand/site-nav.js"></script>
 
 <!-- ============================== HERO ============================== -->
-<header class="hero wrap wrap-x section-y stack-center">
-  <div class="hero-inner stack-center w-full gap-8">
-    <div class="gr-section-header stack-center w-full gap-6">
-      <div class="stack-center gap-4">
+<header class="hero wrap-x">
+  <div class="hero-inner">
     <span class="eyebrow rv"><span class="live"></span>Industry benchmark&nbsp;·&nbsp;<b><!--REFRESHED-->September 2026<!--/REFRESHED--></b></span>
-    <h1 class="rv"><span class="accent">The real test for</span><br> ecommerce AI agents.</h1>
-      </div>
+    <h1 class="rv">The real test for<br> ecommerce AI agents.</h1>
     <p class="sub rv">We tested the AI agents ecommerce brands actually run, on live Shopify stores, the way a real shopper does. No one measures these agents the same way, so we built one rubric and scored every vendor on the two jobs that matter: helping shoppers buy, and resolving support without a human. Independent, blind-scored, re-run weekly.</p>
     <div class="gr-cta-row rv">
-      <a class="gr-btn gr-btn-primary gr-btn-md" href="report-v2.html">See where every vendor lands</a>
-      <a class="gr-btn gr-btn-secondary gr-btn-md" href="report-v2.html?view=rubric">See how the scoring works</a>
+      <a class="gr-btn gr-btn-primary gr-btn-lg" href="report-v2.html">See where every vendor lands</a>
+      <a class="gr-btn gr-btn-secondary gr-btn-lg" href="rubric.pdf" download>Download the rubric (PDF)</a>
     </div>
-    </div>
-    <div class="statstrip rv-stagger grid w-full grid-cols-2 gap-4 md:grid-cols-4">
-      <div class="statcell"><div class="num tnum" data-count="7116" data-stat="convs">7,116</div><div class="lbl">Conversations captured</div></div>
-      <div class="statcell"><div class="num tnum" data-count="6817" data-stat="judged">6,817</div><div class="lbl">Blind-judged</div></div>
-      <div class="statcell"><div class="num tnum" data-count="18" data-stat="vendors">18</div><div class="lbl">Vendors tested</div></div>
-      <div class="statcell"><div class="num tnum" data-count="164" data-suffix="+" data-stat="stores">164+</div><div class="lbl">Live stores measured</div></div>
-    </div>
-    <!-- STATS_JSON:{"convs":7116,"judged":6817,"vendors":18,"stores":164,"runs":42} -->
   </div>
 </header>
+<section class="gr-stats gr-stats-band wrap-x" aria-label="dataset size">
+      <div class="gr-stats-cell"><div class="num tnum" data-count="7116" data-stat="convs">7,116</div><div class="lbl">Conversations captured</div></div>
+      <div class="gr-stats-cell"><div class="num tnum" data-count="6817" data-stat="judged">6,817</div><div class="lbl">Blind-judged</div></div>
+      <div class="gr-stats-cell"><div class="num tnum" data-count="18" data-stat="vendors">18</div><div class="lbl">Vendors tested</div></div>
+      <div class="gr-stats-cell"><div class="num tnum" data-count="164" data-suffix="+" data-stat="stores">164+</div><div class="lbl">Live stores measured</div></div>
+    </section>
+    <!-- STATS_JSON:{"convs":7116,"judged":6817,"vendors":18,"stores":164,"runs":42} -->
 
 <!-- ============================== HOW WE TEST ============================== -->
-<section id="how" class="section-y">
-  <div class="wrap wrap-x stack gap-10">
-    <div class="gr-section-header stack-start w-full gap-4">
-      <div class="stack-start gap-3">
+<section id="how" class="gr-how wrap-x">
+  <div class="gr-how-inner">
     <span class="kicker rv"><span class="dot"></span>How it works</span>
-    <h2 class="sec rv">One rubric, applied the same way to every vendor.</h2>
-      </div>
-    <p class="sec-lead rv">We measure two jobs separately: a <b>Shopping Assistant</b> that helps a shopper find and buy, and a <b>Support Agent</b> that resolves shipping, returns, and policy questions without a human. Every agent gets the same questions, under the same conditions, scored the same way.</p>
-    </div>
-    <div class="method rv">
+    <h2 class="sec rv">One rubric, applied the same way<br>to every vendor.</h2>
+    <p class="sec-lead rv">We measure two jobs separately: a Shopping Assistant that helps a shopper find and buy, and a Support Agent that resolves shipping, returns, and policy questions without a human. Every agent gets the same questions, under the same conditions, scored the same way.</p>
+    <div class="gr-method rv">
       <div class="col"><h3>Same test for all</h3><p>One standard set of questions, adapted only to each store's catalog.</p></div>
       <div class="col"><h3>No easy way out</h3><p>No question asks for a human, so every handoff is the agent's own choice.</p></div>
       <div class="col"><h3>Cold sessions</h3><p>A fresh browser with no memory on every run, so nothing is warmed up.</p></div>
@@ -598,40 +535,35 @@ html.anim .hero .rv.in,html.anim .hero .rv-stagger.in>*{opacity:1;transform:none
   </div>
 </section>
 
-<!-- ============================== VERDICT ============================== -->
-<section id="scoreboard" class="section-y">
-  <div class="wrap wrap-x stack gap-10">
-    <div class="grid w-full grid-cols-1 items-start gap-10 md:grid-cols-2 md:gap-16">
-    <div class="gr-section-header stack-start w-full min-w-0 gap-4">
-      <div class="stack-start gap-3">
+<!-- ============================== THE NUMBERS ============================== -->
+<section id="scoreboard" class="gr-board wrap-x">
+  <div class="gr-board-inner">
     <span class="kicker rv"><span class="dot"></span>The numbers</span>
-    <h2 class="sec rv">How every vendor performs, on both jobs.</h2>
-      </div>
-    <p class="sec-lead rv">Two scores per vendor, one for each job. <b>Automation</b> is the share of conversations resolved with no human and no "email us" deflection. <b>Quality</b> is a blind 0 to 100 score for how well the answer sells or resolves. <b>Speed</b> is the time to a complete answer. Hover any column for the exact definition.</p>
+    <div class="gr-board-head">
+      <h2 class="sec rv">How every vendor performs,<br>on both jobs.</h2>
+      <p class="sec-lead rv">Two scores per vendor, one for each job. Automation is the share of conversations resolved with no human and no "email us" deflection. Quality is a blind 0 to 100 score for how well the answer sells or resolves. Speed is the time to a complete answer.</p>
     </div>
-    <div class="winbar winbar-panel rv stack-start w-full min-w-0 gap-3">
-      <span class="winbar-l">Window</span>
-      <div class="flex flex-wrap items-center gap-2">
-      <button class="winbtn" data-days="30" aria-selected="false" onclick="setScoreWindow('30',this)">Last 30 days</button>
-      <button class="winbtn" data-days="60" aria-selected="false" onclick="setScoreWindow('60',this)">Last 60 days</button>
-      <button class="winbtn winbtn-rec" data-days="90" aria-selected="true" onclick="setScoreWindow('90',this)">Last 90 days <span class="rec">&middot; recommended</span></button>
+    <div class="gr-winbar rv">
+      <div class="gr-seg" role="group" aria-label="Ranking window">
+        <button class="winbtn" type="button" data-days="30" aria-selected="false" onclick="setScoreWindow('30',this)">Last 30 days</button>
+        <button class="winbtn" type="button" data-days="60" aria-selected="false" onclick="setScoreWindow('60',this)">Last 60 days</button>
+        <button class="winbtn winbtn-rec" type="button" data-days="90" aria-selected="true" onclick="setScoreWindow('90',this)">Last 90 days <span class="rec">&middot; recommended</span></button>
       </div>
-      <span class="winbar-note"><strong>90 days is the ranked window.</strong> It is what the leaderboard is computed on, and it gives every vendor enough stores to be measured fairly.</span>
-    </div>
+      <p class="winbar-note"><strong>90 days is the ranked window.</strong> It is what the leaderboard is computed on, and it gives every vendor enough stores to be measured fairly.</p>
     </div>
     <div class="inspect-banner rv" id="inspect-banner" hidden>Inspection view &middot; <span id="inspect-days">30</span> days. Not the published ranking.</div>
-    <div class="tablecard rv w-full">
+    <div class="tablecard rv">
       <div class="table-scroll">
         <table id="score-table">
           <thead>
             <tr>
-              <th class="n"><span class="tt" data-tip="Overall position: vendors ordered by the sum of their two lane composites. The small #n next to each composite is the rank within that lane.">#</span></th>
-              <th>Vendor</th>
-              <th class="n"><span class="tt" data-tip="Shopping composite = 40% automation + 35% quality + 25% speed. Shopping weights speed higher because latency drives conversion (a shopper won't wait). Speed scored 100 at ≤3s, 0 at ≥22s. The ± is the 95% interval across the vendor&#39;s storefronts. Where two vendors&#39; intervals overlap, this data does not separate them.">Composite · Shopping</span></th>
-              <th class="n"><span class="tt" data-tip="Support composite = 50% automation + 40% quality + 10% speed. Support weights automation highest because containment (no human handover) is the job, and speed lowest because a customer waiting on a policy answer is far more patient than a shopper mid-purchase. Reweighted 2026-09-03 from 30/20; rationale and full before/after in notes/lane-weights-2026-09-03.md. Speed scored 100 at ≤3s, 0 at ≥22s. The ± is the 95% interval across the vendor&#39;s storefronts. Where two vendors&#39; intervals overlap, this data does not separate them.">Composite · Support</span></th>
-              <th><span class="tt" data-tip="Automation rate = % of engaged conversations the AI handled with ZERO human touch: no human handover AND no deflection out of the channel. Early bails count against it. This is the ticket-containment metric.">Automation · S/Su</span></th>
-              <th><span class="tt" data-tip="Quality = an LLM judge scores every captured conversation /100 on a per-lane rubric, judged BLIND via binary evidence-forced checks. The score is derived from the checks, never picked by the judge. Shopping: answer relevance /30, discovery (smart clarifying questions on broad asks) /20, recommendation /22, rich elements /18, close /10. Support: resolution /40, accuracy /25, actionability /20, close /15. Spec: runner/eval-rubric.md.">Quality · S/Su</span></th>
-              <th class="n"><span class="tt" data-tip="Latency = mean time from a free-typed message to the assistant's COMPLETE final answer (never stopped on a stall, never on chips), cold session.">Latency</span></th>
+              <th class="rank"><span class="tt" data-tip="Overall position: vendors ordered by the sum of their two lane composites. The small #n next to each composite is the rank within that lane.">#</span></th>
+              <th class="vendor">Vendor</th>
+              <th class="compcell"><span class="tt" data-tip="Shopping composite = 40% automation + 35% quality + 25% speed. Shopping weights speed higher because latency drives conversion (a shopper won't wait). Speed scored 100 at ≤3s, 0 at ≥22s. The ± is the 95% interval across the vendor&#39;s storefronts. Where two vendors&#39; intervals overlap, this data does not separate them.">Composite · Shopping</span></th>
+              <th class="compcell"><span class="tt" data-tip="Support composite = 50% automation + 40% quality + 10% speed. Support weights automation highest because containment (no human handover) is the job, and speed lowest because a customer waiting on a policy answer is far more patient than a shopper mid-purchase. Reweighted 2026-09-03 from 30/20; rationale and full before/after in notes/lane-weights-2026-09-03.md. Speed scored 100 at ≤3s, 0 at ≥22s. The ± is the 95% interval across the vendor&#39;s storefronts. Where two vendors&#39; intervals overlap, this data does not separate them.">Composite · Support</span></th>
+              <th class="pair"><span class="tt" data-tip="Automation rate = % of engaged conversations the AI handled with ZERO human touch: no human handover AND no deflection out of the channel. Early bails count against it. This is the ticket-containment metric.">Automation  S/Su</span></th>
+              <th class="pair"><span class="tt" data-tip="Quality = an LLM judge scores every captured conversation /100 on a per-lane rubric, judged BLIND via binary evidence-forced checks. The score is derived from the checks, never picked by the judge. Shopping: answer relevance /30, discovery (smart clarifying questions on broad asks) /20, recommendation /22, rich elements /18, close /10. Support: resolution /40, accuracy /25, actionability /20, close /15. Spec: runner/eval-rubric.md.">Quality  S/Su</span></th>
+              <th class="pair"><span class="tt" data-tip="Latency = mean time from a free-typed message to the assistant's COMPLETE final answer (never stopped on a stall, never on chips), cold session.">Latency  S/Su</span></th>
             </tr>
           </thead>
           <tbody></tbody>
@@ -639,132 +571,109 @@ html.anim .hero .rv.in,html.anim .hero .rv-stagger.in>*{opacity:1;transform:none
       </div>
     </div>
     <p class="table-hint">Scroll the table sideways for latency →</p>
-    <p class="table-note rv w-full">Ranking requires a minimum sample. A vendor must record <b>at least 15 judged conversations in a given job</b> (roughly three storefronts) to qualify for a head-to-head rank, so that no single storefront can distort the result. Vendors below this threshold remain visible in the profiles but are not ranked. Currently unranked on sample size: Klaviyo (7 shopping, 5 support), Rep AI (9 shopping, 7 support), and Decagon (11 shopping). One misconfigured Shopping deployment is excluded, with its Support results retained.</p>
+    <p class="table-note rv">Ranking requires a minimum sample. A vendor must record <b>at least 15 judged conversations in a given job</b> (roughly three storefronts) to qualify for a head-to-head rank, so that no single storefront can distort the result. Vendors below this threshold remain visible in the profiles but are not ranked. Currently unranked on sample size: Klaviyo (7 shopping, 5 support), Rep AI (9 shopping, 7 support), and Decagon (11 shopping). One misconfigured Shopping deployment is excluded, with its Support results retained.</p>
   </div>
 </section>
 
-<!-- ============================== SCOREBOARD ============================== -->
-<section id="verdict" class="section-y">
-  <div class="wrap wrap-x stack gap-10">
-    <div class="gr-section-header stack-start w-full gap-8">
-      <div class="stack-start gap-6">
+<!-- ============================== WHERE GORGIAS LANDS ============================== -->
+<section id="verdict" class="gr-stand wrap-x">
+  <div class="gr-stand-inner">
     <span class="kicker rv"><span class="dot"></span>Where Gorgias lands</span>
-    <h2 class="sec rv"><!--RANK_TITLE-->We put ourselves through the same test.<!--/RANK_TITLE--></h2>
-      </div>
+    <h2 class="sec rv">We put ourselves through the same test.</h2>
     <p class="sec-lead rv">Gorgias is one of the 18 vendors, on the identical blind rubric. Here is where we land, gap included, because a benchmark that hides its own is not worth reading.</p>
+    <span class="badge-rank"><!--RANK_BADGE-->#1 overall · #2 support · #2 shopping<!--/RANK_BADGE--></span>
+    <div class="gr-stand-grid rv">
+      <div class="vcell good">
+        <div class="kpi tnum">94</div>
+        <span class="tag">Support quality</span>
+        <div class="desc"><span class="tt" data-tip="Support quality /100 (blind, evidence-forced LLM judge): in-channel resolution /40, accuracy &amp; grounding /25, actionability /20, clean close /15. Derived from binary checks, never picked by the judge.">The highest support answer quality we measured</span> (field median ~65). Specific, grounded resolutions that close the ticket.</div>
+      </div>
+      <div class="vcell good">
+        <div class="kpi tnum">94<span class="u">%</span></div>
+        <span class="tag">Automation</span>
+        <div class="desc"><span class="tt" data-tip="Automation rate = % of engaged conversations the AI handled with ZERO human touch: no human handover AND no out-of-channel deflection ('email us' / 'call us'). Early bails count against it. In helpdesk terms: the share of tickets a human never touches.">94% shopping · 83% support</span> across live stores. The only agents that score higher resolve almost nothing. Top-tier containment among the agents that actually answer.</div>
+      </div>
+      <div class="vcell mid">
+        <div class="kpi tnum"><!--RANK_OVERALL-->#1<!--/RANK_OVERALL--></div>
+        <span class="tag">Overall position</span>
+        <div class="desc"><span class="tt" data-tip="Overall = mean of the two lane composites. Composite is lane-specific: SUPPORT = 50% automation + 40% quality + 10% speed (containment is the job; latency tolerance is higher than in shopping, so speed carries least. Reweighted 2026-09-03, see notes/lane-weights-2026-09-03.md); SHOPPING = 40% automation + 35% quality + 25% speed (a shopper will not wait). Speed scores 100 at ≤3s and 0 at ≥22s."><!--RANK_LANES-->#2 support, #2 shopping<!--/RANK_LANES--></span>, and #1 overall, the strongest combined result in the field. Our shopping quality sits close behind the leaders on substance.</div>
+      </div>
+      <div class="vcell warn">
+        <div class="kpi tnum">~18<span class="u">s</span></div>
+        <span class="tag">The gap: response speed</span>
+        <div class="desc"><span class="tt" data-tip="Latency = mean time to the COMPLETE final answer in a cold session. Never stopped on a stall, never on chips.">Shopping answers land at around 18s</span>, in one block, slower than the streaming leaders (Sierra ~10s, Envive ~12s). Support speed is fine (~15s). Shopping is the job where response time matters most.</div>
+      </div>
     </div>
-
-    <div class="verdict-shell rv">
-      <div class="verdict-top">
-        <span class="badge-rank"><!--RANK_BADGE-->#1 overall · #2 support · #2 shopping<!--/RANK_BADGE--></span>
-      </div>
-      <div class="verdict-grid">
-        <div class="vcell good">
-          <div class="kpi tnum">94</div>
-          <span class="tag">Support quality</span>
-          <div class="desc"><span class="tt" data-tip="Support quality /100 (blind, evidence-forced LLM judge): in-channel resolution /40, accuracy &amp; grounding /25, actionability /20, clean close /15. Derived from binary checks, never picked by the judge.">The highest support answer quality we measured</span> (field median ~65). Specific, grounded resolutions that close the ticket.</div>
-        </div>
-        <div class="vcell good">
-          <div class="kpi tnum">94<span style="font-size:.5em;font-weight:600">%</span></div>
-          <span class="tag">Automation</span>
-          <div class="desc"><span class="tt" data-tip="Automation rate = % of engaged conversations the AI handled with ZERO human touch: no human handover AND no out-of-channel deflection ('email us' / 'call us'). Early bails count against it. In helpdesk terms: the share of tickets a human never touches.">94% shopping · 83% support</span> across live stores. The only agents that score higher resolve almost nothing. Top-tier containment among the agents that actually answer.</div>
-        </div>
-        <div class="vcell mid">
-          <div class="kpi tnum"><!--RANK_OVERALL-->#1<!--/RANK_OVERALL--></div>
-          <span class="tag">Overall position</span>
-          <div class="desc"><span class="tt" data-tip="Overall = mean of the two lane composites. Composite is lane-specific: SUPPORT = 50% automation + 40% quality + 10% speed (containment is the job; latency tolerance is higher than in shopping, so speed carries least. Reweighted 2026-09-03, see notes/lane-weights-2026-09-03.md); SHOPPING = 40% automation + 35% quality + 25% speed (a shopper will not wait). Speed scores 100 at ≤3s and 0 at ≥22s."><!--RANK_LANES-->#2 support, #2 shopping<!--/RANK_LANES--></span>, and #1 overall, the strongest combined result in the field. Our shopping quality sits close behind the leaders on substance.</div>
-        </div>
-        <div class="vcell warn">
-          <div class="kpi tnum">~18<span style="font-size:.5em;font-weight:600">s</span></div>
-          <span class="tag">The gap: response speed</span>
-          <div class="desc"><span class="tt" data-tip="Latency = mean time to the COMPLETE final answer in a cold session. Never stopped on a stall, never on chips.">Shopping answers land at around 18s</span>, in one block, slower than the streaming leaders (Sierra ~10s, Envive ~12s). Support speed is fine (~15s). Shopping is the job where response time matters most.</div>
-        </div>
-      </div>
-      <div class="verdict-note">
-        Our Support Agent has the <b>highest answer quality in the field</b> (94/100), and our automation is top-tier among the agents that actually answer. On shopping we sit close behind the leaders on substance, with one real gap: <b>response speed</b>. The answer and the product cards are right, they just arrive too slowly. That is the gap we are working on, and we are showing it here rather than hiding it.
-      </div>
+    <div class="verdict-note">
+      Our Support Agent has the highest answer quality in the field (94/100), and our automation is top-tier among the agents that actually answer. On shopping we sit close behind the leaders on substance, with one real gap: response speed. The answer and the product cards are right, they just arrive too slowly. That is the gap we are working on, and we are showing it here rather than hiding it.
     </div>
   </div>
 </section>
 
 <!-- ============================== WIN / LOSE ============================== -->
-<section id="winlose" class="section-follow">
-  <div class="wrap wrap-x stack gap-10">
-    <div class="gr-section-header stack-start w-full gap-4">
-      <div class="stack-start gap-3">
+<section id="winlose" class="gr-wl wrap-x">
+  <div class="gr-wl-inner">
     <span class="kicker rv"><span class="dot"></span>Wins and gaps</span>
     <h2 class="sec rv">Where Gorgias wins, and where it does not.</h2>
-      </div>
-    </div>
 
-    <div class="wl-lane stack-start w-full gap-4">
-    <div class="lane-head rv w-full">
-      <span class="icon" aria-hidden="true">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11a9 9 0 0 1 18 0"/><path d="M21 15v2a3 3 0 0 1-3 3h-4"/><rect x="1" y="11" width="4" height="7" rx="1.5"/><rect x="19" y="11" width="4" height="7" rx="1.5"/></svg>
-      </span>
-      <h3>Support Agent</h3>
-      <span class="meta">composite #2 of 10 · best answer quality in the field (94)</span>
-    </div>
-    <div class="wl-grid rv-stagger">
-      <div class="wl-card win">
-        <div class="head"><span class="chip">✓</span>Wins</div>
-        <ul>
-          <li><b>Answer quality 94/100, best in the field.</b> The highest support quality measured under blind judging (field median ~65). Exact policy terms, concrete timeframes, and next steps a customer can act on, not warm boilerplate.</li>
-          <li><b>Automation 83%, top-tier among vendors that actually answer.</b> Sierra hands over about 37% of support conversations. The agents that contain more resolve almost nothing.</li>
-          <li><b>Response speed is fine here (~15s).</b> Mid-pack across the field, and faster than our own shopping lane. Support is not where the speed problem lives.</li>
-        </ul>
+    <article class="gr-wl-lane rv">
+      <header class="lane-head">
+        <h3>Support Agent</h3>
+        <span class="meta">composite #2 of 10 · best answer quality in the field (94)</span>
+      </header>
+      <div class="gr-wl-split">
+        <div class="wl-card win">
+          <div class="head"><span class="wl-ico" aria-hidden="true"><img src="/brand/icons/award-03.svg" alt="" width="24" height="24"></span>Wins</div>
+          <ul>
+            <li><b>Answer quality 94/100, best in the field.</b> The highest support quality measured under blind judging (field median ~65). Exact policy terms, concrete timeframes, and next steps a customer can act on, not warm boilerplate.</li>
+            <li><b>Automation 83%, top-tier among vendors that actually answer.</b> Sierra hands over about 37% of support conversations. The agents that contain more resolve almost nothing.</li>
+            <li><b>Response speed is fine here (~15s).</b> Mid-pack across the field, and faster than our own shopping lane. Support is not where the speed problem lives.</li>
+          </ul>
+        </div>
+        <div class="wl-card lose">
+          <div class="head"><span class="wl-ico" aria-hidden="true"><img src="/brand/icons/alert-circle.svg" alt="" width="24" height="24"></span>Gaps</div>
+          <ul>
+            <li><b>Store-to-store consistency.</b> The best stores score in the high 70s while the weakest sit in the low 40s. The ceiling is top-tier, the floor is uneven, and onboarding and config QA close the gap.</li>
+            <li><b>Automation only counts when the answers are good.</b> Containing a conversation with a weak answer hides the problem instead of solving it. Rep AI is the cautionary case: high containment, poor answers.</li>
+          </ul>
+        </div>
       </div>
-      <div class="wl-card lose">
-        <div class="head"><span class="chip">✕</span>Gaps</div>
-        <ul>
-          <li><b>Store-to-store consistency.</b> The best stores score in the high 70s while the weakest sit in the low 40s. The ceiling is top-tier, the floor is uneven, and onboarding and config QA close the gap.</li>
-          <li><b>Automation only counts when the answers are good.</b> Containing a conversation with a weak answer hides the problem instead of solving it. Rep AI is the cautionary case: high containment, poor answers.</li>
-        </ul>
-      </div>
-    </div>
-    </div>
+    </article>
 
-    <div class="wl-lane stack-start w-full gap-4">
-    <div class="lane-head rv w-full">
-      <span class="icon" aria-hidden="true">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-      </span>
-      <h3>Shopping Assistant</h3>
-      <span class="meta">composite #2 of 11 · strong on substance, behind the streaming leaders on response speed</span>
-    </div>
-    <div class="wl-grid rv-stagger">
-      <div class="wl-card win">
-        <div class="head"><span class="chip">✓</span>Wins</div>
-        <ul>
-          <li><b>Automation 94%, top-tier.</b> Across live Shopping Assistant stores. The only agents that score higher resolve almost nothing. Sierra hands 15% of shopping conversations to a human, DigitalGenius 72%.</li>
-          <li><b>It recommends real products.</b> Head-to-head comparisons, promo terms cited correctly, consistent purchase nudges, and shopping quality (85) ahead of Envive (80). Most support-first vendors will not recommend at all. Yuma edges higher on a thin 14-conversation, two-store sample, so read that with caution.</li>
-          <li><b>Zero out-of-channel deflections.</b> It never pushes the shopper to email or phone. Kodif and Siena both do.</li>
-        </ul>
+    <article class="gr-wl-lane rv">
+      <header class="lane-head">
+        <h3>Shopping Assistant</h3>
+        <span class="meta">composite #2 of 11 · strong on substance, behind the streaming leaders on response speed</span>
+      </header>
+      <div class="gr-wl-split">
+        <div class="wl-card win">
+          <div class="head"><span class="wl-ico" aria-hidden="true"><img src="/brand/icons/award-03.svg" alt="" width="24" height="24"></span>Wins</div>
+          <ul>
+            <li><b>Automation 94%, top-tier.</b> Across live Shopping Assistant stores. The only agents that score higher resolve almost nothing. Sierra hands 15% of shopping conversations to a human, DigitalGenius 72%.</li>
+            <li><b>It recommends real products.</b> Head-to-head comparisons, promo terms cited correctly, consistent purchase nudges, and shopping quality (85) ahead of Envive (80). Most support-first vendors will not recommend at all. Yuma edges higher on a thin 14-conversation, two-store sample, so read that with caution.</li>
+            <li><b>Zero out-of-channel deflections.</b> It never pushes the shopper to email or phone. Kodif and Siena both do.</li>
+          </ul>
+        </div>
+        <div class="wl-card lose">
+          <div class="head"><span class="wl-ico" aria-hidden="true"><img src="/brand/icons/alert-circle.svg" alt="" width="24" height="24"></span>Gaps</div>
+          <ul>
+            <li><b>Response speed, near the bottom of the field (~18s).</b> Sierra 9.5s, Envive 12.6s. The answer arrives in one block, so the shopper waits at a typing indicator while streaming vendors show substance in a few seconds. The credible bar looks like 10 to 12 seconds.</li>
+            <li><b>The issue is perceived speed, not substance.</b> The Shopping Assistant renders product cards and prices, and answer quality is ahead of Envive (83 vs 80). The answer just arrives in one block at around 18 seconds, while streaming rivals show substance in a few.</li>
+            <li><b>Right answer, delivered too slowly.</b> The recommendation and the rich cards are there, they just take too long to appear.</li>
+          </ul>
+        </div>
       </div>
-      <div class="wl-card lose">
-        <div class="head"><span class="chip">✕</span>Gaps</div>
-        <ul>
-          <li><b>Response speed, near the bottom of the field (~18s).</b> Sierra 9.5s, Envive 12.6s. The answer arrives in one block, so the shopper waits at a typing indicator while streaming vendors show substance in a few seconds. The credible bar looks like 10 to 12 seconds.</li>
-          <li><b>The issue is perceived speed, not substance.</b> The Shopping Assistant renders product cards and prices, and answer quality is ahead of Envive (83 vs 80). The answer just arrives in one block at around 18 seconds, while streaming rivals show substance in a few.</li>
-          <li><b>Right answer, delivered too slowly.</b> The recommendation and the rich cards are there, they just take too long to appear.</li>
-        </ul>
-      </div>
-    </div>
-    </div>
+    </article>
   </div>
 </section>
 
 <!-- ============================== LEARNINGS ============================== -->
-<section id="learnings" class="section-y">
-  <div class="wrap wrap-x stack gap-10">
-    <div class="gr-section-header stack-center w-full gap-8">
-      <div class="stack-center gap-6">
+<section id="learnings" class="gr-learn wrap-x">
+  <div class="gr-learn-inner">
     <span class="kicker rv"><span class="dot"></span>Market learnings</span>
     <h2 class="sec rv">Five things every leader evaluating an AI agent should know.</h2>
-      </div>
-    </div>
 
-    <div class="learn-list rv-stagger stack-start w-full">
+    <div class="learn-list rv-stagger">
       <div class="learn-row">
         <div class="learn-num tnum">1</div>
         <div class="learn-body">
@@ -809,7 +718,7 @@ html.anim .hero .rv.in,html.anim .hero .rv-stagger.in>*{opacity:1;transform:none
       </div>
       <div class="col">
         <h3>Quality rubric</h3>
-        <p>Shopping /100: answer <b>30</b> · discovery <b>20</b> · recommendation <b>22</b> · rich elements <b>18</b> · close <b>10</b>. Support /100: resolution <b>40</b> · accuracy <b>25</b> · actionability <b>20</b> · close <b>15</b>. Spec: <span class="mono">runner/eval-rubric.md</span>.</p>
+        <p>Shopping /100: answer 30 · discovery 20 · recommendation 22 · rich elements 18 · close 10. Support /100: resolution 40 · accuracy 25 · actionability 20 · close 15. Spec: <span class="mono">runner/eval-rubric.md</span>.</p>
       </div>
       <div class="col">
         <h3>Composite</h3>
@@ -828,32 +737,20 @@ html.anim .hero .rv.in,html.anim .hero .rv-stagger.in>*{opacity:1;transform:none
 </section>
 
 <!-- Rubric CTA band -->
-<section class="rubric-cta section-y">
-  <div class="wrap wrap-x">
-    <div class="rc-inner stack-center gap-8">
-      <div class="stack-center gap-6">
-        <span class="kicker"><span class="dot"></span>The rubric</span>
-        <h2 class="rc-h">Measure your own <em>AI agent</em></h2>
-        <p class="rc-sub">Download the same 26-check rubric we scored every vendor against, and grade your own AI on the two jobs that move revenue: helping shoppers buy, and resolving support without a human.</p>
-      </div>
-      <div class="gr-cta-row">
-        <a class="gr-btn gr-btn-primary gr-btn-md" href="rubric.pdf" download>Download the rubric (PDF)</a>
-        <a class="gr-btn gr-btn-secondary gr-btn-md" href="report-v2.html?view=rubric">See how the scoring works</a>
-      </div>
+<section class="rubric-cta wrap-x">
+  <div class="rc-inner">
+    <span class="kicker"><span class="dot"></span>The rubric</span>
+    <h2 class="rc-h">Measure your own AI agent</h2>
+    <p class="rc-sub">Download the same 26-check rubric we scored every vendor against, and grade your own AI on the two jobs that move revenue: helping shoppers buy, and resolving support without a human.</p>
+    <div class="gr-cta-row">
+      <a class="gr-btn gr-btn-primary gr-btn-lg" href="rubric.pdf" download>Download the rubric</a>
+      <a class="gr-btn gr-btn-secondary gr-btn-lg" href="rubric.html">See how the scoring works</a>
     </div>
   </div>
 </section>
 
 <!-- ============================== FOOTER ============================== -->
-<div class="footer section-y">
-  <div class="wrap wrap-x stack-center gap-3">
-    <div class="fbrand">Gorgias · AI Agent Benchmark</div>
-    <div class="flinks">
-      <a href="report-v2.html">Full results</a>
-      <a href="report-v2.html?view=rubric">Rubric</a>
-    </div>
-  </div>
-</div>
+<footer class="sitefoot wrap-x"></footer>
 
 <script>
 /* ---------- scoreboard data - copied verbatim from takeaways.html ---------- */
@@ -900,17 +797,20 @@ const rk=n=> n?'<span class="rk">#'+n+'</span>':'';
 const ci=m=> (m&&m.ci!=null)
   ? '<span class="ci" data-tip="95% interval across this vendor&#39;s '+m.ciStores+' measured storefronts. Conversations from one store share a knowledge base and a config, so the store, not the conversation, is the unit of replication. Two vendors whose intervals overlap are not separated by this data.">±'+m.ci+'</span>'
   : '';
-const pill=(x,hi,mid)=> x==null?'<span class="pill p-na">n/a</span>':'<span class="pill '+(x>=hi?'p-ok':x>=mid?'p-mid':'p-bad')+'">'+x+'</span>';
-const cell=(m,f)=> m&&m[f]!=null? m[f] : 'n/a';
-function latCell(m){ return (m&&m.l!=null)? m.l+'s' : 'n/a'; }
+const dash=v=> v==null?'—':v;
+function meter(val){
+  if(val==null) return '<span class="gr-meter gr-meter-empty"><span class="gr-meter-track"></span><span class="comp">—</span></span>';
+  return '<span class="gr-meter"><span class="gr-meter-track"><span class="gr-meter-bar" style="width:'+Math.max(0,Math.min(100,val))+'%"></span></span><span class="comp tnum">'+val+'</span></span>';
+}
+function latCell(m){ return (m&&m.l!=null)? m.l+'s' : '—'; }
 document.querySelector('#score-table tbody').innerHTML=rows.map((r,i)=>
- '<tr'+(r.us?' class="us"':'')+'><td class="n" style="width:34px"><span class="rankbadge tnum">#'+(i+1)+'</span></td>'+
- '<td>'+vlogo(r.v)+'<span class="vname">'+r.v+'</span>'+(r.us?'<span class="us-tag">US</span>':'')+'</td>'+
- '<td class="n tnum"><span class="comp">'+(r.cs!=null?r.cs:'n/a')+'</span>'+rk(RS[r.v])+ci(r.s)+'</td>'+
- '<td class="n tnum"><span class="comp">'+(r.cp!=null?r.cp:'n/a')+'</span>'+rk(RP[r.v])+ci(r.p)+'</td>'+
- '<td>'+pill(r.s&&r.s.a,90,70)+' / '+pill(r.p&&r.p.a,90,70)+'</td>'+
- '<td>'+pill(r.s&&r.s.q,60,40)+' / '+pill(r.p&&r.p.q,60,40)+'</td>'+
- '<td class="n tnum">'+latCell(r.s)+' / '+latCell(r.p)+'</td></tr>').join('');
+ '<tr'+(r.v==='Gorgias'?' class="hl"':'')+'><td class="rank tnum">'+(i+1)+'</td>'+
+ '<td class="vendor"><span class="vname">'+r.v+'</span></td>'+
+ '<td class="compcell">'+meter(r.cs)+rk(RS[r.v])+ci(r.s)+'</td>'+
+ '<td class="compcell">'+meter(r.cp)+rk(RP[r.v])+ci(r.p)+'</td>'+
+ '<td class="pair tnum">'+dash(r.s&&r.s.a)+' / '+dash(r.p&&r.p.a)+'</td>'+
+ '<td class="pair tnum">'+dash(r.s&&r.s.q)+' / '+dash(r.p&&r.p.q)+'</td>'+
+ '<td class="pair tnum">'+latCell(r.s)+' / '+latCell(r.p)+'</td></tr>').join('');
 }
 renderScoreTable(SB_DATA);
 // Narrowing is offered, not silenced: short views are for inspection, and now that the site is

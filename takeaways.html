@@ -516,40 +516,27 @@ html.anim .hero .rv-stagger.in>*:nth-child(4){transition-delay:.23s}
 <body>
 
 <!-- ============================== APP BAR ============================== -->
-<nav class="sitenav" id="appbar">
-  <a class="brand" href="https://www.gorgias.com" target="_blank" rel="noopener noreferrer"><img class="mark" src="/brand/gorgias-logo.svg" alt="Gorgias" width="139" height="37"></a>
-  <button class="nav-burger" aria-label="Menu" onclick="event.stopPropagation();this.closest('.sitenav').classList.toggle('nav-open')">☰</button>
-  <div class="links">
-    <a href="takeaways.html" class="active" aria-current="page">Best AI Agent</a>
-    <a href="report.html">Head-to-head</a>
-    <a href="report.html?view=conversations">Conversations</a>
-  </div>
-  <a class="nav-cta" href="report.html#how">How it works</a>
-</nav>
+<nav class="sitenav wrap-x" id="appbar" data-active="overview" data-how="anchor"></nav>
+<script src="/brand/site-nav.js"></script>
 
 <!-- ============================== HERO ============================== -->
-<header class="hero wrap wrap-x section-y stack-center">
-  <div class="hero-inner stack-center w-full gap-8">
-    <div class="gr-section-header stack-center w-full gap-6">
-      <div class="stack-center gap-4">
+<header class="hero wrap-x">
+  <div class="hero-inner">
     <span class="eyebrow rv"><span class="live"></span>Industry benchmark&nbsp;·&nbsp;<b><!--REFRESHED-->Refreshed September 2026<!--/REFRESHED--></b></span>
-    <h1 class="rv"><span class="accent">We benchmarked every</span><br> chat AI agent.</h1>
-      </div>
+    <h1 class="rv">We benchmarked every<br> chat AI agent.</h1>
     <p class="sub rv">Real merchants, cold sessions, free-typed questions — measured, judged and repeated weekly.</p>
     <div class="gr-cta-row rv">
-      <a class="gr-btn gr-btn-primary gr-btn-md" href="report.html">Explore the full interactive report</a>
-      <a class="gr-btn gr-btn-secondary gr-btn-md" href="report.html?view=conversations">Conversations</a>
+      <a class="gr-btn gr-btn-primary gr-btn-lg" href="report.html">Explore the full interactive report</a>
+      <a class="gr-btn gr-btn-secondary gr-btn-lg" href="report.html?view=conversations">Conversations</a>
     </div>
+    <div class="gr-stats" aria-label="dataset size">
+      <div class="gr-stats-cell"><div class="num tnum" data-count="7325" data-stat="convs">7,325</div><div class="lbl">Conversations</div></div>
+      <div class="gr-stats-cell"><div class="num tnum" data-count="18" data-stat="vendors">18</div><div class="lbl">Vendors</div></div>
+      <div class="gr-stats-cell"><div class="num tnum" data-count="164" data-suffix="+" data-stat="stores">164+</div><div class="lbl">Live stores measured</div></div>
     </div>
-    <div class="statstrip rv-stagger grid w-full grid-cols-2 gap-4 md:grid-cols-4">
-      <div class="statcell"><div class="num tnum" data-count="7325" data-stat="convs">7,325</div><div class="lbl">Conversations captured</div></div>
-      <div class="statcell"><div class="num tnum" data-count="6819" data-stat="judged">6,819</div><div class="lbl">LLM-judged</div></div>
-      <div class="statcell"><div class="num tnum" data-count="18" data-stat="vendors">18</div><div class="lbl">Vendors</div></div>
-      <div class="statcell"><div class="num tnum" data-count="164" data-suffix="+" data-stat="stores">164+</div><div class="lbl">Live stores measured</div></div>
-    </div>
-    <!-- STATS_JSON:{"convs":7325,"judged":6819,"vendors":18,"stores":164,"runs":44} -->
   </div>
 </header>
+    <!-- STATS_JSON:{"convs":7325,"judged":6819,"vendors":18,"stores":164,"runs":44} -->
 
 <!-- ============================== VERDICT ============================== -->
 <section id="scoreboard" class="section-y">
@@ -901,14 +888,7 @@ html.anim .hero .rv-stagger.in>*:nth-child(4){transition-delay:.23s}
 </section>
 
 <!-- ============================== FOOTER ============================== -->
-<div class="footer section-y">
-  <div class="wrap wrap-x stack-center gap-3">
-    <div class="fbrand">Gorgias · AI Agent Benchmark</div>
-    <div class="flinks">
-      <a href="report.html">Head-to-head</a>
-    </div>
-  </div>
-</div>
+<footer class="sitefoot wrap-x"></footer>
 
 <script>
 /* ---------- scoreboard data — copied verbatim from takeaways.html ---------- */
