@@ -947,6 +947,24 @@ export const WIDGETS = {
     async open(page) { await genericOpenChat(page); },
     async send(page, text) { await genericSendChat(page, text); },
   },
+  // Commslayer — Chatwoot SDK at app.commslayer.com; per-shop token in a configs blob on
+  // the storefront. Fingerprinted 2026-09-10 (Cortex): madamsew.com + radiomasterrc.com have
+  // the live widget; widget config returns hasAConnectedAgentBot: '' (no AI bot on chat inbox
+  // — AI may be email-only). Generic driver; capture validates whether an AI answers at all.
+  commslayer: {
+    scope: { kind: "frame", match: "app.commslayer.com" },
+    async open(page) { await genericOpenChat(page); },
+    async send(page, text) { await genericSendChat(page, text); },
+  },
+  // Richpanel — cdn.richpanel.com micro-app; widget is a self-service help center
+  // (search + article tree + contact form), NOT a conversational agent on Jones Road
+  // (driven 2026-09-10: no AI turn anywhere in the flow; "Team will reply as soon as
+  // possible"). Same class as Shopify Inbox: the finding IS the result.
+  richpanel: {
+    scope: { kind: "frame", match: /richpanel/i },
+    async open(page) { await genericOpenChat(page); },
+    async send(page, text) { await genericSendChat(page, text); },
+  },
   yuma: {
     // Yuma's OWN "Chat AI" widget (cracked 2026-07-03) — a standalone iframe
     // https://app.yuma.ai/w/<uuid> injected by js.yuma.ai/widget.js. NOT the Gorgias/
@@ -1401,6 +1419,17 @@ export const STORES = [
   { key: "shopify-swimcore",     vendor: "Shopify Inbox", store: "Swimcore",      url: "https://www.swimcore.com/en-fr/products/active-yoga-toes-spreaders-durable-therapeutic-toe-separators", widget: "shopify_inbox", candidate: true },
   { key: "shopify-thegivenget",  vendor: "Shopify Inbox", store: "The Given Get", url: "https://thegivenget.com/", widget: "shopify_inbox", candidate: true },
   { key: "shopify-globosyfiesta",vendor: "Shopify Inbox", store: "Globos y Fiesta", url: "https://globosyfiesta.mx/", widget: "shopify_inbox", candidate: true, locale: "es-MX" },
+
+  // Commslayer + Richpanel (added 2026-09-10, Cortex sourcing pass — Romain request).
+  // Sourced via StoreLeads app reports + served-HTML fingerprinting (curl, desktop UA):
+  //   commslayer-madamsew  — app.commslayer.com widget token live (configs blob in HTML)
+  //   commslayer-radiomaster — same signature
+  //   richpanel-jonesroad  — cdn.richpanel.com scripts live; widget driven 2026-09-10: self-service
+  //     help center + contact form, no conversational AI (see richpanel widget note)
+  // Healthletic (Commslayer's testimonial merchant) has NO Commslayer widget — logo ≠ live AI.
+  { key: "commslayer-madamsew",    vendor: "Commslayer", store: "Madam Sew",     url: "https://madamsew.com/",     widget: "commslayer", candidate: true },
+  { key: "commslayer-radiomaster", vendor: "Commslayer", store: "RadioMaster RC", url: "https://radiomasterrc.com/", widget: "commslayer", candidate: true },
+  { key: "richpanel-jonesroad",    vendor: "Richpanel",  store: "Jones Road Beauty", url: "https://www.jonesroadbeauty.com/", widget: "richpanel", candidate: true },
   // ---- sourcing pass 2 (2026-07-03) — signature-verified, to raise statistical significance ----
   { key: "spiffy-clove", wall: true,      vendor: "Envive", store: "Clove",         url: "https://goclove.com/",            widget: "spiffy" },          // cdn.spiffy.ai (2026-07-07: verified served-HTML signature on goclove.com, not clovebrand.com) | walled 2026-07-27: 143 AI turns / 21 convs, ZERO reply content, 0 valid
   { key: "spiffy-fur",        vendor: "Envive", store: "Fur",           url: "https://www.furyou.com/",         widget: "spiffy" },          // cdn.spiffy.ai
