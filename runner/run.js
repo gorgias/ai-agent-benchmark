@@ -647,10 +647,14 @@ async function runStoreMode(browser, store, mode, theme) {
   const convFile = (k, mode, theme) => `${CONV_DIR}/${k}-${mode}-${theme}${CAPTURE_BATCH ? `-${CAPTURE_BATCH}` : ""}.json`;
   const tasks = [];
   let skipped = 0;
+  // THEME_KEYS (optional, comma-separated) captures only those themes, e.g. THEME_KEYS=gift,returns for one
+  // shopping and one support conversation per store. Unset = every theme (or the first --themes N).
+  const THEME_KEYS = (process.env.THEME_KEYS || "").split(",").map(s => s.trim()).filter(Boolean);
   for (const store of targets) for (const mode of MODES.filter(m => !store.modes || store.modes.includes(m))) {
     // per-store `modes` restricts a store to specific lanes (e.g. Glamnetic = support only)
     let themes = mode === "support" ? SUPPORT_THEMES : SHOPPING_THEMES;
     if (THEME_LIMIT) themes = themes.slice(0, THEME_LIMIT);
+    if (THEME_KEYS.length) themes = themes.filter(t => THEME_KEYS.includes(t.key));
     for (const theme of themes) {
       // RESUME: skip only if a VALID capture exists. Network/load failures (0 turns) AND
       // noise captures (invalid: menu/offline/timeout with no handover) are re-tried,
