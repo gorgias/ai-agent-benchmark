@@ -414,8 +414,10 @@ CORES="$(nproc 2>/dev/null || echo 4)"
 : "${LOAD_CAP:=$(( CORES > 2 ? CORES : 2 ))}"
 # INCLUDE = the vendors the nightly run captures. Rep AI joined on 2026-09-12, once its driver was
 # validated headless (closed shadow root, visual-order transcript, lazy-load nudge).
+# BUDGET = the most new valid conversations one night adds; the balancer stops there. 200 since
+# 2026-09-12 (was 400, never reached: nights yield about 180), so judging stays under ~$13 a night.
 ( cd runner && INCLUDE="${INCLUDE:-Siena,Klaviyo,Intercom,DigitalGenius,Zendesk,Ada,Envive,Sierra,Gorgias,Rep AI}" \
-    BUDGET="${BUDGET:-400}" CONCURRENCY="${CONCURRENCY:-5}" LOAD_CAP="$LOAD_CAP" \
+    BUDGET="${BUDGET:-200}" CONCURRENCY="${CONCURRENCY:-5}" LOAD_CAP="$LOAD_CAP" \
     STORE_TIMEOUT_MIN="${STORE_TIMEOUT_MIN:-18}" RUN_DATE="$D" \
     xvfb-run -a node tools/balance.mjs 2>&1 | tee -a "$LOG" ) &
 BAL=$!
