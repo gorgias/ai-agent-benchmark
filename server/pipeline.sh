@@ -37,12 +37,19 @@ PUSH_EVERY="${PUSH_EVERY:-600}"                 # incremental push interval (sec
 # ends holds the schedule slot shut and costs every following night too (2026-08-24: one hang, four
 # nights). Whatever goes wrong, this caps the blast radius at a single night.
 #
-# The default is deliberately just UNDER the anti-collision lock's staleness threshold
-# (CAPTURE_SECONDS + 5400, see the lock below), which buys a property the lock could not previously
-# promise: a run can never outlive its own lock, so "stale lock — taking over" can no longer fire
-# against a run that is still alive. Budget inside it: sourcing <= SOURCING_TIMEOUT (1800) +
-# capture <= CAPTURE_SECONDS + publish (~2400 for a 40-min judge pass) = ~4200 < 5100.
-PIPELINE_MAX_SECONDS="${PIPELINE_MAX_SECONDS:-$(( CAPTURE_SECONDS + 5100 ))}"
+# Budget = sourcing (SOURCING_TIMEOUT) + capture (CAPTURE_SECONDS) + publish (PUBLISH_MAX_SECONDS).
+# Publish used to get what a fixed CAPTURE_SECONDS + 5100 left after sourcing, about an hour, and
+# that froze the board. Scores stopped reaching master from 2026-09-04 to 09-08, so the judge
+# backlog grew to 657 and then 783 conversations; one judge pass outran the clock and the runs of
+# 2026-09-09 and 2026-09-11 were killed mid-judging, before merge, bake or deploy. A killed pass
+# writes no scores, so every night inherited a bigger backlog than the last. Three hours covers a
+# ~1,100-conversation catch-up at the observed ~7 conversations/min and still ends long before the
+# next daily start.
+#
+# The anti-collision lock's staleness threshold is derived from this value (see the lock below), so
+# a run can never outlive its own lock and "stale lock — taking over" cannot fire against a live run.
+PUBLISH_MAX_SECONDS="${PUBLISH_MAX_SECONDS:-10800}"
+PIPELINE_MAX_SECONDS="${PIPELINE_MAX_SECONDS:-$(( SOURCING_TIMEOUT + CAPTURE_SECONDS + PUBLISH_MAX_SECONDS ))}"
 # Robust logging: if the log directory is missing (e.g. a run without the volume attached), tee
 # fails and — because say() pipes through it — every line would vanish silently. Fall back to /tmp
 # rather than run blind.
@@ -179,12 +186,9 @@ if [ -f "$LOCK" ]; then
   LOCK_AGE=$(( $(date +%s) - $(stat -c %Y "$LOCK" 2>/dev/null || echo 0) ))
   # Stale lock: a machine killed mid-run leaves the file behind, so expire it past the longest
   # possible run rather than blocking every night forever.
-  # Budget for capture AND the publish phase that now follows it (judging ~70 conversations takes
-  # 20-40 min), or a still-healthy run would look stale and get trampled by the next trigger.
-  # The 5400s of slack also has to cover bounded sourcing (SOURCING_TIMEOUT, 1800s default) now
-  # that stage 1 has a wall clock: 1800 + a 40-min publish is 4200s, so the margin still holds.
-  # Raise SOURCING_TIMEOUT past ~3000s and this needs raising with it.
-  if [ "$LOCK_AGE" -lt $(( CAPTURE_SECONDS + 5400 )) ]; then
+  # Derived from the global wall clock: no run outlives PIPELINE_MAX_SECONDS, so a lock younger than
+  # that plus 5 minutes (time for the kill itself) always belongs to a run that is still alive.
+  if [ "$LOCK_AGE" -lt $(( PIPELINE_MAX_SECONDS + 300 )) ]; then
     say "another capture started ${LOCK_AGE}s ago (lock $LOCK) — exiting so latencies stay clean"
     exit 0
   fi
@@ -408,7 +412,9 @@ push_convs() {
 say "--- capture (concurrency ${CONCURRENCY:-5}, wall ${CAPTURE_SECONDS}s) ---"
 CORES="$(nproc 2>/dev/null || echo 4)"
 : "${LOAD_CAP:=$(( CORES > 2 ? CORES : 2 ))}"
-( cd runner && INCLUDE="${INCLUDE:-Siena,Klaviyo,Intercom,DigitalGenius,Zendesk,Ada,Envive,Sierra,Gorgias}" \
+# INCLUDE = the vendors the nightly run captures. Rep AI joined on 2026-09-12, once its driver was
+# validated headless (closed shadow root, visual-order transcript, lazy-load nudge).
+( cd runner && INCLUDE="${INCLUDE:-Siena,Klaviyo,Intercom,DigitalGenius,Zendesk,Ada,Envive,Sierra,Gorgias,Rep AI}" \
     BUDGET="${BUDGET:-400}" CONCURRENCY="${CONCURRENCY:-5}" LOAD_CAP="$LOAD_CAP" \
     STORE_TIMEOUT_MIN="${STORE_TIMEOUT_MIN:-18}" RUN_DATE="$D" \
     xvfb-run -a node tools/balance.mjs 2>&1 | tee -a "$LOG" ) &
