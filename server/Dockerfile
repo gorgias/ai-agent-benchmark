@@ -11,7 +11,7 @@
 # dependency guarantees the two always match, whatever npm picks.
 FROM mcr.microsoft.com/playwright:v1.49.0-jammy
 
-# xvfb: headed-only vendors (Rep AI, Kodif, Humind) need a real display.
+# xvfb: headed-only vendors (Kodif, Humind) need a real display.
 # openssh-client: the repo deploy key pushes over SSH.
 # curl: Slack webhook posts from publish.sh.
 RUN apt-get update && apt-get install -y --no-install-recommends xvfb git tini openssh-client curl \
