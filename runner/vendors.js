@@ -76,12 +76,12 @@ async function dismiss(page) {
 // carries the legacy #ads-agent-host, and a selector LIST resolves to whichever mount comes first in the
 // DOM, which aimed the driver at the dead one there. No registered store runs the legacy mount alone.
 const REPAI_HOST = "#repWebClientContainer";
-// True once the chat composer is mounted AND visible inside the (forced-open) shadow root.
+// True once the chat composer is mounted AND visible inside the widget's shadow root (closed; reference kept by run.js).
 async function repaiComposerVisible(page) {
   return page.evaluate((sel) => {
     const host = document.querySelector(sel); if (!host) return false;
     let f = false;
-    const walk = (n) => { if (!n || f) return; if (n.shadowRoot) walk(n.shadowRoot);
+    const walk = (n) => { if (!n || f) return; { const sr = n.shadowRoot || (n.nodeType === 1 && typeof window.__repRoot === "function" ? window.__repRoot(n) : null); if (sr) walk(sr); }
       for (const k of (n.children || [])) walk(k);
       if (!f && n.nodeType === 1 && (n.tagName === "TEXTAREA" || (n.tagName === "INPUT" && /text|search/i.test(n.type || "text")) || n.getAttribute?.("contenteditable") === "true") && n.getBoundingClientRect().width > 0) f = true; };
     walk(host); return f;
@@ -95,7 +95,7 @@ async function shadowSend(page, hostSel, text) {
     let inp = null;
     const walk = (n) => {
       if (!n || inp) return;
-      if (n.shadowRoot) walk(n.shadowRoot);
+      { const sr = n.shadowRoot || (n.nodeType === 1 && typeof window.__repRoot === "function" ? window.__repRoot(n) : null); if (sr) walk(sr); }
       for (const k of (n.children || [])) walk(k);
       if (!inp && n.nodeType === 1 && (n.tagName === "TEXTAREA" || (n.tagName === "INPUT" && /text|search/i.test(n.type || "text")) || n.getAttribute?.("contenteditable") === "true")) inp = n;
     };
@@ -117,7 +117,7 @@ async function shadowClickLauncher(page, hostSel) {
     let btn = null;
     const walk = (n) => {
       if (!n || btn) return;
-      if (n.shadowRoot) walk(n.shadowRoot);
+      { const sr = n.shadowRoot || (n.nodeType === 1 && typeof window.__repRoot === "function" ? window.__repRoot(n) : null); if (sr) walk(sr); }
       for (const k of (n.children || [])) walk(k);
       if (!btn && n.nodeType === 1 && (n.tagName === "BUTTON" || n.getAttribute?.("role") === "button")) btn = n;
     };
@@ -524,8 +524,8 @@ export const WIDGETS = {
     // 1. The V2 client (`#repWebClientContainer`, window.repAppV2 — 14 of 15 registered stores)
     //    mounts its UI inside a CLOSED shadow root. The container reads 0x0, no children,
     //    `shadowRoot === null`, so every walker found no launcher and no composer: open() clicked
-    //    nothing and send() typed nothing. run.js now forces shadow roots open for this widget
-    //    only, which exposes the real UI.
+    //    nothing and send() typed nothing. run.js keeps a reference to the closed
+    //    root when the widget creates it (forcing it open broke sending on some client versions).
     // 2. Replies were read from `server.myrepai.com/web/events`. Verified live: that channel carries
     //    the PROACTIVE greeting ("Hello beautiful soul, what are you seeking today?") and nothing
     //    else — real answers travel elsewhere. So whenever a conversation "worked", what got timed
@@ -571,6 +571,15 @@ export const WIDGETS = {
         await page.waitForTimeout(1000);
       }
       if (!(await repaiComposerVisible(page))) { await shadowClickLauncher(page, REPAI_HOST); await page.waitForTimeout(3000); }
+      // Marketing overlays such as an SMS sign-up iframe hold focus, and the widget then ignores what we type
+      // (freshroastedcoffee.com: Send stayed disabled). Escape closes them. It runs here, before turn 1, so it
+      // never sits inside a timed turn; if Escape also closed the chat, reopen it.
+      await page.keyboard.press("Escape").catch(() => {});
+      await page.waitForTimeout(800);
+      for (let i = 0; i < 10 && !(await repaiComposerVisible(page)); i++) {
+        if (i === 0) await page.evaluate(() => { try { window.rep && window.rep.open && window.rep.open(); } catch (e) {} }).catch(() => {});
+        await page.waitForTimeout(1000);
+      }
       // Let the proactive greeting land first, so it sits in the baseline instead of reading as
       // growth caused by turn 1.
       await page.waitForTimeout(2500);
@@ -1750,13 +1759,13 @@ export async function readTranscript(page, scope) {
       // elements only, skipping <style>/<script> (the old first-<div> read leaked CSS).
       const text = await page.evaluate(({ sel, visual }) => {
         const host = document.querySelector(sel) || document.getElementsByTagName(sel)[0];
-        const root = host && host.shadowRoot ? host.shadowRoot : host;
+        const root = host && (host.shadowRoot || (typeof window.__repRoot === "function" ? window.__repRoot(host) : null)) || host;
         if (!root) return "";
         let out = ""; const items = [];
         const walk = (n) => {
           if (!n) return;
-          if (n.nodeType === 1) { const tag = n.tagName; if (tag === "STYLE" || tag === "SCRIPT" || tag === "NOSCRIPT") return; if (n.shadowRoot) walk(n.shadowRoot); }
-          if (n.nodeType === 1 && !n.shadowRoot && n.childElementCount === 0) { const t = (n.innerText || n.textContent || "").trim(); if (t) { if (visual) { const r = n.getBoundingClientRect(); const shown = r.width > 1 && r.height > 1 && (!n.checkVisibility || n.checkVisibility({ checkOpacity: true, checkVisibilityCSS: true, opacityProperty: true, visibilityProperty: true })); if (shown) items.push({ t, y: r.top, x: r.left, i: items.length }); } else out += t + "\n"; } return; }
+          if (n.nodeType === 1) { const tag = n.tagName; if (tag === "STYLE" || tag === "SCRIPT" || tag === "NOSCRIPT") return; { const sr = n.shadowRoot || (n.nodeType === 1 && typeof window.__repRoot === "function" ? window.__repRoot(n) : null); if (sr) walk(sr); } }
+          if (n.nodeType === 1 && !(n.shadowRoot || (typeof window.__repRoot === "function" && window.__repRoot(n))) && n.childElementCount === 0) { const t = (n.innerText || n.textContent || "").trim(); if (t) { if (visual) { const r = n.getBoundingClientRect(); const shown = r.width > 1 && r.height > 1 && (!n.checkVisibility || n.checkVisibility({ checkOpacity: true, checkVisibilityCSS: true, opacityProperty: true, visibilityProperty: true })); if (shown) items.push({ t, y: r.top, x: r.left, i: items.length }); } else out += t + "\n"; } return; }
           for (const k of (n.childNodes || [])) walk(k);
         };
         walk(root);
