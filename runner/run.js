@@ -294,6 +294,18 @@ async function runStoreMode(browser, store, mode, theme) {
   // Spiffy/Envive gates its widget behind an A/B rollout bucket that a cold context re-rolls
   // to "disabled"; this sanctioned flag forces it ON before the session-bucket check.
   if (store.widget === "spiffy") await context.addInitScript(() => { try { localStorage.setItem("spiffy_on", "true"); } catch (e) {} });
+  // Rep AI's V2 client mounts its chat UI in a CLOSED shadow root, which leaves the container looking
+  // empty to every walker: no launcher, no composer, nothing to drive. The root stays CLOSED, as on the
+  // real site; we only remember the reference when the widget creates it (window.__repRoot, read by the
+  // vendors.js walkers). Forcing it open instead broke sending on some client versions: on
+  // freshroastedcoffee.com, makesy.com and olly.com the message never reached the thread (the Send button
+  // stayed disabled), and all three answered once the root was left closed (verified 2026-09-11).
+  // Scoped to this widget on purpose — other drivers and the provider detector walk shadow roots too.
+  if (store.widget === "repai") await context.addInitScript(() => {
+    const attach = Element.prototype.attachShadow, roots = new WeakMap();
+    Element.prototype.attachShadow = function (init) { const root = attach.call(this, init); roots.set(this, root); return root; };
+    Object.defineProperty(window, "__repRoot", { value: (el) => el.shadowRoot || roots.get(el) || null });
+  });
   await context.clearCookies().catch(() => {});
   // Block only VIDEO/AUDIO (pure overhead, never part of a chat widget). We deliberately do
   // NOT block images/fonts — many chat launchers are icon-fonts or <img>, and blocking them

@@ -115,24 +115,214 @@ section{
 .hero .eyebrow{background:transparent;padding:0}
 .eyebrow b{color:var(--color-foreground);font-weight:500}
 
-/* Dark ink band (Market learnings) */
+@keyframes gr-live-pulse{
+  0%{box-shadow:0 0 0 0 rgba(251,107,75,.45)}
+  70%{box-shadow:0 0 0 8px rgba(251,107,75,0)}
+  100%{box-shadow:0 0 0 0 rgba(251,107,75,0)}
+}
+html.anim .eyebrow .live{
+  animation:gr-live-pulse 1.8s ease-out infinite;
+}
+@media (prefers-reduced-motion:reduce){
+  html.anim .eyebrow .live{animation:none}
+}
+
+/* Dark ink band (Market learnings). Use Brand 2.0 foreground (#1B1A19),
+   not the cooler Ecom Lab --gr-ink (#1A1E23) some page :roots still set. */
+#learnings{
+  background:var(--color-foreground);
+  color:var(--color-foreground-inverted);
+}
+#learnings .wrap{
+  max-width:800px;
+  margin-left:auto;
+  margin-right:auto;
+}
 #learnings .kicker,
 #learnings .gr-tag{
-  color:var(--color-foreground-inverted);
+  color:var(--color-neutral-400);
   border-color:var(--color-neutral-700);
 }
 #learnings .kicker .dot{background:var(--color-accent-mark)}
 
-/* ── Type: 16px body is the scale. Display sits one step under marketing 72/64. ── */
+/* ── Rubric CTA — Figma Takeaways 07 (4025:1940) / Rubric 04 (4065:108)
+   Full-bleed ink band, H2. Overview uses two 48px buttons; Rubric page uses one. */
+.rubric-cta{
+  background:var(--color-foreground);
+  color:var(--color-foreground-inverted);
+  padding-top:4.5rem;
+  padding-bottom:4.5rem;
+  text-align:center;
+}
+@media (min-width:768px){
+  .rubric-cta{
+    padding-top:130px;
+    padding-bottom:130px;
+  }
+}
+.rubric-cta .rc-inner{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:26px;
+  width:100%;
+  max-width:none;
+  margin:0 auto;
+  padding:0;
+  background:transparent;
+  border-radius:0;
+  color:inherit;
+  text-align:center;
+}
+.rubric-cta .rc-copy{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:12px;
+}
+.rubric-cta .kicker-mark{
+  width:6px;
+  height:6px;
+  flex:none;
+  overflow:clip;
+  display:block;
+}
+.rubric-cta .kicker-mark img{
+  width:100%;
+  height:100%;
+  display:block;
+}
+.rubric-cta .kicker{
+  color:var(--color-neutral-300);
+  background:transparent;
+  padding:0;
+  border-radius:0;
+  gap:9px;
+}
+.rubric-cta .kicker .dot{background:var(--color-accent-mark)}
+.rubric-cta .rc-h{
+  font-family:var(--font-display);
+  font-weight:400;
+  font-style:normal;
+  font-size:var(--text-h3);
+  line-height:1.2;
+  letter-spacing:-.64px;
+  margin:0 auto;
+  max-width:820px;
+  color:var(--color-foreground-inverted);
+  text-wrap:balance;
+}
+@media (min-width:768px){
+  .rubric-cta .rc-h{
+    font-size:var(--text-h2);
+    line-height:var(--text-h2-line);
+    letter-spacing:var(--text-h2-tracking);
+  }
+}
+.rubric-cta .rc-h em{
+  font-family:var(--font-display);
+  font-style:normal;
+  font-weight:400;
+  color:inherit;
+}
+.rubric-cta .rc-sub{
+  font-family:var(--font-sans);
+  font-size:16px;
+  font-weight:400;
+  line-height:1.5;
+  color:var(--color-neutral-300);
+  max-width:660px;
+  margin:0 auto;
+  text-wrap:pretty;
+}
+.rubric-cta .gr-cta-row{gap:8px;margin:0}
+.rubric-cta .gr-btn-primary{
+  background:var(--color-foreground-inverted);
+  color:var(--color-foreground);
+  border-color:var(--color-foreground-inverted);
+  box-shadow:none;
+}
+.rubric-cta .gr-btn-primary:hover{
+  background:var(--color-neutral-100);
+  color:var(--color-foreground);
+  border-color:var(--color-neutral-100);
+}
+.rubric-cta .gr-btn-secondary{
+  background:var(--color-neutral-900);
+  color:var(--color-foreground-inverted);
+  border:1px solid var(--color-neutral-700);
+  box-shadow:var(--shadow-sm);
+}
+.rubric-cta .gr-btn-secondary:hover{
+  background:var(--color-neutral-800);
+  color:var(--color-foreground-inverted);
+  border-color:var(--color-neutral-500);
+}
+@media (max-width:560px){
+  .rubric-cta .rc-inner{padding:0}
+}
+
+/* ── Footer — Figma Takeaways Footer (4025:1954)
+   Ink bar, 34px vertical, 80px via wrap-x, brand left / links right. Markup from /brand/site-nav.js */
+.sitefoot{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:16px 28px;
+  width:100%;
+  margin:0;
+  box-sizing:border-box;
+  background:var(--color-foreground);
+  color:var(--color-neutral-300);
+  border-top:1px solid #3A3836;
+  padding-top:34px;
+  padding-bottom:34px;
+  text-align:left;
+  font-family:var(--font-sans);
+  font-size:14px;
+  font-weight:400;
+  line-height:1.4;
+  letter-spacing:.14px;
+}
+.sitefoot .fbrand{
+  margin:0;
+  color:inherit;
+  font:inherit;
+  text-transform:none;
+  letter-spacing:inherit;
+}
+.sitefoot .flinks{
+  display:flex;
+  align-items:center;
+  gap:28px;
+  flex-wrap:wrap;
+}
+.sitefoot a{
+  color:inherit;
+  font:inherit;
+  font-weight:400;
+  text-decoration:none;
+  border-bottom:none;
+  margin:0;
+  white-space:nowrap;
+}
+.sitefoot a:hover{color:var(--color-foreground-inverted)}
+@media (max-width:640px){
+  .sitefoot{flex-direction:column;align-items:flex-start}
+}
+
+/* ── Type: 16px body. Page titles (h1) use the H1 token; section titles stay H4/H5. ── */
 html{font-size:16px}
 body{font-size:16px;line-height:1.5}
 h1{
   font-family:var(--font-display);
   font-weight:400;
-  font-size:var(--text-h4);
-  line-height:var(--text-h4-line);
+  font-size:var(--text-h3);
+  line-height:var(--text-h3-line);
   letter-spacing:0;
   color:var(--color-foreground);
+  margin:0;
   text-wrap:balance;
 }
 h2.sec{
@@ -149,9 +339,9 @@ h2.sec{
 }
 @media (min-width:768px){
   h1{
-    font-size:var(--text-h3);
-    line-height:var(--text-h3-line);
-    letter-spacing:0;
+    font-size:var(--text-h1);
+    line-height:var(--text-h1-line);
+    letter-spacing:var(--text-h1-tracking);
   }
   h2.sec{
     font-size:var(--text-h4);
@@ -164,6 +354,23 @@ h2.sec{
 .gr-section-header{
   font-family:var(--font-sans);
   margin:0;
+}
+.gr-section-header > h1,
+.gr-section-header > h2.sec,
+.gr-section-header > .lead,
+.gr-section-header > .sec-lead{
+  margin:0;
+}
+.gr-section-header > h2.sec,
+.gr-section-header > .lead,
+.gr-section-header > .sec-lead{
+  max-width:40rem;
+}
+.gr-section-header.stack-center > h2.sec,
+.gr-section-header.stack-center > .lead,
+.gr-section-header.stack-center > .sec-lead{
+  margin-left:auto;
+  margin-right:auto;
 }
 .hero .gr-section-header{
   display:flex;
@@ -233,8 +440,8 @@ a.back:focus-visible{
 }
 .gr-btn-lg,
 .howbtn{
-  height:40px;
-  padding:0 20px;
+  height:48px;
+  padding:0 24px;
   font-size:16px;
   line-height:1.5;
   border-radius:var(--radius-pill);
@@ -326,57 +533,73 @@ a.back:hover{
   .gr-cta-row{flex-direction:column;align-items:center}
 }
 
-/* ── Nav — compact pill, 48px between brand / links / CTA ───────────── */
+/* ── Nav — Figma Takeaways Nav (4015:1940). Markup from /brand/site-nav.js ─ */
 .sitenav{
   position:sticky;
-  top:12px;
+  top:0;
   z-index:var(--z-sticky);
   display:flex;
   align-items:center;
-  gap:48px;
-  width:max-content;
-  max-width:calc(100% - 32px);
-  margin:12px auto 0;
-  padding:6px 8px 6px 14px;
-  height:auto;
-  background:var(--color-card);
-  border:1px solid var(--color-border);
-  border-radius:var(--radius-pill);
-  box-shadow:var(--shadow-sm);
+  justify-content:space-between;
+  gap:0;
+  width:100%;
+  max-width:none;
+  height:72px;
+  margin:0;
   box-sizing:border-box;
+  background:var(--color-surface);
+  border:none;
+  border-bottom:1px solid var(--color-border);
+  border-radius:0;
+  box-shadow:none;
 }
 .sitenav.scrolled{
-  background:var(--color-card);
-  box-shadow:var(--shadow-sm);
+  background:var(--color-surface);
+  box-shadow:none;
   border-bottom:1px solid var(--color-border);
 }
 .sitenav .brand{
   display:flex;
   align-items:center;
-  gap:8px;
+  gap:14px;
   order:0;
-  font-size:13px;
   color:var(--color-foreground);
   white-space:nowrap;
   text-decoration:none;
 }
-.sitenav .brand .mark{height:20px;width:auto;display:block;flex:none}
+.sitenav .brand .mark{
+  height:26px;
+  width:101px;
+  display:block;
+  flex:none;
+  object-fit:contain;
+  object-position:left center;
+}
+.sitenav .brand .sub{
+  font-family:var(--font-mono);
+  font-size:12px;
+  font-weight:500;
+  letter-spacing:var(--font-label-tracking);
+  line-height:1.5;
+  text-transform:uppercase;
+  color:var(--color-muted-foreground);
+}
 .sitenav .links{
   display:flex;
   align-items:center;
-  justify-content:center;
-  gap:16px;
+  justify-content:flex-end;
+  gap:34px;
   order:1;
   margin:0;
   flex-wrap:nowrap;
 }
 .sitenav .links a{
   font-family:var(--font-sans);
-  font-size:13px;
-  font-weight:500;
+  font-size:14px;
+  font-weight:400;
   letter-spacing:.14px;
-  line-height:1.3;
-  color:var(--color-foreground);
+  line-height:1.4;
+  color:var(--color-muted-foreground);
   padding:0;
   border-radius:0;
   background:none;
@@ -388,40 +611,19 @@ a.back:hover{
 }
 .sitenav .links a:hover{
   background:none;
-  color:var(--color-muted-foreground);
+  color:var(--color-foreground);
 }
 .sitenav .links a.active{
   background:none;
   color:var(--color-foreground);
-  font-weight:600;
-}
-.sitenav .nav-cta{
-  order:2;
-  height:32px;
-  padding:0 14px;
-  border-radius:var(--radius-pill);
-  background:var(--color-primary);
-  color:var(--color-primary-foreground);
-  font-size:13px;
   font-weight:500;
-  letter-spacing:.14px;
-  display:inline-flex;
-  align-items:center;
-  text-decoration:none;
-  border:1px solid var(--color-primary);
-  white-space:nowrap;
 }
-.sitenav .nav-cta:hover,
-.sitenav .nav-cta.active{
-  background:var(--color-primary-hover);
-  border-color:var(--color-primary-hover);
-  color:var(--color-primary-foreground);
-}
+.sitenav .nav-cta{display:none}
 .nav-burger{
   display:none;
   order:3;
   margin:0;
-  background:var(--color-secondary);
+  background:transparent;
   border:1px solid var(--color-border);
   border-radius:var(--radius-pill);
   font-size:16px;
@@ -431,19 +633,15 @@ a.back:hover{
   padding:0;
   cursor:pointer;
   color:var(--color-foreground);
-  box-shadow:var(--shadow-sm);
-}
-@media (min-width:768px){
-  .sitenav{padding:6px 8px 6px 14px}
+  box-shadow:none;
 }
 @media (max-width:720px){
   .sitenav{
-    gap:12px;
-    width:calc(100% - 32px);
-    justify-content:flex-end;
+    width:100%;
+    max-width:none;
   }
   .sitenav .brand{margin-right:auto}
-  .sitenav .nav-cta{height:32px;padding:0 12px}
+  .sitenav .brand .sub{display:none}
   .nav-burger{display:block}
   .sitenav .links{display:none}
   .sitenav.nav-open .links{
@@ -455,7 +653,6 @@ a.back:hover{
     top:calc(100% + 6px);
     right:16px;
     left:auto;
-    grid-column:auto;
     background:var(--color-card);
     border:1px solid var(--color-border);
     border-radius:var(--radius-3xl);
@@ -473,121 +670,1858 @@ a.back:hover{
   }
 }
 
-/* ── Hero — type/alignment. Vertical rhythm is Tailwind gap. ─────────── */
+/* ── Hero — Figma Takeaways Hero (4016:1940). Slots: eyebrow, h1, .sub, .gr-cta-row ─ */
 .hero{
   text-align:center;
+  position:relative;
+  background:var(--color-surface);
+  padding-top:4.5rem;
+  padding-bottom:3.5rem;
+}
+@media (min-width:768px){
+  .hero{
+    padding-top:118px;
+    padding-bottom:92px;
+  }
 }
 .hero-inner{
   display:flex;
   flex-direction:column;
   align-items:center;
-  gap:2rem;
+  gap:26px;
+  width:100%;
+  max-width:900px;
+  margin:0 auto;
+}
+.hero .eyebrow{
+  color:var(--color-muted-foreground);
+  gap:9px;
+}
+.hero .eyebrow b{
+  color:inherit;
+  font-weight:500;
 }
 .hero h1{
   margin:0 auto;
-  max-width:18ch;
+  max-width:900px;
+  font-size:var(--text-h3);
+  line-height:1.2;
+  letter-spacing:-.64px;
+  color:var(--color-foreground);
 }
-.gr-section-header > h2.sec,
-.gr-section-header > .lead,
-.gr-section-header > .sec-lead{
-  margin:0;
-  max-width:40rem;
+@media (min-width:768px){
+  .hero h1{
+    font-size:var(--text-h2);
+    line-height:var(--text-h2-line);
+    letter-spacing:var(--text-h2-tracking);
+  }
 }
-.gr-section-header.stack-center > h2.sec,
-.gr-section-header.stack-center > .lead,
-.gr-section-header.stack-center > .sec-lead{
-  margin-left:auto;
-  margin-right:auto;
+.hero h1 .accent,
+.hero h1 .grad,
+.hero h1 em{
+  color:inherit;
+  font-style:italic;
+  font-weight:400;
+  font-family:var(--font-display);
+  background:none;
+  -webkit-text-fill-color:inherit;
 }
 .hero .sub{
-  margin-left:auto;
-  margin-right:auto;
+  margin:0 auto;
+  max-width:720px;
+  font-family:var(--font-sans);
+  font-size:16px;
+  font-weight:400;
+  line-height:1.5;
+  color:var(--color-muted-foreground);
+  text-wrap:pretty;
 }
 .hero .sub a{color:var(--color-foreground);font-weight:500}
 .hero .sub a:hover{color:var(--color-foreground)}
+.hero .gr-cta-row{
+  margin:0;
+  gap:12px;
+}
 
-/* ── Hero stats — restore the pastel-dot + mono label cards ─────────── */
-.statstrip,
-.hero-stats{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:16px;
+/* Report hero — Figma Full results Hero (4038:1958). No lead, no buttons. */
+.report-v2 .hero{
+  padding-top:4.5rem;
+  padding-bottom:3.5rem;
+}
+@media (min-width:768px){
+  .report-v2 .hero{
+    padding-top:110px;
+    padding-bottom:88px;
+  }
+}
+.report-v2 .hero-inner{
+  max-width:920px;
+  gap:30px;
+}
+.report-v2 .hero h1{
+  max-width:920px;
+}
+.report-v2 .hero h1 em{
+  font-style:normal;
+}
+.report-v2 .hero-canvas,
+.report-v2 .hero .aurora{display:none !important}
+
+/* Rubric page hero — Figma 4065:104 */
+.rubric-page .hero{
+  padding-top:110px;
+  padding-bottom:88px;
+}
+.rubric-page .hero-inner{
+  gap:30px;
+  max-width:760px;
+}
+.rubric-page .hero h1{
+  max-width:none;
+  letter-spacing:-0.64px;
+}
+.rubric-page .hero .sub{
+  max-width:760px;
+  color:var(--color-foreground-secondary);
+}
+.rubric-page .hero .gr-cta-row{margin:0}
+.rubric-page #rubric-sec{
+  padding-top:0;
+  padding-bottom:110px;
+}
+.rubric-page .hrw-cards{
+  display:flex;
+  gap:24px;
+  align-items:stretch;
   width:100%;
   margin:0;
 }
-.statcell,
-.hero-stats .hs{
+.rubric-page .hrw-card{
+  flex:1 1 0;
+  min-width:0;
   display:flex;
   flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap:8px;
-  text-align:center;
-  min-height:112px;
-  padding:20px 14px;
-  border-radius:var(--radius-3xl);
-  background:var(--color-card);
-  border:1px solid var(--color-border);
+  gap:20px;
+  min-height:250px;
+  padding:28px;
+  background:var(--color-surface-raised);
+  border:none;
+  border-radius:var(--radius-2xl);
 }
-.statcell .num,
-.statcell .num.tnum,
-.hero-stats .hs .n{
+.rubric-page .hrw-lane{
+  font-family:var(--font-mono);
+  font-size:12px;
+  font-weight:500;
+  line-height:1.5;
+  letter-spacing:.72px;
+  text-transform:uppercase;
+  color:var(--color-neutral-400);
+  margin:0;
+}
+.rubric-page .hrw-bars{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+  width:100%;
+}
+.rubric-page .hrw-row{
+  display:grid;
+  grid-template-columns:200px minmax(0,1fr) 40px;
+  grid-template-areas:"lab track n";
+  align-items:center;
+  gap:16px;
+  width:100%;
+}
+.rubric-page .hrw-lab{
+  grid-area:lab;
+  font-size:14px;
+  font-weight:400;
+  line-height:1.4;
+  letter-spacing:.14px;
+  color:var(--color-foreground);
+}
+.rubric-page .hrw-track{
+  grid-area:track;
+  min-width:0;
+  height:8px;
+  overflow:hidden;
+  background:var(--color-border-soft);
+  border-radius:var(--radius-xs);
+}
+.rubric-page .hrw-bar{
+  display:block;
+  height:100%;
+  width:calc(var(--w) / 40 * 100%);
+  border-radius:var(--radius-xs);
+  background:var(--color-neutral-300);
+}
+.rubric-page .hrw-row-lead .hrw-bar{
+  background:var(--color-accent-mark);
+}
+.rubric-page .hrw-n{
+  grid-area:n;
+  font-size:14px;
+  font-weight:500;
+  line-height:1.4;
+  letter-spacing:.14px;
+  text-align:right;
+  color:var(--color-foreground);
+}
+@media (max-width:900px){
+  .rubric-page .hrw-cards{flex-direction:column}
+  .rubric-page .hrw-card{flex:none;width:100%;min-height:0}
+}
+@media (max-width:720px){
+  .rubric-page .hrw-card{padding:20px}
+  .rubric-page .hrw-row{
+    grid-template-columns:minmax(0,1fr) 40px;
+    grid-template-areas:"lab n" "track track";
+    gap:8px 12px;
+  }
+}
+
+/* Rubric check tables — Figma 4065:106 / 4065:107 */
+.rubric-page .rubric-lane{
+  display:flex;
+  flex-direction:column;
+  align-items:stretch;
+  gap:24px;
+  padding-top:0;
+  padding-bottom:110px;
+}
+.rubric-page .rubric-lane-h{
   font-family:var(--font-display);
   font-weight:400;
-  font-size:clamp(28px,3.4vw,40px);
-  line-height:1;
+  font-size:var(--text-h5);
+  line-height:1.3;
   letter-spacing:0;
   color:var(--color-foreground);
-  font-variant-numeric:proportional-nums;
-  font-feature-settings:"tnum" 0;
+  margin:0;
 }
-.statcell .lbl,
-.hero-stats .hs .l{
-  display:inline-flex;
-  align-items:center;
-  gap:7px;
+.rubric-page .hrw-tablewrap{
+  width:100%;
+  margin:0;
+  background:var(--color-card);
+  border:1px solid var(--color-border);
+  border-radius:var(--radius-2xl);
+  overflow:hidden;
+}
+.rubric-page .hrw-table{
+  width:100%;
+  border-collapse:collapse;
+  table-layout:fixed;
+  font-size:14px;
+  line-height:1.4;
+}
+.rubric-page .hrw-table th{
   font-family:var(--font-mono);
   font-size:12px;
   font-weight:500;
   letter-spacing:.72px;
   text-transform:uppercase;
+  color:var(--color-neutral-400);
+  text-align:left;
+  padding:16px 12px;
+  background:var(--color-surface-raised);
+  border-bottom:1px solid var(--color-border);
+}
+.rubric-page .hrw-table th.n,
+.rubric-page .hrw-table td.n{
+  width:148px;
+  text-align:right;
+  font-variant-numeric:tabular-nums;
+}
+.rubric-page .hrw-table th:first-child{
+  width:348px;
+}
+.rubric-page .hrw-table th:first-child,
+.rubric-page .hrw-table td:first-child{padding-left:28px}
+.rubric-page .hrw-table th:last-child,
+.rubric-page .hrw-table td:last-child{padding-right:28px}
+.rubric-page .hrw-table td{
+  padding:16px 12px;
+  border-bottom:1px solid var(--color-border-soft);
+  letter-spacing:.14px;
+}
+.rubric-page .hrw-table tr:last-child td{border-bottom:none}
+.rubric-page .hrw-table.rub td.rc{
+  width:348px;
+  font-weight:500;
   color:var(--color-foreground);
-  line-height:1.4;
+}
+.rubric-page .hrw-table.rub td.rp{
+  font-weight:400;
+  color:var(--color-muted-foreground);
+}
+.rubric-page .hrw-table.rub td.n{
+  font-weight:400;
+  color:var(--color-muted-foreground);
+}
+.rubric-page .hrw-table.rub tr.grp td{
+  padding-top:12px;
+  padding-bottom:12px;
+  background:var(--color-surface-sunken);
+  border-bottom:1px solid var(--color-border-bold);
+  font-weight:500;
+  color:var(--color-foreground);
+}
+.rubric-page .hrw-table.rub tr.grp td.n{color:var(--color-foreground)}
+.rubric-page .rubric-cta .rc-inner{gap:32px}
+@media (max-width:720px){
+  .rubric-page .hrw-table{table-layout:auto}
+  .rubric-page .hrw-table.rub td.rc{width:auto}
+  .rubric-page .hrw-table th.n,
+  .rubric-page .hrw-table td.n{width:auto}
+  .rubric-page .hrw-table th:first-child,
+  .rubric-page .hrw-table td:first-child{padding-left:16px}
+  .rubric-page .hrw-table th:last-child,
+  .rubric-page .hrw-table td:last-child{padding-right:16px}
+}
+
+/* ── Stats — Figma Dataset (4017:1940) + Hero stats (4038:1965) ────────
+   .gr-stats          compact inline (other pages, 3 cells)
+   .gr-stats-band     full-bleed 4-up with hairlines (Overview) */
+.gr-stats,
+.hero-stats{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:100%;
+  margin:0;
+  background:transparent;
+  border:none;
+  gap:0;
+}
+.gr-stats-cell,
+.gr-stats .statcell,
+.hero-stats .hs{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  text-align:center;
+  padding:0 48px;
+  min-height:0;
+  background:none;
+  border:none;
+  border-radius:0;
+  position:relative;
+}
+.gr-stats-cell + .gr-stats-cell,
+.gr-stats .statcell + .statcell,
+.hero-stats .hs + .hs{
+  position:relative;
+}
+.gr-stats-cell + .gr-stats-cell::before,
+.hero-stats .hs + .hs::before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:50%;
+  transform:translateY(-50%);
+  width:1px;
+  height:54px;
+  background:var(--color-border);
+  box-shadow:none;
+}
+.gr-stats .num,
+.gr-stats .num.tnum,
+.statcell .num,
+.hero-stats .hs .n{
+  font-family:var(--font-display);
+  font-weight:400;
+  font-size:var(--text-h3);
+  line-height:1.2;
+  letter-spacing:0;
+  color:var(--color-foreground);
+  font-variant-numeric:proportional-nums;
+  font-feature-settings:"tnum" 0;
+}
+.gr-stats .lbl,
+.statcell .lbl,
+.hero-stats .hs .l{
+  display:block;
+  font-family:var(--font-mono);
+  font-size:12px;
+  font-weight:500;
+  letter-spacing:.72px;
+  text-transform:uppercase;
+  color:var(--color-neutral-400);
+  line-height:1.5;
   white-space:nowrap;
 }
+.gr-stats .lbl::before,
 .statcell .lbl::before,
 .hero-stats .hs .l::before{
-  content:"";
+  content:none !important;
+  display:none !important;
+}
+.gr-stats-band{
+  justify-content:stretch;
+  background:var(--color-surface);
+  border-top:1px solid var(--color-border);
+  border-bottom:1px solid var(--color-border);
+}
+.gr-stats-band .gr-stats-cell,
+.gr-stats-band .statcell{
+  flex:1 1 0;
+  min-width:0;
+  gap:12px;
+  padding:46px 12px;
+}
+.gr-stats-band .gr-stats-cell + .gr-stats-cell::before,
+.gr-stats-band .statcell + .statcell::before{
+  top:0;
+  bottom:0;
+  height:auto;
+  transform:none;
+}
+/* ── The field — Figma Full results Lane toggle header (4038:1977) */
+.gr-field{
+  padding-top:4.5rem;
+  padding-bottom:4.5rem;
+}
+@media (min-width:768px){
+  .gr-field{
+    padding-top:80px;
+    padding-bottom:80px;
+  }
+}
+.gr-field-head{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:12px;
+  width:100%;
+  margin-bottom:0;
+}
+.gr-field .kicker{
+  color:var(--color-muted-foreground);
+  gap:9px;
+}
+.gr-field .gr-board-head{
+  gap:32px 80px;
+}
+.gr-field .gr-board-head h2.sec{
+  max-width:560px;
+}
+.gr-field .sec-lead strong{
+  font-weight:400;
+  color:inherit;
+}
+.gr-field .sec-lead .linklike{
+  display:inline;
+  margin:0;
+  padding:0;
+  border:0;
+  background:none;
+  box-shadow:none;
+  font-family:var(--font-sans);
+  font-size:14px;
+  font-weight:600;
+  line-height:1.4;
+  letter-spacing:.14px;
+  color:var(--color-neutral-400);
+  text-decoration:none;
+  cursor:pointer;
+}
+.gr-field .sec-lead .linklike:hover{
+  color:var(--color-foreground);
+}
+.gr-field .gr-seg{
+  margin-bottom:24px;
+}
+.gr-field .gr-seg .h2h-tab{
+  font-family:var(--font-sans);
+  font-size:14px;
+  font-weight:400;
+  letter-spacing:.14px;
+  text-transform:none;
+  color:var(--color-muted-foreground);
+  background:transparent;
+  border:0;
+  box-shadow:none;
+  padding:9px 18px;
+  border-radius:9px;
+}
+.gr-field .gr-seg .h2h-tab.active,
+.gr-field .gr-seg .h2h-tab[aria-selected="true"]{
+  background:var(--color-card);
+  color:var(--color-foreground);
+  font-weight:500;
+}
+
+/* Lane toggle body — Figma 4038:1977 scatter card + ranking table */
+.gr-field{
+  background:var(--color-surface-raised);
+  border-top:1px solid var(--color-border);
+  border-bottom:1px solid var(--color-border);
+}
+body.report-v2 #best-sec.gr-field{
+  gap:32px;
+}
+.gr-field .h2h,
+.gr-field .h2h-rank{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:12px;
+  width:100%;
+  margin:0;
+}
+.gr-field .gr-seg{margin:0}
+.gr-field .h2h-plot-card{
+  width:100%;
+  margin:0;
+  padding:34px 36px;
+  background:var(--color-card);
+  border:1px solid var(--color-border);
+  border-radius:var(--radius-2xl);
+  box-sizing:border-box;
+  display:flex;
+  flex-direction:column;
+  gap:26px;
+}
+.gr-field .h2h-cap{
+  margin:0;
+  font-family:var(--font-mono);
+  font-size:12px;
+  font-weight:500;
+  letter-spacing:.72px;
+  text-transform:uppercase;
+  color:var(--color-neutral-400);
+  line-height:1.5;
+}
+.gr-field .h2h-plot{width:100%}
+.gr-field .h2h-plot svg{width:100%;height:auto;display:block}
+.gr-field .h2h .spine{stroke:var(--color-border);stroke-width:1}
+.gr-field .h2h .mid{stroke:var(--color-border-soft);stroke-width:1}
+.gr-field .h2h .tick,
+.gr-field .h2h .axis,
+.gr-field .h2h .quad{
+  fill:var(--color-neutral-400);
+  font-family:var(--font-mono);
+  font-size:12px;
+  font-weight:500;
+  letter-spacing:.72px;
+}
+.gr-field .h2h .lbl{
+  fill:var(--color-muted-foreground);
+  font-family:var(--font-sans);
+  font-size:14px;
+  font-weight:400;
+  letter-spacing:.14px;
+}
+.gr-field .h2h .lbl.us{
+  fill:var(--color-foreground);
+  font-weight:500;
+}
+.gr-field .h2h-plot svg{overflow:visible}
+html.anim .gr-field .h2h .h2h-mark-halo{
+  transform-box:fill-box;
+  transform-origin:center;
+  animation:h2h-gorgias-halo 2.8s ease-in-out infinite;
+}
+html.anim .gr-field .h2h .h2h-mark-gorgias{
+  transform-box:fill-box;
+  transform-origin:center;
+  animation:h2h-gorgias-dot 2.8s ease-in-out infinite;
+}
+@keyframes h2h-gorgias-halo{
+  0%,100%{opacity:.4;transform:scale(.98)}
+  50%{opacity:.95;transform:scale(1.12)}
+}
+@keyframes h2h-gorgias-dot{
+  0%,100%{filter:drop-shadow(0 0 0 rgba(251,107,75,0))}
+  50%{filter:drop-shadow(0 0 5px rgba(251,107,75,.4))}
+}
+@media (prefers-reduced-motion:reduce){
+  html.anim .gr-field .h2h .h2h-mark-halo,
+  html.anim .gr-field .h2h .h2h-mark-gorgias{animation:none}
+  .gr-field .h2h .h2h-mark-halo{opacity:.45}
+  .gr-field .h2h .h2h-mark-gorgias{filter:none}
+}
+.gr-field .h2h-sub{
+  margin:0;
+  font-family:var(--font-sans);
+  font-size:16px;
+  font-style:normal;
+  font-weight:400;
+  line-height:1.5;
+  color:var(--color-muted-foreground);
+}
+.gr-field .h2h-lane{
+  margin:0;
+  font-family:var(--font-display);
+  font-size:var(--text-h6);
+  font-weight:400;
+  line-height:1.4;
+  letter-spacing:0;
+  text-transform:none;
+  color:var(--color-muted-foreground);
+}
+.gr-field .h2h-tablewrap{
+  width:100%;
+  overflow-x:auto;
+  background:var(--color-card);
+  border:1px solid var(--color-border);
+  border-radius:var(--radius-2xl);
+}
+.gr-field .h2h-table{
+  width:100%;
+  min-width:720px;
+  border-collapse:collapse;
+  font-size:14px;
+  line-height:1.4;
+  letter-spacing:.14px;
+}
+.gr-field .h2h-table th{
+  font-family:var(--font-mono);
+  font-size:12px;
+  font-weight:500;
+  letter-spacing:.72px;
+  text-transform:uppercase;
+  color:var(--color-neutral-400);
+  text-align:left;
+  padding:16px 8px;
+  background:var(--color-surface-raised);
+  border-bottom:1px solid var(--color-border);
+}
+.gr-field .h2h-table th:first-child,
+.gr-field .h2h-table td:first-child{padding-left:28px}
+.gr-field .h2h-table th:last-child,
+.gr-field .h2h-table td:last-child{padding-right:28px}
+.gr-field .h2h-table th.n,
+.gr-field .h2h-table td.n{text-align:right}
+.gr-field .h2h-table td{
+  padding:15px 8px;
+  border-bottom:1px solid var(--color-border-soft);
+  color:var(--color-muted-foreground);
+  font-variant-numeric:tabular-nums;
+}
+.gr-field .h2h-table tr:last-child td{border-bottom:none}
+.gr-field .h2h-table td.vn{
+  color:var(--color-foreground);
+  font-weight:500;
+}
+.gr-field .h2h-table td.rk{color:var(--color-neutral-400)}
+.gr-field .h2h-table tr.us td{
+  background:rgba(251,107,75,.05);
+  color:var(--color-foreground);
+  font-weight:500;
+}
+.gr-field .h2h-table tr.us td.rk{
+  font-weight:400;
+  color:var(--color-foreground);
+}
+.gr-field .h2h-table tr.us td.vn{font-weight:500}
+.gr-field .h2h-table .h2h-dot{
+  display:inline-block;
+  width:7px;
+  height:7px;
+  margin-right:9px;
+  border-radius:50%;
+  background:var(--color-coral-500);
+  vertical-align:middle;
+}
+.gr-field .h2h-table .bar{display:none}
+
+/* ── How the field ranks, by job — Figma Full results 4039:1948 */
+body.report-v2 #summary-sec.gr-ranks.section-y{
+  padding-top:110px;
+  padding-bottom:110px;
+  gap:32px;
+}
+.gr-ranks .gr-field-head{width:100%}
+.gr-ranks .gr-board-head h2.sec{
+  flex:1 1 280px;
+  max-width:560px;
+}
+@media (min-width:1100px){
+  .gr-ranks .gr-board-head h2.sec{
+    flex:0 1 560px;
+    width:560px;
+    max-width:560px;
+    white-space:nowrap;
+  }
+}
+body.report-v2 #summary-sec.gr-ranks h2.sec,
+body.report-v2 #summary-sec.gr-ranks .sec-lead{
+  max-width:none;
+  margin:0;
+  text-align:left;
+}
+.gr-ranks .table-scroll{
+  width:100%;
+  max-height:none;
+  overflow-x:auto;
+  background:var(--color-card);
+  border:1px solid var(--color-border);
+  border-radius:var(--radius-2xl);
+  scrollbar-width:thin;
+}
+.gr-ranks .table-scroll thead th{
+  position:sticky;
+  top:0;
+  z-index:2;
+  background:var(--color-surface-raised);
+}
+.gr-ranks table{
+  width:100%;
+  min-width:960px;
+  border-collapse:collapse;
+  font-size:14px;
+  line-height:1.4;
+  letter-spacing:.14px;
+}
+.gr-ranks thead th{
+  font-family:var(--font-mono);
+  font-size:12px;
+  font-weight:500;
+  letter-spacing:.72px;
+  text-transform:uppercase;
+  color:var(--color-neutral-400);
+  text-align:left;
+  padding:16px 8px;
+  background:var(--color-surface-raised);
+  border-bottom:1px solid var(--color-border);
+  white-space:nowrap;
+}
+.gr-ranks thead th:first-child,
+.gr-ranks tbody td:first-child{padding-left:28px}
+.gr-ranks thead th:last-child,
+.gr-ranks tbody td:last-child{padding-right:28px}
+.gr-ranks thead th.n,
+.gr-ranks tbody td.n{text-align:right}
+.gr-ranks tbody td{
+  padding:14px 8px;
+  border-bottom:1px solid var(--color-border-soft);
+  color:var(--color-muted-foreground);
+  font-variant-numeric:tabular-nums;
+  vertical-align:middle;
+}
+.gr-ranks tbody tr:last-child td{border-bottom:none}
+.gr-ranks tbody tr:hover{background:transparent}
+.gr-ranks td.vn{
+  color:var(--color-foreground);
+  font-weight:500;
+}
+.gr-ranks td.rk{color:var(--color-neutral-400);font-weight:400}
+.gr-ranks tr.hl td{
+  background:rgba(251,107,75,.07);
+  color:var(--color-foreground);
+  font-weight:500;
+}
+.gr-ranks tr.hl td.rk{font-weight:400;color:var(--color-foreground)}
+.gr-ranks tr.hl td.vn{font-weight:500}
+.gr-ranks .h2h-dot{
+  display:inline-block;
+  width:7px;
+  height:7px;
+  margin-right:9px;
+  border-radius:50%;
+  background:var(--color-coral-500);
+  vertical-align:middle;
+}
+.gr-ranks .bar,
+.gr-ranks .vlogo,
+.gr-ranks .us-tag,
+.gr-ranks .best-ref-tag{display:none}
+.gr-ranks .sig{
+  display:inline-flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:8px;
+  width:100%;
+}
+.gr-ranks .deliv{
+  display:inline-block;
+  font-family:var(--font-mono);
+  font-size:12px;
+  font-weight:500;
+  letter-spacing:.72px;
+  text-transform:uppercase;
+  color:var(--color-neutral-400);
+  line-height:1.5;
+  padding:3px 8px;
+  border-radius:999px;
+}
+.gr-ranks .deliv-streaming{background:var(--color-surface-sunken)}
+.gr-ranks .deliv-atomic{
+  background:transparent;
+  border:1px solid var(--color-border-soft);
+}
+.gr-ranks-note{
+  margin:0;
+  max-width:820px;
+  font-family:var(--font-sans);
+  font-size:14px;
+  font-weight:400;
+  line-height:1.4;
+  letter-spacing:.14px;
+  color:var(--color-neutral-400);
+}
+
+/* ── Check by check — Figma Full results 4040:1948 */
+body.report-v2 #cbc-sec.gr-cbc{
+  background:var(--color-surface-raised);
+  padding-top:110px;
+  padding-bottom:110px;
+  gap:32px;
+}
+.gr-cbc .gr-field-head h2.sec{
+  max-width:680px;
+  margin:0;
+}
+@media (min-width:768px){
+  .gr-cbc .gr-field-head h2.sec{
+    font-size:var(--text-h3);
+    line-height:var(--text-h3-line);
+  }
+}
+body.report-v2 #cbc-sec.gr-cbc .cbc-card{
+  width:100%;
+  margin:0;
+  padding:32px 36px 36px;
+  background:var(--color-card);
+  border:1px solid var(--color-border);
+  border-radius:var(--radius-2xl);
+  box-sizing:border-box;
+  display:flex;
+  flex-direction:column;
+  gap:24px;
+}
+.gr-cbc .cbc-legend{
+  display:flex;
+  align-items:center;
+  gap:26px;
+  margin:0;
+  font-family:var(--font-mono);
+  font-size:12px;
+  font-weight:500;
+  letter-spacing:.72px;
+  text-transform:uppercase;
+  color:var(--color-neutral-400);
+  line-height:1.5;
+}
+.gr-cbc .cbc-legend span{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+}
+.gr-cbc .cbc-legend i{
   display:block;
+  width:10px;
+  height:10px;
+  border-radius:3px;
+  flex:none;
+}
+.gr-cbc .cbc-legend .sw-field{background:var(--color-neutral-300)}
+.gr-cbc .cbc-legend .sw-gorgias{background:var(--color-coral-500)}
+.gr-cbc .cbc-group{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  width:100%;
+}
+.gr-cbc .cbc-cap{
+  margin:0;
+  font-family:var(--font-mono);
+  font-size:12px;
+  font-weight:500;
+  letter-spacing:.72px;
+  text-transform:uppercase;
+  color:var(--color-neutral-400);
+  line-height:1.5;
+}
+.gr-cbc .cbc-rows{
+  display:flex;
+  flex-direction:column;
+  width:100%;
+  gap:0;
+}
+.gr-cbc .cbc-row{
+  display:grid;
+  grid-template-columns:minmax(160px,330px) minmax(0,1fr) 110px;
+  gap:12px;
+  align-items:center;
+  width:100%;
+  padding:11px 0;
+  border-bottom:1px solid var(--color-border-soft);
+}
+.gr-cbc .cbc-rows .cbc-row:last-child{border-bottom:none}
+.gr-cbc .cbc-topic{
+  font-family:var(--font-sans);
+  font-size:14px;
+  font-weight:400;
+  line-height:1.4;
+  letter-spacing:.14px;
+  color:var(--color-muted-foreground);
+}
+.gr-cbc .cbc-bars{
+  display:flex;
+  flex-direction:column;
+  gap:5px;
+  min-width:0;
+}
+.gr-cbc .cbc-track{
+  position:relative;
+  height:9px;
+  width:100%;
+  background:var(--color-border-soft);
+  border-radius:4.5px;
+  overflow:hidden;
+}
+.gr-cbc .cbc-track .fill{
+  position:absolute;
+  left:0;
+  top:0;
+  height:100%;
+  border-radius:4.5px;
+}
+.gr-cbc .fill.field{background:var(--color-neutral-300)}
+.gr-cbc .fill.gorgias{background:var(--color-coral-500)}
+.gr-cbc .cbc-vals{
+  display:flex;
+  flex-direction:column;
+  font-family:var(--font-sans);
+  font-size:12px;
+  font-weight:400;
+  line-height:1.5;
+  color:var(--color-foreground);
+  font-variant-numeric:tabular-nums;
+}
+.gr-cbc .cbc-foot{
+  margin:0;
+  font-family:var(--font-sans);
+  font-size:12px;
+  font-style:normal;
+  font-weight:400;
+  line-height:1.5;
+  color:var(--color-muted-foreground);
+}
+.gr-cbc .cbc-foot b{
+  font-style:normal;
+  font-weight:600;
+  color:var(--color-foreground-secondary);
+}
+@media (max-width:720px){
+  .gr-cbc .cbc-row{
+    grid-template-columns:1fr auto;
+    gap:8px 12px;
+  }
+  .gr-cbc .cbc-topic{grid-column:1/-1}
+  .gr-cbc .cbc-bars{grid-column:1}
+}
+
+/* ── How it works — Figma Takeaways 02 (4018:1940)
+   Raised band, centered H3 + lead, 4 equal white condition cards. */
+.gr-how{
+  background:var(--color-surface-raised);
+  padding-top:4.5rem;
+  padding-bottom:4.5rem;
+}
+@media (min-width:768px){
+  .gr-how{
+    padding-top:118px;
+    padding-bottom:118px;
+  }
+}
+.gr-how-inner{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:24px;
+  width:100%;
+}
+.gr-how .kicker{
+  color:var(--color-muted-foreground);
+  gap:9px;
+}
+.gr-how h2.sec{
+  max-width:820px;
+  margin:0 auto;
+  text-align:center;
+  font-size:var(--text-h5);
+  line-height:1.2;
+  letter-spacing:0;
+}
+@media (min-width:768px){
+  .gr-how h2.sec{
+    font-size:var(--text-h3);
+    line-height:var(--text-h3-line);
+  }
+}
+.gr-how .sec-lead{
+  max-width:760px;
+  margin:0 auto;
+  text-align:center;
+  font-family:var(--font-sans);
+  font-size:16px;
+  font-weight:400;
+  line-height:1.5;
+  color:var(--color-muted-foreground);
+}
+.gr-method{
+  display:flex;
+  align-items:stretch;
+  gap:12px;
+  width:100%;
+  overflow:hidden;
+}
+.gr-method .col{
+  flex:1 1 0;
+  min-width:0;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:12px;
+  padding:32px 30px 34px;
+  background:var(--color-card);
+  border:1px solid var(--color-border);
+  border-radius:var(--radius-2xl);
+  box-sizing:border-box;
+}
+.gr-method .col h3{
+  margin:0;
+  width:100%;
+  font-family:var(--font-display);
+  font-weight:400;
+  font-style:normal;
+  font-size:var(--text-h6);
+  line-height:var(--text-h6-line);
+  letter-spacing:0;
+  text-transform:none;
+  color:var(--color-foreground);
+}
+.gr-method .col p{
+  margin:0;
+  width:100%;
+  font-family:var(--font-sans);
+  font-size:14px;
+  font-weight:400;
+  line-height:1.4;
+  letter-spacing:.14px;
+  color:var(--color-muted-foreground);
+}
+@media (max-width:860px){
+  .gr-method{flex-wrap:wrap}
+  .gr-method .col{flex:1 1 calc(50% - 6px)}
+}
+@media (max-width:520px){
+  .gr-how h2.sec br{display:none}
+  .gr-method .col{flex:1 1 100%}
+}
+
+/* ── The numbers — Figma Takeaways 03 (4020:1940)
+   Split H3 + lead, sunken segmented window, white 16px leaderboard. */
+.gr-board{
+  background:var(--color-surface);
+  padding-top:4.5rem;
+  padding-bottom:4.5rem;
+}
+@media (min-width:768px){
+  .gr-board{
+    padding-top:118px;
+    padding-bottom:118px;
+  }
+}
+.gr-board-inner{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:24px;
+  width:100%;
+}
+.gr-board .kicker{
+  color:var(--color-muted-foreground);
+  gap:9px;
+}
+.gr-board-head{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:flex-start;
+  gap:32px 80px;
+  width:100%;
+}
+.gr-board-head h2.sec{
+  flex:1 1 280px;
+  max-width:600px;
+  margin:0;
+  font-size:var(--text-h5);
+  line-height:1.2;
+  letter-spacing:0;
+}
+@media (min-width:768px){
+  .gr-board-head h2.sec{
+    font-size:var(--text-h3);
+    line-height:var(--text-h3-line);
+  }
+}
+.gr-board-head .sec-lead,
+#scoreboard .gr-board-head .sec-lead{
+  flex:1 1 280px;
+  min-width:0;
+  max-width:none;
+  margin:0;
+  font-size:16px;
+  font-weight:400;
+  line-height:1.5;
+  text-align:left;
+  color:var(--color-muted-foreground);
+}
+.gr-winbar{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:28px;
+  width:100%;
+  margin:0;
+}
+.gr-winbar .winbar-l{display:none}
+.gr-seg{
+  display:flex;
+  align-items:stretch;
+  gap:2px;
+  padding:4px;
+  flex:none;
+  background:var(--color-surface-sunken);
+  border-radius:12px;
+}
+.gr-seg .winbtn{
+  margin:0;
+  padding:9px 16px;
+  border:0;
+  border-radius:9px;
+  background:transparent;
+  box-shadow:none;
+  font-size:14px;
+  font-weight:400;
+  line-height:1.4;
+  letter-spacing:.14px;
+  color:var(--color-muted-foreground);
+}
+.gr-seg .winbtn:hover{
+  background:transparent;
+  color:var(--color-foreground);
+}
+.gr-seg .winbtn[aria-selected="true"]{
+  background:var(--color-card);
+  color:var(--color-foreground);
+  border:0;
+  font-weight:500;
+}
+.gr-seg .rec{display:none}
+.gr-winbar .winbar-note,
+#scoreboard .gr-winbar .winbar-note{
+  flex:1 1 220px;
+  margin:0;
+  font-size:14px;
+  font-weight:400;
+  line-height:1.4;
+  letter-spacing:.14px;
+  color:var(--color-neutral-400);
+}
+.gr-winbar .winbar-note strong{
+  color:var(--color-foreground);
+  font-weight:400;
+}
+.gr-board .tablecard{
+  width:100%;
+  margin:0;
+  background:var(--color-card);
+  border:1px solid var(--color-border);
+  border-radius:var(--radius-2xl);
+  overflow:hidden;
+  position:relative;
+  z-index:1;
+}
+.gr-board .table-scroll{overflow-x:auto}
+.gr-board table{
+  width:100%;
+  min-width:1100px;
+  border-collapse:collapse;
+  font-size:14px;
+  line-height:1.4;
+  letter-spacing:.14px;
+}
+.gr-board thead th{
+  font-family:var(--font-mono);
+  font-size:12px;
+  font-weight:500;
+  letter-spacing:.72px;
+  text-transform:uppercase;
+  color:var(--color-neutral-400);
+  text-align:left;
+  background:var(--color-surface-raised);
+  border-bottom:1px solid var(--color-border);
+  padding:16px 12px;
+  white-space:nowrap;
+  position:sticky;
+  top:0;
+}
+.gr-board tbody td{padding:14px 12px}
+.gr-board thead th:first-child,
+.gr-board tbody td:first-child{padding-left:28px}
+.gr-board thead th:last-child,
+.gr-board tbody td:last-child{padding-right:28px}
+.gr-board thead th.pair{text-align:right}
+.gr-board tbody td{
+  padding:14px 0;
+  border-bottom:1px solid var(--color-border-soft);
+  vertical-align:middle;
+  white-space:nowrap;
+  color:var(--color-foreground-secondary);
+}
+.gr-board tbody tr:last-child td{border-bottom:none}
+.gr-board tbody tr:hover{background:transparent}
+.gr-board tbody tr.hl{
+  background:rgba(251,107,75,.07);
+}
+.gr-board tbody tr.hl:hover{background:rgba(251,107,75,.07)}
+.gr-board thead .tt{
+  border-bottom:none;
+  cursor:help;
+}
+.gr-board thead .tt::after{display:none !important}
+.gr-board tbody td.rank{
+  width:60px;
+  color:var(--color-neutral-400);
+  font-weight:400;
+  text-align:left;
+}
+.gr-board tr.hl .rank{color:var(--color-foreground)}
+.gr-board .vendor{
+  width:168px;
+}
+.gr-board .vendor .vname{
+  display:inline-flex;
+  align-items:center;
+  gap:9px;
+  font-weight:500;
+  color:var(--color-foreground);
+}
+.gr-board .vendor .vlogo,
+.gr-board .us-tag,
+.gr-board .rankbadge{display:none}
+.gr-board tr.hl .vname::before{
+  content:"";
   width:7px;
   height:7px;
   border-radius:50%;
+  background:var(--color-accent-mark);
   flex:none;
 }
-.statcell:nth-child(1) .lbl::before,
-.hero-stats .hs:nth-child(1) .l::before{background:var(--color-pink-200)}
-.statcell:nth-child(2) .lbl::before,
-.hero-stats .hs:nth-child(2) .l::before{background:var(--color-yellow-200)}
-.statcell:nth-child(3) .lbl::before,
-.hero-stats .hs:nth-child(3) .l::before{background:var(--color-blue-200)}
-.statcell:nth-child(4) .lbl::before,
-.hero-stats .hs:nth-child(4) .l::before{background:var(--color-green-200)}
-/* Report hero has 3 stats (takeaways has 4). Don't leave a 4th empty column. */
-#hero-stats{
-  grid-template-columns:repeat(3,minmax(0,1fr));
-  max-width:48rem;
-  margin-inline:auto;
+.gr-board .compcell{
+  width:272px;
 }
-#hero-stats .hs .l{white-space:nowrap}
-@media (max-width:640px){
-  .statstrip,
-  .hero-stats{grid-template-columns:repeat(2,1fr)}
-  #hero-stats{grid-template-columns:1fr;max-width:20rem}
-  .statcell,
-  .hero-stats .hs{min-height:140px;padding:20px 12px}
-  .statcell .lbl{white-space:normal;text-align:center;align-items:flex-start}
-  .statcell .lbl::before,
-  .hero-stats .hs .l::before{margin-top:5px}
+.gr-board .gr-meter{
+  display:inline-flex;
+  align-items:center;
+  gap:12px;
+  vertical-align:middle;
+}
+.gr-board .gr-meter-track{
+  display:block;
+  width:95px;
+  height:8px;
+  flex:none;
+  overflow:hidden;
+  background:var(--color-border-soft);
+  border-radius:4px;
+}
+.gr-board .gr-meter-bar{
+  display:block;
+  height:100%;
+  border-radius:4px;
+  background:var(--color-neutral-300);
+}
+.gr-board tr.hl .gr-meter-bar{background:var(--color-accent-mark)}
+.gr-board .comp{
+  display:inline-block;
+  min-width:26px;
+  font-weight:500;
+  color:var(--color-foreground);
+  text-align:right;
+}
+.gr-board .rk,
+.gr-board .ci{
+  font-family:var(--font-sans);
+  font-size:14px;
+  font-weight:400;
+  letter-spacing:.14px;
+  color:var(--color-neutral-400);
+  margin-left:8px;
+}
+.gr-board .pair{
+  text-align:right;
+  font-weight:400;
+  color:var(--color-foreground-secondary);
+}
+.gr-board .table-note{
+  max-width:none;
+  margin:0;
+  font-size:14px;
+  line-height:1.5;
+  color:var(--color-muted-foreground);
+}
+.gr-board .table-hint{
+  margin:0;
+  font-family:var(--font-mono);
+  font-size:12px;
+  font-weight:500;
+  letter-spacing:.72px;
+  text-transform:uppercase;
+  color:var(--color-neutral-400);
+}
+@media (max-width:720px){
+  .gr-board-head h2.sec br{display:none}
+  .gr-winbar{gap:12px}
+}
+
+/* ── Where Gorgias lands — Figma Takeaways 04 (4022:1940)
+   Full-bleed ink, centered H3, rank pill, 4 KPI columns, note well. */
+.gr-stand{
+  background:var(--color-foreground);
+  color:var(--color-foreground-inverted);
+  padding-top:4.5rem;
+  padding-bottom:4.5rem;
+}
+@media (min-width:768px){
+  .gr-stand{
+    padding-top:118px;
+    padding-bottom:118px;
+  }
+}
+.gr-stand-inner{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:30px;
+  width:100%;
+}
+.gr-stand .kicker{
+  color:var(--color-neutral-300);
+  gap:9px;
+}
+.gr-stand .kicker .dot{background:var(--color-accent-mark)}
+.gr-stand h2.sec{
+  max-width:880px;
+  margin:0 auto;
+  text-align:center;
+  font-size:var(--text-h5);
+  line-height:1.2;
+  letter-spacing:0;
+  color:var(--color-foreground-inverted);
+}
+@media (min-width:768px){
+  .gr-stand h2.sec{
+    font-size:var(--text-h3);
+    line-height:var(--text-h3-line);
+  }
+}
+.gr-stand .sec-lead{
+  max-width:720px;
+  margin:0 auto;
+  text-align:center;
+  font-size:16px;
+  font-weight:400;
+  line-height:1.5;
+  color:var(--color-neutral-300);
+}
+.gr-stand .badge-rank{
+  display:inline-flex;
+  align-items:center;
+  margin:0;
+  padding:9px 18px;
+  background:rgba(255,255,255,.07);
+  border:1px solid var(--color-neutral-800);
+  border-radius:var(--radius-pill);
+  font-family:var(--font-mono);
+  font-size:12px;
+  font-weight:500;
+  letter-spacing:.72px;
+  text-transform:uppercase;
+  color:var(--color-foreground-inverted);
+  white-space:nowrap;
+}
+.gr-stand-grid{
+  display:flex;
+  align-items:stretch;
+  width:100%;
+  overflow:hidden;
+}
+.gr-stand-grid .vcell{
+  flex:1 1 0;
+  min-width:0;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:14px;
+  padding:30px 30px 8px;
+  background:none;
+  border:0;
+  border-radius:0;
+  position:relative;
+}
+.gr-stand-grid .vcell:first-child{padding-left:0}
+.gr-stand-grid .vcell + .vcell{
+  border-left:1px solid var(--color-neutral-800);
+}
+.gr-stand-grid .vcell.warn{
+  border-top:2px solid var(--color-accent-mark);
+}
+.gr-stand-grid .kpi,
+.gr-stand-grid .kpi.tnum{
+  font-family:var(--font-display);
+  font-weight:400;
+  font-size:var(--text-h3);
+  line-height:1.2;
+  letter-spacing:0;
+  color:var(--color-foreground-inverted);
+  font-variant-numeric:proportional-nums;
+  font-feature-settings:"tnum" 0;
+}
+.gr-stand-grid .kpi .u{
+  font-size:inherit;
+  font-weight:400;
+  color:inherit;
+}
+.gr-stand-grid .tag{
+  display:block;
+  margin:0;
+  padding:0;
+  background:none;
+  border-radius:0;
+  font-family:var(--font-mono);
+  font-size:12px;
+  font-weight:500;
+  letter-spacing:.72px;
+  text-transform:uppercase;
+  color:var(--color-neutral-300);
+}
+.gr-stand-grid .vcell.good .tag,
+.gr-stand-grid .vcell.mid .tag,
+.gr-stand-grid .vcell.warn .tag{
+  background:none;
+  color:var(--color-neutral-300);
+}
+.gr-stand-grid .desc{
+  font-size:14px;
+  font-weight:400;
+  line-height:1.4;
+  letter-spacing:.14px;
+  color:var(--color-neutral-300);
+}
+.gr-stand-grid .desc b{color:inherit;font-weight:400}
+.gr-stand .verdict-note{
+  width:100%;
+  margin:0;
+  padding:28px 32px;
+  background:rgba(255,255,255,.05);
+  border:0;
+  border-radius:var(--radius-2xl);
+  font-size:16px;
+  font-weight:400;
+  line-height:1.5;
+  color:var(--color-surface-raised);
+}
+.gr-stand .verdict-note b{
+  color:inherit;
+  font-weight:400;
+}
+.gr-stand .tt{color:inherit;border-bottom-color:var(--color-neutral-500)}
+.gr-stand .tt::after{display:none !important}
+@media (max-width:860px){
+  .gr-stand-grid{flex-wrap:wrap}
+  .gr-stand-grid .vcell{
+    flex:1 1 50%;
+    padding:24px 20px 8px;
+  }
+  .gr-stand-grid .vcell:first-child{padding-left:20px}
+  .gr-stand-grid .vcell:nth-child(2n-1){border-left:0}
+  .gr-stand-grid .vcell:nth-child(-n+2){
+    box-shadow:inset 0 -1px 0 var(--color-neutral-800);
+  }
+  .gr-stand .badge-rank{white-space:normal;text-align:center}
+}
+@media (max-width:520px){
+  .gr-stand-grid .vcell{
+    flex:1 1 100%;
+    border-left:0 !important;
+    box-shadow:inset 0 -1px 0 var(--color-neutral-800);
+    padding-left:0;
+    padding-right:0;
+  }
+  .gr-stand-grid .vcell:last-child{box-shadow:none}
+}
+
+/* ── Wins and gaps — Figma Takeaways 05 (4023:1940)
+   Raised band, H3, two white lane cards with win/gap split. */
+.gr-wl{
+  background:var(--color-surface-raised);
+  padding-top:4.5rem;
+  padding-bottom:4.5rem;
+}
+@media (min-width:768px){
+  .gr-wl{
+    padding-top:118px;
+    padding-bottom:118px;
+  }
+}
+.gr-wl-inner{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:24px;
+  width:100%;
+}
+.gr-wl .kicker{
+  color:var(--color-muted-foreground);
+  gap:9px;
+}
+.gr-wl h2.sec{
+  max-width:none;
+  margin:0;
+  font-size:var(--text-h5);
+  line-height:1.2;
+  letter-spacing:0;
+}
+@media (min-width:768px){
+  .gr-wl h2.sec{
+    font-size:var(--text-h3);
+    line-height:var(--text-h3-line);
+  }
+}
+.gr-wl-lane{
+  width:100%;
+  background:var(--color-card);
+  border:1px solid var(--color-border);
+  border-radius:var(--radius-2xl);
+  overflow:hidden;
+}
+.gr-wl .lane-head{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:baseline;
+  gap:24px;
+  width:100%;
+  margin:0;
+  padding:26px 32px 24px;
+  border-bottom:1px solid var(--color-border);
+}
+.gr-wl .lane-head .icon{display:none}
+.gr-wl .lane-head h3{
+  margin:0;
+  font-family:var(--font-display);
+  font-weight:400;
+  font-size:var(--text-h5);
+  line-height:var(--text-h5-line);
+  letter-spacing:0;
+  color:var(--color-foreground);
+}
+.gr-wl .lane-head .meta{
+  flex:1 1 200px;
+  margin:0;
+  font-family:var(--font-sans);
+  font-size:14px;
+  font-weight:400;
+  line-height:1.4;
+  letter-spacing:.14px;
+  text-align:right;
+  color:var(--color-neutral-400);
+}
+.gr-wl-split{
+  display:flex;
+  align-items:stretch;
+  width:100%;
+}
+.gr-wl .wl-card{
+  flex:1 1 0;
+  min-width:0;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:20px;
+  margin:0;
+  padding:30px 32px 32px;
+  background:var(--color-card);
+  border:0;
+  border-radius:0;
+}
+.gr-wl .wl-card.lose{
+  background:var(--color-surface-sunken);
+  border-left:1px solid var(--color-border);
+}
+.gr-wl .wl-card .head{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  width:100%;
+  margin:0;
+  font-family:var(--font-sans);
+  font-size:16px;
+  font-weight:500;
+  line-height:1.5;
+  color:var(--color-foreground);
+}
+.gr-wl .wl-card .head .chip{display:none}
+.gr-wl .wl-ico{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:40px;
+  height:40px;
+  flex:none;
+  overflow:hidden;
+  padding:8px;
+  box-sizing:border-box;
+  border:1px solid var(--color-border-bold);
+  border-radius:var(--radius-md);
+  background:transparent;
+}
+.gr-wl .wl-ico img{
+  display:block;
+  width:24px;
+  height:24px;
+}
+.gr-wl .wl-card ul{
+  list-style:none;
+  display:flex;
+  flex-direction:column;
+  gap:20px;
+  width:100%;
+  margin:0;
+  padding:0;
+}
+.gr-wl .wl-card li{
+  display:block;
+  position:relative;
+  padding:0 0 0 24px;
+  font-size:14px;
+  font-weight:400;
+  line-height:1.4;
+  letter-spacing:.14px;
+  color:var(--color-muted-foreground);
+}
+.gr-wl .wl-card li::before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:9px;
+  width:11px;
+  height:1.5px;
+  margin:0;
+  border-radius:0;
+  background:#3AB231;
+}
+.gr-wl .wl-card.lose li::before{
+  background:var(--color-accent-mark);
+}
+.gr-wl .wl-card li b{
+  display:inline;
+  font-weight:400;
+  color:var(--color-foreground);
+}
+@media (max-width:720px){
+  .gr-wl-split{flex-direction:column}
+  .gr-wl .wl-card.lose{border-left:0;border-top:1px solid var(--color-border)}
+  .gr-wl .lane-head .meta{text-align:left}
+}
+
+/* ── Market learnings — Figma Takeaways 06 (4024:1940)
+   Light paper (not the ink band). Number + title + body rows, then method defs.
+   Scoped to .gr-learn so takeaways.html can keep the dark chapter. */
+#learnings.gr-learn{
+  background:var(--color-surface);
+  color:var(--color-foreground);
+  padding-top:4.5rem;
+  padding-bottom:4.5rem;
+}
+@media (min-width:768px){
+  #learnings.gr-learn{
+    padding-top:118px;
+    padding-bottom:118px;
+  }
+}
+.gr-learn-inner{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:50px;
+  width:100%;
+}
+#learnings.gr-learn .kicker{
+  color:var(--color-muted-foreground);
+  gap:9px;
+}
+#learnings.gr-learn .kicker .dot{background:var(--color-accent-mark)}
+#learnings.gr-learn h2.sec{
+  max-width:1000px;
+  margin:0;
+  text-align:left;
+  font-size:var(--text-h5);
+  line-height:1.2;
+  letter-spacing:0;
+  color:var(--color-foreground);
+}
+@media (min-width:768px){
+  #learnings.gr-learn h2.sec{
+    font-size:var(--text-h3);
+    line-height:var(--text-h3-line);
+  }
+}
+#learnings.gr-learn .learn-list{
+  display:flex;
+  flex-direction:column;
+  width:100%;
+  margin:0;
+  border-top:1px solid var(--color-border-bold);
+  text-align:left;
+}
+#learnings.gr-learn .learn-row{
+  display:flex;
+  align-items:flex-start;
+  gap:44px;
+  width:100%;
+  padding:32px 0 34px;
+  border-bottom:1px solid var(--color-border);
+  background:none;
+  border-radius:0;
+  text-align:left;
+}
+#learnings.gr-learn .learn-num{
+  flex:none;
+  width:56px;
+  min-width:56px;
+  height:auto;
+  margin:0;
+  padding:0;
+  background:none;
+  border-radius:0;
+  font-family:var(--font-display);
+  font-weight:400;
+  font-size:var(--text-h4);
+  line-height:1.2;
+  letter-spacing:0;
+  color:var(--color-neutral-300);
+}
+#learnings.gr-learn .learn-body{
+  display:contents;
+}
+#learnings.gr-learn .learn-body .t{
+  flex:none;
+  width:min(500px,100%);
+  max-width:500px;
+  margin:0;
+  font-family:var(--font-display);
+  font-weight:400;
+  font-size:var(--text-h6);
+  line-height:1.4;
+  letter-spacing:0;
+  color:var(--color-foreground);
+}
+#learnings.gr-learn .learn-body .why{
+  flex:1 1 0;
+  min-width:0;
+  max-width:none;
+  font-size:14px;
+  font-weight:400;
+  line-height:1.4;
+  letter-spacing:.14px;
+  color:var(--color-muted-foreground);
+}
+#learnings.gr-learn .method{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:flex-start;
+  align-content:flex-start;
+  gap:40px;
+  width:100%;
+  max-width:none;
+  margin:0;
+  padding:36px 0 0;
+  background:transparent;
+  border:0;
+  border-top:1px solid var(--color-border);
+  border-radius:0;
+  text-align:left;
+}
+#learnings.gr-learn .method .col{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  width:400px;
+  max-width:100%;
+  margin:0;
+  padding:0;
+  background:transparent;
+  border:0;
+  border-radius:0;
+  text-align:left;
+}
+#learnings.gr-learn .method .col h3{
+  margin:0;
+  font-family:var(--font-mono);
+  font-size:12px;
+  font-weight:500;
+  line-height:1.5;
+  letter-spacing:.72px;
+  text-transform:uppercase;
+  color:var(--color-neutral-400);
+}
+#learnings.gr-learn .method .col p{
+  margin:0;
+  font-size:14px;
+  font-weight:400;
+  line-height:1.4;
+  letter-spacing:.14px;
+  color:var(--color-muted-foreground);
+}
+#learnings.gr-learn .method .col b{
+  display:inline;
+  font-weight:400;
+  color:var(--color-foreground);
+}
+#learnings.gr-learn .method .mono{
+  font-family:var(--font-sans);
+  font-size:inherit;
+  color:var(--color-foreground);
+}
+@media (max-width:860px){
+  #learnings.gr-learn .learn-row{
+    flex-wrap:wrap;
+    gap:12px 24px;
+  }
+  #learnings.gr-learn .learn-body .t{
+    width:calc(100% - 80px);
+    max-width:none;
+  }
+  #learnings.gr-learn .learn-body .why{
+    flex-basis:100%;
+    padding-left:80px;
+  }
+}
+
+@media (max-width:720px){
+  .gr-stats-cell,
+  .hero-stats .hs{padding:0 16px}
+  .gr-stats .num,
+  .hero-stats .hs .n{font-size:var(--text-h4)}
+  .gr-stats-band{
+    flex-wrap:wrap;
+  }
+  .gr-stats-band .gr-stats-cell{
+    flex:1 1 50%;
+    padding:28px 12px;
+  }
+  .gr-stats-band .gr-stats-cell:nth-child(2n-1)::before{
+    content:none;
+  }
+  .gr-stats-band .gr-stats-cell:nth-child(-n+2){
+    box-shadow:inset 0 -1px 0 var(--color-border);
+  }
 }
 
 /* ── Modal — FearHero response dialog (Figma 3150:1775) ────────────────
@@ -781,34 +2715,405 @@ h2.sec::before{content:none !important}
   width:100%;
   min-width:0;
 }
+/* Trends layout — Figma Full results 4041:1948 (charts unchanged) */
+body.report-v2 #trend-sec.gr-dist{
+  padding-top:110px;
+  padding-bottom:110px;
+  gap:32px;
+  background:var(--color-surface);
+}
+.gr-dist .gr-field-head{width:100%}
+.gr-dist .gr-board-head h2.sec{
+  flex:1 1 280px;
+  max-width:560px;
+  margin:0;
+}
+@media (min-width:768px){
+  .gr-dist .gr-board-head h2.sec{
+    font-size:var(--text-h3);
+    line-height:var(--text-h3-line);
+  }
+}
+.gr-dist .trend-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:12px;
+  width:100%;
+}
+@media (max-width:900px){
+  .gr-dist .trend-grid{grid-template-columns:1fr}
+}
+.gr-dist .trend-card{
+  margin:0;
+  padding:24px;
+  min-height:260px;
+  background:var(--color-card);
+  border:1px solid var(--color-border);
+  border-radius:var(--radius-2xl);
+  box-sizing:border-box;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  box-shadow:none;
+}
+.gr-dist .trend-cap{
+  margin:0;
+  font-family:var(--font-mono);
+  font-size:12px;
+  font-weight:500;
+  letter-spacing:.72px;
+  text-transform:uppercase;
+  color:var(--color-neutral-400);
+  line-height:1.5;
+}
+.gr-dist .trend-svg{
+  width:100%;
+  height:auto;
+  display:block;
+  flex:1;
+}
+.gr-dist .trend-legend{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin:0;
+}
+
+/* Response speed — Figma Full results 4050:419 */
+body.report-v2 #results-sec.gr-speed{
+  background:var(--color-surface-raised);
+  padding-top:110px;
+  padding-bottom:110px;
+  gap:32px;
+}
+.gr-speed .gr-field-head{width:100%}
+.gr-speed .gr-board-head h2.sec{
+  flex:1 1 280px;
+  max-width:560px;
+  margin:0;
+}
+body.report-v2 #results-sec.gr-speed h2.sec,
+body.report-v2 #results-sec.gr-speed .sec-lead{
+  max-width:none;
+  margin:0;
+  text-align:left;
+}
+body.report-v2 #results-sec.gr-speed .gr-board-head h2.sec{max-width:560px}
+@media (min-width:768px){
+  .gr-speed .gr-board-head h2.sec{
+    font-size:var(--text-h3);
+    line-height:var(--text-h3-line);
+  }
+}
+.gr-speed .gr-board-head .sec-lead strong{font-weight:400;color:inherit}
+.gr-speed #store-filter,
+.gr-speed .toggle-tabs{
+  display:flex;
+  flex-wrap:wrap;
+  gap:4px;
+  width:100%;
+  justify-content:flex-start;
+}
+.gr-speed #store-filter .vlogo{display:none}
+.gr-speed #store-filter .tab{
+  height:40px;
+  padding:8px 18px;
+  border:1px solid var(--color-border);
+  border-radius:9999px;
+  background:var(--color-card);
+  color:var(--color-foreground);
+  font-family:var(--font-sans);
+  font-size:14px;
+  font-weight:400;
+  letter-spacing:.14px;
+  line-height:1.4;
+  box-shadow:none;
+}
+.gr-speed #store-filter .tab[aria-selected="true"]{
+  background:var(--color-foreground);
+  color:var(--color-foreground-inverted);
+  border-color:var(--color-foreground);
+}
+.gr-speed #latdive{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:12px;
+  align-items:stretch;
+  width:100%;
+}
+@media (max-width:1100px){
+  .gr-speed #latdive{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:640px){
+  .gr-speed #latdive{grid-template-columns:1fr}
+}
+.gr-speed .ld-row{
+  margin:0;
+  padding:24px;
+  background:var(--color-card);
+  border:1px solid var(--color-border);
+  border-radius:var(--radius-2xl);
+  box-shadow:none;
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+  box-sizing:border-box;
+  height:100%;
+  min-height:0;
+}
+.gr-speed:not(.resp-all):not(.resp-one) .ld-row:not(.ld-feat){display:none}
+.gr-speed.resp-one .ld-row:not(.ld-on){display:none}
+.gr-speed.resp-one #resp-toggle{display:none}
+.gr-speed .ld-empty{
+  display:none;
+  margin:0;
+  width:100%;
+  text-align:center;
+  font-size:14px;
+  color:var(--color-muted-foreground);
+}
+.gr-speed.resp-one.is-empty .ld-empty{display:block}
+.gr-speed .ld-head{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  margin:0;
+  width:100%;
+}
+.gr-speed .ld-dot{
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:var(--color-coral-500);
+  flex:none;
+}
+.gr-speed .ld-name{
+  flex:1;
+  min-width:0;
+  font-family:var(--font-display);
+  font-size:var(--text-h6);
+  font-weight:400;
+  line-height:1.4;
+  color:var(--color-foreground);
+}
+.gr-speed .ld-deliv{
+  font-family:var(--font-mono);
+  font-size:12px;
+  font-weight:500;
+  letter-spacing:.72px;
+  text-transform:uppercase;
+  color:var(--color-neutral-400);
+  line-height:1.5;
+}
+.gr-speed .ld-head .vlogo,
+.gr-speed .ld-head .pill{display:none}
+.gr-speed .ld-meta{
+  margin:0;
+  font-family:var(--font-mono);
+  font-size:12px;
+  font-weight:500;
+  letter-spacing:.72px;
+  text-transform:uppercase;
+  color:var(--color-neutral-400);
+  line-height:1.5;
+}
+.gr-speed .ld-viz{display:block;width:100%}
+.gr-speed .ld-labels{display:none}
+.gr-speed .ld-bars{
+  display:flex;
+  align-items:flex-end;
+  gap:6px;
+  height:110px;
+  width:100%;
+}
+.gr-speed .ld-bar{
+  flex:1 1 0;
+  min-width:0;
+  width:auto;
+  border-radius:3px;
+  background:var(--color-neutral-300);
+}
+.gr-speed .ld-row.gorgias .ld-bar{background:var(--color-coral-500)}
+.gr-speed .ld-bar.ld-none{background:var(--color-border-soft);height:3px}
+.gr-speed .ld-axis{
+  display:flex;
+  justify-content:space-between;
+  width:100%;
+  max-width:none;
+  margin:0;
+  padding-top:8px;
+  border-top:1px solid var(--color-border-soft);
+  font-family:var(--font-mono);
+  font-size:12px;
+  font-weight:500;
+  letter-spacing:.72px;
+  text-transform:uppercase;
+  color:var(--color-neutral-400);
+  line-height:1.5;
+}
+.gr-speed.resp-all .ld-take{margin-top:auto}
+.gr-speed .ld-empty-card{opacity:.92}
+.gr-speed .ld-empty-card .ld-bars{opacity:.55}
+.gr-speed .ld-take{
+  margin:0;
+  padding:0 0 0 18px;
+  border:0;
+  font-family:var(--font-sans);
+  font-size:12px;
+  font-weight:400;
+  line-height:1.5;
+  color:var(--color-muted-foreground);
+}
+.gr-speed .ld-take li{margin:0 0 8px}
+.gr-speed .ld-take li:last-child{margin-bottom:0}
+.gr-speed .ld-take b{font-weight:600;color:var(--color-foreground-secondary)}
+.gr-speed #resp-toggle{
+  display:block;
+  margin:0 auto;
+  text-align:center;
+  font-family:var(--font-sans);
+  font-size:14px;
+  font-weight:400;
+  color:var(--color-muted-foreground);
+  background:none;
+  border:0;
+  box-shadow:none;
+  cursor:pointer;
+}
+.gr-speed #resp-toggle:hover{color:var(--color-foreground)}
+
+/* Current leaders — Figma 4050:702 (hidden in the file; keep markup, hide on report-v2) */
+body.report-v2 .trend-podium[hidden]{display:none !important}
+/* Coverage inventory — keep markup, hide on report-v2 (#coverage-sec {display:flex} would otherwise override [hidden]) */
+body.report-v2 #coverage-sec[hidden]{display:none !important}
 .trend-podium{
   display:flex;
   flex-direction:column;
   align-items:stretch;
-  gap:0;
+  gap:12px;
   width:100%;
-  margin-top:28px;
+  margin:0;
   text-align:left;
 }
-.trend-podium h3{
+.trend-podium .gr-board-head{
+  gap:32px 80px;
+}
+.trend-podium .gr-board-head h3.sec{
+  flex:1 1 280px;
+  max-width:560px;
+  margin:0;
   font-family:var(--font-display);
-  font-size:var(--text-h6);
-  line-height:var(--text-h6-line);
+  font-size:var(--text-h5);
+  line-height:1.3;
   font-weight:400;
   letter-spacing:0;
   color:var(--color-foreground);
-  margin:0 0 8px;
-  text-align:left;
   text-transform:none;
 }
-.trend-podium .lead{
-  margin:0 0 20px;
-  text-align:left;
-  max-width:40rem;
+.trend-podium .sec-lead{
+  flex:1 1 280px;
+  min-width:0;
+  margin:0;
+  font-size:16px;
+  font-weight:400;
+  line-height:1.5;
+  color:var(--color-muted-foreground);
 }
 .trend-podium .trend-leaders{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:12px;
   width:100%;
 }
+@media (max-width:1100px){
+  .trend-podium .trend-leaders{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:640px){
+  .trend-podium .trend-leaders{grid-template-columns:1fr}
+}
+.trend-podium .lead-card{
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+  padding:24px;
+  background:var(--color-card);
+  border:1px solid var(--color-border);
+  border-radius:var(--radius-2xl);
+  box-sizing:border-box;
+}
+.trend-podium .lc-h{
+  margin:0;
+  font-family:var(--font-mono);
+  font-size:12px;
+  font-weight:500;
+  letter-spacing:.72px;
+  text-transform:uppercase;
+  color:var(--color-neutral-400);
+  line-height:1.5;
+}
+.trend-podium .lc-h::before{display:none}
+.trend-podium .lc-win{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  padding:0;
+  margin:0;
+  border:0;
+  font-family:var(--font-sans);
+  font-size:20px;
+  font-weight:400;
+  line-height:1.5;
+  color:var(--color-foreground);
+}
+.trend-podium .lc-win .lc-name{flex:1;min-width:0}
+.trend-podium .lc-win .lc-val{
+  margin-left:auto;
+  font-family:var(--font-sans);
+  font-size:20px;
+  font-weight:400;
+  font-variant-numeric:tabular-nums;
+  color:var(--color-foreground);
+}
+.trend-podium .lc-row{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:11px 0;
+  border-top:1px solid var(--color-border-soft);
+  font-size:14px;
+  line-height:1.4;
+  letter-spacing:.14px;
+  color:var(--color-muted-foreground);
+}
+.trend-podium .lc-rank{
+  width:26px;
+  flex:none;
+  color:var(--color-neutral-400);
+  font-weight:400;
+}
+.trend-podium .lc-row .lc-name{flex:1;min-width:0}
+.trend-podium .lc-row .lc-val{
+  margin-left:auto;
+  font-weight:500;
+  font-variant-numeric:tabular-nums;
+  color:var(--color-foreground);
+}
+.trend-podium .lc-row.hl .lc-name{
+  font-weight:500;
+  color:var(--color-foreground);
+}
+.trend-podium .vlogo{
+  width:24px;
+  height:24px;
+  padding:4px;
+  margin:0;
+  border-radius:4.8px;
+  border:1px solid var(--color-border-bold);
+  box-sizing:border-box;
+  background:var(--color-card);
+  object-fit:contain;
+}
+.trend-podium .us-tag{display:none}
 #summary-sec .gr-section-header,
 #product-rec-sec .gr-section-header,
 #caps-sec .gr-section-header{margin:0}
@@ -936,7 +3241,52 @@ h2.sec::before{content:none !important}
 #h2h-intro .lead,
 #h2h-intro h2.sec{text-align:left;margin:0}
 .winbar-panel .datebar{margin:0}
+/* Report sections: takeaways rhythm. Vertical space is gap + section-y, not heading margins. */
+#best-sec,
+#summary-sec,
+#cbc-sec,
+#product-rec-sec,
+#trend-sec,
+#results-sec,
+#rubric-sec,
+#caps-sec,
+#coverage-sec,
+#conv-sec{
+  display:flex;
+  flex-direction:column;
+  align-items:stretch;
+  gap:2.5rem;
+}
+body.report-v2 #best-sec .h2h,
+body.report-v2 #best-sec .h2h-rank{
+  gap:12px;
+}
+body.report-v2 #cbc-sec.gr-cbc .cbc-card{
+  display:flex;
+  flex-direction:column;
+  gap:24px;
+  margin:0;
+}
+#best-sec .h2h,
+#cbc-sec .cbc-card{
+  display:flex;
+  flex-direction:column;
+  gap:1.5rem;
+  margin:0;
+}
+#cbc-sec .cbc-legend,
+#cbc-sec .cbc-cap,
+#cbc-sec .cbc-foot,
+#cbc-sec .cbc-h,
+.h2h-top,
+.h2h-sub,
+.h2h-lane,
+.hrw-h,
+.hrw-cards{
+  margin:0;
+}
 #best-sec.section-y{padding-top:1.25rem}
+body.report-v2 #best-sec.section-y{padding-top:4.5rem}
 #conv-sec.section-y{
   padding-top:1.25rem;
   gap:1.25rem;
