@@ -42,6 +42,10 @@ const bakedRegion = (html) => {
 const PAGES = [
   { route: "/report", file: "report.html" },
   { route: "/takeaways", file: "takeaways.html" },
+  // The Brand 2.0 pages the site nav links to. Baked by gen.js since 2026-09-13; before that they were never
+  // deployed from a bake, which is how /report-v2 served September 5 data for a week.
+  { route: "/report-v2", file: "report-v2.html" },
+  { route: "/takeaways-v2", file: "takeaways-v2.html" },
   // "/" is a vercel.json rewrite onto takeaways.html, not a file of its own. It is checked
   // separately because a rewrite is exactly the kind of thing that breaks without anyone
   // noticing: /takeaways keeps working, so every existing check stays green while the address

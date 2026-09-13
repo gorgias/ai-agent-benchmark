@@ -607,11 +607,20 @@ const OVERALL = Object.fromEntries(rOverall.map(r => {
   const ci = overallCI(r.v);
   return [r.v, { score: Math.round(r.mean), ...(ci != null ? { ci } : {}) }];
 }));
-const gShop = rShop.findIndex(r => r.v === "Gorgias") + 1;
-const gSupp = rSupp.findIndex(r => r.v === "Gorgias") + 1;
-const gOv = rOverall.findIndex(r => r.v === "Gorgias") + 1;
+// A rank is shared on a tie of the displayed (rounded) score, and the text says so: a tie must never be broken
+// silently in Gorgias's favour. Until 2026-09-13 a stable sort did exactly that (support 72 vs Yuma 72 read
+// "#1 support"), while report.html's own table broke the same tie the other way on automation.
+const tiedRank = (rows, key, v) => {
+  const me = rows.find(r => r.v === v);
+  if (!me) return { pos: 0, tied: [] };
+  return { pos: 1 + rows.filter(r => r[key] > me[key]).length, tied: rows.filter(r => r.v !== v && r[key] === me[key]).map(r => r.v) };
+};
+const tieNote = (t) => t.tied.length ? ` (tied with ${t.tied.join(", ")})` : "";
+const tShop = tiedRank(rShop, "comp", "Gorgias"), tSupp = tiedRank(rSupp, "comp", "Gorgias");
+const tOv = tiedRank(rOverall.map(r => ({ v: r.v, mean: Math.round(r.mean) })), "mean", "Gorgias");
+const gShop = tShop.pos, gSupp = tSupp.pos, gOv = tOv.pos;
 const suppLeader = rSupp[0] && rSupp[0].v, shopLeader = rShop[0] && rShop[0].v, ovLeader = rOverall[0] && rOverall[0].v;
-const suppTxt = "#" + gSupp + " support", shopTxt = "#" + gShop + " shopping", ovTxt = "#" + gOv + " overall";
+const suppTxt = "#" + gSupp + " support" + tieNote(tSupp), shopTxt = "#" + gShop + " shopping" + tieNote(tShop), ovTxt = "#" + gOv + " overall" + tieNote(tOv);
 const RANK_OVERALL = gOv ? ("#" + gOv) : "\u2014";
 const RANK_LANES = `${suppTxt} (${suppC["Gorgias"] != null ? suppC["Gorgias"] : "\u2014"}), ${shopTxt} (${shopC["Gorgias"] != null ? shopC["Gorgias"] : "\u2014"})`;
 const RANK_TITLE = `Gorgias: ${ovTxt} — ${suppTxt}, ${shopTxt}.`;
@@ -630,6 +639,54 @@ const SUMMARY_VALUES = {
   SUPPORT_POSITION: `${suppTxt} · composite ${suppC.Gorgias ?? "—"} · quality ${supS.Gorgias?.q ?? "—"}/100`,
   SUMMARY_WEIGHTS: `Support: ${LANE_W.support.a * 100}% automation, ${LANE_W.support.q * 100}% quality, ${LANE_W.support.s * 100}% speed. Shopping: ${LANE_W.shopping.a * 100}% automation, ${LANE_W.shopping.q * 100}% quality, ${LANE_W.shopping.s * 100}% speed.`,
 };
+
+// ---- Facts the Brand 2.0 pages (takeaways-v2.html, report-v2.html) state in prose. Derived here from the same
+// lane scores as the scoreboard, never hand-typed: until 2026-09-13 takeaways-v2 claimed 94/100 and "best answer
+// quality in the field" while Gorgias sat at 76, second to Sierra, because nothing re-checked the copy. ----
+const rankedRows = (S) => Object.entries(S).filter(([v, sc]) => sc && sc.q != null && sc.n >= MIN_RANK_CONVS && !OUTLIER_V.has(v)).map(([v, sc]) => ({ v, ...sc }));
+const medianOf = (xs) => { const s = [...xs].sort((a, b) => a - b), m = s.length >> 1; return s.length ? (s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2) : null; };
+const joinAnd = (xs) => xs.length <= 1 ? (xs[0] || "none") : `${xs.slice(0, -1).join(", ")}, and ${xs[xs.length - 1]}`;
+const handoverPct = (arr, v) => {
+  const ag = arr.filter((s) => s.vendor === v && (!s.date || s.date >= RANK_CUTOFF))
+    .reduce((acc, s) => { if (s.auto) { acc.h += s.auto.handover; acc.e += s.auto.engaged; } return acc; }, { h: 0, e: 0 });
+  return ag.e ? Math.round(100 * ag.h / ag.e) : null;
+};
+function laneFacts(S, R, arr) {
+  const rows = rankedRows(S), g = S.Gorgias || {};
+  const posTxt = (t, total) => t.pos ? `#${t.pos} of ${total}${tieNote(t)}` : "unranked";
+  const tq = tiedRank(rows, "q", "Gorgias"), ta = tiedRank(rows, "a", "Gorgias");
+  const byQ = [...rows].sort((x, y) => y.q - x.q), byL = rows.filter((r) => r.l != null).sort((x, y) => x.l - y.l);
+  const qLeader = byQ.find((r) => r.v !== "Gorgias"), leader = R.find((r) => r.v !== "Gorgias");
+  const leaderQ = leader && S[leader.v] ? S[leader.v].q : null;
+  return {
+    rankOf: posTxt(tiedRank(R, "comp", "Gorgias"), R.length),
+    qRank: !tq.pos ? "unranked" : tq.pos === 1 ? (tq.tied.length ? `#1 of ${rows.length}${tieNote(tq)}` : "the highest in the field")
+      : `#${tq.pos} of ${rows.length}${tieNote(tq)}, behind ${byQ[0].v} (${byQ[0].q})`,
+    qMedian: rows.length ? Math.round(medianOf(rows.map((r) => r.q))) : null,
+    aRank: posTxt(ta, rows.length),
+    latR: g.l != null ? Math.round(g.l) : null,
+    fastest: byL.filter((r) => r.v !== "Gorgias").slice(0, 2).map((r) => `${r.v} ~${Math.round(r.l)}s`).join(", ") || "—",
+    qVsLeader: g.q != null && leaderQ != null ? `${g.q}, ${g.q > leaderQ ? "ahead of" : g.q === leaderQ ? "level with" : "behind"} ${leader.v} (${leaderQ})` : "—",
+    qLeaderHandover: qLeader ? `${qLeader.v} hands about ${handoverPct(arr, qLeader.v)}% of these conversations to a human` : "—",
+  };
+}
+const FS = laneFacts(shopS, rShop, STORES), FP = laneFacts(supS, rSupp, SUPPORT);
+const laneConvs = (arr) => { const n = {}; arr.filter((s) => !s.date || s.date >= RANK_CUTOFF).forEach((s) => { n[s.vendor] = (n[s.vendor] || 0) + ((s.themes && s.themes.length) || 0); }); return n; };
+const nShop = laneConvs(STORES), nSupp = laneConvs(SUPPORT);
+const UNRANKED = [...new Set([...Object.keys(nShop), ...Object.keys(nSupp)])].filter((v) => !OUTLIER_V.has(v)).sort().map((v) => {
+  const parts = [[nShop[v], "shopping"], [nSupp[v], "support"]].filter(([n]) => n > 0 && n < MIN_RANK_CONVS).map(([n, lane]) => `${n} ${lane}`);
+  return parts.length ? `${v} (${parts.join(", ")})` : null;
+}).filter(Boolean);
+Object.assign(SUMMARY_VALUES, {
+  STAT_VENDORS: STATS.vendors, STAT_STORES: STATS.stores,
+  SHOPPING_RANK_OF: FS.rankOf, SUPPORT_RANK_OF: FP.rankOf,
+  SHOPPING_Q_RANK: FS.qRank, SUPPORT_Q_RANK: FP.qRank, SUPPORT_Q_MEDIAN: FP.qMedian,
+  SHOPPING_A_RANK: FS.aRank, SUPPORT_A_RANK: FP.aRank,
+  SHOPPING_LAT_R: FS.latR, SUPPORT_LAT_R: FP.latR,
+  SHOPPING_FASTEST: FS.fastest, SUPPORT_FASTEST: FP.fastest,
+  SHOPPING_Q_VS_LEADER: FS.qVsLeader, SUPPORT_Q_LEADER_HANDOVER: FP.qLeaderHandover,
+  UNRANKED_LIST: joinAnd(UNRANKED),
+});
 
 for (const v of new Set([...Object.keys(shopS), ...Object.keys(supS)])) {
   const us = allEntries.find(s => s.vendor === v && s.us) ? 1 : 0;
@@ -652,35 +709,56 @@ for (const days of WINDOWS) {
 }
 const D_JSON = " const D = " + JSON.stringify(D_OBJ) + "; const D_WINDOWS = " + JSON.stringify(D_WINDOWS) + ";";
 
-try {
-  const TK = new URL("../takeaways.html", import.meta.url).pathname;
-  let tk = await readFile(TK, "utf8");
-  // replace the scoreboard data object between markers (kept in sync forever)
-  tk = tk.replace(/\/\*SCORES_START\*\/[\s\S]*?\/\*SCORES_END\*\//, `/*SCORES_START*/${D_JSON}/*SCORES_END*/`);
-  // inject the live values as data-count so the count-up animation uses them
-  tk = tk.replace(/(data-stat="convs"[^>]*data-count=")\d+(")/, `$1${STATS.convs}$2`)
-         .replace(/(data-count=")\d+("[^>]*data-stat="convs")/, `$1${STATS.convs}$2`)
-         .replace(/(data-count=")\d+("\s+data-stat="judged")/, `$1${STATS.judged}$2`)
-         .replace(/(data-count=")\d+("\s+data-stat="vendors")/, `$1${STATS.vendors}$2`)
-         .replace(/(data-count=")\d+("[^>]*data-stat="stores")/, `$1${STATS.stores}$2`)
-         .replace(/<!-- STATS_JSON:.*?-->/, `<!-- STATS_JSON:${JSON.stringify(STATS)} -->`);
-  // reconcile the prose count in the method note (any "NNN LLM-judged conversations")
-  tk = tk.replace(/\b\d{3}\s+LLM-judged conversations\b/g, `${STATS.judged} LLM-judged conversations`);
-  // generated verdict — replace between markers so the headline rank claims stay in sync
-  tk = tk.replace(/<!--RANK_TITLE-->[\s\S]*?<!--\/RANK_TITLE-->/, `<!--RANK_TITLE-->${RANK_TITLE}<!--/RANK_TITLE-->`)
-         .replace(/<!--RANK_BADGE-->[\s\S]*?<!--\/RANK_BADGE-->/g, `<!--RANK_BADGE-->${RANK_BADGE}<!--/RANK_BADGE-->`)
-         .replace(/<!--RANK_H-->[\s\S]*?<!--\/RANK_H-->/, `<!--RANK_H-->${RANK_H}<!--/RANK_H-->`);
-  tk = tk.replace(/<!--RANK_OVERALL-->[\s\S]*?<!--\/RANK_OVERALL-->/, `<!--RANK_OVERALL-->${RANK_OVERALL}<!--/RANK_OVERALL-->`);
-  tk = tk.replace(/<!--RANK_LANES-->[\s\S]*?<!--\/RANK_LANES-->/g, `<!--RANK_LANES-->${RANK_LANES}<!--/RANK_LANES-->`);
+// ---- One sync for the summary pages and the Brand 2.0 twins. takeaways.html and takeaways-v2.html carry the same
+// markers; report-v2.html gets report.html's data block plus its prose markers. Until 2026-09-13 only takeaways.html
+// was synced, so the v2 pages kept September 5 data and hand-typed claims. ----
+// "Refreshed <Month Year>" in the hero eyebrow — was hand-typed and went stale; now derived
+// from the actual latest run date every bake, same DATES/LATEST the rest of the page uses.
+const REFRESHED = `Refreshed ${new Date(LATEST + "T00:00:00Z").toLocaleDateString("en-US", { month: "long", year: "numeric", timeZone: "UTC" })}`;
+const syncMarkers = (page) => {
   // Every repeated summary metric comes from the same 90-day lane data as the scoreboard.
   for (const [key, value] of Object.entries(SUMMARY_VALUES)) {
     const pattern = new RegExp(`<!--${key}-->[\\s\\S]*?<!--/${key}-->`, "g");
-    tk = tk.replace(pattern, () => `<!--${key}-->${value ?? "—"}<!--/${key}-->`);
+    page = page.replace(pattern, () => `<!--${key}-->${value ?? "—"}<!--/${key}-->`);
   }
-  // "Refreshed <Month Year>" in the hero eyebrow — was hand-typed and went stale; now derived
-  // from the actual latest run date every bake, same DATES/LATEST the rest of the page uses.
-  const REFRESHED = `Refreshed ${new Date(LATEST + "T00:00:00Z").toLocaleDateString("en-US", { month: "long", year: "numeric", timeZone: "UTC" })}`;
-  tk = tk.replace(/<!--REFRESHED-->[\s\S]*?<!--\/REFRESHED-->/, `<!--REFRESHED-->${REFRESHED}<!--/REFRESHED-->`);
-  await writeFile(TK + ".tmp", tk); await rename(TK + ".tmp", TK);
-  console.log(`Synced takeaways.html stats: ${STATS.convs} convs · ${STATS.judged} judged · ${STATS.vendors} vendors · ${STATS.stores} stores`);
-} catch (e) { console.log("takeaways sync skipped:", e.message); }
+  return page.replace(/<!--REFRESHED-->[\s\S]*?<!--\/REFRESHED-->/g, () => `<!--REFRESHED-->${REFRESHED}<!--/REFRESHED-->`);
+};
+for (const name of ["takeaways.html", "takeaways-v2.html"]) {
+  try {
+    const TK = new URL(`../${name}`, import.meta.url).pathname;
+    let tk = await readFile(TK, "utf8");
+    // replace the scoreboard data object between markers (kept in sync forever)
+    tk = tk.replace(/\/\*SCORES_START\*\/[\s\S]*?\/\*SCORES_END\*\//, () => `/*SCORES_START*/${D_JSON}/*SCORES_END*/`);
+    // inject the live values as data-count so the count-up animation uses them
+    tk = tk.replace(/(data-stat="convs"[^>]*data-count=")\d+(")/, `$1${STATS.convs}$2`)
+           .replace(/(data-count=")\d+("[^>]*data-stat="convs")/, `$1${STATS.convs}$2`)
+           .replace(/(data-count=")\d+("\s+data-stat="judged")/, `$1${STATS.judged}$2`)
+           .replace(/(data-count=")\d+("\s+data-stat="vendors")/, `$1${STATS.vendors}$2`)
+           .replace(/(data-count=")\d+("[^>]*data-stat="stores")/, `$1${STATS.stores}$2`)
+           .replace(/<!-- STATS_JSON:.*?-->/, `<!-- STATS_JSON:${JSON.stringify(STATS)} -->`);
+    // and the visible figure itself, so the page never shows an old count before (or without) the animation
+    tk = tk.replace(/(<([a-z]+)\b[^>]*\bdata-stat="(convs|judged|vendors|stores)"[^>]*>)[^<]*(<\/\2>)/g,
+      (m, open, tag, key, close) => `${open}${Number(STATS[key]).toLocaleString("en-US")}${(open.match(/data-suffix="([^"]*)"/) || [])[1] || ""}${close}`);
+    // reconcile the prose count in the method note (any "NNN LLM-judged conversations")
+    tk = tk.replace(/\b\d{3}\s+LLM-judged conversations\b/g, `${STATS.judged} LLM-judged conversations`);
+    // generated verdict — replace between markers (every occurrence) so the headline rank claims stay in sync
+    tk = tk.replace(/<!--RANK_TITLE-->[\s\S]*?<!--\/RANK_TITLE-->/g, () => `<!--RANK_TITLE-->${RANK_TITLE}<!--/RANK_TITLE-->`)
+           .replace(/<!--RANK_BADGE-->[\s\S]*?<!--\/RANK_BADGE-->/g, () => `<!--RANK_BADGE-->${RANK_BADGE}<!--/RANK_BADGE-->`)
+           .replace(/<!--RANK_H-->[\s\S]*?<!--\/RANK_H-->/g, () => `<!--RANK_H-->${RANK_H}<!--/RANK_H-->`)
+           .replace(/<!--RANK_OVERALL-->[\s\S]*?<!--\/RANK_OVERALL-->/g, () => `<!--RANK_OVERALL-->${RANK_OVERALL}<!--/RANK_OVERALL-->`)
+           .replace(/<!--RANK_LANES-->[\s\S]*?<!--\/RANK_LANES-->/g, () => `<!--RANK_LANES-->${RANK_LANES}<!--/RANK_LANES-->`);
+    tk = syncMarkers(tk);
+    await writeFile(TK + ".tmp", tk); await rename(TK + ".tmp", TK);
+    console.log(`Synced ${name} stats: ${STATS.convs} convs · ${STATS.judged} judged · ${STATS.vendors} vendors · ${STATS.stores} stores`);
+  } catch (e) { console.log(`${name} sync skipped:`, e.message); }
+}
+try {
+  const R2 = new URL("../report-v2.html", import.meta.url).pathname;
+  let r2 = await readFile(R2, "utf8");
+  const s2 = r2.indexOf("// ---- SHOPPING (one entry per store; .themes = 5 apple-to-apple conversations)");
+  const a2 = s2 >= 0 ? s2 : r2.indexOf("const STORES = ["), b2 = r2.indexOf("let MODE='shopping';");
+  if (a2 < 0 || b2 < 0 || b2 < a2) throw new Error("could not find STORES…let MODE markers");
+  r2 = syncMarkers(r2.slice(0, a2) + block + r2.slice(b2));
+  await writeFile(R2 + ".tmp", r2); await rename(R2 + ".tmp", R2);
+  console.log("Synced report-v2.html: report.html's data block and prose markers");
+} catch (e) { console.log("report-v2.html sync skipped:", e.message); }
