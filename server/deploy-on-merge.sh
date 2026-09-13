@@ -73,7 +73,7 @@ cd ..
 # A PR that only touches docs/runner code produces the same bytes; deploying anyway would flip
 # the alias for nothing. Compare the working tree against the last commit that touched the
 # baked files: if the checkout is clean and HEAD already contains these bytes, skip.
-if git diff --quiet HEAD -- report.html takeaways.html conv-text.json 2>/dev/null; then
+if git diff --quiet HEAD -- report.html report-v2.html takeaways.html takeaways-v2.html conv-text.json 2>/dev/null; then
   say "baked files unchanged vs HEAD — nothing to deploy"
   exit 0
 fi
