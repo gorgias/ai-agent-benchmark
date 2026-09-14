@@ -11,8 +11,10 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const PORT = Number(process.env.PORT || 8080);
 
 const REDIRECTS = new Map([
-  ["/takeaways-v2", "/takeaways"],
-  ["/takeaways-v2.html", "/takeaways"],
+  ["/takeaways", "/"],
+  ["/takeaways.html", "/"],
+  ["/takeaways-v2", "/"],
+  ["/takeaways-v2.html", "/"],
   ["/report-v2", "/report"],
   ["/report-v2.html", "/report"],
   ["/rubric.html", "/rubric"],

@@ -1,4 +1,4 @@
-/* Site nav + footer. Canonical routes (no .html): /takeaways  /report  /rubric
+/* Site nav + footer. Canonical routes (no .html): /  /report  /rubric
    How it works always opens the eval modal (openModal from the page or /brand/how-modal.js).
    Mount:
    <nav class="sitenav wrap-x" id="appbar" data-active="overview|results|rubric"></nav>
@@ -6,7 +6,7 @@
    <script src="/brand/how-modal.js"></script>
    <script src="/brand/site-nav.js"></script> */
 (function () {
-  const overview = "/takeaways";
+  const overview = "/";
   const results = "/report";
   const rubric = "/rubric";
   const howClick = ' href="#how" onclick="openModal();return false;"';

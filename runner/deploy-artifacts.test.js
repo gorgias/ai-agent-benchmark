@@ -129,22 +129,34 @@ test("conv-text.json parses as JSON", () => {
 // Regression: the verdict used to claim quality 94 while its own scoreboard said 77.
 // Check every occurrence, including head-to-head and provider-profile copy.
 test("summary metrics match the scoreboard and have no unfilled placeholders", () => {
-  const html = read("../takeaways.html");
-  const [D] = grabObjects(html, "D");
-  const g = D.Gorgias;
-  const expected = {
-    SUPPORT_QUALITY: g.p.q, SHOPPING_QUALITY: g.s.q,
-    SUPPORT_AUTO: g.p.a, SHOPPING_AUTO: g.s.a,
-    SUPPORT_LAT: g.p.l, SHOPPING_LAT: g.s.l,
-    SUPPORT_P75: g.p.l75, SHOPPING_P75: g.s.l75,
+  const assertKeys = (html, keys, g) => {
+    const expected = {
+      SUPPORT_QUALITY: g.p.q, SHOPPING_QUALITY: g.s.q,
+      SUPPORT_AUTO: g.p.a, SHOPPING_AUTO: g.s.a,
+      SUPPORT_LAT: g.p.l, SHOPPING_LAT: g.s.l,
+      SUPPORT_P75: g.p.l75, SHOPPING_P75: g.s.l75,
+    };
+    for (const key of keys) {
+      const matches = [...html.matchAll(new RegExp(`<!--${key}-->(.*?)<!--/${key}-->`, "g"))];
+      assert.ok(matches.length, `missing summary metric ${key}`);
+      for (const match of matches) assert.equal(match[1], String(expected[key]), `stale ${key}`);
+    }
   };
-  for (const [key, value] of Object.entries(expected)) {
-    const matches = [...html.matchAll(new RegExp(`<!--${key}-->(.*?)<!--/${key}-->`, "g"))];
-    assert.ok(matches.length, `missing summary metric ${key}`);
-    for (const match of matches) assert.equal(match[1], String(value), `stale ${key}`);
-  }
-  const badges = [...html.matchAll(/<!--RANK_BADGE-->(.*?)<!--\/RANK_BADGE-->/g)];
-  assert.ok(badges.length >= 3);
+  const homepage = read("../takeaways.html");
+  const archive = read("../takeaways-archive.html");
+  const [D] = grabObjects(homepage, "D");
+  const g = D.Gorgias;
+  // Brand 2.0 Overview uses a shorter marker set (lane ranks / rounded latency, not every p75).
+  assertKeys(homepage, ["SUPPORT_QUALITY", "SHOPPING_AUTO", "SUPPORT_AUTO"], g);
+  assertKeys(archive, [
+    "SUPPORT_QUALITY", "SHOPPING_QUALITY", "SUPPORT_AUTO", "SHOPPING_AUTO",
+    "SUPPORT_LAT", "SHOPPING_LAT", "SUPPORT_P75", "SHOPPING_P75",
+  ], g);
+  const badges = [...homepage.matchAll(/<!--RANK_BADGE-->(.*?)<!--\/RANK_BADGE-->/g)];
+  assert.ok(badges.length >= 1);
   for (const badge of badges) assert.equal(badge[1], badges[0][1], "contradictory summary rank");
-  assert.ok(!/<!--(?:SUPPORT_POSITION|SHOPPING_POSITION|SUMMARY_WEIGHTS)-->—/.test(html));
+  const archiveBadges = [...archive.matchAll(/<!--RANK_BADGE-->(.*?)<!--\/RANK_BADGE-->/g)];
+  assert.ok(archiveBadges.length >= 3);
+  for (const badge of archiveBadges) assert.equal(badge[1], archiveBadges[0][1], "contradictory archive rank");
+  assert.ok(!/<!--(?:SUPPORT_POSITION|SHOPPING_POSITION|SUMMARY_WEIGHTS)-->—/.test(archive));
 });

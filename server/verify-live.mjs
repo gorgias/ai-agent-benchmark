@@ -41,7 +41,6 @@ const bakedRegion = (html) => {
 
 const PAGES = [
   { route: "/", file: "takeaways.html" },
-  { route: "/takeaways", file: "takeaways.html" },
   { route: "/report", file: "report.html" },
   { route: "/rubric", file: "rubric.html" },
   { route: "/takeaways-archive", file: "takeaways-archive.html" },
@@ -49,7 +48,8 @@ const PAGES = [
 ];
 
 const REDIRECTS = [
-  { route: "/takeaways-v2", to: "/takeaways" },
+  { route: "/takeaways", to: "/" },
+  { route: "/takeaways-v2", to: "/" },
   { route: "/report-v2", to: "/report" },
   { route: "/login", to: "/" },
   { route: "/results", to: "/" },
