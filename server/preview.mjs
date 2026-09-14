@@ -17,6 +17,7 @@ const REDIRECTS = new Map([
   ["/report.html", "/report"],
   ["/report-v2", "/report"],
   ["/report-v2.html", "/report"],
+  ["/report-v2.html", "/report"],
   ["/rubric.html", "/rubric"],
   ["/results", "/"],
   ["/results.html", "/"],
