@@ -80,6 +80,10 @@ fi
 
 # ── 4. deploy ─────────────────────────────────────────────────────────────────
 say "--- deploying to Vercel ---"
+# The Vercel project moved from the personal maxpruvost-4441s-projects scope to the gorgias4 team on 2026-09-14.
+# The project id is unchanged but the team id is new. A machine built before the move still has the old team id
+# in its env, and `vercel deploy` then fails with "Project not found", so map it until the machine env is updated.
+[ "${VERCEL_ORG_ID:-}" = "team_vYmSPwekFJOPhVoUuAGAMPGK" ] && export VERCEL_ORG_ID=team_gyas2ZRdwH5DtZtxarGNoQ2S
 if command -v vercel >/dev/null 2>&1; then VC="vercel"; else VC="npx --yes vercel@53"; fi
 DEPLOY=$($VC deploy --prod --yes --token "$VERCEL_TOKEN" 2>&1)
 say "$(echo "$DEPLOY" | grep -E 'Production:|Aliased:|error|Error' | head -4)"
