@@ -762,7 +762,7 @@ html.anim .hero .rv.in,html.anim .hero .rv-stagger.in>*{opacity:1;transform:none
   <div class="rc-inner">
     <span class="kicker"><span class="dot"></span>The rubric</span>
     <h2 class="rc-h">Measure your own AI agent</h2>
-    <p class="rc-sub">Open the Rubric page for the same 26-check rubric we scored every vendor against, and grade your own AI on the two jobs that move revenue: helping shoppers buy, and resolving support without a human.</p>
+    <p class="rc-sub">Download the rubric we used to score every vendor, then grade your own AI agent.</p>
     <div class="gr-cta-row">
       <a class="gr-btn gr-btn-primary gr-btn-lg" href="/rubric">See how the scoring works</a>
     </div>
@@ -884,6 +884,8 @@ if(!window._scoreChartRO && typeof ResizeObserver==='function'){
   const wrap=document.getElementById('score-chart-svg');
   if(wrap) window._scoreChartRO.observe(wrap);
 }
+renderScoreTable(SB_DATA);
+renderScoreChart(SB_DATA);
 // Narrowing is offered, not silenced: short views are for inspection, and now that the site is
 // public a screenshot of one must not circulate as the ranking. Warn ONCE per session - a modal
 // on every click becomes a toll people stop reading.
