@@ -150,6 +150,10 @@ git push origin HEAD:master >/dev/null 2>&1 && say "pushed board to master" || s
 # On the server the token is the only way in. On a laptop the CLI is usually already logged in, and
 # demanding a token there would make this script untestable outside the container — which is how
 # deploy bugs reach production in the first place.
+# The Vercel project moved from the personal maxpruvost-4441s-projects scope to the gorgias4 team on 2026-09-14.
+# The project id is unchanged but the team id is new. A machine built before the move still has the old team id
+# in its env, and `vercel deploy` then fails with "Project not found", so map it until the machine env is updated.
+[ "${VERCEL_ORG_ID:-}" = "team_vYmSPwekFJOPhVoUuAGAMPGK" ] && export VERCEL_ORG_ID=team_gyas2ZRdwH5DtZtxarGNoQ2S
 USE_TOKEN=0
 if [ -n "${VERCEL_TOKEN:-}" ]; then
   USE_TOKEN=1
