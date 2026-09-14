@@ -6,9 +6,21 @@
   "cleanUrls": true,
   "trailingSlash": false,
   "rewrites": [
-    {
-      "source": "/",
-      "destination": "/takeaways"
-    }
+    { "source": "/", "destination": "/takeaways.html" }
+  ],
+  "redirects": [
+    { "source": "/takeaways", "destination": "/", "permanent": true },
+    { "source": "/takeaways.html", "destination": "/", "permanent": true },
+    { "source": "/takeaways-v2", "destination": "/", "permanent": true },
+    { "source": "/takeaways-v2.html", "destination": "/", "permanent": true },
+    { "source": "/report-v2", "destination": "/report", "permanent": true },
+    { "source": "/report-v2.html", "destination": "/report", "permanent": true },
+    { "source": "/rubric.html", "destination": "/rubric", "permanent": true },
+    { "source": "/results", "destination": "/", "permanent": true },
+    { "source": "/results.html", "destination": "/", "permanent": true },
+    { "source": "/login", "destination": "/", "permanent": true },
+    { "source": "/login.html", "destination": "/", "permanent": true },
+    { "source": "/vendor-changes", "destination": "/", "permanent": true },
+    { "source": "/vendor-changes.html", "destination": "/", "permanent": true }
   ]
 }

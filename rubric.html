@@ -30,15 +30,20 @@ html.anim .hero .rv.in,html.anim .hero .rv-stagger.in>*{opacity:1;transform:none
 </style>
 </head>
 <body class="rubric-page">
-<nav class="sitenav wrap-x" id="appbar" data-active="rubric" data-how="overview"></nav>
+<nav class="sitenav wrap-x" id="appbar" data-active="rubric"></nav>
+<script src="/brand/how-modal.js"></script>
 <script src="/brand/site-nav.js"></script>
 <header class="hero wrap-x">
   <div class="hero-inner">
     <span class="eyebrow rv"><span class="live"></span>The rubric</span>
     <h1 class="rv">Rubric</h1>
     <p class="sub rv">Every conversation is scored out of 100 by a blind judge against fixed, binary checks. Each passing check must quote the transcript, so the score comes from evidence, not opinion. Two rubrics, one per job.</p>
-    <div class="gr-cta-row rv">
-      <a class="gr-btn gr-btn-primary gr-btn-lg" href="rubric.pdf" download>Download the rubric (PDF)</a>
+    <div class="gr-cta-row rv" data-rubric-dl>
+      <a class="gr-btn gr-btn-primary gr-btn-lg" href="/rubric.pdf" download data-rubric-file hidden>Download the rubric (PDF)</a>
+      <div class="rubric-gate" data-rubric-gate>
+        <p class="rubric-gate-note">The PDF is the 26-check sheet we judged every vendor against. Enter a work email to download it — we use it to send the file and to know who's scoring their own agent.</p>
+        <div class="hs-inline-form" id="hs-form-hero"></div>
+      </div>
     </div>
     <div class="gr-stats rv" aria-label="rubric size">
       <div class="gr-stats-cell"><div class="num tnum" data-count="26">26</div><div class="lbl">Checks</div></div>
@@ -136,8 +141,12 @@ html.anim .hero .rv.in,html.anim .hero .rv-stagger.in>*{opacity:1;transform:none
       <h2 class="rc-h">Measure your own AI agent</h2>
       <p class="rc-sub">Download the same 26-check rubric we scored every vendor against, and grade your own AI on the two jobs that move revenue: helping shoppers buy, and resolving support without a human.</p>
     </div>
-    <div class="gr-cta-row">
-      <a class="gr-btn gr-btn-primary gr-btn-lg" href="rubric.pdf" download>Download the rubric</a>
+    <div class="gr-cta-row" data-rubric-dl>
+      <a class="gr-btn gr-btn-primary gr-btn-lg" href="/rubric.pdf" download data-rubric-file hidden>Download the rubric</a>
+      <div class="rubric-gate" data-rubric-gate>
+        <p class="rubric-gate-note">Enter a work email to download that PDF. We use it to send the file and to know who's scoring their own agent — not as a newsletter list.</p>
+        <div class="hs-inline-form" id="hs-form-cta"></div>
+      </div>
     </div>
   </div>
 </section>
@@ -169,5 +178,6 @@ if(!reduced){
   document.querySelectorAll('[data-count]').forEach(el=>{ el.textContent=NF(el.dataset.count)+(el.dataset.suffix||''); });
 }
 </script>
+<script src="/brand/rubric-gate.js"></script>
 </body>
 </html>

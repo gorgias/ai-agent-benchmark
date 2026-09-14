@@ -40,17 +40,20 @@ const bakedRegion = (html) => {
 };
 
 const PAGES = [
-  { route: "/report", file: "report.html" },
-  { route: "/takeaways", file: "takeaways.html" },
-  // The Brand 2.0 pages the site nav links to. Baked by gen.js since 2026-09-13; before that they were never
-  // deployed from a bake, which is how /report-v2 served September 5 data for a week.
-  { route: "/report-v2", file: "report-v2.html" },
-  { route: "/takeaways-v2", file: "takeaways-v2.html" },
-  // "/" is a vercel.json rewrite onto takeaways.html, not a file of its own. It is checked
-  // separately because a rewrite is exactly the kind of thing that breaks without anyone
-  // noticing: /takeaways keeps working, so every existing check stays green while the address
-  // people actually visit serves a 404.
   { route: "/", file: "takeaways.html" },
+  { route: "/report", file: "report.html" },
+  { route: "/rubric", file: "rubric.html" },
+  { route: "/takeaways-archive", file: "takeaways-archive.html" },
+  { route: "/report-archive", file: "report-archive.html" },
+];
+
+const REDIRECTS = [
+  { route: "/takeaways", to: "/" },
+  { route: "/takeaways-v2", to: "/" },
+  { route: "/report-v2", to: "/report" },
+  { route: "/login", to: "/" },
+  { route: "/results", to: "/" },
+  { route: "/vendor-changes", to: "/" },
 ];
 
 let bad = 0;
@@ -75,5 +78,25 @@ for (const p of PAGES) {
   else { console.error(`✗ ${p.route}: LIVE DIFFERS from local — local ${a.slice(0, 12)} (${local.length}c) vs live ${b.slice(0, 12)} (${body.length}c)`); bad++; }
 }
 
-if (bad) { console.error(`\n${bad}/${PAGES.length} pages do not match — the deploy did not take effect.`); process.exit(1); }
-console.log(`\nlive == local on ${PAGES.length} pages at ${BASE}`);
+for (const r of REDIRECTS) {
+  let res;
+  try {
+    res = await fetch(BASE + r.route, { headers: { cookie: `sb_auth=${token}`, "cache-control": "no-cache" }, redirect: "manual" });
+  } catch (e) {
+    console.error(`✗ ${r.route}: fetch failed — ${e.message}`);
+    bad++; continue;
+  }
+  const loc = res.headers.get("location") || "";
+  const path = loc.replace(/^https?:\/\/[^/]+/, "") || loc;
+  const okCode = res.status === 301 || res.status === 302 || res.status === 307 || res.status === 308;
+  if (okCode && (path === r.to || path === r.to + "/" || loc.endsWith(r.to))) {
+    console.log(`✓ ${r.route} → ${r.to} (${res.status})`);
+  } else {
+    console.error(`✗ ${r.route}: expected redirect to ${r.to}, got ${res.status} ${loc || "(no Location)"}`);
+    bad++;
+  }
+}
+
+const checks = PAGES.length + REDIRECTS.length;
+if (bad) { console.error(`\n${bad}/${checks} checks failed — the deploy did not take effect.`); process.exit(1); }
+console.log(`\nlive == local on ${PAGES.length} pages, ${REDIRECTS.length} redirects at ${BASE}`);
