@@ -27,6 +27,28 @@ html.anim .hero .rv.in,html.anim .hero .rv-stagger.in>*{opacity:1;transform:none
 @media (prefers-reduced-motion:reduce){
   html.anim .hero .rv,html.anim .hero .rv-stagger>*{opacity:1!important;transform:none!important;transition:none!important}
 }
+.rubric-page .hrw-table.rub tr.gate-note td{
+  padding:11px 28px;
+  background:var(--color-surface-raised);
+  border-bottom:1px solid var(--color-border-soft);
+  font-size:12.5px;line-height:1.45;
+  color:var(--color-muted-foreground);letter-spacing:.14px;
+}
+.rubric-page .hrw-table.rub tr.gate-note td b{font-weight:500;color:var(--color-foreground)}
+@media (max-width:720px){.rubric-page .hrw-table.rub tr.gate-note td{padding:11px 16px}}
+/* lane job subtitle */
+.rubric-page .rubric-lane-h .job{display:block;font-family:var(--font-sans);font-size:13px;font-weight:400;letter-spacing:.14px;color:var(--color-muted-foreground);margin-top:5px}
+/* fairness rules box + composite note */
+.rubric-page .rubric-fair{padding-top:0;padding-bottom:96px}
+.rubric-page .fair-box{background:var(--gr-coral-soft);border:1px solid var(--gr-coral-mid);border-radius:var(--radius-2xl);padding:26px 30px}
+.rubric-page .fair-box h2{font-family:var(--font-display);font-weight:400;font-size:var(--text-h5);line-height:1.3;letter-spacing:0;color:var(--color-foreground);margin:0 0 16px}
+.rubric-page .fair-box ul{list-style:none;margin:0;padding:0;display:grid;gap:13px}
+.rubric-page .fair-box li{position:relative;padding-left:22px;font-size:14px;line-height:1.5;color:var(--color-foreground)}
+.rubric-page .fair-box li::before{content:"";position:absolute;left:0;top:7px;width:8px;height:8px;border-radius:2px;background:var(--gr-coral)}
+.rubric-page .fair-box li b{font-weight:500}
+.rubric-page .composite-note{margin:16px 4px 0;font-size:13px;line-height:1.5;color:var(--color-muted-foreground)}
+.rubric-page .composite-note b{color:var(--color-foreground);font-weight:500}
+@media (max-width:520px){.rubric-page .fair-box{padding:20px 18px}}
 </style>
 </head>
 <body class="rubric-page">
@@ -37,11 +59,11 @@ html.anim .hero .rv.in,html.anim .hero .rv-stagger.in>*{opacity:1;transform:none
   <div class="hero-inner">
     <span class="eyebrow rv"><span class="live"></span>The rubric</span>
     <h1 class="rv">Rubric</h1>
-    <p class="sub rv">Every conversation is scored out of 100 by a blind judge against fixed, binary checks. Each passing check must quote the transcript, so the score comes from evidence, not opinion. Two rubrics, one per job.</p>
+    <p class="sub rv">Twenty-six pass/fail checks, scored out of 100 per lane. A blind judge answers each one yes or no and must quote the transcript to pass. Code does the scoring, not the judge. Two rubrics, one per job.</p>
     <div class="gr-cta-row rv" data-rubric-dl>
       <a class="gr-btn gr-btn-primary gr-btn-lg" href="/rubric.pdf" download data-rubric-file hidden>Download the rubric (PDF)</a>
       <div class="rubric-gate" data-rubric-gate>
-        <p class="rubric-gate-note">The PDF is the 26-check sheet we judged every vendor against. Enter a work email to download it — we use it to send the file and to know who's scoring their own agent.</p>
+        <p class="rubric-gate-note">The PDF is the 26-check sheet we judged every vendor against. Enter a work email to download it. We use it to send the file and to know who's scoring their own agent.</p>
         <div class="hs-inline-form" id="hs-form-hero"></div>
       </div>
     </div>
@@ -58,8 +80,8 @@ html.anim .hero .rv.in,html.anim .hero .rv-stagger.in>*{opacity:1;transform:none
       <p class="hrw-lane">Pre-sale weighting</p>
       <div class="hrw-bars">
         <div class="hrw-row hrw-row-lead"><span class="hrw-lab">Answered you</span><span class="hrw-track" aria-hidden="true"><span class="hrw-bar" style="--w:30"></span></span><span class="hrw-n tnum">30</span></div>
-        <div class="hrw-row"><span class="hrw-lab">Recommended well</span><span class="hrw-track" aria-hidden="true"><span class="hrw-bar" style="--w:22"></span></span><span class="hrw-n tnum">22</span></div>
         <div class="hrw-row"><span class="hrw-lab">Worked out your need</span><span class="hrw-track" aria-hidden="true"><span class="hrw-bar" style="--w:20"></span></span><span class="hrw-n tnum">20</span></div>
+        <div class="hrw-row"><span class="hrw-lab">Recommended well</span><span class="hrw-track" aria-hidden="true"><span class="hrw-bar" style="--w:22"></span></span><span class="hrw-n tnum">22</span></div>
         <div class="hrw-row"><span class="hrw-lab">Showed the product</span><span class="hrw-track" aria-hidden="true"><span class="hrw-bar" style="--w:18"></span></span><span class="hrw-n tnum">18</span></div>
         <div class="hrw-row"><span class="hrw-lab">Helped you buy</span><span class="hrw-track" aria-hidden="true"><span class="hrw-bar" style="--w:10"></span></span><span class="hrw-n tnum">10</span></div>
       </div>
@@ -76,7 +98,7 @@ html.anim .hero .rv.in,html.anim .hero .rv-stagger.in>*{opacity:1;transform:none
   </div>
 </section>
 <section id="rubric-presale" class="wrap-x rubric-lane">
-  <h2 class="rubric-lane-h">Pre-sale · 16 checks in 5 groups</h2>
+  <h2 class="rubric-lane-h">Shopping Assistant<span class="job">Pre-sale, ends in a real recommendation · 16 checks in 5 groups</span></h2>
   <div class="hrw-tablewrap">
     <table class="hrw-table rub">
       <thead>
@@ -84,32 +106,33 @@ html.anim .hero .rv.in,html.anim .hero .rv-stagger.in>*{opacity:1;transform:none
       </thead>
       <tbody>
         <tr class="grp"><td colspan="2">Did it answer you</td><td class="n tnum">30</td></tr>
-        <tr><td class="rc">Answered the question</td><td class="rp">Every question got a real reply. A greeting or brand waffle does not count.</td><td class="n tnum">14</td></tr>
-        <tr><td class="rc">Didn't contradict itself</td><td class="rp">No conflicting claims, and no policies or specs it made up.</td><td class="n tnum">9</td></tr>
-        <tr><td class="rc">Left nothing unanswered</td><td class="rp">No question skipped or answered with something unrelated.</td><td class="n tnum">7</td></tr>
+        <tr><td class="rc">Answered the question</td><td class="rp">Direct, substantive reply to each question. A generic greeting or boilerplate fails.</td><td class="n tnum">14</td></tr>
+        <tr><td class="rc">Didn't contradict itself</td><td class="rp">No contradictions across turns, no invented policies or specs.</td><td class="n tnum">9</td></tr>
+        <tr><td class="rc">Left nothing unanswered</td><td class="rp">No question left unanswered or answered with something unrelated.</td><td class="n tnum">7</td></tr>
         <tr class="grp"><td colspan="2">Did it work out what you needed</td><td class="n tnum">20</td></tr>
-        <tr><td class="rc">Asked before recommending</td><td class="rp">On a vague opener, found out what the shopper needed first.</td><td class="n tnum">8</td></tr>
-        <tr><td class="rc">Built on your answers</td><td class="rp">Used what the shopper said to narrow things down, instead of repeating a generic pick.</td><td class="n tnum">7</td></tr>
-        <tr><td class="rc">Didn't dump a product list</td><td class="rp">No wall of best-sellers before understanding the need.</td><td class="n tnum">5</td></tr>
+        <tr><td class="rc">Asked before recommending</td><td class="rp">Asks a relevant clarifying question on a vague opener before recommending.</td><td class="n tnum">8</td></tr>
+        <tr><td class="rc">Built on your answers</td><td class="rp">Uses the shopper's answers to refine across turns, builds a profile.</td><td class="n tnum">7</td></tr>
+        <tr><td class="rc">Didn't dump a product list</td><td class="rp">Does not dump a generic best-seller list before understanding needs.</td><td class="n tnum">5</td></tr>
         <tr class="grp"><td colspan="2">Did it recommend well</td><td class="n tnum">22</td></tr>
-        <tr><td class="rc">Named a specific product</td><td class="rp">Recommended something real, not a category.</td><td class="n tnum">9</td></tr>
-        <tr><td class="rc">Explained why it fits</td><td class="rp">Tied the recommendation to what the shopper actually said they needed.</td><td class="n tnum">8</td></tr>
-        <tr><td class="rc">Suited the store and the ask</td><td class="rp">The pick makes sense for that catalog and that request.</td><td class="n tnum">5</td></tr>
+        <tr><td class="rc">Named a specific product</td><td class="rp">Recommends at least one specific, named product.</td><td class="n tnum">9</td></tr>
+        <tr><td class="rc">Explained why it fits</td><td class="rp">Ties the pick to the shopper's stated constraints with real reasoning.</td><td class="n tnum">8</td></tr>
+        <tr><td class="rc">Suited the store and the ask</td><td class="rp">Recommendations fit the store's catalog and the request.</td><td class="n tnum">5</td></tr>
         <tr class="grp"><td colspan="2">Did it show you the product</td><td class="n tnum">18</td></tr>
-        <tr><td class="rc">Gave a link to open</td><td class="rp">A product link or card the shopper can click.</td><td class="n tnum">7</td></tr>
-        <tr><td class="rc">Showed a price</td><td class="rp">A real price attached to the recommendation.</td><td class="n tnum">6</td></tr>
-        <tr><td class="rc">Backed it with reviews</td><td class="rp">Ratings or review counts supporting the pick.</td><td class="n tnum">3</td></tr>
-        <tr><td class="rc">Offered a comparison</td><td class="rp">More than one option laid out side by side.</td><td class="n tnum">2</td></tr>
+        <tr class="gate-note"><td colspan="3"><b>Code-checked, not judged.</b> These four pass only if the link, price, review, or comparison actually appears in the transcript. Code detects each one, so a check can't be credited for something that isn't there.</td></tr>
+        <tr><td class="rc">Gave a link to open</td><td class="rp">An openable product link or card.</td><td class="n tnum">7</td></tr>
+        <tr><td class="rc">Showed a price</td><td class="rp">A concrete price attached to a recommended product.</td><td class="n tnum">6</td></tr>
+        <tr><td class="rc">Backed it with reviews</td><td class="rp">Review counts or ratings support the recommendation.</td><td class="n tnum">3</td></tr>
+        <tr><td class="rc">Offered a comparison</td><td class="rp">Multiple distinct options laid out to compare.</td><td class="n tnum">2</td></tr>
         <tr class="grp"><td colspan="2">Did it help you buy</td><td class="n tnum">10</td></tr>
-        <tr><td class="rc">Gave a next step</td><td class="rp">Ended with something concrete to do.</td><td class="n tnum">5</td></tr>
-        <tr><td class="rc">Completed the purchase</td><td class="rp">Actually added to cart or checked out when asked to.</td><td class="n tnum">3</td></tr>
-        <tr><td class="rc">Finished cleanly</td><td class="rp">No dangling question, no mid-thought stop.</td><td class="n tnum">2</td></tr>
+        <tr><td class="rc">Gave a next step</td><td class="rp">Ends with a concrete next step.</td><td class="n tnum">5</td></tr>
+        <tr><td class="rc">Completed the purchase</td><td class="rp">Completes add-to-cart or checkout when explicitly asked.</td><td class="n tnum">3</td></tr>
+        <tr><td class="rc">Finished cleanly</td><td class="rp">Closes cleanly, no dangling question or mid-thought stop.</td><td class="n tnum">2</td></tr>
       </tbody>
     </table>
   </div>
 </section>
 <section id="rubric-postsale" class="wrap-x rubric-lane">
-  <h2 class="rubric-lane-h">Post-sale · 10 checks in 4 groups</h2>
+  <h2 class="rubric-lane-h">Support Agent<span class="job">Post-sale, resolve without a human · 10 checks in 4 groups</span></h2>
   <div class="hrw-tablewrap">
     <table class="hrw-table rub">
       <thead>
@@ -117,22 +140,35 @@ html.anim .hero .rv.in,html.anim .hero .rv-stagger.in>*{opacity:1;transform:none
       </thead>
       <tbody>
         <tr class="grp"><td colspan="2">Did it solve the problem</td><td class="n tnum">40</td></tr>
-        <tr><td class="rc">Answered it in the chat</td><td class="rp">A complete answer specific to that store. Pointing at a help page does not count.</td><td class="n tnum">18</td></tr>
-        <tr><td class="rc">Ended the right way</td><td class="rp">Sorted it, or handed to a person properly with the details collected first.</td><td class="n tnum">12</td></tr>
-        <tr><td class="rc">Didn't send you away</td><td class="rp">No "email us" or "call us" when it could have just answered.</td><td class="n tnum">10</td></tr>
+        <tr class="gate-note"><td colspan="3"><b>All three fail if it sent you away.</b> If the agent pushed you to "email us" or "call us" on a question it could have answered in the chat, this whole group scores zero, whatever else the reply said. Sending you elsewhere is not solving it here.</td></tr>
+        <tr><td class="rc">Answered it in the chat</td><td class="rp">Primary ask gets a complete, store-specific answer in-channel. A generic pointer fails.</td><td class="n tnum">18</td></tr>
+        <tr><td class="rc">Ended the right way</td><td class="rp">Outcome-correct ending: resolved, or a justified handover done well. An unjustified bail fails.</td><td class="n tnum">12</td></tr>
+        <tr><td class="rc">Didn't send you away</td><td class="rp">Does not push out of channel ("email us") when the question was answerable in chat.</td><td class="n tnum">10</td></tr>
         <tr class="grp"><td colspan="2">Was it accurate</td><td class="n tnum">25</td></tr>
-        <tr><td class="rc">Gave real facts</td><td class="rp">At least two concrete details: a number, a timeframe, a named policy.</td><td class="n tnum">13</td></tr>
-        <tr><td class="rc">Sounded like this store</td><td class="rp">The claims read as that shop's actual policy, not generic advice.</td><td class="n tnum">7</td></tr>
-        <tr><td class="rc">Didn't contradict itself</td><td class="rp">No conflicting claims across the conversation.</td><td class="n tnum">5</td></tr>
+        <tr><td class="rc">Gave real facts</td><td class="rp">At least two concrete, store-specific facts. One vague reassurance fails.</td><td class="n tnum">13</td></tr>
+        <tr><td class="rc">Sounded like this store</td><td class="rp">Claims read as grounded in this store, not industry generalities.</td><td class="n tnum">7</td></tr>
+        <tr><td class="rc">Didn't contradict itself</td><td class="rp">No self-contradiction across turns.</td><td class="n tnum">5</td></tr>
         <tr class="grp"><td colspan="2">Could you act on it</td><td class="n tnum">20</td></tr>
-        <tr><td class="rc">Told you what to do</td><td class="rp">Steps you can carry out right now, without an account.</td><td class="n tnum">12</td></tr>
-        <tr><td class="rc">Answered all of it</td><td class="rp">Covered the whole question, not just part.</td><td class="n tnum">8</td></tr>
+        <tr><td class="rc">Told you what to do</td><td class="rp">Customer leaves with steps they can execute now, in a cold session. "Reach out if…" alone fails.</td><td class="n tnum">12</td></tr>
+        <tr><td class="rc">Answered all of it</td><td class="rp">Covers the actual ask, not a fragment.</td><td class="n tnum">8</td></tr>
         <tr class="grp"><td colspan="2">Did it close properly</td><td class="n tnum">15</td></tr>
-        <tr><td class="rc">Said what happens next</td><td class="rp">Named who acts and when. "Soon" does not count.</td><td class="n tnum">8</td></tr>
-        <tr><td class="rc">Finished cleanly</td><td class="rp">Nothing left hanging.</td><td class="n tnum">7</td></tr>
+        <tr><td class="rc">Said what happens next</td><td class="rp">Sets expectations on who acts and when. Vague "soon" fails.</td><td class="n tnum">8</td></tr>
+        <tr><td class="rc">Finished cleanly</td><td class="rp">Clean, complete close.</td><td class="n tnum">7</td></tr>
       </tbody>
     </table>
   </div>
+</section>
+<section id="rubric-fair" class="wrap-x rubric-fair" aria-label="Fairness rules">
+  <div class="fair-box">
+    <h2>Fairness rules baked in</h2>
+    <ul>
+      <li><b>A good handover is not a failure.</b> Containment is measured separately by automation rate, so quality never double-penalizes it.</li>
+      <li><b>Judge only what a first-time visitor could see.</b> Cold session, no account. Never penalized for not knowing your order history.</li>
+      <li><b>Broken widgets don't count as zero.</b> A conversation needs at least three cleanly-timed answers to count. Dropped connections are store transport, so they're excluded, not scored.</li>
+      <li><b>Every run is audited.</b> An adversarial second pass re-checks sampled verdicts. A run is trusted only at 90% agreement or higher.</li>
+    </ul>
+  </div>
+  <p class="composite-note">This rubric is the <b>quality</b> score. A vendor's lane ranking also weighs automation rate and speed. Shopping: 40% automation, 35% quality, 25% speed. Support: 50%, 40%, 10%.</p>
 </section>
 <section id="rubric-cta" class="rubric-cta wrap-x" aria-label="Measure your own AI agent">
   <div class="rc-inner">
@@ -144,7 +180,7 @@ html.anim .hero .rv.in,html.anim .hero .rv-stagger.in>*{opacity:1;transform:none
     <div class="gr-cta-row" data-rubric-dl>
       <a class="gr-btn gr-btn-primary gr-btn-lg" href="/rubric.pdf" download data-rubric-file hidden>Download the rubric</a>
       <div class="rubric-gate" data-rubric-gate>
-        <p class="rubric-gate-note">Enter a work email to download that PDF. We use it to send the file and to know who's scoring their own agent — not as a newsletter list.</p>
+        <p class="rubric-gate-note">Enter a work email to download that PDF. We use it to send the file and to know who's scoring their own agent, not as a newsletter list.</p>
         <div class="hs-inline-form" id="hs-form-cta"></div>
       </div>
     </div>
