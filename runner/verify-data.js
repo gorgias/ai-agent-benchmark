@@ -121,6 +121,41 @@ try {
   else ok("boilerplate audit: no recurring chrome residue");
 } catch { warn.push("no boilerplate-audit.json — run `node boilerplate-audit.mjs` to scan for chrome residue"); }
 
+// ---- 8. Brand 2.0 pages must show the SAME headline stats as the leaderboard ----
+// Until 2026-09 the v2 Overview shipped 164+ / 18 while the report had 192 / 20, because the
+// figures were typed into the HTML and gen.js only synced takeaways.html. Fail the bake if
+// takeaways-v2.html's STATS_JSON (or the visible data-count figures) disagree with the arrays
+// just parsed out of report.html.
+{
+  const convCount = (arr) => arr.reduce((n, s) => n + ((s.themes && s.themes.length) || 0), 0);
+  const all = [...STORES, ...SUPPORT];
+  const expected = {
+    convs: convCount(STORES) + convCount(SUPPORT),
+    vendors: new Set(all.map((s) => s.vendor)).size,
+    stores: new Set(all.filter((s) => s.method === "new").map((s) => s.site)).size,
+  };
+  let v2 = "";
+  try { v2 = readFileSync(new URL("../takeaways-v2.html", import.meta.url), "utf8"); }
+  catch { fail.push("takeaways-v2.html missing"); v2 = ""; }
+  const jm = v2.match(/STATS_JSON:(\{[^}]*\})/);
+  if (!jm) fail.push("takeaways-v2.html has no STATS_JSON marker — gen.js did not sync it");
+  else {
+    let stats;
+    try { stats = JSON.parse(jm[1]); } catch (e) { fail.push(`takeaways-v2.html STATS_JSON does not parse: ${e.message}`); stats = null; }
+    if (stats) {
+      for (const k of ["convs", "vendors", "stores"]) {
+        if (stats[k] !== expected[k]) fail.push(`takeaways-v2.html STATS_JSON.${k}=${stats[k]} but report.html has ${expected[k]}`);
+      }
+      if (stats.convs === expected.convs && stats.vendors === expected.vendors && stats.stores === expected.stores) {
+        ok(`takeaways-v2 stats match report.html (${stats.convs} convs · ${stats.vendors} vendors · ${stats.stores} stores)`);
+      }
+    }
+  }
+  if (v2 && /\bdata-suffix="\+"[^>]*data-stat="stores"|data-stat="stores"[^>]*data-suffix="\+"/.test(v2)) {
+    fail.push("takeaways-v2.html still paints stores with a + suffix — use the exact STATS.stores count");
+  }
+}
+
 // ---- verdict ----
 console.log("");
 warn.forEach((w) => console.log(`  ⚠ ${w}`));

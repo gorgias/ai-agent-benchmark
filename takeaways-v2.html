@@ -497,7 +497,8 @@ html.anim .hero .rv.in,html.anim .hero .rv-stagger.in>*{opacity:1;transform:none
 <body>
 
 <!-- ============================== APP BAR ============================== -->
-<nav class="sitenav wrap-x" id="appbar" data-active="overview" data-how="anchor"></nav>
+<nav class="sitenav wrap-x" id="appbar" data-active="overview"></nav>
+<script src="/brand/how-modal.js"></script>
 <script src="/brand/site-nav.js"></script>
 
 <!-- ============================== HERO ============================== -->
@@ -507,8 +508,8 @@ html.anim .hero .rv.in,html.anim .hero .rv-stagger.in>*{opacity:1;transform:none
     <h1 class="rv">The real test for<br> ecommerce AI agents.</h1>
     <p class="sub rv">We tested the AI agents ecommerce brands actually run, on live Shopify stores, the way a real shopper does. No one measures these agents the same way, so we built one rubric and scored every vendor on the two jobs that matter: helping shoppers buy, and resolving support without a human. Independent, blind-scored, re-run weekly.</p>
     <div class="gr-cta-row rv">
-      <a class="gr-btn gr-btn-primary gr-btn-lg" href="report-v2.html">See where every vendor lands</a>
-      <a class="gr-btn gr-btn-secondary gr-btn-lg" href="rubric.pdf" download>Download the rubric (PDF)</a>
+      <a class="gr-btn gr-btn-primary gr-btn-lg" href="/report">See where every vendor lands</a>
+      <a class="gr-btn gr-btn-secondary gr-btn-lg" href="/rubric">See the rubric</a>
     </div>
   </div>
 </header>
@@ -516,7 +517,7 @@ html.anim .hero .rv.in,html.anim .hero .rv-stagger.in>*{opacity:1;transform:none
       <div class="gr-stats-cell"><div class="num tnum" data-count="8136" data-stat="convs">8,136</div><div class="lbl">Conversations captured</div></div>
       <div class="gr-stats-cell"><div class="num tnum" data-count="8120" data-stat="judged">8,120</div><div class="lbl">Blind-judged</div></div>
       <div class="gr-stats-cell"><div class="num tnum" data-count="20" data-stat="vendors">20</div><div class="lbl">Vendors tested</div></div>
-      <div class="gr-stats-cell"><div class="num tnum" data-count="200" data-suffix="+" data-stat="stores">200+</div><div class="lbl">Live stores measured</div></div>
+      <div class="gr-stats-cell"><div class="num tnum" data-count="200" data-stat="stores">200</div><div class="lbl">Live stores measured</div></div>
     </section>
     <!-- STATS_JSON:{"convs":8136,"judged":8120,"vendors":20,"stores":200,"runs":48} -->
 
@@ -573,14 +574,15 @@ html.anim .hero .rv.in,html.anim .hero .rv-stagger.in>*{opacity:1;transform:none
     <style>
   /* Composite chart — LMArena-style point + error-bar plot under the scoreboard */
   .score-chart-card{width:100%;margin-top:24px;background:var(--gr-white);border:1px solid var(--gr-border);border-radius:var(--r-lg);padding:24px 24px 12px;position:relative;z-index:1}
+  .score-chart{width:100%;min-width:0;align-self:stretch;overflow:visible}
   .score-chart .sc-title{font-family:var(--font-display);font-weight:400;font-size:20px;color:var(--gr-head);margin-bottom:4px}
   .score-chart .sc-sub{font-size:12.5px;color:var(--gr-text);margin-bottom:12px}
-  .score-chart svg{width:100%;height:auto;display:block}
+  #score-chart-svg{width:100%;overflow:visible}
+  .score-chart svg{width:100%;height:auto;display:block;overflow:visible}
   .score-chart .sc-legend{display:flex;gap:18px;justify-content:center;padding:6px 0 10px;font-size:12px;color:var(--gr-text)}
   .score-chart .sc-legend span{display:inline-flex;align-items:center;gap:6px}
   .score-chart .sc-legend i{width:9px;height:9px;border-radius:50%;display:inline-block}
   .score-chart .sc-note{font-size:12px;color:var(--gr-mute);border-top:1px solid var(--gr-faded);padding-top:8px;margin-top:2px}
-  @media(max-width:720px){.score-chart{padding:16px 12px 8px}}
     </style>
     <div class="score-chart rv" id="score-chart-wrap">
       <div class="sc-title">Composites with their uncertainty</div>
@@ -760,10 +762,9 @@ html.anim .hero .rv.in,html.anim .hero .rv-stagger.in>*{opacity:1;transform:none
   <div class="rc-inner">
     <span class="kicker"><span class="dot"></span>The rubric</span>
     <h2 class="rc-h">Measure your own AI agent</h2>
-    <p class="rc-sub">Download the same 26-check rubric we scored every vendor against, and grade your own AI on the two jobs that move revenue: helping shoppers buy, and resolving support without a human.</p>
+    <p class="rc-sub">Open the Rubric page for the same 26-check rubric we scored every vendor against, and grade your own AI on the two jobs that move revenue: helping shoppers buy, and resolving support without a human.</p>
     <div class="gr-cta-row">
-      <a class="gr-btn gr-btn-primary gr-btn-lg" href="rubric.pdf" download>Download the rubric</a>
-      <a class="gr-btn gr-btn-secondary gr-btn-lg" href="rubric.html">See how the scoring works</a>
+      <a class="gr-btn gr-btn-primary gr-btn-lg" href="/rubric">See how the scoring works</a>
     </div>
   </div>
 </section>
@@ -835,29 +836,54 @@ function renderScoreChart(DATA){
   const el=document.getElementById('score-chart-svg'); if(!el) return;
   const rows=Object.entries(DATA).map(([v,d])=>({v,...d,cs:comp(d.s,'s'),cp:comp(d.p,'p')}))
     .sort((a,b)=>((b.cs||0)+(b.cp||0))-((a.cs||0)+(a.cp||0)));
-  const W=1120,H=330,P={l:48,r:14,t:14,b:78},iw=W-P.l-P.r,ih=H-P.t-P.b;
-  const vals=rows.flatMap(r=>[r.cs,r.cp]).filter(x=>x!=null);
-  if(!vals.length){el.innerHTML='';return;}
-  const lo=Math.floor((Math.min(...vals)-6)/10)*10, hi=Math.ceil((Math.max(...vals)+6)/10)*10;
-  const X=i=> P.l + (rows.length<2? iw/2 : i*(iw/(rows.length-1)));
+  const W=Math.max(320, Math.round(el.clientWidth || el.parentElement?.clientWidth || 1120));
+  // Side/bottom pads keep rotated names (DigitalGenius, Amazon Rufus) and CI caps inside the viewBox.
+  // Plot height is tall enough that a 0–100 scale (plus any interval that overshoots) is readable.
+  const P={l:72,r:36,t:28,b:124}, ih=420, H=P.t+ih+P.b, iw=W-P.l-P.r;
+  const extents=rows.flatMap(r=>{
+    const out=[];
+    [['cs','s'],['cp','p']].forEach(([key,lane])=>{
+      const v=r[key]; if(v==null) return;
+      const c=(r[lane]&&r[lane].ci!=null)?r[lane].ci:0;
+      out.push(v-c, v+c);
+    });
+    return out;
+  });
+  if(!extents.length){el.innerHTML='';return;}
+  const lo=Math.min(0, Math.floor((Math.min(...extents)-6)/10)*10);
+  const hi=Math.max(100, Math.ceil((Math.max(...extents)+6)/10)*10);
+  const n=rows.length;
+  const X=i=> P.l + (n<2? iw/2 : (i+0.5)*(iw/n));
   const Y=v=> P.t + ih - (v-lo)/(hi-lo)*ih;
   let g='';
   for(let t=lo;t<=hi;t+=10){ const y=Y(t);
     g+='<line x1="'+P.l+'" y1="'+y+'" x2="'+(W-P.r)+'" y2="'+y+'" stroke="rgba(0,0,0,.08)"/>'+
-       '<text x="'+(P.l-8)+'" y="'+(y+4)+'" text-anchor="end" font-size="11" font-family="Geist Mono, ui-monospace, monospace" fill="#5C6066">'+t+'</text>'; }
+       '<text x="'+(P.l-10)+'" y="'+(y+4)+'" text-anchor="end" font-size="11" font-family="Geist Mono, ui-monospace, monospace" fill="#5C6066">'+t+'</text>'; }
   const series=(r,key,lane,color)=>{ const m=lane==='s'?r.s:r.p; const v=r[key]; if(v==null) return;
     const c=(m&&m.ci!=null)?m.ci:0, x=X(r._i);
     if(c>0){ const yT=Y(v+c), yB=Y(v-c);
       g+='<line x1="'+x+'" y1="'+yB+'" x2="'+x+'" y2="'+yT+'" stroke="'+color+'" stroke-width="1.4" opacity=".55"/>'+
-         '<line x1="'+(x-4)+'" y1="'+yT+'" x2="'+(x+4)+'" y2="'+yT+'" stroke="'+color+'" stroke-width="1.4" opacity=".55"/>'+
-         '<line x1="'+(x-4)+'" y1="'+yB+'" x2="'+(x+4)+'" y2="'+yB+'" stroke="'+color+'" stroke-width="1.4" opacity=".55"/>'; }
+         '<line x1="'+(x-5)+'" y1="'+yT+'" x2="'+(x+5)+'" y2="'+yT+'" stroke="'+color+'" stroke-width="1.4" opacity=".55"/>'+
+         '<line x1="'+(x-5)+'" y1="'+yB+'" x2="'+(x+5)+'" y2="'+yB+'" stroke="'+color+'" stroke-width="1.4" opacity=".55"/>'; }
     g+='<circle cx="'+x+'" cy="'+Y(v)+'" r="4.5" fill="'+color+'"><title>'+r.v+' · '+(lane==='s'?'Shopping':'Support')+' composite '+v+(c?' ±'+c:'')+'</title></circle>'; };
   rows.forEach((r,i)=>{ r._i=i; series(r,'cs','s','#FF6B4B'); series(r,'cp','p','#1A1E23'); });
-  rows.forEach((r,i)=>{ const x=X(i), y=H-34;
-    g+='<text x="'+x+'" y="'+y+'" text-anchor="end" font-size="10.5" font-family="Geist Mono, ui-monospace, monospace" fill="#5C6066" transform="rotate(-45 '+x+' '+y+')">'+r.v.replace(/&/g,'&amp;').replace(/</g,'&lt;')+'</text>'; });
-  el.innerHTML='<svg viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Vendor composites with 95% storefront intervals">'+g+'</svg>';
+  const ly=P.t+ih+14;
+  rows.forEach((r,i)=>{ const x=X(i);
+    g+='<text x="'+x+'" y="'+ly+'" text-anchor="end" font-size="10.5" font-family="Geist Mono, ui-monospace, monospace" fill="#5C6066" transform="rotate(-45 '+x+' '+ly+')">'+r.v.replace(/&/g,'&amp;').replace(/</g,'&lt;')+'</text>'; });
+  el.innerHTML='<svg viewBox="0 0 '+W+' '+H+'" width="'+W+'" height="'+H+'" preserveAspectRatio="none" role="img" aria-label="Vendor composites with 95% storefront intervals">'+g+'</svg>';
+  el.dataset.chartW=String(W);
 }
 renderScoreChart(SB_DATA);
+if(!window._scoreChartRO && typeof ResizeObserver==='function'){
+  window._scoreChartRO=new ResizeObserver(()=>{
+    const box=document.getElementById('score-chart-svg');
+    if(!box) return;
+    const w=Math.round(box.clientWidth);
+    if(w && w!==+(box.dataset.chartW||0)) renderScoreChart(SB_DATA);
+  });
+  const wrap=document.getElementById('score-chart-svg');
+  if(wrap) window._scoreChartRO.observe(wrap);
+}
 // Narrowing is offered, not silenced: short views are for inspection, and now that the site is
 // public a screenshot of one must not circulate as the ranking. Warn ONCE per session - a modal
 // on every click becomes a toll people stop reading.
