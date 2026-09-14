@@ -102,7 +102,7 @@ if [ "$GATE_RC" -ne 0 ]; then
   say "QUALITY GATE FAILED — keeping the judging work, discarding the baked board, NOT deploying"
   # Scores cost real money to produce, so never throw them away. The baked artifacts, however, did
   # not pass the gate and must not enter the repo where a later run could push them.
-  git checkout -- report.html report-v2.html takeaways.html takeaways-v2.html conv-text.json 2>/dev/null
+  git checkout -- report.html report-archive.html takeaways.html takeaways-archive.html conv-text.json 2>/dev/null
   git add runner/eval-scores.json runner/conversation-quarantine.json runner/driver-triage.json 2>/dev/null
   git commit -q -m "Judging $D — scores merged (board NOT published: quality gate failed)" 2>/dev/null \
     && git push origin HEAD:master >/dev/null 2>&1 && say "pushed scores only"
@@ -124,7 +124,7 @@ V=server/.healthcheck-verdict.json
 if [ -f "$V" ] && [ "$(node -e 'const v=require("./'"$V"'");process.stdout.write(String(v.block_publish===true&&v.run_date==="'"$D"'"))' 2>/dev/null)" = "true" ]; then
   REASONS=$(node -e 'const v=require("./'"$V"'");process.stdout.write((v.reasons||[]).join(" | "))' 2>/dev/null)
   say "healthcheck blocks publishing: $REASONS"
-  git checkout -- report.html report-v2.html takeaways.html takeaways-v2.html conv-text.json 2>/dev/null
+  git checkout -- report.html report-archive.html takeaways.html takeaways-archive.html conv-text.json 2>/dev/null
   git add runner/eval-scores.json runner/conversation-quarantine.json 2>/dev/null
   git commit -q -m "Judging $D — scores merged (board NOT published: data-integrity block)" 2>/dev/null \
     && git push origin HEAD:master >/dev/null 2>&1
@@ -135,7 +135,7 @@ The gate passed, but publishing was blocked because these numbers would be wrong
 fi
 
 # ── 7. commit + push the board ────────────────────────────────────────────────
-git add report.html report-v2.html takeaways.html takeaways-v2.html conv-text.json \
+git add report.html report-archive.html takeaways.html takeaways-archive.html conv-text.json \
         runner/eval-scores.json runner/conversation-quarantine.json runner/driver-triage.json \
         "runner/results/$D/conv" 2>/dev/null
 if git diff --cached --quiet; then

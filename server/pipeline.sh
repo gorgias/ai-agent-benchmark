@@ -302,7 +302,7 @@ if [ "${DEPLOY_ON_MERGE:-0}" = "1" ]; then
       # master moved — pull and check whether the BAKED files changed since the marker
       sync_master
       [ "$(git rev-parse HEAD)" = "$(git rev-parse origin/master)" ] || { sleep 30; continue; }
-      BAKE_HASH=$(git hash-object report.html report-v2.html takeaways.html takeaways-v2.html conv-text.json 2>/dev/null | md5sum | cut -d' ' -f1)
+      BAKE_HASH=$(git hash-object report.html report-archive.html takeaways.html takeaways-archive.html conv-text.json 2>/dev/null | md5sum | cut -d' ' -f1)
       LAST_HASH=$(cat "$MARKER" 2>/dev/null || echo "")
       if [ "$BAKE_HASH" != "$LAST_HASH" ]; then
         say "baked artifacts changed on master — running deploy-on-merge"

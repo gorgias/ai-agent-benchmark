@@ -11,7 +11,7 @@ import { readFileSync } from "node:fs";
 import { RANK_WINDOW_DAYS } from "./ranking-window.js";
 
 const read = (p) => readFileSync(new URL(p, import.meta.url), "utf8");
-const ARTIFACTS = ["../report.html", "../takeaways.html", "../conv-text.json"];
+const ARTIFACTS = ["../report.html", "../report-archive.html", "../takeaways.html", "../takeaways-archive.html", "../conv-text.json"];
 // git conflict markers as whole lines: "<<<<<<< label", "=======", ">>>>>>> label"
 const CONFLICT = /^(<{7} |={7}$|>{7} )/m;
 

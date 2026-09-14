@@ -1,6 +1,7 @@
 #!/usr/bin/env node
-// Local preview that mirrors vercel.json: cleanUrls, / → Overview, /report → Full results.
-// python3 -m http.server does none of that, so /report and /rubric 404.
+// Local preview that mirrors vercel.json: cleanUrls, / → Overview, /takeaways and /report
+// are the Brand 2.0 pages (old shells live at *-archive). python3 -m http.server does none
+// of that, so /report and /rubric 404 there.
 import http from "node:http";
 import fs from "node:fs";
 import path from "node:path";
@@ -10,13 +11,9 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const PORT = Number(process.env.PORT || 8080);
 
 const REDIRECTS = new Map([
-  ["/takeaways", "/"],
-  ["/takeaways.html", "/"],
-  ["/takeaways-v2", "/"],
-  ["/takeaways-v2.html", "/"],
-  ["/report.html", "/report"],
+  ["/takeaways-v2", "/takeaways"],
+  ["/takeaways-v2.html", "/takeaways"],
   ["/report-v2", "/report"],
-  ["/report-v2.html", "/report"],
   ["/report-v2.html", "/report"],
   ["/rubric.html", "/rubric"],
   ["/results", "/"],
@@ -28,9 +25,7 @@ const REDIRECTS = new Map([
 ]);
 
 const REWRITES = new Map([
-  ["/", "/takeaways-v2.html"],
-  ["/report", "/report-v2.html"],
-  ["/rubric", "/rubric.html"],
+  ["/", "/takeaways.html"],
 ]);
 
 const MIME = {
@@ -96,5 +91,5 @@ const server = http.createServer((req, res) => {
 
 server.listen(PORT, "127.0.0.1", () => {
   console.log(`Preview (Vercel routes) http://127.0.0.1:${PORT}/`);
-  console.log("  /  /report  /rubric");
+  console.log("  /  /takeaways  /report  /rubric  /takeaways-archive  /report-archive");
 });

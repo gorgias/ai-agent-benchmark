@@ -40,15 +40,16 @@ const bakedRegion = (html) => {
 };
 
 const PAGES = [
-  // Canonical Brand 2.0 URLs. "/" rewrites onto takeaways-v2.html; "/report" onto report-v2.html.
-  { route: "/", file: "takeaways-v2.html" },
-  { route: "/report", file: "report-v2.html" },
+  { route: "/", file: "takeaways.html" },
+  { route: "/takeaways", file: "takeaways.html" },
+  { route: "/report", file: "report.html" },
   { route: "/rubric", file: "rubric.html" },
+  { route: "/takeaways-archive", file: "takeaways-archive.html" },
+  { route: "/report-archive", file: "report-archive.html" },
 ];
 
 const REDIRECTS = [
-  { route: "/takeaways", to: "/" },
-  { route: "/takeaways-v2", to: "/" },
+  { route: "/takeaways-v2", to: "/takeaways" },
   { route: "/report-v2", to: "/report" },
   { route: "/login", to: "/" },
   { route: "/results", to: "/" },

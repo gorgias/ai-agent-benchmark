@@ -26,28 +26,7 @@ async function expectedToken(pass) {
 // competitive benchmark nobody can check is only an assertion.
 const SITE_IS_PUBLIC = true;
 
-function brandRewrite(request) {
-  const url = new URL(request.url);
-  const dest = {
-    "/": "/takeaways-v2.html",
-    "/takeaways": "/takeaways-v2.html",
-    "/takeaways.html": "/takeaways-v2.html",
-    "/takeaways-v2": "/takeaways-v2.html",
-    "/report": "/report-v2.html",
-    "/report.html": "/report-v2.html",
-    "/report-v2": "/report-v2.html",
-    "/rubric": "/rubric.html",
-  }[url.pathname];
-  if (!dest || dest === url.pathname) return null;
-  url.pathname = dest;
-  return fetch(url, request);
-}
-
 export default async function middleware(request) {
-  // Brand 2.0 pages (Overview / Full results / Rubric). Must run even while the
-  // site is public — otherwise Vercel cleanUrls serves the old report.html at /report.
-  const branded = brandRewrite(request);
-  if (branded) return branded;
   if (SITE_IS_PUBLIC) return;
   const url = new URL(request.url);
   const PASS = process.env.SITE_PASSWORD || "";

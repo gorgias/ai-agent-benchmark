@@ -88,7 +88,7 @@ ok("report.html structure markers present");
 // prose regions it never touches — they render as raw text on the live page (2026-07-10
 // incident: takeaways.html shipped with <<<<<<< HEAD visible). Hard-fail before deploy.
 const CONFLICT = /^(<{7} |={7}$|>{7} )/m;
-for (const f of ["report.html", "takeaways.html", "conv-text.json"]) {
+for (const f of ["report.html", "report-archive.html", "takeaways.html", "takeaways-archive.html", "conv-text.json"]) {
   let txt; try { txt = readFileSync(new URL(`../${f}`, import.meta.url), "utf8"); } catch { continue; }
   if (CONFLICT.test(txt)) fail.push(`${f} contains unresolved git conflict markers (<<<<<<< / ======= / >>>>>>>)`);
 }
@@ -135,24 +135,24 @@ try {
     stores: new Set(all.filter((s) => s.method === "new").map((s) => s.site)).size,
   };
   let v2 = "";
-  try { v2 = readFileSync(new URL("../takeaways-v2.html", import.meta.url), "utf8"); }
-  catch { fail.push("takeaways-v2.html missing"); v2 = ""; }
+  try { v2 = readFileSync(new URL("../takeaways.html", import.meta.url), "utf8"); }
+  catch { fail.push("takeaways.html missing"); v2 = ""; }
   const jm = v2.match(/STATS_JSON:(\{[^}]*\})/);
-  if (!jm) fail.push("takeaways-v2.html has no STATS_JSON marker — gen.js did not sync it");
+  if (!jm) fail.push("takeaways.html has no STATS_JSON marker — gen.js did not sync it");
   else {
     let stats;
-    try { stats = JSON.parse(jm[1]); } catch (e) { fail.push(`takeaways-v2.html STATS_JSON does not parse: ${e.message}`); stats = null; }
+    try { stats = JSON.parse(jm[1]); } catch (e) { fail.push(`takeaways.html STATS_JSON does not parse: ${e.message}`); stats = null; }
     if (stats) {
       for (const k of ["convs", "vendors", "stores"]) {
-        if (stats[k] !== expected[k]) fail.push(`takeaways-v2.html STATS_JSON.${k}=${stats[k]} but report.html has ${expected[k]}`);
+        if (stats[k] !== expected[k]) fail.push(`takeaways.html STATS_JSON.${k}=${stats[k]} but report.html has ${expected[k]}`);
       }
       if (stats.convs === expected.convs && stats.vendors === expected.vendors && stats.stores === expected.stores) {
-        ok(`takeaways-v2 stats match report.html (${stats.convs} convs · ${stats.vendors} vendors · ${stats.stores} stores)`);
+        ok(`takeaways stats match report.html (${stats.convs} convs · ${stats.vendors} vendors · ${stats.stores} stores)`);
       }
     }
   }
   if (v2 && /\bdata-suffix="\+"[^>]*data-stat="stores"|data-stat="stores"[^>]*data-suffix="\+"/.test(v2)) {
-    fail.push("takeaways-v2.html still paints stores with a + suffix — use the exact STATS.stores count");
+    fail.push("takeaways.html still paints stores with a + suffix — use the exact STATS.stores count");
   }
 }
 

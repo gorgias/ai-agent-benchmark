@@ -488,12 +488,12 @@ if (args.includes("--print")) {
   console.log("\n(--print: report.html NOT modified)");
   process.exit(0);
 }
-const REPORT = new URL("../report.html", import.meta.url).pathname;
+const REPORT = new URL("../report-archive.html", import.meta.url).pathname;
 let html = await readFile(REPORT, "utf8");
 const generatedStart = html.indexOf("// ---- SHOPPING (one entry per store; .themes = 5 apple-to-apple conversations)");
 const a = generatedStart >= 0 ? generatedStart : html.indexOf("const STORES = [");
 const b = html.indexOf("let MODE='shopping';");
-if (a < 0 || b < 0 || b < a) { console.error("Could not find STORES…let MODE markers in report.html"); process.exit(1); }
+if (a < 0 || b < 0 || b < a) { console.error("Could not find STORES…let MODE markers in report-archive.html"); process.exit(1); }
 html = html.slice(0, a) + block + html.slice(b);
 await writeFile(REPORT + ".tmp", html);   // atomic: write tmp then rename, so a live reload never sees a half-written file
 await rename(REPORT + ".tmp", REPORT);
@@ -723,7 +723,7 @@ const syncMarkers = (page) => {
   }
   return page.replace(/<!--REFRESHED-->[\s\S]*?<!--\/REFRESHED-->/g, () => `<!--REFRESHED-->${REFRESHED}<!--/REFRESHED-->`);
 };
-for (const name of ["takeaways.html", "takeaways-v2.html"]) {
+for (const name of ["takeaways.html", "takeaways-archive.html"]) {
   try {
     const TK = new URL(`../${name}`, import.meta.url).pathname;
     let tk = await readFile(TK, "utf8");
@@ -753,12 +753,12 @@ for (const name of ["takeaways.html", "takeaways-v2.html"]) {
   } catch (e) { console.log(`${name} sync skipped:`, e.message); }
 }
 try {
-  const R2 = new URL("../report-v2.html", import.meta.url).pathname;
+  const R2 = new URL("../report.html", import.meta.url).pathname;
   let r2 = await readFile(R2, "utf8");
   const s2 = r2.indexOf("// ---- SHOPPING (one entry per store; .themes = 5 apple-to-apple conversations)");
   const a2 = s2 >= 0 ? s2 : r2.indexOf("const STORES = ["), b2 = r2.indexOf("let MODE='shopping';");
   if (a2 < 0 || b2 < 0 || b2 < a2) throw new Error("could not find STORES…let MODE markers");
   r2 = syncMarkers(r2.slice(0, a2) + block + r2.slice(b2));
   await writeFile(R2 + ".tmp", r2); await rename(R2 + ".tmp", R2);
-  console.log("Synced report-v2.html: report.html's data block and prose markers");
-} catch (e) { console.log("report-v2.html sync skipped:", e.message); }
+  console.log("Synced report.html: report-archive.html's data block and prose markers");
+} catch (e) { console.log("report.html sync skipped:", e.message); }
