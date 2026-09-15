@@ -559,8 +559,6 @@ html.anim .hero .rv.in,html.anim .hero .rv-stagger.in>*{opacity:1;transform:none
       #fjb-table td{padding:12px 14px;border-bottom:1px solid var(--gr-faded)}
       #fjb-table tr:last-child td{border-bottom:none}
       #fjb-table td.n{text-align:right;font-variant-numeric:tabular-nums}
-      #fjb-table tr.hl{background:var(--gr-coral-soft,#FFEAE6)}
-      #fjb-table tr.hl .vname{font-weight:600}
       #fjb-table .vname{font-weight:500;color:var(--gr-head)}
       #fjb-table .rank{color:var(--gr-mute);width:34px}
       #fjb-table .deliv{display:inline-block;font-family:var(--font-mono);font-size:9px;letter-spacing:.04em;text-transform:uppercase;color:var(--gr-mute);border:1px solid var(--gr-border);border-radius:4px;padding:1px 5px;margin-left:7px}
@@ -618,7 +616,7 @@ html.anim .hero .rv.in,html.anim .hero .rv-stagger.in>*{opacity:1;transform:none
         var tb=document.getElementById('fjb-body'); if(!tb) return;
         tb.innerHTML=data.map(function(r,i){
           var tds=''; cols.forEach(function(c){ tds+='<td class="n tnum">'+r[c.k]+'</td>'; });
-          return '<tr'+(r.us?' class="hl"':'')+'><td class="rank tnum">'+(i+1)+'</td><td class="vendor"><span class="vname">'+r.v+'</span></td>'+tds+'</tr>';
+          return '<tr><td class="rank tnum">'+(i+1)+'</td><td class="vendor"><span class="vname">'+r.v+'</span></td>'+tds+'</tr>';
         }).join('');
         var ths=document.querySelectorAll('#fjb-table th.srt');
         for(var j=0;j<ths.length;j++){ ths[j].setAttribute('data-dir', ths[j].getAttribute('data-k')===K?(DIR<0?'desc':'asc'):''); }
