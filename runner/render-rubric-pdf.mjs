@@ -1,5 +1,6 @@
-// Print runner/eval-rubric.md to ../rubric.pdf so the downloadable file is the
-// same judge spec the pipeline scores against — never a screenshot of the LP.
+// Print runner/eval-rubric.md to ./eval-rubric.pdf (internal judge spec).
+// The public download at /rubric.pdf is the designed scoring worksheet — do not
+// overwrite it from this script.
 import { readFile } from "node:fs/promises";
 import { pathToFileURL } from "node:url";
 import { chromium } from "playwright";
@@ -85,7 +86,7 @@ ${out.join("\n")}
 
 export async function renderRubricPdf() {
   const mdPath = new URL("./eval-rubric.md", import.meta.url);
-  const pdfPath = new URL("../rubric.pdf", import.meta.url);
+  const pdfPath = new URL("./eval-rubric.pdf", import.meta.url);
   const md = await readFile(mdPath, "utf8");
   const html = mdToHtml(md);
   if (!html.includes("a_direct") || !html.includes("s_answered")) {

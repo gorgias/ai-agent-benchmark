@@ -220,7 +220,7 @@ test("full results CTA downloads the rubric PDF", () => {
   assert.doesNotMatch(h, /emptyRow=/);
 });
 
-test("downloadable rubric PDF is generated from eval-rubric.md", async () => {
+test("downloadable rubric PDF is the scoring worksheet", async () => {
   const { mdToHtml } = await import("./render-rubric-pdf.mjs");
   const { CHECKS } = await import("./eval-score.js");
   const { readFileSync, existsSync } = await import("node:fs");
@@ -228,7 +228,7 @@ test("downloadable rubric PDF is generated from eval-rubric.md", async () => {
   const html = mdToHtml(md);
   for (const lane of Object.values(CHECKS)) {
     for (const dim of Object.values(lane)) {
-      for (const id of Object.keys(dim)) assert.ok(html.includes(id), `PDF HTML missing check ${id}`);
+      for (const id of Object.keys(dim)) assert.ok(html.includes(id), `judge HTML missing check ${id}`);
     }
   }
   const pdf = new URL("../rubric.pdf", import.meta.url);
@@ -236,5 +236,7 @@ test("downloadable rubric PDF is generated from eval-rubric.md", async () => {
   const buf = readFileSync(pdf);
   assert.ok(buf.slice(0, 5).toString() === "%PDF-", "rubric.pdf is not a PDF");
   assert.ok(buf.length > 20_000, "rubric.pdf is suspiciously small");
+  const ascii = buf.toString("latin1");
+  assert.ok(/Score your own/i.test(ascii), "public rubric.pdf is not the scoring worksheet");
 });
 
