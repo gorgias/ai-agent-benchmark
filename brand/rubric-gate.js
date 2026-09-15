@@ -26,6 +26,10 @@
   function unlock() {
     sessionStorage.setItem(KEY, "1");
     apply(true, true);
+    if (window.vaTrack) {
+      const page = (location.pathname || "/").replace(/\.html$/, "") || "/";
+      window.vaTrack("Rubric Form Submit", { page: page });
+    }
     startDownload();
   }
 
