@@ -39,45 +39,34 @@
   ].filter((t) => document.querySelector(t.selector));
   if (!targets.length) return;
 
-  function hsSubmit(root) {
-    if (!root || !root.querySelector) return null;
-    return root.querySelector("input[type='submit'], button[type='submit'], input.hs-button, button.hs-button");
+  function labelButtons(root) {
+    const scope = root && root.querySelectorAll ? root : document;
+    scope.querySelectorAll("input.hs-button, button.hs-button, .hs-submit input[type='submit'], .hs-submit button, input[type='submit']").forEach(function (btn) {
+      if (btn.tagName === "INPUT") {
+        if (btn.value !== LABEL) btn.value = LABEL;
+      } else if ((btn.textContent || "").trim() !== LABEL) {
+        btn.textContent = LABEL;
+      }
+    });
   }
 
-  function decorate(mount) {
-    if (!mount) return;
-    const native = hsSubmit(mount);
-    if (native) {
-      if (native.tagName === "INPUT") native.value = LABEL;
-      else native.textContent = LABEL;
-      native.setAttribute("value", LABEL);
-      native.classList.add("hs-native-submit");
-      native.setAttribute("tabindex", "-1");
-      native.setAttribute("aria-hidden", "true");
-    }
-    let fake = mount.querySelector("[data-rubric-dl-btn]");
-    if (!fake) {
-      fake = document.createElement("button");
-      fake.type = "button";
-      fake.className = "rubric-dl-btn";
-      fake.setAttribute("data-rubric-dl-btn", "");
-      fake.textContent = LABEL;
-      fake.addEventListener("click", function (e) {
-        e.preventDefault();
-        const form = mount.querySelector("form");
-        const btn = hsSubmit(mount);
-        if (form && typeof form.reportValidity === "function" && !form.reportValidity()) return;
-        if (btn) btn.click();
-        else if (form && typeof form.requestSubmit === "function") form.requestSubmit();
-        else if (form) form.submit();
-      });
-      mount.appendChild(fake);
-    }
-    fake.textContent = LABEL;
-  }
-
-  function decorateAll() {
-    targets.forEach(function (t) { decorate(document.querySelector(t.selector)); });
+  function watch(root) {
+    if (!root || root.getAttribute("data-rubric-watch") === "1") return;
+    root.setAttribute("data-rubric-watch", "1");
+    labelButtons(root);
+    const mo = new MutationObserver(function () { labelButtons(root); });
+    mo.observe(root, {
+      subtree: true,
+      childList: true,
+      characterData: true,
+      attributes: true,
+      attributeFilter: ["value", "class", "disabled"],
+    });
+    root.addEventListener("submit", function () { labelButtons(root); }, true);
+    root.addEventListener("click", function () {
+      labelButtons(root);
+      setTimeout(function () { labelButtons(root); }, 0);
+    }, true);
   }
 
   function formEl($form) {
@@ -87,33 +76,39 @@
   function createForms() {
     if (!window.hbspt || !window.hbspt.forms) return false;
     targets.forEach((t) => {
-      if (document.querySelector(t.selector + " .hbspt-form, " + t.selector + " form")) {
-        decorate(document.querySelector(t.selector));
-        return;
-      }
+      if (document.querySelector(t.selector + " .hbspt-form, " + t.selector + " form")) return;
       window.hbspt.forms.create({
         region: HS.region,
         portalId: HS.portalId,
         formId: HS.formId,
         target: t.selector,
         formInstanceId: t.instanceId,
-        submitButtonClass: "hs-button hs-native-submit",
+        submitButtonClass: "hs-button",
         locale: "en",
-        translations: { en: { submitText: LABEL } },
-        onFormReady: function ($form) {
-          decorate(document.querySelector(t.selector));
-          const root = formEl($form);
-          if (root) decorate(root.closest(".hs-inline-form") || document.querySelector(t.selector));
+        translations: {
+          en: { submitText: LABEL },
         },
-        onFormSubmit: function () {
-          decorateAll();
+        onFormReady: function ($form) {
+          const root = formEl($form);
+          if (root) watch(root);
+          const mount = document.querySelector(t.selector);
+          if (mount) watch(mount);
+        },
+        onFormSubmit: function ($form) {
+          const root = formEl($form);
+          if (!root) return;
+          labelButtons(root);
+          var n = 0;
+          var id = setInterval(function () {
+            labelButtons(root);
+            if (++n > 40) clearInterval(id);
+          }, 50);
         },
         onFormSubmitted: function () {
           unlock();
         },
       });
     });
-    decorateAll();
     return true;
   }
 
@@ -136,11 +131,4 @@
     s.onload = function () { waitForHs(40); };
     document.head.appendChild(s);
   }
-
-  const mo = new MutationObserver(decorateAll);
-  targets.forEach(function (t) {
-    const el = document.querySelector(t.selector);
-    if (el) mo.observe(el, { subtree: true, childList: true, attributes: true, characterData: true });
-  });
-  setInterval(decorateAll, 400);
 })();

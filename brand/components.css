@@ -243,19 +243,18 @@ section{
 .rubric-gate{
   display:flex;
   flex-direction:column;
-  align-items:center;
+  align-items:stretch;
   gap:10px;
   width:min(540px,100%);
   margin:0 auto;
   text-align:center;
 }
 .rubric-gate-note{
-  margin:0 auto;
-  max-width:34em;
-  font-size:11px;
+  margin:0;
+  font-size:12px;
   line-height:1.4;
   color:var(--color-muted-foreground);
-  text-wrap:balance;
+  text-wrap:pretty;
   text-align:center;
 }
 .rubric-gate-thanks{
@@ -268,58 +267,7 @@ section{
   max-width:36rem;
 }
 .rubric-cta .rubric-gate-thanks{color:var(--color-foreground-inverted);opacity:.9}
-.hs-inline-form .submitted-message,
-.hs-inline-form .hs-richtext{display:none !important}
-.hs-inline-form{
-  display:flex !important;
-  flex-direction:row !important;
-  flex-wrap:nowrap;
-  align-items:center;
-  gap:8px;
-  width:100%;
-}
-.hs-inline-form .hbspt-form{
-  flex:1 1 auto;
-  min-width:0;
-}
-.hs-inline-form .hs-native-submit,
-.hs-inline-form input.hs-button,
-.hs-inline-form .hs-submit input[type="submit"]{
-  position:absolute !important;
-  width:1px !important;
-  height:1px !important;
-  padding:0 !important;
-  margin:-1px !important;
-  overflow:hidden !important;
-  clip:rect(0,0,0,0) !important;
-  border:0 !important;
-  opacity:0 !important;
-  pointer-events:none !important;
-}
-.rubric-dl-btn{
-  flex:0 0 auto;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  height:48px;
-  padding:0 24px;
-  border:0;
-  border-radius:var(--radius-pill);
-  background:var(--color-foreground);
-  color:var(--color-foreground-inverted);
-  font-family:var(--font-sans);
-  font-size:16px;
-  font-weight:500;
-  line-height:1;
-  white-space:nowrap;
-  cursor:pointer;
-}
-.rubric-cta .rubric-dl-btn{
-  background:var(--color-foreground-inverted);
-  color:var(--color-foreground);
-}
-.rubric-cta .rubric-dl-btn:hover{background:var(--color-neutral-100)}
-.rubric-dl-btn:hover{background:var(--color-neutral-800,#1a1a1a)}
+.hs-inline-form .submitted-message{display:none !important}
 .rubric-gate-row{
   display:flex;
   flex-direction:row;
@@ -362,9 +310,7 @@ section{
   align-items:center;
   gap:8px;
   margin:0;
-  width:auto;
-  flex:1 1 auto;
-  min-width:0;
+  width:100%;
   max-width:100%;
 }
 .hs-inline-form fieldset,
@@ -470,23 +416,6 @@ section{
 .rubric-cta .hs-inline-form .hs-button:hover,
 .rubric-cta .hs-inline-form input.hs-button:hover{
   background:var(--color-neutral-100) !important;
-}
-.hs-inline-form .hs-submit,
-.hs-inline-form .actions,
-.hs-inline-form .hs-native-submit,
-.hs-inline-form input.hs-button,
-.hs-inline-form input[type="submit"]{
-  position:absolute !important;
-  width:1px !important;
-  height:1px !important;
-  min-height:0 !important;
-  padding:0 !important;
-  margin:-1px !important;
-  overflow:hidden !important;
-  clip:rect(0,0,0,0) !important;
-  border:0 !important;
-  opacity:0 !important;
-  pointer-events:none !important;
 }
 @media (max-width:560px){
   .hs-inline-form .hbspt-form,
