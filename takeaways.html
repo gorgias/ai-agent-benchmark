@@ -111,7 +111,7 @@ h1 .accent{color:var(--gr-mute)}
 .hero .sub a:hover{background:var(--gr-blush)}
 
 /* the hard break is a desktop line-break decision; below 600px let balance do it */
-@media(max-width:600px){h1 br{display:none}h1{max-width:none}}
+@media(max-width:600px){h1 br{display:inline-block;width:.3em;height:0;overflow:hidden;border:0;content:""}h1{max-width:none}}
 
 /* =========================================================================
    VERDICT - white panel on paper, hairline structure, ink serif KPIs.
@@ -541,7 +541,7 @@ html.anim .hero .rv.in,html.anim .hero .rv-stagger.in>*{opacity:1;transform:none
   <div class="gr-board-inner">
     <span class="kicker rv"><span class="dot"></span>The numbers</span>
     <div class="gr-board-head">
-      <h2 class="sec rv">How every vendor performs,<br>on both jobs.</h2>
+      <h2 class="sec rv">How every vendor performs, on both jobs.</h2>
       <p class="sec-lead rv">Each vendor gets two scores, one for each job. <b>Automation</b> measures how many conversations are resolved without a human. <b>Quality</b> is a blind 0–100 score of how well the agent sells or resolves. <b>Speed</b> measures how long it takes to reach a complete answer.</p>
     </div>
     <style>
