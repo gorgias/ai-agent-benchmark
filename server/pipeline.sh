@@ -56,6 +56,10 @@ PIPELINE_MAX_SECONDS="${PIPELINE_MAX_SECONDS:-$(( SOURCING_TIMEOUT + CAPTURE_SEC
 mkdir -p "$(dirname "$LOG")" 2>/dev/null || LOG=/tmp/pipeline.log
 touch "$LOG" 2>/dev/null || LOG=/tmp/pipeline.log
 say() { echo "$(date -u +%Y-%m-%dT%H:%M:%SZ) $*" | tee -a "$LOG"; }
+# The run date. Set before anything reads it: the deploy-on-merge poller passes it to
+# deploy-on-merge.sh, and under `set -u` an unset D killed the whole run on 2026-09-15 (a PR merged
+# during the poller window, the run exited at line 305 before capturing anything).
+D=$(date +%F)
 
 # sync_master — pull master WITHOUT silently giving up.
 #
@@ -398,7 +402,6 @@ fi
 # away the whole night. Pushing every PUSH_EVERY seconds caps the worst case at one interval.
 # Raw conversations are additive and gen.js filters invalid ones, so partial pushes are safe:
 # they can never change the live board on their own.
-D=$(date +%F)
 push_convs() {
   compgen -G "runner/results/$D/conv/*.json" >/dev/null || return 0
   git pull --rebase --autostash -X theirs origin master >/dev/null 2>&1 || true
