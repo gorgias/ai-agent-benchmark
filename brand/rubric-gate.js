@@ -41,6 +41,15 @@
         formId: HS.formId,
         target: t.selector,
         formInstanceId: t.instanceId,
+        submitButtonClass: "hs-button",
+        onFormReady: function ($form) {
+          const root = $form && $form.jquery ? $form.get(0) : $form;
+          if (!root) return;
+          root.querySelectorAll("input.hs-button, .hs-button, .hs-submit input[type='submit']").forEach(function (btn) {
+            if (btn.tagName === "INPUT") btn.value = "Download";
+            else btn.textContent = "Download";
+          });
+        },
         onFormSubmitted: function () {
           unlock();
         },
