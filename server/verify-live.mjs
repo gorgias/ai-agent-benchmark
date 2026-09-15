@@ -51,7 +51,6 @@ const REDIRECTS = [
   { route: "/takeaways", to: "/" },
   { route: "/takeaways-v2", to: "/" },
   { route: "/report-v2", to: "/report" },
-  { route: "/login", to: "/" },
   { route: "/results", to: "/" },
   { route: "/vendor-changes", to: "/" },
 ];
@@ -97,6 +96,22 @@ for (const r of REDIRECTS) {
   }
 }
 
-const checks = PAGES.length + REDIRECTS.length;
+{
+  let res;
+  try {
+    res = await fetch(BASE + "/report?view=conversations", { headers: { "cache-control": "no-cache" }, redirect: "manual" });
+  } catch (e) {
+    console.error(`✗ /report?view=conversations (unauth): fetch failed — ${e.message}`);
+    bad++;
+  }
+  if (res) {
+    const loc = res.headers.get("location") || "";
+    const gated = [301, 302, 303, 307, 308].includes(res.status) && loc.includes("/login");
+    if (gated) console.log(`✓ /report?view=conversations is password-gated (${res.status})`);
+    else { console.error(`✗ /report?view=conversations: expected login redirect, got ${res.status} ${loc || "(no Location)"}`); bad++; }
+  }
+}
+
+const checks = PAGES.length + REDIRECTS.length + 1;
 if (bad) { console.error(`\n${bad}/${checks} checks failed — the deploy did not take effect.`); process.exit(1); }
 console.log(`\nlive == local on ${PAGES.length} pages, ${REDIRECTS.length} redirects at ${BASE}`);

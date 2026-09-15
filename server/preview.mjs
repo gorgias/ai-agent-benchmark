@@ -5,6 +5,7 @@
 import http from "node:http";
 import fs from "node:fs";
 import path from "node:path";
+import { createHash } from "node:crypto";
 import { fileURLToPath } from "node:url";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -20,8 +21,6 @@ const REDIRECTS = new Map([
   ["/rubric.html", "/rubric"],
   ["/results", "/"],
   ["/results.html", "/"],
-  ["/login", "/"],
-  ["/login.html", "/"],
   ["/vendor-changes", "/"],
   ["/vendor-changes.html", "/"],
 ]);
@@ -73,8 +72,54 @@ function sendFile(res, abs) {
   });
 }
 
+const CONV_NEXT = "/report?view=conversations";
+const CONV_COOKIE = "sb_conv";
+const CONV_PASS = process.env.CONV_PASSWORD || process.env.SITE_PASSWORD || "gorgiasevalaccess";
+const CONV_TOKEN = createHash("sha256").update("gorgias-benchmark:v1:" + CONV_PASS).digest("hex");
+
+function hasConvCookie(req) {
+  const m = String(req.headers.cookie || "").match(/(?:^|; )sb_conv=([a-f0-9]{64})/);
+  return !!(m && m[1] === CONV_TOKEN);
+}
+
+function needsConvGate(pathname, searchParams) {
+  if (pathname === "/conv-text.json" || pathname === "/live-feed.json") return true;
+  if ((pathname === "/report" || pathname === "/report.html") && searchParams.get("view") === "conversations") return true;
+  return false;
+}
+
+function readBody(req) {
+  return new Promise((resolve) => {
+    const chunks = [];
+    req.on("data", (c) => chunks.push(c));
+    req.on("end", () => resolve(Buffer.concat(chunks).toString("utf8")));
+  });
+}
+
 const server = http.createServer((req, res) => {
+  const u = new URL(req.url, "http://127.0.0.1");
   const pathname = urlPath(req);
+
+  if ((pathname === "/login" || pathname === "/login.html") && req.method === "POST") {
+    readBody(req).then((raw) => {
+      const params = new URLSearchParams(raw);
+      if (params.get("password") === CONV_PASS) {
+        send(res, 303, "", {
+          Location: CONV_NEXT,
+          "Set-Cookie": `${CONV_COOKIE}=${CONV_TOKEN}; HttpOnly; Path=/; Max-Age=604800; SameSite=Lax`,
+        });
+        return;
+      }
+      send(res, 303, "", { Location: "/login?e=1&next=" + encodeURIComponent(CONV_NEXT) });
+    });
+    return;
+  }
+
+  if (needsConvGate(pathname, u.searchParams) && !hasConvCookie(req)) {
+    send(res, 302, "", { Location: "/login?next=" + encodeURIComponent(CONV_NEXT) });
+    return;
+  }
+
   const dest = REDIRECTS.get(pathname);
   if (dest) {
     send(res, 308, "", { Location: dest });
