@@ -567,17 +567,31 @@ html.anim .hero .rv.in,html.anim .hero .rv-stagger.in>*{opacity:1;transform:none
       #fjb-table .sig{white-space:nowrap}
     </style>
     <div class="fjb-seg rv" role="group" aria-label="View">
-      <button class="fjb-btn" type="button" data-m="overall" aria-selected="true" onclick="fjbSet('overall')">Overall</button>
-      <button class="fjb-btn" type="button" data-m="shopping" aria-selected="false" onclick="fjbSet('shopping')">Shopping Assistant</button>
-      <button class="fjb-btn" type="button" data-m="support" aria-selected="false" onclick="fjbSet('support')">Support Agent</button>
-      <span class="fjb-winnote">Last 90 days, the ranked window.</span>
+      <button class="fjb-btn" type="button" data-m="table" aria-selected="true" onclick="fjbSet('table')">Table</button>
+      <button class="fjb-btn" type="button" data-m="axis" aria-selected="false" onclick="fjbSet('axis')">Axis</button>
+      <span class="fjb-winnote">Overall position, last 90 days.</span>
     </div>
-    <div class="fjb-wrap rv">
+    <div class="fjb-wrap rv" id="fjb-tablewrap">
       <table id="fjb-table">
         <thead id="fjb-head"></thead>
         <tbody id="fjb-body"></tbody>
       </table>
     </div>
+    <div class="fjb-wrap rv" id="fjb-axiswrap" hidden style="padding:26px 22px 14px">
+      <div id="ovm-svg"></div>
+      <p style="font-size:12px;color:var(--gr-mute);margin:8px 4px 0">Each vendor averaged across both jobs. Up and to the right is better on both axes.</p>
+    </div>
+    <style>
+      #fjb-axiswrap #ovm-svg{width:100%;overflow:visible}
+      #fjb-axiswrap svg{width:100%;height:auto;display:block;overflow:visible}
+      #fjb-axiswrap .spine{stroke:var(--gr-rule,#DFD9D3);stroke-width:1}
+      #fjb-axiswrap .mid{stroke:var(--gr-border);stroke-width:1;stroke-dasharray:3 4}
+      #fjb-axiswrap .tick{fill:var(--gr-mute);font-family:var(--font-mono);font-size:12px}
+      #fjb-axiswrap .axis{fill:var(--gr-mute);font-family:var(--font-mono);font-size:12px;letter-spacing:.08em}
+      #fjb-axiswrap .quad{fill:var(--gr-mute);font-family:var(--font-mono);font-size:12px;letter-spacing:.06em}
+      #fjb-axiswrap .lbl{fill:var(--gr-head);font-family:var(--font-sans);font-size:15px}
+      #fjb-axiswrap .lbl.us{font-weight:600}
+    </style>
     <p class="fjb-cap" style="font-size:12.5px;color:var(--gr-text);margin:12px 2px 0;line-height:1.5">Shopping and Support are each a 0 to 100 composite: automation, quality and speed, weighted per job (shopping 40/35/25, support 50/40/10). <b>Overall</b> is the average of the two. Click a column to re-sort.</p>
     <!-- Data reproduced verbatim from report.html's renderSummary over its STORES/SUPPORT arrays
          (quality = mean evalq.total, automation pooled, full answer = mean lat, first signal = mean ttft,
@@ -587,10 +601,15 @@ html.anim .hero .rv.in,html.anim .hero .rv-stagger.in>*{opacity:1;transform:none
       /*FJB_START*/var FJB={"overall":[{"v":"Gorgias","ov":69,"cs":65,"cp":72,"us":1},{"v":"Yuma","ov":65,"cs":58,"cp":72,"us":1},{"v":"Sierra","ov":65,"cs":64,"cp":65,"us":1},{"v":"Siena","ov":65,"cs":62,"cp":67,"us":1},{"v":"Intercom","ov":63,"cs":64,"cp":62,"us":1},{"v":"Rep AI","ov":62,"cs":60,"cp":64},{"v":"Decagon","ov":61,"cs":54,"cp":68,"us":1},{"v":"Ada","ov":61,"cs":59,"cp":62,"us":1},{"v":"DigitalGenius","ov":58,"cs":54,"cp":62},{"v":"Envive","ov":56,"cs":72,"cp":40},{"v":"Klaviyo","ov":52,"cs":52,"cp":51,"us":1},{"v":"Kodif","ov":50,"cs":48,"cp":52,"us":1},{"v":"Zendesk","ov":48,"cs":44,"cp":51,"us":1}],"shopping":[{"v":"Gorgias","q":76,"a":84,"l":18.4,"t":15.8,"d":"atomic","c":465,"st":50,"us":1},{"v":"Yuma","q":69,"a":81,"l":20.6,"t":17,"d":"atomic","c":141,"st":14,"us":1},{"v":"Klaviyo","q":68,"a":41,"l":13.4,"t":11.8,"d":"atomic","c":223,"st":9,"us":1},{"v":"Intercom","q":66,"a":87,"l":17.7,"t":12.6,"d":"atomic","c":254,"st":17,"us":1},{"v":"Envive","q":62,"a":80,"l":7.8,"t":4.1,"d":"atomic","c":461,"st":9},{"v":"Siena","q":59,"a":73,"l":13,"t":10.3,"d":"atomic","c":317,"st":8,"us":1},{"v":"Sierra","q":58,"a":70,"l":10,"t":5.8,"d":"streaming","c":540,"st":17,"us":1},{"v":"Decagon","q":58,"a":83,"l":28.8,"t":38.8,"d":"atomic","c":51,"st":11,"us":1},{"v":"Rep AI","q":57,"a":81,"l":16.1,"t":9.9,"d":"streaming","c":67,"st":43},{"v":"Kodif","q":56,"a":64,"l":20.2,"t":1.9,"d":"streaming","c":229,"st":14,"us":1},{"v":"Ada","q":50,"a":68,"l":11.2,"t":8.5,"d":"atomic","c":524,"st":18,"us":1},{"v":"DigitalGenius","q":42,"a":78,"l":15.5,"t":13.5,"d":"streaming","c":581,"st":14},{"v":"Zendesk","q":36,"a":46,"l":12.2,"t":7.5,"d":"atomic","c":505,"st":25,"us":1}],"support":[{"v":"Sierra","q":79,"a":53,"l":9.6,"t":6,"d":"streaming","c":404,"st":17,"us":1},{"v":"Gorgias","q":76,"a":74,"l":14.2,"t":13.3,"d":"atomic","c":381,"st":53,"us":1},{"v":"Decagon","q":74,"a":67,"l":12.1,"t":10.6,"d":"atomic","c":34,"st":11,"us":1},{"v":"Yuma","q":70,"a":83,"l":16.7,"t":12.5,"d":"atomic","c":122,"st":14,"us":1},{"v":"Klaviyo","q":70,"a":32,"l":9.1,"t":8,"d":"atomic","c":260,"st":9,"us":1},{"v":"Intercom","q":70,"a":61,"l":14.6,"t":11,"d":"atomic","c":211,"st":17,"us":1},{"v":"DigitalGenius","q":60,"a":67,"l":13,"t":11.2,"d":"atomic","c":393,"st":14},{"v":"Zendesk","q":60,"a":42,"l":11,"t":7.1,"d":"atomic","c":459,"st":26,"us":1},{"v":"Kodif","q":59,"a":49,"l":14.3,"t":5,"d":"streaming","c":188,"st":14,"us":1},{"v":"Siena","q":56,"a":76,"l":9.8,"t":7.5,"d":"atomic","c":318,"st":8,"us":1},{"v":"Envive","q":54,"a":20,"l":6.3,"t":2.8,"d":"atomic","c":470,"st":9},{"v":"Rep AI","q":53,"a":76,"l":13.7,"t":7,"d":"streaming","c":62,"st":42},{"v":"Ada","q":49,"a":73,"l":10.8,"t":8.1,"d":"atomic","c":408,"st":18,"us":1}]};/*FJB_END*/
       var JOBCOLS=[{k:'q',l:'Quality (LLM judge)',tip:'Blind LLM-judge quality out of 100, scored on a per-lane rubric via binary evidence-forced checks. Code derives the score, the judge never picks a number.'},{k:'a',l:'Automation rate',tip:'Share of conversations resolved with no human handover and no out-of-channel deflection (no email us or call us). The containment metric.'},{k:'l',l:'Full answer',tip:'Mean time to the complete final answer, cold session, never stopped on a let-me-check stall.'},{k:'t',l:'First signal',tip:'Median time to the first visible token. Streaming shows substance early, atomic lands the whole reply at once.'},{k:'c',l:'Conversations',tip:'Judged conversations for this vendor in this job over the last 90 days.'},{k:'st',l:'Stores',tip:'Distinct live storefronts tested for this vendor in this job.'}];
       var COLS={overall:[{k:'ov',l:'Overall',tip:'The average of the Shopping and Support scores. A vendor headline rank.'},{k:'cs',l:'Shopping',tip:'Shopping composite out of 100: 40% automation, 35% quality, 25% speed. Speed weighs higher pre-sale because latency drives conversion.'},{k:'cp',l:'Support',tip:'Support composite out of 100: 50% automation, 40% quality, 10% speed. Automation weighs highest post-sale because containment is the job.'}],shopping:JOBCOLS,support:JOBCOLS};
-      var M='overall', K='ov', DIR=-1;
-      function cell(r,k){ if(k==='a')return r.a+'%'; if(k==='l')return r.l+'s'; if(k==='t')return r.t+'s'+(r.d?'<span class="deliv">'+r.d+'</span>':''); return r[k]; }
-      function render(){
-        var cols=COLS[M], data=FJB[M].slice();
+      var MD=[
+        {v:'Gorgias',a:79,q:76,us:1},{v:'Yuma',a:82,q:69.5},{v:'Rep AI',a:78.5,q:55},
+        {v:'Decagon',a:75,q:66},{v:'Intercom',a:74,q:68},{v:'Siena',a:74.5,q:57.5},
+        {v:'DigitalGenius',a:72.5,q:51},{v:'Ada',a:70.5,q:49.5},{v:'Sierra',a:61.5,q:68.5},
+        {v:'Kodif',a:56.5,q:57.5},{v:'Envive',a:50,q:58},{v:'Zendesk',a:44,q:48},{v:'Klaviyo',a:36.5,q:69}
+      ];
+      var M='table', K='ov', DIR=-1;
+      function renderTable(){
+        var cols=COLS.overall, data=FJB.overall.slice();
         var head='<tr><th class="rank">#</th><th class="vendor">Vendor</th>';
         cols.forEach(function(c){ head+='<th class="n srt" data-k="'+c.k+'" onclick="fjbSort(\''+c.k+'\')"><span class="tt" data-tip="'+c.tip+'">'+c.l+'</span></th>'; });
         head+='</tr>';
@@ -598,14 +617,41 @@ html.anim .hero .rv.in,html.anim .hero .rv-stagger.in>*{opacity:1;transform:none
         data.sort(function(x,y){var a=x[K],b=y[K];return a<b?-DIR:a>b?DIR:0;});
         var tb=document.getElementById('fjb-body'); if(!tb) return;
         tb.innerHTML=data.map(function(r,i){
-          var tds=''; cols.forEach(function(c){ tds+='<td class="n tnum">'+cell(r,c.k)+'</td>'; });
+          var tds=''; cols.forEach(function(c){ tds+='<td class="n tnum">'+r[c.k]+'</td>'; });
           return '<tr'+(r.us?' class="hl"':'')+'><td class="rank tnum">'+(i+1)+'</td><td class="vendor"><span class="vname">'+r.v+'</span></td>'+tds+'</tr>';
         }).join('');
         var ths=document.querySelectorAll('#fjb-table th.srt');
         for(var j=0;j<ths.length;j++){ ths[j].setAttribute('data-dir', ths[j].getAttribute('data-k')===K?(DIR<0?'desc':'asc'):''); }
       }
-      window.fjbSort=function(k){ if(K===k) DIR*=-1; else { K=k; DIR=(k==='l'||k==='t')?1:-1; } render(); };
-      window.fjbSet=function(m){ M=m; K=(m==='overall'?'ov':'q'); DIR=-1; var bs=document.querySelectorAll('.fjb-btn'); for(var j=0;j<bs.length;j++){ bs[j].setAttribute('aria-selected', bs[j].getAttribute('data-m')===m); } render(); };
+      function renderMatrix(){
+        var W=1120,H=520,L=58,R=18,T=10,B=54;
+        function X(a){return L+(a-40)/60*(W-R-L);} function Y(q){return T+(100-q)/60*(H-B-T);}
+        function clamp(v){return Math.max(40,Math.min(100,v));}
+        var LEFT={Decagon:1,Siena:1,Ada:1,Kodif:1};
+        var g='';
+        g+='<line x1="'+L+'" y1="'+T+'" x2="'+L+'" y2="'+(H-B)+'" class="spine"/>';
+        g+='<line x1="'+L+'" y1="'+(H-B)+'" x2="'+(W-R)+'" y2="'+(H-B)+'" class="spine"/>';
+        g+='<line x1="'+X(70)+'" y1="'+T+'" x2="'+X(70)+'" y2="'+(H-B)+'" class="mid"/>';
+        g+='<line x1="'+L+'" y1="'+Y(70)+'" x2="'+(W-R)+'" y2="'+Y(70)+'" class="mid"/>';
+        [40,60,80,100].forEach(function(v){ g+='<text x="'+X(v)+'" y="'+(H-B+22)+'" class="tick" text-anchor="middle">'+v+'</text>'; g+='<text x="'+(L-10)+'" y="'+(Y(v)+4)+'" class="tick" text-anchor="end">'+v+'</text>'; });
+        g+='<text x="'+((L+W-R)/2)+'" y="'+(H-8)+'" class="axis" text-anchor="middle">AUTOMATION RATE</text>';
+        var my=(T+H-B)/2; g+='<text x="16" y="'+my+'" class="axis" text-anchor="middle" transform="rotate(-90 16 '+my+')">ANSWER QUALITY</text>';
+        g+='<text x="'+(W-R-6)+'" y="'+(T+18)+'" class="quad" text-anchor="end">HIGH QUALITY &#183; HIGH AUTOMATION</text>';
+        g+='<text x="'+(L+12)+'" y="'+(H-B-12)+'" class="quad" text-anchor="start">LOW &#183; LOW</text>';
+        MD.forEach(function(d){ var cx=X(clamp(d.a)),cy=Y(clamp(d.q)),left=LEFT[d.v];
+          if(d.us){ g+='<image href="/brand/icons/h2h-halo.svg" x="'+(cx-14)+'" y="'+(cy-14)+'" width="28" height="28"/><image href="/brand/icons/h2h-dot-gorgias.svg" x="'+(cx-9)+'" y="'+(cy-9)+'" width="18" height="18"/><text x="'+(cx+16)+'" y="'+(cy+5)+'" class="lbl us" text-anchor="start">'+d.v+'</text>'; }
+          else{ g+='<image href="/brand/icons/h2h-dot-taupe.svg" x="'+(cx-6)+'" y="'+(cy-6)+'" width="12" height="12"/><text x="'+(left?cx-11:cx+11)+'" y="'+(cy+5)+'" class="lbl" text-anchor="'+(left?'end':'start')+'">'+d.v+'</text>'; }
+        });
+        var el=document.getElementById('ovm-svg'); if(el) el.innerHTML='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Overall automation vs answer quality by vendor">'+g+'</svg>';
+      }
+      function render(){
+        var axis=(M==='axis');
+        var tw=document.getElementById('fjb-tablewrap'), aw=document.getElementById('fjb-axiswrap'), cap=document.querySelector('.fjb-cap');
+        if(tw) tw.hidden=axis; if(aw) aw.hidden=!axis; if(cap) cap.style.display=axis?'none':'';
+        if(axis) renderMatrix(); else renderTable();
+      }
+      window.fjbSort=function(k){ if(K===k) DIR*=-1; else { K=k; DIR=-1; } renderTable(); };
+      window.fjbSet=function(m){ M=m; var bs=document.querySelectorAll('.fjb-btn'); for(var j=0;j<bs.length;j++){ bs[j].setAttribute('aria-selected', bs[j].getAttribute('data-m')===m); } render(); };
       render();
     })();
     </script>
