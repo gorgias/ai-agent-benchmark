@@ -126,6 +126,12 @@ test("conv-text.json parses as JSON", () => {
   assert.doesNotThrow(() => JSON.parse(read("../conv-text.json")));
 });
 
+test("plain /report does not inherit conversations from saved state", () => {
+  const h = read("../report.html");
+  assert.match(h, /if\(VIEW==='best'\|\|VIEW==='conversations'\) VIEW='shopping'/);
+  assert.match(h, /if\(_pv==='conversations'\) VIEW='conversations';\s*else VIEW='support';/);
+});
+
 test("report.html conversations view has markup and is not stubbed", () => {
   const h = read("../report.html");
   assert.ok(/id="conv-sec"/.test(h), "missing #conv-sec");
