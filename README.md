@@ -203,7 +203,7 @@ index.html          landing (noindex → Summary)
 
 ## Coverage reality
 
-Vendor widgets differ wildly in drivability. **Measured** = a storefront that produced timed conversations; **targeted** = in the test set but not yet (or not) drivable. Gorgias, Envive, Sierra, Siena, Zendesk, Ada and Yuma-native drive well; Rep AI / Kodif / Humind are headed-only with hard cases; some competitor widgets load only client-side and resist cold capture. The **Coverage** section reports each store's real per-lane status honestly.
+Vendor widgets differ wildly in drivability. **Measured** = a storefront that produced timed conversations; **targeted** = in the test set but not yet (or not) drivable. Gorgias, Envive, Sierra, Siena, Zendesk, Ada and Yuma-native drive well; Rep AI / Kodif are headed-only with hard cases; some competitor widgets load only client-side and resist cold capture. The **Coverage** section reports each store's real per-lane status honestly.
 
 Two scoping rules worth knowing before reading any number:
 

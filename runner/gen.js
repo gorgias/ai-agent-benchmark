@@ -24,12 +24,11 @@ import { isQuarantinedConversation } from "./conversation-quarantine.js";
 // increase, so a widget's loader ("I'm looking into this…"), appended timestamps
 // and multi-bubble answers inflate the count even when nothing streams (Gorgias
 // medians ~4 = a placeholder loader, NOT tokens). Conversely a fast token stream
-// can coalesce into a single measured jump (Amazon Rufus medians 1 despite really
-// streaming). So we pin the engines we've verified by eye and fall back to the
-// heuristic — with a higher bar (≥6) so loader/chrome churn no longer false-flags.
+// can coalesce into a single measured jump). So we pin the engines we've verified
+// by eye and fall back to the heuristic — with a higher bar (≥6) so loader/chrome
+// churn no longer false-flags.
 const DELIVERY_OVERRIDE = {
   "Gorgias": "atomic",       // "I'm looking into this…" is a loader, then the answer lands at once — not streaming
-  "Amazon Rufus": "streaming", // genuinely token-streams; capture coalesces it, so the proxy misses it
 };
 import { extractRecommendedProducts } from "./product-recommendation-bars.js";
 import { normalizeUserMessage } from "./message-style.js";
@@ -95,7 +94,6 @@ const CAPS = {
   "envive-kut": { qr: 1, cards: 0, reviews: 0, completes: 1 },
   "repai-fresh": { qr: 2, cards: 2, reviews: 2, completes: 2 },
   "kodif-dsc": { qr: 2, cards: 2, reviews: 2, completes: 2 },
-  "humind-chaiselongue": { qr: 2, cards: 2, reviews: 2, completes: 2 },
 };
 
 // ---- curated fallback for sites we currently cannot drive cold (no fresh JSON). ----
@@ -105,7 +103,6 @@ const CURATED = {
   "siena-figs": { method: "pending", successTxt: "pending", successCls: "p-na", what: "Siena widget didn't initialize in a cold headless run (lazy-loaded / bot-protected). Live capture pending." },
   "repai-fresh": { method: "pending", successTxt: "pending", successCls: "p-na", what: "Rep AI (initRep) loads only in a headed browser and uses a closed shadow DOM — automated drive pending." },
   "kodif-dsc": { method: "pending", successTxt: "pending", successCls: "p-na", what: "Kodif (kodif-chat-widget) detects headless and refuses to load — headed-capture harness pending." },
-  "humind-chaiselongue": { method: "pending", successTxt: "pending", successCls: "p-na", what: "Humind widget (FR) detects headless — headed-capture harness pending." },
 };
 
 const host = (url) => { try { return new URL(url).host.replace(/^www\./, "") + new URL(url).pathname.replace(/\/$/, ""); } catch { return (url || "").replace(/^https?:\/\//, "").replace(/^www\./, "").replace(/\/$/, ""); } };
@@ -421,7 +418,7 @@ function pendingEntry(site, mode) {
 
 // Vendors that already have a NON-candidate store — used to hide untested
 // breadth-candidate 2nd stores (Sonos, Chubbies…) while still showing a new
-// vendor whose only listed store happens to be flagged candidate (Rep/Kodif/Humind).
+// vendor whose only listed store happens to be flagged candidate (Rep/Kodif).
 const vendorsWithReal = new Set(SITES.filter(s => s.url && !s.candidate).map(s => s.vendor));
 
 async function buildMode(mode) {
@@ -531,7 +528,7 @@ const STATS = {
 // into takeaways' scoreboard so the Summary can NEVER drift from the Detailed report again.
 const PALETTE = { Gorgias:"#f0603f", Envive:"#22c55e", Ada:"#64748b", Siena:"#a855f7", Sierra:"#0ea5e9",
   Kodif:"#eab308", "Zendesk":"#3b82f6", "Rep AI":"#ef4444", DigitalGenius:"#8b5cf6", Yuma:"#14b8a6",
-  Humind:"#f59e0b", "Google Agentic":"#4285F4", Klaviyo:"#111", "Shopify Inbox":"#95BF47" };
+  "Google Agentic":"#4285F4", Klaviyo:"#111", "Shopify Inbox":"#95BF47" };
 const speedScoreG = speedScore;   // shared with the dry-run preview — see lane-weights.js
 const latNumG = (s) => { const m = (s.lat || "").match(/[\d.]+/); return m ? parseFloat(m[0]) : null; };
 function laneScores(arr, lane, cutoff = RANK_CUTOFF) {
@@ -579,11 +576,10 @@ const shopS = laneScores(STORES, "shopping"), supS = laneScores(SUPPORT, "suppor
 const D_OBJ = {};
 // ---- AUTO-GENERATED VERDICT: rank claims are derived from the same lane composites, never
 // hand-typed — so the Summary headline can never contradict the scoreboard again. ----
-const OUTLIER_V = new Set(["Amazon Rufus"]);  // references, not ranked head-to-head
 // Lane weights live in lane-weights.js so the dry-run preview scores identically. Do not
 // re-declare them here (2026-09-03 regression: the preview had its own flat 0.4/0.4/0.2).
 const laneRank = (scores, w) => Object.entries(scores)
-  .filter(([v, sc]) => sc && sc.q != null && sc.n >= MIN_RANK_CONVS && !OUTLIER_V.has(v))
+  .filter(([v, sc]) => sc && sc.q != null && sc.n >= MIN_RANK_CONVS)
   .map(([v, sc]) => ({ v, comp: Math.round(w.a * sc.a + w.q * sc.q + w.s * speedScoreG(sc.l)) }))
   .sort((a, b) => b.comp - a.comp);
 const rShop = laneRank(shopS, LANE_W.shopping), rSupp = laneRank(supS, LANE_W.support);
@@ -643,7 +639,7 @@ const SUMMARY_VALUES = {
 // ---- Facts the Brand 2.0 pages (takeaways-v2.html, report-v2.html) state in prose. Derived here from the same
 // lane scores as the scoreboard, never hand-typed: until 2026-09-13 takeaways-v2 claimed 94/100 and "best answer
 // quality in the field" while Gorgias sat at 76, second to Sierra, because nothing re-checked the copy. ----
-const rankedRows = (S) => Object.entries(S).filter(([v, sc]) => sc && sc.q != null && sc.n >= MIN_RANK_CONVS && !OUTLIER_V.has(v)).map(([v, sc]) => ({ v, ...sc }));
+const rankedRows = (S) => Object.entries(S).filter(([v, sc]) => sc && sc.q != null && sc.n >= MIN_RANK_CONVS).map(([v, sc]) => ({ v, ...sc }));
 const medianOf = (xs) => { const s = [...xs].sort((a, b) => a - b), m = s.length >> 1; return s.length ? (s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2) : null; };
 const joinAnd = (xs) => xs.length <= 1 ? (xs[0] || "none") : `${xs.slice(0, -1).join(", ")}, and ${xs[xs.length - 1]}`;
 const handoverPct = (arr, v) => {
@@ -673,7 +669,7 @@ function laneFacts(S, R, arr) {
 const FS = laneFacts(shopS, rShop, STORES), FP = laneFacts(supS, rSupp, SUPPORT);
 const laneConvs = (arr) => { const n = {}; arr.filter((s) => !s.date || s.date >= RANK_CUTOFF).forEach((s) => { n[s.vendor] = (n[s.vendor] || 0) + ((s.themes && s.themes.length) || 0); }); return n; };
 const nShop = laneConvs(STORES), nSupp = laneConvs(SUPPORT);
-const UNRANKED = [...new Set([...Object.keys(nShop), ...Object.keys(nSupp)])].filter((v) => !OUTLIER_V.has(v)).sort().map((v) => {
+const UNRANKED = [...new Set([...Object.keys(nShop), ...Object.keys(nSupp)])].sort().map((v) => {
   const parts = [[nShop[v], "shopping"], [nSupp[v], "support"]].filter(([n]) => n > 0 && n < MIN_RANK_CONVS).map(([n, lane]) => `${n} ${lane}`);
   return parts.length ? `${v} (${parts.join(", ")})` : null;
 }).filter(Boolean);

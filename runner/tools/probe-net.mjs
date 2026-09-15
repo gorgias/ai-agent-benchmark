@@ -1,6 +1,6 @@
 // tools/probe-net.mjs — diagnose a NET-transport widget whose replies are not being captured.
 //
-// The net transport (Rep AI, Humind) times a turn off backend responses, not the DOM:
+// The net transport (Rep AI) times a turn off backend responses, not the DOM:
 // run.js buffers every response whose URL matches WIDGETS[w].net.match, parsed by .net.parse.
 // If the vendor moves its endpoint or changes the payload shape, match/parse silently yield
 // nothing, complete_ms stays null, and every conversation is dropped as "no measurable latency"
