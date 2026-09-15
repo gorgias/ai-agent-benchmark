@@ -126,6 +126,19 @@ test("conv-text.json parses as JSON", () => {
   assert.doesNotThrow(() => JSON.parse(read("../conv-text.json")));
 });
 
+test("report.html conversations view has markup and is not stubbed", () => {
+  const h = read("../report.html");
+  assert.ok(/id="conv-sec"/.test(h), "missing #conv-sec");
+  assert.ok(/id="conv-feed"/.test(h), "missing #conv-feed");
+  assert.ok(/id="conv-filters"/.test(h), "missing #conv-filters");
+  assert.ok(!/function ensureConvText\(\)\{\s*return;/.test(h), "ensureConvText is stubbed");
+  assert.ok(!/function renderConv\(\)\{\s*return;/.test(h), "renderConv is stubbed");
+  const keys = Object.keys(JSON.parse(read("../conv-text.json")));
+  assert.ok(keys.length > 0, "conv-text.json has no conversations");
+  const sample = JSON.parse(read("../conv-text.json"))[keys[0]];
+  assert.ok(Array.isArray(sample) && sample.some((t) => t && (t.q || t.a)), "conv-text.json turns have no q/a");
+});
+
 // Regression: the verdict used to claim quality 94 while its own scoreboard said 77.
 // Check every occurrence, including head-to-head and provider-profile copy.
 test("summary metrics match the scoreboard and have no unfilled placeholders", () => {
