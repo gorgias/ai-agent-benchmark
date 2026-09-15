@@ -295,11 +295,16 @@ section{
   display:flex !important;
   flex-direction:row !important;
   flex-wrap:nowrap;
-  align-items:flex-end;
+  align-items:center;
   gap:8px;
   margin:0;
   width:100%;
   max-width:100%;
+}
+.hs-inline-form fieldset,
+.hs-inline-form fieldset.form-columns-1,
+.hs-inline-form fieldset.form-columns-2{
+  display:contents !important;
 }
 .hs-inline-form fieldset,
 .hs-inline-form .hs-form-field,
@@ -312,6 +317,7 @@ section{
   margin:0 !important;
   padding:0 !important;
   border:0 !important;
+  min-height:0 !important;
 }
 .hs-inline-form .hs-form-field{
   flex:1 1 auto;
@@ -320,6 +326,9 @@ section{
 .hs-inline-form .hs-submit,
 .hs-inline-form .actions{
   flex:0 0 auto;
+  display:flex !important;
+  align-items:center;
+  height:48px;
 }
 .hs-inline-form label.hs-main-font-element,
 .hs-inline-form .hs-form-field > label,
@@ -355,11 +364,14 @@ section{
 }
 .hs-inline-form input.hs-input::placeholder{color:var(--color-muted-foreground)}
 .hs-inline-form .hs-button,
-.hs-inline-form input.hs-button{
-  display:inline-flex;
+.hs-inline-form input.hs-button,
+.hs-inline-form input[type="submit"]{
+  display:inline-flex !important;
   align-items:center;
   justify-content:center;
-  height:48px;
+  height:48px !important;
+  min-height:48px !important;
+  margin:0 !important;
   padding:0 24px !important;
   border:0 !important;
   border-radius:var(--radius-pill) !important;
@@ -368,10 +380,13 @@ section{
   font-family:var(--font-sans) !important;
   font-size:16px !important;
   font-weight:500 !important;
-  line-height:1.5 !important;
+  line-height:48px !important;
   white-space:nowrap;
   cursor:pointer;
   box-shadow:none !important;
+  box-sizing:border-box !important;
+  appearance:none;
+  -webkit-appearance:none;
 }
 .hs-inline-form .hs-button:hover,
 .hs-inline-form input.hs-button:hover{
