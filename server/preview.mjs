@@ -74,7 +74,7 @@ function sendFile(res, abs) {
 
 const CONV_NEXT = "/report?view=conversations";
 const CONV_COOKIE = "sb_conv";
-const CONV_PASS = process.env.CONV_PASSWORD || process.env.SITE_PASSWORD || "gorgiasevalaccess";
+const CONV_PASS = process.env.CONV_PASSWORD || "gorgiasevalaccess";
 const CONV_TOKEN = createHash("sha256").update("gorgias-benchmark:v1:" + CONV_PASS).digest("hex");
 
 function hasConvCookie(req) {

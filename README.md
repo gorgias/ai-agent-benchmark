@@ -16,14 +16,10 @@ Every conversation is captured cold (fresh incognito context), driven with **fre
 
 **Live board:** https://gorgias-ai-benchmark.vercel.app/report — **Summary:** https://gorgias-ai-benchmark.vercel.app/takeaways
 
-> **The board is public.** Since 2026-09-03 there is no sign-in: `middleware.js` returns early on
-> `SITE_IS_PUBLIC = true`. That was a deliberate call — the report names eighteen vendors and
-> publishes numbers several of them will not like, and a competitive benchmark nobody outside can
-> check is only an assertion. Write for that audience.
->
-> The gate itself is intact underneath, dormant rather than removed: delete the three
-> `SITE_IS_PUBLIC` lines and set `SITE_PASSWORD` in Vercel and the styled login is back exactly as
-> it was. It is fail-closed, so an unset password locks everyone out rather than opening the site.
+> **The board is public.** Overview, Full results, and the rubric need no sign-in. Conversation
+> transcripts (`/report?view=conversations`) are the exception: Edge middleware and local
+> `server/preview.mjs` gate them with `CONV_PASSWORD` (not `SITE_PASSWORD`, which was the old
+> whole-site secret and would otherwise change the cookie token).
 >
 > The old `gorgias.github.io/ai-agent-benchmark/*` URLs serve redirect stubs to the Vercel site —
 > do not re-publish anything to GitHub Pages. (`.github/workflows/deploy-pages.yml` was deleted
@@ -194,7 +190,7 @@ server/
   source-merchants.mjs  finds + live-verifies new storefronts per vendor
   README.md         the operational guide for all of the above
 fly.toml            the scheduled Machine (daily, restart: never, persistent volume)
-middleware.js       edge access gate — currently open (SITE_IS_PUBLIC), gate dormant but intact
+middleware.js       Edge gate for conversation transcripts only (`CONV_PASSWORD`)
 docs/RUNBOOK.md     end-to-end operations, parallel-capture rules, troubleshooting, vendor quirks
 docs/METHODOLOGY.md scoring rules, channel-deflection penalty, store selection & neutrality
 report.html         detailed interactive report      takeaways.html   board summary
