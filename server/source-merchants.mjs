@@ -12,11 +12,13 @@
 // real browser loads the storefront and BOTH the vendor's widget host loads AND a launcher or
 // composer actually mounts on a cold anonymous visit.
 //
-// Candidate feed is pluggable, deliberately: sourcing needs a tech-detection dataset, not an
-// LLM. Order of preference:
-//   1. STORELEADS_API_KEY  → query merchants by detected chat technology (the right source)
-//   2. server/candidates.json  → { "Vendor": ["https://store.com", ...] } manual/exported seed
-// Either way the VERIFIER is the same, so a bad feed cannot pollute the board.
+// Candidate feed, in this order. StoreLeads was removed on 2026-09-15: its key had stopped working
+// and sourcing silently added nothing for a week.
+//   1. server/research-merchants.mjs → Claude with web search over PUBLIC sources (customer stories,
+//      app-store reviews, press, brands' help pages), a few vendors per night in rotation.
+//   2. server/candidates.json → { "Vendor": ["https://store.com", ...] } static seed list.
+// Research only PROPOSES stores. The verifier below is what accepts one, so a wrong or stale claim
+// costs a browser visit, never a bad row on the board.
 //
 //   node server/source-merchants.mjs --dry            # verify + report, write nothing
 //   PER_VENDOR=2 node server/source-merchants.mjs     # verify, append to vendors.js, commit
@@ -25,6 +27,7 @@ import path from "node:path";
 import { execFileSync } from "node:child_process";
 import { createRequire } from "node:module";
 import { pathToFileURL } from "node:url";
+import { researchVendor, newResearchClient, hostOf, RESEARCH_MODEL } from "./research-merchants.mjs";
 
 const ROOT = path.resolve(new URL(".", import.meta.url).pathname, "..");
 const RUNNER = path.join(ROOT, "runner");
@@ -69,40 +72,45 @@ const VERIFY = {
 };
 
 const known = new Set(STORES.map((s) => (s.url || "").replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, "")).filter(Boolean));
+// By host too: a store registered under a deep URL (brand.com/pages/contact) is still the same store.
+const knownHosts = new Set(STORES.map((s) => hostOf(s.url || "")).filter(Boolean));
 const norm = (u) => u.replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, "");
 
 // ── candidate feed ─────────────────────────────────────────────────────────────
-// StoreLeads failures, per vendor. Until 2026-09-15 a rejected key (HTTP 401) parsed as "no domains", so
-// every night reported "0 candidates" and nothing said why: sourcing was dead for at least a week.
-const feedErrors = [];
+// Research first, a few vendors per night. Each researched vendor is one Claude request with up to
+// RESEARCH_MAX_SEARCHES web searches (about $0.90 each at medium effort, measured 2026-09-15), so RESEARCH_VENDORS_PER_RUN bounds the
+// nightly spend. The rotation walks the vendor list in alphabetical order, the same for every vendor.
+const RESEARCH_VENDORS = Number(process.env.RESEARCH_VENDORS_PER_RUN ?? 3);
+const RESEARCH_MAX_SEARCHES = Number(process.env.RESEARCH_MAX_SEARCHES || 4);
+const RESEARCH_BUDGET_MS = Number(process.env.RESEARCH_BUDGET_MS || 12 * 60 * 1000);   // leaves the rest for verifying
+const research = [];     // one entry per researched vendor, for the report
+const evidenceOf = {};   // candidate URL → its public evidence, written into the vendors.js row
+
 async function candidates() {
-  const out = {};
   const seed = path.join(ROOT, "server", "candidates.json");
-  if (process.env.STORELEADS_API_KEY) {
-    // StoreLeads indexes detected storefront technology, which is exactly the signal we want:
-    // merchants where the vendor's chat app is INSTALLED, rather than merchants a vendor
-    // mentions in marketing. Still only a candidate list — every hit goes through the verifier.
-    for (const vendor of Object.keys(VERIFY)) {
-      const app = ({ Gorgias: "gorgias-chat", Intercom: "intercom", Zendesk: "zendesk", Klaviyo: "klaviyo",
-        Siena: "siena", Kodif: "kodif", Yuma: "yuma", Ada: "ada" })[vendor] || vendor.toLowerCase();
-      try {
-        const r = await fetch(`https://storeleads.app/json/api/v1/all/domain?app=${encodeURIComponent(app)}&limit=40`,
-          { headers: { Authorization: `Bearer ${process.env.STORELEADS_API_KEY}` } });
-        const body = (await r.text()).split(process.env.STORELEADS_API_KEY).join("[key]");
-        if (!r.ok) { feedErrors.push({ vendor, status: r.status, why: body.slice(0, 120) }); continue; }
-        out[vendor] = (JSON.parse(body)?.domains || []).map((d) => `https://${d.name || d.domain}`).filter(Boolean);
-      } catch (e) { feedErrors.push({ vendor, status: "error", why: String(e).slice(0, 120) }); }
+  const seeded = existsSync(seed) ? JSON.parse(readFileSync(seed, "utf8")) : {};
+  const out = {};
+  if (!process.env.ANTHROPIC_API_KEY) console.log("research: skipped (no ANTHROPIC_API_KEY), seed list only");
+  else if (RESEARCH_VENDORS > 0) {
+    const vendors = Object.keys(VERIFY).sort();
+    const day = Math.floor(Date.now() / 86400000);
+    const picks = [...new Set(Array.from({ length: Math.min(RESEARCH_VENDORS, vendors.length) },
+      (_, i) => vendors[(day * RESEARCH_VENDORS + i) % vendors.length]))];
+    const client = newResearchClient();
+    for (const vendor of picks) {
+      if (Date.now() - T0 > RESEARCH_BUDGET_MS) { research.push({ vendor, skipped: true }); continue; }
+      const knownHere = STORES.filter((s) => s.vendor === vendor).map((s) => hostOf(s.url || "")).filter(Boolean);
+      const r = await researchVendor(client, { vendor, want: PER_VENDOR * 6, known: knownHere, maxSearches: RESEARCH_MAX_SEARCHES });
+      research.push(r);
+      console.log(`research ${vendor}: ${r.error ? `failed (${r.error})` : `${r.candidates.length} candidates`}, ` +
+        `dropped ${r.dropped.known} known / ${r.dropped.notStorefront} not a store / ${r.dropped.unsupported} without a found source, ` +
+        `${r.usage.searches} searches, ~$${r.cost.toFixed(2)}`);
+      for (const c of r.candidates) evidenceOf[c.url] = c;
+      out[vendor] = r.candidates.map((c) => c.url);
     }
-    if (feedErrors.length) {
-      console.error(`storeleads: ${feedErrors.length} request(s) failed, e.g. ${feedErrors[0].vendor}: HTTP ${feedErrors[0].status} ${feedErrors[0].why}`);
-      // A vendor whose request failed falls back to the seed list, so a dead key degrades sourcing instead of stopping it.
-      const seeded = existsSync(seed) ? JSON.parse(readFileSync(seed, "utf8")) : {};
-      for (const e of feedErrors) if (!out[e.vendor] && seeded[e.vendor]) { out[e.vendor] = seeded[e.vendor]; e.seeded = true; }
-    }
-    return out;
   }
-  if (existsSync(seed)) return JSON.parse(readFileSync(seed, "utf8"));
-  console.error("No candidate feed: set STORELEADS_API_KEY or create server/candidates.json");
+  // Seed URLs go after the researched ones, so research gets the queue slots whenever it finds something.
+  for (const [vendor, urls] of Object.entries(seeded)) out[vendor] = [...(out[vendor] || []), ...urls];
   return out;
 }
 
@@ -170,7 +178,7 @@ const queue = [];
 for (const [vendor, urls] of Object.entries(feed)) {
   let queued = 0;
   for (const url of urls) {
-    if (known.has(norm(url))) continue;                   // already in the benchmark
+    if (known.has(norm(url)) || knownHosts.has(hostOf(url))) continue;                   // already in the benchmark
     // A little headroom over PER_VENDOR: most candidates are rejected, so queueing exactly
     // PER_VENDOR per vendor would almost always accept zero.
     if (queued >= PER_VENDOR * 6) break;
@@ -213,7 +221,7 @@ if (accepted.length && !DRY) {
   const rows = accepted.map((a) => {
     const key = `${WIDGET_OF[a.vendor] || a.vendor.toLowerCase()}-${slug(a.url)}`;
     const todo = a.competing.length ? `, todo: "${a.note}"` : "";
-    return `  { key: "${key}", vendor: "${a.vendor}", store: "${slug(a.url)}", url: "${a.url}", widget: "${WIDGET_OF[a.vendor]}", candidate: true${todo} }, // auto-sourced ${stamp}: host loaded + widget mounted on a cold visit`;
+    return `  { key: "${key}", vendor: "${a.vendor}", store: "${slug(a.url)}", url: "${a.url}", widget: "${WIDGET_OF[a.vendor]}", candidate: true${todo} }, // auto-sourced ${stamp}${evidenceOf[a.url] ? ` from ${evidenceOf[a.url].evidenceUrl}` : ""}: host loaded + widget mounted on a cold visit`;
   });
   const block = `\n  // ── Auto-sourced ${stamp} by server/source-merchants.mjs. Each row was verified in a\n`
     + `  // real browser: the vendor's widget host loaded AND a launcher/container mounted on a cold\n`
@@ -245,7 +253,9 @@ const missed = Object.keys(VERIFY).filter((v) => !byVendor[v]);
 const lines = [
   `${accepted.length ? ":shopping_trolley:" : ":large_yellow_circle:"} *Merchant sourcing — ${new Date().toISOString().slice(0, 10)}*`,
   `*${accepted.length} verified* / ${accepted.length + rejected.length} candidates checked` + (DRY ? " _(dry run)_" : ""),
-  feedErrors.length ? `:warning: StoreLeads failed for ${feedErrors.length} vendor(s): HTTP ${[...new Set(feedErrors.map((e) => e.status))].join("/")} (${feedErrors[0].why})` + (feedErrors.some((e) => e.seeded) ? ", fell back to server/candidates.json" : ", no fallback list") : "",
+  research.length ? `:mag: Research with ${RESEARCH_MODEL} + web search: ` +
+    research.map((r) => r.skipped ? `${r.vendor} skipped (time budget)` : r.error ? `${r.vendor} failed (${r.error})` : `${r.vendor} ${r.candidates.length} candidates`).join(", ") +
+    ` · ${research.reduce((n, r) => n + (r.usage ? r.usage.searches : 0), 0)} searches · ~$${research.reduce((n, r) => n + (r.cost || 0), 0).toFixed(2)}` : "",
   ...Object.entries(byVendor).map(([v, n]) => `• ${v}: +${n}`),
   missed.length ? `_no new verified store for: ${missed.join(", ")}_` : "",
   rejected.length ? `_rejected ${rejected.length}: ${[...new Set(rejected.map((r) => r.why))].slice(0, 3).join(" · ")}_` : "",
