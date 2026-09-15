@@ -28,7 +28,7 @@ const SIG = {
   ada:      { net: /ada\.support|ada\.cx/i, globals: ["adaEmbed"], dom: ['#ada-button-frame','iframe[title*="Ada" i]','[id*="ada-" i]'] },
   repai:    { net: /myrepai\.com|hellorep|getrep|\brep\.ai\b/i, globals: ["initRep","Rep"], dom: ['#ads-agent-host','[id*="rep-" i]'] },
   kodif:    { net: /kodif\.ai/i, globals: ["Kodif"], dom: ['#kodif-chat-widget','[id*="kodif" i]'] },
-  humind:   { net: /thehumind\.com|\bhumind\b/i, globals: ["Humind"], dom: ['humind-gift-finder','[class*="humind" i]'] },
+  humind:   { net: /thehumind\.com|\bhumind\b/i, globals: ["Humind"], dom: ['humind-gift-finder','[class*="humind" i]'] }, // not on the roster; keep so we do not mislabel a Humind store as another vendor
   klaviyo:  { net: /klaviyo-onsite|customer-hub-data|klaviyo\.com/i, globals: ["customerHub"], dom: ['[id*="klaviyo" i]','[class*="klaviyo" i]'] },
   decagon:  { net: /decagon\.ai\/loaders|decagon/i, globals: [], dom: ['#decagon-iframe','#decagon-embed-container','[data-decagon-open]'] },
 };

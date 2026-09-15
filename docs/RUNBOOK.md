@@ -50,9 +50,8 @@ double-capturing.
 
 | Vendor | Quirk |
 |---|---|
-| Amazon Rufus | Logged-in only (dummy account, `secrets/amazon-state.json`), **headed**, bare `/dp/<ASIN>` URLs; dedicated `secrets/rufus-capture.mjs` |
-| Rep AI, Kodif, Humind | Headed capture only (`--headed`) |
-| Humind, Shopify Inbox, Google Agentic | **Walls** — 0 valid convs ever, unattended. Don't burn budget; document instead |
+| Rep AI, Kodif | Headed capture only (`--headed`) |
+| Shopify Inbox, Google Agentic | **Walls** — 0 valid convs ever, unattended. Don't burn budget; document instead |
 | Klaviyo, Meta AI, Decagon | Deflectors — partial capture only; expect high invalid rates |
 | Yuma (Atma…) | AI replies under a human first name → per-store `personas` in vendors.js prevents false handover |
 

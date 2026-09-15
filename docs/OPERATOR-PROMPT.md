@@ -5,7 +5,7 @@ machine: capture new conversations → blind-judge → merge scores → bake →
 deploy. Set the budget in the first line (the reference mission is ~300 valid convs).
 
 Requirements: push access to `gorgias/ai-agent-benchmark`, `gh` authenticated, Node 20+.
-No secrets needed (Amazon Rufus is optional and self-contained — see below).
+No secrets needed.
 
 ---
 
@@ -30,12 +30,8 @@ balancer — it does exactly this:
   LOAD_CAP=9 RUN_DATE=$RUN_DATE node tools/balance.mjs        # add --dry first to preview
 - Achievable vendors (capture unattended, feed these): Envive, Yuma, Siena, Gorgias, Ada,
   Kodif, Sierra, Meta AI, DigitalGenius (low yield ~0.8 valid/store — cap your patience).
-- WALLS — do NOT burn budget on: Humind, Shopify Inbox, Google Agentic (0 valid ever),
+- WALLS — do NOT burn budget on: Shopify Inbox, Google Agentic (0 valid ever),
   and treat Klaviyo/Decagon/Rep AI as low-yield probes (≤1 store attempt each, then move on).
-- Amazon Rufus is a special headed+logged-in stream (secrets/rufus-capture.mjs) — skip it
-  unless you specifically need it; it requires regenerating secrets/amazon-state.json via
-  secrets/amazon-login.mjs (credentials from AMAZON_EMAIL/AMAZON_PASSWORD, or a local
-  gitignored .amazon-creds — disposable account, never committed).
 
 ## Capture safety rules (non-negotiable — they protect the MEASUREMENT)
 - Max 3 parallel streams (≈6 headless pages) on a laptop; give each stream a DISJOINT

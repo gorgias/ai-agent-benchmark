@@ -14,8 +14,7 @@
 // LOAD_CAP pauses capture while system load is high so measured latencies stay clean.
 //
 // HARD RULE: convs are written by run.js to results/$RUN_DATE/conv/ and are NEVER moved,
-// renamed, or archived. This script only READS counts + shells out to run.js. Amazon Rufus
-// runs as its own headed/logged-in stream (secrets/rufus-capture.mjs), not here.
+// renamed, or archived. This script only READS counts + shells out to run.js.
 import { execFileSync } from "node:child_process";
 import { readdirSync, readFileSync, writeFileSync, existsSync } from "node:fs";
 import { STORES } from "../vendors.js";
@@ -34,10 +33,10 @@ const RUN_DATE = process.env.RUN_DATE || new Date().toISOString().slice(0, 10);
 // every other vendor is eligible, ordered by deficit. Self-maintaining, and equity by
 // construction. Pass TARGET explicitly only to force a specific ceiling.
 const TARGET_ENV = Number(process.env.TARGET) || 0;   // 0 / unset = adaptive
-const BUDGET   = Number(process.env.BUDGET) || 345;   // max NEW valid non-Amazon convs to add (rest is Rufus)
-const HEADED   = new Set(["Kodif", "Humind"]);                      // these only capture cleanly headed.
+const BUDGET   = Number(process.env.BUDGET) || 345;   // max NEW valid conversations to add
+const HEADED   = new Set(["Kodif"]);                      // these only capture cleanly headed.
 // Rep AI removed 2026-09-10: 0 valid from 104 headed captures, and its fixed driver is verified headless.
-const EXCLUDE  = new Set(["Amazon Rufus", "Spiffy.ai", "Google Agentic", "Shopify Inbox"]); // separate/structural-zero
+const EXCLUDE  = new Set(["Spiffy.ai", "Google Agentic", "Shopify Inbox"]); // separate/structural-zero
 // INCLUDE (optional whitelist): when set, ONLY these vendors are candidates — used to target the
 // productive, automatable tier (Envive/Yuma/DG/Siena) instead of draining the night into vendors
 // that can't be captured unattended.

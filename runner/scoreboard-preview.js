@@ -40,7 +40,6 @@ const PALETTE = {
   "Rep AI": "#ef4444",
   DigitalGenius: "#8b5cf6",
   Yuma: "#14b8a6",
-  Humind: "#f59e0b",
   "Google Agentic": "#4285F4",
   Klaviyo: "#111",
   "Shopify Inbox": "#95BF47",

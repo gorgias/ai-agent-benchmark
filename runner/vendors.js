@@ -323,7 +323,7 @@ export const WIDGETS = {
 
   // Mavenoid — product-troubleshooting assistant (nanit). It drives users through GUIDED
   // decision-tree troubleshooting, not a free-text chat, so our free-text conversation pools
-  // can't meaningfully drive it. Documented as a structural non-driver (like Humind / Shopify
+  // can't meaningfully drive it. Documented as a structural non-driver (like Shopify
   // Inbox); captured convs come back invalid (no free-text answer) — the honest finding. Added
   // 2026-07-13 when nanit was found mis-attributed to Envive.
   mavenoid: {
@@ -593,27 +593,6 @@ export const WIDGETS = {
       await shadowSend(page, REPAI_HOST, text);
     },
   },
-  rufus: {
-    scope: { kind: "dom", sel: "#rufus-conversation-container-inner" },
-    handover: [],   // Amazon's shopping AI never hands off to a human
-    async open(page) {
-      // Runner navigates with waitUntil:"commit" (page not loaded yet). Amazon is heavy, so
-      // WAIT for the page + the Rufus launcher before clicking, then wait for the composer.
-      await page.waitForLoadState("domcontentloaded").catch(() => {});
-      await page.waitForSelector('#nav-rufus-disco, input[placeholder*="specific info" i]', { timeout: 30000 }).catch(() => {});
-      await page.waitForTimeout(1500);
-      await dismiss(page).catch(() => {});
-      await page.locator('#nav-rufus-disco, input[placeholder*="specific info" i], button:has-text("Ask something else")').first().click({ timeout: 12000 }).catch(() => {});
-      await page.waitForSelector('#rufus-text-area', { timeout: 20000 }).catch(() => {});
-      await page.waitForTimeout(2000);
-    },
-    async send(page, text) {
-      const inp = page.locator("#rufus-text-area").first();
-      await inp.click({ timeout: 6000 }).catch(() => {});
-      await inp.fill(text).catch(async () => { await inp.type(text, { delay: 15 }); });
-      await inp.press("Enter");
-    },
-  },
   // Kodif — kodif-chat-widget iframe.
   kodif: {
     scope: { kind: "frame", match: "kodif" },
@@ -631,36 +610,6 @@ export const WIDGETS = {
       await page.keyboard.press("Enter");
     },
   },
-  // Humind — boostWidgetIntegration (FR). Widget tech TBD; best-effort.
-  // Humind — HEADED only. Renders in an OPEN shadow on a <humind-gift-finder> or
-  // <humind-widget> custom element; the assistant REPLY streams from api.thehumind.com/chat-service/chat/stream.
-  // transport:"net" (timing = stream completion; text reconstructed from SSE data lines).
-  humind: {
-    transport: "net",
-    scope: { kind: "shadowId", sel: "humind-gift-finder, humind-widget" },
-    net: {
-      match: /api\.thehumind\.com\/chat-service\/chat\/stream/i,
-      parse(body) {
-        const texts = [];
-        for (const ln of String(body).split(/\r?\n/)) {
-          const m = ln.match(/^data:\s*(.+)$/); if (!m) continue;
-          const raw = m[1].trim(); if (!raw || raw === "[DONE]") continue;
-          try { const j = JSON.parse(raw); const t = j.text ?? j.content ?? j.delta ?? j.message ?? (j.choices && j.choices[0] && (j.choices[0].delta?.content ?? j.choices[0].text)); if (typeof t === "string" && t) texts.push(t); }
-          catch { texts.push(raw); }
-        }
-        const joined = texts.join("");
-        return joined.trim() ? [joined.trim()] : [];
-      },
-    },
-    async open(page) {
-      await page.waitForTimeout(4000); await dismiss(page);
-      await page.evaluate(() => (document.querySelector("humind-gift-finder, humind-widget, [class*='humind' i], [aria-label*='chat' i]"))?.click?.()).catch(() => {});
-      await shadowClickLauncher(page, "humind-gift-finder, humind-widget");
-      await page.waitForTimeout(4000);
-    },
-    async send(page, text) { await shadowSend(page, "humind-gift-finder, humind-widget", text); },
-  },
-
   // --- Vendors added 2026-07-03 (from Roman's benchmark coverage) --------------
   // GENERIC best-effort driver: dismiss banners, click the most chat-like launcher,
   // then type into the most chat-like input + Enter. Selectors are broad on purpose —
@@ -1117,13 +1066,10 @@ export const STORES = [
   { key: "gorgias-blueroot",  vendor: "Gorgias", store: "Blueroot Health",  url: "https://blueroothealth.co/",       widget: "gorgias", locale: "en-GB" }, // widget not in static HTML — capture validates
   { key: "gorgias-masderm",   vendor: "Gorgias", store: "Masderm",          url: "https://masderm.com/",             widget: "gorgias", locale: "fr-FR" },
   // NWA Hype (nwahype.com) dropped: captured 9 conversations, 0 measurable (all —ms — widget never
-  // produced a timed answer; unmeasurable like Klaviyo/Humind/Decagon), so no honest data to add.
+  // produced a timed answer; unmeasurable like Klaviyo/Decagon), so no honest data to add.
 
   // Spiffy.ai
   { key: "spiffy-supergoop", vendor: "Envive", store: "Supergoop",  url: "https://supergoop.com/products/everyday-sunscreen?variant=31189086634082", widget: "spiffy" },
-  // Amazon Rufus (shopping AI on the PDP). Logged-in-only → dummy-account session in
-  // secrets/amazon-state.json; run HEADED. Bare /dp/<ASIN> URL (tracking params expire → 404).
-  { key: "rufus-amazon", vendor: "Amazon Rufus", store: "Amazon.com", url: "https://www.amazon.com/dp/B0DX391LXK", widget: "rufus", modes: ["shopping"], stateFile: "secrets/amazon-state.json", loggedIn: true },
   { key: "spiffy-2",         vendor: "Spiffy.ai", store: "(2nd store)", url: "",                                widget: "spiffy", candidate: true, todo: "find a 2nd Spiffy.ai storefront" },
 
   // Sierra
@@ -1180,7 +1126,6 @@ export const STORES = [
   { key: "envive-kut",     vendor: "Envive",  store: "Kut from the Kloth", url: "https://www.kutfromthekloth.com/", widget: "gorgias" }, // chat shell is Gorgias
   { key: "repai-fresh",    vendor: "Rep AI",  store: "Fresh Roasted Coffee", url: "https://www.freshroastedcoffee.com/", widget: "repai", candidate: true },
   { key: "kodif-dsc",      vendor: "Kodif",   store: "Dollar Shave Club",  url: "https://us.dollarshaveclub.com/", widget: "kodif", candidate: true },
-  { key: "humind-chaiselongue", vendor: "Humind", store: "La Chaise Longue", url: "https://www.lachaiselongue.fr/", widget: "humind", candidate: true, locale: "fr-FR" },
   // Nordstrom — Google Agentic: SKIPPED (redirects to siteclosed.nordstrom.com; not accessible to us).
 
   // ===== Expanded verified storefronts (2026-07-01 sourcing campaign) =====
@@ -1370,23 +1315,9 @@ export const STORES = [
   // drops the store's committed convs from the report.
   { key: "yuma-tumble",       vendor: "Yuma",   store: "Tumble",       url: "https://www.tumbleliving.com/",   widget: "yuma" },              // US home/rugs · app.yuma.ai/w/fbb8eeda
 
-  // Amazon Rufus ("Alexa" shopping assistant on amazon.com) — INVESTIGATED 2026-07-07, NOT capturable:
-  // cold guest sessions (US zip set, no bot-wall) expose NO Rufus entry point on home or search —
-  // only a hidden 1x1 test div (nav-rufus-disc-txt). Rufus + Alexa+ web are gated behind an Amazon
-  // account login, which breaks the benchmark's cold-session methodology. Revisit if Amazon opens
-  // it to guests; a logged-in capture would need an explicit methodology exception (shopping-only,
-  // modes:["shopping"]).
-  // Headed-only vendors (widget loads only in real Chrome). candidate=excluded from headless runs.
-  { key: "humind-900care", wall: true,    vendor: "Humind", store: "900.care",    url: "https://www.900.care/",       widget: "humind", candidate: true, locale: "fr-FR" },  // walled 2026-07-27: 130 AI turns / 16 convs, ZERO reply content, 0 valid
-  { key: "humind-puressentiel", wall: true,vendor:"Humind", store: "Puressentiel",url: "https://fr.puressentiel.com/",widget: "humind", candidate: true, locale: "fr-FR" },  // walled 2026-07-27: 116 AI turns / 14 convs, ZERO reply content, 0 valid
-  { key: "humind-yumi",       vendor: "Humind", store: "Yumi",        url: "https://www.yumi.fr/",        widget: "humind", candidate: true, locale: "fr-FR" },
-  { key: "humind-stormrock",  vendor: "Humind", store: "Stormrock",   url: "https://stormrock.fr/",       widget: "humind", candidate: true, locale: "fr-FR" },
-  { key: "humind-weedy",      vendor: "Humind", store: "Weedy",       url: "https://weedy.fr/",           widget: "humind", candidate: true, locale: "fr-FR" }, // signature-verified: humind
-  { key: "humind-solsemilla", vendor: "Humind", store: "Sol Semilla", url: "https://sol-semilla.fr/",     widget: "humind", candidate: true, locale: "fr-FR" }, // signature-verified: humind
-  { key: "humind-supersmart", vendor: "Humind", store: "SuperSmart",  url: "https://www.supersmart.com/en", widget: "humind", candidate: true, locale: "en-GB" }, // widgets.thehumind.com + humind-widget
-  { key: "humind-cbdfr",      vendor: "Humind", store: "CBD.fr",      url: "https://cbd.fr/",             widget: "humind", candidate: true, locale: "fr-FR" }, // embed.thehumind.com + humind-widget
-  { key: "humind-hemphash",   vendor: "Humind", store: "Hemphash",    url: "https://hemphash.co.uk/",     widget: "humind", candidate: true, locale: "en-GB" }, // humind-gift-finder + humind-widget
-  // NOTE: lamaisonconvertible.fr requested for Humind but is actually iAdvize (no humind signature) — skipped to avoid mislabeling.
+  // Amazon Rufus and Humind dropped 2026-09-15. Rufus was shopping-only and logged-in (not a
+  // cold guest session), with a partial sample; Humind never produced a valid timed conversation.
+  // Historical conv JSON stays on disk; without roster rows gen.js does not bake them.
   // Rep AI — captured HEADLESS (verified 2026-09-10). The "headed-only" note that stood here was wrong
   // twice over: headed yielded 0 valid from 104 captures, and `candidate` excludes nothing from any run.
   { key: "repai-olly",        vendor: "Rep AI", store: "OLLY",            url: "https://www.olly.com/",          widget: "repai", candidate: true },

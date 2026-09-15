@@ -9,7 +9,7 @@ for a one-shot **wire-vs-DOM calibration** and for decoding a widget's transport
 - `cdp-ws-listener.mjs`   — log every WS frame (+ optional matching HTTP send) with CDP timestamps
 - `parse_frames.py`       — segment single-WebSocket widgets (RepAI-style)
 - `parse_frames_split.py` — segment split-transport widgets (Ada: HTTP send + WS receive, encrypted)
-- `sse-content-tap.js`    — page-level fetch tee for HTTP/SSE widgets (Humind-style)
+- `sse-content-tap.js`    — page-level fetch tee for HTTP/SSE widgets
 - `parse_sse_content.py`  — segment the SSE tap into first-feedback / first-meaningful / full-answer
 
 Transport shapes + full recipe: see the vendored skill's `latency-measurement.md`.

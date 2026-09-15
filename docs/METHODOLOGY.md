@@ -64,8 +64,8 @@ neither the reader nor the judge credits UI noise as prose.
 growth-events proxy misclassifies both ways: a loader plus appended timestamps inflates a
 non-streaming widget into "streaming", while a fast token stream coalesces into one
 measured jump and reads "atomic". `DELIVERY_OVERRIDE` in `gen.js` pins verified engines
-(Gorgias = atomic — its "I'm looking into this…" is a placeholder, not tokens;
-Amazon Rufus = streaming); the heuristic (median growth events ≥ 6) is only a fallback
+(Gorgias = atomic — its "I'm looking into this…" is a placeholder, not tokens);
+the heuristic (median growth events ≥ 6) is only a fallback
 for unpinned vendors.
 
 ## Answer-quality eval

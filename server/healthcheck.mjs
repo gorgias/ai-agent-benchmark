@@ -71,9 +71,7 @@ for (const c of convs) { if (!c.timed || !c.vendor) continue; (byV[c.vendor] = b
 const conc = [];
 for (const [v, stores] of Object.entries(byV)) {
   const vals = Object.values(stores).sort((a, b) => b - a); const n = vals.reduce((a, b) => a + b, 0);
-  // Declared references/outliers are a single storefront BY DESIGN (Amazon Rufus is a
-  // logged-in reference point, not a SaaS vendor ranked head-to-head) — never flag them.
-  if (["Amazon Rufus", "Mavenoid", "Google Agentic", "Spiffy.ai"].includes(v)) continue;
+  if (["Mavenoid", "Google Agentic", "Spiffy.ai"].includes(v)) continue;
   if (n < 30) continue;                       // too small to judge concentration
   const share = Math.round(100 * vals[0] / n);
   if (share >= 50) conc.push(`${v} ${share}% on one store (${vals.length} stores)`);

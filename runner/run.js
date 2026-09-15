@@ -50,7 +50,7 @@ const POLL_MS = 250, STABLE_MS = 5000, GROWTH = 60, SETTLE_MS = 2500;
 const TURN_TIMEOUT_MS = Number(process.env.TURN_TIMEOUT_MS) || 120000;
 // Real desktop UA — some chat widgets refuse to load for the default headless UA.
 const REAL_UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36";
-// Some AI widgets (Rep AI, Kodif, Humind…) refuse to load in headless — they
+// Some AI widgets (Rep AI, Kodif…) refuse to load in headless — they
 // detect the headless browser. --headed launches the real Chrome binary with a
 // visible window (still a fresh context per run = cold), which they DO load.
 const HEADED = process.argv.includes("--headed") || process.env.HEADED === "1";
@@ -155,7 +155,7 @@ async function timeTurn(page, scope, sendFn, q) {
   const REPLY_MIN = echoApprox + 40;              // growth beyond this = a real reply, not the echo
   const t0 = Date.now();
   await sendFn();
-  let lastLen = before, lastChange = t0, ttft = null, sawGen = false, grownReply = false, complete = null, growthEvents = 0, trough = before;  // some widgets (Amazon Rufus) RESET the transcript container on each question, so growth is measured from the post-send trough, not the pre-send baseline
+  let lastLen = before, lastChange = t0, ttft = null, sawGen = false, grownReply = false, complete = null, growthEvents = 0, trough = before;  // some widgets RESET the transcript container on each question, so growth is measured from the post-send trough, not the pre-send baseline
   const deadline = t0 + TURN_TIMEOUT_MS;
   while (Date.now() < deadline) {
     await sleep(POLL_MS);
@@ -227,7 +227,7 @@ async function lateFlush(page, scope, sentAt) {
   return null;
 }
 
-// NETWORK-timed turn — for closed widgets (Rep AI, Humind) whose DOM is awkward but
+// NETWORK-timed turn — for closed widgets (Rep AI) whose DOM is awkward but
 // whose assistant reply arrives on a known backend endpoint. t0 = send; complete =
 // when the last new reply payload arrived after t0 and then went quiet for STABLE_MS.
 // `net.replies` is the live buffer filled by the page 'response' listener.
@@ -342,7 +342,7 @@ async function runStoreMode(browser, store, mode, theme) {
     });
   }
 
-  // NETWORK-transport widgets (Rep AI, Humind): the assistant's reply text arrives on
+  // NETWORK-transport widgets (Rep AI): the assistant's reply text arrives on
   // a backend endpoint, not the DOM. Buffer every parsed reply with its arrival time.
   const net = { replies: [], seen: new Set() };
   if (w.transport === "net" && w.net) {

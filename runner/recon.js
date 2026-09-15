@@ -1,4 +1,4 @@
-// recon.js — network-layer reconnaissance for closed-widget vendors (Rep AI / Kodif / Humind).
+// recon.js — network-layer reconnaissance for closed-widget vendors (Rep AI / Kodif).
 //
 // Headed real Chrome. We DON'T try to read the DOM. We capture every WebSocket
 // frame and every fetch/XHR body, send ONE probe message, and report:
@@ -7,9 +7,8 @@
 //   3) which payloads after the send look like the assistant's REPLY (the READ transport)
 //   4) relative timing of each frame (so we can see if precise latency is recoverable)
 //
-//   node recon.js                 # all three
-//   node recon.js rep             # just Rep AI / Fresh Roasted
-//   node recon.js kodif humind
+//   node recon.js                 # all targets
+//   node recon.js kodif           # just Kodif
 
 import { chromium } from "playwright";
 
@@ -19,7 +18,6 @@ const STEALTH = () => { try { Object.defineProperty(navigator, "webdriver", { ge
 const TARGETS = {
   rep:    { vendor: "Rep AI", store: "Fresh Roasted Coffee", url: "https://www.freshroastedcoffee.com/", host: /rep\.ai|hellorep|getrep|ads-agent/i, launch: ['[id*="rep" i] button', '[class*="rep-launcher" i]', '[aria-label*="chat" i]', '#ads-agent-host'] },
   kodif:  { vendor: "Kodif", store: "Dollar Shave Club", url: "https://us.dollarshaveclub.com/", host: /kodif/i, launch: ['#kodif-chat-widget', '[id*="kodif" i]', '[class*="kodif" i]', '[aria-label*="chat" i]'] },
-  humind: { vendor: "Humind", store: "La Chaise Longue", url: "https://www.lachaiselongue.fr/", host: /humind|boost|gobeyond|boostai/i, launch: ['[class*="boost" i]', '[id*="boost" i]', '[aria-label*="chat" i]', '[class*="humind" i]'] },
 };
 
 const PROBE = "Hi! Do you ship to Canada and how long does delivery take? (ref XQ7PZ)";
@@ -104,7 +102,7 @@ async function recon(browser, key) {
 
   // 5) send the probe + mark t0
   let sent = false;
-  // try frames first (Kodif/Humind iframe)
+  // try frames first (Kodif iframe)
   for (const f of page.frames()) {
     if (f === page.mainFrame()) continue;
     try {
