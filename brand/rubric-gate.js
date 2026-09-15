@@ -1,6 +1,7 @@
 /* Rubric PDF gate. Unlocked when utm_source=email_campaign, or after HubSpot submit. */
 (function () {
   const KEY = "rubricDownload";
+  const LABEL = "Download";
   const HS_SRC = "https://js.hsforms.net/forms/embed/v2.js";
   const HS = {
     region: "na1",
@@ -9,20 +10,27 @@
   };
   const params = new URLSearchParams(location.search);
   const fromEmail = params.get("utm_source") === "email_campaign";
-  const unlocked = fromEmail || sessionStorage.getItem(KEY) === "1";
+  const submitted = sessionStorage.getItem(KEY) === "1";
 
-  function apply(on) {
-    document.querySelectorAll("[data-rubric-file]").forEach((el) => { el.hidden = !on; });
-    document.querySelectorAll("[data-rubric-gate]").forEach((el) => { el.hidden = on; });
+  function apply(unlocked, thanks) {
+    document.querySelectorAll("[data-rubric-file]").forEach((el) => { el.hidden = !unlocked; });
+    document.querySelectorAll("[data-rubric-form]").forEach((el) => { el.hidden = unlocked; });
+    document.querySelectorAll("[data-rubric-thanks]").forEach((el) => { el.hidden = !thanks; });
+  }
+
+  function startDownload() {
+    const a = document.querySelector("a[data-rubric-file]");
+    if (a) a.click();
   }
 
   function unlock() {
     sessionStorage.setItem(KEY, "1");
-    apply(true);
+    apply(true, true);
+    startDownload();
   }
 
-  apply(unlocked);
-  if (unlocked) return;
+  apply(fromEmail || submitted, submitted && !fromEmail);
+  if (fromEmail || submitted) return;
 
   const targets = [
     { selector: "#hs-form-hero", instanceId: "rubric-hero" },
@@ -30,6 +38,40 @@
     { selector: "#hs-form-report-cta", instanceId: "rubric-report" },
   ].filter((t) => document.querySelector(t.selector));
   if (!targets.length) return;
+
+  function labelButtons(root) {
+    const scope = root && root.querySelectorAll ? root : document;
+    scope.querySelectorAll("input.hs-button, button.hs-button, .hs-submit input[type='submit'], .hs-submit button, input[type='submit']").forEach(function (btn) {
+      if (btn.tagName === "INPUT") {
+        if (btn.value !== LABEL) btn.value = LABEL;
+      } else if ((btn.textContent || "").trim() !== LABEL) {
+        btn.textContent = LABEL;
+      }
+    });
+  }
+
+  function watch(root) {
+    if (!root || root.getAttribute("data-rubric-watch") === "1") return;
+    root.setAttribute("data-rubric-watch", "1");
+    labelButtons(root);
+    const mo = new MutationObserver(function () { labelButtons(root); });
+    mo.observe(root, {
+      subtree: true,
+      childList: true,
+      characterData: true,
+      attributes: true,
+      attributeFilter: ["value", "class", "disabled"],
+    });
+    root.addEventListener("submit", function () { labelButtons(root); }, true);
+    root.addEventListener("click", function () {
+      labelButtons(root);
+      setTimeout(function () { labelButtons(root); }, 0);
+    }, true);
+  }
+
+  function formEl($form) {
+    return $form && $form.jquery ? $form.get(0) : $form;
+  }
 
   function createForms() {
     if (!window.hbspt || !window.hbspt.forms) return false;
@@ -42,13 +84,25 @@
         target: t.selector,
         formInstanceId: t.instanceId,
         submitButtonClass: "hs-button",
+        locale: "en",
+        translations: {
+          en: { submitText: LABEL },
+        },
         onFormReady: function ($form) {
-          const root = $form && $form.jquery ? $form.get(0) : $form;
+          const root = formEl($form);
+          if (root) watch(root);
+          const mount = document.querySelector(t.selector);
+          if (mount) watch(mount);
+        },
+        onFormSubmit: function ($form) {
+          const root = formEl($form);
           if (!root) return;
-          root.querySelectorAll("input.hs-button, .hs-button, .hs-submit input[type='submit']").forEach(function (btn) {
-            if (btn.tagName === "INPUT") btn.value = "Download";
-            else btn.textContent = "Download";
-          });
+          labelButtons(root);
+          var n = 0;
+          var id = setInterval(function () {
+            labelButtons(root);
+            if (++n > 40) clearInterval(id);
+          }, 50);
         },
         onFormSubmitted: function () {
           unlock();

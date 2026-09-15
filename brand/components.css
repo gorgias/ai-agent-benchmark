@@ -251,12 +251,23 @@ section{
 }
 .rubric-gate-note{
   margin:0;
+  font-size:12px;
+  line-height:1.4;
+  color:var(--color-muted-foreground);
+  text-wrap:pretty;
+  text-align:center;
+}
+.rubric-gate-thanks{
+  margin:0;
   font-size:14px;
   line-height:1.45;
   color:var(--color-muted-foreground);
   text-wrap:pretty;
   text-align:center;
+  max-width:36rem;
 }
+.rubric-cta .rubric-gate-thanks{color:var(--color-foreground-inverted);opacity:.9}
+.hs-inline-form .submitted-message{display:none !important}
 .rubric-gate-row{
   display:flex;
   flex-direction:row;
