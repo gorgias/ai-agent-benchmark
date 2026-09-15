@@ -4,6 +4,9 @@
   function show() {
     const el = document.getElementById("howto");
     if (!el) return false;
+    if (el.hidden && window.vaTrack) {
+      window.vaTrack("How It Works", { page: (location.pathname || "/").replace(/\.html$/, "") || "/" });
+    }
     el.hidden = false;
     document.body.style.overflow = "hidden";
     return true;
