@@ -173,3 +173,62 @@ test("summary metrics match the scoreboard and have no unfilled placeholders", (
   for (const badge of archiveBadges) assert.equal(badge[1], archiveBadges[0][1], "contradictory archive rank");
   assert.ok(!/<!--(?:SUPPORT_POSITION|SHOPPING_POSITION|SUMMARY_WEIGHTS)-->—/.test(archive));
 });
+
+test("overview job table is baked from the scoreboard, not a hand-typed copy", () => {
+  const h = read("../takeaways.html");
+  const [D] = grabObjects(h, "D");
+  const m = h.match(/\/\*FJB_START\*\/([\s\S]*?)\/\*FJB_END\*\//);
+  assert.ok(m, "FJB markers missing");
+  const FJB = JSON.parse(m[1].replace(/^var FJB=/, "").replace(/;$/, ""));
+  assert.ok(FJB && FJB.overall && FJB.overall.length, "FJB.overall is empty — gen.js did not bake it");
+  const g = FJB.overall.find((r) => r.v === "Gorgias");
+  assert.ok(g, "Gorgias missing from FJB");
+  assert.equal(g.ov, D.Gorgias.ov.score);
+  const shop = FJB.shopping.find((r) => r.v === "Gorgias");
+  assert.equal(shop.q, D.Gorgias.s.q);
+  assert.equal(shop.a, D.Gorgias.s.a);
+});
+
+test("howto store count matches the baked STATS_JSON", () => {
+  const tk = read("../takeaways.html");
+  const hw = read("../brand/howto.html");
+  const stats = JSON.parse(tk.match(/STATS_JSON:(\{.*?\})/)[1]);
+  const m = hw.match(/<!--STAT_STORES-->(.*?)<!--\/STAT_STORES-->/);
+  assert.ok(m, "howto.html missing STAT_STORES");
+  assert.equal(m[1], String(stats.stores));
+});
+
+test("quality-by-intent is baked and not the old hand-typed bars", () => {
+  const h = read("../report.html");
+  const m = h.match(/<!--QBI-->[\s\S]*?<!--\/QBI-->/);
+  assert.ok(m, "QBI markers missing");
+  assert.ok(!m[0].includes("Waiting for bake"), "QBI still placeholder");
+  assert.ok(/qbi-cap/.test(m[0]), "QBI missing data-derived caption");
+  assert.ok(/qbi-row/.test(m[0]), "QBI missing intent rows");
+});
+
+test("full results CTA downloads the rubric PDF", () => {
+  const h = read("../report.html");
+  assert.match(h, /href="\/rubric\.pdf"[^>]*>Download</);
+  assert.doesNotMatch(h, /See how the scoring works/);
+  assert.doesNotMatch(h, /emptyRow=/);
+});
+
+test("downloadable rubric PDF is generated from eval-rubric.md", async () => {
+  const { mdToHtml } = await import("./render-rubric-pdf.mjs");
+  const { CHECKS } = await import("./eval-score.js");
+  const { readFileSync, existsSync } = await import("node:fs");
+  const md = readFileSync(new URL("./eval-rubric.md", import.meta.url), "utf8");
+  const html = mdToHtml(md);
+  for (const lane of Object.values(CHECKS)) {
+    for (const dim of Object.values(lane)) {
+      for (const id of Object.keys(dim)) assert.ok(html.includes(id), `PDF HTML missing check ${id}`);
+    }
+  }
+  const pdf = new URL("../rubric.pdf", import.meta.url);
+  assert.ok(existsSync(pdf), "rubric.pdf missing");
+  const buf = readFileSync(pdf);
+  assert.ok(buf.slice(0, 5).toString() === "%PDF-", "rubric.pdf is not a PDF");
+  assert.ok(buf.length > 20_000, "rubric.pdf is suspiciously small");
+});
+
