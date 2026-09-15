@@ -1916,7 +1916,14 @@ body.report-v2 #cbc-sec.gr-cbc .cbc-card{
   .gr-method .col{flex:1 1 calc(50% - 6px)}
 }
 @media (max-width:520px){
-  .gr-how h2.sec br{display:none}
+  .gr-how h2.sec br{
+    display:inline-block;
+    width:.3em;
+    height:0;
+    overflow:hidden;
+    border:0;
+    content:"";
+  }
   .gr-method .col{flex:1 1 100%}
 }
 
@@ -2182,7 +2189,14 @@ body.report-v2 #cbc-sec.gr-cbc .cbc-card{
   color:var(--color-neutral-400);
 }
 @media (max-width:720px){
-  .gr-board-head h2.sec br{display:none}
+  .gr-board-head h2.sec br{
+    display:inline-block;
+    width:.3em;
+    height:0;
+    overflow:hidden;
+    border:0;
+    content:"";
+  }
   .gr-winbar{gap:12px}
 }
 
