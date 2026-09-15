@@ -1,11 +1,11 @@
-// Vercel Edge Middleware — access gate for the whole benchmark site.
-// A styled /login page (login.html) instead of the browser's native Basic-Auth popup, so the
-// sign-in matches the report's Axiom look. Password is the SITE_PASSWORD env var (set in Vercel,
-// NEVER committed; fail-closed if unset). On success we set an HttpOnly cookie whose value is a
-// SHA-256 of the secret — the client never sees the secret and can't forge the cookie.
+// Vercel Edge Middleware — the board is public (Overview / Full results / Rubric).
+// Conversation transcripts are gated: /report?view=conversations and /conv-text.json.
+// Password is CONV_PASSWORD (falls back to SITE_PASSWORD). Set in Vercel, never required
+// for the public pages. Fail-closed on the gated paths if no password is configured.
 export const config = { matcher: ["/((?!favicon.ico|robots.txt).*)"] };
 
-const COOKIE = "sb_auth";
+const COOKIE = "sb_conv";
+const CONV_NEXT = "/report?view=conversations";
 
 async function expectedToken(pass) {
   const data = new TextEncoder().encode("gorgias-benchmark:v1:" + pass);
@@ -13,43 +13,58 @@ async function expectedToken(pass) {
   return [...new Uint8Array(digest)].map((b) => b.toString(16).padStart(2, "0")).join("");
 }
 
-// PUBLIC SINCE 2026-09-03, by explicit decision: the benchmark is open, no sign-in.
-//
-// Note the gate below is fail-CLOSED — with no SITE_PASSWORD it redirects everyone to /login
-// rather than serving the site. So opening the report cannot be done by removing the secret;
-// it takes this early return. Everything under it is intact: delete these three lines and the
-// styled login gate is back exactly as it was, no other change needed.
-//
-// What being open means, since it cannot be quietly undone once the URL is shared: the report
-// names eighteen vendors and publishes numbers several of them will not like, and it is now
-// readable by all of them. It is also now verifiable from outside, which is the point — a
-// competitive benchmark nobody can check is only an assertion.
-const SITE_IS_PUBLIC = true;
+function convPassword() {
+  return process.env.CONV_PASSWORD || process.env.SITE_PASSWORD || "gorgiasevalaccess";
+}
+
+function isConversationsPath(url) {
+  const path = url.pathname.replace(/\.html$/, "") || "/";
+  if (path === "/conv-text.json" || path === "/live-feed.json") return true;
+  if (path === "/report" && url.searchParams.get("view") === "conversations") return true;
+  return false;
+}
+
+function safeNext(raw) {
+  if (!raw) return CONV_NEXT;
+  try {
+    const u = new URL(raw, "https://evals.gorgias.com");
+    if (u.pathname.replace(/\.html$/, "") === "/report" && u.searchParams.get("view") === "conversations") {
+      return CONV_NEXT;
+    }
+  } catch {}
+  return CONV_NEXT;
+}
+
+function loginLocation(url) {
+  return "/login?next=" + encodeURIComponent(CONV_NEXT) + (url.searchParams.get("e") ? "&e=1" : "");
+}
 
 export default async function middleware(request) {
-  if (SITE_IS_PUBLIC) return;
   const url = new URL(request.url);
-  const PASS = process.env.SITE_PASSWORD || "";
+  const PASS = convPassword();
   const good = PASS ? await expectedToken(PASS) : null;
 
-  // POST /login — verify the submitted password, set the auth cookie, bounce to the board.
   if (url.pathname === "/login" && request.method === "POST") {
-    let pw = "";
-    try { pw = String((await request.formData()).get("password") || ""); } catch { pw = ""; }
-    if (PASS && pw === PASS) {
-      const res = new Response(null, { status: 303, headers: { Location: "/report" } });
+    let pw = "", next = CONV_NEXT;
+    try {
+      const fd = await request.formData();
+      pw = String(fd.get("password") || "");
+      next = safeNext(String(fd.get("next") || url.searchParams.get("next") || ""));
+    } catch { pw = ""; }
+    if (good && pw === PASS) {
+      const res = new Response(null, { status: 303, headers: { Location: next } });
       res.headers.append("Set-Cookie", `${COOKIE}=${good}; HttpOnly; Secure; SameSite=Lax; Path=/; Max-Age=604800`);
       return res;
     }
-    return new Response(null, { status: 303, headers: { Location: "/login?e=1" } });
+    return new Response(null, { status: 303, headers: { Location: "/login?e=1&next=" + encodeURIComponent(CONV_NEXT) } });
   }
 
-  // The login page (and its query variants) is always reachable — never gate it (avoids a loop).
-  if (url.pathname === "/login") return;
+  if (url.pathname === "/login" || url.pathname === "/login.html") return;
 
-  // Everything else requires a valid auth cookie; otherwise send them to the styled login.
+  if (!isConversationsPath(url)) return;
+
   const cookie = request.headers.get("cookie") || "";
   const m = cookie.match(new RegExp("(?:^|; )" + COOKIE + "=([a-f0-9]{64})"));
-  if (good && m && m[1] === good) return; // authenticated → serve the file
-  return new Response(null, { status: 302, headers: { Location: "/login" } });
+  if (good && m && m[1] === good) return;
+  return new Response(null, { status: 302, headers: { Location: loginLocation(url) } });
 }
