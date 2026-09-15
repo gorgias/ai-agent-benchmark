@@ -72,8 +72,12 @@ const known = new Set(STORES.map((s) => (s.url || "").replace(/^https?:\/\/(www\
 const norm = (u) => u.replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, "");
 
 // ── candidate feed ─────────────────────────────────────────────────────────────
+// StoreLeads failures, per vendor. Until 2026-09-15 a rejected key (HTTP 401) parsed as "no domains", so
+// every night reported "0 candidates" and nothing said why: sourcing was dead for at least a week.
+const feedErrors = [];
 async function candidates() {
   const out = {};
+  const seed = path.join(ROOT, "server", "candidates.json");
   if (process.env.STORELEADS_API_KEY) {
     // StoreLeads indexes detected storefront technology, which is exactly the signal we want:
     // merchants where the vendor's chat app is INSTALLED, rather than merchants a vendor
@@ -84,13 +88,19 @@ async function candidates() {
       try {
         const r = await fetch(`https://storeleads.app/json/api/v1/all/domain?app=${encodeURIComponent(app)}&limit=40`,
           { headers: { Authorization: `Bearer ${process.env.STORELEADS_API_KEY}` } });
-        const j = await r.json();
-        out[vendor] = (j?.domains || []).map((d) => `https://${d.name || d.domain}`).filter(Boolean);
-      } catch (e) { console.error(`storeleads ${vendor}: ${e}`); }
+        const body = (await r.text()).split(process.env.STORELEADS_API_KEY).join("[key]");
+        if (!r.ok) { feedErrors.push({ vendor, status: r.status, why: body.slice(0, 120) }); continue; }
+        out[vendor] = (JSON.parse(body)?.domains || []).map((d) => `https://${d.name || d.domain}`).filter(Boolean);
+      } catch (e) { feedErrors.push({ vendor, status: "error", why: String(e).slice(0, 120) }); }
+    }
+    if (feedErrors.length) {
+      console.error(`storeleads: ${feedErrors.length} request(s) failed, e.g. ${feedErrors[0].vendor}: HTTP ${feedErrors[0].status} ${feedErrors[0].why}`);
+      // A vendor whose request failed falls back to the seed list, so a dead key degrades sourcing instead of stopping it.
+      const seeded = existsSync(seed) ? JSON.parse(readFileSync(seed, "utf8")) : {};
+      for (const e of feedErrors) if (!out[e.vendor] && seeded[e.vendor]) { out[e.vendor] = seeded[e.vendor]; e.seeded = true; }
     }
     return out;
   }
-  const seed = path.join(ROOT, "server", "candidates.json");
   if (existsSync(seed)) return JSON.parse(readFileSync(seed, "utf8"));
   console.error("No candidate feed: set STORELEADS_API_KEY or create server/candidates.json");
   return out;
@@ -235,6 +245,7 @@ const missed = Object.keys(VERIFY).filter((v) => !byVendor[v]);
 const lines = [
   `${accepted.length ? ":shopping_trolley:" : ":large_yellow_circle:"} *Merchant sourcing — ${new Date().toISOString().slice(0, 10)}*`,
   `*${accepted.length} verified* / ${accepted.length + rejected.length} candidates checked` + (DRY ? " _(dry run)_" : ""),
+  feedErrors.length ? `:warning: StoreLeads failed for ${feedErrors.length} vendor(s): HTTP ${[...new Set(feedErrors.map((e) => e.status))].join("/")} (${feedErrors[0].why})` + (feedErrors.some((e) => e.seeded) ? ", fell back to server/candidates.json" : ", no fallback list") : "",
   ...Object.entries(byVendor).map(([v, n]) => `• ${v}: +${n}`),
   missed.length ? `_no new verified store for: ${missed.join(", ")}_` : "",
   rejected.length ? `_rejected ${rejected.length}: ${[...new Set(rejected.map((r) => r.why))].slice(0, 3).join(" · ")}_` : "",
