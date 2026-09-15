@@ -6,6 +6,16 @@
    <script src="/brand/how-modal.js"></script>
    <script src="/brand/site-nav.js"></script> */
 (function () {
+  // Vercel Web Analytics (static HTML). Dashboard must have Analytics enabled; the
+  // script is served at /_vercel/insights/script.js after the next production deploy.
+  window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+  if (!document.querySelector('script[src="/_vercel/insights/script.js"]')) {
+    const s = document.createElement("script");
+    s.defer = true;
+    s.src = "/_vercel/insights/script.js";
+    document.head.appendChild(s);
+  }
+
   const overview = "/";
   const results = "/report";
   const rubric = "/rubric";
