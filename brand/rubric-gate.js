@@ -27,6 +27,7 @@
   const targets = [
     { selector: "#hs-form-hero", instanceId: "rubric-hero" },
     { selector: "#hs-form-cta", instanceId: "rubric-cta" },
+    { selector: "#hs-form-report-cta", instanceId: "rubric-report" },
   ].filter((t) => document.querySelector(t.selector));
   if (!targets.length) return;
 

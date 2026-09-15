@@ -705,6 +705,100 @@ for (const days of WINDOWS) {
 }
 const D_JSON = " const D = " + JSON.stringify(D_OBJ) + "; const D_WINDOWS = " + JSON.stringify(D_WINDOWS) + ";";
 
+// Quality-by-intent bars: mean judged /100 per theme in the ranking window. Field = every
+// rankable vendor except Gorgias (conversation-pooled). Never hand-typed.
+const QBI_LANES = [
+  { name: "Shopping Assistant", arr: STORES, scores: shopS, keys: [
+    ["everyday-value", "Everyday value"], ["gift", "Gift"], ["compare-budget", "Budget compare"],
+    ["beginner", "Getting started"], ["problem-solver", "Problem-solver"],
+  ]},
+  { name: "Support Agent", arr: SUPPORT, scores: supS, keys: [
+    ["returns", "Returns policy"], ["tracking", "Order tracking"], ["policy", "Shipping policy"],
+    ["damaged", "Damaged item"], ["order-mgmt", "Modify or cancel"],
+  ]},
+];
+function intentMean(arr, theme, vendorSet) {
+  const xs = [];
+  for (const s of arr) {
+    if (s.date && s.date < RANK_CUTOFF) continue;
+    if (vendorSet && !vendorSet.has(s.vendor)) continue;
+    for (const t of s.themes || []) {
+      if (t.key === theme && t.ev && t.ev.total != null) xs.push(t.ev.total);
+    }
+  }
+  return xs.length ? Math.round(10 * xs.reduce((a, b) => a + b, 0) / xs.length) / 10 : null;
+}
+function qbiCaption(laneName, rows) {
+  const both = rows.filter((r) => r.g != null && r.f != null);
+  if (!both.length) return `No judged ${laneName} conversations in the ranking window.`;
+  const gaps = both.map((r) => ({ ...r, gap: Math.round((r.g - r.f) * 10) / 10 })).sort((a, b) => b.gap - a.gap);
+  const leads = gaps.filter((r) => r.g > r.f);
+  const fmt = (n) => Number.isInteger(n) ? String(n) : n.toFixed(1);
+  if (leads.length === both.length) {
+    const lo = Math.min(...gaps.map((g) => g.gap)), hi = Math.max(...gaps.map((g) => g.gap));
+    const span = lo === hi ? fmt(lo) : `${fmt(lo)} to ${fmt(hi)}`;
+    return `Gorgias leads every ${laneName} intent by ${span} points, strongest on ${gaps[0].label.toLowerCase()}.`;
+  }
+  if (!leads.length) {
+    const worst = gaps[gaps.length - 1];
+    return `Gorgias trails the field on ${laneName} intents, furthest on ${worst.label.toLowerCase()} (${fmt(worst.gap)}).`;
+  }
+  const top = gaps[0], trail = gaps.filter((r) => r.g < r.f).sort((a, b) => a.gap - b.gap)[0];
+  return `Gorgias leads ${leads.length} of ${both.length} ${laneName} intents (widest +${fmt(top.gap)} on ${top.label.toLowerCase()})${trail ? `, trails on ${trail.label.toLowerCase()} (${fmt(trail.gap)})` : ""}.`;
+}
+function qbiBar(val, cls) {
+  if (val == null) return `<div class="qbi-line"><span class="track"></span><b class="${cls}">—</b></div>`;
+  const w = Math.max(0, Math.min(100, val));
+  return `<div class="qbi-line"><span class="track"><i class="${cls === "fm" ? "f" : "g"}" style="width:${w}%"></i></span><b${cls === "fm" ? ' class="fm"' : ""}>${val.toFixed(1)}</b></div>`;
+}
+const QBI_HTML = QBI_LANES.map((lane) => {
+  const ranked = new Set(Object.keys(lane.scores));
+  const field = new Set([...ranked].filter((v) => v !== "Gorgias"));
+  const rows = lane.keys.map(([key, label]) => ({
+    label, g: intentMean(lane.arr, key, new Set(["Gorgias"])), f: intentMean(lane.arr, key, field),
+  })).filter((r) => r.g != null || r.f != null);
+  const body = rows.map((r) =>
+    `<div class="qbi-row"><div class="qbi-lab">${r.label}</div><div class="qbi-bars">${qbiBar(r.g, "g")}${qbiBar(r.f, "fm")}</div></div>`
+  ).join("");
+  return `<div class="qbi-panel"><div class="qbi-ph"><h3>${lane.name}</h3><div class="qbi-legend"><span><i class="sw g"></i>Gorgias</span><span><i class="sw f"></i>Field</span></div></div><div class="qbi-rows">${body}</div><p class="qbi-cap">${qbiCaption(lane.name, rows)}</p></div>`;
+}).join("");
+
+function medianNum(xs) {
+  const s = [...xs].filter((x) => x != null).sort((a, b) => a - b);
+  return s.length ? s[s.length >> 1] : null;
+}
+function majority(xs) {
+  const c = {};
+  for (const x of xs) { if (x) c[x] = (c[x] || 0) + 1; }
+  return Object.entries(c).sort((a, b) => b[1] - a[1])[0]?.[0] || null;
+}
+function fjbLane(arr, scores) {
+  return Object.keys(scores).map((v) => {
+    const es = arr.filter((s) => s.vendor === v && (!s.date || s.date >= RANK_CUTOFF));
+    const sc = scores[v];
+    const t = medianNum(es.map((s) => s.ttft).filter((x) => x != null));
+    const row = {
+      v, q: sc.q, a: sc.a, l: sc.l,
+      t: t != null ? Math.round(t * 10) / 10 : null,
+      d: majority(es.map((s) => s.delivery)),
+      c: sc.n,
+      st: new Set(es.map((s) => s.store || s.site)).size,
+    };
+    if (allEntries.find((s) => s.vendor === v && s.us)) row.us = 1;
+    return row;
+  }).sort((a, b) => (b.q ?? -1) - (a.q ?? -1));
+}
+const FJB_OBJ = {
+  overall: Object.keys(OVERALL).map((v) => {
+    const row = { v, ov: OVERALL[v].score, cs: shopC[v], cp: suppC[v] };
+    if (allEntries.find((s) => s.vendor === v && s.us)) row.us = 1;
+    return row;
+  }).sort((a, b) => b.ov - a.ov),
+  shopping: fjbLane(STORES, shopS),
+  support: fjbLane(SUPPORT, supS),
+};
+const FJB_JSON = "var FJB=" + JSON.stringify(FJB_OBJ) + ";";
+
 // ---- One sync for the summary pages and the Brand 2.0 twins. takeaways.html and takeaways-v2.html carry the same
 // markers; report-v2.html gets report.html's data block plus its prose markers. Until 2026-09-13 only takeaways.html
 // was synced, so the v2 pages kept September 5 data and hand-typed claims. ----
@@ -719,6 +813,13 @@ const syncMarkers = (page) => {
   }
   return page.replace(/<!--REFRESHED-->[\s\S]*?<!--\/REFRESHED-->/g, () => `<!--REFRESHED-->${REFRESHED}<!--/REFRESHED-->`);
 };
+try {
+  const HW = new URL("../brand/howto.html", import.meta.url).pathname;
+  let hw = await readFile(HW, "utf8");
+  hw = syncMarkers(hw);
+  await writeFile(HW + ".tmp", hw); await rename(HW + ".tmp", HW);
+  console.log(`Synced brand/howto.html STAT_STORES=${STATS.stores}`);
+} catch (e) { console.log("howto.html sync skipped:", e.message); }
 for (const name of ["takeaways.html", "takeaways-archive.html"]) {
   try {
     const TK = new URL(`../${name}`, import.meta.url).pathname;
@@ -744,6 +845,7 @@ for (const name of ["takeaways.html", "takeaways-archive.html"]) {
            .replace(/<!--RANK_OVERALL-->[\s\S]*?<!--\/RANK_OVERALL-->/g, () => `<!--RANK_OVERALL-->${RANK_OVERALL}<!--/RANK_OVERALL-->`)
            .replace(/<!--RANK_LANES-->[\s\S]*?<!--\/RANK_LANES-->/g, () => `<!--RANK_LANES-->${RANK_LANES}<!--/RANK_LANES-->`);
     tk = syncMarkers(tk);
+    tk = tk.replace(/\/\*FJB_START\*\/[\s\S]*?\/\*FJB_END\*\//, () => `/*FJB_START*/${FJB_JSON}/*FJB_END*/`);
     await writeFile(TK + ".tmp", tk); await rename(TK + ".tmp", TK);
     console.log(`Synced ${name} stats: ${STATS.convs} convs · ${STATS.judged} judged · ${STATS.vendors} vendors · ${STATS.stores} stores`);
   } catch (e) { console.log(`${name} sync skipped:`, e.message); }
@@ -752,9 +854,12 @@ try {
   const R2 = new URL("../report.html", import.meta.url).pathname;
   let r2 = await readFile(R2, "utf8");
   const s2 = r2.indexOf("// ---- SHOPPING (one entry per store; .themes = 5 apple-to-apple conversations)");
-  const a2 = s2 >= 0 ? s2 : r2.indexOf("const STORES = ["), b2 = r2.indexOf("let MODE='shopping';");
+  const a2 = s2 >= 0 ? s2 : r2.indexOf("const STORES = [");
+  const mode = r2.match(/let MODE\s*=\s*['"]shopping['"]\s*;/);
+  const b2 = mode ? mode.index : -1;
   if (a2 < 0 || b2 < 0 || b2 < a2) throw new Error("could not find STORES…let MODE markers");
   r2 = syncMarkers(r2.slice(0, a2) + block + r2.slice(b2));
+  r2 = r2.replace(/<!--QBI-->[\s\S]*?<!--\/QBI-->/, () => `<!--QBI-->${QBI_HTML}<!--/QBI-->`);
   await writeFile(R2 + ".tmp", r2); await rename(R2 + ".tmp", R2);
   console.log("Synced report.html: report-archive.html's data block and prose markers");
 } catch (e) { console.log("report.html sync skipped:", e.message); }
