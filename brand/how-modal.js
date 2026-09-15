@@ -30,6 +30,7 @@
     document.querySelectorAll("#mtabs .tab").forEach((b) => b.setAttribute("aria-selected", b.dataset.mt === t));
     document.querySelectorAll(".mtab").forEach((p) => { p.hidden = p.dataset.mtp !== t; });
     if (t === "volume" && typeof window.renderVolPie === "function") window.renderVolPie();
+    if (window.vaTrack) window.vaTrack("Chart", { chart: "how-it-works", action: "tab", page: (location.pathname || "/").replace(/\.html$/, "") || "/", detail: String(t || "") });
   };
 
   document.addEventListener("keydown", (e) => {

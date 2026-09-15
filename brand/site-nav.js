@@ -24,8 +24,42 @@
     if (data && typeof data === "object") payload.data = data;
     try { window.va("event", payload); } catch (e) {}
   };
+  function trackChart(el) {
+    if (!el || !el.closest) return;
+    if (el.closest(".linklike, .modal-x, a[href='#how']")) return;
+    var chart = null, action = "click";
+    if (el.closest("#fjb-axiswrap, #ovm-svg")) chart = "overview-axis";
+    else if (el.closest(".fjb-btn")) { chart = "overview"; action = "toggle"; }
+    else if (el.closest("#fjb-table th.srt")) { chart = "overview-table"; action = "sort"; }
+    else if (el.closest("#fjb-table")) chart = "overview-table";
+    else if (el.closest(".h2h-tab, .h2h-toggle")) { chart = "head-to-head"; action = "lane"; }
+    else if (el.closest("#h2h-svg, .h2h-plot, .h2h-table")) chart = "head-to-head";
+    else if (el.closest("#store-filter")) { chart = "speed"; action = "filter"; }
+    else if (el.closest("#resp-toggle")) { chart = "speed"; action = "toggle"; }
+    else if (el.closest("#latdive, #results-sec .ld-row")) chart = "speed";
+    else if (el.closest("#trend-grid, #trend-sec, #trend-leaders")) chart = "trends";
+    else if (el.closest("#intent-sec")) chart = "quality-by-intent";
+    else if (el.closest("#conv-chart")) chart = "conversations";
+    else if (el.closest("#conv-filters")) { chart = "conversations"; action = "filter"; }
+    else if (el.closest("#vp-svg")) chart = "volume";
+    else if (el.closest("#product-rec-sec")) chart = "product-rec";
+    else if (el.closest("#datebar")) { chart = "date-window"; action = "filter"; }
+    else if (el.closest("#vf-trigger, #wf-trigger, #vf-pop, #wf-pop, #clear-all-filters")) { chart = "vendor-filter"; action = "filter"; }
+    else if (el.closest("#matrix-body")) chart = "capabilities";
+    else if (el.closest(".modebtn")) { chart = "lane"; action = "toggle"; }
+    if (!chart) return;
+    var detail = "";
+    var host = el.closest("[data-m], [data-lane], [data-v], [data-k], [data-stat]");
+    if (host) detail = host.dataset.m || host.dataset.lane || host.dataset.v || host.dataset.k || host.dataset.stat || "";
+    window.vaTrack("Chart", {
+      chart: chart,
+      action: action,
+      page: pagePath(),
+      detail: String(detail).slice(0, 255),
+    });
+  }
   document.addEventListener("click", function (e) {
-    const t = e.target && e.target.closest && e.target.closest("a, button");
+    const t = e.target && e.target.closest && e.target.closest("a, button, [data-v], svg, th.srt, .ld-row, .qbi-row");
     if (!t || t.disabled) return;
     const page = pagePath();
     const href = t.getAttribute("href") || "";
@@ -34,6 +68,12 @@
     else if (t.classList.contains("modebtn") && t.dataset.m) window.vaTrack("Lane Toggle", { page: page, lane: t.dataset.m });
     else if (t.classList.contains("gr-btn") && (href === "/report" || href.endsWith("/report"))) window.vaTrack("Full Results CTA", { page: page });
     else if (t.classList.contains("gr-btn") && (href === "/rubric" || href.endsWith("/rubric"))) window.vaTrack("Rubric CTA", { page: page });
+    trackChart(e.target);
+  }, true);
+  document.addEventListener("change", function (e) {
+    const el = e.target;
+    if (!el || !el.closest) return;
+    if (el.closest("#conv-filters, #vf-pop, #wf-pop, #datebar")) trackChart(el);
   }, true);
 
   const overview = "/";
