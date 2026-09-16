@@ -84,12 +84,26 @@ say "--- deploying to Vercel ---"
 # The project id is unchanged but the team id is new. A machine built before the move still has the old team id
 # in its env, and `vercel deploy` then fails with "Project not found", so map it until the machine env is updated.
 [ "${VERCEL_ORG_ID:-}" = "team_vYmSPwekFJOPhVoUuAGAMPGK" ] && export VERCEL_ORG_ID=team_gyas2ZRdwH5DtZtxarGNoQ2S
+# A `.vercel/` directory is a project link the CLI prefers over VERCEL_ORG_ID/VERCEL_PROJECT_ID.
+# It is gitignored precisely so this box links by env var, but a directory left behind by an
+# earlier deploy survives on the volume and still names the OLD team. After the 2026-09-14 move to
+# gorgias4 the CLI resolves that stale link to a project this token cannot see and fails with
+# "Could not retrieve Project Settings" — which is what broke the 2026-09-15 nightly.
+# Removed ONLY when it disagrees with the env, so a correctly linked laptop checkout is untouched.
+if [ -f .vercel/project.json ] && [ -n "${VERCEL_ORG_ID:-}" ]; then
+  LINKED_ORG=$(node -e 'try{process.stdout.write(require("./.vercel/project.json").orgId||"")}catch(e){}' 2>/dev/null)
+  if [ -n "$LINKED_ORG" ] && [ "$LINKED_ORG" != "$VERCEL_ORG_ID" ]; then
+    say "stale .vercel link (orgId $LINKED_ORG, env $VERCEL_ORG_ID) — removing so the env vars win"
+    rm -rf .vercel
+  fi
+fi
 if command -v vercel >/dev/null 2>&1; then VC="vercel"; else VC="npx --yes vercel@53"; fi
 DEPLOY=$($VC deploy --prod --yes --token "$VERCEL_TOKEN" 2>&1)
 say "$(echo "$DEPLOY" | grep -E 'Production:|Aliased:|error|Error' | head -4)"
 if ! echo "$DEPLOY" | grep -qE '"readyState": *"READY"|Aliased: *https://'; then
   say "deploy produced no URL — treating as failed"
-  slack ":red_circle: *Deploy-on-merge failed* — \`vercel deploy\` returned no URL. Live site unchanged."
+  slack ":red_circle: *Deploy-on-merge failed* — \`vercel deploy\` returned no URL. Live site unchanged.
+\`\`\`$(echo "$DEPLOY" | tail -3)\`\`\`"
   exit 1
 fi
 
