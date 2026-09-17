@@ -41,6 +41,16 @@ slack() {
 
 D="${RUN_DATE:-$(date +%F)}"
 EB="${EVAL_BATCH_DIR:-/data/eb}/$D"     # fresh dir per day: stale scored-*.json must never re-merge
+# Keep the day's work on the volume. Since the "protect main" ruleset (2026-09-16: pull requests and signed
+# commits on every branch, no bypass) this machine cannot push, and whatever it does not push is lost: its
+# disk is reset to the image on every start. /data survives, so captures and merged scores are archived to
+# /data/unpushed/<date> where a PR can pick them up. Bounded by free space so it can never starve the judge.
+KEEP="/data/unpushed/$D"
+keep() {
+  local free; free=$(df -Pm /data 2>/dev/null | awk 'NR==2 {print $4}')
+  [ "${free:-0}" -ge 200 ] || { say "not keeping $1 on /data: only ${free:-?} MB free"; return 1; }
+  mkdir -p "$KEEP" && tar -czf "$KEEP/$1.tar.gz" "${@:2}" 2>/dev/null
+}
 # DRY_RUN=1 runs the real judging, baking and gate but touches nothing outside the working tree:
 # no commit, no push, no deploy. This is how you test a change to this script without gambling the
 # public board on it being correct.
@@ -55,6 +65,7 @@ fi
 say "===== PUBLISH START ($D) ====="
 git pull --rebase --autostash origin master >/dev/null 2>&1 || true
 mkdir -p "$EB" || { say "cannot create $EB"; exit 1; }
+keep captures "runner/results/$D/conv" && say "kept $(ls "runner/results/$D/conv" 2>/dev/null | wc -l | tr -d ' ') capture file(s) in $KEEP/captures.tar.gz"
 
 # ── 1. pack ───────────────────────────────────────────────────────────────────
 cd runner || exit 1
@@ -97,6 +108,7 @@ say "--- quality gate (verify-data.js) ---"
 GATE_OUT=$(node verify-data.js 2>&1); GATE_RC=$?
 echo "$GATE_OUT" | tail -30 | tee -a "$LOG"
 cd ..
+keep scores runner/eval-scores.json runner/conversation-quarantine.json && say "kept the merged scores in $KEEP/scores.tar.gz"
 
 if [ "$GATE_RC" -ne 0 ]; then
   say "QUALITY GATE FAILED — keeping the judging work, discarding the baked board, NOT deploying"
