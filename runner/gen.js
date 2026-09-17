@@ -708,11 +708,11 @@ const D_JSON = " const D = " + JSON.stringify(D_OBJ) + "; const D_WINDOWS = " + 
 // Quality-by-intent bars: mean judged /100 per theme in the ranking window. Field = every
 // rankable vendor except Gorgias (conversation-pooled). Never hand-typed.
 const QBI_LANES = [
-  { name: "Shopping Assistant", arr: STORES, scores: shopS, keys: [
+  { id: "shopping", name: "Shopping Assistant", arr: STORES, scores: shopS, keys: [
     ["everyday-value", "Everyday value"], ["gift", "Gift"], ["compare-budget", "Budget compare"],
     ["beginner", "Getting started"], ["problem-solver", "Problem-solver"],
   ]},
-  { name: "Support Agent", arr: SUPPORT, scores: supS, keys: [
+  { id: "support", name: "Support Agent", arr: SUPPORT, scores: supS, keys: [
     ["returns", "Returns policy"], ["tracking", "Order tracking"], ["policy", "Shipping policy"],
     ["damaged", "Damaged item"], ["order-mgmt", "Modify or cancel"],
   ]},
@@ -760,7 +760,7 @@ const QBI_HTML = QBI_LANES.map((lane) => {
   const body = rows.map((r) =>
     `<div class="qbi-row"><div class="qbi-lab">${r.label}</div><div class="qbi-bars">${qbiBar(r.g, "g")}${qbiBar(r.f, "fm")}</div></div>`
   ).join("");
-  return `<div class="qbi-panel"><div class="qbi-ph"><h3>${lane.name}</h3><div class="qbi-legend"><span><i class="sw g"></i>Gorgias</span><span><i class="sw f"></i>Field</span></div></div><div class="qbi-rows">${body}</div><p class="qbi-cap">${qbiCaption(lane.name, rows)}</p></div>`;
+  return `<div class="qbi-panel" data-lane="${lane.id}"><div class="qbi-ph"><h3>${lane.name}</h3><div class="qbi-legend"><span><i class="sw g"></i>Gorgias</span><span><i class="sw f"></i>Field</span></div></div><div class="qbi-rows">${body}</div><p class="qbi-cap">${qbiCaption(lane.name, rows)}</p></div>`;
 }).join("");
 
 function medianNum(xs) {
