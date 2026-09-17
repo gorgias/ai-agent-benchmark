@@ -50,6 +50,18 @@
 }
 .wrap-x{
   padding-inline:1rem;
+  max-width:var(--container-section, 1440px);
+  width:100%;
+  margin-left:auto;
+  margin-right:auto;
+  box-sizing:border-box;
+}
+/* Nav + footer stay full-bleed; their wrap-x padding is the inner gutter. */
+.sitenav.wrap-x,
+.sitefoot.wrap-x{
+  max-width:none;
+  margin-left:0;
+  margin-right:0;
 }
 /* Midpoint between 240px stacked section padding and the ~48px collapse. */
 .section-y{

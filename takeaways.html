@@ -54,9 +54,8 @@ a{color:inherit;text-decoration:none}
 /* =========================================================================
    LAYOUT + THE BRAND LABEL (mono caps, opened by the coral asterisk)
    ========================================================================= */
-/* Ecom Lab's container: 1200px with dashed side gutters, which read as one continuous
-   vertical rule down the page because every section carries them. */
-.wrap{max-width:1200px;margin:0 auto;padding:0 40px}
+/* Page container: 1440px, centered. Gutter is wrap-x, not extra wrap padding. */
+.wrap{max-width:1440px;margin:0 auto;padding:0}
 @media(max-width:720px){.wrap{padding:0 20px}}
 /* The gutter rules used to live on .wrap, so they broke at every section boundary -
    section padding sits outside .wrap, leaving ~128px of gap between each pair, plus
@@ -281,7 +280,7 @@ td.n{text-align:right}
 /* =========================================================================
    LEARNINGS - the ink field. One dark chapter break per deliverable.
    ========================================================================= */
-#learnings{background:var(--color-foreground);color:var(--color-foreground-inverted);margin:0}
+#learnings{background:var(--color-foreground);color:var(--color-foreground-inverted)}
 #learnings .wrap{max-width:800px;margin-left:auto;margin-right:auto}
 #learnings h2.sec{color:var(--color-foreground-inverted)}
 #learnings .sec-lead{color:var(--color-neutral-400)}
