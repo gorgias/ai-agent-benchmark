@@ -48,20 +48,14 @@
   align-items:flex-start;
   text-align:left;
 }
+/* Full-bleed shell; inner content caps at --container-section (1440px). */
 .wrap-x{
-  padding-inline:1rem;
-  max-width:var(--container-section, 1440px);
-  width:100%;
-  margin-left:auto;
-  margin-right:auto;
-  box-sizing:border-box;
-}
-/* Nav + footer stay full-bleed; their wrap-x padding is the inner gutter. */
-.sitenav.wrap-x,
-.sitefoot.wrap-x{
   max-width:none;
+  width:100%;
   margin-left:0;
   margin-right:0;
+  box-sizing:border-box;
+  padding-inline:max(1rem, calc((100% - var(--container-section, 1440px)) / 2));
 }
 /* Midpoint between 240px stacked section padding and the ~48px collapse. */
 .section-y{
@@ -87,7 +81,7 @@ header.section-y{
   padding-bottom:3.5rem;
 }
 @media (min-width:768px){
-  .wrap-x{padding-inline:5rem}
+  .wrap-x{padding-inline:max(5rem, calc((100% - var(--container-section, 1440px)) / 2));}
   .section-y,
   .section-follow,
   .wrap.section-y{
