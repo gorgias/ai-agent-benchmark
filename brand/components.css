@@ -3247,6 +3247,10 @@ body.report-v2 #results-sec.gr-speed .gr-board-head h2.sec{max-width:560px}
 body.report-v2 .trend-podium[hidden]{display:none !important}
 /* Coverage inventory — keep markup, hide on report-v2 (#coverage-sec {display:flex} would otherwise override [hidden]) */
 body.report-v2 #coverage-sec[hidden]{display:none !important}
+/* Product rec + capabilities matrix: keep markup, hide while the metrics are reviewed.
+   #product-rec-sec/#caps-sec {display:flex} would otherwise override [hidden]. */
+body.report-v2 #product-rec-sec,
+body.report-v2 #caps-sec{display:none !important}
 .trend-podium{
   display:flex;
   flex-direction:column;
