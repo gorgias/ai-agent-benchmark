@@ -820,6 +820,21 @@ a.back:hover{
   font-weight:500;
 }
 .sitenav .nav-cta{display:none}
+/* MCP: the one nav item that opens something for your tools, so it reads as a small button */
+.sitenav .links a.nav-mcp{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:6px 12px 6px 10px;
+  border:1px solid var(--color-border);
+  border-radius:var(--radius-pill);
+  background:var(--color-card);
+  color:var(--color-foreground);
+  font-weight:500;
+}
+.sitenav .links a.nav-mcp:hover{background:var(--color-secondary-hover)}
+.sitenav .links a.nav-mcp:focus-visible{outline:none;box-shadow:0 0 0 3px var(--color-ring)}
+.sitenav .links a.nav-mcp svg{flex:none}
 .nav-burger{
   display:none;
   order:3;
@@ -869,6 +884,7 @@ a.back:hover{
     text-align:left;
     height:auto;
   }
+  .sitenav.nav-open .links a.nav-mcp{border:0;background:none;border-radius:var(--radius-xl);padding:11px 14px}
 }
 
 /* ── Hero — Figma Takeaways Hero (4016:1940). Slots: eyebrow, h1, .sub, .gr-cta-row ─ */

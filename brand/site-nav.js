@@ -1,5 +1,6 @@
 /* Site nav + footer. Canonical routes (no .html): /  /report  /rubric
    How it works always opens the eval modal (openModal from the page or /brand/how-modal.js).
+   MCP opens the MCP server modal (/brand/mcp-modal.js, loaded here on first use or when the URL is #mcp).
    Mount:
    <nav class="sitenav wrap-x" id="appbar" data-active="overview|results|rubric"></nav>
    <footer class="sitefoot wrap-x"></footer>
@@ -80,6 +81,17 @@
   const results = "/report";
   const rubric = "/rubric";
   const howClick = ' href="#how" onclick="openModal();return false;"';
+  // The MCP modal script loads on demand: a click (or a #mcp link) queues the open until it arrives.
+  const loadMcp = function () {
+    if (document.querySelector('script[src="/brand/mcp-modal.js"]')) return;
+    const s = document.createElement("script");
+    s.src = "/brand/mcp-modal.js";
+    document.head.appendChild(s);
+  };
+  if (!window.openMcpModal) window.openMcpModal = function () { window.__mcpPending = true; loadMcp(); };
+  if (location.hash === "#mcp") loadMcp();
+  const mcpClick = ' href="#mcp" onclick="openMcpModal();return false;" aria-haspopup="dialog"';
+  const plug = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22v-5"/><path d="M9 8V2"/><path d="M15 8V2"/><path d="M18 8v5a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4V8Z"/></svg>';
   const nav = document.querySelector("nav.sitenav[data-active]");
 
   if (nav && nav.getAttribute("data-mounted") !== "1") {
@@ -100,6 +112,7 @@
         '<a href="' + results + '" id="nav-report"' + mark("results") + ">Full results</a>" +
         '<a href="' + rubric + '" id="nav-rubric"' + mark("rubric") + ">Rubric</a>" +
         "<a" + howClick + mark("how") + ">How it works</a>" +
+        '<a class="nav-mcp"' + mcpClick + ' title="Use the benchmark from your AI assistant">' + plug + "MCP</a>" +
       "</div>";
     nav.setAttribute("data-mounted", "1");
   }
@@ -115,6 +128,7 @@
         '<a href="' + results + '">Full results</a>' +
         '<a href="' + rubric + '">Rubric</a>' +
         "<a" + howClick + ">How it works</a>" +
+        "<a" + mcpClick + ">MCP server</a>" +
       "</div>";
     foot.setAttribute("data-mounted", "1");
   }

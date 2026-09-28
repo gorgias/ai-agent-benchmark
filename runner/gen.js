@@ -878,11 +878,12 @@ try {
 } catch (e) { console.log("report.html sync skipped:", e.message); }
 
 // ---- PUBLIC DATA: board.json ---------------------------------------------------------------------
-// The vendor-level numbers the public pages show, as plain JSON: read by the public MCP server
-// (api/mcp.mjs, https://evals.gorgias.com/mcp) and by anyone who would otherwise scrape the site.
-// Built from the SAME lane scores and ranks as the scoreboard above, so it cannot disagree with the
-// site. Vendor-level only, like the public pages: store-level figures and transcripts stay behind the
-// login. Ranks are shared on a tie of the displayed (rounded) score, the scoreboard's rule.
+// The numbers the site shows, as plain JSON: read by the public MCP server (api/mcp.mjs,
+// https://evals.gorgias.com/mcp) and by anyone who would otherwise scrape the site. Vendor rankings come
+// from the SAME lane scores and ranks as the scoreboard above, so they cannot disagree with the site.
+// Per-store figures use the same arithmetic per storefront, over the same window (automation pooled,
+// quality and latency averaged per run entry, composite with the lane weights). Transcripts are never
+// included. Ranks are shared on a tie of the displayed (rounded) score, the scoreboard's rule.
 try {
   const sharedRank = (rows, key) => rows.map((r) => ({ ...r, rank: 1 + rows.filter((x) => x[key] > r[key]).length }));
   const laneRows = (S, R) => sharedRank(R.map((r) => ({ v: r.v, comp: r.comp })), "comp").map((r) => {
@@ -897,6 +898,37 @@ try {
     return Object.entries(n).filter(([v, c]) => c > 0 && !S[v]).sort((a, b) => b[1] - a[1]).map(([v, c]) => ({ vendor: v, conversations: c,
       reason: c < MIN_RANK_CONVS ? `fewer than ${MIN_RANK_CONVS} conversations in the window` : "no judged answer quality yet" }));
   };
+  // one entry per storefront: its figures in each lane it was measured in, within the ranking window
+  const hostKey = (x) => String(x || "").toLowerCase().replace(/^https?:\/\//, "").replace(/^www\./, "").split("/")[0];
+  const storeLane = (es, lane) => {
+    const w = LANE_W[lane];
+    const conv = es.reduce((n, s) => n + ((s.themes && s.themes.length) || 0), 0);
+    if (!conv) return null;
+    const ag = es.reduce((acc, s) => { if (s.auto) { acc.a += s.auto.automated; acc.e += s.auto.engaged; } return acc; }, { a: 0, e: 0 });
+    const qN = es.map((s) => s.evalq && s.evalq.total).filter((x) => x != null);
+    const lN = es.map(latNumG).filter((x) => x != null);
+    const judged = es.reduce((n, s) => n + (s.themes || []).filter((t) => t.ev && t.ev.total != null).length, 0);
+    const a = ag.e ? Math.round(100 * ag.a / ag.e) : null;
+    const q = qN.length ? Math.round(qN.reduce((x, y) => x + y, 0) / qN.length) : null;
+    const l = lN.length ? Math.round(lN.reduce((x, y) => x + y, 0) / lN.length * 10) / 10 : null;
+    const composite = a != null && q != null && l != null ? Math.round(w.a * a + w.q * q + w.s * speedScoreG(l)) : null;
+    return { composite, automation_pct: a, quality: q, latency_mean_s: l, conversations: conv, judged_conversations: judged, ...(judged < 5 ? { thin: true } : {}) };
+  };
+  const byStore = {};
+  for (const [lane, arr] of [["shopping", STORES], ["support", SUPPORT]]) {
+    for (const s of arr) {
+      if (s.date && s.date < RANK_CUTOFF) continue;
+      const site = hostKey(s.site || s.url), k = `${s.vendor}|${site || s.store}`;
+      const e = (byStore[k] = byStore[k] || { store: s.store || site, site, vendor: s.vendor, rows: { shopping: [], support: [] } });
+      e.rows[lane].push(s);
+    }
+  }
+  const stores = Object.values(byStore).map((e) => {
+    const shopping = storeLane(e.rows.shopping, "shopping"), support = storeLane(e.rows.support, "support");
+    const comps = [shopping && shopping.composite, support && support.composite].filter((x) => x != null);
+    return { store: e.store, site: e.site, vendor: e.vendor, shopping, support,
+      overall: comps.length ? { score: Math.round(comps.reduce((x, y) => x + y, 0) / comps.length), basis: comps.length === 2 ? "mean of both lanes" : (shopping && shopping.composite != null ? "shopping only" : "support only") } : null };
+  }).filter((x) => x.shopping || x.support).sort((x, y) => x.store.localeCompare(y.store));
   const overall = sharedRank(rOverall.map((r) => ({ v: r.v, score: Math.round(r.mean) })), "score").map((r) => ({
     rank: r.rank, vendor: r.v, score: r.score, shopping_composite: shopC[r.v], support_composite: suppC[r.v],
     ...(OVERALL[r.v] && OVERALL[r.v].ci != null ? { score_ci95: OVERALL[r.v].ci } : {}) }));
@@ -927,8 +959,9 @@ try {
     shopping: laneRows(shopS, rShop),
     support: laneRows(supS, rSupp),
     not_ranked: { shopping: unranked(STORES, shopS), support: unranked(SUPPORT, supS) },
+    stores,
   };
   const BJ = new URL("../board.json", import.meta.url).pathname;
   await writeFile(BJ + ".tmp", JSON.stringify(BOARD, null, 1) + "\n"); await rename(BJ + ".tmp", BJ);
-  console.log(`Wrote board.json: ${overall.length} overall · ${BOARD.shopping.length} shopping · ${BOARD.support.length} support`);
+  console.log(`Wrote board.json: ${overall.length} overall · ${BOARD.shopping.length} shopping · ${BOARD.support.length} support · ${stores.length} stores`);
 } catch (e) { console.log("board.json skipped:", e.message); }
