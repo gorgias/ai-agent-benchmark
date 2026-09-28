@@ -103,7 +103,18 @@ json_field() {                               # json_field <key>  (reads stdin)
 publish_head() {                             # publish_head <commit/PR title>
   if git push origin HEAD:master >/dev/null 2>&1; then say "pushed to master"; return 0; fi
   [ -n "${GIT_TOKEN:-}" ] || { say "push rejected and GIT_TOKEN is missing — nothing reached GitHub"; return 1; }
-  local br pr merged body
+  local br pr merged body base
+  # The capture loop commits a checkpoint every 10 minutes and sourcing commits its additions, both
+  # before signing is set up here, so the local history is full of unsigned commits. The signature
+  # rule checks every commit pushed, so fold everything since origin/master into ONE signed commit.
+  # The run rebased onto origin/master at its last pull, so the fold holds exactly the night's work.
+  git fetch -q origin master >/dev/null 2>&1
+  base=$(git merge-base HEAD origin/master 2>/dev/null)
+  if [ -n "$base" ] && [ "$(git rev-list --count "$base"..HEAD 2>/dev/null)" -gt 1 ]; then
+    git reset -q --soft "$base" && git commit -q -m "$1" \
+      || { say "could not fold the night's commits into one signed commit"; return 1; }
+    say "folded the night's commits into one signed commit"
+  fi
   br="pipeline/$D-$(date -u +%H%M%S)"
   if ! git push origin "HEAD:refs/heads/$br" >/dev/null 2>&1; then
     say "push rejected on master and on $br — are the commits signed? (GIT_SIGNING_KEY)"
