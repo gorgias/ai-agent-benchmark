@@ -15,9 +15,21 @@ const PROJECT = process.env.VERCEL_PROJECT_ID || "prj_Y7hKwp6KD568yGRxReyr8xtggN
 export const PENDING = "submissions/pending/";
 export const DONE = "submissions/done/";
 
+// Network calls get three tries: one connect timeout must not skip every submitted store for a night.
+async function withRetry(fn) {
+  for (let attempt = 1; ; attempt++) {
+    try { return await fn(); }
+    catch (e) {
+      const transient = e && (e.name === "TypeError" || e.name === "TimeoutError" || /fetch failed|ECONN|ETIMEDOUT|UND_ERR/i.test(String(e.message || e) + String(e.cause && e.cause.code)));
+      if (attempt >= 3 || !transient) throw e;
+      await new Promise((r) => setTimeout(r, attempt * 3000));
+    }
+  }
+}
+
 async function vercelApi(p, token) {
-  const r = await fetch(`https://api.vercel.com${p}${p.includes("?") ? "&" : "?"}teamId=${TEAM}`,
-    { headers: { authorization: `Bearer ${token}` }, signal: AbortSignal.timeout(20000) });
+  const r = await withRetry(() => fetch(`https://api.vercel.com${p}${p.includes("?") ? "&" : "?"}teamId=${TEAM}`,
+    { headers: { authorization: `Bearer ${token}` }, signal: AbortSignal.timeout(20000) }));
   if (!r.ok) throw new Error(`Vercel API ${r.status} on ${p.split("?")[0]}`);
   return r.json();
 }
@@ -35,8 +47,8 @@ export async function queueToken(env = process.env) {
 }
 
 async function blobApi(token, pathAndQuery, init = {}) {
-  const r = await fetch(BLOB_API + pathAndQuery, { ...init, signal: AbortSignal.timeout(20000),
-    headers: { authorization: `Bearer ${token}`, "x-api-version": "12", ...(init.headers || {}) } });
+  const r = await withRetry(() => fetch(BLOB_API + pathAndQuery, { ...init, signal: AbortSignal.timeout(20000),
+    headers: { authorization: `Bearer ${token}`, "x-api-version": "12", ...(init.headers || {}) } }));
   const body = await r.json().catch(() => ({}));
   if (!r.ok) throw new Error(`Blob ${r.status}: ${String((body.error && body.error.message) || "").slice(0, 120)}`);
   return body;
@@ -66,7 +78,7 @@ async function listAll(token, prefix) {
 async function readJson(token, url) {
   const u = new URL(url);
   u.searchParams.set("cache", "0");
-  const r = await fetch(u, { headers: { authorization: `Bearer ${token}` }, signal: AbortSignal.timeout(20000) });
+  const r = await withRetry(() => fetch(u, { headers: { authorization: `Bearer ${token}` }, signal: AbortSignal.timeout(20000) }));
   if (!r.ok) throw new Error(`Blob read ${r.status}`);
   return r.json();
 }
