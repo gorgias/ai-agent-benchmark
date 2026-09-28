@@ -69,7 +69,10 @@ fi
 # where GitHub signs the squash commit itself. GIT_SIGNING_KEY is an SSH private key whose public
 # half is registered as a signing key on the GitHub account behind GIT_TOKEN; without it the push is
 # rejected and the night's work only survives in /data/unpushed.
-REPO_SLUG="${REPO_SLUG:-$(git remote get-url origin 2>/dev/null | sed -E 's#(git@github.com:|https://github.com/)##; s#\.git$##')}"
+# owner/name for the GitHub API. pipeline.sh points origin at https://x-access-token:<token>@github.com/…,
+# so strip any credentials too (2026-09-28: the unstripped URL made the PR call hit a non-existent repo,
+# and the night's data reached the site but not master). GIT_REPO, when set, wins.
+REPO_SLUG="${REPO_SLUG:-${GIT_REPO:-$(git remote get-url origin 2>/dev/null | sed -E 's#^(git@github\.com:|https://([^@/]*@)?github\.com/)##; s#\.git$##')}}"
 
 setup_signing() {
   [ -n "${GIT_SIGNING_KEY:-}" ] || return 1
@@ -120,9 +123,9 @@ publish_head() {                             # publish_head <commit/PR title>
     say "push rejected on master and on $br — are the commits signed? (GIT_SIGNING_KEY)"
     return 1
   fi
-  body=$(node -e 'process.stdout.write(JSON.stringify({title:process.argv[1],head:process.argv[2],base:"master",body:"Automated publish from the nightly capture machine. Repository rules block direct pushes, so the run publishes through this pull request."}))' "$1" "$br")
+  body=$(node -e 'process.stdout.write(JSON.stringify({title:"chore: "+process.argv[1].replace(/^./,(c)=>c.toLowerCase()),head:process.argv[2],base:"master",body:"Automated publish from the nightly capture machine. Repository rules block direct pushes, so the run publishes through this pull request."}))' "$1" "$br")
   pr=$(gh_api POST /pulls "$body" | json_field number)
-  [ -n "$pr" ] || { say "branch $br pushed but the pull request could not be opened"; return 1; }
+  [ -n "$pr" ] || { say "branch $br pushed but the pull request could not be opened (repo ${REPO_SLUG%%@*})"; return 1; }
   body=$(node -e 'process.stdout.write(JSON.stringify({merge_method:"squash",commit_title:process.argv[1]+" (#"+process.argv[2]+")"}))' "$1" "$pr")
   merged=$(gh_api PUT "/pulls/$pr/merge" "$body" | json_field merged)
   [ "$merged" = "true" ] && { say "published through pull request #$pr ($br)"; return 0; }
