@@ -876,3 +876,59 @@ try {
   await writeFile(R2 + ".tmp", r2); await rename(R2 + ".tmp", R2);
   console.log("Synced report.html: report-archive.html's data block and prose markers");
 } catch (e) { console.log("report.html sync skipped:", e.message); }
+
+// ---- PUBLIC DATA: board.json ---------------------------------------------------------------------
+// The vendor-level numbers the public pages show, as plain JSON: read by the public MCP server
+// (api/mcp.mjs, https://evals.gorgias.com/mcp) and by anyone who would otherwise scrape the site.
+// Built from the SAME lane scores and ranks as the scoreboard above, so it cannot disagree with the
+// site. Vendor-level only, like the public pages: store-level figures and transcripts stay behind the
+// login. Ranks are shared on a tie of the displayed (rounded) score, the scoreboard's rule.
+try {
+  const sharedRank = (rows, key) => rows.map((r) => ({ ...r, rank: 1 + rows.filter((x) => x[key] > r[key]).length }));
+  const laneRows = (S, R) => sharedRank(R.map((r) => ({ v: r.v, comp: r.comp })), "comp").map((r) => {
+    const sc = S[r.v];
+    return { rank: r.rank, vendor: r.v, composite: r.comp, automation_pct: sc.a, quality: sc.q,
+      latency_mean_s: sc.l, latency_p75_s: sc.l75, conversations: sc.n,
+      ...(sc.ci != null ? { composite_ci95: sc.ci, ci_storefronts: sc.ciStores } : {}) };
+  });
+  const unranked = (arr, S) => {
+    const n = {};
+    for (const s of arr) if (!s.date || s.date >= RANK_CUTOFF) n[s.vendor] = (n[s.vendor] || 0) + ((s.themes && s.themes.length) || 0);
+    return Object.entries(n).filter(([v, c]) => c > 0 && !S[v]).sort((a, b) => b[1] - a[1]).map(([v, c]) => ({ vendor: v, conversations: c,
+      reason: c < MIN_RANK_CONVS ? `fewer than ${MIN_RANK_CONVS} conversations in the window` : "no judged answer quality yet" }));
+  };
+  const overall = sharedRank(rOverall.map((r) => ({ v: r.v, score: Math.round(r.mean) })), "score").map((r) => ({
+    rank: r.rank, vendor: r.v, score: r.score, shopping_composite: shopC[r.v], support_composite: suppC[r.v],
+    ...(OVERALL[r.v] && OVERALL[r.v].ci != null ? { score_ci95: OVERALL[r.v].ci } : {}) }));
+  const BOARD = {
+    name: "Gorgias AI Agent Benchmark",
+    site: "https://evals.gorgias.com",
+    data_through: LATEST,
+    ranking_window: { days: Math.round((Date.parse(LATEST) - Date.parse(RANK_CUTOFF)) / 864e5) + 1, from: RANK_CUTOFF, to: LATEST },
+    totals: { conversations: STATS.convs, judged_conversations: STATS.judged, vendors: STATS.vendors, storefronts: STATS.stores },
+    method: {
+      lanes: {
+        shopping: "Pre-sale Shopping Assistant: product discovery, recommendations, comparisons and the path to cart.",
+        support: "Post-sale Support Agent: order tracking, returns, shipping, damaged items, changes and cancellations.",
+      },
+      composite: "weights.automation × automation % + weights.quality × quality + weights.speed × speed score, rounded",
+      weights: { shopping: { automation: LANE_W.shopping.a, quality: LANE_W.shopping.q, speed: LANE_W.shopping.s },
+                 support: { automation: LANE_W.support.a, quality: LANE_W.support.q, speed: LANE_W.support.s } },
+      speed_score: "(22 − mean latency in seconds) / 19 × 100, clamped to 0–100: 100 at 3 s or faster, 0 at 22 s or slower",
+      overall: "Mean of the shopping and support composites, for vendors ranked in both lanes",
+      automation: "Share of engaged conversations the AI resolved without handing over to a human or deflecting to another channel",
+      quality: "Blind LLM-judge score out of 100 against a fixed rubric, averaged over judged conversations",
+      latency: "Seconds from the shopper's message to the AI's complete final reply (a 'let me check' stall is not an answer)",
+      rankable: `At least ${MIN_RANK_CONVS} conversations in the lane within the ranking window, with judged quality`,
+      confidence_interval: "composite_ci95 is a 95% interval with the storefront as the unit of replication",
+      rubric: "https://evals.gorgias.com/rubric",
+    },
+    overall,
+    shopping: laneRows(shopS, rShop),
+    support: laneRows(supS, rSupp),
+    not_ranked: { shopping: unranked(STORES, shopS), support: unranked(SUPPORT, supS) },
+  };
+  const BJ = new URL("../board.json", import.meta.url).pathname;
+  await writeFile(BJ + ".tmp", JSON.stringify(BOARD, null, 1) + "\n"); await rename(BJ + ".tmp", BJ);
+  console.log(`Wrote board.json: ${overall.length} overall · ${BOARD.shopping.length} shopping · ${BOARD.support.length} support`);
+} catch (e) { console.log("board.json skipped:", e.message); }

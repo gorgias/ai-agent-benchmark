@@ -220,7 +220,7 @@ The gate passed, but publishing was blocked because these numbers would be wrong
 fi
 
 # ── 7. commit + push the board ────────────────────────────────────────────────
-git add report.html report-archive.html takeaways.html takeaways-archive.html brand/howto.html conv-text.json \
+git add report.html report-archive.html takeaways.html takeaways-archive.html brand/howto.html conv-text.json board.json \
         runner/eval-scores.json runner/conversation-quarantine.json runner/driver-triage.json \
         "runner/results/$D/conv" 2>/dev/null
 if git diff --cached --quiet; then

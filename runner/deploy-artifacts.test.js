@@ -11,7 +11,7 @@ import { readFileSync } from "node:fs";
 import { RANK_WINDOW_DAYS } from "./ranking-window.js";
 
 const read = (p) => readFileSync(new URL(p, import.meta.url), "utf8");
-const ARTIFACTS = ["../report.html", "../report-archive.html", "../takeaways.html", "../takeaways-archive.html", "../conv-text.json"];
+const ARTIFACTS = ["../report.html", "../report-archive.html", "../takeaways.html", "../takeaways-archive.html", "../conv-text.json", "../board.json"];
 // git conflict markers as whole lines: "<<<<<<< label", "=======", ">>>>>>> label"
 const CONFLICT = /^(<{7} |={7}$|>{7} )/m;
 
@@ -250,3 +250,32 @@ test("downloadable rubric PDF is the scoring worksheet", async () => {
   assert.ok(/Score your own/i.test(ascii), "public rubric.pdf is not the scoring worksheet");
 });
 
+
+// ---- board.json: the public MCP server's data (api/mcp.mjs) --------------------------------------
+// gen.js writes it from the scoreboard's own lane scores; publish.sh must commit it with the pages, or
+// the MCP answers with a different day's board than the site shows.
+test("board.json parses, ranks every lane and agrees with the takeaways scoreboard", () => {
+  const b = JSON.parse(read("../board.json"));
+  for (const lane of ["overall", "shopping", "support"]) {
+    assert.ok(Array.isArray(b[lane]) && b[lane].length > 0, `board.json ${lane} is empty`);
+    assert.equal(b[lane][0].rank, 1, `board.json ${lane} does not start at rank 1`);
+  }
+  const m = read("../takeaways.html").match(/\/\*SCORES_START\*\/([\s\S]*?)\/\*SCORES_END\*\//);
+  const D = grabObjects(m[1], "D")[0];   // { vendor: { s: shopping, p: support, ov: overall } }
+  let compared = 0;
+  for (const [lane, k] of [["shopping", "s"], ["support", "p"]]) {
+    for (const r of b[lane]) {
+      const d = D[r.vendor] && D[r.vendor][k];
+      assert.ok(d, `${r.vendor} is ranked in board.json ${lane} but missing from the scoreboard`);
+      assert.deepEqual([r.automation_pct, r.quality, r.latency_mean_s, r.conversations], [d.a, d.q, d.l, d.n], `board.json and takeaways disagree on ${r.vendor} ${lane}`);
+      compared++;
+    }
+  }
+  for (const r of b.overall) assert.equal(r.score, D[r.vendor] && D[r.vendor].ov && D[r.vendor].ov.score, `board.json and takeaways disagree on ${r.vendor} overall`);
+  assert.ok(compared > 0 && D.Gorgias, "nothing compared");
+});
+
+test("publish.sh commits board.json with the other baked pages", () => {
+  const sh = read("../server/publish.sh");
+  assert.match(sh, /git add [^\n]*\bboard\.json\b/, "publish.sh's git add list is missing board.json");
+});
