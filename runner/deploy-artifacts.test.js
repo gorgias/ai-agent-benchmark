@@ -129,7 +129,17 @@ test("conv-text.json parses as JSON", () => {
 test("plain /report does not inherit conversations from saved state", () => {
   const h = read("../report.html");
   assert.match(h, /if\(VIEW==='best'\|\|VIEW==='conversations'\) VIEW='shopping'/);
-  assert.match(h, /if\(_pv==='conversations'\) VIEW='conversations';\s*else VIEW='support';/);
+  // The URL alone decides the view; a gated view (conversations, stores) never comes from saved state.
+  assert.match(h, /if\(_pv==='conversations'\) VIEW='conversations';\s*(?:else if\(_pv==='stores'\) VIEW='stores';[^\n]*\s*)?else VIEW='support';/);
+});
+
+test("stores view exists, is not linked from the page, and is gated like Conversations", () => {
+  const h = read("../report.html");
+  assert.ok(/id="stores-sec"/.test(h), "missing #stores-sec");
+  assert.ok(/function renderStores\(\)/.test(h), "missing renderStores");
+  assert.ok(!/href="[^"]*view=stores/.test(h), "the stores view must stay unlisted: no link to it on the page");
+  const mw = read("../middleware.js");
+  assert.match(mw, /stores:\s*STORES_NEXT/, "middleware must gate view=stores");
 });
 
 test("report.html conversations view has markup and is not stubbed", () => {
