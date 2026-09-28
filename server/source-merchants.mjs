@@ -69,6 +69,10 @@ const VERIFY = {
   Klaviyo:       { host: /customerHubRoot|kServiceStyles/i,          mount: '[id^="k-hub"],[class*="customer-hub"]' },
   Decagon:       { host: /decagon\.ai/i,                             mount: '[id*="decagon"]' },
   Yuma:          { host: /yuma\.ai/i,                                mount: '#yuma-widget,iframe#yuma-widget' },
+  // Rep AI renders inside a closed shadow root whose host element has no size until the chat is
+  // opened: healthy stores read "present, nothing visible" (checked 2026-09-28 on repai-fresh and
+  // repai-masteringthemix). Presence of the container plus Rep AI's own host is the mount signal.
+  "Rep AI":      { host: /myrepai\.com|hellorep\.ai/i,               mount: '#repWebClientContainer', present: true },
 };
 
 const known = new Set(STORES.map((s) => (s.url || "").replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, "")).filter(Boolean));
@@ -86,7 +90,51 @@ const RESEARCH_BUDGET_MS = Number(process.env.RESEARCH_BUDGET_MS || 12 * 60 * 10
 const research = [];     // one entry per researched vendor, for the report
 const evidenceOf = {};   // candidate URL → its public evidence, written into the vendors.js row
 
+// ── stores submitted from the stores view (api/add-store.mjs) ─────────────────────────────────────
+// They sit in a private repository's submitted-stores.json ({ pending: [...], done: [...] }) and are
+// verified FIRST, so a store someone asked for is checked on the very next run. Each one leaves the
+// pending list with its outcome once the browser has looked at it; one skipped for time stays pending.
+const QUEUE_REPO = process.env.SUBMISSIONS_REPO || "gorgias/ai-agent-benchmark-queue";
+const QUEUE_API = `https://api.github.com/repos/${QUEUE_REPO}/contents/submitted-stores.json`;
+const ghHeaders = () => ({ authorization: `Bearer ${process.env.GIT_TOKEN}`, accept: "application/vnd.github+json", "content-type": "application/json" });
+let submissions = [];      // pending items read this run
+const submissionOutcomes = [];
+async function readQueue() {
+  if (!process.env.GIT_TOKEN) return { doc: null, sha: null };
+  try {
+    const r = await fetch(QUEUE_API, { headers: ghHeaders(), signal: AbortSignal.timeout(20000) });
+    if (r.status === 404) return { doc: null, sha: null };
+    if (!r.ok) { console.log(`submissions: queue unreadable (HTTP ${r.status})`); return { doc: null, sha: null }; }
+    const j = await r.json();
+    return { doc: JSON.parse(Buffer.from(j.content, "base64").toString("utf8")), sha: j.sha };
+  } catch (e) { console.log(`submissions: queue unreadable (${String(e.message || e).slice(0, 80)})`); return { doc: null, sha: null }; }
+}
+// Move the stores the browser looked at from pending to done, re-reading on a conflict so a store
+// submitted while this run was verifying is never lost.
+async function settleQueue(outcomeOf) {
+  if (DRY || !process.env.GIT_TOKEN || !submissions.length) return;
+  for (let attempt = 0; attempt < 3; attempt++) {
+    const { doc, sha } = await readQueue();
+    if (!doc) return;
+    const pending = [], done = doc.done || [];
+    for (const it of doc.pending || []) {
+      const o = outcomeOf(it);
+      if (!o) { pending.push(it); continue; }
+      done.push({ ...it, checked: new Date().toISOString().slice(0, 10), result: o.result, why: o.why || "" });
+    }
+    if (pending.length === (doc.pending || []).length) return;
+    const body = JSON.stringify({ message: `sourcing ${new Date().toISOString().slice(0, 10)}: ${(doc.pending || []).length - pending.length} submission(s) checked`,
+      content: Buffer.from(JSON.stringify({ pending, done: done.slice(-500) }, null, 2) + "\n").toString("base64"), sha });
+    const w = await fetch(QUEUE_API, { method: "PUT", headers: ghHeaders(), body }).catch(() => null);
+    if (w && w.ok) { console.log(`submissions: ${(doc.pending || []).length - pending.length} moved to done`); return; }
+    if (!w || (w.status !== 409 && w.status !== 422)) { console.log(`submissions: could not update the queue (HTTP ${w ? w.status : "?"})`); return; }
+  }
+}
+
 async function candidates() {
+  const q = await readQueue();
+  submissions = (q.doc && q.doc.pending) || [];
+  if (submissions.length) console.log(`submissions: ${submissions.length} pending — verified first`);
   const seed = path.join(ROOT, "server", "candidates.json");
   const seeded = existsSync(seed) ? JSON.parse(readFileSync(seed, "utf8")) : {};
   const out = {};
@@ -111,6 +159,10 @@ async function candidates() {
   }
   // Seed URLs go after the researched ones, so research gets the queue slots whenever it finds something.
   for (const [vendor, urls] of Object.entries(seeded)) out[vendor] = [...(out[vendor] || []), ...urls];
+  for (const it of [...submissions].reverse()) {
+    if (!VERIFY[it.vendor] || !it.url) continue;
+    out[it.vendor] = [it.url, ...(out[it.vendor] || []).filter((u) => u !== it.url)];
+  }
   return out;
 }
 
@@ -149,7 +201,7 @@ async function verify(browser, vendor, url) {
   // mounts hidden 0x0 containers with no chat API — supergoop.com passes a found>0 test yet has no
   // openChat at all, and its conversations were being scored as Envive chat. Requiring a visible
   // launcher is what separates a drivable widget from an installed-but-inert one.
-  if (!mount.visible) return { ok: false, why: "widget present but nothing visible — inert/search-only bundle or consent-gated launcher" };
+  if (!mount.visible && !sig.present) return { ok: false, why: "widget present but nothing visible — inert/search-only bundle or consent-gated launcher" };
   return { ok: true, visible: mount.visible, competing,
     note: competing.length ? `also on page: ${competing.join(", ")} — driver must target the ${vendor} launcher` : "" };
   } catch (e) {
@@ -212,6 +264,19 @@ await Promise.all(Array.from({ length: Math.max(1, VERIFY_CONC) }, worker));
 if (skippedForBudget) console.log(`sourcing: budget spent — ${skippedForBudget} candidates left unchecked, writing the ${accepted.length} verified so far`);
 await browser.close();
 
+// Outcome of each submitted store: added, rejected with the reason, or already benchmarked. A store
+// the budget did not reach has no outcome and stays pending for the next run.
+const byUrl = new Map([...accepted.map((a) => [norm(a.url), { result: "added" }]), ...rejected.map((r) => [norm(r.url), { result: "rejected", why: r.why }])]);
+const outcomeOf = (it) => {
+  if (!VERIFY[it.vendor]) return { result: "rejected", why: "no verification fingerprint for this vendor" };
+  const o = byUrl.get(norm(it.url));
+  if (o) return o;
+  if (knownHosts.has(hostOf(it.url))) return { result: "already in the benchmark" };
+  return null;
+};
+for (const it of submissions) { const o = outcomeOf(it); if (o) submissionOutcomes.push({ ...it, ...o }); }
+await settleQueue(outcomeOf);
+
 // ── write verified stores into vendors.js ─────────────────────────────────────
 const slug = (u) => norm(u).split(".")[0].replace(/[^a-z0-9]/gi, "").slice(0, 14).toLowerCase();
 if (accepted.length && !DRY) {
@@ -256,6 +321,8 @@ const lines = [
   research.length ? `:mag: Research with ${RESEARCH_MODEL} + web search: ` +
     research.map((r) => r.skipped ? `${r.vendor} skipped (time budget)` : r.error ? `${r.vendor} failed (${r.error})` : `${r.vendor} ${r.candidates.length} candidates`).join(", ") +
     ` · ${research.reduce((n, r) => n + (r.usage ? r.usage.searches : 0), 0)} searches · ~$${research.reduce((n, r) => n + (r.cost || 0), 0).toFixed(2)}` : "",
+  submissionOutcomes.length ? `:inbox_tray: Submitted from the stores view: ` +
+    submissionOutcomes.map((o) => `${o.host} (${o.vendor}) ${o.result === "added" ? "added" : o.result === "rejected" ? "not added — " + o.why : o.result}`).join(" · ") : "",
   ...Object.entries(byVendor).map(([v, n]) => `• ${v}: +${n}`),
   missed.length ? `_no new verified store for: ${missed.join(", ")}_` : "",
   rejected.length ? `_rejected ${rejected.length}: ${[...new Set(rejected.map((r) => r.why))].slice(0, 3).join(" · ")}_` : "",
