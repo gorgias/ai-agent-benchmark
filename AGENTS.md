@@ -86,7 +86,8 @@ runner/
   vendors.js       THE store list (WIDGETS handlers + STORES array). Add stores here.
   pools.js         The conversation themes (5 shopping + 5 support + guardrails), 10 turns each.
   run.js           The capture driver (Playwright, headed, resumable). Writes results/<date>/conv/*.json.
-  classify.js      Pure, unit-tested decision logic (validity, handover, deflection, outcome). classify.test.js = `node --test`.
+  classify.js      Pure, unit-tested decision logic (validity, handover transfer-vs-offer, deflection, outcome). classify.test.js = `node --test`.
+  conversation-outcome.js  Bake-time outcome: re-derives every stored hand-off with the CURRENT classifier (gen.js, scoreboard-preview.js, eval-pack.js).
   gen.js           Reads results/ + eval-scores.json → bakes report.html + takeaways.html + Pages stats. Run after every capture or judge.
   vendor-changes.mjs  Bakes vendor-changes.html from vendors.js git history. Run by hand after a reclassification.
   eval-rubric.md   THE judge specification (v2.2). Canonical. The judge prompt is assembled from this.
@@ -259,6 +260,10 @@ signals only. Ground every query in the knowledge graph first (`get_node('/metri
   and rank spuriously. "Not measurable" vendors live in the prose profiles, not the scoreboard.
 - **Scales must not mix.** v1 (scalar) vs v2 (checks) vs v2.2 (shopping+discovery) are different
   scales; re-judge a whole lane before swapping, keep a backup (`.eval-wip/eval-scores-*-backup.json`).
+- **Plan driver work from `node runner/tools/capture-yield.mjs`** — it splits unusable captures by
+  cause (no text / killed by a handover / locked composer / untimed / errors) per widget and store.
+  A handover signal is a TRANSFER (stop) or an OFFER (keep going, still counted against
+  automation); see docs/METHODOLOGY.md §Transfer vs offer before touching `HANDOVER_RULES`.
 - **The conversations feed view** is URL-driven (`report.html?view=conversations`) and per-tab
   sticky; don't make it a modebar tab again.
 - **Local preview**: `python3 -m http.server 8080` from repo root serves everything; run it

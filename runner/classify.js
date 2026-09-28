@@ -32,20 +32,130 @@ export function stripTrailChrome(t) {
 // Unprompted handover to a HUMAN = the assistant bailed (a failure we measure).
 // Explicit phrases only — the fragile "<Name> says:" heuristic lives in namedHumanSays()
 // below so it can exclude bot self-labels AND the widget's own brand/persona name.
-export const HANDOVER_PATTERNS = [
-  /\bconnect you (with|to)\b/i, /\bi('|’)?ll connect you\b/i,
-  /\btransfer(ring)? you (to|over)\b/i, /\btransf[eè]re(r|z)?\b.*(humain|conseiller|agent|ticket|demande)/i,
-  /\bspeak (to|with) (a|an|our|one of our) (human|agent|team|representative|specialist|advisor)/i,
-  /\b(submit|raise|create|open|log) a (support )?ticket\b/i,
-  /\bour (team|agents?|support team) (will|can) (get back|follow up|reach out|be in touch|contact|assist)/i,
-  /\ba (member|representative) of our team\b/i, /\bconseiller humain\b/i,
-  /\b(fill (in|out)|complete) (the|this|a) form\b/i, /\benter your details\b/i,
-  /\bshare (your|a few) (details|email|order number)\b.*(team|agent|connect|assist|follow)/i,
-  /\b(joined|entered) the (chat|conversation)\b/i, /\ba rejoint (la )?(conversation|discussion|chat)\b/i,
-  /\blaissez(\-| )?(nous|moi)?\s*(votre)?\s*(e-?mail|adresse)/i,
-  /\b(leave|enter) (your|us) (e-?mail|email address)\b/i,
-  /\ball of our agents are (unavailable|busy)\b/i,
+//
+// Every pattern is bounded to ONE sentence ([^.?!\n] instead of .*). The old
+// `share … order number\b.*(team|agent|connect|assist|follow)` ran across the whole reply, so
+// "could you share your order number? It should start with "AL" followed by 7 digits" matched on
+// "followed" and killed the conversation at T1 (DigitalGenius, Intercom, Ada, Sierra, Rep AI, Yuma
+// all hit it — 2026-09-28 audit of 1,748 handover-flagged conversations, notes/capture-yield-2026-09-28.md).
+//
+// Each rule carries a KIND default, refined per sentence by handoverKind():
+//   always   — a human owns or is joining the thread, whatever the phrasing around it
+//   transfer — reads as a hand-off unless the sentence makes it a question/conditional/capability
+//   offer    — describes a form, a ticket, or what the team does; a hand-off only if committed
+const HUMAN_NOUN = "(?:team(?: member)?|teammate|agents?|person|human|specialist|representative|colleague|staff|advisor|expert)";
+const PERSON_NOUN = "(?:person|human|team member|teammate|specialist|agent|representative|advisor|expert|colleague)";
+const HANDOVER_RULES = [
+  // ── always ──
+  [/\b(joined|entered) the (chat|conversation)\b/i, "always"], [/\ba rejoint (la )?(conversation|discussion|chat)\b/i, "always"],
+  [/\ball of our agents are (unavailable|busy)\b/i, "always"],
+  // Completed/committed escalation that names no connector verb ("I have routed you to one of my
+  // colleagues", "your email has now been escalated to our Manager", "I need to escalate this").
+  [/\b(i('|’)?ve|i have|you('|’)?ve been|you have been|has (now )?been|have (now )?been) (routed|transferred|escalated|forwarded)\b/i, "always"],
+  [/\b(i('|’)?ll|i will|i need to|i have to|let me|i('|’)?m going to|i am going to) escalate\b/i, "always"],
+  [/\bwaiting for (an? )?(agent|teammate|team member|human)\b/i, "always"],
+  // "Before a specialist joins the conversation, please share a few details" (Intercom).
+  [/\b(before|until|once|while|when) (a|an|our|the) (specialist|agent|team member|human|teammate|representative|advisor|expert|colleague) joins?\b/i, "always"],
+  // Declarative hand-off: a person is now on the hook ("A person from our team will follow up",
+  // "a shopping specialist will take over from here", Gorgias's "our team will respond as soon as
+  // they join"). Deliberately not softened by a trailing "feel free to ask more questions".
+  [new RegExp(String.raw`\b(a|one of our) (\w+ )?${PERSON_NOUN}( (from|on|of) our (\w+ )?team)? will (be able to )?(follow up|review|get back|reach out|contact|be in touch|take over|join|respond|reply|check|look|assist|help|be with you)\b`, "i"), "always"],
+  [/\bwill respond as soon as they join\b/i, "always"], [/\b(is |agent )joining the (chat|conversation)\b/i, "always"],
+  // Progressive = already happening: "I'm connecting you with a member of our team… They'll be with
+  // you shortly!" (Intercom).
+  [/\b(i('|’)?m|i am|we('|’)?re|we are) (now )?(connecting|transferring) you\b/i, "always"],
+  [/\b(they|someone|an agent|a teammate|a team member)('|’)?ll (be (right )?with you|join (this|the) chat)( shortly| soon| in a (moment|minute|few)| now)?\b/i, "always"],
+  // "you will be connected with a specialist shortly" (Siena), "I'll hand you over to an agent now" (DigitalGenius)
+  [/\byou('|’)?ll be connected|\byou will be connected|\byou('|’)?re being connected|\byou are being connected\b/i, "always"],
+  // ── transfer ──
+  [/\bconnect you (with|to)\b/i, "transfer"], [/\bi('|’)?ll connect you\b/i, "transfer"],
+  [/\btransfer(ring)? you (to|over)\b/i, "transfer"], [/\btransf[eè]re(r|z)?\b[^.?!\n]*(humain|conseiller|agent|ticket|demande)/i, "transfer"],
+  [/\bspeak (to|with) (a|an|our|one of our) (human|agent|team|representative|specialist|advisor)/i, "transfer"],
+  [/\ba (member|representative) of our team\b/i, "transfer"], [/\bconseiller humain\b/i, "transfer"],
+  [/\bhand(ing)? you (over|off) to\b/i, "transfer"],
+  [new RegExp(String.raw`\bshare (your|a few) (details|e-?mail(?: address)?|contact (?:info|information|details)|order number)\b[^.?!\n]{0,80}?\bso (?:that )?[^.?!\n]{0,30}?\b${HUMAN_NOUN}\b`, "i"), "transfer"],
+  [/\blaissez(\-| )?(nous|moi)?\s*(votre)?\s*(e-?mail|adresse)/i, "transfer"],
+  [/\b(leave|enter) (your|us) (e-?mail|email address)\b/i, "transfer"],
+  // "I need to pass this to our team for you, and a person will follow up" (Gorgias).
+  [/\b(pass(ed|ing)?|hand(ed|ing)?) (this|it|that|your (request|question|details|case|message)) (on |over |along )?to (our|the|a) (team|teammates?|agents?|person|human|specialists?|colleagues?)\b/i, "transfer"],
+  [/\b(loop|bring|pull) in (one of our|a|an|our) (\w+ )?(humans?|agents?|teammates?|team members?|specialists?|person|colleagues?)\b/i, "transfer"],
+  [/\bso (that )?(a|an) (person|human|team member|agent|specialist|representative) (can|will) (follow up|assist|help|reach out|get back|reply|respond)\b/i, "transfer"],
+  // ── offer ──
+  [/\b(submit|raise|create|open|log) a (support )?ticket\b/i, "offer"],
+  [/\bour (team|agents?|support team) (will|can) (get back|follow up|reach out|be in touch|contact|assist)/i, "offer"],
+  [/\b(fill (in|out)|complete) (the|this|a) form\b/i, "offer"], [/\benter your details\b/i, "offer"],
+  [/\bexpect a (reply|response|follow-?up) (with)?in\b/i, "offer"],
 ];
+export const HANDOVER_PATTERNS = HANDOVER_RULES.map(([re]) => re);
+
+// HANDOVER KIND — a hit is either a TRANSFER (a human owns or is about to own the thread → the
+// runner stops sending, sticky) or an OFFER (the AI proposed human help, pointed at a form/ticket,
+// or described what the team does, but is still the one answering → the runner keeps going).
+//
+// Why the split (2026-09-28): the runner used to treat every hit as a transfer. 1,748 of 6,885
+// conversations captured since 2026-08-18 carried a hit and 794 of them died before three timed
+// answers — the single largest avoidable cause of unusable captures. Most were not transfers at
+// all: "Would you like to speak to a human?", "If you'd like, I can connect you with a specialist",
+// "Once submitted, our team will follow up". Stopping there threw away the rest of a conversation
+// that no human ever touched.
+//
+// The split does NOT move the automation rate: an offer still counts against automation (as a
+// deflection — see convoOutcome), exactly as the transfer it used to be recorded as did. It only
+// stops us from abandoning the conversation, so latency and quality get measured on it.
+//
+// The sentence the hit sits in refines the rule's default: a committed first-person action right
+// before the verb ("I'll connect you", "before I transfer you", "I've passed your request") is a
+// TRANSFER; a question, conditional or capability ("Would you like…?", "If you'd like, I can…",
+// "you can speak to an agent by calling…") is an OFFER.
+// A committed first-person action immediately before the hit ("I'll ", "let me ", "before I ",
+// "I'm ", "I've ", "while I ", or a sentence-initial "To connect you…" intake).
+const COMMIT_PREFIX = /(\b(i('|’)?ll|i will|i shall|let me|i('|’)?m|i am|i('|’)?ve|i have|we('|’)?ve|we have|has( now)? been|have( now)? been|i need to|i have to|i must|before i|while i|we('|’)?ll|we will|we('|’)?re going to|please hold[^.?!]*)\s+(\w+\s+){0,2}|^\s*to\s+)$/i;
+const OFFER_MARKER = /\b(would you like|do you want|want me to|shall i|should i|if you('|’)?d like|if you would like|if you want|if you prefer|if you need|if needed|if necessary|if you still|if you have|if (that|this|it|your|there|you('|’)?re|i can('|’)?t|i cannot)|should you|in case|once (you|submitted|it|your)|let (me|us) know|feel free|i can|i could|we can|we could|you can|you could|you may|alternatively|otherwise)\b/i;
+const CONDITIONAL_OPENER = /^\s*(if|should|in case|once|when)\b/i;
+
+function sentenceAround(text, index, length) {
+  const t = String(text || "");
+  let start = index, end = index + length;
+  while (start > 0 && !/[.!?\n]/.test(t[start - 1])) start--;
+  while (end < t.length && !/[.!?\n]/.test(t[end])) end++;
+  if (end < t.length && /[.!?]/.test(t[end])) end++;
+  return { sentence: t.slice(start, end), prefix: t.slice(start, index), start };
+}
+
+// kind of one hit: "transfer" | "offer". `rule` is the rule's default ("always"|"transfer"|"offer").
+export function handoverKind(text, match, rule = "transfer") {
+  if (!match) return null;
+  if (rule === "always") return "transfer";
+  const { sentence, prefix, start } = sentenceAround(text, match.index, match[0].length);
+  const line = sentence.trim();
+  // A short, unpunctuated line holding a connect/talk/transfer hit is a BUTTON label ("Talk to
+  // human", "Transfer to an agent", "No, speak with an agent") — nothing has happened yet.
+  if (line.length <= 40 && !/[.!?]$/.test(line) && /connect|transfer|speak|talk/i.test(match[0])) return "offer";
+  const committed = COMMIT_PREFIX.test(prefix) && !CONDITIONAL_OPENER.test(sentence);
+  if (committed) return "transfer";
+  if (OFFER_MARKER.test(sentence) || /\?\s*$/.test(line) || CONDITIONAL_OPENER.test(sentence)) return "offer";
+  // "If your request is complex… do not hesitate to let us know. A member of our team will gladly
+  // take over." — a capability disclosure conditioned on the PREVIOUS sentence (Yuma greeting).
+  const prev = (String(text || "").slice(0, start).match(/([^.!?\n]*[.!?]\s*)$/) || [""])[0];
+  if (/^\s*if\b/i.test(prev) && /\b(let (us|me) know|(do not|don'?t) hesitate|reach out)\b/i.test(prev)) return "offer";
+  return rule === "offer" ? "offer" : "transfer";
+}
+
+// FALSE-POSITIVE guards: self-service INSTRUCTIONS ("Simply enter your email and order number on our
+// Returns Portal", "Enter your email to get the code", "enter your details and payment at checkout",
+// "fill out a form on our Vehicle Technical Support page") name the same words as a hand-off but hand
+// nothing to anyone. Only the ENTER/FILL families are guarded: "leave your email" is always an ask
+// for a follow-up address.
+const SELF_SERVICE = /\b(order (number|#)|portal|page|site|website|there|code|discount|newsletter|mailing list|updates|subscribe|club|sign ?up|checkout|payment|account|lookup|look-up)\b/i;
+function isFalseHandover(text, match) {
+  if (!/^(enter|fill|complete)\b/i.test(match[0])) return false;
+  return SELF_SERVICE.test(sentenceAround(text, match.index, match[0].length).sentence);
+}
+
+// "Here's what our policy says:", "Their FAQ says:" — nouns that are never a person.
+const NOT_A_PERSON = /^(faq|policy|policies|website|site|page|label|guide|it|this|that|which|what|who|he|she|they|we|law|description|listing|manual|tag|box|packaging|item|product|review|reviewer|customer|customers|article|note|terms|email|message|system|carrier|tracking|ups|fedex|usps|dhl|order|confirmation|receipt|chart|table|sheet|warranty|documentation|brand|store|shop|everyone|nobody|someone)$/i;
+
+
 
 // Generic bot/persona self-labels — never a human agent.
 const BOT_LABEL = /^(ai|assistant|bot|chatbot|concierge|virtual|team|support|help|helpdesk|chat|customer service|service client|[eé]quipe|nous)$/i;
@@ -55,6 +165,8 @@ const BOT_LABEL = /^(ai|assistant|bot|chatbot|concierge|virtual|team|support|hel
 // brand/persona name passed in `selfNames` — because many bots label themselves with the
 // brand ("Tediber says:", "Dermalogica's Virtual Assistant says:"). Without this, a normal
 // bot greeting is misread as a human handover and the conversation is wrongly killed.
+// A name is capitalized and is not a common noun: "Here's what our policy says:" and "Their FAQ
+// says:" (Kodif, Klaviyo) are the bot quoting a document, not an agent called "policy".
 export function namedHumanSays(text, selfNames = []) {
   if (!text) return null;
   // Widget innerText can hide zero-width chars or line breaks INSIDE the sender label
@@ -67,11 +179,56 @@ export function namedHumanSays(text, selfNames = []) {
   let m;
   while ((m = re.exec(text))) {
     const name = m[1].toLowerCase();
+    if (m[1][0] === m[1][0].toLowerCase()) continue;              // not capitalized → not a name
+    if (NOT_A_PERSON.test(name)) continue;
     if (BOT_LABEL.test(name) || self.has(name)) continue;
     if ([...self].some(s => s.length > 2 && name.length >= 2 && s.endsWith(name))) continue; // split-label artifact
     return m[0].trim().slice(0, 80);
   }
   return null;
+}
+
+// Returns { hit, kind: "transfer" | "offer" } for the first handover signal, or null.
+// A TRANSFER anywhere in the text wins over an earlier OFFER: "Would you like an agent? … I'll
+// connect you now" is a transfer.
+export function classifyHandover(text, extra = [], selfNames = []) {
+  if (!text) return null;
+  let offer = null;
+  // Widget-specific extras (vendors.js WIDGETS[w].handover) default to "transfer".
+  for (const [re, rule] of [...HANDOVER_RULES, ...extra.map((re) => [re, "transfer"])]) {
+    const rx = new RegExp(re.source, re.flags.includes("g") ? re.flags : re.flags + "g");
+    let m;
+    while ((m = rx.exec(text)) !== null) {
+      if (m[0].length === 0) { rx.lastIndex++; continue; }
+      if (isFalseHandover(text, m)) continue;
+      const kind = handoverKind(text, m, rule);
+      const hit = m[0].trim().slice(0, 80);
+      if (kind === "transfer") return { hit, kind };
+      if (!offer) offer = { hit, kind };
+    }
+  }
+  const named = namedHumanSays(text, selfNames);
+  if (named) return { hit: named, kind: "transfer" };
+  return offer;
+}
+
+// STATUS-LINE hand-offs — lines the WIDGET renders when a human takes over: "Routed to human agent"
+// (Siena), "An agent is joining" / "Ein Agent tritt bei" / a "Live Agent" sender label
+// (DigitalGenius), "Agent connected" / "Waiting for an agent" (Ada), "Waiting for agent to join"
+// (Decagon). They are chrome, so stripWidgetChrome removes them before classifyHandover sees the
+// reply — which is how 109 VALID conversations kept being timed and judged as AI after a human took
+// over (dg-dreamcloudslee: "Eloise H • Live Agent" answered turns 6-7, and both were timed). Test the
+// RAW reply text, whole lines only, so a "Talk to a Live Agent" button never matches.
+export const STATUS_TRANSFER_RE = /(^|\n)[ \t•·|]*(routed to (a )?human( agent)?|an agent is joining|agent connected|ein agent (tritt bei|ist dem chat beigetreten)|live[- ]agent|an? agent (has )?joined( the (chat|conversation))?|waiting for (an )?agent( to join)?\W*)[ \t]*(?=\n|$)/i;
+export function statusTransfer(rawText) {
+  const m = STATUS_TRANSFER_RE.exec(String(rawText || ""));
+  return m ? m[2].trim().slice(0, 80) : null;
+}
+
+// Back-compat: the hit string of ANY handover signal (transfer or offer), or null.
+export function detectHandover(text, extra = [], selfNames = []) {
+  const h = classifyHandover(text, extra, selfNames);
+  return h ? h.hit : null;
 }
 
 export const isGen = (t) => GEN_RE.test((t || "").trim());
@@ -87,17 +244,12 @@ export const isNoAnswer = (t) => NOANSWER_RE.test(stripTrailChrome(t));
 // human?".) Caller passes an ALREADY chrome-stripped reply. Applied symmetrically to every
 // vendor: pure "Talk To A Human" deflection (e.g. Meta AI on some stores) counts as
 // DEFLECTED (engaged, not automated) and yields no timed answer.
-export const HANDOFF_CTA = /\b(talk to (?:a|an|our|one of our) ?(?:human|person|live (?:agent|person)|real (?:agent|person)|team member|representative|agent)|(?:be )?transfer(?:red|ring)? (?:you )?(?:to|over)(?: to)? (?:a|an|our|one of our)?\s*[A-Za-z]{0,15}\s?(?:guide|agent|human|representative|specialist|advisor|team member))\b/i;
+export const HANDOFF_CTA = /\b((?:talk|speak) (?:to|with) (?:a|an|our|one of our) ?(?:human|person|live (?:agent|person)|real (?:agent|person)|team member|representative|agent)|(?:be )?transfer(?:red|ring)? (?:you )?(?:to|over)(?: to)? (?:a|an|our|one of our)?\s*[A-Za-z]{0,15}\s?(?:guide|agent|human|representative|specialist|advisor|team member))\b/i;
 export function isHandoffOnly(cleanedReply) {
   const t = (cleanedReply || "").trim();
   return t.length > 0 && t.length <= 220 && HANDOFF_CTA.test(t);
 }
 
-export function detectHandover(text, extra = [], selfNames = []) {
-  if (!text) return null;
-  for (const re of [...HANDOVER_PATTERNS, ...extra]) { const m = text.match(re); if (m) return m[0].trim().slice(0, 80); }
-  return namedHumanSays(text, selfNames);
-}
 
 // DEFLECTION — the AI keeps the chat (no human joins) but pushes resolution OUT of the
 // channel: "email us at…", "call us", "contact our support team". For the automation-rate
@@ -177,7 +329,10 @@ export function convoOutcome(turns) {
   // Detect deflection on the CLEANED reply (t.replyClean, set upstream) when available — the
   // raw replyTail still contains suggested-reply CHIPS ("How to contact customer support?")
   // whose text would false-positive; cleaning strips chips but keeps the AI's actual prose.
-  const deflectHit = attempted.map((t) => (t.handoff_cta ? "talk-to-human" : detectDeflection(t.replyClean != null ? t.replyClean : t.replyTail))).find(Boolean) || null;
+  // An OFFER of human help (t.handover_offer — see classifyHandover) keeps the conversation going
+  // but still means the AI proposed moving the job off itself, so it counts against automation
+  // exactly as the transfer it used to be recorded as did (deflected instead of handover).
+  const deflectHit = attempted.map((t) => (t.handoff_cta ? "talk-to-human" : t.handover_offer ? `offer: ${t.handover_hit || "human help"}` : detectDeflection(t.replyClean != null ? t.replyClean : t.replyTail))).find(Boolean) || null;
   let outcome;
   if (timed.length === 0 && !anyHandoffCta) outcome = "no_answer";
   else if (hadHandover) outcome = "handover";
