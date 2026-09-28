@@ -60,8 +60,13 @@ async function listAll(token, prefix) {
   return out;
 }
 
+// ?cache=0 skips the Blob CDN, as @vercel/blob's get({ useCache: false }) does for private stores. Without
+// it, a store submitted again after an earlier outcome reads the cached 404 of its deleted pending file
+// (seen 2026-09-28 on hushblankets.com) and stays pending forever.
 async function readJson(token, url) {
-  const r = await fetch(url, { headers: { authorization: `Bearer ${token}` }, signal: AbortSignal.timeout(20000) });
+  const u = new URL(url);
+  u.searchParams.set("cache", "0");
+  const r = await fetch(u, { headers: { authorization: `Bearer ${token}` }, signal: AbortSignal.timeout(20000) });
   if (!r.ok) throw new Error(`Blob read ${r.status}`);
   return r.json();
 }
