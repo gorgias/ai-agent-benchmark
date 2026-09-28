@@ -1,6 +1,7 @@
 // Vercel Edge Middleware — the board is public (Overview / Full results / Rubric).
 // Conversation transcripts are gated: /report?view=conversations, /conv-text.json, /live-feed.json.
-// The per-store explorer (/report?view=stores) sits behind the same login and cookie.
+// The per-store explorer (/report?view=stores) and its add-a-store endpoint (/api/add-store) sit behind
+// the same login and cookie; an API call without it gets a 401, not the login page.
 // Password is CONV_PASSWORD only, set on Vercel. There is deliberately NO fallback: this repo is public,
 // so a default written here would be a published password. When the variable is missing (a preview
 // deployment, a deleted env var) the gate stays shut: every login fails and every gated path goes to /login.
@@ -25,7 +26,7 @@ function convPassword() {
 
 function isConversationsPath(url) {
   const path = url.pathname.replace(/\.html$/, "") || "/";
-  if (path === "/conv-text.json" || path === "/live-feed.json") return true;
+  if (path === "/conv-text.json" || path === "/live-feed.json" || path === "/api/add-store") return true;
   if (path === "/report" && GATED_VIEWS[url.searchParams.get("view")]) return true;
   return false;
 }
@@ -74,5 +75,6 @@ export default async function middleware(request) {
   const cookie = request.headers.get("cookie") || "";
   const m = cookie.match(new RegExp("(?:^|; )" + COOKIE + "=([a-f0-9]{64})"));
   if (good && m && m[1] === good) return;
+  if (url.pathname.startsWith("/api/")) return new Response(JSON.stringify({ error: "Log in first." }), { status: 401, headers: { "content-type": "application/json" } });
   return new Response(null, { status: 302, headers: { Location: loginLocation(url) } });
 }
