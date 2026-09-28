@@ -1762,6 +1762,24 @@ export const STORES = [
   { key: "zendesk-dearfoams", vendor: "Zendesk", store: "dearfoams", url: "https://www.dearfoams.com/", widget: "zendesk", candidate: true }, // auto-sourced 2026-09-28: host loaded + widget mounted on a cold visit
   { key: "zendesk-wildearth", vendor: "Zendesk", store: "wildearth", url: "https://www.wildearth.com.au/", widget: "zendesk", candidate: true }, // auto-sourced 2026-09-28: host loaded + widget mounted on a cold visit
   { key: "zendesk-regalobaby", vendor: "Zendesk", store: "regalobaby", url: "https://www.regalo-baby.com/", widget: "zendesk", candidate: true }, // auto-sourced 2026-09-28: host loaded + widget mounted on a cold visit
+  // ── Auto-sourced 2026-09-28 by server/source-merchants.mjs. Each row was verified in a
+  // real browser: the vendor's widget host loaded AND a launcher/container mounted on a cold
+  // anonymous visit. candidate:true until a capture proves it drivable end-to-end.
+  { key: "kodif-birchliving", vendor: "Kodif", store: "birchliving", url: "https://birchliving.com/", widget: "kodif", candidate: true }, // auto-sourced 2026-09-28: host loaded + widget mounted on a cold visit
+  { key: "zendesk-lovebonito", vendor: "Zendesk", store: "lovebonito", url: "https://www.lovebonito.com/", widget: "zendesk", candidate: true }, // auto-sourced 2026-09-28: host loaded + widget mounted on a cold visit
+  { key: "kodif-magicmind", vendor: "Kodif", store: "magicmind", url: "https://magicmind.com/", widget: "kodif", candidate: true }, // auto-sourced 2026-09-28: host loaded + widget mounted on a cold visit
+  { key: "dg-solostove", vendor: "DigitalGenius", store: "solostove", url: "https://www.solostove.com/", widget: "dg", candidate: true }, // auto-sourced 2026-09-28: host loaded + widget mounted on a cold visit
+  { key: "kodif-ohsnap", vendor: "Kodif", store: "ohsnap", url: "https://ohsnap.com/", widget: "kodif", candidate: true, todo: "also on page: Intercom — driver must target the Kodif launcher" }, // auto-sourced 2026-09-28: host loaded + widget mounted on a cold visit
+  { key: "kodif-whipshots", vendor: "Kodif", store: "whipshots", url: "https://whipshots.com/", widget: "kodif", candidate: true }, // auto-sourced 2026-09-28: host loaded + widget mounted on a cold visit
+  { key: "dg-dtlr", vendor: "DigitalGenius", store: "dtlr", url: "https://www.dtlr.com/", widget: "dg", candidate: true, todo: "also on page: Gorgias — driver must target the DigitalGenius launcher" }, // auto-sourced 2026-09-28: host loaded + widget mounted on a cold visit
+  { key: "kodif-rvmattress", vendor: "Kodif", store: "rvmattress", url: "https://rvmattress.com/", widget: "kodif", candidate: true }, // auto-sourced 2026-09-28: host loaded + widget mounted on a cold visit
+  { key: "dg-trialaser", vendor: "DigitalGenius", store: "trialaser", url: "https://www.trialaser.com/", widget: "dg", candidate: true }, // auto-sourced 2026-09-28: host loaded + widget mounted on a cold visit
+  { key: "kodif-plankmattress", vendor: "Kodif", store: "plankmattress", url: "https://plankmattress.com/", widget: "kodif", candidate: true }, // auto-sourced 2026-09-28: host loaded + widget mounted on a cold visit
+  { key: "kodif-titanmattress", vendor: "Kodif", store: "titanmattress", url: "https://titanmattress.com/", widget: "kodif", candidate: true }, // auto-sourced 2026-09-28: host loaded + widget mounted on a cold visit
+  { key: "ada-weber", vendor: "Ada", store: "weber", url: "https://www.weber.com/", widget: "ada", candidate: true }, // auto-sourced 2026-09-28: host loaded + widget mounted on a cold visit
+  { key: "zendesk-pixiogaming", vendor: "Zendesk", store: "pixiogaming", url: "https://pixiogaming.com/", widget: "zendesk", candidate: true, todo: "also on page: Ada — driver must target the Zendesk launcher" }, // auto-sourced 2026-09-28: host loaded + widget mounted on a cold visit
+  { key: "dg-adanola", vendor: "DigitalGenius", store: "adanola", url: "https://adanola.com/", widget: "dg", candidate: true, todo: "also on page: Ada — driver must target the DigitalGenius launcher" }, // auto-sourced 2026-09-28: host loaded + widget mounted on a cold visit
+  { key: "dg-cozey", vendor: "DigitalGenius", store: "cozey", url: "https://cozey.ca/", widget: "dg", candidate: true, todo: "also on page: Intercom, Gladly — driver must target the DigitalGenius launcher" }, // auto-sourced 2026-09-28: host loaded + widget mounted on a cold visit
 ];
 
 // Find a frame by element id / title / name / url. `match` may be a string
