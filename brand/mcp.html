@@ -1,0 +1,80 @@
+<style>
+  #mcp-modal .modal{max-width:720px}
+  #mcp-modal .mcp-endpoint{display:flex;align-items:center;gap:8px;padding:6px 6px 6px 18px;background:var(--color-card);border:1px solid var(--color-border);border-radius:var(--radius-pill);box-shadow:var(--shadow-sm)}
+  #mcp-modal .mcp-endpoint code{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-family:var(--font-mono);font-size:15px;color:var(--color-foreground)}
+  #mcp-modal .mcp-endpoint .gr-btn{flex:none}
+  #mcp-modal .mcp-meta{margin:10px 0 0 18px;font-size:13px;color:var(--color-muted-foreground)}
+  #mcp-modal .mcp-connect{display:grid;gap:12px}
+  #mcp-modal .mcp-card{display:flex;flex-direction:column;gap:10px;min-width:0;padding:18px 20px;background:var(--color-surface-sunken);border:1px solid var(--color-border-soft);border-radius:16px}
+  #mcp-modal .mcp-card h4{margin:0;font-size:15px;font-weight:600;color:var(--color-foreground)}
+  #mcp-modal .mcp-card p{margin:0;font-size:14px;line-height:1.55;color:var(--color-foreground-secondary)}
+  #mcp-modal .mcp-card b{font-weight:600;color:var(--color-foreground)}
+  #mcp-modal .mcp-code{min-width:0;background:var(--color-card);border:1px solid var(--color-border-soft);border-radius:12px;overflow:hidden}
+  #mcp-modal .mcp-code-head{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:5px 6px 5px 12px;border-bottom:1px solid var(--color-border-soft);font-family:var(--font-mono);font-size:11px;letter-spacing:.84px;text-transform:uppercase;color:var(--color-muted-foreground)}
+  #mcp-modal .mcp-code pre{margin:0;overflow-x:auto;padding:12px 14px;font-family:var(--font-mono);font-size:12.5px;line-height:1.6;color:var(--color-foreground);white-space:pre}
+  #mcp-modal .mcp-code pre.wrap{white-space:pre-wrap;word-break:break-all}
+  #mcp-modal .mcp-copy{flex:none;padding:3px 11px;font-family:var(--font-sans);font-size:12px;font-weight:500;letter-spacing:0;text-transform:none;color:var(--color-foreground);background:var(--color-card);border:1px solid var(--color-border);border-radius:var(--radius-pill);cursor:pointer}
+  #mcp-modal .mcp-copy:hover{background:var(--color-secondary-hover)}
+  #mcp-modal .mcp-copy:focus-visible{outline:none;box-shadow:0 0 0 3px var(--color-ring)}
+  #mcp-modal .mcp-tools{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+  #mcp-modal .mcp-tools li{padding:0;margin:0;font-size:15px;line-height:1.5;color:var(--color-foreground-secondary)}
+  #mcp-modal .mcp-tools li::before{content:none}
+  #mcp-modal .mcp-tools code{font-family:var(--font-mono);font-size:13px;color:var(--color-foreground)}
+  #mcp-modal .mcp-tools .ask{display:block;font-size:13.5px;font-style:italic;color:var(--color-muted-foreground)}
+  #mcp-modal .mblock h3{margin-bottom:12px}
+  #mcp-modal .mblock p a{color:var(--color-foreground)}
+</style>
+<div class="modal-overlay" id="mcp-modal" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="mcp-title">
+    <div class="modal-head">
+      <span class="gr-tag gr-tag-pill"><span class="gr-tag-dot" aria-hidden="true"></span>MCP server</span>
+      <button type="button" class="modal-x" data-mcp-close aria-label="Close">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+      </button>
+    </div>
+    <div>
+      <h2 class="mh" id="mcp-title">Ask your AI assistant about the benchmark</h2>
+      <p class="msub">A public MCP server with the same rankings and store scores as this site: read-only, no sign-up, refreshed after every daily run.</p>
+    </div>
+    <div>
+      <div class="mcp-endpoint"><code id="mcp-url">https://evals.gorgias.com/mcp</code><button type="button" class="gr-btn gr-btn-sm gr-btn-primary" data-copy="#mcp-url">Copy URL</button></div>
+      <p class="mcp-meta">Streamable HTTP · no authentication · no conversation transcripts</p>
+    </div>
+    <div class="mblock">
+      <h3>Connect</h3>
+      <div class="mcp-connect">
+        <div class="mcp-card">
+          <h4>Claude</h4>
+          <p>Open <b>Settings → Connectors</b>, choose <b>Add custom connector</b>, name it “Gorgias benchmark” and paste the URL. Leave authentication empty. On Team and Enterprise plans, an owner may need to add it first.</p>
+        </div>
+        <div class="mcp-card">
+          <h4>Claude Code</h4>
+          <div class="mcp-code"><div class="mcp-code-head"><span>Terminal</span><button type="button" class="mcp-copy" data-copy="#mcp-cc">Copy</button></div><pre id="mcp-cc" class="wrap">claude mcp add --transport http gorgias-benchmark https://evals.gorgias.com/mcp</pre></div>
+        </div>
+        <div class="mcp-card">
+          <h4>Cursor, Windsurf and other clients</h4>
+          <div class="mcp-code"><div class="mcp-code-head"><span>MCP config</span><button type="button" class="mcp-copy" data-copy="#mcp-json">Copy</button></div><pre id="mcp-json">{
+  "mcpServers": {
+    "gorgias-benchmark": { "url": "https://evals.gorgias.com/mcp" }
+  }
+}</pre></div>
+          <p>VS Code uses a <b>servers</b> block with <b>"type": "http"</b> and the same URL.</p>
+        </div>
+      </div>
+    </div>
+    <div class="mblock">
+      <h3>Tools</h3>
+      <ul class="mcp-tools">
+        <li><code>get_rankings</code>: the leaderboard for overall, shopping (pre-sale) or support (post-sale), with composite, automation rate, answer quality, latency and conversations per vendor.<span class="ask">“Who leads the support lane?”</span></li>
+        <li><code>get_vendor</code>: one vendor's scorecard in every lane.<span class="ask">“How does Sierra do on shopping?”</span></li>
+        <li><code>compare_vendors</code>: two to six vendors side by side.<span class="ask">“Compare Gorgias, Sierra and Ada.”</span></li>
+        <li><code>get_store</code>: one storefront's scores in each lane, with its vendor's composite for context.<span class="ask">“How does Alo Yoga's AI agent score?”</span></li>
+        <li><code>get_methodology</code>: lanes, composite weights, speed score and ranking rules.<span class="ask">“How is the composite calculated?”</span></li>
+      </ul>
+    </div>
+    <div class="mblock">
+      <h3>What's in it</h3>
+      <p>Vendor rankings and per-store scores from a trailing 90-day window of live-storefront conversations. Conversation transcripts are not included. The same data is a plain JSON file at <a href="/board.json">evals.gorgias.com/board.json</a>. Published by Gorgias; cite evals.gorgias.com when you quote it.</p>
+    </div>
+  </div>
+</div>

@@ -279,3 +279,16 @@ test("publish.sh commits board.json with the other baked pages", () => {
   const sh = read("../server/publish.sh");
   assert.match(sh, /git add [^\n]*\bboard\.json\b/, "publish.sh's git add list is missing board.json");
 });
+
+test("board.json carries one scored entry per storefront, each with a lane and a vendor", () => {
+  const b = JSON.parse(read("../board.json"));
+  assert.ok(Array.isArray(b.stores) && b.stores.length > 0, "board.json has no stores");
+  const seen = new Set();
+  for (const s of b.stores) {
+    assert.ok(s.store && s.site && s.vendor, `store entry missing a name, site or vendor: ${JSON.stringify(s).slice(0, 120)}`);
+    assert.ok(s.shopping || s.support, `${s.site} has no lane`);
+    const k = `${s.vendor}|${s.site}`;
+    assert.ok(!seen.has(k), `${k} appears twice`);
+    seen.add(k);
+  }
+});

@@ -1,15 +1,14 @@
 // api/mcp.mjs — the benchmark's public MCP server: https://evals.gorgias.com/mcp (rewritten here).
 //
-// Read-only, no authentication, vendor-level data only: the same numbers the public pages show, read
-// from board.json, which gen.js writes from the scoreboard's own lane scores every night. Store-level
-// figures and transcripts are not exposed; they stay behind the login.
+// Read-only, no authentication: vendor rankings and per-store scores, read from board.json, which gen.js
+// writes from the scoreboard's own lane scores every night. Conversation transcripts are never exposed.
 //
 // Transport: MCP Streamable HTTP, stateless. POST a JSON-RPC message (or a batch), get application/json
 // back; notifications get 202. There is no server-to-client stream, so a GET asking for
-// text/event-stream answers 405, as the spec allows. A browser GET is sent to the docs page.
+// text/event-stream answers 405, as the spec allows. A browser GET opens the MCP modal on the site.
 const SERVER = { name: "gorgias-ai-agent-benchmark", title: "Gorgias AI Agent Benchmark", version: "1.0.0" };
 const PROTOCOLS = ["2025-11-25", "2025-06-18", "2025-03-26", "2024-11-05"];
-const DOCS = "/developers";
+const DOCS = "/#mcp";   // the MCP modal on the Overview page (brand/mcp.html)
 const CORS = {
   "access-control-allow-origin": "*",
   "access-control-allow-methods": "GET, POST, OPTIONS",
@@ -22,8 +21,8 @@ const INSTRUCTIONS = [
   "Every ecommerce AI agent vendor is tested the same way, with scripted shopper conversations on live storefronts, in two lanes:",
   "shopping (pre-sale Shopping Assistant) and support (post-sale Support Agent).",
   "Each lane ranks vendors by a composite of automation rate, blind LLM-judged answer quality, and speed; overall is the mean of the two lane composites.",
-  "Use get_rankings for a leaderboard, get_vendor or compare_vendors for details, get_methodology for how scores are computed.",
-  "Figures are vendor-level, from a trailing 90-day window, and refresh daily. Cite https://evals.gorgias.com when quoting them.",
+  "Use get_rankings for a leaderboard, get_vendor or compare_vendors for vendor details, get_store for one storefront's scores, get_methodology for how scores are computed.",
+  "Figures come from a trailing 90-day window and refresh daily. Cite https://evals.gorgias.com when quoting them.",
 ].join(" ");
 
 const LANE_ENUM = ["overall", "shopping", "support"];
@@ -53,6 +52,12 @@ const TOOLS = [
       required: ["vendors"],
       additionalProperties: false,
     },
+  },
+  {
+    name: "get_store",
+    title: "Store scorecard",
+    description: "Scores for one storefront in the benchmark: its AI vendor, and for each lane it was tested in the composite, automation rate, answer quality, mean latency and conversation count, plus its overall score and its vendor's lane composites for context. Look a store up by domain (aloyoga.com) or name (Alo Yoga); partial names return the candidates. A lane with fewer than 5 judged conversations is marked thin.",
+    inputSchema: { type: "object", properties: { store: { type: "string", description: "Store domain or name, e.g. aloyoga.com or Alo Yoga." } }, required: ["store"], additionalProperties: false },
   },
   {
     name: "get_methodology",
@@ -88,6 +93,15 @@ function laneEntry(b, lane, v) {
   if (row) return { ...row, of: rows.length };
   const nr = ((b.not_ranked && b.not_ranked[lane]) || []).find((r) => r.vendor === v);
   return nr ? { ranked: false, conversations: nr.conversations, reason: nr.reason } : null;
+}
+
+const host = (s) => String(s || "").trim().toLowerCase().replace(/^https?:\/\//, "").replace(/^www\./, "").split(/[/?#]/)[0];
+function findStores(b, raw) {
+  const stores = b.stores || [], h = host(raw), k = key(raw);
+  if (!k) return [];
+  const exact = stores.filter((s) => s.site === h || key(s.store) === k);
+  if (exact.length) return exact;
+  return stores.filter((s) => { const root = key(s.site.split(".")[0]); return s.site.includes(h) || key(s.store).includes(k) || (root.length >= 4 && k.includes(root)); });
 }
 
 // ── tools ─────────────────────────────────────────────────────────────────────────────────────────
@@ -131,8 +145,25 @@ async function callTool(name, args, request) {
     if (missing.length) out.not_found = missing;
     return out;
   }
+  if (name === "get_store") {
+    const hits = findStores(b, args.store);
+    if (!hits.length) throw new ToolError(`No store in the benchmark matches "${args.store}". Try its domain (e.g. aloyoga.com). The benchmark covers ${(b.stores || []).length} storefronts.`);
+    if (hits.length > 1) {
+      return { query: args.store, ...context(b), matches: hits.slice(0, 15).map((s) => ({ store: s.store, site: s.site, vendor: s.vendor })),
+        note: hits.length > 15 ? `${hits.length} stores match; showing 15. Ask again with the exact domain.` : "Several stores match. Ask again with the exact domain." };
+    }
+    const s = hits[0];
+    const vendorLane = (lane) => { const r = b[lane].find((x) => x.vendor === s.vendor); return r ? { vendor_composite: r.composite, vendor_rank: r.rank, of: b[lane].length } : null; };
+    return {
+      store: s.store, site: s.site, vendor: s.vendor, ...context(b),
+      overall: s.overall,
+      shopping: s.shopping ? { ...s.shopping, vendor_context: vendorLane("shopping") } : { tested: false },
+      support: s.support ? { ...s.support, vendor_context: vendorLane("support") } : { tested: false },
+      how_to_read: "composite uses the lane weights from get_methodology. A thin lane has fewer than 5 judged conversations; read it as indicative.",
+    };
+  }
   if (name === "get_methodology") {
-    return { ...context(b), totals: b.totals, method: b.method, vendors: vendorNames(b), docs: new URL(DOCS, b.site).href };
+    return { ...context(b), totals: b.totals, method: b.method, vendors: vendorNames(b), storefronts: (b.stores || []).length, docs: new URL(DOCS, b.site).href };
   }
   throw new RpcError(-32602, `Unknown tool: ${name}`);
 }
