@@ -1,0 +1,469 @@
+{
+ "name": "Gorgias AI Agent Benchmark",
+ "site": "https://evals.gorgias.com",
+ "data_through": "2026-09-28",
+ "ranking_window": {
+  "days": 90,
+  "from": "2026-07-01",
+  "to": "2026-09-28"
+ },
+ "totals": {
+  "conversations": 9041,
+  "judged_conversations": 9034,
+  "vendors": 18,
+  "storefronts": 212
+ },
+ "method": {
+  "lanes": {
+   "shopping": "Pre-sale Shopping Assistant: product discovery, recommendations, comparisons and the path to cart.",
+   "support": "Post-sale Support Agent: order tracking, returns, shipping, damaged items, changes and cancellations."
+  },
+  "composite": "weights.automation × automation % + weights.quality × quality + weights.speed × speed score, rounded",
+  "weights": {
+   "shopping": {
+    "automation": 0.4,
+    "quality": 0.35,
+    "speed": 0.25
+   },
+   "support": {
+    "automation": 0.5,
+    "quality": 0.4,
+    "speed": 0.1
+   }
+  },
+  "speed_score": "(22 − mean latency in seconds) / 19 × 100, clamped to 0–100: 100 at 3 s or faster, 0 at 22 s or slower",
+  "overall": "Mean of the shopping and support composites, for vendors ranked in both lanes",
+  "automation": "Share of engaged conversations the AI resolved without handing over to a human or deflecting to another channel",
+  "quality": "Blind LLM-judge score out of 100 against a fixed rubric, averaged over judged conversations",
+  "latency": "Seconds from the shopper's message to the AI's complete final reply (a 'let me check' stall is not an answer)",
+  "rankable": "At least 15 conversations in the lane within the ranking window, with judged quality",
+  "confidence_interval": "composite_ci95 is a 95% interval with the storefront as the unit of replication",
+  "rubric": "https://evals.gorgias.com/rubric"
+ },
+ "overall": [
+  {
+   "rank": 1,
+   "vendor": "Gorgias",
+   "score": 66,
+   "shopping_composite": 63,
+   "support_composite": 69,
+   "score_ci95": 5
+  },
+  {
+   "rank": 2,
+   "vendor": "Sierra",
+   "score": 65,
+   "shopping_composite": 65,
+   "support_composite": 64,
+   "score_ci95": 11.2
+  },
+  {
+   "rank": 2,
+   "vendor": "Decagon",
+   "score": 65,
+   "shopping_composite": 52,
+   "support_composite": 77,
+   "score_ci95": 24.7
+  },
+  {
+   "rank": 4,
+   "vendor": "Rep AI",
+   "score": 62,
+   "shopping_composite": 60,
+   "support_composite": 63,
+   "score_ci95": 5.7
+  },
+  {
+   "rank": 5,
+   "vendor": "Ada",
+   "score": 61,
+   "shopping_composite": 59,
+   "support_composite": 62,
+   "score_ci95": 14.1
+  },
+  {
+   "rank": 5,
+   "vendor": "Yuma",
+   "score": 61,
+   "shopping_composite": 54,
+   "support_composite": 67,
+   "score_ci95": 23.1
+  },
+  {
+   "rank": 7,
+   "vendor": "Intercom",
+   "score": 58,
+   "shopping_composite": 57,
+   "support_composite": 59,
+   "score_ci95": 23.6
+  },
+  {
+   "rank": 8,
+   "vendor": "Envive",
+   "score": 57,
+   "shopping_composite": 72,
+   "support_composite": 42,
+   "score_ci95": 13.4
+  },
+  {
+   "rank": 8,
+   "vendor": "Siena",
+   "score": 57,
+   "shopping_composite": 55,
+   "support_composite": 58,
+   "score_ci95": 26.4
+  },
+  {
+   "rank": 10,
+   "vendor": "DigitalGenius",
+   "score": 54,
+   "shopping_composite": 51,
+   "support_composite": 57,
+   "score_ci95": 16.4
+  },
+  {
+   "rank": 11,
+   "vendor": "Klaviyo",
+   "score": 51,
+   "shopping_composite": 52,
+   "support_composite": 50,
+   "score_ci95": 17.6
+  },
+  {
+   "rank": 11,
+   "vendor": "Kodif",
+   "score": 51,
+   "shopping_composite": 49,
+   "support_composite": 52,
+   "score_ci95": 11.3
+  },
+  {
+   "rank": 13,
+   "vendor": "Zendesk",
+   "score": 48,
+   "shopping_composite": 45,
+   "support_composite": 50,
+   "score_ci95": 13.7
+  }
+ ],
+ "shopping": [
+  {
+   "rank": 1,
+   "vendor": "Envive",
+   "composite": 72,
+   "automation_pct": 80,
+   "quality": 62,
+   "latency_mean_s": 8.2,
+   "latency_p75_s": 10.3,
+   "conversations": 496,
+   "composite_ci95": 5.2,
+   "ci_storefronts": 7
+  },
+  {
+   "rank": 2,
+   "vendor": "Sierra",
+   "composite": 65,
+   "automation_pct": 73,
+   "quality": 58,
+   "latency_mean_s": 10,
+   "latency_p75_s": 11.7,
+   "conversations": 553,
+   "composite_ci95": 8,
+   "ci_storefronts": 16
+  },
+  {
+   "rank": 3,
+   "vendor": "Gorgias",
+   "composite": 63,
+   "automation_pct": 80,
+   "quality": 75,
+   "latency_mean_s": 18.3,
+   "latency_p75_s": 20.4,
+   "conversations": 490,
+   "composite_ci95": 2.5,
+   "ci_storefronts": 44
+  },
+  {
+   "rank": 4,
+   "vendor": "Rep AI",
+   "composite": 60,
+   "automation_pct": 86,
+   "quality": 57,
+   "latency_mean_s": 17.5,
+   "latency_p75_s": 22.1,
+   "conversations": 244,
+   "composite_ci95": 3,
+   "ci_storefronts": 55
+  },
+  {
+   "rank": 5,
+   "vendor": "Ada",
+   "composite": 59,
+   "automation_pct": 68,
+   "quality": 51,
+   "latency_mean_s": 11.1,
+   "latency_p75_s": 12.8,
+   "conversations": 553,
+   "composite_ci95": 11.1,
+   "ci_storefronts": 12
+  },
+  {
+   "rank": 6,
+   "vendor": "Intercom",
+   "composite": 57,
+   "automation_pct": 69,
+   "quality": 64,
+   "latency_mean_s": 16.9,
+   "latency_p75_s": 18.5,
+   "conversations": 384,
+   "composite_ci95": 15.2,
+   "ci_storefronts": 6
+  },
+  {
+   "rank": 7,
+   "vendor": "Siena",
+   "composite": 55,
+   "automation_pct": 55,
+   "quality": 61,
+   "latency_mean_s": 13.5,
+   "latency_p75_s": 15.8,
+   "conversations": 313,
+   "composite_ci95": 15.7,
+   "ci_storefronts": 7
+  },
+  {
+   "rank": 8,
+   "vendor": "Yuma",
+   "composite": 54,
+   "automation_pct": 69,
+   "quality": 69,
+   "latency_mean_s": 20.4,
+   "latency_p75_s": 23.4,
+   "conversations": 140,
+   "composite_ci95": 17.3,
+   "ci_storefronts": 7
+  },
+  {
+   "rank": 9,
+   "vendor": "Decagon",
+   "composite": 52,
+   "automation_pct": 81,
+   "quality": 55,
+   "latency_mean_s": 28.8,
+   "latency_p75_s": 43.7,
+   "conversations": 51,
+   "composite_ci95": 22.8,
+   "ci_storefronts": 4
+  },
+  {
+   "rank": 9,
+   "vendor": "Klaviyo",
+   "composite": 52,
+   "automation_pct": 42,
+   "quality": 67,
+   "latency_mean_s": 13,
+   "latency_p75_s": 15.4,
+   "conversations": 233,
+   "composite_ci95": 12.7,
+   "ci_storefronts": 5
+  },
+  {
+   "rank": 11,
+   "vendor": "DigitalGenius",
+   "composite": 51,
+   "automation_pct": 71,
+   "quality": 42,
+   "latency_mean_s": 15.9,
+   "latency_p75_s": 19.8,
+   "conversations": 722,
+   "composite_ci95": 12.8,
+   "ci_storefronts": 11
+  },
+  {
+   "rank": 12,
+   "vendor": "Kodif",
+   "composite": 49,
+   "automation_pct": 67,
+   "quality": 56,
+   "latency_mean_s": 20.1,
+   "latency_p75_s": 25.2,
+   "conversations": 229,
+   "composite_ci95": 7.4,
+   "ci_storefronts": 13
+  },
+  {
+   "rank": 13,
+   "vendor": "Zendesk",
+   "composite": 45,
+   "automation_pct": 49,
+   "quality": 35,
+   "latency_mean_s": 12.2,
+   "latency_p75_s": 16,
+   "conversations": 514,
+   "composite_ci95": 9.4,
+   "ci_storefronts": 15
+  }
+ ],
+ "support": [
+  {
+   "rank": 1,
+   "vendor": "Decagon",
+   "composite": 77,
+   "automation_pct": 86,
+   "quality": 71,
+   "latency_mean_s": 12,
+   "latency_p75_s": 12.2,
+   "conversations": 34,
+   "composite_ci95": 9.5,
+   "ci_storefronts": 4
+  },
+  {
+   "rank": 2,
+   "vendor": "Gorgias",
+   "composite": 69,
+   "automation_pct": 69,
+   "quality": 76,
+   "latency_mean_s": 14,
+   "latency_p75_s": 15,
+   "conversations": 388,
+   "composite_ci95": 4.3,
+   "ci_storefronts": 48
+  },
+  {
+   "rank": 3,
+   "vendor": "Yuma",
+   "composite": 67,
+   "automation_pct": 71,
+   "quality": 71,
+   "latency_mean_s": 16.3,
+   "latency_p75_s": 17.7,
+   "conversations": 118,
+   "composite_ci95": 15.3,
+   "ci_storefronts": 7
+  },
+  {
+   "rank": 4,
+   "vendor": "Sierra",
+   "composite": 64,
+   "automation_pct": 53,
+   "quality": 78,
+   "latency_mean_s": 9.7,
+   "latency_p75_s": 11.7,
+   "conversations": 408,
+   "composite_ci95": 7.8,
+   "ci_storefronts": 16
+  },
+  {
+   "rank": 5,
+   "vendor": "Rep AI",
+   "composite": 63,
+   "automation_pct": 74,
+   "quality": 53,
+   "latency_mean_s": 13.6,
+   "latency_p75_s": 15.6,
+   "conversations": 120,
+   "composite_ci95": 4.9,
+   "ci_storefronts": 51
+  },
+  {
+   "rank": 6,
+   "vendor": "Ada",
+   "composite": 62,
+   "automation_pct": 74,
+   "quality": 48,
+   "latency_mean_s": 10.3,
+   "latency_p75_s": 11.8,
+   "conversations": 420,
+   "composite_ci95": 8.7,
+   "ci_storefronts": 12
+  },
+  {
+   "rank": 7,
+   "vendor": "Intercom",
+   "composite": 59,
+   "automation_pct": 55,
+   "quality": 68,
+   "latency_mean_s": 14.3,
+   "latency_p75_s": 17,
+   "conversations": 307,
+   "composite_ci95": 18.1,
+   "ci_storefronts": 6
+  },
+  {
+   "rank": 8,
+   "vendor": "Siena",
+   "composite": 58,
+   "automation_pct": 58,
+   "quality": 56,
+   "latency_mean_s": 10.2,
+   "latency_p75_s": 10.9,
+   "conversations": 300,
+   "composite_ci95": 21.2,
+   "ci_storefronts": 7
+  },
+  {
+   "rank": 9,
+   "vendor": "DigitalGenius",
+   "composite": 57,
+   "automation_pct": 59,
+   "quality": 56,
+   "latency_mean_s": 12.7,
+   "latency_p75_s": 15.9,
+   "conversations": 561,
+   "composite_ci95": 10.3,
+   "ci_storefronts": 12
+  },
+  {
+   "rank": 10,
+   "vendor": "Kodif",
+   "composite": 52,
+   "automation_pct": 49,
+   "quality": 58,
+   "latency_mean_s": 14.4,
+   "latency_p75_s": 17.4,
+   "conversations": 188,
+   "composite_ci95": 8.6,
+   "ci_storefronts": 13
+  },
+  {
+   "rank": 11,
+   "vendor": "Zendesk",
+   "composite": 50,
+   "automation_pct": 40,
+   "quality": 60,
+   "latency_mean_s": 11,
+   "latency_p75_s": 12.9,
+   "conversations": 467,
+   "composite_ci95": 10,
+   "ci_storefronts": 15
+  },
+  {
+   "rank": 11,
+   "vendor": "Klaviyo",
+   "composite": 50,
+   "automation_pct": 32,
+   "quality": 68,
+   "latency_mean_s": 9.3,
+   "latency_p75_s": 10,
+   "conversations": 309,
+   "composite_ci95": 12.2,
+   "ci_storefronts": 5
+  },
+  {
+   "rank": 13,
+   "vendor": "Envive",
+   "composite": 42,
+   "automation_pct": 24,
+   "quality": 56,
+   "latency_mean_s": 6.7,
+   "latency_p75_s": 6.7,
+   "conversations": 499,
+   "composite_ci95": 12.3,
+   "ci_storefronts": 7
+  }
+ ],
+ "not_ranked": {
+  "shopping": [],
+  "support": []
+ }
+}
