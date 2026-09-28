@@ -1,7 +1,10 @@
 // Vercel Edge Middleware — the board is public (Overview / Full results / Rubric).
 // Conversation transcripts are gated: /report?view=conversations, /conv-text.json, /live-feed.json.
 // The per-store explorer (/report?view=stores) sits behind the same login and cookie.
-// Password is CONV_PASSWORD only (default in source). Do not read SITE_PASSWORD — that leftover
+// Password is CONV_PASSWORD only, set on Vercel. There is deliberately NO fallback: this repo is public,
+// so a default written here would be a published password. When the variable is missing (a preview
+// deployment, a deleted env var) the gate stays shut: every login fails and every gated path goes to /login.
+// Do not read SITE_PASSWORD — that leftover
 // whole-site secret would silently change the conversations token and reject the known password.
 export const config = { matcher: ["/((?!favicon.ico|robots.txt).*)"] };
 
@@ -17,7 +20,7 @@ async function expectedToken(pass) {
 }
 
 function convPassword() {
-  return process.env.CONV_PASSWORD || "gorgiasevalaccess";
+  return process.env.CONV_PASSWORD || "";
 }
 
 function isConversationsPath(url) {
