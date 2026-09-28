@@ -58,15 +58,18 @@ export function normalize(raw) {
 }
 
 export async function check(url, vendor) {
-  let res, html = "", status = 0, finalUrl = url, error = null;
+  let res, html = "", status = 0, finalUrl = url, error = null, code = "";
   try {
     res = await fetch(url, { redirect: "follow", headers: { "user-agent": UA, "accept-language": "en-US,en;q=0.9" }, signal: AbortSignal.timeout(15000) });
     status = res.status; finalUrl = res.url || url;
     html = (await res.text()).slice(0, 3_000_000);
-  } catch (e) { error = String(e && e.message || e).slice(0, 120); }
+  } catch (e) { error = String(e && e.message || e).slice(0, 120); code = String((e && e.cause && e.cause.code) || ""); }
   const others = Object.entries(SIGNATURES).filter(([v, re]) => v !== vendor && re.test(html)).map(([v]) => v);
-  const blocked = !html || status === 403 || status === 429 || /verifying your connection|cf-chl|captcha/i.test(html.slice(0, 20000));
-  return { status, finalUrl, error, blocked, found: SIGNATURES[vendor].test(html), others };
+  // No DNS record, refused connection or a broken certificate: the address is wrong, not a bot wall.
+  // A timeout stays "blocked" (a slow or protective site can still pass the nightly browser check).
+  const unreachable = !status && /ENOTFOUND|EAI_AGAIN|ECONNREFUSED|CERT|TLS|SSL/i.test(code + " " + (error || ""));
+  const blocked = !unreachable && (!html || status === 403 || status === 429 || /verifying your connection|cf-chl|captcha/i.test(html.slice(0, 20000)));
+  return { status, finalUrl, error, unreachable, blocked, found: SIGNATURES[vendor].test(html), others };
 }
 
 async function blobApi(pathAndQuery, init = {}) {
