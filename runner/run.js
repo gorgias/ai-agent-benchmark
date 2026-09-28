@@ -23,7 +23,7 @@ import { mkdir, writeFile } from "node:fs/promises";
 import { existsSync, readFileSync, writeFileSync, unlinkSync, mkdirSync } from "node:fs";
 import { WIDGETS, STORES, readLatestAssistantReply, readTranscript } from "./vendors.js";
 import { SHOPPING_THEMES, SUPPORT_THEMES } from "./pools.js";
-import { isGen, isAck, isNoAnswer, detectHandover, convoValidity } from "./classify.js";
+import { isGen, isAck, isNoAnswer, classifyHandover, statusTransfer, convoValidity } from "./classify.js";
 import { stripWidgetChrome, LOGIN_GATE } from "./reply-clean.js";
 import { detectProviderOnPage } from "./provider-detect.js";
 // Minimum CLEANED prose (chrome/stalls/labels/echo stripped) for a settled transcript to
@@ -157,9 +157,15 @@ async function timeTurn(page, scope, sendFn, q) {
   await sendFn();
   let lastLen = before, lastChange = t0, ttft = null, sawGen = false, grownReply = false, complete = null, growthEvents = 0, trough = before;  // some widgets RESET the transcript container on each question, so growth is measured from the post-send trough, not the pre-send baseline
   const deadline = t0 + TURN_TIMEOUT_MS;
+  let everRead = before > 0;
   while (Date.now() < deadline) {
     await sleep(POLL_MS);
     const { len, text } = await readTranscript(page, scope);
+    if (len > 0) everRead = true;
+    // SCOPE MISSING: the widget's transcript has been unreadable (zero characters — not even the
+    // echo of the message we just sent) for SCOPE_GRACE_MS. Nothing this turn does can be read, so
+    // waiting out the full TURN_TIMEOUT_MS only burns capture time. See the widget-absent abort.
+    if (!everRead && Date.now() - t0 > SCOPE_GRACE_MS) return { ttft_ms: null, complete_ms: null, grew: 0, growth_events: 0, scope_missing: true };
     if (len !== lastLen) { lastChange = Date.now(); if (len > lastLen) growthEvents++; lastLen = len; }
     if (len < trough) trough = len;
     if (isGen(text)) sawGen = true;
@@ -195,6 +201,16 @@ async function timeTurn(page, scope, sendFn, q) {
 // longest silent gap WITHIN a legitimate generation is ~4.1s (stall → token stream), so a
 // 6s quiet window cleanly separates "still generating" from "done".
 const QUIET_MS = 6000, QUIESCE_CAP_MS = 30000;
+// WIDGET-ABSENT fast fail (2026-09-28). 1,117 of the 6,885 conversations captured 2026-08-18 → 09-16
+// recorded ZERO transcript text on every turn: the widget's scope (frame / shadow root / host) was
+// never readable, so each of them burned 4 dead turns × (TURN_TIMEOUT_MS + LATE_GRACE_MS) ≈ 12 min
+// before the dead-conversation abort — ~230 h of a 3 h nightly window. A first turn that reads
+// nothing at all is decisive: of 1,416 such conversations only 18 (1.3%) ever became valid, all on
+// widgets that mounted late. So a turn gives up after SCOPE_GRACE_MS of an unreadable transcript,
+// and an unreadable FIRST turn abandons the conversation and regenerates it once in a brand-new
+// context (cold session preserved) — which is also what rescues the late-mounting 1.3%. That retry
+// runs in RECOVERY mode (accept the consent banner, move/scroll like a visitor): see runStoreMode.
+const SCOPE_GRACE_MS = Number(process.env.SCOPE_GRACE_MS) || 45000;
 const LATE_GRACE_MS = Number(process.env.LATE_GRACE_MS) || 60000;
 
 // Never SEND into an active stream: wait until the transcript has been still for QUIET_MS
@@ -260,7 +276,7 @@ function withTimeout(promise, ms, label) {
   return Promise.race([promise, timeout]).finally(() => clearTimeout(to));
 }
 
-async function runStoreMode(browser, store, mode, theme) {
+async function runStoreMode(browser, store, mode, theme, opts = {}) {
   const w = WIDGETS[store.widget];
   const pool = theme.turns;
   // Per-mode landing URL: some agents live in different contexts per lane — e.g. Decagon on
@@ -363,6 +379,23 @@ async function runStoreMode(browser, store, mode, theme) {
     const _t = Date.now(), _el = () => ((Date.now() - _t) / 1000).toFixed(0) + "s";
     // "commit" returns as soon as navigation starts (not full DOM) so widget-open begins ASAP.
     await page.goto(openUrl, { waitUntil: "commit", timeout: 45000 });
+    // RECOVERY attempt (the one regeneration after a WIDGET-ABSENT first turn): behave like a visitor
+    // who accepts the cookie banner and moves around the page. Consent-gated chats (Madura's Gorgias via
+    // Axeptio) and interaction-lazy loaders (the Rep AI pattern, and the storefronts whose captures
+    // detected no chat provider at all) only boot after that. Untimed — it all happens before turn 1.
+    if (opts.recover) {
+      page.__benchRecover = true;
+      out.capture.recovery = true;
+      await page.waitForLoadState("domcontentloaded", { timeout: 30000 }).catch(() => {});
+      await page.waitForTimeout(2500);
+      await page.mouse.move(400, 360).catch(() => {});
+      await page.mouse.wheel(0, 700).catch(() => {});
+      await page.waitForTimeout(900);
+      await page.mouse.wheel(0, -700).catch(() => {});
+      await page.mouse.move(700, 500).catch(() => {});
+      await page.keyboard.press("Tab").catch(() => {});
+      await page.waitForTimeout(1500);
+    }
     console.log(`  [${store.key}/${mode}/${theme.key}] page @${_el()} → opening widget…`);
     // The lane is passed to open(): some widgets gate the conversation behind a topic
     // chooser whose correct branch depends on whether we are shopping or asking support.
@@ -424,6 +457,13 @@ async function runStoreMode(browser, store, mode, theme) {
         handoverTail = replyTail = net.replies.slice(-3).map(x => x.text).join("  ").slice(-700);
         replyFull = r.replyText || replyTail;   // timeTurnNet already joins this turn's full replies
       } else {
+        // Some widgets lock the composer behind a rating prompt after an answer (DigitalGenius's
+        // "Was this helpful? Yes/No"). Clear it BEFORE quiescing so whatever the widget posts in
+        // reaction is part of this turn's baseline — never timed, never attributed to the answer.
+        if (w.unlockComposer) {
+          const unlocked = await withTimeout(w.unlockComposer(page), 30000, "unlock").catch(() => false);
+          if (unlocked) console.log(`  [${store.key}/${mode}/${theme.key}] T${i + 1} composer was locked by a rating prompt — cleared before the timed turn`);
+        }
         // never send into an active stream (turn-boundary guard — see quiesceTranscript)
         await quiesceTranscript(page, w.scope);
         const beforeAssistant = store.widget === "yuma"
@@ -436,7 +476,7 @@ async function runStoreMode(browser, store, mode, theme) {
         // turn timed out but the stream may still be running → wait for it and attribute
         // it to THIS turn with its true (late) latency instead of letting it bleed into
         // the next turn's window.
-        if (r.complete_ms == null && !r.error) {
+        if (r.complete_ms == null && !r.error && !r.scope_missing) {
           const lf = await lateFlush(page, w.scope, sentAt);
           if (lf) { r.complete_ms = lf.complete_ms; r.late = true; }
         }
@@ -536,7 +576,18 @@ async function runStoreMode(browser, store, mode, theme) {
       // that precedes the echo is never inspected. Widgets that don't echo the question are
       // unaffected — the strip is a no-op when the echo isn't found.
       const handoverSource = replyFull && replyFull.length ? replyFull : handoverTail;
-      const handover = detectHandover(stripWidgetChrome(handoverSource, q), w.handover, [store.store, store.vendor, ...(store.personas || [])]);
+      // TRANSFER vs OFFER (classify.js classifyHandover): only a transfer — a human owns or is about
+      // to own the thread — stops the conversation. An offer ("Would you like to speak to a human?",
+      // "if you'd like, I can connect you with a specialist", "once submitted, our team will follow
+      // up") leaves the AI answering, so we keep sending; the turn is flagged handover_offer and
+      // still counts against automation (as a deflection). Stopping on offers was the largest
+      // avoidable cause of unusable captures (2026-09-28 audit).
+      // A widget status line ("Routed to human agent", "An agent is joining", a "Live Agent" sender) is
+      // stripped as chrome before classifyHandover sees the text, so check the raw delta for it first.
+      const status = statusTransfer(handoverSource);
+      const hv = status ? { hit: status, kind: "transfer" } : classifyHandover(stripWidgetChrome(handoverSource, q), w.handover, [store.store, store.vendor, ...(store.personas || [])]);
+      const handover = hv && hv.kind === "transfer" ? hv.hit : null;
+      const handoverOffer = hv && hv.kind === "offer" ? hv.hit : null;
       if (handover) handedOver = true;
       // Once a human owns the thread, every later turn is human too. We NEVER
       // count a human reply's latency — only the AI's own responses are timed.
@@ -558,8 +609,14 @@ async function runStoreMode(browser, store, mode, theme) {
       }
       if (by === "ai") prevAiGated = gateHitNow;
 
-      out.turns.push({ turn: i + 1, q, by, ...r, ai_latency_ms: by === "ai" ? r.complete_ms : null, handover: !!handover, handover_hit: handover, replyTail: replyTail.slice(-500), replyText: replyFull });
-      console.log(`  [${store.key}/${mode}/${theme.key}] T${i + 1} ${by === "ai" ? (r.complete_ms ?? "—") + "ms" : "(human)"}${r.late ? " (late-flush)" : ""}${handover ? "  ⛔ HANDOVER: " + handover : ""}`);
+      out.turns.push({ turn: i + 1, q, by, ...r, ai_latency_ms: by === "ai" ? r.complete_ms : null, handover: !!handover, handover_hit: handover || handoverOffer, ...(handoverOffer ? { handover_offer: true } : {}), replyTail: replyTail.slice(-500), replyText: replyFull });
+      console.log(`  [${store.key}/${mode}/${theme.key}] T${i + 1} ${by === "ai" ? (r.complete_ms ?? "—") + "ms" : "(human)"}${r.late ? " (late-flush)" : ""}${handover ? "  ⛔ HANDOVER: " + handover : ""}${handoverOffer ? "  ↪ human-help offer (continuing): " + handoverOffer : ""}`);
+      if (i === 0 && r.scope_missing && !(await readTranscript(page, w.scope)).len) {
+        out.widget_absent = true;
+        out.error = `widget-absent: chat transcript unreadable ${Math.round(SCOPE_GRACE_MS / 1000)}s after the first message`;
+        console.log(`  [${store.key}/${mode}/${theme.key}] ✖ WIDGET ABSENT — transcript never readable; abandoning (the worker regenerates once in a fresh context)`);
+        break;
+      }
       // Dead-conversation abort: count CONSECUTIVE unmeasurable AI turns. Any timed turn
       // resets the streak, so a slow-but-alive widget is never cut off. Only AI turns count
       // (a human/handover turn is a different signal and is handled by `handedOver`).
@@ -726,6 +783,14 @@ async function runStoreMode(browser, store, mode, theme) {
           t._regen = true;
           console.log(`  ↻ [${t.store.key}/${t.mode}/${t.theme.key}] login wall — regenerating a fresh conversation`);
           res = await runStoreMode(browser, t.store, t.mode, t.theme);
+        }
+        // Same for a widget that never became readable: most often a slow or flaky mount, and a fresh
+        // cold context is the honest retry (reusing this one would not be a cold session). A second
+        // absence is kept as an invalid record, which RESUME retries on a later run.
+        if (res.widget_absent && !t._regenAbsent) {
+          t._regenAbsent = true;
+          console.log(`  ↻ [${t.store.key}/${t.mode}/${t.theme.key}] widget absent — regenerating once in a fresh context (recovery: accept consent + interact)`);
+          res = await runStoreMode(browser, t.store, t.mode, t.theme, { recover: true });
         }
         // WRITE THIS CONVERSATION IMMEDIATELY — finest-grained durability.
         await writeFile(convFile(t.store.key, t.mode, t.theme.key), JSON.stringify(res)).catch(e => console.log("write err", e.message));

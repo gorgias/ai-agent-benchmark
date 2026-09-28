@@ -17,6 +17,7 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import { convoValidity, convoOutcome } from "./classify.js";
+import { rederiveHandover } from "./conversation-outcome.js";
 import { convoSignals } from "./eval-signals.js";
 import { stripWidgetChrome } from "./reply-clean.js";
 import { isQuarantinedConversation } from "./conversation-quarantine.js";
@@ -63,6 +64,9 @@ for (const date of fs.readdirSync(RESULTS).filter((d) => /^\d{4}-\d{2}-\d{2}$/.t
     if (isQuarantinedConversation(id)) continue;
     if (rejudge ? !rejudge.has(id) : scored[id]) continue;   // incremental, or pinned re-judge
     let j; try { j = JSON.parse(fs.readFileSync(path.join(dir, f), "utf8")); } catch { continue; }
+    // Same hand-off verdicts as the baker: a reply given after a human took over is the human's, and
+    // is neither timed nor shown to the judge as the AI's answer (conversation-outcome.js).
+    rederiveHandover(j);
     if (!convoValidity(j.turns).valid) continue;
     const o = convoOutcome(j.turns);
     const names = [j.store, j.vendor, (j.store || "").split(/\s+/)[0]];

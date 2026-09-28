@@ -109,6 +109,19 @@ Detected signals (regex, case-insensitive) include:
 
 Validated against real captured replies: it flags DigitalGenius, Meta AI, and Siena's soft deflection, and does **not** flag genuine answers (e.g. a blunt no-returns policy or a real product recommendation).
 
+### Transfer vs offer (since 2026-09-28)
+
+Every signal is classified by the sentence it sits in ([`classify.js`](../runner/classify.js) `classifyHandover`), identically for every vendor:
+
+- **Transfer** — a human owns or is about to own the thread: "I'll connect you with one of our advisors, please hold", "I'm transferring you", "I've passed your request to our team and a person will follow up", "Waiting for a teammate", "… joined the chat". The runner **stops sending** (we never script a live human) and the conversation's outcome is **handover**.
+- **Offer** — the AI proposed human help, pointed at a form or ticket, or described what the team does, but is still the one answering: "Would you like to speak to a human?", "If you'd like, I can connect you with a specialist", "Once submitted, our team will follow up". The runner **keeps the conversation going** and flags the turn `handover_offer`. For automation it still counts against the AI — as a **deflection** — so the automation rate treats it exactly as it did when it was recorded as a transfer.
+
+Widget **status lines** of a human take-over — "Routed to human agent" (Siena), "An agent is joining" / a "Live Agent" sender label (DigitalGenius), "Agent connected" / "Waiting for an agent" (Ada), "Waiting for agent to join" (Decagon) — are read on the raw reply (they are chrome, so the cleaned text never contains them) and are always a transfer.
+
+**Stored conversations are re-derived at bake time** with the same classifier ([`conversation-outcome.js`](../runner/conversation-outcome.js) `rederiveHandover`, used by `gen.js`, `scoreboard-preview.js` and `eval-pack.js`), for every vendor: a transfer the old rules missed becomes the handover and the replies after it are re-attributed to the human (not timed, not judged as the AI's); an old "handover" that now reads as an offer becomes an offer; one that reads as nothing is cleared. A conversation the old rules cut short stays short — it is re-labelled, never re-extended.
+
+Before this split every signal ended the conversation. Of 6,885 conversations captured 2026-08-18 → 09-16, 1,748 carried a signal and 794 died before three timed answers; re-classifying the stored text puts ~900 of the 1,748 in the *offer* class and ~130 as regex false positives (e.g. "share your order number? It should start with AL followed by 7 digits"). The same audit found transfers the old patterns missed ("I've passed your request to our team, and a person will follow up"), now caught. Details: [`notes/capture-yield-2026-09-28.md`](../notes/capture-yield-2026-09-28.md).
+
 ### Channel-deflection penalty (support quality)
 
 A reply whose resolution is *"contact us via email / a contact form / call us"* did **not** help the customer in-channel. When the **majority (≥50%) of an AI's substantive replies** in a conversation push the customer out of channel — i.e. in-chat resolution is effectively impossible — the support-quality checks `s_answered`, `s_outcome`, and `s_no_deflect` are **deterministically failed** ([`eval-score.js`](../runner/eval-score.js) signal gate on `no_deflect`), regardless of the LLM judge's leniency. Detection runs on the chrome-stripped reply and **spares** an *optional* aside after a real in-chat answer ("…if you prefer, you can also email us") and an *in-channel* offer ("contact us here in the chat"). Applied uniformly to every vendor.

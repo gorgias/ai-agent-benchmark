@@ -1,7 +1,7 @@
 // Unit tests for the crawler's decision logic.  Run:  node --test
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { isGen, isAck, isNoAnswer, detectHandover, convoValidity, detectDeflection, convoOutcome, guardrailLeak, isHandoffOnly } from "./classify.js";
+import { isGen, isAck, isNoAnswer, detectHandover, classifyHandover, statusTransfer, convoValidity, detectDeflection, convoOutcome, guardrailLeak, isHandoffOnly } from "./classify.js";
 
 // ---- typing / stall indicators ----------------------------------------------
 // GEN_RE / ACK_RE are END-anchored by design: they flag a *bare* typing/stall bubble
@@ -53,6 +53,82 @@ test("detectHandover: a BRAND-named bot ('Tediber says:') is NOT a handover when
   const tail = "Tediber says: En quoi pouvons-nous vous aider ? Suivre la commande, Annuler la commande";
   assert.equal(detectHandover(tail, [], ["Tediber", "Yuma"]), null);   // brand self-label
   assert.ok(detectHandover("Sophie says: I can help with that", [], ["Tediber", "Yuma"])); // real human still caught
+});
+
+// ---- transfer vs offer (2026-09-28 audit; every string below is from a captured transcript) ----
+const aiTurnOk = (ms) => ({ by: "ai", complete_ms: ms, handover: false, replyTail: "Our best seller ships free in 3-5 days." });
+const kind = (t, extra, names) => { const h = classifyHandover(t, extra, names); return h ? h.kind : null; };
+
+test("classifyHandover: a human taking the thread is a TRANSFER (runner stops)", () => {
+  assert.equal(kind("To ensure you get the best possible assistance, I'll connect you with one of our human advisors. Please hold on for a moment while I check if someone is available."), "transfer");
+  assert.equal(kind("Absolutely — I’m transferring you to a specialist who can help you choose the best option for your needs."), "transfer");
+  assert.equal(kind("Is there any additional information you would like to provide before I transfer you to our support team?"), "transfer");
+  assert.equal(kind("I have routed you to one of my colleagues, who will be happy to assist. Be on the lookout for an email from them soon."), "transfer");
+  assert.equal(kind("Thanks for letting us know 💚 Before a specialist joins the conversation, please share a few details about your question."), "transfer");
+  assert.equal(kind("I'm connecting you with a member of our team who can help with that shipping address change right away. They'll be with you shortly!"), "transfer");
+  assert.equal(kind("A member of our team will be happy to help with that! To get started, what is your first and last name?"), "transfer");
+  assert.equal(kind("Avocado will be back in 3 hours. Waiting for a teammate"), "transfer");
+});
+
+test("classifyHandover: Gorgias's own hand-off messages stay TRANSFERS", () => {
+  const g = [/will respond as soon as they join/i];
+  assert.equal(kind("I do not have specific information on updating account or contact details here. Leave us your email Feel free to ask more questions — our team will respond as soon as they join.", g), "transfer");
+  assert.equal(kind("I’m sorry, but I do not have reliable exchange details to share here. I’ve passed your request to our team, and a person will follow up. Please share your email address so they can contact you."), "transfer");
+  assert.equal(kind("I’m sorry, but I don’t have that information. A person on our team will follow up with you, and you’re welcome to leave a contact email for follow-up."), "transfer");
+  assert.equal(kind("Refunds are issued back to the original payment method. To make sure the team can assist you quickly, please leave your email address here."), "transfer");
+});
+
+test("classifyHandover: an OFFER of human help is not a transfer (runner keeps going)", () => {
+  assert.equal(kind("Sorry I'm not able to answer your question. Would you like to speak to a human?"), "offer");
+  assert.equal(kind("Sorry I couldn't understand your request. Could you try rephrasing the question? Or, if you'd like, I can transfer you to a member of our Pet Support team."), "offer");
+  assert.equal(kind("If you still don’t see any updates there, let me know—I can help you figure out what’s going on or connect you with a specialist for more support."), "offer");
+  assert.equal(kind("If you’d like, I can connect you with someone who can confirm the current customer feedback."), "offer");
+  assert.equal(kind("If you want, I can pass this to our team so a person can follow up."), "offer");
+  assert.equal(kind("Once submitted, our team will follow up with the next steps for resolution."), "offer");
+  assert.equal(kind("Phone: You can speak to an agent by calling +1 877 876 2740 during our operating hours."), "offer");
+  // Yuma greeting: a capability disclosure conditioned on the previous sentence
+  assert.equal(kind("If your request is complex, specific, or if you have any doubt, do not hesitate to let us know. A member of our team will gladly take over."), "offer");
+});
+
+test("classifyHandover: self-service instructions and quotes are NOT handovers at all", () => {
+  assert.equal(detectHandover("Oh no, I'm sorry to hear about the damaged item! Could you please share your order number? It should start with \"AL\" followed by 7 digits. Once I have that, I can guide you on the next steps."), null);
+  assert.equal(detectHandover("If you’d like, I can help you with your specific order—just share your order number or details, and I’ll assist you further!"), null);
+  assert.equal(detectHandover("Exchanges are handled through our Returns Portal. Simply enter your email and order number to start the process."), null);
+  assert.equal(detectHandover("Review your cart, select delivery type, then proceed to checkout. Enter your details and payment (MasterCard, Amex, Visa, or PayPal)."), null);
+  assert.equal(detectHandover("Welcome! To get started, you can create a customer account here. Just enter your details, click \"Create Account,\" and check your email."), null);
+  assert.equal(detectHandover("That's a straightforward question! Here's what our policy says: We cannot accept returns for perishable products."), null);
+  assert.equal(detectHandover("Their FAQ says: \"We cannot make changes to your order once your package has been fulfilled and shipped.\""), null);
+  // Envive's widget extra used to fire on a quoted customer review
+  const spiffy = [/\b(connect|transfer|pass|hand|route|forward)\w*\s+(you|this|your \w+)\s+(over\s+)?(to|with)\s+(our|the)\s+customer care team/i];
+  assert.equal(detectHandover("I now have a whole wall full of these pictures. If there is an issue with a print Fracture has the best customer care team.", spiffy), null);
+});
+
+test("classifyHandover: a transfer anywhere beats an earlier offer", () => {
+  assert.equal(kind("Would you like to speak to a human? I'll connect you with an agent now."), "transfer");
+});
+
+test("convoOutcome: an OFFER turn counts against automation (deflected), exactly like the transfer it replaced", () => {
+  const turns = [aiTurnOk(1200), aiTurnOk(1500), { by: "ai", complete_ms: 1800, handover: false, handover_offer: true, handover_hit: "speak to a human", replyTail: "" }, aiTurnOk(1300)];
+  const o = convoOutcome(turns);
+  assert.equal(o.outcome, "deflected");
+  assert.equal(o.automated, false);
+});
+
+test("statusTransfer: widget status lines of a human take-over (raw text, whole lines only)", () => {
+  assert.ok(statusTransfer("Happy to help! I’ll be sharing this with my team now.\n\nRouted to human agent\nPowered by Siena"));
+  assert.ok(statusTransfer("I'll hand you over to an agent now.\n\n11:48\n\nAn agent is joining\n\nYou are in a queue."));
+  assert.ok(statusTransfer("E\nEloise H\n•\nLive Agent\n\nUnfortunately not, under the trial period it is a full return"));
+  assert.ok(statusTransfer("How do I track my refund?\n09:14\n\nEin Agent ist dem Chat beigetreten\n\nL\nLeonie"));
+  assert.ok(statusTransfer("12:14 PM\nIs there a subscription or refill option?\nWaiting for agent to join"));
+  assert.equal(statusTransfer("Talk to a Live Agent"), null);
+  assert.equal(statusTransfer("Escalate to Live Agent\nOur live agents are available 9-5."), null);
+  assert.equal(statusTransfer("Our 30-day guarantee covers any blend. Powered by Siena"), null);
+});
+
+test("classifyHandover: Siena/DigitalGenius hand-off phrasings the old patterns missed", () => {
+  assert.equal(kind("Great question! I'm connecting you with one of my teammates now, they'll be right with you to help."), "transfer");
+  assert.equal(kind("I’ll be sharing this with my team now and you will be connected with a specialist shortly!"), "transfer");
+  assert.equal(kind("Apologies, there's been an error. I am going to hand you over to a member of the team."), "transfer");
 });
 
 // ---- conversation validity gate --------------------------------------------

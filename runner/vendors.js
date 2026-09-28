@@ -52,7 +52,43 @@ function makeDummyIdentity() {
   };
 }
 
+// page.evaluate that survives the storefront navigating underneath it. Some stores redirect after
+// the first paint (locale/geo splash, consent reload): the evaluate then throws "Execution context
+// was destroyed", which used to fail the whole conversation before a single message — 38 of
+// gorgias-tommyjohn's captures since 2026-08-18 died this way. Wait for the new document and retry.
+async function evalSettled(page, fn, arg, tries = 3) {
+  for (let i = 0; ; i++) {
+    try { return await page.evaluate(fn, arg); }
+    catch (e) {
+      if (i + 1 >= tries || !/Execution context was destroyed|navigat/i.test(String(e))) throw e;
+      await page.waitForLoadState("domcontentloaded", { timeout: 20000 }).catch(() => {});
+      await page.waitForTimeout(1500);
+    }
+  }
+}
+
+// CONSENT-ACCEPT selectors (common CMPs: OneTrust, Cookiebot, Axeptio, Didomi, Shopify's own banner,
+// plain "Accept all"). Used only in RECOVERY mode — see dismiss().
+const CONSENT_ACCEPT = [
+  "#onetrust-accept-btn-handler", "#CybotCookiebotDialogBodyLevelButtonLevelOptinAllowAll", "#CybotCookiebotDialogBodyButtonAccept",
+  "#axeptio_btn_acceptAll", "#didomi-notice-agree-button", 'button[data-testid="uc-accept-all-button"]',
+  'button:has-text("Accept all")', 'button:has-text("Accept All")', 'button:has-text("Allow all")', 'button:has-text("Accept cookies")',
+  'button:has-text("Tout accepter")', 'button:has-text("OK pour moi")', 'button:has-text("Accepter")', 'button:has-text("Alle akzeptieren")',
+  'button:has-text("I agree")', 'button:has-text("Accept")',
+];
+
 async function dismiss(page) {
+  // RECOVERY mode (run.js sets page.__benchRecover on the one regeneration after a WIDGET-ABSENT
+  // first turn): ACCEPT the consent banner instead of rejecting it. Some chats are consent-gated and
+  // never load once cookies are refused — Madura's Gorgias chat only boots on Axeptio's
+  // "axeptio:gorgias" grant, so rejecting-first (the default below) left it with zero valid captures
+  // since 2026-07-01 while its raw HTML still carried the Gorgias loader. The default path is
+  // unchanged, so a store that already works is never affected.
+  if (page.__benchRecover) {
+    for (const sel of CONSENT_ACCEPT) {
+      try { const b = page.locator(sel).first(); if (await b.isVisible({ timeout: 300 })) { await b.click({ timeout: 800 }); await page.waitForTimeout(1500); break; } } catch {}
+    }
+  }
   for (const sel of [
     'button:has-text("Reject")', 'button:has-text("Decline")', 'button:has-text("No thanks")',
     'button:has-text("Refuser")', 'button:has-text("Tout refuser")', 'button:has-text("Continuer sans accepter")',
@@ -107,6 +143,21 @@ async function shadowSend(page, hostSel, text) {
   if (!ok) { try { await el.type(text, { delay: 10 }); } catch {} }
   await page.keyboard.press("Enter");
   return true;
+}
+
+// Rep AI's chatbot-disclosure screen ("AI Concierge · automated chatbot · Accept & continue · Decline")
+// replaces the composer until it is accepted. Every capture that met it (peterthomasroth,
+// blingcartel: 14 since 2026-08-18) sat on that screen for all ten turns and none was valid. A
+// shopper accepts it to use the chat at all; it is a disclosure, not a quick-reply chip.
+async function repaiAcceptDisclosure(page) {
+  return page.evaluate((sel) => {
+    const host = document.querySelector(sel); if (!host) return false;
+    let hit = null;
+    const walk = (n) => { if (!n || hit) return; { const sr = n.shadowRoot || (n.nodeType === 1 && typeof window.__repRoot === "function" ? window.__repRoot(n) : null); if (sr) walk(sr); }
+      for (const k of (n.children || [])) walk(k);
+      if (!hit && n.nodeType === 1 && (n.tagName === "BUTTON" || n.getAttribute?.("role") === "button") && /^\s*(accept\s*(&|and)\s*continue|i accept|accept)\s*$/i.test(n.innerText || n.textContent || "")) hit = n; };
+    walk(host); if (hit) { hit.click(); return true; } return false;
+  }, REPAI_HOST).catch(() => false);
 }
 
 // Click the first button/launcher inside an open shadow host (headed Chrome).
@@ -232,7 +283,7 @@ export const WIDGETS = {
       await dismiss(page);
       // widget bundle loads a couple seconds after a real-UA 'load'; wait for it
       await page.waitForFunction(() => typeof window.GorgiasChat !== "undefined", null, { timeout: 30000 }).catch(() => {});
-      await page.evaluate(async () => {
+      await evalSettled(page, async () => {
         const isOpen = () => { try { return !!window.GorgiasChat.isOpen(); } catch (e) { return false; } };
         for (let i = 0; i < 14 && !isOpen(); i++) { try { window.GorgiasChat.open(); } catch (e) {} await new Promise(r => setTimeout(r, 900)); }
       });
@@ -241,7 +292,7 @@ export const WIDGETS = {
       if (!(await findFrame(page, "chat-window"))) {
         const fb = await findFrame(page, "chat-button");
         if (fb) { try { await fb.locator('button, [role="button"], div').first().click({ timeout: 3000 }); } catch (e) {} }
-        await page.evaluate(() => { try { document.querySelector('#chat-button, [aria-label*="chat" i]')?.click?.(); } catch (e) {} });
+        await evalSettled(page, () => { try { document.querySelector('#chat-button, [aria-label*="chat" i]')?.click?.(); } catch (e) {} }).catch(() => {});
         await page.waitForTimeout(3500);
       }
       const f = await findFrame(page, "chat-window");
@@ -273,7 +324,9 @@ export const WIDGETS = {
   // they had silently migrated to the #envive-ai-* build. Retargeted to cover both.)
   spiffy: {
     scope: { kind: "shadow", match: 'textarea[placeholder*="Ask" i], input[placeholder*="Ask" i], [data-testid="spiffy-chat-reply-input"]' },
-    handover: [/customer care team/i, /human (agent|representative)/i, /connect you (with|to)/i, /talk to (a|an|our) (human|agent|person)/i],
+    // "customer care team" alone matched a quoted review on Fracture ("Fracture has the best customer
+    // care team") and ended the conversation; require an actual hand-off verb.
+    handover: [/\b(connect|transfer|pass|hand|route|forward)\w*\s+(you|this|your \w+)\s+((over|on|along)\s+)?(to|with)\s+(our|the)\s+customer care team/i, /human (agent|representative)/i, /connect you (with|to)/i, /talk to (a|an|our) (human|agent|person)/i],
     async open(page) {
       await page.waitForTimeout(2500); await dismiss(page);
       const sel = WIDGETS.spiffy.scope.match;
@@ -376,7 +429,13 @@ export const WIDGETS = {
   // automation) → force it; launcher is the #SIENA_CHAT_IFRAME bubble (must click);
   // pre-chat gate = name+email OR email-only. NEVER a quick-reply chip. (HEADED path.)
   siena: {
-    scope: { kind: "frame", match: "siena.cx" },
+    // pick:"richest" — several Siena stores (Portland Leather, MUD\WTR, Spanx, Simple Modern) went from
+    // healthy to ZERO transcript text on every turn at the end of July while the Siena script and
+    // host still loaded on the page. The reader took the FIRST frame whose URL contains siena.cx; if
+    // the webchat now mounts more than one siena.cx frame (a launcher next to the conversation), that
+    // first frame is an empty shell. Prefer the frame holding a composer, else the one with the most
+    // text. With a single frame this is exactly the old behaviour.
+    scope: { kind: "frame", match: "siena.cx", pick: "richest" },
     async open(page) {
       await page.waitForTimeout(1500); await dismiss(page);
       const sframe = () => page.frames().find(fr => fr.url().includes("siena.cx"));
@@ -390,12 +449,12 @@ export const WIDGETS = {
       await page.evaluate(() => { try { window.SienaLaunchChat && window.SienaLaunchChat(); } catch (e) {} }).catch(() => {});
       await page.waitForTimeout(800);
       for (let i = 0; i < 6; i++) {
-        const f = sframe();
+        const f = await findFrame(page, "siena.cx", "richest");
         if (f) { const ready = await f.evaluate(() => !!document.querySelector('textarea,[contenteditable="true"]') || /enter your name|start the chat|start chat/i.test(document.body.innerText || "")).catch(() => false); if (ready) break; }
         await page.locator('#SIENA_CHAT_IFRAME, iframe[src*="siena.cx" i]').first().click({ timeout: 3000, force: true }).catch(() => {});
         await page.waitForTimeout(1500);
       }
-      const f = sframe();
+      const f = await findFrame(page, "siena.cx", "richest");
       if (f) {
         const composerReady = () => f.evaluate(() => !!document.querySelector('textarea,[contenteditable="true"]')).catch(() => false);
         for (let attempt = 0; attempt < 4 && !(await composerReady()); attempt++) {
@@ -412,7 +471,7 @@ export const WIDGETS = {
       }
     },
     async send(page, text) {
-      const f = page.frames().find(fr => fr.url().includes("siena.cx")); if (!f) return;
+      const f = await findFrame(page, "siena.cx", "richest"); if (!f) return;
       let inp = f.locator('textarea').first();
       if (!(await inp.count().catch(() => 0))) inp = f.locator('[contenteditable="true"], input[type="text"]:not([placeholder*="name" i])').first();
       await inp.click({ timeout: 5000 }).catch(() => {});
@@ -456,12 +515,33 @@ export const WIDGETS = {
       await composer.waitFor({ state: "visible", timeout: 40000 }).catch(() => {});
       await page.waitForTimeout(1000);
     },
+    // FEEDBACK-SURVEY LOCK (2026-09-28). After an answer DigitalGenius often posts "Was the information
+    // I provided helpful? Yes / No" and DISABLES the composer until one is clicked. send() then hung on
+    // an uneditable textarea until the turn's hard timeout: 111 turns in September alone (Kukoon, OBee,
+    // Blakely, Abbott Lyon), each a lost data point and ~2 min of capture. This is a rating widget, not
+    // a quick-reply chip — clicking it sends no question and serves no answer — and run.js calls this
+    // hook BEFORE quiescing, outside every timed window, so the bot's reaction to the click lands in
+    // the next turn's baseline and is never timed or attributed. It acts only when the composer is
+    // actually locked; with an editable composer it does nothing.
+    async unlockComposer(page) {
+      const f = await findFrame(page, "dg-chat-widget-iframe"); if (!f) return false;
+      const inp = f.locator('textarea[aria-label*="message" i], textarea[placeholder*="message" i], textarea[placeholder*="type" i], textarea').first();
+      if (!(await inp.count().catch(() => 0))) return false;
+      if (await inp.isEditable({ timeout: 1500 }).catch(() => false)) return false;
+      const yes = f.getByRole("button", { name: /^\s*yes\s*$/i }).last();
+      if (!(await yes.isVisible({ timeout: 1500 }).catch(() => false))) return false;
+      await yes.click({ timeout: 3000 }).catch(() => {});
+      await inp.waitFor({ state: "visible", timeout: 5000 }).catch(() => {});
+      for (let i = 0; i < 10 && !(await inp.isEditable({ timeout: 500 }).catch(() => false)); i++) await page.waitForTimeout(1000);
+      return true;
+    },
     async send(page, text) {
       const f = await findFrame(page, "dg-chat-widget-iframe"); if (!f) return;
       let inp = f.locator('textarea[aria-label*="message" i], textarea[placeholder*="message" i], textarea[placeholder*="type" i], textarea').first();
       if (!(await inp.count().catch(() => 0))) inp = f.locator('[contenteditable="true"], input[type="text"]:not([placeholder*="name" i]):not([placeholder*="email" i])').first();
       await inp.click({ timeout: 5000 }).catch(() => {});
-      await inp.fill(text).catch(async () => { await inp.type(text, { delay: 12 }).catch(() => {}); });
+      // Bounded: an uneditable composer must fail in seconds, not hold the turn until its hard timeout.
+      await inp.fill(text, { timeout: 8000 }).catch(async () => { await inp.type(text, { delay: 12, timeout: 8000 }).catch(() => {}); });
       await page.keyboard.press("Enter");
       await page.waitForTimeout(400);
       try { const still = await inp.inputValue().catch(() => ""); if (still && still.trim()) { const b = f.locator('button[aria-label*="send" i], button[title*="send" i], button[type="submit"]').first(); if (await b.count()) await b.click({ timeout: 2500 }).catch(() => {}); } } catch {}
@@ -570,7 +650,9 @@ export const WIDGETS = {
         }
         await page.waitForTimeout(1000);
       }
+      if (!(await repaiComposerVisible(page)) && (await repaiAcceptDisclosure(page))) await page.waitForTimeout(2000);
       if (!(await repaiComposerVisible(page))) { await shadowClickLauncher(page, REPAI_HOST); await page.waitForTimeout(3000); }
+      if (!(await repaiComposerVisible(page)) && (await repaiAcceptDisclosure(page))) await page.waitForTimeout(2000);
       // Marketing overlays such as an SMS sign-up iframe hold focus, and the widget then ignores what we type
       // (freshroastedcoffee.com: Send stayed disabled). Escape closes them. It runs here, before turn 1, so it
       // never sits inside a timed turn; if Escape also closed the chat, reopen it.
@@ -587,6 +669,7 @@ export const WIDGETS = {
     async send(page, text) {
       // Never fire into a composer that is not there: shadowSend returns false silently.
       for (let i = 0; i < 20 && !(await repaiComposerVisible(page)); i++) {
+        if (i === 0 || i === 6) await repaiAcceptDisclosure(page);
         if (i === 5) await page.evaluate(() => { try { window.rep && window.rep.open && window.rep.open(); } catch (e) {} }).catch(() => {});
         await page.waitForTimeout(1000);
       }
@@ -1662,24 +1745,35 @@ export const STORES = [
 // Find a frame by element id / title / name / url. `match` may be a string
 // (substring) OR a RegExp (e.g. Klaviyo's /klaviyo|chat|assistant/i) — using
 // .includes() on a regex throws, so route through this predicate.
-export async function findFrame(page, match) {
+export async function findFrame(page, match, pick = "first") {
   const hit = (s) => match instanceof RegExp ? match.test(s || "") : (s || "").includes(match);
+  const found = [];
   for (const f of page.frames()) {
-    if (hit(f.name()) || hit(f.url())) return f;
-    try {
-      const el = await f.frameElement();
-      const id = (await el.getAttribute("id")) || "";
-      const title = (await el.getAttribute("title")) || "";
-      if (hit(id) || hit(title)) return f;
-    } catch {}
+    let ok = hit(f.name()) || hit(f.url());
+    if (!ok) {
+      try {
+        const el = await f.frameElement();
+        const id = (await el.getAttribute("id")) || "";
+        const title = (await el.getAttribute("title")) || "";
+        ok = hit(id) || hit(title);
+      } catch {}
+    }
+    if (ok) { if (pick !== "richest") return f; found.push(f); }
   }
-  return null;
+  if (found.length <= 1) return found[0] || null;
+  // "richest": the frame with a composer wins; ties broken by the amount of visible text.
+  let best = null, bestScore = -1;
+  for (const f of found) {
+    const score = await f.evaluate(() => (document.querySelector('textarea,[contenteditable="true"]') ? 1e7 : 0) + (document.body ? (document.body.innerText || "").length : 0)).catch(() => -1);
+    if (score > bestScore) { best = f; bestScore = score; }
+  }
+  return best;
 }
 
 // Read the current transcript (frame | shadow-by-text | shadow-by-id).
 export async function readTranscript(page, scope) {
   if (scope.kind === "frame") {
-    const f = await findFrame(page, scope.match);
+    const f = await findFrame(page, scope.match, scope.pick);
     if (!f) return { len: 0, text: "" };
     try { const text = await f.evaluate(() => document.body.innerText || ""); return { len: text.length, text }; }
     catch { return { len: 0, text: "" }; }
