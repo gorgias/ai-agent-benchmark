@@ -1063,7 +1063,7 @@ export const STORES = [
   { key: "gorgias-americanmeadows", vendor: "Gorgias", store: "American Meadows", url: "https://www.americanmeadows.com/", widget: "gorgias", us: true, locale: "en-US" },
   { key: "gorgias-unfolded",  vendor: "Gorgias", store: "Unfolded",         url: "https://thisisunfolded.com/",      widget: "gorgias", locale: "en-GB" },
   { key: "gorgias-baiafood",  vendor: "Gorgias", store: "Baia Food",        url: "https://baiafood.com/",            widget: "gorgias", locale: "es-ES" },
-  { key: "gorgias-blueroot",  vendor: "Gorgias", store: "Blueroot Health",  url: "https://blueroothealth.co/",       widget: "gorgias", locale: "en-GB" }, // widget not in static HTML — capture validates
+  { key: "gorgias-blueroot", wall: true,  vendor: "Gorgias", store: "Blueroot Health",  url: "https://blueroothealth.co/",       widget: "gorgias", locale: "en-GB" }, // widget not in static HTML — capture validates // retired 2026-09-28: 0 valid in 32 attempts; Gorgias widget no longer on the page
   { key: "gorgias-masderm",   vendor: "Gorgias", store: "Masderm",          url: "https://masderm.com/",             widget: "gorgias", locale: "fr-FR" },
   // NWA Hype (nwahype.com) dropped: captured 9 conversations, 0 measurable (all —ms — widget never
   // produced a timed answer; unmeasurable like Klaviyo/Decagon), so no honest data to add.
@@ -1078,7 +1078,7 @@ export const STORES = [
   { key: "sierra-chubbies", vendor: "Sierra", store: "Chubbies",       url: "https://www.chubbiesshorts.com/", widget: "sierra", candidate: true },
 
   // Siena
-  { key: "siena-simplemodern", vendor: "Siena", store: "Simple Modern", url: "https://www.simplemodern.com/products/mesa-loop-30oz-49", widget: "siena" },
+  { key: "siena-simplemodern", wall: true, vendor: "Siena", store: "Simple Modern", url: "https://www.simplemodern.com/products/mesa-loop-30oz-49", widget: "siena" }, // retired 2026-09-28: 0 valid since 2026-07-29 (100 before); Siena no longer on the page
   { key: "siena-figs",         vendor: "Siena", store: "FIGS",          url: "https://www.wearfigs.com/pages/men-home", widget: "siena" },
   { key: "siena-jonesroad",    wall: true, vendor: "Siena", store: "Jones Road",    url: "https://www.jonesroadbeauty.com/", widget: "siena", candidate: true },
 
@@ -1326,7 +1326,7 @@ export const STORES = [
   { key: "repai-satya",       vendor: "Rep AI", store: "Satya Jewelry",   url: "https://www.satyajewelry.com/",  widget: "repai", candidate: true },
   { key: "repai-bikesonline", vendor: "Rep AI", store: "BikesOnline",     url: "https://bikesonline.com/",       widget: "repai" }, // verified rep-connector chat-embed.js on bikesonline.com (2026-07-07)
   { key: "repai-kinn",        vendor: "Rep AI", store: "Kinn Studio",     url: "https://kinnstudio.com/",        widget: "repai", candidate: true },
-  { key: "repai-cwspirits",   vendor: "Rep AI", store: "Country Wine & Spirits", url: "https://cwspirits.com/",  widget: "repai", candidate: true },
+  { key: "repai-cwspirits", wall: true,   vendor: "Rep AI", store: "Country Wine & Spirits", url: "https://cwspirits.com/",  widget: "repai", candidate: true }, // retired 2026-09-28: 0 valid in 7 attempts; Rep AI loads but never mounts
   // Kodif — headed-only (kodif-chat-widget iframe). DSC + JustFoodForDogs + Neuro independent; Babyletto/daVinci/Namesake share one parent (Million Dollar Baby Co.).
   { key: "kodif-jffd",        vendor: "Kodif",  store: "JustFoodForDogs", url: "https://www.justfoodfordogs.com/", widget: "kodif", candidate: true },
   { key: "kodif-neuro",       vendor: "Kodif",  store: "Neuro",           url: "https://neurogum.com/",          widget: "kodif", candidate: true },
@@ -1347,7 +1347,7 @@ export const STORES = [
   // Klaviyo public case study says K9 Ballistics adopted Customer Hub + K:AI Customer Agent across
   // both brand sites; raw served HTML verifies customer-hub-data + window.customerHub. Both also carry
   // a Gorgias live-chat block, so keep them candidate:true until a focused Klaviyo run confirms routing.
-  { key: "klaviyo-k9ballistics", vendor: "Klaviyo", store: "K9 Ballistics", url: "https://k9ballistics.com/",       widget: "klaviyo", candidate: true },
+  { key: "klaviyo-k9ballistics", wall: true, vendor: "Klaviyo", store: "K9 Ballistics", url: "https://k9ballistics.com/",       widget: "klaviyo", candidate: true }, // retired 2026-09-28: 0 valid since 2026-07-29 (49 before); Klaviyo chat never mounts, the page now runs Gorgias
   { key: "klaviyo-onefastcat",   vendor: "Klaviyo", store: "One Fast Cat",  url: "https://onefastcat.com/",        widget: "klaviyo", candidate: true },
   // Shopify Inbox (native) — expected gated/single-shot ticket form (Roman); the finding IS the result.
   { key: "shopify-schott",    vendor: "Shopify Inbox", store: "Schott NYC", url: "https://www.schottnyc.com/",    widget: "shopify_inbox", candidate: true },
@@ -1403,7 +1403,7 @@ export const STORES = [
   // candidate:true — capture self-filters any that only run human chat / a basic Answer Bot.
   { key: "zendesk-nobull",     vendor: "Zendesk", store: "NOBULL",        url: "https://www.nobullproject.com/",  widget: "zendesk", us: true, candidate: true }, // zdassets + zE + ekr/snippet; case study ~50% AI resolution
   { key: "zendesk-papier",     vendor: "Zendesk", store: "Papier",        url: "https://www.papier.com/",         widget: "zendesk", candidate: true },           // zdassets + zE; case study ~40% auto-resolved 24/7
-  { key: "zendesk-newlook",    vendor: "Zendesk", store: "New Look",      url: "https://www.newlook.com/uk",      widget: "zendesk", locale: "en-GB", candidate: true }, // case study: AI agents on chat+email, 42% resolution
+  { key: "zendesk-newlook", wall: true,    vendor: "Zendesk", store: "New Look",      url: "https://www.newlook.com/uk",      widget: "zendesk", locale: "en-GB", candidate: true }, // case study: AI agents on chat+email, 42% resolution // retired 2026-09-28: 0 valid in 45 attempts; storefront returns 403 to the capture browser
   { key: "zendesk-motelrocks", wall: true, vendor: "Zendesk", store: "Motel Rocks",   url: "https://us.motelrocks.com/",      widget: "zendesk", us: true, candidate: true }, // case study: ~43% deflection, +9.44% CSAT | walled 2026-07-27: 50 AI turns / 5 convs, ZERO reply content, 0 valid
   { key: "zendesk-bodyshop",   vendor: "Zendesk", store: "The Body Shop", url: "https://www.thebodyshop.com/en-gb", widget: "zendesk", locale: "en-GB", candidate: true }, // zdassets messaging widget live; AI unconfirmed
   { key: "zendesk-gousto", wall: true,     vendor: "Zendesk", store: "Gousto",        url: "https://www.gousto.co.uk/",       widget: "zendesk", locale: "en-GB", candidate: true }, // zdassets live; meal-kit (borderline ecom) | walled 2026-07-27: 50 AI turns / 5 convs, ZERO reply content, 0 valid
@@ -1447,9 +1447,9 @@ export const STORES = [
   { key: "repai-capstonegames", vendor: "Rep AI", store: "Capstone Games", url: "https://capstone-games.com/", widget: "repai", candidate: true },
   { key: "repai-homespice", vendor: "Rep AI", store: "Homespice", url: "https://homespice.com/", widget: "repai", candidate: true },
   { key: "repai-couturecandy", vendor: "Rep AI", store: "Couture Candy", url: "https://www.couturecandy.com/", widget: "repai", candidate: true },
-  { key: "repai-americanhomefurniture", vendor: "Rep AI", store: "American Home Furniture", url: "https://americanhomefurniture.com/", widget: "repai", candidate: true },
+  { key: "repai-americanhomefurniture", wall: true, vendor: "Rep AI", store: "American Home Furniture", url: "https://americanhomefurniture.com/", widget: "repai", candidate: true }, // retired 2026-09-28: 0 valid; Rep AI loads but never mounts
   { key: "repai-blingcartel", vendor: "Rep AI", store: "Bling Cartel", url: "https://www.blingcartel.com/", widget: "repai", candidate: true },
-  { key: "repai-clothandpaper", vendor: "Rep AI", store: "Cloth & Paper", url: "https://www.clothandpaper.com/", widget: "repai", candidate: true },
+  { key: "repai-clothandpaper", wall: true, vendor: "Rep AI", store: "Cloth & Paper", url: "https://www.clothandpaper.com/", widget: "repai", candidate: true }, // retired 2026-09-28: 0 valid; Rep AI no longer on the page
   { key: "repai-crownbees", vendor: "Rep AI", store: "Crown Bees", url: "https://crownbees.com/", widget: "repai", candidate: true },
   { key: "repai-mossballpets", vendor: "Rep AI", store: "Moss Ball Pets", url: "https://mossballpets.com/", widget: "repai", candidate: true },
   { key: "repai-underoutfit", vendor: "Rep AI", store: "Underoutfit", url: "https://www.underoutfit.com/", widget: "repai", candidate: true },
@@ -1459,9 +1459,9 @@ export const STORES = [
   { key: "repai-scentiment", vendor: "Rep AI", store: "Scentiment", url: "https://www.scentiment.com/", widget: "repai", candidate: true },
   { key: "repai-plunge", vendor: "Rep AI", store: "Plunge", url: "https://plunge.com/", widget: "repai", candidate: true },
   { key: "repai-venusetfleur", vendor: "Rep AI", store: "Venus et Fleur", url: "https://www.venusetfleur.com/", widget: "repai", candidate: true },
-  { key: "repai-charliebcollection", vendor: "Rep AI", store: "Charlie B Collection", url: "https://www.charliebcollection.com/", widget: "repai", candidate: true },
+  { key: "repai-charliebcollection", wall: true, vendor: "Rep AI", store: "Charlie B Collection", url: "https://www.charliebcollection.com/", widget: "repai", candidate: true }, // retired 2026-09-28: 0 valid; Rep AI no longer on the page
   { key: "repai-verticalspice", vendor: "Rep AI", store: "Vertical Spice", url: "https://verticalspice.com/", widget: "repai", candidate: true },
-  { key: "repai-puursmile", vendor: "Rep AI", store: "Puur Smile", url: "https://puursmile.com/", widget: "repai", candidate: true },
+  { key: "repai-puursmile", wall: true, vendor: "Rep AI", store: "Puur Smile", url: "https://puursmile.com/", widget: "repai", candidate: true }, // retired 2026-09-28: 0 valid; store now runs Richpanel
   { key: "repai-heavys", vendor: "Rep AI", store: "Heavys", url: "https://www.heavys.com/", widget: "repai", candidate: true },
   { key: "repai-vallon", vendor: "Rep AI", store: "Vallon", url: "https://www.vallon.com/", widget: "repai", candidate: true },
   // Sourced 2026-09-10 from Cortex (StoreLeads detects Rep AI on ~970 storefronts) and verified drivable
@@ -1476,7 +1476,7 @@ export const STORES = [
   { key: "repai-myfairmahjong", vendor: "Rep AI", store: "My Fair Mahjong", url: "https://myfairmahjong.com/", widget: "repai", candidate: true },
   { key: "repai-phenomelite", vendor: "Rep AI", store: "Phenom Elite Brand", url: "https://phenomelitebrand.com/", widget: "repai", candidate: true },
   { key: "repai-backontrack", vendor: "Rep AI", store: "Back on Track USA", url: "https://backontrackusa.com/", widget: "repai", candidate: true },
-  { key: "repai-magnoliapearl", vendor: "Rep AI", store: "Magnolia Pearl", url: "https://magnoliapearl.com/", widget: "repai", candidate: true },
+  { key: "repai-magnoliapearl", wall: true, vendor: "Rep AI", store: "Magnolia Pearl", url: "https://magnoliapearl.com/", widget: "repai", candidate: true }, // retired 2026-09-28: 0 valid in 9 attempts; Rep AI loads but never mounts
   { key: "repai-theradome", vendor: "Rep AI", store: "Theradome", url: "https://theradome.com/", widget: "repai", candidate: true },
   { key: "repai-moddedzone", vendor: "Rep AI", store: "ModdedZone", url: "https://moddedzone.com/", widget: "repai", candidate: true },
   { key: "repai-peterthomasroth", vendor: "Rep AI", store: "Peter Thomas Roth", url: "https://www.peterthomasroth.com/", widget: "repai", candidate: true },
@@ -1496,7 +1496,7 @@ export const STORES = [
   { key: "repai-stuga", vendor: "Rep AI", store: "Stuga", url: "https://stugastudio.com/", widget: "repai", candidate: true },
   { key: "repai-nationwidesafes", vendor: "Rep AI", store: "Nationwide Safes", url: "https://nationwidesafes.com/", widget: "repai", candidate: true },
   { key: "repai-roamluggage", vendor: "Rep AI", store: "ROAM Luggage", url: "https://www.roamluggage.com/", widget: "repai", candidate: true },
-  { key: "repai-slipdoctors", vendor: "Rep AI", store: "SlipDoctors", url: "https://slipdoctors.com/", widget: "repai", candidate: true },
+  { key: "repai-slipdoctors", wall: true, vendor: "Rep AI", store: "SlipDoctors", url: "https://slipdoctors.com/", widget: "repai", candidate: true }, // retired 2026-09-28: 0 valid; Rep AI no longer on the page
   { key: "repai-repprovisions", vendor: "Rep AI", store: "REP Provisions", url: "https://repprovisions.com/", widget: "repai", candidate: true },
   { key: "repai-cabanalife", vendor: "Rep AI", store: "Cabana Life", url: "https://www.cabanalife.com/", widget: "repai", candidate: true },
   { key: "repai-motherearth", vendor: "Rep AI", store: "Mother Earth Products", url: "https://motherearthproducts.com/", widget: "repai", candidate: true },
@@ -1574,7 +1574,7 @@ export const STORES = [
   // brief. Ritual is a confirmed structural wall (0/20 timed turns, retested).
   { key: "intercom-gymshark", vendor: "Intercom", store: "Gymshark", url: "https://www.gymshark.com/", widget: "intercom", us: true, candidate: true }, // athleticwear DTC, $35M/mo est. sales (Storeleads)
   { key: "intercom-livingspaces", vendor: "Intercom", store: "Living Spaces", url: "https://www.livingspaces.com/", widget: "intercom", us: true, candidate: true }, // furniture retailer; engine probe 2026-09-04 saw Intercom and no competing answering endpoint
-  { key: "intercom-littleformula", vendor: "Intercom", store: "Little Formula", url: "https://littleformula.com/", widget: "intercom", us: true, candidate: true }, // named in the Fin Shopify app-store reviews as a Fin for Ecommerce merchant
+  { key: "intercom-littleformula", wall: true, vendor: "Intercom", store: "Little Formula", url: "https://littleformula.com/", widget: "intercom", us: true, candidate: true }, // named in the Fin Shopify app-store reviews as a Fin for Ecommerce merchant // retired 2026-09-28: 0 valid in 5 attempts; Intercom loads but no launcher
   { key: "intercom-easyplanteu", vendor: "Intercom", store: "easyplant (EU)", url: "https://easyplant.com/en-EU", widget: "intercom", us: false, locale: "en-EU", candidate: true }, // EU locale of easyplant; the .com locale posts messages that stay unanswered, so the EU install is tested separately rather than assumed identical
   { key: "intercom-ritual",   wall: true, vendor: "Intercom", store: "Ritual",   url: "https://ritual.com/",       widget: "intercom", us: true, candidate: true }, // supplements DTC — wall: 0/20 timed turns
 
@@ -1595,9 +1595,9 @@ export const STORES = [
 
   // Decagon — footprint is genuinely narrow. `decagon.ai/loaders/<tenant>.js` 200-vs-404 is a
   // reliable vendor-side tenant fingerprint. The two consent-gated rows need a headed probe.
-  { key: "decagon-backbone",     vendor: "Decagon", store: "Backbone",         url: "https://help.backbone.com/hc/en-US", widget: "decagon", us: true, candidate: true }, // window.duet live (Decagon runtime); widget on help subdomain, same shape as decagon-oura
-  { key: "decagon-topps",        vendor: "Decagon", store: "Topps",            url: "https://www.topps.com/support",      widget: "decagon", us: true, candidate: true, todo: "DataGrail consent gate defers the loader — accept consent before send" },
-  { key: "decagon-rituals",      vendor: "Decagon", store: "Rituals",          url: "https://www.rituals.com/en-nl/home", widget: "decagon",          candidate: true, todo: "OneTrust consent gate; use en-nl (en-us has no Decagon ref)" },
+  { key: "decagon-backbone", wall: true,     vendor: "Decagon", store: "Backbone",         url: "https://help.backbone.com/hc/en-US", widget: "decagon", us: true, candidate: true }, // window.duet live (Decagon runtime); widget on help subdomain, same shape as decagon-oura // retired 2026-09-28: 0 valid in 21 attempts; storefront returns 403 to the capture browser
+  { key: "decagon-topps", wall: true,        vendor: "Decagon", store: "Topps",            url: "https://www.topps.com/support",      widget: "decagon", us: true, candidate: true, todo: "DataGrail consent gate defers the loader — accept consent before send" }, // retired 2026-09-28: 0 valid in 21 attempts; storefront returns 403 to the capture browser
+  { key: "decagon-rituals", wall: true,      vendor: "Decagon", store: "Rituals",          url: "https://www.rituals.com/en-nl/home", widget: "decagon",          candidate: true, todo: "OneTrust consent gate; use en-nl (en-us has no Decagon ref)" }, // retired 2026-09-28: 0 valid in 13 attempts; Decagon no longer on the page
 
   // Kodif — strongest yield of the sweep; all six load autopilot.kodif.io widget-script.
   { key: "kodif-whogivesacrap",  vendor: "Kodif", store: "Who Gives A Crap",   url: "https://whogivesacrap.org/",         widget: "kodif", candidate: true },
@@ -1628,7 +1628,7 @@ export const STORES = [
   // modern messaging (AI-capable) from legacy Zopim and widget-off. That check killed 4 false
   // positives a signature-only scan would have accepted. Only messaging accounts added.
   { key: "zendesk-wildling",     vendor: "Zendesk", store: "Wildling Shoes",   url: "https://www.wildling.shoes/",        widget: "zendesk", candidate: true }, // widget titled "Foxbot" — bot front door; DE-language
-  { key: "zendesk-snocks",       vendor: "Zendesk", store: "SNOCKS",           url: "https://www.snocks.com/",            widget: "zendesk", candidate: true }, // DE-language messaging, independent account
+  { key: "zendesk-snocks", wall: true,       vendor: "Zendesk", store: "SNOCKS",           url: "https://www.snocks.com/",            widget: "zendesk", candidate: true }, // DE-language messaging, independent account // retired 2026-09-28: 0 valid in 30 attempts; Zendesk script loads but no launcher (store now shows LiveChat)
   { key: "zendesk-junglueck",    vendor: "Zendesk", store: "Junglück",         url: "https://www.junglueck.de/",          widget: "zendesk", candidate: true }, // DE-language messaging, independent account
 
   // Klaviyo — Customer Hub is genuinely live on these (hub elements render), BUT the hub's CHAT
