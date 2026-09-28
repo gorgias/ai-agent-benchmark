@@ -28,6 +28,7 @@ import { execFileSync } from "node:child_process";
 import { createRequire } from "node:module";
 import { pathToFileURL } from "node:url";
 import { researchVendor, newResearchClient, hostOf, RESEARCH_MODEL } from "./research-merchants.mjs";
+import { queueToken, readPending, settleSubmission } from "./submission-queue.mjs";
 
 const ROOT = path.resolve(new URL(".", import.meta.url).pathname, "..");
 const RUNNER = path.join(ROOT, "runner");
@@ -91,49 +92,34 @@ const research = [];     // one entry per researched vendor, for the report
 const evidenceOf = {};   // candidate URL → its public evidence, written into the vendors.js row
 
 // ── stores submitted from the stores view (api/add-store.mjs) ─────────────────────────────────────
-// They sit in a private repository's submitted-stores.json ({ pending: [...], done: [...] }) and are
-// verified FIRST, so a store someone asked for is checked on the very next run. Each one leaves the
-// pending list with its outcome once the browser has looked at it; one skipped for time stays pending.
-const QUEUE_REPO = process.env.SUBMISSIONS_REPO || "gorgias/ai-agent-benchmark-queue";
-const QUEUE_API = `https://api.github.com/repos/${QUEUE_REPO}/contents/submitted-stores.json`;
-const ghHeaders = () => ({ authorization: `Bearer ${process.env.GIT_TOKEN}`, accept: "application/vnd.github+json", "content-type": "application/json" });
+// They wait in the site's private Vercel Blob store (server/submission-queue.mjs) and are verified
+// FIRST, so a store someone asked for is checked on the very next run. Each one moves to done with its
+// outcome once the browser has looked at it; one the budget did not reach stays pending.
 let submissions = [];      // pending items read this run
 const submissionOutcomes = [];
+let queueAuth = null;
 async function readQueue() {
-  if (!process.env.GIT_TOKEN) return { doc: null, sha: null };
-  try {
-    const r = await fetch(QUEUE_API, { headers: ghHeaders(), signal: AbortSignal.timeout(20000) });
-    if (r.status === 404) return { doc: null, sha: null };
-    if (!r.ok) { console.log(`submissions: queue unreadable (HTTP ${r.status})`); return { doc: null, sha: null }; }
-    const j = await r.json();
-    return { doc: JSON.parse(Buffer.from(j.content, "base64").toString("utf8")), sha: j.sha };
-  } catch (e) { console.log(`submissions: queue unreadable (${String(e.message || e).slice(0, 80)})`); return { doc: null, sha: null }; }
+  try { queueAuth = await queueToken(); }
+  catch (e) { console.log(`submissions: no access to the queue (${String(e.message || e).slice(0, 80)})`); return []; }
+  if (!queueAuth) { console.log("submissions: no queue token (VERCEL_TOKEN missing) — skipped"); return []; }
+  try { return await readPending(queueAuth); }
+  catch (e) { console.log(`submissions: queue unreadable (${String(e.message || e).slice(0, 80)})`); return []; }
 }
-// Move the stores the browser looked at from pending to done, re-reading on a conflict so a store
-// submitted while this run was verifying is never lost.
 async function settleQueue(outcomeOf) {
-  if (DRY || !process.env.GIT_TOKEN || !submissions.length) return;
-  for (let attempt = 0; attempt < 3; attempt++) {
-    const { doc, sha } = await readQueue();
-    if (!doc) return;
-    const pending = [], done = doc.done || [];
-    for (const it of doc.pending || []) {
-      const o = outcomeOf(it);
-      if (!o) { pending.push(it); continue; }
-      done.push({ ...it, checked: new Date().toISOString().slice(0, 10), result: o.result, why: o.why || "" });
-    }
-    if (pending.length === (doc.pending || []).length) return;
-    const body = JSON.stringify({ message: `sourcing ${new Date().toISOString().slice(0, 10)}: ${(doc.pending || []).length - pending.length} submission(s) checked`,
-      content: Buffer.from(JSON.stringify({ pending, done: done.slice(-500) }, null, 2) + "\n").toString("base64"), sha });
-    const w = await fetch(QUEUE_API, { method: "PUT", headers: ghHeaders(), body }).catch(() => null);
-    if (w && w.ok) { console.log(`submissions: ${(doc.pending || []).length - pending.length} moved to done`); return; }
-    if (!w || (w.status !== 409 && w.status !== 422)) { console.log(`submissions: could not update the queue (HTTP ${w ? w.status : "?"})`); return; }
+  if (DRY || !queueAuth || !submissions.length) return;
+  const checked = new Date().toISOString().slice(0, 10);
+  let moved = 0;
+  for (const it of submissions) {
+    const o = outcomeOf(it);
+    if (!o) continue;
+    try { await settleSubmission(queueAuth, it, { checked, result: o.result, why: o.why || "" }); moved++; }
+    catch (e) { console.log(`submissions: could not settle ${it.host} (${String(e.message || e).slice(0, 80)})`); }
   }
+  if (moved) console.log(`submissions: ${moved} moved to done`);
 }
 
 async function candidates() {
-  const q = await readQueue();
-  submissions = (q.doc && q.doc.pending) || [];
+  submissions = await readQueue();
   if (submissions.length) console.log(`submissions: ${submissions.length} pending — verified first`);
   const seed = path.join(ROOT, "server", "candidates.json");
   const seeded = existsSync(seed) ? JSON.parse(readFileSync(seed, "utf8")) : {};

@@ -7,14 +7,16 @@
 // The HTML check is a fast pre-screen: a chat loaded by a tag manager can be missing from served HTML,
 // so a miss can still be queued; the browser check at night is what decides.
 //
-// The queue lives in a PRIVATE repository (SUBMISSIONS_REPO): the benchmark repo is public, requires
-// signed commits and pull requests on every branch, and a prospect's domain should not be published
-// before it is actually benchmarked. The capture machine reads the same file with its own token.
+// The queue is the site's own private Vercel Blob store ("benchmark-submissions", connected to this
+// project, so Vercel injects BLOB_READ_WRITE_TOKEN): one small JSON file per store under
+// submissions/pending/. No repository and no hand-made token; the capture machine reads the queue with
+// the Vercel token it already has (server/submission-queue.mjs). A prospect's domain never reaches the
+// public repo before the store is actually benchmarked.
 //
 // Gated twice: middleware.js (same login as Conversations) and the cookie check below.
 const COOKIE = "sb_conv";
-const QUEUE_REPO = process.env.SUBMISSIONS_REPO || "gorgias/ai-agent-benchmark-queue";
-const QUEUE_FILE = "submitted-stores.json";
+const BLOB_API = "https://vercel.com/api/blob";
+const PENDING = "submissions/pending/";
 const UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36";
 
 // What each recognised vendor's chat leaves in a storefront's served HTML.
@@ -67,30 +69,22 @@ export async function check(url, vendor) {
   return { status, finalUrl, error, blocked, found: SIGNATURES[vendor].test(html), others };
 }
 
-async function gh(url, init = {}) {
-  const r = await fetch(url, { ...init,
-    headers: { authorization: `Bearer ${process.env.GITHUB_TOKEN}`, accept: "application/vnd.github+json", "content-type": "application/json", ...(init.headers || {}) } });
+async function blobApi(pathAndQuery, init = {}) {
+  const r = await fetch(BLOB_API + pathAndQuery, { ...init, signal: AbortSignal.timeout(15000),
+    headers: { authorization: `Bearer ${process.env.BLOB_READ_WRITE_TOKEN}`, "x-api-version": "12", ...(init.headers || {}) } });
   const body = await r.json().catch(() => ({}));
-  if (!r.ok) throw new Error(`GitHub ${r.status}: ${String(body.message || "").slice(0, 120)}`);
-  return body;
+  return { ok: r.ok, status: r.status, message: String((body.error && body.error.message) || "") };
 }
-const b64 = (obj) => Buffer.from(JSON.stringify(obj, null, 2) + "\n").toString("base64");
 
-// Optimistic concurrency: the write carries the sha it read, so two submissions at once cannot lose one.
-export async function queue({ vendor, url, host, note }) {
-  const api = `https://api.github.com/repos/${QUEUE_REPO}/contents/${QUEUE_FILE}`;
-  for (let attempt = 0; attempt < 3; attempt++) {
-    const cur = await gh(api).catch((e) => (/GitHub 404/.test(e.message) ? null : Promise.reject(e)));
-    const doc = cur ? JSON.parse(Buffer.from(cur.content, "base64").toString("utf8")) : { pending: [], done: [] };
-    doc.pending = doc.pending || []; doc.done = doc.done || [];
-    if (doc.pending.some((it) => it.host === host)) return { already: "queued" };
-    doc.pending.push({ host, url, vendor, at: new Date().toISOString(), ...(note ? { note: String(note).slice(0, 200) } : {}) });
-    try {
-      await gh(api, { method: "PUT", body: JSON.stringify({ message: `queue ${host} (${vendor})`, content: b64(doc), ...(cur ? { sha: cur.sha } : {}) }) });
-      return { queued: true, position: doc.pending.length };
-    } catch (e) { if (!/GitHub (409|422)/.test(e.message)) throw e; }
-  }
-  throw new Error("the queue was busy, try again");
+// One file per store, written only if absent: a second submission of the same store finds it waiting.
+export async function queue({ vendor, url, host }) {
+  const pathname = `${PENDING}${host}.json`;
+  const put = await blobApi(`/?${new URLSearchParams({ pathname })}`, { method: "PUT",
+    headers: { "x-vercel-blob-access": "private", "x-add-random-suffix": "0", "x-allow-overwrite": "0", "x-content-type": "application/json" },
+    body: JSON.stringify({ host, url, vendor, at: new Date().toISOString() }) });
+  if (put.ok) return { queued: true };
+  if (/exist/i.test(put.message)) return { already: "queued" };
+  throw new Error(`storage ${put.status}: ${put.message.slice(0, 120)}`);
 }
 
 export async function POST(request) {
@@ -102,7 +96,7 @@ export async function POST(request) {
   if (!n) return Response.json({ error: "That doesn't look like a storefront address." }, { status: 400 });
   const result = { host: n.host, url: n.url, vendor, ...(await check(n.url, vendor)) };
   if (!body.confirm) return Response.json(result);
-  if (!process.env.GITHUB_TOKEN) return Response.json({ ...result, error: "Adding stores isn't switched on yet: the submission queue has no access token." }, { status: 503 });
-  try { return Response.json({ ...result, ...(await queue({ vendor, url: n.url, host: n.host, note: body.note })) }); }
+  if (!process.env.BLOB_READ_WRITE_TOKEN) return Response.json({ ...result, error: "Adding stores isn't switched on yet: the submission queue has no storage." }, { status: 503 });
+  try { return Response.json({ ...result, ...(await queue({ vendor, url: n.url, host: n.host })) }); }
   catch (e) { return Response.json({ ...result, error: "Could not queue it: " + String(e.message || e).slice(0, 160) }, { status: 502 }); }
 }
