@@ -153,7 +153,7 @@ async function candidates() {
 }
 
 // ── verifier: a real browser, a cold context, host + mount both required ───────
-async function verify(browser, vendor, url) {
+async function verify(browser, vendor, url, waitMs = 12000) {
   const sig = VERIFY[vendor];
   if (!sig) return { ok: false, why: "no verification fingerprint for this vendor" };
   const ctx = await browser.newContext({
@@ -165,7 +165,7 @@ async function verify(browser, vendor, url) {
   let hostSeen = false;
   page.on("request", (r) => { if (sig.host.test(r.url())) hostSeen = true; });
   try { await page.goto(url, { waitUntil: "domcontentloaded", timeout: 45000 }); } catch { }
-  await page.waitForTimeout(12000);                       // widgets load late and lazily
+  await page.waitForTimeout(waitMs);                      // widgets load late and lazily
   const mount = await page.evaluate((sel) => {
     const vis = (el) => { const r = el.getBoundingClientRect(); return r.width > 2 && r.height > 2; };
     const els = [...document.querySelectorAll(sel)];
@@ -225,6 +225,7 @@ for (const [vendor, urls] of Object.entries(feed)) {
 }
 queue.sort((a, b) => a.rank - b.rank || a.vendor.localeCompare(b.vendor));
 const takenBy = {};
+const submittedUrls = new Set(submissions.map((it) => norm(it.url || "")));
 let checked = 0, skippedForBudget = 0, cursor = 0;
 console.log(`sourcing: ${queue.length} candidates queued across ${Object.keys(feed).length} vendors, ` +
   `concurrency ${VERIFY_CONC}, budget ${Math.round(BUDGET_MS / 1000)}s`);
@@ -236,7 +237,18 @@ async function worker() {
     const { vendor, url } = queue[i];
     if ((takenBy[vendor] || 0) >= PER_VENDOR) continue;   // this vendor is already satisfied
     if (budgetLeft() <= 60000) { skippedForBudget++; continue; }
-    const v = await verify(browser, vendor, url);
+    // A store someone submitted from the stores view gets up to three looks, the later ones with a
+    // longer wait, before it is refused: one 12-second look is flaky on lazy widgets (2026-09-28,
+    // hushblankets.com passed at 20:56 and failed "no widget element mounted" at 21:27 on Ada).
+    let v = await verify(browser, vendor, url);
+    if (!v.ok && submittedUrls.has(norm(url))) {
+      for (const waitMs of [20000, 30000]) {
+        if (budgetLeft() <= 60000) break;
+        v = await verify(browser, vendor, url, waitMs);
+        if (v.ok) break;
+      }
+      if (!v.ok) v = { ...v, why: `${v.why} (3 attempts)` };
+    }
     checked++;
     if (v.ok) { accepted.push({ vendor, url, ...v }); takenBy[vendor] = (takenBy[vendor] || 0) + 1; }
     else rejected.push({ vendor, url, why: v.why });
