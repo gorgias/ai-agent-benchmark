@@ -96,19 +96,21 @@ function deadStores() {
     }
   }
   const dead = new Map();
+  const probe = new Map();
   const cutoff = new Date(Date.now() - RETRY_AFTER_DAYS * 864e5).toISOString().slice(0, 10);
   for (const [k, all] of Object.entries(hist)) {
     const recent = all.slice(-DEAD_WINDOW);
     if (recent.length < DEAD_MIN) continue;                       // too few attempts to condemn it
     if (recent.some((r) => r.valid)) continue;                    // it still produces — keep it
-    if (all[all.length - 1].date < cutoff) continue;              // stale verdict → give it another go
+    if (all[all.length - 1].date < cutoff) { probe.set(k, recent.length); continue; }   // stale → ONE-conversation probe
     dead.set(k, recent.length);
   }
-  return dead;
+  return { dead, probe };
 }
-const dead = deadStores();
+const { dead, probe } = deadStores();
 if (dead.size) L(`auto-parked ${dead.size} dead store(s) — 0 valid in their last ${DEAD_MIN}+ attempts: ` +
   [...dead].map(([k, n]) => `${k} (0/${n})`).join(", "));
+const probeQueue = [];
 
 for (const s of STORES) {
   if (EXCLUDE.has(s.vendor)) continue;
@@ -120,8 +122,11 @@ for (const s of STORES) {
   if (s.wall) continue;                    // probed structural wall (recaptcha, human front door…)
   if (parked.has(s.key)) continue;         // parked by the self-improvement loop, awaiting a driver fix
   if (dead.has(s.key)) continue;           // auto-parked: 0 valid conversations in its recent attempts
+  if (probe.has(s.key)) { probeQueue.push(s); continue; }   // parked but due a retry: probed below first
   (byV[s.vendor] = byV[s.vendor] || []).push(s);
 }
+if (probeQueue.length) L(`${probeQueue.length} parked store(s) are due a retry — one probe conversation each, not a full batch: ` +
+  probeQueue.map((s) => s.key).join(", "));
 
 // live valid-conv counts per vendor AND per store across ALL run dirs (baseline + tonight).
 // Per-store counts drive store balance: see the store pick below.
@@ -161,6 +166,37 @@ async function loadGuard() {
 }
 
 let added = 0, step = 0;
+
+// DEAD-STORE RETRY AS A PROBE (2026-09-28). A parked store used to come back after RETRY_AFTER_DAYS
+// as a full 10-conversation batch — and, holding the fewest valid conversations, FIRST in line.
+// When the machine's pushes stopped reaching GitHub (2026-09-16 → 09-27) its history froze on
+// 09-16, every dead verdict went stale, and each night opened on dead stores: gorgias-tommyjohn
+// took 70 captures in a week for 0 valid, and Gorgias reached its strike limit on dead stores
+// alone while its healthy stores were never picked. Now a stale dead store gets ONE conversation.
+// It rejoins the rotation only if that conversation is valid; a failed probe is a fresh attempt
+// that keeps it parked for another RETRY_AFTER_DAYS. Vendor-blind.
+const PROBE_MAX = Number(process.env.PROBE_MAX || 8);
+for (const s of probeQueue.slice(0, PROBE_MAX)) {
+  if (DRY) { L(`[probe] ${s.key} — would run one shopping conversation`); continue; }
+  await loadGuard();
+  const before = validCounts()[s.vendor] || 0;
+  try {
+    const args = ["run.js", "--store", s.key, "--themes", "1", "--mode", "shopping", "--concurrency", "1"];
+    if (HEADED.has(s.vendor)) args.push("--headed");
+    execFileSync("node", args, { stdio: "inherit", timeout: 15 * 60 * 1000, killSignal: "SIGKILL",
+      env: { ...process.env, RUN_DATE, BENCHMARK_CAPTURE_ORIGIN: "claude" } });
+  } catch (e) { L(`[probe] run.js error for ${s.key}: ${String(e.message || e).slice(0, 100)}`); }
+  const gained = (validCounts()[s.vendor] || 0) - before;
+  if (gained > 0) {
+    added += gained;
+    (byV[s.vendor] = byV[s.vendor] || []).push(s);
+    strikes[s.vendor] ??= 0; rot[s.vendor] ??= 0;
+    L(`[probe] ${s.key} answered (+${gained} valid) — back in the rotation`);
+  } else {
+    L(`[probe] ${s.key} still produced nothing — stays parked`);
+  }
+}
+if (probeQueue.length > PROBE_MAX) L(`[probe] ${probeQueue.length - PROBE_MAX} more due; they wait for the next run (PROBE_MAX=${PROBE_MAX})`);
 while (added < BUDGET) {
   await loadGuard();
   const counts = validCounts();
