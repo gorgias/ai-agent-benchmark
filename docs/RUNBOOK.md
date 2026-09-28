@@ -120,6 +120,21 @@ local bake. A plain `curl` only ever gets the login page.
 In normal operation you do not run any of this by hand — `server/publish.sh` does it on the
 scheduled Fly Machine. These commands are for a manual top-up or when the loop is blocked.
 
+### Publishing under the "protect main" ruleset (since 2026-09-16)
+
+The repository rules reject a plain push from the capture machine: master requires a pull request,
+every branch requires verified signatures, and a branch cannot take a second push. `publish.sh`
+therefore signs its commits with `GIT_SIGNING_KEY` — an SSH key whose public half is registered as a
+**signing key** on the GitHub account behind `GIT_TOKEN` — and publishes by creating one branch,
+opening a pull request and merging it through the API, where GitHub signs the squash commit.
+
+- Without `GIT_SIGNING_KEY` the branch push is rejected, and the night only survives as
+  `/data/unpushed/<date>/{captures,scores}.tar.gz` on the volume. The machine disk is reset to the
+  image on every start, so anything not published and not archived is gone.
+- A direct push to master is still attempted first, so nothing changes if the rules are relaxed.
+- Branches cannot be deleted either, so each published night leaves a `pipeline/<date>-<time>` branch
+  behind. That is the cost of the current rules, not a bug.
+
 ## 7. Teardown & hygiene
 
 - Kill detached runs **by PID** (`kill -9 $(cat /tmp/run.pids)`), then reap
