@@ -215,8 +215,12 @@ const accepted = [], rejected = [];
 const queue = [];
 for (const [vendor, urls] of Object.entries(feed)) {
   let queued = 0;
+  const queuedHosts = new Set();                                                        // per vendor: a submission never loses its slot to another vendor's candidate
   for (const url of urls) {
     if (known.has(norm(url)) || knownHosts.has(hostOf(url))) continue;                   // already in the benchmark
+    const h = norm(url).split("/")[0];
+    if (queuedHosts.has(h)) continue;                                                   // www. and bare: one store
+    queuedHosts.add(h);
     // A little headroom over PER_VENDOR: most candidates are rejected, so queueing exactly
     // PER_VENDOR per vendor would almost always accept zero.
     if (queued >= PER_VENDOR * 6) break;
@@ -273,16 +277,23 @@ const outcomeOf = (it) => {
   return null;
 };
 for (const it of submissions) { const o = outcomeOf(it); if (o) submissionOutcomes.push({ ...it, ...o }); }
-await settleQueue(outcomeOf);
+// The queue is settled only AFTER vendors.js is written (below): on 2026-09-29 the write was reverted
+// after 18 submitted stores had already been marked "added", and they were lost until recovered by hand.
 
 // ── write verified stores into vendors.js ─────────────────────────────────────
-const slug = (u) => norm(u).split(".")[0].replace(/[^a-z0-9]/gi, "").slice(0, 14).toLowerCase();
+const slug = (u) => {
+  const labels = norm(u).split("/")[0].split(".");
+  const name = labels.length > 2 && /^(shop|store|us|uk|eu|ca|au|en)$/i.test(labels[0]) ? labels[1] : labels[0];
+  return name.replace(/[^a-z0-9]/gi, "").slice(0, 14).toLowerCase();
+};
+const usedKeys = new Set(STORES.map((s) => s.key));
+const uniqueKey = (k) => { let key = k, i = 2; while (usedKeys.has(key)) key = `${k}${i++}`; usedKeys.add(key); return key; };
 if (accepted.length && !DRY) {
   const vp = path.join(RUNNER, "vendors.js");
   let src = readFileSync(vp, "utf8");
   const stamp = new Date().toISOString().slice(0, 10);
   const rows = accepted.map((a) => {
-    const key = `${WIDGET_OF[a.vendor] || a.vendor.toLowerCase()}-${slug(a.url)}`;
+    const key = uniqueKey(`${WIDGET_OF[a.vendor] || a.vendor.toLowerCase()}-${slug(a.url)}`);
     const todo = a.competing.length ? `, todo: "${a.note}"` : "";
     return `  { key: "${key}", vendor: "${a.vendor}", store: "${slug(a.url)}", url: "${a.url}", widget: "${WIDGET_OF[a.vendor]}", candidate: true${todo} }, // auto-sourced ${stamp}${evidenceOf[a.url] ? ` from ${evidenceOf[a.url].evidenceUrl}` : ""}: host loaded + widget mounted on a cold visit`;
   });
@@ -305,9 +316,16 @@ if (accepted.length && !DRY) {
   if (closeAt === -1) throw new Error("could not find STORES's closing `];` in vendors.js");
   src = src.slice(0, closeAt) + block + "];" + src.slice(closeAt + 3);
   writeFileSync(vp, src);
-  try { execFileSync("node", ["-e", `require("${vp}")`], { stdio: "pipe" }); }
-  catch (e) { console.error("vendors.js broke — reverting"); execFileSync("git", ["checkout", "--", vp], { cwd: ROOT }); process.exit(1); }
+  // Load-check with import(), not require(): vendors.js is an ES module and require(esm) throws
+  // ERR_REQUIRE_ESM on the capture machine's Node 22.11 (fine on the laptop's 22.22). That false
+  // "broke" reverted every verified store on the server; the nightly run could never add one.
+  try { execFileSync(process.execPath, ["--input-type=module", "-e", `await import(${JSON.stringify(pathToFileURL(vp).href + "?check=" + Date.now())})`], { stdio: "pipe" }); }
+  catch (e) {
+    console.error("vendors.js broke — reverting: " + String(e.stderr || e.message || e).split("\n").find((l) => /Error/.test(l) || l.trim()) );
+    execFileSync("git", ["checkout", "--", vp], { cwd: ROOT }); process.exit(1);
+  }
 }
+await settleQueue(outcomeOf);
 
 // ── report (Slack if configured) ──────────────────────────────────────────────
 const byVendor = {};
