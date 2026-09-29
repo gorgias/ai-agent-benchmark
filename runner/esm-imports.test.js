@@ -59,3 +59,18 @@ test("every relative import resolves to a file that exists", () => {
   // the createRequire indirection hid it because the throw happened at run time, not at parse.
   assert.deepEqual(missing, [], `unresolvable relative imports:\n  ${missing.join("\n  ")}`);
 });
+
+// 2026-09-29: server/source-merchants.mjs load-checked vendors.js after writing it with
+// `node -e 'require("…/vendors.js")'`. On the capture machine's Node 22.11 that throws
+// ERR_REQUIRE_ESM, so every verified store was reverted as "vendors.js broke" and the nightly
+// sourcing could never add a store. The check above only scans runner/, so guard the server too.
+test("server scripts never load vendors.js with require()", () => {
+  const dir = path.join(HERE, "..", "server");
+  const offenders = [];
+  for (const f of readdirSync(dir)) {
+    if (!/\.(mjs|js)$/.test(f)) continue;
+    const code = readFileSync(path.join(dir, f), "utf8").replace(/^\s*\/\/.*$/gm, "");
+    if (/require\(\s*["'`]\$\{vp\}|require\([^)]*vendors\.js/.test(code)) offenders.push(f);
+  }
+  assert.deepEqual(offenders, [], `load vendors.js with import(), not require(): ${offenders.join(", ")}`);
+});
