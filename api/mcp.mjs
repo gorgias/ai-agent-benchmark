@@ -1,12 +1,20 @@
 // api/mcp.mjs — the benchmark's public MCP server: https://evals.gorgias.com/mcp (rewritten here).
 //
-// Read-only, no authentication: vendor rankings and per-store scores, read from board.json, which gen.js
-// writes from the scoreboard's own lane scores every night. Conversation transcripts are never exposed.
+// No authentication: vendor rankings and per-store scores, read from board.json, which gen.js writes from
+// the scoreboard's own lane scores every night. Conversation transcripts are never exposed. One tool writes:
+// request_store puts a storefront in the same queue as the stores view's "Add a store"
+// (api/_lib/store-queue.mjs). Because it is public, it only queues what it can back with evidence: the
+// vendor's chat in the served HTML, e-commerce markers, not already benchmarked or queued, and a bounded
+// queue. A logged-in user can still add anything else from the stores view.
 //
 // Transport: MCP Streamable HTTP, stateless. POST a JSON-RPC message (or a batch), get application/json
 // back; notifications get 202. There is no server-to-client stream, so a GET asking for
 // text/event-stream answers 405, as the spec allows. A browser GET opens the MCP modal on the site.
-const SERVER = { name: "gorgias-ai-agent-benchmark", title: "Gorgias AI Agent Benchmark", version: "1.0.0" };
+import { SIGNATURES, normalize, check, queue, queueStatus, pendingCount } from "./_lib/store-queue.mjs";
+
+const SERVER = { name: "gorgias-ai-agent-benchmark", title: "Gorgias AI Agent Benchmark", version: "1.1.0" };
+const QUEUE_CAP = 200;   // pending requests the nightly run can work through; beyond that, ask again after a run
+const NEXT_STEPS = "The next daily run (around 08:50 UTC) opens the store in a real browser. If its AI chat mounts, the store joins the benchmark and its first scored conversations appear within a day or two. Check progress with get_store.";
 const PROTOCOLS = ["2025-11-25", "2025-06-18", "2025-03-26", "2024-11-05"];
 const DOCS = "/#mcp";   // the MCP modal on the Overview page (brand/mcp.html)
 const CORS = {
@@ -21,7 +29,7 @@ const INSTRUCTIONS = [
   "Every ecommerce AI agent vendor is tested the same way, with scripted shopper conversations on live storefronts, in two lanes:",
   "shopping (pre-sale Shopping Assistant) and support (post-sale Support Agent).",
   "Each lane ranks vendors by a composite of automation rate, blind LLM-judged answer quality, and speed; overall is the mean of the two lane composites.",
-  "Use get_rankings for a leaderboard, get_vendor or compare_vendors for vendor details, get_store for one storefront's scores, get_methodology for how scores are computed.",
+  "Use get_rankings for a leaderboard, get_vendor or compare_vendors for vendor details, get_store for one storefront's scores, get_methodology for how scores are computed, and request_store to ask for a storefront to be crawled and evaluated.",
   "Figures come from a trailing 90-day window and refresh daily. Cite https://evals.gorgias.com when quoting them.",
 ].join(" ");
 
@@ -60,12 +68,28 @@ const TOOLS = [
     inputSchema: { type: "object", properties: { store: { type: "string", description: "Store domain or name, e.g. aloyoga.com or Alo Yoga." } }, required: ["store"], additionalProperties: false },
   },
   {
+    name: "request_store",
+    title: "Request a store evaluation",
+    description: "Ask for an ecommerce storefront to be crawled and evaluated. The store must run an AI chat from a supported vendor (" + Object.keys(SIGNATURES).join(", ") + "); the vendor is detected from the page when omitted. The request joins the queue of the next daily run, which verifies the chat in a real browser, then benchmarks the store: first scores within a day or two. Refused when the store is already benchmarked or queued, when the page shows no supported chat or no online store, or when the queue is full.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        store: { type: "string", description: "Store website, e.g. hushblankets.com." },
+        vendor: { type: "string", enum: Object.keys(SIGNATURES), description: "The store's AI chat vendor. Optional: detected from the page when omitted." },
+      },
+      required: ["store"],
+      additionalProperties: false,
+    },
+  },
+  {
     name: "get_methodology",
     title: "Methodology",
     description: "How the benchmark measures and ranks: the two lanes, composite weights, speed score, what automation, quality and latency mean, the rankability floor, the ranking window, totals and the rubric link.",
     inputSchema: { type: "object", properties: {}, additionalProperties: false },
   },
-].map((t) => ({ ...t, annotations: { title: t.title, readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false } }));
+].map((t) => ({ ...t, annotations: t.name === "request_store"
+  ? { title: t.title, readOnlyHint: false, destructiveHint: false, idempotentHint: true, openWorldHint: true }
+  : { title: t.title, readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false } }));
 
 // ── data ──────────────────────────────────────────────────────────────────────────────────────────
 let cache = { at: 0, data: null };
@@ -147,7 +171,15 @@ async function callTool(name, args, request) {
   }
   if (name === "get_store") {
     const hits = findStores(b, args.store);
-    if (!hits.length) throw new ToolError(`No store in the benchmark matches "${args.store}". Try its domain (e.g. aloyoga.com). The benchmark covers ${(b.stores || []).length} storefronts.`);
+    if (!hits.length) {
+      const n = normalize(args.store);
+      const q = n && process.env.BLOB_READ_WRITE_TOKEN ? await queueStatus(n.host).catch(() => null) : null;
+      if (q && q.pending) return { store: n.host, ...context(b), status: "queued", vendor: q.pending.vendor, requested_at: q.pending.at, next_steps: NEXT_STEPS };
+      if (q && q.done) return { store: n.host, ...context(b), vendor: q.done.vendor, checked: q.done.checked,
+        status: q.done.result === "added" ? "added, waiting for its first scored conversations" : q.done.result === "rejected" ? "not added" : q.done.result,
+        ...(q.done.why ? { reason: q.done.why } : {}) };
+      throw new ToolError(`No store in the benchmark matches "${args.store}". Try its domain (e.g. aloyoga.com), or ask for it with request_store. The benchmark covers ${(b.stores || []).length} storefronts.`);
+    }
     if (hits.length > 1) {
       return { query: args.store, ...context(b), matches: hits.slice(0, 15).map((s) => ({ store: s.store, site: s.site, vendor: s.vendor })),
         note: hits.length > 15 ? `${hits.length} stores match; showing 15. Ask again with the exact domain.` : "Several stores match. Ask again with the exact domain." };
@@ -161,6 +193,38 @@ async function callTool(name, args, request) {
       support: s.support ? { ...s.support, vendor_context: vendorLane("support") } : { tested: false },
       how_to_read: "composite uses the lane weights from get_methodology. A thin lane has fewer than 5 judged conversations; read it as indicative.",
     };
+  }
+  if (name === "request_store") {
+    const n = normalize(args.store);
+    if (!n) throw new ToolError("That doesn't look like a store website. Pass a domain such as hushblankets.com.");
+    if (!process.env.BLOB_READ_WRITE_TOKEN) throw new ToolError("Store requests are not switched on right now.");
+    const vendor = args.vendor ? Object.keys(SIGNATURES).find((v) => key(v) === key(args.vendor)) : null;
+    if (args.vendor && !vendor) throw new ToolError(`${args.vendor} is not a supported vendor. Supported: ${Object.keys(SIGNATURES).join(", ")}.`);
+    const onBoard = (b.stores || []).find((s) => s.site === n.host);
+    if (onBoard) return { status: "already_benchmarked", store: onBoard.store, site: n.host, vendor: onBoard.vendor, note: "Its scores are available with get_store." };
+    const q = await queueStatus(n.host);
+    if (q.pending) return { status: "already_queued", site: n.host, vendor: q.pending.vendor, requested_at: q.pending.at, next_steps: NEXT_STEPS };
+    let c = await check(n.url, vendor);
+    if (c.blocked && !c.detected.length) {              // some storefronts guard only one of www. / bare
+      const alt = n.url.includes("://www.") ? n.url.replace("://www.", "://") : n.url.replace("://", "://www.");
+      const c2 = await check(alt, vendor);
+      if (!c2.blocked || c2.detected.length) c = c2;
+    }
+    if (c.unreachable) throw new ToolError(`${n.host} doesn't respond. Check the address.`);
+    if (c.blocked && !c.detected.length) throw new ToolError(`${n.host} blocked our check, so its chat can't be confirmed from here. A benchmark team member can add it from the stores view.`);
+    const chosen = vendor || (c.detected.length === 1 ? c.detected[0] : null);
+    if (!chosen) {
+      throw new ToolError(c.detected.length > 1
+        ? `Several chats are on ${n.host} (${c.detected.join(", ")}). Say which one is its AI agent with the vendor argument.`
+        : `No supported AI chat found on ${n.host}. Supported vendors: ${Object.keys(SIGNATURES).join(", ")}.`);
+    }
+    if (!c.detected.includes(chosen)) throw new ToolError(`The ${chosen} chat isn't on ${n.host}'s page${c.detected.length ? ` (found: ${c.detected.join(", ")})` : ""}.`);
+    if (!c.commerce) throw new ToolError(`${n.host} doesn't look like an online store. The benchmark covers ecommerce storefronts only.`);
+    if ((await pendingCount()) >= QUEUE_CAP) throw new ToolError("The request queue is full. Ask again after the next daily run.");
+    const r = await queue({ vendor: chosen, url: n.url, host: n.host, source: "mcp" });
+    return { status: r.queued ? "queued" : "already_queued", site: n.host, vendor: chosen,
+      ...(q.done ? { previous_check: { checked: q.done.checked, result: q.done.result, ...(q.done.why ? { reason: q.done.why } : {}) } } : {}),
+      next_steps: NEXT_STEPS };
   }
   if (name === "get_methodology") {
     return { ...context(b), totals: b.totals, method: b.method, vendors: vendorNames(b), storefronts: (b.stores || []).length, docs: new URL(DOCS, b.site).href };

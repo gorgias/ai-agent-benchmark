@@ -34,7 +34,7 @@
     </div>
     <div>
       <h2 class="mh" id="mcp-title">Ask your AI assistant about the benchmark</h2>
-      <p class="msub">A public MCP server with the same rankings and store scores as this site: read-only, no sign-up, refreshed after every daily run.</p>
+      <p class="msub">A public MCP server with the same rankings and store scores as this site. No sign-up, refreshed after every daily run, and you can ask for a new store to be evaluated.</p>
     </div>
     <div>
       <div class="mcp-endpoint"><code id="mcp-url">https://evals.gorgias.com/mcp</code><button type="button" class="gr-btn gr-btn-sm gr-btn-primary" data-copy="#mcp-url">Copy URL</button></div>
@@ -69,6 +69,7 @@
         <li><code>get_vendor</code>: one vendor's scorecard in every lane.<span class="ask">“How does Sierra do on shopping?”</span></li>
         <li><code>compare_vendors</code>: two to six vendors side by side.<span class="ask">“Compare Gorgias, Sierra and Ada.”</span></li>
         <li><code>get_store</code>: one storefront's scores in each lane, with its vendor's composite for context.<span class="ask">“How does Alo Yoga's AI agent score?”</span></li>
+        <li><code>request_store</code>: ask for a storefront to be crawled and evaluated. Its AI chat must come from a supported vendor; the next daily run verifies it and first scores follow within a day or two.<span class="ask">“Add hushblankets.com to the benchmark.”</span></li>
         <li><code>get_methodology</code>: lanes, composite weights, speed score and ranking rules.<span class="ask">“How is the composite calculated?”</span></li>
       </ul>
     </div>
