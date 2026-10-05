@@ -1807,6 +1807,11 @@ export const STORES = [
   { key: "zendesk-rugsusa", vendor: "Zendesk", store: "rugsusa", url: "https://rugsusa.com/", widget: "zendesk", candidate: true }, // auto-sourced 2026-09-29 on the capture machine (submitted from the stores view): host loaded + widget mounted on a cold visit
   { key: "dg-thesoundofviny", vendor: "DigitalGenius", store: "thesoundofviny", url: "https://thesoundofvinyl.com/", widget: "dg", candidate: true }, // auto-sourced 2026-09-29 on the capture machine: host loaded + widget mounted on a cold visit
   { key: "zendesk-threebirdnest", vendor: "Zendesk", store: "threebirdnest", url: "https://threebirdnest.com/", widget: "zendesk", candidate: true }, // auto-sourced 2026-09-29 on the capture machine (submitted from the stores view): host loaded + widget mounted on a cold visit
+  // ── Auto-sourced 2026-09-30 by server/source-merchants.mjs. Each row was verified in a
+  // real browser: the vendor's widget host loaded AND a launcher/container mounted on a cold
+  // anonymous visit. candidate:true until a capture proves it drivable end-to-end.
+  { key: "zendesk-titan", vendor: "Zendesk", store: "titan", url: "https://titan.fitness/", widget: "zendesk", candidate: true }, // auto-sourced 2026-09-30: host loaded + widget mounted on a cold visit
+  { key: "siena-thrivecausemet", vendor: "Siena", store: "thrivecausemet", url: "https://thrivecausemetics.com/", widget: "siena", candidate: true }, // auto-sourced 2026-09-30: host loaded + widget mounted on a cold visit
 ];
 
 // Find a frame by element id / title / name / url. `match` may be a string
