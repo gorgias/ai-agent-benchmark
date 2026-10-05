@@ -101,12 +101,29 @@ json_field() {                               # json_field <key>  (reads stdin)
   node -e 'let s="";process.stdin.on("data",d=>s+=d).on("end",()=>{try{const v=JSON.parse(s)[process.argv[1]];process.stdout.write(v==null?"":String(v))}catch(e){process.stdout.write("")}})' "$1"
 }
 
+# A night that does not reach master is not a log line, it is an outage: from 2026-09-29 to 2026-10-04
+# every run captured, judged and baked, pushed its pipeline/* branch, then got a 403 opening the pull
+# request (the fine-grained GIT_TOKEN lacked "Pull requests: write"). The failure was only ever said()
+# into /data/pipeline.log and the API's reason was thrown away by json_field, so six nights went
+# unnoticed. Every way publish_head can fail now ends here: it names GitHub's own reason and pages.
+api_reason() {                               # api_reason <response body> — GitHub's own explanation
+  local m; m=$(printf '%s' "$1" | json_field message)
+  printf '%s' "${m:-no response from the GitHub API (network, DNS or timeout)}"
+}
+publish_fail() {                             # publish_fail <reason> [branch]
+  local why="${1%.}"                         # GitHub's messages often end in a period already
+  say "nothing reached master — $why"
+  slack ":red_circle: *Benchmark run NOT on GitHub* — $why.
+The board may still deploy, but master did not move: the next run starts from the old master, and this night exists only ${2:+on \`$2\` and }in \`/data/unpushed\` until someone lands it."
+  return 1
+}
+
 # Put HEAD on master: straight if the rules ever allow it again, otherwise through a fresh branch and
 # a pull request merged by the API. Returns non-zero when master did not move.
 publish_head() {                             # publish_head <commit/PR title>
   if git push origin HEAD:master >/dev/null 2>&1; then say "pushed to master"; return 0; fi
-  [ -n "${GIT_TOKEN:-}" ] || { say "push rejected and GIT_TOKEN is missing — nothing reached GitHub"; return 1; }
-  local br pr merged body base
+  [ -n "${GIT_TOKEN:-}" ] || { publish_fail "push to master rejected and GIT_TOKEN is missing"; return 1; }
+  local br pr merged body base resp
   # The capture loop commits a checkpoint every 10 minutes and sourcing commits its additions, both
   # before signing is set up here, so the local history is full of unsigned commits. The signature
   # rule checks every commit pushed, so fold everything since origin/master into ONE signed commit.
@@ -115,21 +132,23 @@ publish_head() {                             # publish_head <commit/PR title>
   base=$(git merge-base HEAD origin/master 2>/dev/null)
   if [ -n "$base" ] && [ "$(git rev-list --count "$base"..HEAD 2>/dev/null)" -gt 1 ]; then
     git reset -q --soft "$base" && git commit -q -m "$1" \
-      || { say "could not fold the night's commits into one signed commit"; return 1; }
+      || { publish_fail "could not fold the night's commits into one signed commit"; return 1; }
     say "folded the night's commits into one signed commit"
   fi
   br="pipeline/$D-$(date -u +%H%M%S)"
   if ! git push origin "HEAD:refs/heads/$br" >/dev/null 2>&1; then
-    say "push rejected on master and on $br — are the commits signed? (GIT_SIGNING_KEY)"
+    publish_fail "push rejected on master and on $br — are the commits signed? (GIT_SIGNING_KEY)"
     return 1
   fi
   body=$(node -e 'process.stdout.write(JSON.stringify({title:"chore: "+process.argv[1].replace(/^./,(c)=>c.toLowerCase()),head:process.argv[2],base:"master",body:"Automated publish from the nightly capture machine. Repository rules block direct pushes, so the run publishes through this pull request."}))' "$1" "$br")
-  pr=$(gh_api POST /pulls "$body" | json_field number)
-  [ -n "$pr" ] || { say "branch $br pushed but the pull request could not be opened (repo ${REPO_SLUG%%@*})"; return 1; }
+  resp=$(gh_api POST /pulls "$body")
+  pr=$(printf '%s' "$resp" | json_field number)
+  [ -n "$pr" ] || { publish_fail "branch pushed but the pull request could not be opened on ${REPO_SLUG%%@*}: $(api_reason "$resp")" "$br"; return 1; }
   body=$(node -e 'process.stdout.write(JSON.stringify({merge_method:"squash",commit_title:process.argv[1]+" (#"+process.argv[2]+")"}))' "$1" "$pr")
-  merged=$(gh_api PUT "/pulls/$pr/merge" "$body" | json_field merged)
+  resp=$(gh_api PUT "/pulls/$pr/merge" "$body")
+  merged=$(printf '%s' "$resp" | json_field merged)
   [ "$merged" = "true" ] && { say "published through pull request #$pr ($br)"; return 0; }
-  say "pull request #$pr is open from $br but the merge was refused"
+  publish_fail "pull request #$pr is open but the merge did not go through: $(api_reason "$resp")" "$br"
   return 1
 }
 
@@ -230,7 +249,7 @@ fi
 SCORED=$(node -e 'process.stdout.write(String(Object.keys(require("./runner/eval-scores.json")).length))' 2>/dev/null || echo "?")
 git commit -q -m "Daily board $D — judged + baked ($SCORED scored conversations)" 2>/dev/null
 publish_head "Daily board $D — judged + baked ($SCORED scored conversations)" \
-  || say "nothing reached GitHub — deploying anyway (the board is the deliverable), and /data/unpushed keeps the work"
+  || say "deploying anyway — the board is the deliverable, and /data/unpushed keeps the work"
 
 # ── 8. deploy ─────────────────────────────────────────────────────────────────
 # On the server the token is the only way in. On a laptop the CLI is usually already logged in, and
