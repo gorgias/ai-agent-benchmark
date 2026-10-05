@@ -248,8 +248,11 @@ if git diff --cached --quiet; then
 fi
 SCORED=$(node -e 'process.stdout.write(String(Object.keys(require("./runner/eval-scores.json")).length))' 2>/dev/null || echo "?")
 git commit -q -m "Daily board $D — judged + baked ($SCORED scored conversations)" 2>/dev/null
+# A board that deploys without reaching master is still a failed run: the deploy goes ahead (the board
+# is the deliverable), but every later exit reports non-zero so pipeline.sh logs "publish 1" instead of 0.
+OFF_MASTER=0
 publish_head "Daily board $D — judged + baked ($SCORED scored conversations)" \
-  || say "deploying anyway — the board is the deliverable, and /data/unpushed keeps the work"
+  || { OFF_MASTER=1; say "deploying anyway — the board is the deliverable, and /data/unpushed keeps the work"; }
 
 # ── 8. deploy ─────────────────────────────────────────────────────────────────
 # On the server the token is the only way in. On a laptop the CLI is usually already logged in, and
@@ -267,7 +270,7 @@ elif vercel whoami >/dev/null 2>&1; then
 else
   say "VERCEL_TOKEN not set and the Vercel CLI is not logged in — board is baked and pushed but NOT deployed."
   slack ":large_yellow_circle: *Benchmark board baked but not deployed* — \`VERCEL_TOKEN\` is missing on the capture box, so the live site still shows older data. Set it with \`fly secrets set VERCEL_TOKEN=…\`."
-  exit 0
+  exit "$OFF_MASTER"
 fi
 say "--- deploying to Vercel ---"
 # Prefer the CLI baked into the image. Falling back to npx would work, but it puts an npm download
@@ -324,12 +327,12 @@ if [ "$VRC" -eq 0 ]; then
   slack ":white_check_mark: *Benchmark board updated — $D*
 $VALID_TODAY new valid conversations captured · $SCORED scored conversations on the board
 Gate passed, deployed, and verified live == local. <https://gorgias-ai-benchmark.vercel.app/report|Open the board>"
-  exit 0
+  exit "$OFF_MASTER"
 elif [ "$VRC" -eq 2 ]; then
   say "deployed, but could not verify (no SITE_PASSWORD) — reporting as UNVERIFIED, not as success"
   slack ":large_yellow_circle: *Benchmark board deployed — $D (unverified)*
 $VALID_TODAY new valid conversations · $SCORED scored. The deploy succeeded but the live page could not be read back because \`SITE_PASSWORD\` is not set on the capture box, so I cannot prove the site is serving the new data. Set it with \`fly secrets set SITE_PASSWORD=…\`."
-  exit 0
+  exit "$OFF_MASTER"
 else
   say "deployed but live != local — the site is NOT serving what we baked"
   slack ":red_circle: *Benchmark deploy did not take effect — $D*
