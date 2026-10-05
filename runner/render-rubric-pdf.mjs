@@ -3,7 +3,6 @@
 // overwrite it from this script.
 import { readFile } from "node:fs/promises";
 import { pathToFileURL } from "node:url";
-import { chromium } from "playwright";
 
 export function mdToHtml(md) {
   const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
@@ -92,6 +91,9 @@ export async function renderRubricPdf() {
   if (!html.includes("a_direct") || !html.includes("s_answered")) {
     throw new Error("rendered rubric HTML is missing required checks — refusing to write PDF");
   }
+  // Imported here, not at the top: mdToHtml is pure and is unit-tested in CI, which does not
+  // install playwright. Only printing the PDF needs a browser.
+  const { chromium } = await import("playwright");
   const browser = await chromium.launch();
   try {
     const page = await browser.newPage();
