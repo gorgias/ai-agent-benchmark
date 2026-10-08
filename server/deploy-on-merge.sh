@@ -39,8 +39,10 @@ if [ -z "${VERCEL_TOKEN:-}" ]; then
   exit 0
 fi
 
+# shellcheck source=server/git-sync.sh
+. server/git-sync.sh
 say "===== DEPLOY-ON-MERGE START ====="
-git pull --rebase --autostash origin master >/dev/null 2>&1 || true
+sync_master
 
 # ── 1. re-bake from committed data ────────────────────────────────────────────
 # gen.js reads runner/results/<date>/conv/*.json + runner/eval-scores.json — both committed to

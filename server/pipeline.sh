@@ -61,51 +61,10 @@ say() { echo "$(date -u +%Y-%m-%dT%H:%M:%SZ) $*" | tee -a "$LOG"; }
 # during the poller window, the run exited at line 305 before capturing anything).
 D=$(date +%F)
 
-# sync_master — pull master WITHOUT silently giving up.
-#
-# WHY (2026-09-04): every pull site here was `git pull --rebase --autostash … || true`, and the
-# machine sat 12 commits behind master for days while every run looked healthy. --autostash stashes
-# TRACKED modifications only; this machine also holds UNTRACKED capture files, and when master
-# carries a file of the same name git aborts with "untracked working tree files would be overwritten
-# … Aborting". The `|| true` swallowed it, so fixes pushed to master never reached the worker — a
-# sourcing fix pushed nine minutes before a run still ran the old code.
-#
-# Captures are the product, so nothing here deletes them: stash INCLUDING untracked, pull, restore.
-# If the restore conflicts, the working copy wins (checkout --ours) — a local capture is real data,
-# the incoming copy is the same conversation already committed from elsewhere.
-sync_master() {
-  local before after stashed=0
-  before=$(git rev-parse --short HEAD 2>/dev/null || echo "?")
-  if [ -n "$(git status --porcelain 2>/dev/null)" ]; then
-    git stash push -u -q -m "pipeline-prepull-$(date -u +%s)" >/dev/null 2>&1 && stashed=1
-  fi
-  if git pull --rebase origin master >/dev/null 2>&1; then
-    after=$(git rev-parse --short HEAD 2>/dev/null || echo "?")
-    [ "$before" != "$after" ] && say "synced master $before -> $after" || true
-  else
-    git rebase --abort >/dev/null 2>&1 || true
-    say "WARN sync_master: pull failed, staying on $before (behind $(git rev-list --count HEAD..origin/master 2>/dev/null || echo '?') commits)"
-  fi
-  if [ "$stashed" = "1" ]; then
-    if ! git stash pop -q >/dev/null 2>&1; then
-      # The pop collided with a file master now carries. Untracked files stashed with -u live in
-      # the stash's third parent, so that is where a local capture has to be recovered from —
-      # `git checkout stash@{0} -- .` reads the TRACKED tree and silently restores nothing.
-      local restored=0 kept=0 f
-      for f in $(git show --name-only --pretty=format: "stash@{0}^3" 2>/dev/null); do
-        if git cat-file -e "HEAD:$f" 2>/dev/null; then
-          kept=$((kept+1))          # master already carries this conversation; its copy stands
-        else
-          git checkout "stash@{0}^3" -- "$f" >/dev/null 2>&1 && restored=$((restored+1))
-        fi
-      done
-      git checkout --theirs . >/dev/null 2>&1 || true
-      git reset -q >/dev/null 2>&1 || true
-      git stash drop -q >/dev/null 2>&1 || true
-      say "sync_master: stash restore collided — restored $restored local capture(s), $kept already on master"
-    fi
-  fi
-}
+# sync_master / heal_conflicts live in server/git-sync.sh, shared with publish.sh, deploy-on-merge.sh
+# and capture.sh so every pull on this machine goes through the same conflict healing.
+# shellcheck source=server/git-sync.sh
+. server/git-sync.sh
 
 # Slack straight from the pipeline, for the things healthcheck.mjs structurally cannot report —
 # it is stage 3, so anything that stops the run before it never gets announced. Best-effort by
@@ -404,7 +363,10 @@ fi
 # they can never change the live board on their own.
 push_convs() {
   compgen -G "runner/results/$D/conv/*.json" >/dev/null || return 0
-  git pull --rebase --autostash -X theirs origin master >/dev/null 2>&1 || true
+  # No pull here. Master only moves through publish's pull request (repository rules reject a direct
+  # push), so pulling mid-capture bought nothing — and its --autostash re-applied driver-triage.json
+  # while the balancer was writing it, which is how conflict markers reached master on 2026-10-05
+  # and stopped every capture after it. publish.sh folds these local commits and lands them.
   git add "runner/results/$D/conv" runner/driver-triage.json 2>/dev/null
   git diff --cached --quiet && return 0                     # nothing new since last push
   local n; n=$(ls runner/results/"$D"/conv/*.json 2>/dev/null | wc -l | tr -d ' ')

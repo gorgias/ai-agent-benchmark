@@ -17,7 +17,9 @@ if pgrep -f 'tools/balance.mjs' >/dev/null || pgrep -f 'node run.js' >/dev/null;
   echo "$(date -Is) capture already running — skip" >> "$LOG"; exit 0
 fi
 
-git pull --rebase --autostash origin master >/dev/null 2>&1 || true
+# shellcheck source=server/git-sync.sh
+. server/git-sync.sh
+sync_master >> "$LOG" 2>&1
 cd runner || exit 1
 
 # LOAD_CAP scales with the box. On a DEDICATED server the load is entirely ours, so the laptop
@@ -44,7 +46,7 @@ pkill -f 'chrome-headless-shell' 2>/dev/null
 D=$(date +%F)
 cd ..
 if compgen -G "runner/results/$D/conv/*.json" >/dev/null; then
-  git pull --rebase --autostash origin master >/dev/null 2>&1 || true
+  sync_master >> "$LOG" 2>&1
   git add "runner/results/$D/conv" runner/driver-triage.json 2>/dev/null
   git commit -q -m "Server capture $D — raw unjudged convs" 2>/dev/null \
     && git push origin HEAD:master >/dev/null 2>&1 \

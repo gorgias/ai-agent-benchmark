@@ -82,7 +82,9 @@ else OK("no vendor above 50% on a single store");
 // ── 4. NEW PARKED STORES — the self-improvement loop parks a store when its driver
 // stops working. New entries since the last run are driver regressions. ────────
 const triagePath = path.join(RUNNER, "driver-triage.json");
-const triage = existsSync(triagePath) ? JSON.parse(readFileSync(triagePath, "utf8")).stores || {} : {};
+let triage = {};
+try { triage = existsSync(triagePath) ? JSON.parse(readFileSync(triagePath, "utf8")).stores || {} : {}; }
+catch (e) { C(`runner/driver-triage.json does not parse (${String(e.message).slice(0, 80)}) — check it for git conflict markers`); }
 const prev = existsSync(STATE) ? JSON.parse(readFileSync(STATE, "utf8")) : {};
 const parkedNow = Object.entries(triage).filter(([, e]) => !e.fixed).map(([k]) => k);
 // FIRST RUN has no prior snapshot, so every already-parked store would look brand new.

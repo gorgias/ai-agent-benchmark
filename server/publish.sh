@@ -152,8 +152,10 @@ publish_head() {                             # publish_head <commit/PR title>
   return 1
 }
 
+# shellcheck source=server/git-sync.sh
+. server/git-sync.sh
 say "===== PUBLISH START ($D) ====="
-git pull --rebase --autostash origin master >/dev/null 2>&1 || true
+sync_master
 setup_signing && say "commits will be signed (publishing goes through a pull request)" \
   || say "GIT_SIGNING_KEY not set — commits are unsigned and the repo rules will reject them"
 mkdir -p "$EB" || { say "cannot create $EB"; exit 1; }
@@ -239,15 +241,26 @@ The gate passed, but publishing was blocked because these numbers would be wrong
 fi
 
 # ── 7. commit + push the board ────────────────────────────────────────────────
-git add report.html report-archive.html takeaways.html takeaways-archive.html brand/howto.html conv-text.json board.json \
-        runner/eval-scores.json runner/conversation-quarantine.json runner/driver-triage.json \
-        "runner/results/$D/conv" 2>/dev/null
-if git diff --cached --quiet; then
+# Stage only paths that exist. ONE `git add` over a list that names a missing path stages NOTHING:
+# on a night with no captures runner/results/$D/conv does not exist, so the new scores were never
+# staged and the run reported "nothing changed" (2026-10-08: 2 judged conversations kept only in
+# /data/unpushed).
+STAGE=()
+for p in report.html report-archive.html takeaways.html takeaways-archive.html brand/howto.html conv-text.json board.json \
+         runner/eval-scores.json runner/conversation-quarantine.json runner/driver-triage.json \
+         runner/vendors.js "runner/results/$D/conv"; do
+  [ -e "$p" ] && STAGE+=("$p")
+done
+[ "${#STAGE[@]}" -gt 0 ] && git add -- "${STAGE[@]}" 2>/dev/null
+# "Nothing changed" also has to mean "no local commits": sourcing and the capture checkpoints commit
+# during the night, and those commits are only ever carried to master by this publish.
+AHEAD=$(git rev-list --count origin/master..HEAD 2>/dev/null || echo 0)
+if git diff --cached --quiet && [ "$AHEAD" = "0" ]; then
   say "nothing changed since the last publish — skipping deploy"
   exit 0
 fi
 SCORED=$(node -e 'process.stdout.write(String(Object.keys(require("./runner/eval-scores.json")).length))' 2>/dev/null || echo "?")
-git commit -q -m "Daily board $D — judged + baked ($SCORED scored conversations)" 2>/dev/null
+git diff --cached --quiet || git commit -q -m "Daily board $D — judged + baked ($SCORED scored conversations)" 2>/dev/null
 # A board that deploys without reaching master is still a failed run: the deploy goes ahead (the board
 # is the deliverable), but every later exit reports non-zero so pipeline.sh logs "publish 1" instead of 0.
 OFF_MASTER=0
