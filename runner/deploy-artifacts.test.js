@@ -277,7 +277,9 @@ test("board.json parses, ranks every lane and agrees with the takeaways scoreboa
 
 test("publish.sh commits board.json with the other baked pages", () => {
   const sh = read("../server/publish.sh");
-  assert.match(sh, /git add [^\n]*\bboard\.json\b/, "publish.sh's git add list is missing board.json");
+  // The board's file list is staged through an existence-checked loop (`for p in … ; do [ -e "$p" ] &&
+  // STAGE+=…`), because one `git add` naming a missing path stages nothing at all.
+  assert.match(sh, /(git add|for p in) [^\n]*\bboard\.json\b/, "publish.sh's staging list is missing board.json");
 });
 
 test("board.json carries one scored entry per storefront, each with a lane and a vendor", () => {

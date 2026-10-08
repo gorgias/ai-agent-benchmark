@@ -352,8 +352,9 @@ if (accepted.length && !DRY) {
   try {
     execFileSync("git", ["add", "runner/vendors.js"], { cwd: ROOT });
     execFileSync("git", ["commit", "-q", "-m", `Sourcing: +${accepted.length} verified storefronts (host loaded + widget mounted)`], { cwd: ROOT });
-    execFileSync("git", ["pull", "--rebase", "--autostash", "-X", "theirs", "origin", "master"], { cwd: ROOT, stdio: "pipe" });
-    execFileSync("git", ["push", "origin", "HEAD:master"], { cwd: ROOT, stdio: "pipe" });
-    console.log("pushed");
+    // Commit only. Repository rules reject a direct push to master (GH013), and the old
+    // `pull --rebase --autostash` before it could leave conflict markers in tracked ledgers. The
+    // nightly publish folds this commit with the rest of the night and lands it via a pull request.
+    console.log("committed locally — publish.sh carries it to master");
   } catch (e) { console.error("git step failed:", String(e).slice(0, 200)); }
 }

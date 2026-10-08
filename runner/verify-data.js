@@ -9,6 +9,7 @@
 // Checks are INVARIANTS of the pipeline, not opinions about the numbers — the gate
 // never fails because a vendor got better or worse, only because the data is broken.
 import { readFileSync, readdirSync, existsSync } from "node:fs";
+import { execFileSync } from "node:child_process";
 
 const fail = [];
 const warn = [];
@@ -93,6 +94,18 @@ for (const f of ["report.html", "report-archive.html", "takeaways.html", "takeaw
   if (CONFLICT.test(txt)) fail.push(`${f} contains unresolved git conflict markers (<<<<<<< / ======= / >>>>>>>)`);
 }
 if (!fail.some((f) => /conflict markers/.test(f))) ok("no git conflict markers in deployed artifacts");
+// …and in every TRACKED file, not just the HTML. On 2026-10-05 the nightly publish committed
+// runner/driver-triage.json with `<<<<<<< Updated upstream` in it (a stash re-apply that collided);
+// the HTML checks above passed, and every capture after it crashed parsing the ledger. `git grep`
+// reads the working tree, so this catches markers before publish.sh commits them.
+{
+  let hits = "";
+  try { hits = execFileSync("git", ["grep", "-lE", "^(<<<<<<<|>>>>>>>) ", "--", ".", ":!*.md"], { cwd: new URL("..", import.meta.url).pathname, encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] }); }
+  catch (e) { hits = e.status === 1 ? "" : null; }   // exit 1 = no match; anything else = git unavailable
+  if (hits === null) warn.push("could not scan tracked files for conflict markers (git unavailable)");
+  else if (hits.trim()) fail.push(`unresolved git conflict markers in tracked file(s): ${hits.trim().split("\n").join(", ")}`);
+  else ok("no git conflict markers in any tracked file");
+}
 
 // ---- 6. capture-integrity review queue (misread-UI detector) ----
 // Surfaces conversations the integrity scanner flagged as likely capture misreads (user-echo

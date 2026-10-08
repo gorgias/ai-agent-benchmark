@@ -62,7 +62,18 @@ const byV = {};
 // driver-triage.json is the loop's ledger: stores parked with a structural class are skipped
 // until a --classify re-probe returns ANSWERED (probe-generic then sets fixed:true).
 const TRIAGE_FILE = new URL("../driver-triage.json", import.meta.url).pathname;
-const triage = existsSync(TRIAGE_FILE) ? JSON.parse(readFileSync(TRIAGE_FILE, "utf8")) : { stores: {} };
+// A ledger that does not parse must not stop capture: on 2026-10-06/07/08 a driver-triage.json with
+// git conflict markers made this line throw, and the balancer captured NOTHING for three nights.
+// Losing the parked-store list for one night costs a few dead attempts; losing the night costs all.
+let triage = { stores: {} }, triageWritable = true;
+if (existsSync(TRIAGE_FILE)) {
+  try { triage = JSON.parse(readFileSync(TRIAGE_FILE, "utf8")); }
+  catch (e) {
+    // Never overwrite an unreadable ledger with tonight's near-empty one: that would erase its history.
+    triageWritable = false;
+    console.log(`WARN driver-triage.json does not parse (${String(e.message).slice(0, 80)}) — continuing with no parked stores, ledger left untouched`);
+  }
+}
 const parked = new Set(Object.entries(triage.stores || {}).filter(([, e]) => !e.fixed).map(([k]) => k));
 
 // DEAD-STORE AUTO-PARK. The triage ledger above only holds stores a human (or a probe) parked, and
@@ -269,7 +280,7 @@ while (added < BUDGET) {
       const structural = !hasTrackRecord && ["HUMAN_FRONT_DOOR", "RECAPTCHA_WALL", "WIDGET_ABSENT"].includes(cls);
       const action = structural ? "parked-structural" : cls === "ANSWERED" ? "flaky-retry-ok" : hasTrackRecord ? "flaky-transient" : "needs-driver-fix";
       triage.stores[store.key] = { vendor: v, class: cls, at: new Date().toISOString(), action, hadTrackRecord: hasTrackRecord, fixed: cls === "ANSWERED" || action === "flaky-transient" };
-      writeFileSync(TRIAGE_FILE, JSON.stringify(triage, null, 1));
+      if (triageWritable) writeFileSync(TRIAGE_FILE, JSON.stringify(triage, null, 1));
       // Production lesson (2026-07-16, 3h for 1/270): a needs-driver-fix store must ALSO be
       // parked — it re-entered rotation every ~40min and burned the whole campaign. And
       // parked persists across campaigns until a --classify re-probe marks it fixed.
