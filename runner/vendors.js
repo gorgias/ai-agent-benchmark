@@ -264,6 +264,15 @@ async function fillAnyChatEmailGate(page) {
 // ---------------------------------------------------------------------------
 // Widget harnesses
 // ---------------------------------------------------------------------------
+// The Siena conversation iframe (see the siena widget note): #SIENA_CHAT_IFRAME / /dist/index.html,
+// falling back to any chat.siena.cx frame that is NOT the search bar or the starters carousel.
+async function sienaFrame(page) {
+  const f = await findFrame(page, /SIENA_CHAT_IFRAME|chat\.siena\.cx\/dist\/index\.html/i, "richest");
+  if (f) return f;
+  const rest = page.frames().filter((fr) => fr.url().includes("siena.cx") && !/search-bar|starters-carousel/i.test(fr.url()));
+  return rest[0] || null;
+}
+
 export const WIDGETS = {
   // Gorgias Chat — same-origin chat-window iframe; programmatic open + sendMessage.
   gorgias: {
@@ -435,10 +444,18 @@ export const WIDGETS = {
     // the webchat now mounts more than one siena.cx frame (a launcher next to the conversation), that
     // first frame is an empty shell. Prefer the frame holding a composer, else the one with the most
     // text. With a single frame this is exactly the old behaviour.
-    scope: { kind: "frame", match: "siena.cx", pick: "richest" },
+    //
+    // 2026-10-09: the webchat now mounts MORE chat.siena.cx iframes than the conversation — a search
+    // bar (#SIENA_SEARCH_BAR_IFRAME, /dist/search-bar.html, which has its own text box) and a starters
+    // carousel (#SIENA_STARTERS_CAROUSEL_IFRAME). "The siena.cx frame with a composer" could then be the
+    // empty search bar: the transcript read as nothing and the question was typed into the search bar
+    // (2026-10-08: 32/32 Siena captures widget-absent, FIGS included). The conversation is the iframe
+    // the script creates as #SIENA_CHAT_IFRAME from /dist/index.html (read from chat.siena.cx/dist/
+    // webchat.js), so target exactly that; the old match is only a fallback, minus the known extras.
+    scope: { kind: "frame", match: /SIENA_CHAT_IFRAME|chat\.siena\.cx\/dist\/index\.html/i, pick: "richest" },
     async open(page) {
       await page.waitForTimeout(1500); await dismiss(page);
-      const sframe = () => page.frames().find(fr => fr.url().includes("siena.cx"));
+      const sframe = () => page.frames().find(fr => fr.url().includes("siena.cx") && !/search-bar|starters-carousel/i.test(fr.url()));
       const hasIframe = async () => page.evaluate(() => !!document.querySelector('#SIENA_CHAT_IFRAME, iframe[src*="siena.cx" i]')).catch(() => false);
       for (let i = 0; i < 6 && !(await hasIframe()); i++) { if (i === 2) await page.evaluate(() => { try { window.dispatchEvent(new Event("load")); } catch (e) {} }).catch(() => {}); await page.waitForTimeout(1000); }
       if (!(await hasIframe())) {
@@ -449,12 +466,12 @@ export const WIDGETS = {
       await page.evaluate(() => { try { window.SienaLaunchChat && window.SienaLaunchChat(); } catch (e) {} }).catch(() => {});
       await page.waitForTimeout(800);
       for (let i = 0; i < 6; i++) {
-        const f = await findFrame(page, "siena.cx", "richest");
+        const f = await sienaFrame(page);
         if (f) { const ready = await f.evaluate(() => !!document.querySelector('textarea,[contenteditable="true"]') || /enter your name|start the chat|start chat/i.test(document.body.innerText || "")).catch(() => false); if (ready) break; }
-        await page.locator('#SIENA_CHAT_IFRAME, iframe[src*="siena.cx" i]').first().click({ timeout: 3000, force: true }).catch(() => {});
+        await page.locator('#SIENA_CHAT_IFRAME, iframe[src*="siena.cx/dist/index" i]').first().click({ timeout: 3000, force: true }).catch(() => {});
         await page.waitForTimeout(1500);
       }
-      const f = await findFrame(page, "siena.cx", "richest");
+      const f = await sienaFrame(page);
       if (f) {
         const composerReady = () => f.evaluate(() => !!document.querySelector('textarea,[contenteditable="true"]')).catch(() => false);
         for (let attempt = 0; attempt < 4 && !(await composerReady()); attempt++) {
@@ -471,7 +488,7 @@ export const WIDGETS = {
       }
     },
     async send(page, text) {
-      const f = await findFrame(page, "siena.cx", "richest"); if (!f) return;
+      const f = await sienaFrame(page); if (!f) return;
       let inp = f.locator('textarea').first();
       if (!(await inp.count().catch(() => 0))) inp = f.locator('[contenteditable="true"], input[type="text"]:not([placeholder*="name" i])').first();
       await inp.click({ timeout: 5000 }).catch(() => {});
