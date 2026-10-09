@@ -1812,6 +1812,27 @@ export const STORES = [
   // anonymous visit. candidate:true until a capture proves it drivable end-to-end.
   { key: "zendesk-titan", vendor: "Zendesk", store: "titan", url: "https://titan.fitness/", widget: "zendesk", candidate: true }, // auto-sourced 2026-09-30: host loaded + widget mounted on a cold visit
   { key: "siena-thrivecausemet", vendor: "Siena", store: "thrivecausemet", url: "https://thrivecausemetics.com/", widget: "siena", candidate: true }, // auto-sourced 2026-09-30: host loaded + widget mounted on a cold visit
+  // ── Auto-sourced 2026-10-08 by server/source-merchants.mjs. Each row was verified in a
+  // real browser: the vendor's widget host loaded AND a launcher/container mounted on a cold
+  // anonymous visit. candidate:true until a capture proves it drivable end-to-end.
+  { key: "kodif-whogivesacrap2", vendor: "Kodif", store: "whogivesacrap", url: "https://au.whogivesacrap.org/", widget: "kodif", candidate: true, todo: "also on page: Ada — driver must target the Kodif launcher" }, // auto-sourced 2026-10-08: host loaded + widget mounted on a cold visit
+  { key: "ada-albanypark", vendor: "Ada", store: "albanypark", url: "https://albanypark.com/", widget: "ada", candidate: true }, // auto-sourced 2026-10-08: host loaded + widget mounted on a cold visit
+  { key: "kodif-primalharvest2", vendor: "Kodif", store: "primalharvest", url: "https://primalharvest.es/", widget: "kodif", candidate: true, todo: "also on page: Gorgias — driver must target the Kodif launcher" }, // auto-sourced 2026-10-08: host loaded + widget mounted on a cold visit
+  { key: "kodif-primalharvest3", vendor: "Kodif", store: "primalharvest", url: "https://primalharvest.de/", widget: "kodif", candidate: true, todo: "also on page: Gorgias — driver must target the Kodif launcher" }, // auto-sourced 2026-10-08: host loaded + widget mounted on a cold visit
+  { key: "ada-ohpolly2", vendor: "Ada", store: "ohpolly", url: "https://ohpolly.ae/", widget: "ada", candidate: true }, // auto-sourced 2026-10-08: host loaded + widget mounted on a cold visit
+  { key: "kodif-soylent2", vendor: "Kodif", store: "soylent", url: "https://soylent.ca/", widget: "kodif", candidate: true, todo: "also on page: Gorgias, Ada — driver must target the Kodif launcher" }, // auto-sourced 2026-10-08: host loaded + widget mounted on a cold visit
+  { key: "zendesk-josephjoseph", vendor: "Zendesk", store: "josephjoseph", url: "https://josephjoseph.com/", widget: "zendesk", candidate: true }, // auto-sourced 2026-10-08: host loaded + widget mounted on a cold visit
+  { key: "ada-boandtee", vendor: "Ada", store: "boandtee", url: "https://boandtee.com/", widget: "ada", candidate: true }, // auto-sourced 2026-10-08: host loaded + widget mounted on a cold visit
+  { key: "decagon-help", vendor: "Decagon", store: "help", url: "https://help.misfitsmarket.com/", widget: "decagon", candidate: true }, // auto-sourced 2026-10-08: host loaded + widget mounted on a cold visit
+  { key: "kodif-primalharvest4", vendor: "Kodif", store: "primalharvest", url: "https://primalharvest.co.uk/", widget: "kodif", candidate: true, todo: "also on page: Gorgias — driver must target the Kodif launcher" }, // auto-sourced 2026-10-08: host loaded + widget mounted on a cold visit
+  { key: "zendesk-crewclothing", vendor: "Zendesk", store: "crewclothing", url: "https://crewclothing.co.uk/", widget: "zendesk", candidate: true }, // auto-sourced 2026-10-08: host loaded + widget mounted on a cold visit
+  { key: "kodif-primalharvest5", vendor: "Kodif", store: "primalharvest", url: "https://primalharvest.nl/", widget: "kodif", candidate: true, todo: "also on page: Gorgias — driver must target the Kodif launcher" }, // auto-sourced 2026-10-08: host loaded + widget mounted on a cold visit
+  { key: "kodif-primalharvest6", vendor: "Kodif", store: "primalharvest", url: "https://primalharvest.fr/", widget: "kodif", candidate: true, todo: "also on page: Gorgias — driver must target the Kodif launcher" }, // auto-sourced 2026-10-08: host loaded + widget mounted on a cold visit
+  { key: "ada-yeti2", vendor: "Ada", store: "yeti", url: "https://au.yeti.com/", widget: "ada", candidate: true }, // auto-sourced 2026-10-08: host loaded + widget mounted on a cold visit
+  { key: "kodif-primalharvest7", vendor: "Kodif", store: "primalharvest", url: "https://primalharvest.it/", widget: "kodif", candidate: true, todo: "also on page: Gorgias — driver must target the Kodif launcher" }, // auto-sourced 2026-10-08: host loaded + widget mounted on a cold visit
+  { key: "zendesk-sweetnight", vendor: "Zendesk", store: "sweetnight", url: "https://www.sweetnight.com/", widget: "zendesk", candidate: true, todo: "also on page: Ada — driver must target the Zendesk launcher" }, // auto-sourced 2026-10-08: host loaded + widget mounted on a cold visit
+  { key: "ada-ohpolly3", vendor: "Ada", store: "ohpolly", url: "https://us.ohpolly.com/", widget: "ada", candidate: true }, // auto-sourced 2026-10-08: host loaded + widget mounted on a cold visit
+  { key: "kodif-primalharvest8", vendor: "Kodif", store: "primalharvest", url: "https://primalharvest.ch/", widget: "kodif", candidate: true, todo: "also on page: Gorgias — driver must target the Kodif launcher" }, // auto-sourced 2026-10-08: host loaded + widget mounted on a cold visit
 ];
 
 // Find a frame by element id / title / name / url. `match` may be a string
