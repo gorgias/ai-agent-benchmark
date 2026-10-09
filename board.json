@@ -1,15 +1,15 @@
 {
  "name": "Gorgias AI Agent Benchmark",
  "site": "https://evals.gorgias.com",
- "data_through": "2026-10-08",
+ "data_through": "2026-10-09",
  "ranking_window": {
   "days": 90,
-  "from": "2026-07-11",
-  "to": "2026-10-08"
+  "from": "2026-07-12",
+  "to": "2026-10-09"
  },
  "totals": {
-  "conversations": 10357,
-  "judged_conversations": 10345,
+  "conversations": 10559,
+  "judged_conversations": 10559,
   "vendors": 18,
   "storefronts": 239
  },
@@ -43,6 +43,14 @@
  "overall": [
   {
    "rank": 1,
+   "vendor": "Decagon",
+   "score": 65,
+   "shopping_composite": 64,
+   "support_composite": 65,
+   "score_ci95": 19.4
+  },
+  {
+   "rank": 2,
    "vendor": "Sierra",
    "score": 64,
    "shopping_composite": 65,
@@ -50,20 +58,12 @@
    "score_ci95": 12.7
   },
   {
-   "rank": 1,
+   "rank": 2,
    "vendor": "Gorgias",
    "score": 64,
    "shopping_composite": 61,
-   "support_composite": 67,
-   "score_ci95": 5.2
-  },
-  {
-   "rank": 1,
-   "vendor": "Decagon",
-   "score": 64,
-   "shopping_composite": 62,
-   "support_composite": 65,
-   "score_ci95": 19.5
+   "support_composite": 66,
+   "score_ci95": 5.3
   },
   {
    "rank": 4,
@@ -87,15 +87,15 @@
    "score": 59,
    "shopping_composite": 58,
    "support_composite": 60,
-   "score_ci95": 23.6
+   "score_ci95": 23.7
   },
   {
    "rank": 6,
    "vendor": "Yuma",
    "score": 59,
    "shopping_composite": 53,
-   "support_composite": 65,
-   "score_ci95": 22.3
+   "support_composite": 64,
+   "score_ci95": 22.5
   },
   {
    "rank": 8,
@@ -124,10 +124,18 @@
   {
    "rank": 11,
    "vendor": "Klaviyo",
-   "score": 51,
-   "shopping_composite": 52,
+   "score": 50,
+   "shopping_composite": 51,
    "support_composite": 49,
-   "score_ci95": 17.1
+   "score_ci95": 17
+  },
+  {
+   "rank": 12,
+   "vendor": "Kodif",
+   "score": 46,
+   "shopping_composite": 47,
+   "support_composite": 45,
+   "score_ci95": 8.6
   },
   {
    "rank": 12,
@@ -136,14 +144,6 @@
    "shopping_composite": 44,
    "support_composite": 48,
    "score_ci95": 13.4
-  },
-  {
-   "rank": 13,
-   "vendor": "Kodif",
-   "score": 45,
-   "shopping_composite": 46,
-   "support_composite": 44,
-   "score_ci95": 8.7
   }
  ],
  "shopping": [
@@ -173,6 +173,18 @@
   },
   {
    "rank": 3,
+   "vendor": "Decagon",
+   "composite": 64,
+   "automation_pct": 81,
+   "quality": 62,
+   "latency_mean_s": 14.2,
+   "latency_p75_s": 11.5,
+   "conversations": 121,
+   "composite_ci95": 13.9,
+   "ci_storefronts": 6
+  },
+  {
+   "rank": 4,
    "vendor": "Rep AI",
    "composite": 62,
    "automation_pct": 89,
@@ -184,26 +196,14 @@
    "ci_storefronts": 56
   },
   {
-   "rank": 3,
-   "vendor": "Decagon",
-   "composite": 62,
-   "automation_pct": 80,
-   "quality": 60,
-   "latency_mean_s": 14.8,
-   "latency_p75_s": 11.7,
-   "conversations": 106,
-   "composite_ci95": 13.8,
-   "ci_storefronts": 6
-  },
-  {
    "rank": 5,
    "vendor": "Gorgias",
    "composite": 61,
    "automation_pct": 77,
    "quality": 71,
-   "latency_mean_s": 17.8,
-   "latency_p75_s": 20.1,
-   "conversations": 396,
+   "latency_mean_s": 17.7,
+   "latency_p75_s": 20,
+   "conversations": 411,
    "composite_ci95": 2.5,
    "ci_storefronts": 44
   },
@@ -223,12 +223,12 @@
    "rank": 7,
    "vendor": "Intercom",
    "composite": 58,
-   "automation_pct": 70,
+   "automation_pct": 71,
    "quality": 65,
    "latency_mean_s": 16.8,
    "latency_p75_s": 18.5,
-   "conversations": 399,
-   "composite_ci95": 15.4,
+   "conversations": 414,
+   "composite_ci95": 15.6,
    "ci_storefronts": 6
   },
   {
@@ -247,11 +247,11 @@
    "rank": 8,
    "vendor": "Yuma",
    "composite": 53,
-   "automation_pct": 71,
+   "automation_pct": 70,
    "quality": 62,
-   "latency_mean_s": 19.7,
-   "latency_p75_s": 23.3,
-   "conversations": 152,
+   "latency_mean_s": 19.4,
+   "latency_p75_s": 22.7,
+   "conversations": 166,
    "composite_ci95": 17.4,
    "ci_storefronts": 7
   },
@@ -268,26 +268,26 @@
    "ci_storefronts": 11
   },
   {
-   "rank": 10,
+   "rank": 11,
    "vendor": "Klaviyo",
-   "composite": 52,
-   "automation_pct": 41,
-   "quality": 67,
+   "composite": 51,
+   "automation_pct": 40,
+   "quality": 66,
    "latency_mean_s": 13.1,
    "latency_p75_s": 15.5,
-   "conversations": 228,
+   "conversations": 236,
    "composite_ci95": 12.5,
    "ci_storefronts": 5
   },
   {
    "rank": 12,
    "vendor": "Kodif",
-   "composite": 46,
-   "automation_pct": 60,
-   "quality": 62,
-   "latency_mean_s": 21.8,
-   "latency_p75_s": 26.7,
-   "conversations": 423,
+   "composite": 47,
+   "automation_pct": 61,
+   "quality": 63,
+   "latency_mean_s": 21.9,
+   "latency_p75_s": 27,
+   "conversations": 462,
    "composite_ci95": 5.7,
    "ci_storefronts": 27
   },
@@ -308,38 +308,38 @@
   {
    "rank": 1,
    "vendor": "Gorgias",
-   "composite": 67,
-   "automation_pct": 67,
+   "composite": 66,
+   "automation_pct": 66,
    "quality": 72,
-   "latency_mean_s": 13.8,
-   "latency_p75_s": 14.8,
-   "conversations": 345,
-   "composite_ci95": 4.6,
+   "latency_mean_s": 13.7,
+   "latency_p75_s": 14.7,
+   "conversations": 357,
+   "composite_ci95": 4.7,
    "ci_storefronts": 46
-  },
-  {
-   "rank": 2,
-   "vendor": "Yuma",
-   "composite": 65,
-   "automation_pct": 71,
-   "quality": 66,
-   "latency_mean_s": 16.8,
-   "latency_p75_s": 17.8,
-   "conversations": 134,
-   "composite_ci95": 14,
-   "ci_storefronts": 7
   },
   {
    "rank": 2,
    "vendor": "Decagon",
    "composite": 65,
-   "automation_pct": 61,
+   "automation_pct": 60,
    "quality": 70,
-   "latency_mean_s": 8.9,
+   "latency_mean_s": 8.8,
    "latency_p75_s": 10.3,
-   "conversations": 92,
-   "composite_ci95": 13.8,
+   "conversations": 109,
+   "composite_ci95": 13.6,
    "ci_storefronts": 6
+  },
+  {
+   "rank": 3,
+   "vendor": "Yuma",
+   "composite": 64,
+   "automation_pct": 70,
+   "quality": 66,
+   "latency_mean_s": 16.5,
+   "latency_p75_s": 17.6,
+   "conversations": 147,
+   "composite_ci95": 14.2,
+   "ci_storefronts": 7
   },
   {
    "rank": 4,
@@ -383,9 +383,9 @@
    "composite": 60,
    "automation_pct": 56,
    "quality": 69,
-   "latency_mean_s": 14.3,
-   "latency_p75_s": 17.1,
-   "conversations": 317,
+   "latency_mean_s": 14.4,
+   "latency_p75_s": 17.2,
+   "conversations": 327,
    "composite_ci95": 17.9,
    "ci_storefronts": 6
   },
@@ -417,12 +417,12 @@
    "rank": 10,
    "vendor": "Klaviyo",
    "composite": 49,
-   "automation_pct": 31,
+   "automation_pct": 30,
    "quality": 68,
    "latency_mean_s": 9.5,
-   "latency_p75_s": 10.1,
-   "conversations": 308,
-   "composite_ci95": 11.6,
+   "latency_p75_s": 10.2,
+   "conversations": 318,
+   "composite_ci95": 11.5,
    "ci_storefronts": 5
   },
   {
@@ -440,13 +440,13 @@
   {
    "rank": 12,
    "vendor": "Kodif",
-   "composite": 44,
-   "automation_pct": 31,
-   "quality": 65,
-   "latency_mean_s": 16.8,
-   "latency_p75_s": 21.5,
-   "conversations": 353,
-   "composite_ci95": 6.6,
+   "composite": 45,
+   "automation_pct": 32,
+   "quality": 66,
+   "latency_mean_s": 17.1,
+   "latency_p75_s": 21.8,
+   "conversations": 387,
+   "composite_ci95": 6.5,
    "ci_storefronts": 26
   },
   {
@@ -876,23 +876,23 @@
    "site": "awaytravel.com",
    "vendor": "Decagon",
    "shopping": {
-    "composite": 81,
-    "automation_pct": 95,
-    "quality": 80,
-    "latency_mean_s": 10.9,
-    "conversations": 21,
-    "judged_conversations": 16
+    "composite": 80,
+    "automation_pct": 96,
+    "quality": 77,
+    "latency_mean_s": 11,
+    "conversations": 26,
+    "judged_conversations": 26
    },
    "support": {
-    "composite": 71,
-    "automation_pct": 81,
-    "quality": 61,
-    "latency_mean_s": 10,
-    "conversations": 20,
-    "judged_conversations": 15
+    "composite": 68,
+    "automation_pct": 73,
+    "quality": 62,
+    "latency_mean_s": 10.1,
+    "conversations": 25,
+    "judged_conversations": 25
    },
    "overall": {
-    "score": 76,
+    "score": 74,
     "basis": "mean of both lanes"
    }
   },
@@ -2027,20 +2027,20 @@
    "site": "evryjewels.com",
    "vendor": "Yuma",
    "shopping": {
-    "composite": 65,
-    "automation_pct": 92,
-    "quality": 70,
-    "latency_mean_s": 18.9,
-    "conversations": 39,
-    "judged_conversations": 39
+    "composite": 66,
+    "automation_pct": 93,
+    "quality": 68,
+    "latency_mean_s": 18.3,
+    "conversations": 44,
+    "judged_conversations": 44
    },
    "support": {
     "composite": 74,
-    "automation_pct": 74,
-    "quality": 84,
-    "latency_mean_s": 15.5,
-    "conversations": 30,
-    "judged_conversations": 30
+    "automation_pct": 75,
+    "quality": 83,
+    "latency_mean_s": 15,
+    "conversations": 35,
+    "judged_conversations": 35
    },
    "overall": {
     "score": 70,
@@ -2152,23 +2152,23 @@
    "site": "flaviar.com",
    "vendor": "Intercom",
    "shopping": {
-    "composite": 72,
-    "automation_pct": 92,
-    "quality": 78,
-    "latency_mean_s": 15.8,
-    "conversations": 91,
-    "judged_conversations": 91
+    "composite": 73,
+    "automation_pct": 93,
+    "quality": 79,
+    "latency_mean_s": 15.6,
+    "conversations": 96,
+    "judged_conversations": 96
    },
    "support": {
-    "composite": 58,
-    "automation_pct": 48,
+    "composite": 60,
+    "automation_pct": 51,
     "quality": 75,
-    "latency_mean_s": 14.5,
-    "conversations": 75,
-    "judged_conversations": 75
+    "latency_mean_s": 14.4,
+    "conversations": 80,
+    "judged_conversations": 80
    },
    "overall": {
-    "score": 65,
+    "score": 67,
     "basis": "mean of both lanes"
    }
   },
@@ -2376,8 +2376,8 @@
     "automation_pct": 97,
     "quality": 55,
     "latency_mean_s": 15,
-    "conversations": 90,
-    "judged_conversations": 90
+    "conversations": 95,
+    "judged_conversations": 95
    },
    "support": {
     "composite": 81,
@@ -2417,19 +2417,19 @@
    "vendor": "Klaviyo",
    "shopping": {
     "composite": 48,
-    "automation_pct": 39,
-    "quality": 70,
-    "latency_mean_s": 15.7,
-    "conversations": 33,
-    "judged_conversations": 33
+    "automation_pct": 37,
+    "quality": 71,
+    "latency_mean_s": 15.8,
+    "conversations": 38,
+    "judged_conversations": 38
    },
    "support": {
     "composite": 33,
-    "automation_pct": 14,
-    "quality": 52,
-    "latency_mean_s": 12.5,
-    "conversations": 42,
-    "judged_conversations": 42
+    "automation_pct": 13,
+    "quality": 53,
+    "latency_mean_s": 12.7,
+    "conversations": 47,
+    "judged_conversations": 47
    },
    "overall": {
     "score": 41,
@@ -2569,23 +2569,23 @@
    "site": "help.misfitsmarket.com",
    "vendor": "Decagon",
    "shopping": {
-    "composite": 83,
+    "composite": 84,
     "automation_pct": 100,
-    "quality": 66,
-    "latency_mean_s": 6.8,
-    "conversations": 5,
-    "judged_conversations": 5
+    "quality": 68,
+    "latency_mean_s": 6.7,
+    "conversations": 10,
+    "judged_conversations": 10
    },
    "support": {
-    "composite": 63,
+    "composite": 65,
     "automation_pct": 60,
-    "quality": 63,
-    "latency_mean_s": 7.9,
-    "conversations": 5,
-    "judged_conversations": 5
+    "quality": 69,
+    "latency_mean_s": 7.6,
+    "conversations": 10,
+    "judged_conversations": 10
    },
    "overall": {
-    "score": 73,
+    "score": 75,
     "basis": "mean of both lanes"
    }
   },
@@ -3508,24 +3508,23 @@
    "site": "masderm.com",
    "vendor": "Gorgias",
    "shopping": {
-    "composite": 56,
-    "automation_pct": 70,
-    "quality": 52,
-    "latency_mean_s": 14.2,
-    "conversations": 10,
-    "judged_conversations": 10
+    "composite": 59,
+    "automation_pct": 73,
+    "quality": 55,
+    "latency_mean_s": 13.7,
+    "conversations": 15,
+    "judged_conversations": 15
    },
    "support": {
-    "composite": 54,
-    "automation_pct": 67,
-    "quality": 39,
-    "latency_mean_s": 13.6,
-    "conversations": 3,
-    "judged_conversations": 3,
-    "thin": true
+    "composite": 58,
+    "automation_pct": 63,
+    "quality": 54,
+    "latency_mean_s": 12.4,
+    "conversations": 8,
+    "judged_conversations": 8
    },
    "overall": {
-    "score": 55,
+    "score": 59,
     "basis": "mean of both lanes"
    }
   },
@@ -4128,22 +4127,22 @@
    "vendor": "Intercom",
    "shopping": {
     "composite": 64,
-    "automation_pct": 92,
+    "automation_pct": 93,
     "quality": 67,
     "latency_mean_s": 19.2,
-    "conversations": 117,
-    "judged_conversations": 117
+    "conversations": 122,
+    "judged_conversations": 122
    },
    "support": {
-    "composite": 65,
-    "automation_pct": 67,
-    "quality": 74,
-    "latency_mean_s": 17.7,
-    "conversations": 54,
-    "judged_conversations": 54
+    "composite": 64,
+    "automation_pct": 66,
+    "quality": 73,
+    "latency_mean_s": 17.8,
+    "conversations": 59,
+    "judged_conversations": 59
    },
    "overall": {
-    "score": 65,
+    "score": 64,
     "basis": "mean of both lanes"
    }
   },
@@ -4273,23 +4272,23 @@
    "site": "onefastcat.com",
    "vendor": "Klaviyo",
    "shopping": {
-    "composite": 46,
-    "automation_pct": 30,
-    "quality": 47,
+    "composite": 47,
+    "automation_pct": 33,
+    "quality": 46,
     "latency_mean_s": 8.3,
-    "conversations": 26,
-    "judged_conversations": 26
+    "conversations": 29,
+    "judged_conversations": 29
    },
    "support": {
     "composite": 54,
-    "automation_pct": 28,
-    "quality": 82,
+    "automation_pct": 26,
+    "quality": 83,
     "latency_mean_s": 8.1,
-    "conversations": 52,
-    "judged_conversations": 52
+    "conversations": 57,
+    "judged_conversations": 57
    },
    "overall": {
-    "score": 50,
+    "score": 51,
     "basis": "mean of both lanes"
    }
   },
@@ -4333,11 +4332,11 @@
    },
    "support": {
     "composite": 73,
-    "automation_pct": 79,
-    "quality": 71,
+    "automation_pct": 80,
+    "quality": 70,
     "latency_mean_s": 12.3,
-    "conversations": 16,
-    "judged_conversations": 16
+    "conversations": 18,
+    "judged_conversations": 18
    },
    "overall": {
     "score": 61,
@@ -4678,24 +4677,23 @@
    "site": "primalharvest.es",
    "vendor": "Kodif",
    "shopping": {
-    "composite": 37,
-    "automation_pct": 40,
-    "quality": 61,
-    "latency_mean_s": 28.2,
-    "conversations": 5,
-    "judged_conversations": 5
+    "composite": 43,
+    "automation_pct": 50,
+    "quality": 65,
+    "latency_mean_s": 28,
+    "conversations": 10,
+    "judged_conversations": 10
    },
    "support": {
-    "composite": 58,
-    "automation_pct": 40,
-    "quality": 95,
+    "composite": 54,
+    "automation_pct": 33,
+    "quality": 93,
     "latency_mean_s": 22.8,
-    "conversations": 4,
-    "judged_conversations": 4,
-    "thin": true
+    "conversations": 8,
+    "judged_conversations": 8
    },
    "overall": {
-    "score": 48,
+    "score": 49,
     "basis": "mean of both lanes"
    }
   },
@@ -4704,25 +4702,23 @@
    "site": "primalharvest.de",
    "vendor": "Kodif",
    "shopping": {
-    "composite": 58,
-    "automation_pct": 80,
-    "quality": 73,
-    "latency_mean_s": 27.6,
-    "conversations": 5,
-    "judged_conversations": 4,
-    "thin": true
+    "composite": 61,
+    "automation_pct": 90,
+    "quality": 72,
+    "latency_mean_s": 27.5,
+    "conversations": 10,
+    "judged_conversations": 10
    },
    "support": {
-    "composite": 49,
-    "automation_pct": 20,
-    "quality": 96,
+    "composite": 50,
+    "automation_pct": 25,
+    "quality": 94,
     "latency_mean_s": 21.6,
-    "conversations": 4,
-    "judged_conversations": 4,
-    "thin": true
+    "conversations": 7,
+    "judged_conversations": 7
    },
    "overall": {
-    "score": 54,
+    "score": 56,
     "basis": "mean of both lanes"
    }
   },
@@ -4731,23 +4727,23 @@
    "site": "primalharvest.co.uk",
    "vendor": "Kodif",
    "shopping": {
-    "composite": 49,
+    "composite": 47,
     "automation_pct": 60,
-    "quality": 72,
-    "latency_mean_s": 30.5,
-    "conversations": 5,
-    "judged_conversations": 5
+    "quality": 67,
+    "latency_mean_s": 28.1,
+    "conversations": 10,
+    "judged_conversations": 10
    },
    "support": {
-    "composite": 41,
-    "automation_pct": 20,
-    "quality": 76,
-    "latency_mean_s": 20.4,
-    "conversations": 5,
-    "judged_conversations": 5
+    "composite": 49,
+    "automation_pct": 30,
+    "quality": 84,
+    "latency_mean_s": 22,
+    "conversations": 9,
+    "judged_conversations": 9
    },
    "overall": {
-    "score": 45,
+    "score": 48,
     "basis": "mean of both lanes"
    }
   },
@@ -4756,13 +4752,12 @@
    "site": "primalharvest.nl",
    "vendor": "Kodif",
    "shopping": {
-    "composite": 63,
+    "composite": 62,
     "automation_pct": 100,
-    "quality": 67,
+    "quality": 64,
     "latency_mean_s": 26.5,
     "conversations": 5,
-    "judged_conversations": 4,
-    "thin": true
+    "judged_conversations": 5
    },
    "support": {
     "composite": 50,
@@ -4773,7 +4768,7 @@
     "judged_conversations": 5
    },
    "overall": {
-    "score": 57,
+    "score": 56,
     "basis": "mean of both lanes"
    }
   },
@@ -4782,24 +4777,48 @@
    "site": "primalharvest.fr",
    "vendor": "Kodif",
    "shopping": {
-    "composite": 56,
-    "automation_pct": 80,
+    "composite": 61,
+    "automation_pct": 90,
+    "quality": 72,
+    "latency_mean_s": 27.8,
+    "conversations": 10,
+    "judged_conversations": 10
+   },
+   "support": {
+    "composite": 47,
+    "automation_pct": 20,
+    "quality": 92,
+    "latency_mean_s": 21.7,
+    "conversations": 8,
+    "judged_conversations": 8
+   },
+   "overall": {
+    "score": 54,
+    "basis": "mean of both lanes"
+   }
+  },
+  {
+   "store": "primalharvest",
+   "site": "primalharvest.it",
+   "vendor": "Kodif",
+   "shopping": {
+    "composite": 40,
+    "automation_pct": 40,
     "quality": 69,
     "latency_mean_s": 27,
     "conversations": 5,
     "judged_conversations": 5
    },
    "support": {
-    "composite": 48,
-    "automation_pct": 20,
-    "quality": 94,
-    "latency_mean_s": 21.3,
-    "conversations": 4,
-    "judged_conversations": 4,
-    "thin": true
+    "composite": 37,
+    "automation_pct": 17,
+    "quality": 70,
+    "latency_mean_s": 23.6,
+    "conversations": 5,
+    "judged_conversations": 5
    },
    "overall": {
-    "score": 52,
+    "score": 39,
     "basis": "mean of both lanes"
    }
   },
@@ -4808,24 +4827,23 @@
    "site": "primalharvest.ch",
    "vendor": "Kodif",
    "shopping": {
-    "composite": 66,
-    "automation_pct": 100,
-    "quality": 73,
-    "latency_mean_s": 27.1,
-    "conversations": 5,
-    "judged_conversations": 5
+    "composite": 60,
+    "automation_pct": 89,
+    "quality": 69,
+    "latency_mean_s": 27.5,
+    "conversations": 9,
+    "judged_conversations": 9
    },
    "support": {
-    "composite": 46,
-    "automation_pct": 20,
-    "quality": 90,
-    "latency_mean_s": 28.4,
-    "conversations": 4,
-    "judged_conversations": 4,
-    "thin": true
+    "composite": 59,
+    "automation_pct": 44,
+    "quality": 93,
+    "latency_mean_s": 25.3,
+    "conversations": 8,
+    "judged_conversations": 8
    },
    "overall": {
-    "score": 56,
+    "score": 60,
     "basis": "mean of both lanes"
    }
   },
@@ -5214,19 +5232,19 @@
    "vendor": "Decagon",
    "shopping": {
     "composite": 72,
-    "automation_pct": 70,
-    "quality": 66,
-    "latency_mean_s": 6.3,
-    "conversations": 23,
-    "judged_conversations": 23
+    "automation_pct": 68,
+    "quality": 68,
+    "latency_mean_s": 6.2,
+    "conversations": 28,
+    "judged_conversations": 28
    },
    "support": {
     "composite": 72,
-    "automation_pct": 68,
+    "automation_pct": 67,
     "quality": 75,
-    "latency_mean_s": 6.2,
-    "conversations": 19,
-    "judged_conversations": 19
+    "latency_mean_s": 5.9,
+    "conversations": 24,
+    "judged_conversations": 24
    },
    "overall": {
     "score": 72,
@@ -5316,21 +5334,21 @@
    "shopping": {
     "composite": 69,
     "automation_pct": 100,
-    "quality": 62,
-    "latency_mean_s": 16.2,
-    "conversations": 5,
-    "judged_conversations": 5
+    "quality": 59,
+    "latency_mean_s": 15.3,
+    "conversations": 10,
+    "judged_conversations": 10
    },
    "support": {
-    "composite": 64,
-    "automation_pct": 80,
-    "quality": 59,
-    "latency_mean_s": 22.9,
-    "conversations": 5,
-    "judged_conversations": 5
+    "composite": 49,
+    "automation_pct": 50,
+    "quality": 56,
+    "latency_mean_s": 19.6,
+    "conversations": 10,
+    "judged_conversations": 10
    },
    "overall": {
-    "score": 67,
+    "score": 59,
     "basis": "mean of both lanes"
    }
   },
@@ -5592,23 +5610,23 @@
    "site": "tediber.com",
    "vendor": "Yuma",
    "shopping": {
-    "composite": 50,
-    "automation_pct": 55,
-    "quality": 70,
-    "latency_mean_s": 19.2,
-    "conversations": 37,
-    "judged_conversations": 37
+    "composite": 48,
+    "automation_pct": 50,
+    "quality": 68,
+    "latency_mean_s": 19.1,
+    "conversations": 42,
+    "judged_conversations": 42
    },
    "support": {
-    "composite": 60,
-    "automation_pct": 67,
+    "composite": 58,
+    "automation_pct": 63,
     "quality": 57,
-    "latency_mean_s": 15.2,
-    "conversations": 51,
-    "judged_conversations": 51
+    "latency_mean_s": 15.3,
+    "conversations": 56,
+    "judged_conversations": 56
    },
    "overall": {
-    "score": 55,
+    "score": 53,
     "basis": "mean of both lanes"
    }
   },
@@ -5743,20 +5761,20 @@
    "site": "tommyjohn.com",
    "vendor": "Gorgias",
    "shopping": {
-    "composite": 70,
+    "composite": 69,
     "automation_pct": 100,
-    "quality": 69,
-    "latency_mean_s": 17.7,
-    "conversations": 5,
-    "judged_conversations": 5
+    "quality": 67,
+    "latency_mean_s": 17.6,
+    "conversations": 10,
+    "judged_conversations": 10
    },
    "support": {
-    "composite": 52,
-    "automation_pct": 43,
-    "quality": 67,
-    "latency_mean_s": 14.2,
-    "conversations": 5,
-    "judged_conversations": 5
+    "composite": 53,
+    "automation_pct": 40,
+    "quality": 72,
+    "latency_mean_s": 13.8,
+    "conversations": 7,
+    "judged_conversations": 7
    },
    "overall": {
     "score": 61,
@@ -5819,23 +5837,23 @@
    "site": "tumbleliving.com",
    "vendor": "Yuma",
    "shopping": {
-    "composite": 48,
-    "automation_pct": 64,
-    "quality": 63,
-    "latency_mean_s": 23.9,
-    "conversations": 40,
-    "judged_conversations": 40
+    "composite": 49,
+    "automation_pct": 67,
+    "quality": 64,
+    "latency_mean_s": 23.2,
+    "conversations": 44,
+    "judged_conversations": 44
    },
    "support": {
-    "composite": 69,
-    "automation_pct": 74,
+    "composite": 70,
+    "automation_pct": 76,
     "quality": 77,
-    "latency_mean_s": 19.8,
-    "conversations": 27,
-    "judged_conversations": 27
+    "latency_mean_s": 19.2,
+    "conversations": 30,
+    "judged_conversations": 30
    },
    "overall": {
-    "score": 59,
+    "score": 60,
     "basis": "mean of both lanes"
    }
   },
@@ -6111,23 +6129,23 @@
    "site": "au.whogivesacrap.org",
    "vendor": "Kodif",
    "shopping": {
-    "composite": 72,
+    "composite": 73,
     "automation_pct": 100,
-    "quality": 51,
-    "latency_mean_s": 11.5,
-    "conversations": 5,
-    "judged_conversations": 5
+    "quality": 56,
+    "latency_mean_s": 12,
+    "conversations": 10,
+    "judged_conversations": 10
    },
    "support": {
-    "composite": 59,
-    "automation_pct": 60,
-    "quality": 54,
-    "latency_mean_s": 8.4,
-    "conversations": 5,
-    "judged_conversations": 5
+    "composite": 65,
+    "automation_pct": 70,
+    "quality": 58,
+    "latency_mean_s": 9.1,
+    "conversations": 10,
+    "judged_conversations": 10
    },
    "overall": {
-    "score": 66,
+    "score": 69,
     "basis": "mean of both lanes"
    }
   },
@@ -6213,24 +6231,23 @@
    "site": "yesdayworld.com",
    "vendor": "Gorgias",
    "shopping": {
-    "composite": 67,
-    "automation_pct": 80,
-    "quality": 77,
-    "latency_mean_s": 15.9,
-    "conversations": 10,
-    "judged_conversations": 10
+    "composite": 61,
+    "automation_pct": 67,
+    "quality": 74,
+    "latency_mean_s": 15.7,
+    "conversations": 15,
+    "judged_conversations": 15
    },
    "support": {
-    "composite": 68,
-    "automation_pct": 75,
-    "quality": 64,
-    "latency_mean_s": 11.8,
-    "conversations": 3,
-    "judged_conversations": 3,
-    "thin": true
+    "composite": 51,
+    "automation_pct": 44,
+    "quality": 59,
+    "latency_mean_s": 11.9,
+    "conversations": 8,
+    "judged_conversations": 8
    },
    "overall": {
-    "score": 68,
+    "score": 56,
     "basis": "mean of both lanes"
    }
   },
