@@ -1850,6 +1850,22 @@ export const STORES = [
   { key: "zendesk-sweetnight", vendor: "Zendesk", store: "sweetnight", url: "https://www.sweetnight.com/", widget: "zendesk", candidate: true, todo: "also on page: Ada — driver must target the Zendesk launcher" }, // auto-sourced 2026-10-08: host loaded + widget mounted on a cold visit
   { key: "ada-ohpolly3", vendor: "Ada", store: "ohpolly", url: "https://us.ohpolly.com/", widget: "ada", candidate: true }, // auto-sourced 2026-10-08: host loaded + widget mounted on a cold visit
   { key: "kodif-primalharvest8", vendor: "Kodif", store: "primalharvest", url: "https://primalharvest.ch/", widget: "kodif", candidate: true, todo: "also on page: Gorgias — driver must target the Kodif launcher" }, // auto-sourced 2026-10-08: host loaded + widget mounted on a cold visit
+  // ── Auto-sourced 2026-10-09 by server/source-merchants.mjs. Each row was verified in a
+  // real browser: the vendor's widget host loaded AND a launcher/container mounted on a cold
+  // anonymous visit. candidate:true until a capture proves it drivable end-to-end.
+  { key: "ada-invisalign", vendor: "Ada", store: "invisalign", url: "https://shop.invisalign.com/", widget: "ada", candidate: true }, // auto-sourced 2026-10-09: host loaded + widget mounted on a cold visit
+  { key: "ada-wellbeloved", vendor: "Ada", store: "wellbeloved", url: "https://wellbeloved.com/", widget: "ada", candidate: true }, // auto-sourced 2026-10-09: host loaded + widget mounted on a cold visit
+  { key: "zendesk-lilyskitchen", vendor: "Zendesk", store: "lilyskitchen", url: "https://lilyskitchen.co.uk/", widget: "zendesk", candidate: true }, // auto-sourced 2026-10-09: host loaded + widget mounted on a cold visit
+  { key: "zendesk-marleyspoon", vendor: "Zendesk", store: "marleyspoon", url: "https://marleyspoon.com/", widget: "zendesk", candidate: true }, // auto-sourced 2026-10-09: host loaded + widget mounted on a cold visit
+  { key: "zendesk-dinnerly", vendor: "Zendesk", store: "dinnerly", url: "https://dinnerly.com/", widget: "zendesk", candidate: true }, // auto-sourced 2026-10-09: host loaded + widget mounted on a cold visit
+  { key: "zendesk-byrotation", vendor: "Zendesk", store: "byrotation", url: "https://byrotation.com/", widget: "zendesk", candidate: true }, // auto-sourced 2026-10-09: host loaded + widget mounted on a cold visit
+  { key: "zendesk-luluandgeorgia", vendor: "Zendesk", store: "luluandgeorgia", url: "https://luluandgeorgia.com/", widget: "zendesk", candidate: true }, // auto-sourced 2026-10-09: host loaded + widget mounted on a cold visit
+  { key: "dg-arneclo", vendor: "DigitalGenius", store: "arneclo", url: "https://arneclo.com/", widget: "dg", candidate: true, todo: "also on page: Gorgias — driver must target the DigitalGenius launcher" }, // auto-sourced 2026-10-09: host loaded + widget mounted on a cold visit
+  { key: "zendesk-brighton", vendor: "Zendesk", store: "brighton", url: "https://brighton.com/", widget: "zendesk", candidate: true }, // auto-sourced 2026-10-09: host loaded + widget mounted on a cold visit
+  { key: "dg-montirex", vendor: "DigitalGenius", store: "montirex", url: "https://montirex.com/", widget: "dg", candidate: true }, // auto-sourced 2026-10-09: host loaded + widget mounted on a cold visit
+  { key: "zendesk-republicoftea", vendor: "Zendesk", store: "republicoftea", url: "https://republicoftea.com/", widget: "zendesk", candidate: true, todo: "also on page: Gorgias, Intercom — driver must target the Zendesk launcher" }, // auto-sourced 2026-10-09: host loaded + widget mounted on a cold visit
+  { key: "dg-ancientandbrav", vendor: "DigitalGenius", store: "ancientandbrav", url: "https://ancientandbrave.earth/", widget: "dg", candidate: true, todo: "also on page: Gorgias — driver must target the DigitalGenius launcher" }, // auto-sourced 2026-10-09: host loaded + widget mounted on a cold visit
+  { key: "zendesk-truevalue", vendor: "Zendesk", store: "truevalue", url: "https://www.truevalue.com/", widget: "zendesk", candidate: true }, // auto-sourced 2026-10-09: host loaded + widget mounted on a cold visit
 ];
 
 // Find a frame by element id / title / name / url. `match` may be a string
