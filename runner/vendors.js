@@ -456,13 +456,29 @@ export const WIDGETS = {
     async open(page) {
       await page.waitForTimeout(1500); await dismiss(page);
       const sframe = () => page.frames().find(fr => fr.url().includes("siena.cx") && !/search-bar|starters-carousel/i.test(fr.url()));
-      const hasIframe = async () => page.evaluate(() => !!document.querySelector('#SIENA_CHAT_IFRAME, iframe[src*="siena.cx" i]')).catch(() => false);
+      // The CONVERSATION iframe only — the search bar is also an iframe[src*="siena.cx"].
+      const hasIframe = async () => page.evaluate(() => !!document.querySelector('#SIENA_CHAT_IFRAME, iframe[src*="siena.cx/dist/index" i]')).catch(() => false);
       for (let i = 0; i < 6 && !(await hasIframe()); i++) { if (i === 2) await page.evaluate(() => { try { window.dispatchEvent(new Event("load")); } catch (e) {} }).catch(() => {}); await page.waitForTimeout(1000); }
       if (!(await hasIframe())) {
         const loaderUrl = await page.evaluate(() => { const m = document.documentElement.innerHTML.match(/https?:\/\/chat\.siena\.cx\/dist\/webchat\.js[^"'\s]*/); return m ? m[0] : null; }).catch(() => null);
         if (loaderUrl) await page.evaluate((src) => { const s = document.createElement("script"); s.async = true; s.src = src; document.body.appendChild(s); }, loaderUrl).catch(() => {});
       }
-      for (let i = 0; i < 20 && !sframe(); i++) await page.waitForTimeout(800);
+      // LAZY IFRAME (2026-10-12). Siena now creates #SIENA_CHAT_IFRAME with loading="lazy" and keeps it
+      // hidden until the chat opens. Chrome never loads a hidden lazy iframe, so its document stayed
+      // about:blank: the transcript read as nothing, and SienaLaunchChat() posted "openWidget" into a
+      // frame that had never loaded, so the chat never opened either — 0/30 Siena captures on
+      // 2026-10-09 → 10-11 (Heirloom Roses, B Boutique), all widget-absent even on the recovery retry.
+      // Make it load now, before opening it: this is the page's own iframe and URL, only loaded early.
+      for (let i = 0; i < 15 && !(await page.evaluate(() => !!document.getElementById("SIENA_CHAT_IFRAME")).catch(() => false)); i++) await page.waitForTimeout(800);
+      await page.evaluate(() => {
+        const f = document.getElementById("SIENA_CHAT_IFRAME"); if (!f) return;
+        if (f.loading === "lazy") f.loading = "eager";
+        if (!f.getAttribute("src") && f.dataset && f.dataset.src) f.src = f.dataset.src;
+      }).catch(() => {});
+      for (let i = 0; i < 20 && !sframe(); i++) {
+        if (i === 6) await page.evaluate(() => { const f = document.getElementById("SIENA_CHAT_IFRAME"); if (f && f.src) { const u = f.src; f.src = "about:blank"; f.src = u; } }).catch(() => {});   // still not loaded: re-navigate it
+        await page.waitForTimeout(800);
+      }
       await page.evaluate(() => { try { window.SienaLaunchChat && window.SienaLaunchChat(); } catch (e) {} }).catch(() => {});
       await page.waitForTimeout(800);
       for (let i = 0; i < 6; i++) {
