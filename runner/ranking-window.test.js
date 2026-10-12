@@ -8,13 +8,13 @@ import { RANK_WINDOW_DAYS, rankCutoff } from "./ranking-window.js";
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const read = (f) => readFileSync(path.join(HERE, f), "utf8");
 
-test("the ranking window is 90 days", () => {
-  assert.equal(RANK_WINDOW_DAYS, 90);
+test("the ranking window is 120 days", () => {
+  assert.equal(RANK_WINDOW_DAYS, 120);
 });
 
 test("the window is inclusive of both ends", () => {
-  // A 90-day window ending 2026-07-29 starts 89 days earlier, and spans 90 dates.
-  assert.equal(rankCutoff("2026-07-29"), "2026-05-01");
+  // A 120-day window ending 2026-07-29 starts 119 days earlier, and spans 120 dates.
+  assert.equal(rankCutoff("2026-07-29"), "2026-04-01");
   assert.equal(rankCutoff("2026-07-29", 1), "2026-07-29");
   assert.equal(rankCutoff("2026-07-29", 14), "2026-07-16");
 });

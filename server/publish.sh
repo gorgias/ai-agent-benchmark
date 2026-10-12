@@ -9,7 +9,7 @@
 #   2. judge-api        score them via the Anthropic API (rubric v2.3, evidence verified in code)
 #   3. eval-merge       fold scores in, deriving totals from the check booleans
 #   4. integrity-check  quarantine misread captures
-#   5. gen              bake report(-v2).html / takeaways(-v2).html / conv-text.json (90-day window)
+#   5. gen              bake report(-v2).html / takeaways(-v2).html / conv-text.json (120-day window)
 #   6. verify-data      HARD GATE — below 90% judge coverage or any impossible stat, nothing ships
 #   7. healthcheck verdict — refuse to publish numbers we already know are wrong
 #   8. commit + push, deploy to Vercel, verify live == local

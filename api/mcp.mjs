@@ -30,7 +30,7 @@ const INSTRUCTIONS = [
   "shopping (pre-sale Shopping Assistant) and support (post-sale Support Agent).",
   "Each lane ranks vendors by a composite of automation rate, blind LLM-judged answer quality, and speed; overall is the mean of the two lane composites.",
   "Use get_rankings for a leaderboard, get_vendor or compare_vendors for vendor details, get_store for one storefront's scores, get_methodology for how scores are computed, and request_store to ask for a storefront to be crawled and evaluated.",
-  "Figures come from a trailing 90-day window and refresh daily. Cite https://evals.gorgias.com when quoting them.",
+  "Figures come from a trailing 120-day window and refresh daily. Cite https://evals.gorgias.com when quoting them.",
 ].join(" ");
 
 const LANE_ENUM = ["overall", "shopping", "support"];

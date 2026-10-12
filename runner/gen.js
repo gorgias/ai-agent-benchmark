@@ -32,7 +32,7 @@ const DELIVERY_OVERRIDE = {
 };
 import { extractRecommendedProducts } from "./product-recommendation-bars.js";
 import { normalizeUserMessage } from "./message-style.js";
-import { rankCutoff } from "./ranking-window.js";
+import { rankCutoff, RANK_WINDOW_DAYS } from "./ranking-window.js";
 import { LANE_W, speedScore } from "./lane-weights.js";
 import { compositeCI } from "./composite-ci.js";
 import { CHECKS as EVAL_CHECKS } from "./eval-score.js";
@@ -71,7 +71,7 @@ async function allDates() {
 // are kept. Pass --date to regenerate from a single run only.
 const DATES = dateArg ? [dateArg] : (await allDates());
 const LATEST = DATES[DATES.length - 1];
-// Trailing 90-day window (inclusive) for RANKINGS — the point is that older runs matter less
+// Trailing 120-day window (inclusive, RANK_WINDOW_DAYS) for RANKINGS — the point is that older runs matter less
 // as new ones accumulate. ISO date strings compare lexically, so a string cutoff is enough.
 const RANK_CUTOFF = rankCutoff(LATEST);
 // Rankability floor: a vendor needs at least this many judged conversations IN A LANE (in the
@@ -546,7 +546,7 @@ const speedScoreG = speedScore;   // shared with the dry-run preview — see lan
 const latNumG = (s) => { const m = (s.lat || "").match(/[\d.]+/); return m ? parseFloat(m[0]) : null; };
 function laneScores(arr, lane, cutoff = RANK_CUTOFF) {
   // rankings use only the trailing window (recency-weighted — older runs age out). The cutoff
-  // is a parameter so the summary page can bake 30/60/90-day views from the SAME function:
+  // is a parameter so the summary page can bake 30/60/120-day views from the SAME function:
   // recomputing them in the page's own JS is how the dry-run preview drifted from this file
   // three separate times on 2026-09-03 (window, lane weights, outcome derivation).
   const byV = {}; arr.filter(s => !s.date || s.date >= cutoff).forEach(s => { (byV[s.vendor] = byV[s.vendor] || []).push(s); });
@@ -703,7 +703,7 @@ for (const v of new Set([...Object.keys(shopS), ...Object.keys(supS)])) {
     s: shopS[v] || null, p: supS[v] || null, ...(OVERALL[v] ? { ov: OVERALL[v] } : {}) };
 }
 // Three windows, all baked here so the toggle only ever SWITCHES a precomputed view.
-const WINDOWS = [30, 60, 90];
+const WINDOWS = [30, 60, RANK_WINDOW_DAYS];
 const D_WINDOWS = {};
 for (const days of WINDOWS) {
   const cut = rankCutoff(LATEST, days);
@@ -819,7 +819,7 @@ const FJB_JSON = "var FJB=" + JSON.stringify(FJB_OBJ) + ";";
 // from the actual latest run date every bake, same DATES/LATEST the rest of the page uses.
 const REFRESHED = `Refreshed ${new Date(LATEST + "T00:00:00Z").toLocaleDateString("en-US", { month: "long", year: "numeric", timeZone: "UTC" })}`;
 const syncMarkers = (page) => {
-  // Every repeated summary metric comes from the same 90-day lane data as the scoreboard.
+  // Every repeated summary metric comes from the same ranking-window lane data as the scoreboard.
   for (const [key, value] of Object.entries(SUMMARY_VALUES)) {
     const pattern = new RegExp(`<!--${key}-->[\\s\\S]*?<!--/${key}-->`, "g");
     page = page.replace(pattern, () => `<!--${key}-->${value ?? "—"}<!--/${key}-->`);

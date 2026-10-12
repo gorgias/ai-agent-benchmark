@@ -51,7 +51,7 @@ but run the calibration below first.
 
 ### Before you change the judge model or prompt
 
-Rankings run over a trailing 90-day window, so the corpus always mixes conversations scored at
+Rankings run over a trailing 120-day window, so the corpus always mixes conversations scored at
 different times. A judge that is systematically harsher or softer than the previous one moves every
 vendor for a reason that has nothing to do with vendor behaviour, and it lands hardest on whoever
 was captured most recently. Nothing else we check would catch it.
