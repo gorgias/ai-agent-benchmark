@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // server/judge-calibrate.mjs — does a new judge score like the judge that built the corpus?
 //
-// WHY THIS EXISTS. Rankings are computed over a trailing 90-day window, so the corpus is always a
+// WHY THIS EXISTS. Rankings are computed over a trailing 120-day window, so the corpus is always a
 // mix of conversations scored at different times. If a new judge (a different model, a rewritten
 // prompt, a new API path) is systematically harsher or softer than the one before it, every vendor's
 // score drifts for a reason that has nothing to do with vendor behaviour — and the drift lands on

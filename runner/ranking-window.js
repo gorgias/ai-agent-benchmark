@@ -16,9 +16,17 @@
 // If this ever needs to change: validate the new value across EVERY vendor and adopt it at a
 // moment when it does not happen to favour Gorgias. Widening a window because the flagship is
 // losing is how a benchmark loses its credibility.
+//
+// 2026-10-12: 90 -> 120 days. Reason: capture volume. The nightly machine lost most of
+// 2026-09-29 -> 2026-10-08 to publish and git-sync failures (#331, #337), and too many
+// storefronts hold too few conversations for their vendor's lane sample to be stable. The
+// change applies to every vendor and was checked across all of them (conversations,
+// storefronts, CI, rank at 90 vs 120 days): notes/ranking-window-120-2026-10-12.md. That note
+// also records that it was adopted while Gorgias was falling at 90 days, and how each rank
+// moved, so the timing is on the record rather than hidden.
 
 /** Trailing window, in days, for every ranking surface (report, scoreboard, preview). */
-export const RANK_WINDOW_DAYS = 90;
+export const RANK_WINDOW_DAYS = 120;
 
 /**
  * Inclusive ISO cutoff date for the ranking window ending at `latest`.

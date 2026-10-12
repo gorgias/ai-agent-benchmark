@@ -133,7 +133,7 @@ gate keeps the (expensive) judging work and reverts the baked artifacts. **Every
 stale board to a wrong one.**
 
 Before swapping the judge model or prompt, run `server/judge-calibrate.mjs` — rankings use a
-trailing 90-day window, so a systematically harsher or softer judge would move every vendor for a
+trailing 120-day window, so a systematically harsher or softer judge would move every vendor for a
 reason that is not vendor behaviour, and nothing else we check would notice.
 
 **Parallel capture** is safe by design: every conversation is claimed via a cross-process
