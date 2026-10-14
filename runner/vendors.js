@@ -1882,6 +1882,10 @@ export const STORES = [
   { key: "zendesk-republicoftea", vendor: "Zendesk", store: "republicoftea", url: "https://republicoftea.com/", widget: "zendesk", candidate: true, todo: "also on page: Gorgias, Intercom — driver must target the Zendesk launcher" }, // auto-sourced 2026-10-09: host loaded + widget mounted on a cold visit
   { key: "dg-ancientandbrav", vendor: "DigitalGenius", store: "ancientandbrav", url: "https://ancientandbrave.earth/", widget: "dg", candidate: true, todo: "also on page: Gorgias — driver must target the DigitalGenius launcher" }, // auto-sourced 2026-10-09: host loaded + widget mounted on a cold visit
   { key: "zendesk-truevalue", vendor: "Zendesk", store: "truevalue", url: "https://www.truevalue.com/", widget: "zendesk", candidate: true }, // auto-sourced 2026-10-09: host loaded + widget mounted on a cold visit
+  // ── Auto-sourced 2026-10-13 by server/source-merchants.mjs. Each row was verified in a
+  // real browser: the vendor's widget host loaded AND a launcher/container mounted on a cold
+  // anonymous visit. candidate:true until a capture proves it drivable end-to-end.
+  { key: "zendesk-petloverscentr", vendor: "Zendesk", store: "petloverscentr", url: "https://www.petloverscentre.com/", widget: "zendesk", candidate: true }, // auto-sourced 2026-10-13: host loaded + widget mounted on a cold visit
 ];
 
 // Find a frame by element id / title / name / url. `match` may be a string
