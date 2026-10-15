@@ -32,7 +32,7 @@ async function lastCaptureByStore() {
   return last;
 }
 
-const eligible = STORES.filter(s => s.url && !(s.candidate && !s.widget)); // has a real widget/url
+const eligible = STORES.filter(s => s.url && !(s.candidate && !s.widget) && !s.internal); // has a real widget/url; internal rows are captured on demand
 const last = await lastCaptureByStore();
 
 // rank: never-captured (lastRun=null) first, then oldest lastRun first, then stable by key

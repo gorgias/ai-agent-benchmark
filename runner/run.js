@@ -138,6 +138,8 @@ let targets = STORES.filter(s => s.url);
 if (storeFilter) { const keys = storeFilter.flatMap(x => x.split(",")).map(x => x.trim()).filter(Boolean); targets = targets.filter(s => keys.includes(s.key)); }
 if (vendorFilter) targets = targets.filter(s => vendorFilter.flatMap(x => x.split(",")).map(x => x.trim().toLowerCase()).includes(s.vendor.toLowerCase()));
 if (skipCandidates) targets = targets.filter(s => !s.candidate);
+// Internal rows (vendors.js `internal: true`) are captured only when named with --store/--vendor.
+if (!storeFilter && !vendorFilter) targets = targets.filter(s => !s.internal);
 if ((storeFilter || vendorFilter) && !targets.length) { console.error(`✗ --store/--vendor matched ZERO stores (filter: ${JSON.stringify(storeFilter || vendorFilter)}). Check the keys against vendors.js.`); process.exit(1); }
 
 const sleep = (ms) => new Promise(r => setTimeout(r, ms));
@@ -301,7 +303,7 @@ async function runStoreMode(browser, store, mode, theme, opts = {}) {
   // IndexedDB/cache for ANY origin (the widget's cross-origin storage included),
   // so there is never a pre-existing conversation. storageState is left undefined
   // (no profile) and we clear cookies as belt-and-suspenders.
-  const ctxOpts = { viewport: { width: 1366, height: 900 }, locale: store.locale || "en-US", timezoneId: "America/New_York", userAgent: REAL_UA, extraHTTPHeaders: { "Accept-Language": "en-US,en;q=0.9" }, storageState: store.stateFile ? new URL(store.stateFile, import.meta.url).pathname : undefined };
+  const ctxOpts = { viewport: { width: 1366, height: 900 }, locale: store.locale || "en-US", timezoneId: "America/New_York", userAgent: REAL_UA, extraHTTPHeaders: { "Accept-Language": "en-US,en;q=0.9" }, storageState: store.stateFile && existsSync(new URL(store.stateFile, import.meta.url)) ? new URL(store.stateFile, import.meta.url).pathname : undefined };
   // --video: only the first theme per (store,mode) gets recorded — one demo clip each.
   const isFirstTheme = theme.key === (mode === "support" ? SUPPORT_THEMES : SHOPPING_THEMES)[0].key;
   if (VIDEO && isFirstTheme) ctxOpts.recordVideo = { dir: `results/${STAMP}/video`, size: { width: 1366, height: 900 } };
@@ -322,7 +324,8 @@ async function runStoreMode(browser, store, mode, theme, opts = {}) {
     Element.prototype.attachShadow = function (init) { const root = attach.call(this, init); roots.set(this, root); return root; };
     Object.defineProperty(window, "__repRoot", { value: (el) => el.shadowRoot || roots.get(el) || null });
   });
-  await context.clearCookies().catch(() => {});
+  // A store that signs in (stateFile) keeps its saved cookies; every other context starts empty.
+  if (!ctxOpts.storageState) await context.clearCookies().catch(() => {});
   // Block only VIDEO/AUDIO (pure overhead, never part of a chat widget). We deliberately do
   // NOT block images/fonts — many chat launchers are icon-fonts or <img>, and blocking them
   // made open() fail to find the launcher and burn its fallback waits (slow to first message).
@@ -406,7 +409,7 @@ async function runStoreMode(browser, store, mode, theme, opts = {}) {
     // homepage sniff). Ties conversation ↔ site ↔ real provider; a mismatch means the store
     // switched providers and gen.js must not attribute the conv to the stale vendor.
     try {
-      const pd = await detectProviderOnPage(page, store.vendor);
+      const pd = await detectProviderOnPage(page, store.inHouse ? null : store.vendor);   // in-house: no vendor signature to confirm
       out.detected_provider = pd.top;
       out.provider_detected = pd.detected;
       out.provider_mismatch = pd.mismatch;
@@ -689,7 +692,8 @@ async function runStoreMode(browser, store, mode, theme, opts = {}) {
   const launchOpts = { headless: !HEADED, args: ["--disable-blink-features=AutomationControlled",
     "--disable-gpu", "--disable-dev-shm-usage", "--disable-extensions", "--mute-audio", "--no-first-run",
     "--disable-background-networking", "--disable-background-timer-throttling", "--disable-renderer-backgrounding",
-    "--disable-features=Translate,BackForwardCache,MediaRouter"] };
+    "--disable-features=Translate,BackForwardCache,MediaRouter"],
+    ...(process.env.BENCHMARK_BROWSER_PROXY ? { proxy: { server: process.env.BENCHMARK_BROWSER_PROXY } } : {}) };
   try { browser = await chromium.launch({ ...launchOpts, channel: HEADED ? "chrome" : undefined }); }
   catch (e) { browser = await chromium.launch(launchOpts); }
   console.log(HEADED ? "Running HEADED (visible Chrome) — bot-blocked widgets load here." : "Running headless.");

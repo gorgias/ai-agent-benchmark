@@ -130,6 +130,7 @@ for (const s of STORES) {
   // Substack alone ate ~40 attempts over 7 days for 0 board-eligible convs):
   if (!s.url) continue;                    // placeholder / retired rows
   if (s.ecommerce === false) continue;     // excluded from the board by the e-commerce-only rule
+  if (s.internal) continue;                // internal row: captured on demand, never published
   if (s.wall) continue;                    // probed structural wall (recaptcha, human front door…)
   if (parked.has(s.key)) continue;         // parked by the self-improvement loop, awaiting a driver fix
   if (dead.has(s.key)) continue;           // auto-parked: 0 valid conversations in its recent attempts

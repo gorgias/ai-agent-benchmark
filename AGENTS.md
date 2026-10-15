@@ -266,6 +266,13 @@ signals only. Ground every query in the knowledge graph first (`get_node('/metri
   automation); see docs/METHODOLOGY.md §Transfer vs offer before touching `HANDOVER_RULES`.
 - **The conversations feed view** is URL-driven (`report.html?view=conversations`) and per-tab
   sticky; don't make it a modebar tab again.
+- **Internal rows** (`internal: true` in vendors.js) are captured and judged like any store but
+  never published: gen.js skips them, so they never reach report/takeaways/conv-text/board.json
+  (deploy-artifacts.test.js checks it), and daily-plan/balance never schedule them. Capture them
+  by name (`--store <key>`) and compare with `node scoreboard-preview.js --internal`. Today that is
+  Fashion Nova's in-house "Nova AI" (`fashionnova-inhouse`, support only), which only answers a
+  signed-in customer: `node tools/fashionnova-account.mjs create|refresh|status` manages the
+  throwaway test account (mail.tm inbox, gitignored under runner/secrets/). See notes/fashionnova-inhouse.md.
 - **Local preview**: `python3 -m http.server 8080` from repo root serves everything; run it
   detached (`nohup … & disown`) so it survives, and load `http://localhost:8080/…`.
 

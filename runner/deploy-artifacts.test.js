@@ -294,3 +294,28 @@ test("board.json carries one scored entry per storefront, each with a lane and a
     seen.add(k);
   }
 });
+
+// ---- internal rows never ship ------------------------------------------------------
+// vendors.js `internal: true` marks a store we capture and judge for comparison but never publish
+// (a brand's in-house agent has no vendor to rank). gen.js skips those rows; this proves the baked
+// artifacts carry neither the store key nor its vendor label.
+test("no internal store reaches a deployed artifact", async () => {
+  const { STORES } = await import("./vendors.js");
+  const internal = STORES.filter((s) => s.internal);
+  assert.ok(internal.length > 0, "expected at least one internal row (fashionnova-inhouse)");
+  for (const f of ARTIFACTS) {
+    const body = read(f);
+    for (const s of internal) {
+      assert.ok(!body.includes(s.key), `${f} contains internal store key ${s.key}`);
+      assert.ok(!body.includes(s.vendor), `${f} contains internal vendor label ${s.vendor}`);
+    }
+  }
+});
+
+test("internal rows never share a vendor label with a published vendor", async () => {
+  const { STORES } = await import("./vendors.js");
+  const publicVendors = new Set(STORES.filter((s) => !s.internal).map((s) => s.vendor));
+  for (const s of STORES.filter((x) => x.internal)) {
+    assert.ok(!publicVendors.has(s.vendor), `${s.key}: internal vendor label "${s.vendor}" is shared with a published vendor`);
+  }
+});
