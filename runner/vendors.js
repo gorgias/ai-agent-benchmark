@@ -15,6 +15,7 @@
 //   handover       extra handover regexes specific to this widget (optional)
 
 import { randomBytes } from "node:crypto";
+import { loadAccount, signIn, isSignedIn, saveState } from "./fashionnova-account.js";
 
 // Realistic throwaway identities for pre-chat email gates. @example.com gets rejected by
 // stricter validators (verified on Tumble), so we use real consumer domains. The address is
@@ -1091,6 +1092,81 @@ export const WIDGETS = {
       });
     },
   },
+  // Fashion Nova's IN-HOUSE help center agent ("Nova AI", launched 2026-10-13). No chat vendor:
+  // the brand built the flows and the agent itself, so the store row is CUSTOM (custom: true, never published; see STORES).
+  //
+  // The agent sits behind a button flow and answers only a SIGNED-IN customer; signed out, the
+  // flow ends on "Connecting you now" and nothing arrives. The run therefore loads the saved
+  // session (store.stateFile) and signs the throwaway test account in again if it has expired
+  // (fashionnova-account.js). The flow buttons are navigation to reach the agent, the same as
+  // opening a launcher: every timed turn is typed free text.
+  //   help_with_my_order -> "Yes, I still need help" -> "Chat with an AI Customer Service agent
+  //   about this topic" -> "briefly describe your issue" box (turn 1) -> chat composer (turns 2+)
+  // The test account has no orders, so the flow opens on "I couldn't find any orders on this
+  // account" — what any customer without an order on that login sees. Enter does not send;
+  // the arrow button does. Replies come back whole as JSON from /api/chat-agent/send.
+  fashionnova: {
+    scope: { kind: "dom", sel: "main" },
+    transport: "net",
+    net: {
+      match: /fashionnova\.com\/api\/chat-agent\/send/,
+      parse(body) {
+        try {
+          const j = JSON.parse(body);
+          const parts = (j.message && j.message.content) || [];
+          const text = parts.filter((c) => c && c.type === "text").map((c) => c.text).join("\n").trim();
+          return text ? [text] : [];
+        } catch { return []; }
+      },
+    },
+    async open(page) {
+      await page.waitForLoadState("domcontentloaded", { timeout: 45000 }).catch(() => {});
+      await page.waitForTimeout(4000);
+      if (!(await isSignedIn(page))) {
+        const acct = loadAccount();
+        if (!acct) throw new Error("fashionnova: no test account — run `node tools/fashionnova-account.mjs create`");
+        if (!(await signIn(page, acct))) throw new Error("fashionnova: sign-in failed — run `node tools/fashionnova-account.mjs refresh`");
+        await saveState(page.context()).catch(() => {});
+      }
+      await page.goto("https://www.fashionnova.com/pages/help-center-v5/flow?topic=help_with_my_order", { waitUntil: "domcontentloaded", timeout: 45000 });
+      const step = async (label) => {
+        await page.getByRole("button", { name: label, exact: true }).last().click({ timeout: 30000 });
+        await page.waitForTimeout(1500);
+      };
+      await step("Yes, I still need help");
+      await step("Chat with an AI Customer Service agent about this topic");
+      await page.locator('main textarea[placeholder^="I need help with"]').waitFor({ state: "visible", timeout: 30000 });
+      // The cookie notice ("By using this website, you consent…", one "OK") is a fixed bar along
+      // the bottom that mounts a few seconds after load and covers the chat's send arrow. Close it
+      // here, before turn 1, so no timed turn waits on it.
+      const consent = page.locator("div.fixed.bottom-0", { hasText: "you consent" }).getByRole("button", { name: "OK" });
+      for (let i = 0; i < 16; i++) {
+        if (await consent.isVisible().catch(() => false)) { await consent.click({ timeout: 5000 }).catch(() => {}); await page.waitForTimeout(800); break; }
+        await page.waitForTimeout(500);
+      }
+    },
+    async send(page, text) {
+      // Turn 1 goes in the "describe your issue" box, which starts the chat.
+      const intro = page.locator('main textarea[placeholder^="I need help with"]');
+      if (await intro.isVisible().catch(() => false)) {
+        await intro.fill(text);
+        await page.getByRole("button", { name: "Continue", exact: true }).last().click({ timeout: 10000 });
+        return;
+      }
+      const box = page.locator('textarea[aria-label="Type your message"]:visible').last();
+      const sendBtn = page.locator('button[aria-label="Send message"]:visible').last();
+      await box.waitFor({ state: "visible", timeout: 30000 });
+      // While the previous answer is still being laid out the composer resets itself, dropping
+      // text typed into it and leaving the arrow disabled. Re-fill until the arrow arms.
+      const deadline = Date.now() + 30000;
+      while (Date.now() < deadline) {
+        if ((await box.inputValue().catch(() => "")) !== text) await box.fill(text).catch(() => {});
+        if (!(await sendBtn.isDisabled().catch(() => true))) break;
+        await page.waitForTimeout(300);
+      }
+      await sendBtn.click({ timeout: 10000 });
+    },
+  },
 };
 
 // Generic launcher-open: dismiss consent, then click the most chat-like control.
@@ -1449,6 +1525,19 @@ export const STORES = [
   { key: "kodif-babyletto",   vendor: "Kodif",  store: "Babyletto",       url: "https://babyletto.com/",         widget: "kodif", candidate: true },
   { key: "kodif-davinci",     vendor: "Kodif",  store: "daVinci Baby",    url: "https://davincibaby.com/",       widget: "kodif", candidate: true },
   { key: "kodif-namesake",    vendor: "Kodif",  store: "Namesake",        url: "https://namesakehome.com/",      widget: "kodif", candidate: true },
+
+  // ===== CUSTOM rows: captured and judged like any store, never published =====
+  // `custom: true` keeps a store out of everything that ships (report.html, takeaways.html,
+  // conv-text.json, board.json, the MCP server) and out of the nightly plan. It exists for agents
+  // with no vendor to rank: a brand's own build is not a competitor on the vendor scoreboard,
+  // but we still want its numbers next to the field. Compare them with
+  // `node scoreboard-preview.js --custom`; capture them on demand with `--store <key>`.
+  // `inHouse: true` = no third-party chat vendor serves it, so there is no vendor signature for
+  // provider detection to confirm (third-party scripts on the page are still recorded).
+  // Fashion Nova moved its help center to its own flows + "Nova AI" agent on 2026-10-13. Support
+  // only: the agent lives in the help center, not on product pages. Needs the signed-in test
+  // account (tools/fashionnova-account.mjs); see WIDGETS.fashionnova.
+  { key: "fashionnova-inhouse", vendor: "Fashion Nova (custom)", store: "Fashion Nova", url: "https://www.fashionnova.com/pages/help-center-v5", widget: "fashionnova", us: true, modes: ["support"], custom: true, inHouse: true, stateFile: "secrets/fashionnova-state.json" },
 
   // ===== Vendors added 2026-07-03 (Roman's coverage; merchants he verified) =====
   // All candidate:true — generic driver, not yet reverse-engineered; a run either

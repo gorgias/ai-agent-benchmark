@@ -432,7 +432,7 @@ function pendingEntry(site, mode) {
 // Vendors that already have a NON-candidate store — used to hide untested
 // breadth-candidate 2nd stores (Sonos, Chubbies…) while still showing a new
 // vendor whose only listed store happens to be flagged candidate (Rep/Kodif).
-const vendorsWithReal = new Set(SITES.filter(s => s.url && !s.candidate).map(s => s.vendor));
+const vendorsWithReal = new Set(SITES.filter(s => s.url && !s.candidate && !s.custom).map(s => s.vendor));
 
 async function buildMode(mode) {
   const out = [];
@@ -443,6 +443,10 @@ async function buildMode(mode) {
     // e.g. Intercom on Synthesia/Kajabi, Decagon on Bilt/Hertz) are excluded from BOTH lanes;
     // `ecommerce:false` is set on those store rows in vendors.js.
     if (site.ecommerce === false) continue;
+    // CUSTOM rows (vendors.js `custom: true`, e.g. a brand's own in-house agent) are never
+    // published: nothing below this point reaches report.html, takeaways.html, conv-text.json or
+    // board.json. Compare them locally with `node scoreboard-preview.js --custom`.
+    if (site.custom) continue;
     // NOTE (2026-07-17): the former version-tier store filter (Gorgias-only "v3:false → exclude
     // from both lanes") was REMOVED for benchmark neutrality. It keyed off a private field with
     // no cross-vendor equivalent — no vendor should have its non-latest deployments filtered out
