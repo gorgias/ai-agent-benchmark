@@ -57,6 +57,8 @@ Options:
   --window-days N             Ranking window in days. Default: ${DEFAULT_WINDOW_DAYS}.
   --json PATH                 Write the full preview payload as JSON.
   --no-baked                  Do not compare against takeaways.html's baked D object.
+  --custom                  Also show custom rows (vendors.js custom: true, e.g. Fashion
+                              Nova's in-house agent) ranked with the field. Never published.
   --help                      Show this help.
 
 This is a dry run: it never modifies report.html / takeaways.html / run-status.html.`);
@@ -71,6 +73,7 @@ function parseArgs(argv) {
     windowDays: DEFAULT_WINDOW_DAYS,
     baked: true,
     includeQuarantined: false,
+    custom: false,
   };
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
@@ -91,6 +94,8 @@ function parseArgs(argv) {
       out.baked = false;
     } else if (a === "--include-quarantined") {
       out.includeQuarantined = true;
+    } else if (a === "--custom") {
+      out.custom = true;
     } else {
       throw new Error(`Unknown option: ${a}`);
     }
@@ -316,12 +321,13 @@ function outcomeOnlyEntry(site, mode, agg, date) {
   };
 }
 
-async function buildMode({ mode, dates, evals, excluded }) {
+async function buildMode({ mode, dates, evals, excluded, custom = false }) {
   const out = [];
   const vendorsWithReal = new Set(SITES.filter((s) => s.url && !s.candidate).map((s) => s.vendor));
   for (const site of SITES) {
     if (!site.url) continue;
     if (site.ecommerce === false) continue;   // e-commerce-only benchmark (matches gen.js gate)
+    if (site.custom && !custom) continue; // custom rows never reach the board (matches gen.js)
     // Gorgias-only v3:false exclusion removed 2026-07-17 for neutrality (see gen.js note).
     // NO STORE-SPECIFIC EXCLUSIONS — see gen.js. Removed 2026-09-09.
     let anyMeasured = false;
@@ -379,10 +385,10 @@ function laneScores(entries, cutoff) {
   return out;
 }
 
-async function compute({ dates, latest, windowDays, evals, excluded }) {
+async function compute({ dates, latest, windowDays, evals, excluded, custom = false }) {
   const cutoff = cutoffFor(latest, windowDays);
-  const shopping = await buildMode({ mode: "shopping", dates, evals, excluded });
-  const support = await buildMode({ mode: "support", dates, evals, excluded });
+  const shopping = await buildMode({ mode: "shopping", dates, evals, excluded, custom });
+  const support = await buildMode({ mode: "support", dates, evals, excluded, custom });
   const shopS = laneScores(shopping, cutoff);
   const supS = laneScores(support, cutoff);
   const allEntries = [...shopping, ...support];
@@ -435,11 +441,11 @@ function pad(s, n, align = "left") {
 function renderTable(title, D) {
   const rows = rowList(D);
   console.log(`\n${title}`);
-  console.log(`${pad("#", 3)} ${pad("Vendor", 16)} ${pad("Overall", 7, "right")} ${pad("Shop", 5, "right")} ${pad("Support", 7, "right")}  ${pad("Shop a/q/l/n", 18)} ${pad("Support a/q/l/n", 18)}`);
+  console.log(`${pad("#", 3)} ${pad("Vendor", 24)} ${pad("Overall", 7, "right")} ${pad("Shop", 5, "right")} ${pad("Support", 7, "right")}  ${pad("Shop a/q/l/n", 18)} ${pad("Support a/q/l/n", 18)}`);
   rows.forEach((r, i) => {
     const ss = r.s ? `${fmt(r.s.a)}/${fmt(r.s.q)}/${fmt(r.s.l, "s")}/${fmt(r.s.n)}` : "-";
     const ps = r.p ? `${fmt(r.p.a)}/${fmt(r.p.q)}/${fmt(r.p.l, "s")}/${fmt(r.p.n)}` : "-";
-    console.log(`${pad(i + 1, 3, "right")} ${pad(r.vendor, 16)} ${pad(fmt(r.overall), 7, "right")} ${pad(fmt(r.shopping), 5, "right")} ${pad(fmt(r.support), 7, "right")}  ${pad(ss, 18)} ${pad(ps, 18)}`);
+    console.log(`${pad(i + 1, 3, "right")} ${pad(r.vendor, 24)} ${pad(fmt(r.overall), 7, "right")} ${pad(fmt(r.shopping), 5, "right")} ${pad(fmt(r.support), 7, "right")}  ${pad(ss, 18)} ${pad(ps, 18)}`);
   });
 }
 
@@ -520,6 +526,10 @@ async function main() {
     renderDiff("Built-in quarantine delta vs unquarantined source", diffScoreboards(unquarantined.D, active.D));
   }
   renderTable("Active source recompute", active.D);
+  const withCustom = args.custom
+    ? await compute({ dates, latest, windowDays: args.windowDays, evals, excluded, custom: true })
+    : null;
+  if (withCustom) renderTable("With CUSTOM rows (NOT published — comparison only)", withCustom.D);
 
   const payload = {
     generated_at: new Date().toISOString(),
@@ -531,6 +541,7 @@ async function main() {
     baked,
     active,
     unquarantined,
+    with_custom: withCustom,
     baked_vs_active: baked ? diffScoreboards(baked, active.D) : null,
     quarantine_vs_unquarantined: unquarantined ? diffScoreboards(unquarantined.D, active.D) : null,
   };

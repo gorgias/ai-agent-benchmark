@@ -294,3 +294,28 @@ test("board.json carries one scored entry per storefront, each with a lane and a
     seen.add(k);
   }
 });
+
+// ---- custom rows never ship ------------------------------------------------------
+// vendors.js `custom: true` marks a store we capture and judge for comparison but never publish
+// (a brand's in-house agent has no vendor to rank). gen.js skips those rows; this proves the baked
+// artifacts carry neither the store key nor its vendor label.
+test("no custom store reaches a deployed artifact", async () => {
+  const { STORES } = await import("./vendors.js");
+  const custom = STORES.filter((s) => s.custom);
+  assert.ok(custom.length > 0, "expected at least one custom row (fashionnova-inhouse)");
+  for (const f of ARTIFACTS) {
+    const body = read(f);
+    for (const s of custom) {
+      assert.ok(!body.includes(s.key), `${f} contains custom store key ${s.key}`);
+      assert.ok(!body.includes(s.vendor), `${f} contains custom vendor label ${s.vendor}`);
+    }
+  }
+});
+
+test("custom rows never share a vendor label with a published vendor", async () => {
+  const { STORES } = await import("./vendors.js");
+  const publicVendors = new Set(STORES.filter((s) => !s.custom).map((s) => s.vendor));
+  for (const s of STORES.filter((x) => x.custom)) {
+    assert.ok(!publicVendors.has(s.vendor), `${s.key}: custom vendor label "${s.vendor}" is shared with a published vendor`);
+  }
+});
