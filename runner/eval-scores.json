@@ -3461341,5 +3461341,1342 @@
    "runner": "eval-merge.js",
    "schema": 1
   }
+ },
+ "2026-10-15/fashionnova-inhouse-support-damaged-fn-smoke.json": {
+  "v": 2,
+  "mode": "support",
+  "rubric": {
+   "resolution": 40,
+   "accuracy": 25,
+   "actionability": 20,
+   "close": 7
+  },
+  "total": 92,
+  "checks": {
+   "s_answered": {
+    "pass": true,
+    "evidence": "Please attach a clear photo of the damage (and, if it came in damaged packaging, a photo of the packaging too), and tell me which item in the order is damaged."
+   },
+   "s_outcome": {
+    "pass": true,
+    "evidence": "Once you upload the photos here and tell me which item is damaged, I’ll submit it for review and they’ll follow up by email with the next steps."
+   },
+   "s_no_deflect": {
+    "pass": true,
+    "evidence": "Please upload them right here in this chat"
+   },
+   "g_specific": {
+    "pass": true,
+    "evidence": "Normal returns are submitted through the returns portal within 30 days of delivery (unworn, unused, tags attached) and are refunded as store credit. / message u"
+   },
+   "g_consistent": {
+    "pass": true,
+    "evidence": "For damaged-item cases, don’t start a normal return in the returns portal."
+   },
+   "g_grounded": {
+    "pass": true,
+    "evidence": "Damaged items aren’t handled through the normal returns process, they need to be reviewed by our care team with photos."
+   },
+   "t_steps": {
+    "pass": true,
+    "evidence": "just upload photos for each affected item and tell me which items they are. If you can, include 1 photo per item showing the damage clearly."
+   },
+   "t_complete": {
+    "pass": true,
+    "evidence": "Yes, photos are required. Please upload them right here in this chat"
+   },
+   "k_expectations": {
+    "pass": false,
+    "evidence": "they’ll follow up by email with the next steps (care team named, but no timeframe given)"
+   },
+   "k_clean": {
+    "pass": true,
+    "evidence": "If that happens, message us again within 14 days of delivery of the replacement and include photos of the damage, and we’ll get it reviewed the same way."
+   }
+  },
+  "turn_quality": {
+   "schema": 1,
+   "turns": [
+    {
+     "turn": 1,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 14683,
+     "answer_chars": 274,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 4,
+      "ratio": 0.8,
+      "missing": [
+       "one"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 2,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 5489,
+     "answer_chars": 273,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 3,
+      "ratio": 0.5,
+      "missing": [
+       "item",
+       "differently",
+       "return"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 3,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 3841,
+     "answer_chars": 161,
+     "keyword_coverage": {
+      "asked": 3,
+      "matched": 1,
+      "ratio": 0.33,
+      "missing": [
+       "need",
+       "send"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 4,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 4283,
+     "answer_chars": 193,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 2,
+      "ratio": 0.5,
+      "missing": [
+       "replacement",
+       "refund"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 5,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 4131,
+     "answer_chars": 198,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 3,
+      "ratio": 0.6,
+      "missing": [
+       "pay",
+       "anything"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 6,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 4123,
+     "answer_chars": 255,
+     "keyword_coverage": {
+      "asked": 3,
+      "matched": 1,
+      "ratio": 0.33,
+      "missing": [
+       "long",
+       "take"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage",
+      "missing_timeframe"
+     ]
+    },
+    {
+     "turn": 7,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 4744,
+     "answer_chars": 153,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 2,
+      "ratio": 0.33,
+      "missing": [
+       "more",
+       "than",
+       "one",
+       "order"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 8,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 3772,
+     "answer_chars": 191,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 2,
+      "ratio": 0.33,
+      "missing": [
+       "keep",
+       "must",
+       "ship",
+       "back"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 9,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 4159,
+     "answer_chars": 194,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 1,
+      "ratio": 0.25,
+      "missing": [
+       "will",
+       "ship",
+       "priority"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 10,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 4142,
+     "answer_chars": 153,
+     "keyword_coverage": {
+      "asked": 3,
+      "matched": 1,
+      "ratio": 0.33,
+      "missing": [
+       "also",
+       "damaged"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    }
+   ],
+   "summary": {
+    "total_turns": 10,
+    "measured_turns": 10,
+    "substantive_turns": 10,
+    "issue_turns": 6,
+    "issue_rate": 0.6
+   }
+  },
+  "resolution_class": "partial",
+  "learning": "Clear in-chat damaged-item intake (photos per item, separate from returns portal), but never gives a timeframe for the care team's follow-up or answers whether the customer pays anything.",
+  "judged_at": null,
+  "judge": {
+   "origin": "claude",
+   "origin_explicit": true,
+   "runner": "eval-merge.js",
+   "schema": 1
+  }
+ },
+ "2026-10-15/fashionnova-inhouse-support-order-mgmt-fn-smoke.json": {
+  "v": 2,
+  "mode": "support",
+  "rubric": {
+   "resolution": 22,
+   "accuracy": 25,
+   "actionability": 20,
+   "close": 15
+  },
+  "total": 82,
+  "checks": {
+   "s_answered": {
+    "pass": false,
+    "evidence": "Once it appears, I can check whether the shipping address can still be updated for that order. (conditional; no window or procedure for the address change)"
+   },
+   "s_outcome": {
+    "pass": true,
+    "evidence": "I’m not seeing any orders on this account right now. What’s the order number from your confirmation email (it starts with #)?"
+   },
+   "s_no_deflect": {
+    "pass": true,
+    "evidence": "Once it appears, I can check whether the shipping address can still be updated for that order."
+   },
+   "g_specific": {
+    "pass": true,
+    "evidence": "typically posts within **7–10 business days** / items, sizes, colors, and quantities can’t be changed after checkout"
+   },
+   "g_consistent": {
+    "pass": true,
+    "evidence": "Once an order has shipped, it can’t be changed or edited (including the shipping address, items, or shipping method)."
+   },
+   "g_grounded": {
+    "pass": true,
+    "evidence": "you can edit it here: [the store account profile](https://account.the storenova.com/profile) (you’ll need access to both the current email and the new one to ve"
+   },
+   "t_steps": {
+    "pass": true,
+    "evidence": "The workaround is to place a new order for the extra item (and return anything you don’t want from the original order if eligible)."
+   },
+   "t_complete": {
+    "pass": true,
+    "evidence": "Yes, sometimes, but only in a short window right after you place it while it’s still on hold. After that window, if it hasn’t shipped yet, we can ask the care t"
+   },
+   "k_expectations": {
+    "pass": true,
+    "evidence": "the refund goes back to your original payment method and typically posts within **7–10 business days**"
+   },
+   "k_clean": {
+    "pass": true,
+    "evidence": "The best way to confirm is to check the shipping address shown on the order details page in your the store account once it updates."
+   }
+  },
+  "turn_quality": {
+   "schema": 1,
+   "turns": [
+    {
+     "turn": 1,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 16720,
+     "answer_chars": 259,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 5,
+      "ratio": 0.83,
+      "missing": [
+       "change"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 2,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 5957,
+     "answer_chars": 341,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 3,
+      "ratio": 0.43,
+      "missing": [
+       "order",
+       "placing",
+       "there",
+       "time"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "missing_timeframe"
+     ]
+    },
+    {
+     "turn": 3,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 4312,
+     "answer_chars": 251,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 3,
+      "ratio": 0.6,
+      "missing": [
+       "already",
+       "placed"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 4,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 4177,
+     "answer_chars": 229,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 3,
+      "ratio": 0.6,
+      "missing": [
+       "happens",
+       "already"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 5,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 4496,
+     "answer_chars": 346,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 3,
+      "ratio": 0.75,
+      "missing": [
+       "contact"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 6,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 3951,
+     "answer_chars": 167,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "cancel",
+       "long",
+       "until",
+       "refunded"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 7,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 9758,
+     "answer_chars": 125,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 1,
+      "ratio": 0.17,
+      "missing": [
+       "check",
+       "whether",
+       "latest",
+       "still",
+       "modified"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 8,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 3879,
+     "answer_chars": 81,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 5,
+      "ratio": 0.71,
+      "missing": [
+       "combine",
+       "two"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 9,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 4031,
+     "answer_chars": 55,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 2,
+      "ratio": 0.5,
+      "missing": [
+       "change",
+       "order"
+      ]
+     },
+     "substantive": false,
+     "flags": [
+      "thin_answer"
+     ]
+    },
+    {
+     "turn": 10,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 4776,
+     "answer_chars": 226,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 5,
+      "ratio": 0.71,
+      "missing": [
+       "will",
+       "made"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    }
+   ],
+   "summary": {
+    "total_turns": 10,
+    "measured_turns": 10,
+    "substantive_turns": 9,
+    "issue_turns": 4,
+    "issue_rate": 0.4
+   }
+  },
+  "resolution_class": "partial",
+  "learning": "Firm, store-specific modification rules (no item/payment changes, 7-10 day refund), but the opening address-change ask stays conditional and the cancel window is only a vague 'short window'.",
+  "judged_at": null,
+  "judge": {
+   "origin": "claude",
+   "origin_explicit": true,
+   "runner": "eval-merge.js",
+   "schema": 1
+  }
+ },
+ "2026-10-15/fashionnova-inhouse-support-policy-fn-smoke.json": {
+  "v": 2,
+  "mode": "support",
+  "rubric": {
+   "resolution": 40,
+   "accuracy": 25,
+   "actionability": 8,
+   "close": 15
+  },
+  "total": 88,
+  "checks": {
+   "s_answered": {
+    "pass": true,
+    "evidence": "You can find the full shipping policy here: [the store Shipping Policy](https://www.the storenova.com/pages/help-center?hcUrl=%2Fen-US%2Four-shipping-policy-637"
+   },
+   "s_outcome": {
+    "pass": true,
+    "evidence": "For Standard Shipping in the US, delivery is typically **3–7 business days**."
+   },
+   "s_no_deflect": {
+    "pass": true,
+    "evidence": "You can contact support right here in this chat."
+   },
+   "g_specific": {
+    "pass": true,
+    "evidence": "Standard domestic and international orders can also take **up to 4 business days to process** before they ship. / **returned within 30 days of delivery**"
+   },
+   "g_consistent": {
+    "pass": true,
+    "evidence": "Refunds are issued as **store credit (a the store e-gift card in USD)** once the return is processed at the warehouse."
+   },
+   "g_grounded": {
+    "pass": true,
+    "evidence": "Klarna (US only), Afterpay (US, Canada, Australia, New Zealand, UK), Cash App (US browsers only)"
+   },
+   "t_steps": {
+    "pass": false,
+    "evidence": "Customs and duties depend on the destination country and local customs rules. (informational answers only; no sequenced steps)"
+   },
+   "t_complete": {
+    "pass": true,
+    "evidence": "Items must be **unworn/unused, in original condition with tags attached**, and **returned within 30 days of delivery** to be eligible."
+   },
+   "k_expectations": {
+    "pass": true,
+    "evidence": "Standard domestic and international orders can also take **up to 4 business days to process** before they ship."
+   },
+   "k_clean": {
+    "pass": true,
+    "evidence": "I don’t have details on a the store loyalty or rewards program to share here."
+   }
+  },
+  "turn_quality": {
+   "schema": 1,
+   "turns": [
+    {
+     "turn": 1,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 9422,
+     "answer_chars": 247,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 4,
+      "ratio": 1,
+      "missing": []
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 2,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 4188,
+     "answer_chars": 290,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 3,
+      "ratio": 0.6,
+      "missing": [
+       "ship",
+       "covers"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 3,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 3323,
+     "answer_chars": 242,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 3,
+      "ratio": 0.43,
+      "missing": [
+       "long",
+       "once",
+       "order",
+       "placed"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 4,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 3834,
+     "answer_chars": 312,
+     "keyword_coverage": {
+      "asked": 3,
+      "matched": 1,
+      "ratio": 0.33,
+      "missing": [
+       "refund",
+       "policy"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage",
+      "sales_prompt_on_support_ask"
+     ]
+    },
+    {
+     "turn": 5,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 3776,
+     "answer_chars": 200,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 3,
+      "ratio": 0.5,
+      "missing": [
+       "any",
+       "non",
+       "returnable"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 6,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 3233,
+     "answer_chars": 303,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 2,
+      "ratio": 0.5,
+      "missing": [
+       "accept",
+       "order"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "sales_prompt_on_support_ask"
+     ]
+    },
+    {
+     "turn": 7,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 3191,
+     "answer_chars": 200,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 3,
+      "ratio": 0.6,
+      "missing": [
+       "issue",
+       "order"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 8,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 3423,
+     "answer_chars": 182,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 4,
+      "ratio": 0.67,
+      "missing": [
+       "honor",
+       "drop"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 9,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 3167,
+     "answer_chars": 221,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 3,
+      "ratio": 0.75,
+      "missing": [
+       "items"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 10,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 3249,
+     "answer_chars": 80,
+     "keyword_coverage": {
+      "asked": 3,
+      "matched": 3,
+      "ratio": 1,
+      "missing": []
+     },
+     "substantive": true,
+     "flags": []
+    }
+   ],
+   "summary": {
+    "total_turns": 10,
+    "measured_turns": 10,
+    "substantive_turns": 10,
+    "issue_turns": 2,
+    "issue_rate": 0.2
+   }
+  },
+  "resolution_class": "resolved",
+  "learning": "Strong, grounded policy facts (processing time, 30-day store-credit returns, regional payment list), though duties ownership, warranty and loyalty were left unanswered.",
+  "judged_at": null,
+  "judge": {
+   "origin": "claude",
+   "origin_explicit": true,
+   "runner": "eval-merge.js",
+   "schema": 1
+  }
+ },
+ "2026-10-15/fashionnova-inhouse-support-returns-fn-smoke.json": {
+  "v": 2,
+  "mode": "support",
+  "rubric": {
+   "resolution": 40,
+   "accuracy": 25,
+   "actionability": 20,
+   "close": 15
+  },
+  "total": 100,
+  "checks": {
+   "s_answered": {
+    "pass": true,
+    "evidence": "Items are eligible for return if they’re unworn, unused, in original/new condition with tags attached, and returned within 30 days of delivery. Approved returns"
+   },
+   "s_outcome": {
+    "pass": true,
+    "evidence": "You can start a return here: [the store Returns Portal](https://returns.the storenova.com/the storenova/returns)."
+   },
+   "s_no_deflect": {
+    "pass": true,
+    "evidence": "To start a return: go to the [the store Returns Portal](https://returns.the storenova.com/the storenova/returns) and follow the prompts."
+   },
+   "g_specific": {
+    "pass": true,
+    "evidence": "**Canada:** You can get an EPG prepaid return label for **$9.99 USD** (paid separately)."
+   },
+   "g_consistent": {
+    "pass": true,
+    "evidence": "You’d return the item (within 30 days of delivery, unworn with tags) for store credit"
+   },
+   "g_grounded": {
+    "pass": true,
+    "evidence": "they’ll be labeled **“Final Sale, No Returns/Refunds Allowed.”**"
+   },
+   "t_steps": {
+    "pass": true,
+    "evidence": "return the original item (within 30 days of delivery, unworn with tags) for store credit, then place a new order for the replacement item if it’s available."
+   },
+   "t_complete": {
+    "pass": true,
+    "evidence": "**US:** You can get a prepaid return label in the returns portal."
+   },
+   "k_expectations": {
+    "pass": true,
+    "evidence": "**Returns portal (UPS prepaid label):** usually within **24 hours** of warehouse processing"
+   },
+   "k_clean": {
+    "pass": true,
+    "evidence": "Once it’s processed, the store credit is sent as an e-gift card email, and you can also view gift cards in your account here: [Gift Cards]"
+   }
+  },
+  "turn_quality": {
+   "schema": 1,
+   "turns": [
+    {
+     "turn": 1,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 9984,
+     "answer_chars": 423,
+     "keyword_coverage": {
+      "asked": 2,
+      "matched": 1,
+      "ratio": 0.5,
+      "missing": [
+       "policy"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "sales_prompt_on_support_ask"
+     ]
+    },
+    {
+     "turn": 2,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 3950,
+     "answer_chars": 69,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 2,
+      "ratio": 0.5,
+      "missing": [
+       "many",
+       "something"
+      ]
+     },
+     "substantive": false,
+     "flags": [
+      "thin_answer"
+     ]
+    },
+    {
+     "turn": 3,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 3935,
+     "answer_chars": 387,
+     "keyword_coverage": {
+      "asked": 3,
+      "matched": 2,
+      "ratio": 0.67,
+      "missing": [
+       "exchange"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 4,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 3697,
+     "answer_chars": 312,
+     "keyword_coverage": {
+      "asked": 3,
+      "matched": 3,
+      "ratio": 1,
+      "missing": []
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 5,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 3559,
+     "answer_chars": 330,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 2,
+      "ratio": 0.33,
+      "missing": [
+       "long",
+       "until",
+       "get",
+       "receive"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage",
+      "sales_prompt_on_support_ask"
+     ]
+    },
+    {
+     "turn": 6,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 3197,
+     "answer_chars": 205,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 2,
+      "ratio": 0.33,
+      "missing": [
+       "exchange",
+       "different",
+       "instead",
+       "refund"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 7,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 3174,
+     "answer_chars": 197,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 3,
+      "ratio": 0.5,
+      "missing": [
+       "any",
+       "non",
+       "returnable"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 8,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 3683,
+     "answer_chars": 200,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 2,
+      "ratio": 0.4,
+      "missing": [
+       "need",
+       "return",
+       "something"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 9,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 3338,
+     "answer_chars": 170,
+     "keyword_coverage": {
+      "asked": 5,
+      "matched": 1,
+      "ratio": 0.2,
+      "missing": [
+       "return",
+       "order",
+       "physical",
+       "store"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 10,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 3456,
+     "answer_chars": 337,
+     "keyword_coverage": {
+      "asked": 3,
+      "matched": 2,
+      "ratio": 0.67,
+      "missing": [
+       "refund"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "sales_prompt_on_support_ask"
+     ]
+    }
+   ],
+   "summary": {
+    "total_turns": 10,
+    "measured_turns": 10,
+    "substantive_turns": 9,
+    "issue_turns": 6,
+    "issue_rate": 0.6
+   }
+  },
+  "resolution_class": "resolved",
+  "learning": "Fully resolved returns flow with concrete, region-specific shipping costs and refund timing, all executable from the returns portal.",
+  "judged_at": null,
+  "judge": {
+   "origin": "claude",
+   "origin_explicit": true,
+   "runner": "eval-merge.js",
+   "schema": 1
+  }
+ },
+ "2026-10-15/fashionnova-inhouse-support-tracking-fn-smoke.json": {
+  "v": 2,
+  "mode": "support",
+  "rubric": {
+   "resolution": 40,
+   "accuracy": 25,
+   "actionability": 20,
+   "close": 15
+  },
+  "total": 100,
+  "checks": {
+   "s_answered": {
+    "pass": true,
+    "evidence": "Standard orders can take up to 4 business days to process before they ship. Once a tracking number is issued, the first carrier scan can take a couple of days t"
+   },
+   "s_outcome": {
+    "pass": true,
+    "evidence": "can you share the order number (or the 9-character confirmation code from the checkout page) so I can pull up the tracking?"
+   },
+   "s_no_deflect": {
+    "pass": true,
+    "evidence": "If it’s past the delivery estimate you were given at checkout and tracking still hasn’t moved, message us back and I can investigate further."
+   },
+   "g_specific": {
+    "pass": true,
+    "evidence": "**Standard Shipping:** 3–7 business days - **2 Business Days (order by 3pm ET):** 2 business days"
+   },
+   "g_consistent": {
+    "pass": true,
+    "evidence": "After checkout, the shipping method can’t be changed."
+   },
+   "g_grounded": {
+    "pass": true,
+    "evidence": "the 9-character confirmation code from the checkout page"
+   },
+   "t_steps": {
+    "pass": true,
+    "evidence": "You can find it in your shipping confirmation email, or by entering your order details on our [Track Order page](https://www.the storenova.com/pages/track-order"
+   },
+   "t_complete": {
+    "pass": true,
+    "evidence": "If tracking never updates, it usually means either the carrier hasn’t done the first scan yet, or the order is still processing."
+   },
+   "k_expectations": {
+    "pass": true,
+    "evidence": "Standard orders can take up to 4 business days to process before they ship."
+   },
+   "k_clean": {
+    "pass": true,
+    "evidence": "If you want, tell me the order number and I’ll check what your order qualifies for."
+   }
+  },
+  "turn_quality": {
+   "schema": 1,
+   "turns": [
+    {
+     "turn": 1,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 11587,
+     "answer_chars": 363,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 6,
+      "ratio": 0.86,
+      "missing": [
+       "still"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 2,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 4373,
+     "answer_chars": 281,
+     "keyword_coverage": {
+      "asked": 7,
+      "matched": 4,
+      "ratio": 0.57,
+      "missing": [
+       "long",
+       "normally",
+       "send"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 3,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 3617,
+     "answer_chars": 366,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "once",
+       "ships",
+       "long",
+       "delivery"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 4,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 3104,
+     "answer_chars": 205,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 0,
+      "ratio": 0,
+      "missing": [
+       "there",
+       "any",
+       "way",
+       "speed",
+       "need",
+       "sooner"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 5,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 3766,
+     "answer_chars": 378,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 3,
+      "ratio": 0.75,
+      "missing": [
+       "should"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 6,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 3129,
+     "answer_chars": 160,
+     "keyword_coverage": {
+      "asked": 3,
+      "matched": 1,
+      "ratio": 0.33,
+      "missing": [
+       "tracking",
+       "link"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 7,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 5833,
+     "answer_chars": 161,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 3,
+      "ratio": 0.75,
+      "missing": [
+       "check"
+      ]
+     },
+     "substantive": true,
+     "flags": []
+    },
+    {
+     "turn": 8,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 3420,
+     "answer_chars": 100,
+     "keyword_coverage": {
+      "asked": 6,
+      "matched": 1,
+      "ratio": 0.17,
+      "missing": [
+       "tracking",
+       "says",
+       "didn",
+       "receive",
+       "now"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 9,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 4629,
+     "answer_chars": 162,
+     "keyword_coverage": {
+      "asked": 4,
+      "matched": 1,
+      "ratio": 0.25,
+      "missing": [
+       "reroute",
+       "package",
+       "different"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    },
+    {
+     "turn": 10,
+     "measured": true,
+     "by": "ai",
+     "complete_ms": 3040,
+     "answer_chars": 241,
+     "keyword_coverage": {
+      "asked": 3,
+      "matched": 1,
+      "ratio": 0.33,
+      "missing": [
+       "compensate",
+       "long"
+      ]
+     },
+     "substantive": true,
+     "flags": [
+      "low_question_coverage"
+     ]
+    }
+   ],
+   "summary": {
+    "total_turns": 10,
+    "measured_turns": 10,
+    "substantive_turns": 10,
+    "issue_turns": 6,
+    "issue_rate": 0.6
+   }
+  },
+  "resolution_class": "partial",
+  "learning": "Handles a no-orders account well (asks for order number/confirmation code, gives processing and delivery windows), but the delivered-not-received and delay-compensation answers withhold any general procedure.",
+  "judged_at": null,
+  "judge": {
+   "origin": "claude",
+   "origin_explicit": true,
+   "runner": "eval-merge.js",
+   "schema": 1
+  }
  }
 }
