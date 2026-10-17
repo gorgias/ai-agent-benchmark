@@ -1890,6 +1890,10 @@ export const STORES = [
   // real browser: the vendor's widget host loaded AND a launcher/container mounted on a cold
   // anonymous visit. candidate:true until a capture proves it drivable end-to-end.
   { key: "repai-barnowl", vendor: "Rep AI", store: "barnowl", url: "https://barnowl.tech/", widget: "repai", candidate: true, todo: "also on page: Gorgias — driver must target the Rep AI launcher" }, // auto-sourced 2026-10-16 from https://apps.shopify.com/rep-ai-sales-associate/reviews?page=3: host loaded + widget mounted on a cold visit
+  // ── Auto-sourced 2026-10-17 by server/source-merchants.mjs. Each row was verified in a
+  // real browser: the vendor's widget host loaded AND a launcher/container mounted on a cold
+  // anonymous visit. candidate:true until a capture proves it drivable end-to-end.
+  { key: "zendesk-theathletesfoo", vendor: "Zendesk", store: "theathletesfoo", url: "https://www.theathletesfoot.com.au/", widget: "zendesk", candidate: true }, // auto-sourced 2026-10-17 from https://www.casestudies.com/company/zendesk-messaging/case-study/accent-group-zendesk-customer-focused-care-across-13-brands: host loaded + widget mounted on a cold visit
 ];
 
 // Find a frame by element id / title / name / url. `match` may be a string
