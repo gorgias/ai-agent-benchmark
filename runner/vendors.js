@@ -1894,6 +1894,11 @@ export const STORES = [
   // real browser: the vendor's widget host loaded AND a launcher/container mounted on a cold
   // anonymous visit. candidate:true until a capture proves it drivable end-to-end.
   { key: "zendesk-theathletesfoo", vendor: "Zendesk", store: "theathletesfoo", url: "https://www.theathletesfoot.com.au/", widget: "zendesk", candidate: true }, // auto-sourced 2026-10-17 from https://www.casestudies.com/company/zendesk-messaging/case-study/accent-group-zendesk-customer-focused-care-across-13-brands: host loaded + widget mounted on a cold visit
+  // ── Auto-sourced 2026-10-21 by server/source-merchants.mjs. Each row was verified in a
+  // real browser: the vendor's widget host loaded AND a launcher/container mounted on a cold
+  // anonymous visit. candidate:true until a capture proves it drivable end-to-end.
+  { key: "zendesk-propelsleep", vendor: "Zendesk", store: "propelsleep", url: "https://propelsleep.com/", widget: "zendesk", candidate: true }, // auto-sourced 2026-10-21: host loaded + widget mounted on a cold visit
+  { key: "zendesk-truckingmattre", vendor: "Zendesk", store: "truckingmattre", url: "https://truckingmattress.com/", widget: "zendesk", candidate: true }, // auto-sourced 2026-10-21: host loaded + widget mounted on a cold visit
 ];
 
 // Find a frame by element id / title / name / url. `match` may be a string
