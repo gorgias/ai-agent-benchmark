@@ -57,3 +57,19 @@ test("detect: Klaviyo Customer Hub (the actual chat surface) IS detected", () =>
   const sig = { scripts: ["https://static.klaviyo.com/customerHubRoot.js"], ids: ["k-hub-root"], hosts: [], globals: ["customerHub"] };
   assert.equal(detect(sig)[0].prov, "Klaviyo");
 });
+
+test("detect: Minimal AI's native widget is identified on both served script origins", () => {
+  for (const origin of ["https://gominimal.ai", "https://storefront.gominimal.ai"]) {
+    const sig = { scripts: [origin + "/storefront-widget.js"], ids: ["minimal-storefront-widget-frame-sw_pub_example"], globals: ["MinimalStorefrontWidget"] };
+    assert.equal(detect(sig)[0].prov, "Minimal AI");
+  }
+});
+
+test("detect: Minimal AI and a co-present Gorgias widget are both retained", () => {
+  const sig = { scripts: ["https://storefront.gominimal.ai/storefront-widget.js", "https://config.gorgias.chat/applications/123.js"], ids: ["minimal-storefront-widget-frame-sw_pub_example"], globals: ["MinimalStorefrontWidget", "GorgiasChat"] };
+  assert.deepEqual(new Set(detect(sig).map(h => h.prov)), new Set(["Minimal AI", "Gorgias"]));
+});
+
+test("detect: a Minimal marketing link or unrelated minimal element is not a widget", () => {
+  assert.deepEqual(detect({ scripts: ["https://example.com/minimal.js", "https://gominimal.ai/marketing.js"], ids: ["minimal-header"], globals: [] }), []);
+});

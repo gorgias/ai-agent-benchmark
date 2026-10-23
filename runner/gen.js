@@ -111,6 +111,9 @@ const CAPS = {
 
 // ---- curated fallback for sites we currently cannot drive cold (no fresh JSON). ----
 const CURATED = {
+  "minimal-cloudpillo": { method: "pending", successTxt: "unmeasurable", successCls: "p-na", what: "Native Minimal AI chat verified. Cold attempts on 22–23 October 2026 reached an unavailable state or failed during startup; no performance scores are assigned." },
+  "minimal-proforto": { method: "pending", successTxt: "unmeasurable", successCls: "p-na", what: "Native Minimal AI chat verified. Both lane attempts on 22 October 2026 reached an unavailable state after the first typed question; no performance scores are assigned." },
+  "minimal-hangeleven": { method: "pending", successTxt: "unmeasurable", successCls: "p-na", what: "Native Minimal AI chat verified in ordinary production routing. Cold attempts on 22 October 2026 reached an unavailable state or did not mount the native iframe; no performance scores are assigned." },
   "ada-loop": { method: "down", successTxt: "backend down", successCls: "p-na", what: "Ada bot backend was unavailable on the test days. Pending a working run." },
   "sierra-scotts": { method: "pending", successTxt: "pending", successCls: "p-na", what: "Sierra widget detected (sierraConfig) but didn't open/post in a cold headless run — harness pending." },
   "siena-figs": { method: "pending", successTxt: "pending", successCls: "p-na", what: "Siena widget didn't initialize in a cold headless run (lazy-loaded / bot-protected). Live capture pending." },
@@ -245,7 +248,7 @@ async function loadAgg(key, mode, date) {
       // connectivity fails, gate_blocked convs are excluded from ALL aggregates (automation
       // included), every vendor alike (see METHODOLOGY §Ranking). Counting them as handover/
       // deflection would penalize vendors that run the most order-specific support flows.
-      if (obj.gate_blocked) continue;
+      if (obj.gate_blocked || obj.widget_unavailable) continue;
       // PROVIDER MISMATCH: at capture the widget serving this store was a DIFFERENT provider
       // than the one we attribute it to (the store switched providers). Exclude from all
       // aggregates so a conversation is never credited to the wrong vendor — the vendors.js
