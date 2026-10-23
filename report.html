@@ -1011,6 +1011,7 @@ document.addEventListener('DOMContentLoaded',()=>{ h2hRender(H2H_LANE); });
   <div class="gr-section-header stack-start w-full gap-4">
   <h2 class="sec">Coverage: every vendor and store we tested</h2>
   <p class="lead">The full test inventory: which live storefronts each vendor is benchmarked on, the widget technology driving each, and where measurement stands per lane. Ignores the date window (shows the whole program). <span class="mono" style="font-size:11.5px">✓ measured · ◌ engaged, not enough timed answers · ✕ no answer (dead/gated widget) · … awaiting first capture</span></p>
+  <p class="note">Minimal AI review, 22 October 2026: all nine <a href="https://gominimal.ai/case-studies" target="_blank" rel="noopener">published customer stories</a> were checked. Ten cold capture attempts across Cloudpillo, Proforto, Hang Eleven, Dreaver, and Boombrush produced no valid benchmark conversations: four reached an unavailable screen after the first typed question, and six stopped during startup. Minimal AI remains unranked; these attempts are excluded from quality, automation, and latency scores. The other four stories do not establish a public native Minimal chat. <a href="https://github.com/gorgias/ai-agent-benchmark/blob/master/notes/gominimal-customer-discovery-2026-10-22.md" target="_blank" rel="noopener">Customer evidence and limitations</a>.</p>
   </div>
   <div class="card table-scroll">
     <table><thead><tr>
@@ -1211,7 +1212,7 @@ const VLOGOS = {
   "Gorgias":"gorgias.com","Envive":"envive.ai","Spiffy":"spiffy.ai","Sierra":"sierra.ai","Siena":"siena.ai",
   "Yuma":"yuma.ai","Kodif":"kodif.com","Ada":"ada.support","Zendesk":"zendesk.com",
   "Intercom":"intercom.com","DigitalGenius":"digitalgenius.com","Rep AI":"hellorep.ai",
-  "Klaviyo":"klaviyo.com","Decagon":"decagon.ai",
+  "Klaviyo":"klaviyo.com","Decagon":"decagon.ai","Minimal AI":"gominimal.ai",
   "Shopify Inbox":"shopify.com","Google Agentic":"google.com","Mavenoid":"mavenoid.com"
 };
 const vlogo = v => VLOGOS[v]
@@ -2822,7 +2823,7 @@ function applyView(){
   if(isStores && typeof renderStores==='function') renderStores();  // rebuild the unified feed + check for a live run
 }
 // --- Coverage: the full vendor × website test inventory (date-window independent) ---
-const WIDGET_LABEL = { gorgias:"Gorgias Chat", spiffy:"Envive (Spiffy) shadow-DOM", sierra:"Sierra SDK", siena:"Siena webchat",
+const WIDGET_LABEL = { minimal:"Minimal AI storefront chat (iframe)", gorgias:"Gorgias Chat", spiffy:"Envive (Spiffy) shadow-DOM", sierra:"Sierra SDK", siena:"Siena webchat",
   ada:"Ada embed (iframe)", repai:"Rep AI (WebSocket)", kodif:"Kodif widget", dg:"DigitalGenius (Pusher)", zendesk:"Zendesk Messaging",
   yuma:"Yuma Chat AI (app.yuma.ai iframe)", klaviyo:"Klaviyo K:AI Customer Hub", decagon:"Decagon (AI support agent)", intercom:"Intercom Fin (Messenger iframe)", shopify_inbox:"Shopify Inbox (native)", google_agentic:"Google Agentic Commerce" };
 function renderCoverage(){

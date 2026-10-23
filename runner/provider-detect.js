@@ -30,6 +30,7 @@ export const PROVIDER_SIGNATURES = {
   "Decagon":       { scripts: [/decagon\.ai|decagon/i], ids: [/decagon/i], hosts: [/decagon/i], globals: ["Decagon"] },
   "Rep AI":        { scripts: [/hirep\.ai|getrep\.ai|rep-?ai|initrep/i], ids: [/rep-?ai/i], globals: ["initRep", "RepChat"] },
   "Yuma":          { scripts: [/yuma\.ai|getyuma/i], hosts: [/yuma/i], globals: ["Yuma"] },
+  "Minimal AI":    { scripts: [/^https:\/\/(?:[a-z0-9-]+\.)?gominimal\.ai\/storefront-widget(?:\.js|\/)/i], ids: [/^minimal-storefront-widget-(?:frame|shell)-/i], globals: ["MinimalStorefrontWidget"] },
   "Humind":        { scripts: [/humind/i], hosts: [/humind/i] }, // not on the roster; keep so we do not mislabel
   "Shopify Inbox": { scripts: [/shopify.*chat|shop_chat|shopifychat/i], ids: [/shopify-chat/i] },
   "Gladly":        { scripts: [/gladly\.com/i], globals: ["Gladly"] },

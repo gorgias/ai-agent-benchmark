@@ -208,7 +208,7 @@ async function loadAgg({ site, mode, date, evals, excluded }) {
     // which exists so a conversation is never credited to the wrong vendor. That gap put the
     // preview 2 points above the report on Gorgias support automation (76 vs the correct 74),
     // the exact distance between #2 and #3 in that lane.
-    if (obj.gate_blocked) continue;
+    if (obj.gate_blocked || obj.widget_unavailable) continue;
     if (obj.provider_mismatch) continue;
 
     auto[deriveOutcome(obj).outcome]++;

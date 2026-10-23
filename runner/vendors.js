@@ -274,6 +274,57 @@ async function sienaFrame(page) {
 }
 
 export const WIDGETS = {
+  // Minimal AI's native storefront widget (gominimal.ai), verified 2026-10-22.
+  // Its iframe can coexist with Gorgias, so never use the generic chat/composer picker.
+  minimal: {
+    scope: {
+      kind: "frame", match: "minimal-storefront-widget-frame-",
+      transcriptSelector: '[data-storefront-widget-transcript="true"]',
+      includeLinks: true,
+      omitSelector: 'button, [data-testid="storefront-csat-survey"], [data-testid="storefront-csat-submitted"]',
+      generatingSelector: '[data-testid="storefront-thinking-dots"], [data-testid="storefront-status-hint"] .animate-text-shimmer',
+      unavailablePattern: "^(?:Our AI agent is not available right now\\. Please try again in a moment\\.|Onze AI-agent is momenteel niet beschikbaar\\. Probeer het zo opnieuw\\.)$",
+    },
+    async open(page) {
+      // run.js returns on the document's first byte. Wait for the merchant markup
+      // before looking for consent controls, which can otherwise appear AFTER our
+      // first scan and cover an already-mounted chat launcher.
+      await page.waitForLoadState("domcontentloaded", { timeout: 30000 }).catch(() => {});
+      const dismissConsent = async () => {
+        await dismiss(page);
+        // This is a cookie choice, not a conversation chip; use the visible control.
+        for (const name of ["Alles weigeren", "Alles accepteren"]) {
+          const consent = page.getByRole("button", { name, exact: true }).first();
+          if (await consent.isVisible().catch(() => false)) await consent.click({ timeout: 3000 }).catch(() => {});
+        }
+      };
+      await dismissConsent();
+      await page.locator('iframe[id^="minimal-storefront-widget-frame-"]').first()
+        .waitFor({ state: "visible", timeout: 30000 });
+      const f = await findFrame(page, WIDGETS.minimal.scope.match);
+      if (!f) throw new Error("Minimal AI storefront iframe unavailable");
+      const composer = f.locator('[data-storefront-composer-surface] textarea:not([aria-hidden="true"])').first();
+      if (!(await composer.isVisible().catch(() => false))) {
+        const launcher = f.getByRole("button", { name: /^(Open chat|Chat openen|Chat öffnen|Ouvrir le chat)$/i }).first();
+        const deadline = Date.now() + 15000;
+        while (true) {
+          await dismissConsent();
+          try { await launcher.click({ timeout: 2000 }); break; }
+          catch (error) { if (Date.now() >= deadline) throw error; }
+        }
+      }
+      await composer.waitFor({ state: "visible", timeout: 15000 });
+    },
+    async send(page, text) {
+      const f = await findFrame(page, WIDGETS.minimal.scope.match);
+      if (!f) throw new Error("Minimal AI storefront iframe unavailable");
+      // Escalation notes and the autosizing library's hidden textarea are not the
+      // chat composer. Do not fill an escalation form or another widget by accident.
+      const composer = f.locator('[data-storefront-composer-surface] textarea:not([aria-hidden="true"])').first();
+      await composer.fill(text, { timeout: 6000 });
+      await composer.press("Enter", { timeout: 6000 });
+    },
+  },
   // Gorgias Chat — same-origin chat-window iframe; programmatic open + sendMessage.
   gorgias: {
     scope: { kind: "frame", match: "chat-window" },
@@ -1153,6 +1204,15 @@ async function genericSendChat(page, text) {
 // the widget is live/drivable; the runner attempts it and records an error if not.
 // ---------------------------------------------------------------------------
 export const STORES = [
+  // Minimal AI case-study customers with native loader signatures, checked 2026-10-22.
+  // Drive the native gominimal.ai iframe, including when another helpdesk is also installed.
+  // Full source inventory and untested customers: notes/gominimal-customer-discovery-2026-10-22.md.
+  { key: "minimal-dreaver", vendor: "Minimal AI", store: "Dreaver", url: "https://dreaver.com/", widget: "minimal", locale: "en-US", candidate: true, todo: "native loader present; public embed configuration currently rejects storefront origin" },
+  { key: "minimal-boombrush", vendor: "Minimal AI", store: "Boombrush", url: "https://boombrush.com/", widget: "minimal", locale: "en-US", candidate: true, todo: "native loader present; public embed configuration currently reports storefront unavailable" },
+  { key: "minimal-cloudpillo", vendor: "Minimal AI", store: "Cloudpillo", url: "https://cloudpillo.com/nl-nl", widget: "minimal", locale: "en-US" },
+  { key: "minimal-proforto", vendor: "Minimal AI", store: "Proforto", url: "https://proforto.nl/", widget: "minimal", locale: "en-US" },
+  { key: "minimal-hangeleven", vendor: "Minimal AI", store: "Hang Eleven", url: "https://hang-eleven.com/", widget: "minimal", locale: "en-US" },
+
   // Gorgias (us) — Glamnetic intentionally excluded
   { key: "gorgias-madura",   vendor: "Gorgias", store: "Madura",        url: "https://www.madura.com/en",            widget: "gorgias", us: true, locale: "en-US", v3: true },  // pre_ga (Cortex)
   { key: "gorgias-jade",     vendor: "Gorgias", store: "Jade",          url: "https://shop.jadeofficial.com/",       widget: "gorgias", us: true, v3: false }, // NOT on V3 (Cortex: no v3 beta phase) — excluded from Shopping
@@ -1934,7 +1994,56 @@ export async function readTranscript(page, scope) {
   if (scope.kind === "frame") {
     const f = await findFrame(page, scope.match, scope.pick);
     if (!f) return { len: 0, text: "" };
-    try { const text = await f.evaluate(() => document.body.innerText || ""); return { len: text.length, text }; }
+    try {
+      const result = await f.evaluate(({ transcriptSelector, includeLinks, omitSelector, generatingSelector, unavailablePattern }) => {
+        const root = transcriptSelector ? document.querySelector(transcriptSelector) : document.body;
+        if (!root) {
+          // The native widget replaces the entire conversation with this notice
+          // when session/bootstrap access fails. Treat it as transport metadata,
+          // never assistant prose. A matching message INSIDE a transcript is still
+          // ordinary transcript content and must not trigger this condition.
+          const body = (document.body?.innerText || "").replace(/\s+/g, " ").trim();
+          return { text: "", generating: false, unavailable: !!unavailablePattern && new RegExp(unavailablePattern).test(body) };
+        }
+        let text = root.innerText || "";
+        if (includeLinks || omitSelector) {
+          // Walk the rendered DOM in place: removing chrome by string value can
+          // erase identical answer prose, and replacing a link label can attach
+          // its URL to an earlier customer message containing the same words.
+          const readNode = (node, whiteSpace = "normal") => {
+            if (node.nodeType === Node.TEXT_NODE) {
+              const value = node.textContent || "";
+              return /^(pre|pre-wrap|break-spaces)$/.test(whiteSpace) ? value
+                : whiteSpace === "pre-line" ? value.replace(/[^\S\n]+/g, " ")
+                  : value.replace(/\s+/g, " ");
+            }
+            if (node.nodeType !== Node.ELEMENT_NODE) return "";
+            if (/^(STYLE|SCRIPT|NOSCRIPT|SVG)$/.test(node.tagName)
+              || node.getAttribute("aria-hidden") === "true"
+              || (omitSelector && node.matches(omitSelector))) return "";
+            const style = getComputedStyle(node);
+            if (style.display === "none" || /^(hidden|collapse)$/.test(style.visibility)) return "";
+            if (node.tagName === "BR") return "\n";
+            let value = [...node.childNodes].map(child => readNode(child, style.whiteSpace)).join("");
+            if (includeLinks && node.tagName === "A" && /^https?:\/\//i.test(node.href)
+              && value.trim() && !value.includes(node.href)) value += " (" + node.href + ")";
+            const block = /^(block|flex|grid|table|table-row|list-item|flow-root)$/.test(style.display);
+            return block ? "\n" + value + "\n" : value;
+          };
+          text = readNode(root).split("\n").map(line => line.trim()).join("\n").replace(/\n{3,}/g, "\n\n").trim();
+        }
+        return { text, generating: !!generatingSelector && !!root.querySelector(generatingSelector), unavailable: false };
+      }, {
+        transcriptSelector: scope.transcriptSelector || null,
+        includeLinks: !!scope.includeLinks, omitSelector: scope.omitSelector || null,
+        generatingSelector: scope.generatingSelector || null,
+        unavailablePattern: scope.unavailablePattern || null,
+      });
+      return { len: result.text.length, text: result.text,
+        ...(scope.generatingSelector ? { generating: result.generating } : {}),
+        ...(scope.unavailablePattern ? { unavailable: result.unavailable } : {}),
+      };
+    }
     catch { return { len: 0, text: "" }; }
   }
   if (scope.kind === "shadowId") {

@@ -245,7 +245,7 @@ async function loadAgg(key, mode, date) {
       // connectivity fails, gate_blocked convs are excluded from ALL aggregates (automation
       // included), every vendor alike (see METHODOLOGY §Ranking). Counting them as handover/
       // deflection would penalize vendors that run the most order-specific support flows.
-      if (obj.gate_blocked) continue;
+      if (obj.gate_blocked || obj.widget_unavailable) continue;
       // PROVIDER MISMATCH: at capture the widget serving this store was a DIFFERENT provider
       // than the one we attribute it to (the store switched providers). Exclude from all
       // aggregates so a conversation is never credited to the wrong vendor — the vendors.js

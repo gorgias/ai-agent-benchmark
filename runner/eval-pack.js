@@ -64,6 +64,7 @@ for (const date of fs.readdirSync(RESULTS).filter((d) => /^\d{4}-\d{2}-\d{2}$/.t
     if (isQuarantinedConversation(id)) continue;
     if (rejudge ? !rejudge.has(id) : scored[id]) continue;   // incremental, or pinned re-judge
     let j; try { j = JSON.parse(fs.readFileSync(path.join(dir, f), "utf8")); } catch { continue; }
+    if (j.widget_unavailable) continue;
     // Same hand-off verdicts as the baker: a reply given after a human took over is the human's, and
     // is neither timed nor shown to the judge as the AI's answer (conversation-outcome.js).
     rederiveHandover(j);

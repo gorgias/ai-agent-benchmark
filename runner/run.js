@@ -160,7 +160,8 @@ async function timeTurn(page, scope, sendFn, q) {
   let everRead = before > 0;
   while (Date.now() < deadline) {
     await sleep(POLL_MS);
-    const { len, text } = await readTranscript(page, scope);
+    const { len, text, generating, unavailable } = await readTranscript(page, scope);
+    if (unavailable) return { ttft_ms: ttft, complete_ms: null, grew: lastLen - before, growth_events: growthEvents, widget_unavailable: true };
     if (len > 0) everRead = true;
     // SCOPE MISSING: the widget's transcript has been unreadable (zero characters — not even the
     // echo of the message we just sent) for SCOPE_GRACE_MS. Nothing this turn does can be read, so
@@ -168,13 +169,13 @@ async function timeTurn(page, scope, sendFn, q) {
     if (!everRead && Date.now() - t0 > SCOPE_GRACE_MS) return { ttft_ms: null, complete_ms: null, grew: 0, growth_events: 0, scope_missing: true };
     if (len !== lastLen) { lastChange = Date.now(); if (len > lastLen) growthEvents++; lastLen = len; }
     if (len < trough) trough = len;
-    if (isGen(text)) sawGen = true;
+    if (generating || isGen(text)) sawGen = true;
     if (len > trough + REPLY_MIN) { grownReply = true; if (ttft == null) ttft = Date.now() - t0; }
     // "still working" = a typing indicator, OR a short stall/ack message that will be
     // followed by the real answer. A long reply (>240 chars) is accepted even if it
     // coincidentally ends acknowledgement-like.
     const shortSoFar = (len - trough) < 240;
-    const working = isGen(text) || (isAck(text) && shortSoFar);
+    const working = generating || isGen(text) || (isAck(text) && shortSoFar);
     const settled = Date.now() - lastChange > STABLE_MS;
     // A settled transcript that's just an offline/reconnecting state or a chip/"leave a
     // message" menu is NOT a real answer — never stop the clock on it (leaves complete_ms
@@ -220,9 +221,10 @@ async function quiesceTranscript(page, scope) {
   let last = (await readTranscript(page, scope)).len, lastChange = Date.now();
   while (Date.now() - t0 < QUIESCE_CAP_MS) {
     await sleep(500);
-    const { len, text } = await readTranscript(page, scope);
+    const { len, text, generating, unavailable } = await readTranscript(page, scope);
+    if (unavailable) return { widget_unavailable: true };
     if (len !== last) { last = len; lastChange = Date.now(); continue; }
-    if (Date.now() - lastChange >= QUIET_MS && !isGen(text)) return;
+    if (Date.now() - lastChange >= QUIET_MS && !generating && !isGen(text)) return;
   }
 }
 
@@ -234,9 +236,10 @@ async function lateFlush(page, scope, sentAt) {
   let last = (await readTranscript(page, scope)).len, lastChange = null, grew = 0;
   while (Date.now() - t0 < LATE_GRACE_MS) {
     await sleep(500);
-    const { len, text } = await readTranscript(page, scope);
+    const { len, text, generating, unavailable } = await readTranscript(page, scope);
+    if (unavailable) return { complete_ms: null, widget_unavailable: true };
     if (len !== last) { if (len > last) grew += len - last; last = len; lastChange = Date.now(); continue; }
-    if (grew > 120 && lastChange && Date.now() - lastChange >= QUIET_MS && !isGen(text) && !isNoAnswer(text)
+    if (grew > 120 && lastChange && Date.now() - lastChange >= QUIET_MS && !generating && !isGen(text) && !isNoAnswer(text)
       && stripWidgetChrome(text.slice(-800)).length >= MIN_SUBSTANCE)
       return { complete_ms: lastChange - sentAt };
   }
@@ -435,7 +438,7 @@ async function runStoreMode(browser, store, mode, theme, opts = {}) {
       if (aborted) {
         out.turns.push({ turn: i + 1, q, by: "human", ttft_ms: null, complete_ms: null,
           ai_latency_ms: null, handover: false, handover_hit: null, unsent: true,
-          replyTail: `(not sent — abandoned after ${DEAD_AFTER} consecutive unmeasurable turns)` });
+          replyTail: out.widget_unavailable ? "(not sent — widget became unavailable)" : `(not sent — abandoned after ${DEAD_AFTER} consecutive unmeasurable turns)` });
         continue;
       }
       // Handed to a human on an earlier turn → STOP talking to the human. We do NOT
@@ -465,7 +468,16 @@ async function runStoreMode(browser, store, mode, theme, opts = {}) {
           if (unlocked) console.log(`  [${store.key}/${mode}/${theme.key}] T${i + 1} composer was locked by a rating prompt — cleared before the timed turn`);
         }
         // never send into an active stream (turn-boundary guard — see quiesceTranscript)
-        await quiesceTranscript(page, w.scope);
+        const quiet = await quiesceTranscript(page, w.scope);
+        if (quiet?.widget_unavailable) {
+          out.widget_unavailable = true;
+          out.error = "widget-unavailable: native chat reports its AI agent is temporarily unavailable";
+          aborted = true;
+          out.turns.push({ turn: i + 1, q, by: "ai", ttft_ms: null, complete_ms: null,
+            ai_latency_ms: null, handover: false, unsent: true,
+            replyTail: "(not sent — widget became unavailable)" });
+          continue;
+        }
         const beforeAssistant = store.widget === "yuma"
           ? await readLatestAssistantReply(page, w.scope).catch(() => "")
           : "";
@@ -476,11 +488,13 @@ async function runStoreMode(browser, store, mode, theme, opts = {}) {
         // turn timed out but the stream may still be running → wait for it and attribute
         // it to THIS turn with its true (late) latency instead of letting it bleed into
         // the next turn's window.
-        if (r.complete_ms == null && !r.error && !r.scope_missing) {
+        if (r.complete_ms == null && !r.error && !r.scope_missing && !r.widget_unavailable) {
           const lf = await lateFlush(page, w.scope, sentAt);
-          if (lf) { r.complete_ms = lf.complete_ms; r.late = true; }
+          if (lf) { r.complete_ms = lf.complete_ms; if (lf.widget_unavailable) r.widget_unavailable = true; else r.late = true; }
         }
-        const transcript = (await readTranscript(page, w.scope)).text;
+        const afterSend = await readTranscript(page, w.scope);
+        if (afterSend.unavailable) r.widget_unavailable = true;
+        const transcript = afterSend.text;
         handoverTail = transcript.slice(-700);
         const latestAssistant = store.widget === "yuma" ? await readLatestAssistantReply(page, w.scope) : "";
         // Yuma keeps the previous assistant bubble in the DOM after an unanswered/timeout
@@ -543,6 +557,11 @@ async function runStoreMode(browser, store, mode, theme, opts = {}) {
               ? transcript.slice(pOriginal).trim()
               : novelLines(beforeText, transcript);
         }
+      }
+      // Preserve an explicit unavailable state before login/handover branches can stop the loop.
+      if (r.widget_unavailable) {
+        out.widget_unavailable = true;
+        out.error = "widget-unavailable: native chat reports its AI agent is temporarily unavailable";
       }
       // cap generously from the FRONT (keep the beginning; the tail is usually chrome)
       replyFull = replyFull && replyFull.length > 4000 ? replyFull.slice(0, 4000) + "…" : (replyFull || "");
@@ -611,6 +630,13 @@ async function runStoreMode(browser, store, mode, theme, opts = {}) {
 
       out.turns.push({ turn: i + 1, q, by, ...r, ai_latency_ms: by === "ai" ? r.complete_ms : null, handover: !!handover, handover_hit: handover || handoverOffer, ...(handoverOffer ? { handover_offer: true } : {}), replyTail: replyTail.slice(-500), replyText: replyFull });
       console.log(`  [${store.key}/${mode}/${theme.key}] T${i + 1} ${by === "ai" ? (r.complete_ms ?? "—") + "ms" : "(human)"}${r.late ? " (late-flush)" : ""}${handover ? "  ⛔ HANDOVER: " + handover : ""}${handoverOffer ? "  ↪ human-help offer (continuing): " + handoverOffer : ""}`);
+      if (r.widget_unavailable) {
+        out.widget_unavailable = true;
+        out.error = "widget-unavailable: native chat reports its AI agent is temporarily unavailable";
+        aborted = true;
+        console.log(`  [${store.key}/${mode}/${theme.key}] ✖ WIDGET UNAVAILABLE — stopping; excluded from performance metrics`);
+        continue;
+      }
       if (i === 0 && r.scope_missing && !(await readTranscript(page, w.scope)).len) {
         out.widget_absent = true;
         out.error = `widget-absent: chat transcript unreadable ${Math.round(SCOPE_GRACE_MS / 1000)}s after the first message`;
@@ -669,6 +695,7 @@ async function runStoreMode(browser, store, mode, theme, opts = {}) {
   // A login-walled conversation is not a measurable data point (a logged-out shopper can't
   // do order-specific support here) — exclude it, honestly, rather than count the flow.
   if (out.gate_blocked) { out.valid = false; out.invalid_reason = `login-gated flow — logged-out harness stopped at T${out.gate_turn}`; }
+  if (out.widget_unavailable) { out.valid = false; out.invalid_reason = "native widget unavailable — no performance inference"; }
   out.stats = {
     turns: out.turns.length,
     answered_no_handover: answered,
