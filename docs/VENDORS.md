@@ -52,7 +52,7 @@ What each assistant is, how its widget is built, the transport it uses, how to o
 - **Site:** `bloomandwild.com` · **Agent:** "Willow"
 - **Widget:** `chat.digitalgenius.com` built on **Sunshine Conversations** (`sunco.js`) + **Pusher** (WebSocket, EU cluster). Transcript renders in the same-origin **`dg-chat-widget-iframe`**.
 - **Open / drive:** `window.dgchat.methods.launchWidget()`, `sendMessage()`; SDK methods `initialiseSDK` / `sendMessageToSDK`. Pusher WS lives in the iframe (not the parent).
-- **Gate:** a **prechat lead-capture form (name + email)** blocks the assistant until filled — unique among the set. A throwaway `example.com` identity is used to start the chat.
+- **Gate:** a **prechat lead-capture form (name + email)** blocks the assistant until filled — unique among the set. A synthetic identity with a randomized consumer email address is used to start the chat (see `docs/RUNBOOK.md`, pre-chat identity gates).
 - **Session:** stored in the **parent origin** → **the only vendor resettable from page scripts** (clearing storage brings the prechat form back). Used to measure cold vs warm: **12.7s cold vs 14.3s warm**.
 - **Observations:** solid, specific FAQ/policy answers. On a product-recommendation question it **🚩 hands off to a human** ("I'll connect you with someone from our team"); when agents are unavailable it falls into a support-ticket flow that **locks the chat**. Quality: FAQ 4.3, product-rec 0.
 
