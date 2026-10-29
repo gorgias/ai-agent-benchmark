@@ -31,6 +31,19 @@ INCLUDE="Envive,Yuma" TARGET=80 BUDGET=60 STORE_TIMEOUT_MIN=8 LOAD_CAP=9 \
 — `caffeinate` stops the Mac sleeping, `nohup` detaches from the terminal. Record the PID
 (`echo $! >> /tmp/run.pids`) — teardown is **by PID, never by broad pkill** (see §7).
 
+### Pre-chat identity gates
+
+Use `getShopperIdentity(page)` from `runner/shopper-identity.js` for all name/email gates.
+It generates a synthetic name and a fresh address across Gmail, Yahoo, Outlook, Hotmail, and
+iCloud, with a 64-bit random suffix and varied username formats. `example.*` addresses were
+identified and blocked by merchants; changing only the username could not fix domain-wide blocks.
+One cold browser context keeps the same identity through retries, page/iframe reloads, and
+later gates. Each new conversation gets a new identity, uniformly across all vendors.
+
+The addresses are generated, not verified inboxes. Gate submission is not an AI answer or
+evidence of runtime performance. Fixture tests exercise identity generation and form submission
+offline; merchant acceptance still requires a live capture.
+
 ### Parallel capture — the rules that keep latencies honest
 
 Multiple `run.js` instances are safe: each conversation is **claimed via an O_EXCL lock**

@@ -1,5 +1,10 @@
 # Pre-chat email gate handling - 2026-07-06
 
+> **Identity policy updated 2026-10-29:** Romain requested fresh synthetic consumer email
+> addresses (Gmail, Yahoo, etc.) because merchants identified and blocked `example.*` users.
+> The reserved-domain rule below is historical. Current generation and identity lifetime are
+> documented in `docs/RUNBOOK.md` → Pre-chat identity gates and `runner/shopper-identity.js`.
+
 ## Trigger
 
 `yuma-tumble` / Tumble Living exposed a native Yuma chat iframe, but the cold-session flow asked for

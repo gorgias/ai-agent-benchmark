@@ -46,8 +46,10 @@ in field), #3 Shopping (Yuma edges on richer answers), speed is the shopping gap
    Score behavior, not brands.
 4. **Free-text only.** Never click quick-reply chips — chips can serve cached replies that fake
    latency and automation. Type real messages.
-5. **No real PII.** Use dummy identifiers only (e.g. `benchmark.test@example.com`). Never enter
-   real personal/account data.
+5. **No real PII.** Use synthetic identifiers from `runner/shopper-identity.js`, never real
+   personal/account data. Per Romain (2026-10-29), generate fresh fake addresses across consumer
+   providers (Gmail, Yahoo, etc.) with long random suffixes; `example.*` domains get benchmark users
+   identified and blocked. Keep one identity per cold conversation, including form retries.
 6. **Prune non-representative Gorgias stores — every time.** A Gorgias store confirmed NOT on AI
    Agent V3 (Evoli) is excluded from both lanes (it's V2, not the shipping product). `gen.js`
    already drops `vendor==='Gorgias' && v3===false`. Apply the same honesty to any store that is a
@@ -140,8 +142,9 @@ RUN_DATE=$(date +%F) TURN_TIMEOUT_MS=60000 node run.js --headed --concurrency 2 
 - **If you have no display** (headless box): `run.js --headed` needs a real Chrome. Use `xvfb-run -a`
   around it, or run on a machine with a display. Competitor widgets bot-block plain headless.
 - **Pre-chat identity gates**: if a widget asks for name/email before opening the composer, fill it
-  with generated dummy `example.com` PII via `fillEmailGate`. Never use random Gmail/personal inboxes;
-  the goal is to start the chat, not to contact a real mailbox.
+  with the conversation's synthetic name/email via `fillEmailGate` / `getShopperIdentity`.
+  Rotate consumer email domains and generate a fresh identity per cold context; never copy a real
+  person's address or reuse a fixed benchmark identity.
 - Many competitors are drive-hard (Ada iframe ~70s to open; DigitalGenius lazy-loads; Rep AI slow).
   A conversation that yields `—ms` on every turn is INVALID (no measurable answer) and correctly
   excluded — do not count it against the vendor; it's our tooling limit, not their performance.

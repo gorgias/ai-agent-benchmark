@@ -14,43 +14,7 @@
 //   send(page,txt) post a user message
 //   handover       extra handover regexes specific to this widget (optional)
 
-import { randomBytes } from "node:crypto";
-
-// Realistic throwaway identities for pre-chat email gates. @example.com gets rejected by
-// stricter validators (verified on Tumble), so we use real consumer domains. The address is
-// only typed to unlock the chat and is never sent to; uncommon surname + digits make a real
-// inbox collision vanishingly unlikely. Dummy PII, not a real person.
-const DUMMY_FIRST_NAMES = ["John", "Maya", "Nora", "Evan", "Lina", "Adam", "Sofia", "Noah"];
-const DUMMY_LAST_NAMES = ["Minser", "Carrow", "Bellin", "Harper", "Linton", "Rossi", "Parker", "Madden"];
-// RFC 2606 reserves example.com/net/org so they can never be registered by anyone: an address
-// built here cannot reach a real mailbox. This list used to hold gmail.com, outlook.com,
-// icloud.com and hotmail.com — "realistic + unique enough" — which meant every gated storefront
-// received a plausible consumer address on a live mail provider. Sixteen distinct ones went out
-// on 2026-09-04 alone, and names like john.madden59@gmail.com belong to somebody. That is a real
-// person receiving a signup they never made, and AGENTS.md rule 5 forbids it in as many words.
-// If a gate ever rejects a reserved domain, that shows up as a failed capture we can see and
-// handle — strictly better than a silent one that lands in a stranger's inbox.
-const DUMMY_EMAIL_HOSTS = ["example.com", "example.net", "example.org"];
-
-function pickDummy(xs) {
-  return xs[randomBytes(1)[0] % xs.length];
-}
-
-function makeDummyIdentity() {
-  const firstName = pickDummy(DUMMY_FIRST_NAMES);
-  const lastName = pickDummy(DUMMY_LAST_NAMES);
-  // firstname.lastname.NNNNNN — six digits, so even on a live mail provider the odds of landing
-  // on somebody's real address are negligible. Combined with the reserved domain above it is not
-  // merely improbable but impossible, and the digits still give every capture a unique address,
-  // which is what a merchant's deduplication needs to treat them as separate visitors.
-  const num = String(randomBytes(4).readUInt32BE(0) % 1000000).padStart(6, "0");
-  return {
-    firstName,
-    lastName,
-    name: `${firstName} ${lastName}`,
-    email: `${firstName}.${lastName}.${num}`.toLowerCase() + `@${pickDummy(DUMMY_EMAIL_HOSTS)}`,
-  };
-}
+import { getShopperIdentity } from "./shopper-identity.js";
 
 // page.evaluate that survives the storefront navigating underneath it. Some stores redirect after
 // the first paint (locale/geo splash, consent reload): the evaluate then throws "Execution context
@@ -185,8 +149,8 @@ async function fillVisibleInput(frame, selector, value, timeout = 3000) {
   return true;
 }
 
-// Some chats gate behind a pre-chat identity form. Fill a fresh dummy identity
-// from reserved example.com and submit so the conversation can start.
+// Some chats gate behind a pre-chat identity form. Reuse this conversation's
+// synthetic shopper identity and submit so the conversation can start.
 async function fillEmailGate(page, frame) {
   try {
     const emailSel = 'input[type="email"], input[placeholder*="@"], input[placeholder*="mail" i], input[name*="mail" i], input[aria-label*="mail" i], input[id*="mail" i]';
@@ -194,7 +158,7 @@ async function fillEmailGate(page, frame) {
     if (!(await email.count().catch(() => 0))) return false;
     if (!(await email.isVisible().catch(() => false))) return false;
 
-    const identity = makeDummyIdentity();
+    const identity = getShopperIdentity(page);
     // Match on id= too. MESHKI US (2026-09-03) renders the gate as
     //   <input id="yuma-contact-name"  placeholder="Lucy Smith">
     //   <input id="yuma-contact-email" placeholder="lucysmith@mail.com">
@@ -542,7 +506,7 @@ export const WIDGETS = {
       if (f) {
         const composerReady = () => f.evaluate(() => !!document.querySelector('textarea,[contenteditable="true"]')).catch(() => false);
         for (let attempt = 0; attempt < 4 && !(await composerReady()); attempt++) {
-          const identity = makeDummyIdentity();
+          const identity = getShopperIdentity(page);
           const nameI = f.locator('input[placeholder*="name" i], input[aria-label*="name" i]').first();
           if (await nameI.count().catch(() => 0)) { await nameI.click({ timeout: 2000 }).catch(() => {}); await nameI.fill(identity.name).catch(() => {}); }
           const mailI = f.locator('input[type="email"], input[placeholder*="@" i], input[placeholder*="mail" i], input[aria-label*="mail" i]').first();
@@ -588,7 +552,7 @@ export const WIDGETS = {
       for (let i = 0; i < 40 && !wf; i++) { wf = await findFrame(page, "dg-chat-widget-iframe"); if (!wf) await page.waitForTimeout(500); }
       if (!wf) return;
       await page.waitForTimeout(1000);
-      const identity = makeDummyIdentity();
+      const identity = getShopperIdentity(page);
       const nameI = wf.locator('input[placeholder*="name" i], input[name="name"], input[aria-label*="name" i]').first();
       const mailI = wf.locator('input[type="email"], input[placeholder*="email" i], input[name*="email" i], input[aria-label*="email" i]').first();
       if (await nameI.count().catch(() => 0)) { await nameI.click({ timeout: 3000 }).catch(() => {}); await nameI.fill(identity.name).catch(async () => { await nameI.type(identity.name, { delay: 15 }).catch(() => {}); }); }
@@ -883,7 +847,7 @@ export const WIDGETS = {
       //    {name}) with the option's text read from the portal (CSS-path clicks select
       //    intermittently across runs; JS el.click() never selects);
       //  - `.chat-form-submit` (widget's own class) stays disabled until the field registers;
-      //  - email identity steps reuse fillEmailGate + the reserved dummy identity.
+      //  - email identity steps reuse fillEmailGate + the conversation's synthetic identity.
       for (let step = 0; step < 3; step++) {
         if (await f.locator('textarea, [contenteditable="true"]').first().count().catch(() => 0)) break;
         const newChat = f.locator('button, [role="button"]').filter({ hasText: /start a new chat/i }).first();
@@ -1118,7 +1082,7 @@ export const WIDGETS = {
       // WAIT for the composer to actually exist before returning (verified selector:
       // textarea.chatPage__textarea, aria-label="Ask your question"). Some native Yuma
       // installs now gate cold chats on email first (e.g. Tumble Living), so fill the
-      // pre-chat identity form with reserved dummy PII if it appears.
+      // pre-chat identity form with the conversation's synthetic identity if it appears.
       const composer = f.locator('.chatPage__textarea, [aria-label="Ask your question"], textarea').first();
       for (let i = 0; i < 5 && !(await composer.isVisible().catch(() => false)); i++) {
         await fillEmailGate(page, f);
