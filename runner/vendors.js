@@ -1959,6 +1959,10 @@ export const STORES = [
   // anonymous visit. candidate:true until a capture proves it drivable end-to-end.
   { key: "zendesk-propelsleep", vendor: "Zendesk", store: "propelsleep", url: "https://propelsleep.com/", widget: "zendesk", candidate: true }, // auto-sourced 2026-10-21: host loaded + widget mounted on a cold visit
   { key: "zendesk-truckingmattre", vendor: "Zendesk", store: "truckingmattre", url: "https://truckingmattress.com/", widget: "zendesk", candidate: true }, // auto-sourced 2026-10-21: host loaded + widget mounted on a cold visit
+  // ── Auto-sourced 2026-10-29 by server/source-merchants.mjs. Each row was verified in a
+  // real browser: the vendor's widget host loaded AND a launcher/container mounted on a cold
+  // anonymous visit. candidate:true until a capture proves it drivable end-to-end.
+  { key: "repai-kleemorganics", vendor: "Rep AI", store: "kleemorganics", url: "https://kleemorganics.com/", widget: "repai", candidate: true, todo: "also on page: Ada — driver must target the Rep AI launcher" }, // auto-sourced 2026-10-29 from https://www.beanstalkevents.com/partners/rep-ai: host loaded + widget mounted on a cold visit
 ];
 
 // Find a frame by element id / title / name / url. `match` may be a string
